@@ -2398,7 +2398,10 @@ a.previous-wrapper {
         position: absolute;
         left: 0;
         border-bottom: 1px solid #dedede;
-        background: #fff; } }
+        background: #fff;
+        pointer-events: auto; }
+        .contracts .contracts_dropdown .mobile_close.disabled {
+          pointer-events: none; } }
     .contracts .contracts_dropdown .mobile_close span {
       display: inline-block; }
     .contracts .contracts_dropdown .mobile_close .close {
