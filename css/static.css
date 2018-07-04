@@ -797,6 +797,23 @@ div.kineticjs-content {
   .open-positions img.responsive {
     width: 40%; } }
 
+.payment-methods__reference {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  background-size: cover;
+  vertical-align: middle; }
+  .payment-methods__reference:not(:last-child) {
+    margin-right: 5px; }
+  .payment-methods__reference-pdf {
+    background-image: url("../images/common/reference/pdf.svg"); }
+    .payment-methods__reference-pdf.payment-methods__reference--disabled {
+      background-image: url("../images/common/reference/pdf_disabled.svg"); }
+  .payment-methods__reference-video {
+    background-image: url("../images/common/reference/youtube.svg"); }
+    .payment-methods__reference-video.payment-methods__reference--disabled {
+      background-image: url("../images/common/reference/youtube_disabled.svg"); }
+
 .box-row {
   border-bottom: 1px solid #dedede; }
   .box-row__box {
