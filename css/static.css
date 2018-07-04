@@ -1359,6 +1359,9 @@ body #not_authenticated_financial ul.checked > li {
   height: 3rem;
   margin: 5px 0; }
 
+#contract-specification table td {
+  white-space: nowrap; }
+
 .timeline {
   margin: 0 auto;
   overflow: hidden;
