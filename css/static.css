@@ -104,6 +104,9 @@
 .affiliates-signup-page .faq-box, .ib-signup-page .faq-box {
   padding: 1rem; }
 
+.affiliates-signup-page .table-container.center-text th, .affiliates-signup-page .table-container.center-text td, .ib-signup-page .table-container.center-text th, .ib-signup-page .table-container.center-text td {
+  text-align: center; }
+
 @media screen and (max-width: 480px) {
   .affiliates-signup-page table, .affiliates-signup-page .mobile-text-small, .ib-signup-page table, .ib-signup-page .mobile-text-small {
     font-size: 0.9rem; } }
