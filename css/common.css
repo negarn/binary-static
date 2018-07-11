@@ -974,7 +974,7 @@ body #topbar .upgrademessage a, .landing_page-content .upgrademessage a {
   #header .account-id .authenticated[data-balloon] {
     position: absolute;
     top: 3px;
-    left: -16px;
+    left: -18px;
     height: 13px;
     width: 12px;
     background-image: url("../images/common/authenticated.svg");
