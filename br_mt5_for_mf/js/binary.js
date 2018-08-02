@@ -14545,6 +14545,9 @@ var MetaTraderConfig = function () {
                             if (passed_financial_assessment) {
                                 message.splice(1, 0, localize('{SPAIN ONLY}However, Binary Investments (Europe) Ltd has assessed your knowledge and experience and deems the product appropriate for you.'));
                             }
+                            message = message.map(function (str) {
+                                return str.replace(/{SPAIN ONLY}/, '');
+                            }); // remove '{SPAIN ONLY}' from english strings
                             Dialog.confirm({
                                 id: 'spain_cnmv_warning',
                                 ok_text: localize('Acknowledge'),
