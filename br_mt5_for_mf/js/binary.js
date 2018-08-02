@@ -11224,7 +11224,7 @@ var MetaTrader = function () {
     };
 
     var setMTCompanies = function setMTCompanies() {
-        mt_companies = mt_companies || MetaTraderConfig[State.getResponse('landing_company.financial_company.shortcode') === 'maltainvest' ? 'mt_financial_companies' : 'mt_companies'];
+        mt_companies = mt_companies || MetaTraderConfig[State.getResponse('landing_company.mt_financial_company.shortcode') === 'maltainvest' ? 'mt_financial_companies' : 'mt_companies'];
     };
 
     var isEligible = function isEligible() {
