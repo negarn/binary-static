@@ -29085,6 +29085,7 @@ var TimePicker = __webpack_require__(171);
 var dateValueChanged = __webpack_require__(4).dateValueChanged;
 var localize = __webpack_require__(2).localize;
 var scrollToHashSection = __webpack_require__(94).scrollToHashSection;
+var urlFor = __webpack_require__(8).urlFor;
 
 var SelfExclusion = function () {
     var $form = void 0,
@@ -29108,7 +29109,7 @@ var SelfExclusion = function () {
         // if client hasn't set their currency, don't allow them to put self exclusion values
         if (!Client.get('currency')) {
             $('#loading').setVisibility(0);
-            $('#msg_error').html(localize('Please set the [_1]currency[_2] of your account.', ['<a href="user/set-currency">', '</a>'])).setVisibility(1);
+            $('#msg_error').html(localize('Please set the [_1]currency[_2] of your account.', ['<a href="' + urlFor('user/set-currency') + '">', '</a>'])).setVisibility(1);
             $('#description_header').setVisibility(1);
             return;
         }
