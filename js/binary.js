@@ -7371,6 +7371,7 @@ var BinaryPjax = __webpack_require__(13);
 var Client = __webpack_require__(3);
 var BinarySocket = __webpack_require__(5);
 var professionalClient = __webpack_require__(181);
+var getElementById = __webpack_require__(4).getElementById;
 var makeOption = __webpack_require__(4).makeOption;
 var Geocoder = __webpack_require__(162);
 var localize = __webpack_require__(2).localize;
@@ -7419,8 +7420,14 @@ var AccountOpening = function () {
             var residence_text = '';
 
             var $options = $('<div/>');
+            var $options_with_disabled = $('<div/>');
             residence_list.forEach(function (res) {
-                $options.append(makeOption({ text: res.text, value: res.value, is_disabled: res.disabled }));
+                $options.append(makeOption({ text: res.text, value: res.value }));
+                $options_with_disabled.append(makeOption({
+                    text: res.text,
+                    value: res.value,
+                    is_disabled: res.disabled
+                }));
 
                 if (residence_value === res.value) {
                     residence_text = res.text;
@@ -7441,7 +7448,7 @@ var AccountOpening = function () {
                         }) || {}).text;
                         $place_of_birth.replaceWith($('<span/>', { text: txt_place_of_birth || place_of_birth, 'data-value': place_of_birth }));
                     } else {
-                        $place_of_birth.html($options.html()).val(residence_value);
+                        $place_of_birth.html($options_with_disabled.html()).val(residence_value);
                     }
                     $place_of_birth.select2({
                         matcher: function matcher(params, data) {
@@ -7451,8 +7458,31 @@ var AccountOpening = function () {
                 });
             }
 
+            if (/^(malta|maltainvest|iom)$/.test(State.getResponse('authorize.upgradeable_landing_companies'))) {
+                var $citizen = $('#citizen');
+                getElementById('citizen_row').setVisibility(1);
+                if ($citizen.length) {
+                    BinarySocket.wait('get_settings').then(function (response) {
+                        var citizen = response.get_settings.citizen;
+                        if (citizen) {
+                            var txt_citizen = (residence_list.find(function (obj) {
+                                return obj.value === citizen;
+                            }) || {}).text;
+                            $citizen.replaceWith($('<span/>', { text: txt_citizen || citizen, 'data-value': citizen }));
+                        } else {
+                            $citizen.html($options.html()).val(residence_value);
+                        }
+                        $citizen.select2({
+                            matcher: function matcher(params, data) {
+                                return SelectMatcher(params, data);
+                            }
+                        });
+                    });
+                }
+            }
+
             if ($tax_residence) {
-                $tax_residence.html($options.html()).promise().done(function () {
+                $tax_residence.html($options_with_disabled.html()).promise().done(function () {
                     setTimeout(function () {
                         $tax_residence.select2().val(getTaxResidence() || residence_value).trigger('change').setVisibility(1);
                     }, 500);
@@ -7543,7 +7573,7 @@ var AccountOpening = function () {
             id = void 0;
         $(form_id).find('select, input[type=checkbox]').each(function () {
             id = $(this).attr('id');
-            if (!/^(tnc|address_state|chk_professional|chk_tax_id)$/.test(id)) {
+            if (!/^(tnc|address_state|chk_professional|chk_tax_id|citizen)$/.test(id)) {
                 validation = { selector: '#' + id, validations: ['req'] };
                 if (id === 'not_pep') {
                     validation.exclude_request = 1;
@@ -13944,7 +13974,7 @@ var PersonalDetails = function () {
 
     var showHideLabel = function showHideLabel(get_settings) {
         if (!is_jp_client) {
-            ['place_of_birth', 'account_opening_reason'].forEach(function (id) {
+            ['place_of_birth', 'account_opening_reason', 'citizen'].forEach(function (id) {
                 if (Object.prototype.hasOwnProperty.call(get_settings, id)) {
                     if (get_settings[id]) {
                         // we have to show text here instead of relying on displayGetSettingsData()
@@ -13989,6 +14019,12 @@ var PersonalDetails = function () {
             get_settings.place_of_birth = (residence_list.find(function (obj) {
                 return obj.value === get_settings.place_of_birth;
             }) || {}).text || get_settings.place_of_birth;
+        }
+
+        if (get_settings.citizen) {
+            get_settings.citizen = (residence_list.find(function (obj) {
+                return obj.value === get_settings.citizen;
+            }) || {}).text || get_settings.citizen;
         }
 
         showHideLabel(get_settings);
@@ -14091,15 +14127,23 @@ var PersonalDetails = function () {
         } else if (is_virtual) {
             validations = [{ selector: '#email_consent' }, { selector: '#residence', validations: ['req'] }];
         } else {
+            var is_financial = Client.isAccountOfType('financial');
+            var is_gaming = Client.isAccountOfType('gaming');
+
             validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 6, max: 35, value: function value() {
                         return $('#phone').val().replace(/^\+/, '');
                     } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#tax_residence', validations: Client.isAccountOfType('financial') ? ['req'] : '' }, { selector: '#chk_tax_id', validations: Client.isAccountOfType('financial') ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
+
             var tax_id_validation = { selector: '#tax_identification_number', validations: ['tax_id', ['length', { min: 0, max: 20 }]] };
-            if (Client.isAccountOfType('financial')) {
+            var citizen_validation = { selector: '#citizen' };
+            if (is_financial) {
                 tax_id_validation.validations[1][1].min = 1;
                 tax_id_validation.validations.unshift('req');
             }
-            validations.push(tax_id_validation);
+            if (is_financial || is_gaming) {
+                citizen_validation.validations = ['req'];
+            }
+            validations.push(tax_id_validation, citizen_validation);
         }
         return validations;
     };
@@ -14162,6 +14206,11 @@ var PersonalDetails = function () {
                     if (!get_settings_data.place_of_birth) {
                         $options.prepend($('<option/>', { value: '', text: localize('Please select') }));
                         $('#place_of_birth').html($options.html()).val(residence);
+                    }
+
+                    if (!get_settings_data.citizen) {
+                        $options.prepend($('<option/>', { value: '', text: localize('Please select') }));
+                        $('#citizen').html($options.html()).val(residence);
                     }
                 } else {
                     $('#lbl_country').parent().replaceWith($('<select/>', { id: 'residence', single: 'single' }));
@@ -14245,7 +14294,7 @@ var PersonalDetails = function () {
                         } else {
                             getDetailsResponse(get_settings_data, response.residence_list);
                         }
-                        $('#place_of_birth').select2({
+                        $('#place_of_birth, #citizen').select2({
                             matcher: function matcher(params, data) {
                                 return SelectMatcher(params, data);
                             }
@@ -29051,11 +29100,18 @@ var SelfExclusion = function () {
     var timeout_time_id = '#timeout_until_time';
     var exclude_until_id = '#exclude_until';
     var max_30day_turnover_id = '#max_30day_turnover';
-    var error_class = 'errorfield';
     var TURNOVER_LIMIT = 999999999999999; // 15 digits
 
     var onLoad = function onLoad() {
         $form = $(form_id);
+
+        // if client hasn't set their currency, don't allow them to put self exclusion values
+        if (!Client.get('currency')) {
+            $('#loading').setVisibility(0);
+            $('#msg_error').html(localize('Please set the [_1]currency[_2] of your account.', ['<a href="user/set-currency">', '</a>'])).setVisibility(1);
+            $('#description_header').setVisibility(1);
+            return;
+        }
 
         fields = {};
         $form.find('input').each(function () {
@@ -29215,6 +29271,9 @@ var SelfExclusion = function () {
                 }, message: 'Exclude time cannot be less than 6 months.' }], ['custom', { func: function func(value) {
                     return !value.length || getMoment(exclude_until_id).isBefore(moment().add(5, 'years'));
                 }, message: 'Exclude time cannot be for more than 5 years.' }]]
+        }, {
+            request_field: 'last_modified_timestamp',
+            value: self_exclusion_data.last_modified_timestamp
         });
 
         FormManager.init(form_id, validations);
@@ -29353,7 +29412,7 @@ var SelfExclusion = function () {
     };
 
     var showFormMessage = function showFormMessage(msg, is_success) {
-        $('#msg_form').attr('class', is_success ? 'success-msg' : error_class).html(is_success ? $('<ul/>', { class: 'checked' }).append($('<li/>', { text: localize(msg) })) : localize(msg)).css('display', 'block').delay(5000).fadeOut(1000);
+        $('#msg_form').attr('class', is_success ? 'success-msg' : 'errorfield').html(is_success ? $('<ul/>', { class: 'checked' }).append($('<li/>', { text: localize(msg) })) : localize(msg)).css('display', 'block').delay(5000).fadeOut(1000);
     };
 
     return {
@@ -30085,7 +30144,7 @@ var Accounts = function () {
     var populateReq = function populateReq() {
         var get_settings = State.getResponse('get_settings');
         var dob = moment.utc(+get_settings.date_of_birth * 1000).format('YYYY-MM-DD');
-        var req = [{ request_field: 'new_account_real', value: 1 }, { request_field: 'date_of_birth', value: dob }, { request_field: 'salutation', value: get_settings.salutation }, { request_field: 'first_name', value: get_settings.first_name }, { request_field: 'last_name', value: get_settings.last_name }, { request_field: 'address_line_1', value: get_settings.address_line_1 }, { request_field: 'address_line_2', value: get_settings.address_line_2 }, { request_field: 'address_city', value: get_settings.address_city }, { request_field: 'address_state', value: get_settings.address_state }, { request_field: 'address_postcode', value: get_settings.address_postcode }, { request_field: 'phone', value: get_settings.phone }, { request_field: 'account_opening_reason', value: get_settings.account_opening_reason }, { request_field: 'place_of_birth', value: get_settings.place_of_birth }, { request_field: 'residence', value: Client.get('residence') }];
+        var req = [{ request_field: 'new_account_real', value: 1 }, { request_field: 'date_of_birth', value: dob }, { request_field: 'salutation', value: get_settings.salutation }, { request_field: 'first_name', value: get_settings.first_name }, { request_field: 'last_name', value: get_settings.last_name }, { request_field: 'address_line_1', value: get_settings.address_line_1 }, { request_field: 'address_line_2', value: get_settings.address_line_2 }, { request_field: 'address_city', value: get_settings.address_city }, { request_field: 'address_state', value: get_settings.address_state }, { request_field: 'address_postcode', value: get_settings.address_postcode }, { request_field: 'phone', value: get_settings.phone }, { request_field: 'account_opening_reason', value: get_settings.account_opening_reason }, { request_field: 'citizen', value: get_settings.citizen }, { request_field: 'place_of_birth', value: get_settings.place_of_birth }, { request_field: 'residence', value: Client.get('residence') }];
         if (get_settings.tax_identification_number) {
             req.push({ request_field: 'tax_identification_number', value: get_settings.tax_identification_number });
         }
@@ -30910,7 +30969,7 @@ var FinancialAccOpening = function () {
     };
 
     var getValidations = function getValidations() {
-        var validations = AccountOpening.commonValidations().concat(AccountOpening.selectCheckboxValidation(form_id), [{ selector: '#tax_identification_number', validations: ['req', 'tax_id', ['length', { min: 1, max: 20 }]] }, { selector: '#chk_tax_id', validations: [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]], exclude_request: 1 }]);
+        var validations = AccountOpening.commonValidations().concat(AccountOpening.selectCheckboxValidation(form_id), [{ selector: '#citizen', validations: ['req'] }, { selector: '#tax_identification_number', validations: ['req', 'tax_id', ['length', { min: 1, max: 20 }]] }, { selector: '#chk_tax_id', validations: [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]], exclude_request: 1 }]);
         var place_of_birth = State.getResponse('get_settings.place_of_birth');
         if (place_of_birth) {
             validations = validations.concat([{ request_field: 'place_of_birth', value: place_of_birth }]);
@@ -31044,6 +31103,9 @@ var RealAccOpening = function () {
         var place_of_birth = State.getResponse('get_settings.place_of_birth');
         if (place_of_birth) {
             validations = validations.concat([{ request_field: 'place_of_birth', value: place_of_birth }]);
+        }
+        if (/^(malta|iom)$/.test(State.getResponse('authorize.upgradeable_landing_companies'))) {
+            validations = validations.concat([{ selector: '#citizen', validations: ['req'] }]);
         }
         return validations;
     };
