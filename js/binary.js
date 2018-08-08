@@ -22625,6 +22625,7 @@ var State = __webpack_require__(6).State;
 var toTitleCase = __webpack_require__(17).toTitleCase;
 var Url = __webpack_require__(8);
 var template = __webpack_require__(1).template;
+var isEmptyObject = __webpack_require__(1).isEmptyObject;
 
 var DepositWithdraw = function () {
     var default_iframe_height = 700;
@@ -22661,16 +22662,16 @@ var DepositWithdraw = function () {
     var checkToken = function checkToken() {
         token = Url.getHashValue('token');
         if (!token) {
-            if (response_withdrawal.length) {
-                handleWithdrawalResponse();
-            } else {
+            if (isEmptyObject(response_withdrawal)) {
                 BinarySocket.send({
                     verify_email: Client.get('email'),
                     type: 'payment_withdraw'
-                }).then(function (response_withdraw) {
-                    response_withdrawal = response_withdraw;
+                }).then(function (response) {
+                    response_withdrawal = response;
                     handleWithdrawalResponse();
                 });
+            } else {
+                handleWithdrawalResponse();
             }
         } else if (!validEmailToken(token)) {
             showError('token_error');
