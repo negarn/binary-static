@@ -560,12 +560,9 @@ span.tooltip {
           grid-template-columns: 1fr 1.5fr;
           grid-gap: 0; }
           .trade-container .sidebar-container fieldset div.amount-container div:first-child {
-            border-right-width: 0px;
+            border-right-width: 0;
             border-left-width: 1px;
-            border-top-left-radius: 4px;
-            border-bottom-left-radius: 4px;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0; }
+            border-radius: 4px 0 0 4px; }
             .trade-container .sidebar-container fieldset div.amount-container div:first-child:hover, .trade-container .sidebar-container fieldset div.amount-container div:first-child:focus, .trade-container .sidebar-container fieldset div.amount-container div:first-child:active, .trade-container .sidebar-container fieldset div.amount-container div:first-child.clicked {
               border-right-width: 1px;
               border-left-width: 1px; }
@@ -575,10 +572,7 @@ span.tooltip {
           .trade-container .sidebar-container fieldset div.amount-container input:last-child {
             border-right-width: 1px;
             border-left-width: 1px;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            border-top-right-radius: 4px;
-            border-bottom-right-radius: 4px; }
+            border-radius: 0 4px 4px 0; }
           .trade-container .sidebar-container fieldset div.amount-container.three-columns {
             grid-template-columns: 1.5fr 1.2fr 1.5fr; }
             .trade-container .sidebar-container fieldset div.amount-container.three-columns div, .trade-container .sidebar-container fieldset div.amount-container.three-columns input {
@@ -593,10 +587,7 @@ span.tooltip {
               .trade-container .sidebar-container fieldset div.amount-container.three-columns div:last-child div, .trade-container .sidebar-container fieldset div.amount-container.three-columns div:last-child input, .trade-container .sidebar-container fieldset div.amount-container.three-columns input:last-child div, .trade-container .sidebar-container fieldset div.amount-container.three-columns input:last-child input {
                 border-right-width: 1px;
                 border-left-width: 1px;
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
-                border-top-right-radius: 4px;
-                border-bottom-right-radius: 4px; } }
+                border-radius: 0 4px 4px 0; } }
     @media (min-width: 979px) and (max-width: 1125px) {
       .trade-container .chart-container {
         grid-column: col-start 1 / span 9 !important; }
@@ -1524,7 +1515,10 @@ hr {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr auto;
     border: 1px solid #e9e9ed;
-    border-radius: 2px; }
+    border-radius: 2px;
+    cursor: pointer; }
+    .portfolio-drawer-card:hover {
+      background: #fafafb; }
     .portfolio-drawer-card:not(:last-child) {
       margin-bottom: 16px; }
     .portfolio-drawer-card__type {
@@ -1966,6 +1960,18 @@ div.dropdown-container {
     bottom: -6px;
     right: -6px;
     border-width: 6px; } }
+
+a.btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-decoration: none; }
 
 .calendar {
   position: absolute;
@@ -2434,7 +2440,10 @@ div.datepicker-container {
     margin: 0.6rem auto;
     background-color: #fff;
     border: 1px solid #e9e9ed;
-    border-radius: 4px; }
+    border-radius: 4px;
+    cursor: pointer; }
+    .card-list__card:hover {
+      background: #fafafb; }
 
 div.contracts-popup-container {
   position: relative;
@@ -3777,6 +3786,77 @@ a {
       font-weight: bold;
       color: #2a3052; }
 
+.contract-container {
+  font-size: 0.85rem;
+  border: 1px solid #e9e9ed; }
+  .contract-container .contract-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 0 10px;
+    color: #fff;
+    font-weight: bold;
+    line-height: 2rem; }
+    .contract-container .contract-header svg {
+      display: inline-block;
+      margin-right: 7px; }
+    .contract-container .contract-header.purchased {
+      color: #4caf50;
+      background-color: #fafafb; }
+    .contract-container .contract-header.won {
+      background-color: #4caf50; }
+    .contract-container .contract-header.lost {
+      background-color: #f44336; }
+  .contract-container .contract-contents {
+    padding: 10px;
+    font-size: 0.75rem; }
+    .contract-container .contract-contents .longcode {
+      font-weight: 300;
+      text-align: center;
+      line-height: 1.1rem; }
+    .contract-container .contract-contents .ref-number, .contract-container .contract-contents .info-header {
+      margin-top: 10px;
+      font-weight: 300;
+      text-align: center;
+      background-color: #fafafb;
+      line-height: 1.7rem; }
+    .contract-container .contract-contents .info-header {
+      font-weight: bold; }
+    .contract-container .contract-contents .info-item {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      padding: 7px 0;
+      border-bottom: 1px solid #e9e9ed; }
+      .contract-container .contract-contents .info-item > div {
+        -ms-flex-item-align: center;
+            align-self: center; }
+        .contract-container .contract-contents .info-item > div:first-child {
+          font-weight: 300;
+          -webkit-box-flex: 1;
+              -ms-flex-positive: 1;
+                  flex-grow: 1;
+          color: #333; }
+        .contract-container .contract-contents .info-item > div:last-child {
+          width: 50%; }
+
+.theme-wrapper.dark .contract-container {
+  border-color: #4a4f6c;
+  color: #aaacba; }
+  .theme-wrapper.dark .contract-container .contract-header.purchased {
+    background-color: #353b5b; }
+  .theme-wrapper.dark .contract-container .contract-header.won {
+    background-color: #2e8836; }
+  .theme-wrapper.dark .contract-container .contract-contents .ref-number, .theme-wrapper.dark .contract-container .contract-contents .info-header {
+    background-color: #353b5b; }
+  .theme-wrapper.dark .contract-container .contract-contents .info-item {
+    border-bottom-color: #4a4f6c; }
+    .theme-wrapper.dark .contract-container .contract-contents .info-item > div:first-child {
+      color: #aaacba; }
+
 .portfolio {
   padding: 1.5rem 12px;
   height: 100%; }
@@ -3821,6 +3901,9 @@ a {
       -webkit-box-align: center;
           -ms-flex-align: center;
               align-items: center; }
+  .portfolio .reference a {
+    color: #1565c0;
+    text-decoration: none; }
   .portfolio .indicative {
     text-align: right;
     font-weight: bold; }
@@ -3871,8 +3954,9 @@ a {
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between; }
-  .portfolio-card__refid {
-    color: #1565c0; }
+  .portfolio-card__refid a {
+    color: #1565c0;
+    text-decoration: none; }
   .portfolio-card__body {
     padding: 0.5rem;
     font-size: 12px; }
@@ -4115,6 +4199,89 @@ a {
       content: '\002303';
       font-size: 1.1rem; }
 
+.chart-spot {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  /* Left aligned */
+  /* Left aligned */ }
+  .chart-spot .content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin-left: 11px;
+    margin-bottom: -9px;
+    padding: 7px;
+    border-radius: 3px;
+    background: #2e8836;
+    color: #fff; }
+    .chart-spot .content svg {
+      margin-right: 5px; }
+  .chart-spot .arrow {
+    margin-left: 4px;
+    margin-bottom: 2px;
+    width: 0;
+    height: 0;
+    border-top: 15px solid #2e8836;
+    border-left: 10px solid transparent;
+    -webkit-transform: rotate(60deg);
+            transform: rotate(60deg); }
+  .chart-spot .spot {
+    margin-left: -4px;
+    margin-bottom: -4px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    border: 2px solid #2e8836; }
+  .chart-spot.lost .content {
+    background: #f44336; }
+  .chart-spot.lost .arrow {
+    border-top-color: #f44336; }
+  .chart-spot.lost .spot {
+    border-color: #f44336; }
+  .chart-spot.left {
+    margin-left: -100%;
+    margin-right: 100%; }
+    .chart-spot.left .content {
+      margin-right: 11px;
+      margin-bottom: -5px;
+      background: #e98024; }
+    .chart-spot.left .arrow {
+      -ms-flex-item-align: end;
+          align-self: flex-end;
+      margin-right: 8px;
+      margin-bottom: -2px;
+      border-top-color: #e98024;
+      -webkit-transform: rotate(-30deg);
+              transform: rotate(-30deg); }
+    .chart-spot.left .spot {
+      -ms-flex-item-align: end;
+          align-self: flex-end;
+      margin-right: -4px;
+      border-color: #e98024; }
+
+.chart-marker-line {
+  height: 100%; }
+  .chart-marker-line > div {
+    border-left-width: 1px;
+    padding-left: 5px;
+    height: 100%; }
+    .chart-marker-line > div.solid {
+      border-left-style: solid; }
+    .chart-marker-line > div.dash {
+      border-left-style: dashed; }
+    .chart-marker-line > div > div {
+      position: absolute;
+      bottom: 0;
+      white-space: nowrap; }
+
 .statement {
   height: 100%;
   /*
@@ -4173,6 +4340,9 @@ a {
       color: #4caf50; }
     .statement .amount--loss {
       color: #f44336; }
+  .statement .refid a {
+    color: #1565c0;
+    text-decoration: none; }
   .statement--card-view {
     background: #fafafb;
     overflow: hidden; }
@@ -4209,8 +4379,9 @@ a {
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between; }
-  .statement-card__refid {
-    color: #1565c0; }
+  .statement-card__refid a {
+    color: #1565c0;
+    text-decoration: none; }
   .statement-card__body {
     padding: 0.5rem;
     font-size: 12px; }
