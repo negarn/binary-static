@@ -13161,16 +13161,20 @@ var Process = function () {
      */
     var processActiveSymbols = function processActiveSymbols() {
         BinarySocket.send({ active_symbols: 'brief' }).then(function (response) {
-            // populate the Symbols object
-            Symbols.details(response);
+            if (response.active_symbols.length) {
+                // populate the Symbols object
+                Symbols.details(response);
 
-            var market = commonTrading.getDefaultMarket();
+                var market = commonTrading.getDefaultMarket();
 
-            // store the market
-            Defaults.set('market', market);
+                // store the market
+                Defaults.set('market', market);
 
-            commonTrading.displayMarkets();
-            processMarket();
+                commonTrading.displayMarkets();
+                processMarket();
+            } else {
+                $('#content').empty().html($('<div/>', { class: 'container' }).append($('<p/>', { class: 'notice-msg center-text', text: localize('Trading is unavailable at this time.') })));
+            }
         });
     };
 
@@ -31036,8 +31040,7 @@ var FinancialAccOpening = function () {
 
     var handleResponse = function handleResponse(response) {
         if ('error' in response && response.error.code === 'show risk disclaimer') {
-            $(form_id).setVisibility(0);
-            $('#client_message').setVisibility(0);
+            $('#financial-form').setVisibility(0);
             var $financial_risk = $('#financial-risk');
             $financial_risk.setVisibility(1);
             $.scrollTo($financial_risk, 500, { offset: -10 });
