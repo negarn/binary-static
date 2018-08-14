@@ -14193,6 +14193,8 @@ var PersonalDetails = function () {
                     localStorage.removeItem('personal_details_redirect');
                     $.scrollTo($('h1#heading'), 500, { offset: -10 });
                     $(form_id).setVisibility(0);
+                    $('#missing_details_notice').setVisibility(0);
+                    $('.rowCustomerSupport').setVisibility(0);
                     $('#msg_main').setVisibility(1);
                     return;
                 }
