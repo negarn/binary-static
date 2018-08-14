@@ -13575,7 +13575,7 @@ var Purchase = function () {
             if (/RestrictedCountry/.test(error.code)) {
                 var additional_message = '';
                 if (/FinancialBinaries/.test(error.code)) {
-                    additional_message = localize('Try our [_1]Volatility Indices[_2].', ['<a href="' + urlFor('get-started/volidx-markets') + '" >', '</a>']);
+                    additional_message = localize('Try our [_1]Volatility Indices[_2].', ['<a href="' + urlFor('get-started/binary-options', 'anchor=volatility-indices#range-of-markets') + '" >', '</a>']);
                 } else if (/Random/.test(error.code)) {
                     additional_message = localize('Try our other markets.');
                 }
@@ -14168,10 +14168,14 @@ var PersonalDetails = function () {
         // allow user to resubmit the form on error.
         var is_error = response.set_settings !== 1;
         if (!is_error) {
+            var redirect_url = localStorage.getItem('personal_details_redirect');
             // to update tax information message for financial clients
-            BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function () {
+            BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function (response_status) {
                 showHideTaxMessage();
                 Header.displayAccountStatus();
+                if (redirect_url && +response_status.get_account_status.prompt_client_to_authenticate && Client.isAccountOfType('financial')) {
+                    $('#msg_authenticate').setVisibility(1);
+                }
             });
             // to update the State with latest get_settings data
             BinarySocket.send({ get_settings: 1 }, { forced: true }).then(function (data) {
@@ -14185,6 +14189,12 @@ var PersonalDetails = function () {
                     is_for_new_account = false;
                     BinaryPjax.loadPreviousUrl();
                     return;
+                }
+                if (redirect_url && data.tax_residence && data.tax_identification_number && data.citizen) {
+                    localStorage.removeItem('personal_details_redirect');
+                    $.scrollTo($('h1#heading'), 500, { offset: -10 });
+                    $(form_id).setVisibility(0);
+                    $('#msg_main').setVisibility(1);
                 }
                 getDetailsResponse(data.get_settings);
             });
@@ -14323,6 +14333,7 @@ var PersonalDetails = function () {
 
     var onUnload = function onUnload() {
         is_for_new_account = false;
+        localStorage.removeItem('personal_details_redirect');
     };
 
     return {
@@ -14520,7 +14531,11 @@ var MetaTraderConfig = function () {
     };
 
     // currency equivalent to 1 USD
+    // or 1 of donor currency if both accounts have the same currency
     var getMinMT5TransferValue = function getMinMT5TransferValue(currency) {
+        var client_currency = Client.get('currency');
+        var mt5_currency = MetaTraderConfig.getCurrency(Client.get('mt5_account'));
+        if (client_currency === mt5_currency) return 1;
         return (+State.getResponse('exchange_rates.rates.' + currency) || 1).toFixed(Currency.getDecimalPlaces(currency));
     };
 
@@ -14533,20 +14548,32 @@ var MetaTraderConfig = function () {
         return new Promise(function (resolve) {
             var $new_account_financial_authenticate_msg = $('#new_account_financial_authenticate_msg');
             $new_account_financial_authenticate_msg.setVisibility(0);
-            if (accounts_info[acc_type].is_demo) {
+            if (!Client.get('currency')) {
+                resolve($messages.find('#msg_set_currency').html());
+            } else if (accounts_info[acc_type].is_demo) {
                 resolve();
             } else if (Client.get('is_virtual')) {
                 resolve(needsRealMessage());
             } else if (accounts_info[acc_type].account_type === 'financial') {
-                BinarySocket.wait('get_account_status').then(function (response_get_account_status) {
+                BinarySocket.wait('get_account_status', 'get_settings', 'landing_company').then(function () {
                     var $message = $messages.find('#msg_real_financial').clone();
                     var is_ok = true;
                     if (State.getResponse('landing_company.mt_financial_company.shortcode') === 'maltainvest' && !Client.hasAccountType('financial', 1)) {
                         $message.find('.maltainvest').setVisibility(1);
                         is_ok = false;
                     } else {
-                        if (/(financial_assessment|trading_experience)_not_complete/.test(response_get_account_status.get_account_status.status)) {
+                        var response_get_account_status = State.getResponse('get_account_status');
+                        var response_get_settings = State.getResponse('get_settings');
+                        if (/(financial_assessment|trading_experience)_not_complete/.test(response_get_account_status.status)) {
                             $message.find('.assessment').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'financial_assessment_redirect\', \'' + urlFor('user/metatrader') + '#' + acc_type + '\')');
+                            is_ok = false;
+                        }
+                        if (!response_get_settings.tax_residence || !response_get_settings.tax_identification_number) {
+                            $message.find('.tax').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', \'' + urlFor('user/metatrader') + '#' + acc_type + '\')');
+                            is_ok = false;
+                        }
+                        if (!response_get_settings.citizen) {
+                            $message.find('.citizen').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', \'' + urlFor('user/metatrader') + '#' + acc_type + '\')');
                             is_ok = false;
                         }
                         if (is_ok && !isAuthenticated()) {
@@ -14577,7 +14604,9 @@ var MetaTraderConfig = function () {
             },
             pre_submit: function pre_submit($form, acc_type) {
                 return new Promise(function (resolve) {
-                    if (!accounts_info[acc_type].is_demo && State.getResponse('landing_company.gaming_company.shortcode') === 'malta') {
+                    var is_volatility = !accounts_info[acc_type].mt5_account_type;
+
+                    if (is_volatility && !accounts_info[acc_type].is_demo && State.getResponse('landing_company.gaming_company.shortcode') === 'malta') {
                         Dialog.confirm({
                             id: 'confirm_new_account',
                             message: ['Trading Contracts for Difference (CFDs) on Volatility Indices may not be suitable for everyone. Please ensure that you fully understand the risks involved, including the possibility of losing all the funds in your MT5 account. Gambling can be addictive – please play responsibly.', 'Do you wish to continue?']
@@ -14833,7 +14862,9 @@ var MetaTraderConfig = function () {
             password_reset: [{ selector: fields.password_reset.ddl_password_type.id, validations: ['req'] }, { selector: fields.password_reset.txt_new_password.id, validations: ['req', ['password', 'mt']], re_check_field: fields.password_reset.txt_re_new_password.id }, { selector: fields.password_reset.txt_re_new_password.id, validations: ['req', ['compare', { to: fields.password_reset.txt_new_password.id }]] }],
             deposit: [{ selector: fields.deposit.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
                         return getMinMT5TransferValue(Client.get('currency'));
-                    }, max: Math.min(State.getResponse('get_limits.remainder') || getMaxMT5TransferValue(Client.get('currency')), getMaxMT5TransferValue(Client.get('currency'))).toFixed(Currency.getDecimalPlaces(Client.get('currency'))), decimals: Currency.getDecimalPlaces(Client.get('currency')) }], ['custom', { func: function func() {
+                    }, max: function max() {
+                        return Math.min(State.getResponse('get_limits.remainder') || getMaxMT5TransferValue(Client.get('currency')), getMaxMT5TransferValue(Client.get('currency'))).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
+                    }, decimals: Currency.getDecimalPlaces(Client.get('currency')) }], ['custom', { func: function func() {
                         return Client.get('balance') && +Client.get('balance') >= +$(fields.deposit.txt_amount.id).val();
                     }, message: localize('You have insufficient funds in your Binary account, please <a href="[_1]">add funds</a>.', [urlFor('cashier')]) }]] }],
             withdrawal: [{ selector: fields.withdrawal.txt_main_pass.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.withdrawal.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
@@ -31040,7 +31071,8 @@ var FinancialAccOpening = function () {
 
     var handleResponse = function handleResponse(response) {
         if ('error' in response && response.error.code === 'show risk disclaimer') {
-            $('#financial-form').setVisibility(0);
+            $(form_id).setVisibility(0);
+            $('#client_message').setVisibility(0);
             var $financial_risk = $('#financial-risk');
             $financial_risk.setVisibility(1);
             $.scrollTo($financial_risk, 500, { offset: -10 });
