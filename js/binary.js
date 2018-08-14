@@ -14190,13 +14190,15 @@ var PersonalDetails = function () {
                     BinaryPjax.loadPreviousUrl();
                     return;
                 }
-                if (redirect_url && data.tax_residence && data.tax_identification_number && data.citizen) {
+                var get_settings = data.get_settings;
+                var has_required_mt = get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen;
+                if (redirect_url && has_required_mt) {
                     localStorage.removeItem('personal_details_redirect');
                     $.scrollTo($('h1#heading'), 500, { offset: -10 });
                     $(form_id).setVisibility(0);
                     $('#msg_main').setVisibility(1);
                 }
-                getDetailsResponse(data.get_settings);
+                getDetailsResponse(get_settings);
             });
         }
         showFormMessage(is_error ? getPropertyValue(response, ['error', 'message']) || 'Sorry, an error occurred while processing your account.' : 'Your settings have been updated successfully.', !is_error);
