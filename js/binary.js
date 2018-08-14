@@ -31828,8 +31828,13 @@ var SetCurrency = function () {
         });
     };
 
+    var onUnload = function onUnload() {
+        localStorage.removeItem('is_new_account');
+    };
+
     return {
-        onLoad: onLoad
+        onLoad: onLoad,
+        onUnload: onUnload
     };
 }();
 
