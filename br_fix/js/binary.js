@@ -27315,6 +27315,8 @@ var Authenticate = function () {
             });
             var total_to_upload = response.length;
             if (is_any_file_error || !total_to_upload) {
+                removeButtonLoading();
+                enableDisableSubmit();
                 return; // don't start submitting files until all front-end validation checks pass
             }
 
