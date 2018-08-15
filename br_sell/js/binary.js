@@ -24680,7 +24680,7 @@ var Highchart = function () {
             // and we can't update markers if data is empty
             var int_time = parseInt(time);
             var is_match_entry = int_time === entry_tick_time;
-            var is_match_exit = int_time === exit_tick_time;
+            var is_match_exit = contract.status !== 'sold' && int_time === exit_tick_time;
             var tick_type = is_match_entry ? 'entry' : 'exit';
             data.push({
                 x: int_time * 1000,
