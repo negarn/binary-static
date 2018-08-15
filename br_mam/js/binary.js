@@ -3330,6 +3330,7 @@ var Validation = function () {
                         }
                         field.$error = $parent.find('.' + error_class);
                     }
+                    field.$submit_btn_error = $form.find('#msg_form');
 
                     var event = events_map[field.type];
 
@@ -3350,7 +3351,7 @@ var Validation = function () {
         // need to init Dropdown after we have responses from ws
         var el_all_select = document.querySelectorAll('select:not([multiple]):not([single])');
         el_all_select.forEach(function (el) {
-            if (el.id) {
+            if (el.id && el.length) {
                 Dropdown('#' + el.id);
             }
         });
@@ -3551,6 +3552,9 @@ var Validation = function () {
     var clearError = function clearError(field) {
         if (field.$error && field.$error.length) {
             field.$error.setVisibility(0);
+            if (field.$submit_btn_error && field.$submit_btn_error.length) {
+                field.$submit_btn_error.setVisibility(0);
+            }
         }
     };
 
@@ -14145,21 +14149,18 @@ var PersonalDetails = function () {
         } else {
             var is_financial = Client.isAccountOfType('financial');
             var is_gaming = Client.isAccountOfType('gaming');
+            var is_for_mt = localStorage.getItem('personal_details_redirect');
 
             validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 6, max: 35, value: function value() {
                         return $('#phone').val().replace(/^\+/, '');
-                    } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#tax_residence', validations: Client.isAccountOfType('financial') ? ['req'] : '' }, { selector: '#chk_tax_id', validations: Client.isAccountOfType('financial') ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
+                    } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#tax_residence', validations: is_financial || is_for_mt ? ['req'] : '' }, { selector: '#citizen', validations: is_financial || is_gaming || is_for_mt ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
 
             var tax_id_validation = { selector: '#tax_identification_number', validations: ['tax_id', ['length', { min: 0, max: 20 }]] };
-            var citizen_validation = { selector: '#citizen' };
-            if (is_financial) {
+            if (is_financial || is_for_mt) {
                 tax_id_validation.validations[1][1].min = 1;
                 tax_id_validation.validations.unshift('req');
             }
-            if (is_financial || is_gaming) {
-                citizen_validation.validations = ['req'];
-            }
-            validations.push(tax_id_validation, citizen_validation);
+            validations.push(tax_id_validation);
         }
         return validations;
     };
@@ -14168,10 +14169,14 @@ var PersonalDetails = function () {
         // allow user to resubmit the form on error.
         var is_error = response.set_settings !== 1;
         if (!is_error) {
+            var redirect_url = localStorage.getItem('personal_details_redirect');
             // to update tax information message for financial clients
-            BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function () {
+            BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function (response_status) {
                 showHideTaxMessage();
                 Header.displayAccountStatus();
+                if (redirect_url && +response_status.get_account_status.prompt_client_to_authenticate && Client.isAccountOfType('financial')) {
+                    $('#msg_authenticate').setVisibility(1);
+                }
             });
             // to update the State with latest get_settings data
             BinarySocket.send({ get_settings: 1 }, { forced: true }).then(function (data) {
@@ -14186,7 +14191,18 @@ var PersonalDetails = function () {
                     BinaryPjax.loadPreviousUrl();
                     return;
                 }
-                getDetailsResponse(data.get_settings);
+                var get_settings = data.get_settings;
+                var has_required_mt = get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen;
+                if (redirect_url && has_required_mt) {
+                    localStorage.removeItem('personal_details_redirect');
+                    $.scrollTo($('h1#heading'), 500, { offset: -10 });
+                    $(form_id).setVisibility(0);
+                    $('#missing_details_notice').setVisibility(0);
+                    $('.rowCustomerSupport').setVisibility(0);
+                    $('#msg_main').setVisibility(1);
+                    return;
+                }
+                getDetailsResponse(get_settings);
             });
         }
         showFormMessage(is_error ? getPropertyValue(response, ['error', 'message']) || 'Sorry, an error occurred while processing your account.' : 'Your settings have been updated successfully.', !is_error);
@@ -14323,6 +14339,7 @@ var PersonalDetails = function () {
 
     var onUnload = function onUnload() {
         is_for_new_account = false;
+        localStorage.removeItem('personal_details_redirect');
     };
 
     return {
@@ -14537,20 +14554,32 @@ var MetaTraderConfig = function () {
         return new Promise(function (resolve) {
             var $new_account_financial_authenticate_msg = $('#new_account_financial_authenticate_msg');
             $new_account_financial_authenticate_msg.setVisibility(0);
-            if (accounts_info[acc_type].is_demo) {
+            if (!Client.get('currency')) {
+                resolve($messages.find('#msg_set_currency').html());
+            } else if (accounts_info[acc_type].is_demo) {
                 resolve();
             } else if (Client.get('is_virtual')) {
                 resolve(needsRealMessage());
             } else if (accounts_info[acc_type].account_type === 'financial') {
-                BinarySocket.wait('get_account_status').then(function (response_get_account_status) {
+                BinarySocket.wait('get_account_status', 'get_settings', 'landing_company').then(function () {
                     var $message = $messages.find('#msg_real_financial').clone();
                     var is_ok = true;
                     if (State.getResponse('landing_company.mt_financial_company.shortcode') === 'maltainvest' && !Client.hasAccountType('financial', 1)) {
                         $message.find('.maltainvest').setVisibility(1);
                         is_ok = false;
                     } else {
-                        if (/(financial_assessment|trading_experience)_not_complete/.test(response_get_account_status.get_account_status.status)) {
+                        var response_get_account_status = State.getResponse('get_account_status');
+                        var response_get_settings = State.getResponse('get_settings');
+                        if (/(financial_assessment|trading_experience)_not_complete/.test(response_get_account_status.status)) {
                             $message.find('.assessment').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'financial_assessment_redirect\', \'' + urlFor('user/metatrader') + '#' + acc_type + '\')');
+                            is_ok = false;
+                        }
+                        if (!response_get_settings.tax_residence || !response_get_settings.tax_identification_number) {
+                            $message.find('.tax').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', \'' + urlFor('user/metatrader') + '#' + acc_type + '\')');
+                            is_ok = false;
+                        }
+                        if (!response_get_settings.citizen) {
+                            $message.find('.citizen').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', \'' + urlFor('user/metatrader') + '#' + acc_type + '\')');
                             is_ok = false;
                         }
                         if (is_ok && !isAuthenticated()) {
@@ -15065,6 +15094,7 @@ var Home = function () {
         var error = response.error;
         if (!error) {
             $('.signup-box div').replaceWith($('<p/>', { text: localize('Thank you for signing up! Please check your email to complete the registration process.'), class: 'gr-10 gr-centered center-text' }));
+            $('#social-signup').setVisibility(0);
         } else {
             $('#signup_error').setVisibility(1).text(error.message);
         }
@@ -30652,7 +30682,7 @@ var MetaTraderUI = function () {
             _$form.find('.binary-balance').html('' + formatMoney(client_currency, Client.get('balance')));
             _$form.find('.mt5-account').text('' + localize('[_1] Account [_2]', [accounts_info[acc_type].title, accounts_info[acc_type].info.login]));
             _$form.find('.mt5-balance').html('' + formatMoney(mt_currency, accounts_info[acc_type].info.balance));
-            _$form.find('.symbols').addClass(mt_currency.toLowerCase());
+            _$form.find('.symbols.mt-currency').addClass(mt_currency.toLowerCase());
             _$form.find('label[for="txt_amount_deposit"]').append(' ' + client_currency);
             _$form.find('label[for="txt_amount_withdrawal"]').append(' ' + mt_currency);
 
