@@ -78,6 +78,11 @@ select, input, textarea {
   border: 1px solid #e9e9ed;
   border-radius: 4px; }
 
+a {
+  color: #2196f3; }
+  a:active, a:visited {
+    color: #1565c0; }
+
 fieldset {
   border: 1px solid #fafafb; }
 
@@ -455,22 +460,6 @@ span.tooltip {
       .app-contents {
         margin-bottom: 0;
         height: calc(100vh - 48px); } }
-    .app-contents .login-message-wrapper {
-      height: 100%;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      -webkit-box-pack: center;
-          -ms-flex-pack: center;
-              justify-content: center; }
-      .app-contents .login-message-wrapper .message a {
-        text-decoration: none;
-        color: #2a3052; }
-        .app-contents .login-message-wrapper .message a:hover {
-          font-weight: 500; }
   /* trade-app layout */
   .trade-container {
     position: relative;
@@ -790,23 +779,6 @@ span.tooltip {
             background-color: #e9e9ed; }
           .header .menu-items .menu-left .menu-links a.active > span[title] {
             font-weight: 500; }
-          .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__trade g {
-            stroke: #2a3052; }
-          .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__trade path {
-            fill: #2a3052; }
-          .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__portfolio .stroke-only {
-            stroke: #fff;
-            fill: #2a3052; }
-            .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__portfolio .stroke-only.portfolio-fix {
-              fill: none;
-              stroke: #2a3052; }
-            .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__portfolio .stroke-only:first-child {
-              stroke: #2a3052; }
-          .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__statement .fill-only {
-            fill: #fff; }
-          .header .menu-items .menu-left .menu-links a.active .inline-icon.ic-header__statement .no-fill {
-            fill: #2a3052;
-            stroke: #fff; }
           .header .menu-items .menu-left .menu-links a .inline-icon {
             position: absolute;
             left: 10px;
@@ -1596,6 +1568,8 @@ hr {
         margin-right: 2px;
         background-image: url("../images/app_2/portfolio/ic_countdown.svg");
         vertical-align: text-top; }
+      .portfolio-drawer-card__remaining-time .remaining-time {
+        display: inline; }
 
 .theme-wrapper.dark .portfolio-drawer {
   background: #2a3052;
@@ -2744,78 +2718,31 @@ div.contracts-popup-container {
     border-top: 1px solid #e9e9ed;
     border-bottom: none; }
 
-/* Ant style */
-.pagination {
+.login-prompt {
+  height: 100%;
+  margin: 0 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
+  -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end; }
-  .pagination li {
-    margin: 0; }
-    .pagination li:not(:last-child) {
-      margin-right: 8px; }
-  .pagination-prev, .pagination-next, .pagination-item {
-    text-decoration: none;
-    list-style: none;
-    background-color: #fff;
-    border-radius: 4px;
-    color: #333333;
-    /* stylelint-disable-line color-no-hex */
-    border: 1px solid #e9e9ed;
-    /* stylelint-disable-line color-no-hex */
-    min-width: 32px;
-    height: 32px;
-    text-align: center;
-    vertical-align: middle;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box; }
-  .pagination-prev:hover, .pagination-next:hover, .pagination-item:hover, .pagination-item-active {
-    cursor: pointer;
-    border-color: #4c5794;
-    /* stylelint-disable-line color-no-hex */ }
-    .pagination-prev:hover a, .pagination-next:hover a, .pagination-item:hover a, .pagination-item-active a {
-      color: #4c5794;
-      /* stylelint-disable-line color-no-hex */ }
-  .pagination-item-active:hover {
-    cursor: default; }
-  .pagination-disabled, .pagination-disabled:hover {
-    cursor: not-allowed;
-    border-color: #e9e9ed;
-    /* stylelint-disable-line color-no-hex */
-    background-color: #fff; }
-    .pagination-disabled a, .pagination-disabled:hover a {
-      color: #e9e9ed;
-      /* stylelint-disable-line color-no-hex */ }
-  .pagination-ellipsis {
-    line-height: 32px;
-    border: none; }
-    .pagination-ellipsis:hover {
-      cursor: default; }
-    .pagination-ellipsis:after {
-      content: '\2022\2022\2022';
-      display: block;
-      font-size: 20px;
-      letter-spacing: 1px;
-      color: #e9e9ed;
-      /* stylelint-disable-line color-no-hex */
-      text-align: center; }
-    .pagination-ellipsis a {
-      color: #e9e9ed;
-      /* stylelint-disable-line color-no-hex */ }
-  .pagination a {
-    text-decoration: none;
-    font-weight: 400;
-    font-size: 16px; }
-    .pagination a::-moz-selection {
-      background-color: rgba(0, 0, 0, 0); }
-    .pagination a::selection {
-      background-color: rgba(0, 0, 0, 0); }
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+  .login-prompt__icon {
+    height: 64px;
+    width: 64px;
+    margin-bottom: 1rem; }
+    .login-prompt__icon svg {
+      height: 100%;
+      width: 100%; }
+  .login-prompt__message {
+    font-size: 14px; }
 
 button.btn {
   position: relative; }
@@ -3640,6 +3567,63 @@ a {
     -webkit-animation: dash 1.5s ease-in-out infinite, colorOrange 6s ease-in-out infinite;
             animation: dash 1.5s ease-in-out infinite, colorOrange 6s ease-in-out infinite; }
 
+/*
+    to use styles without modifier class on .inline-icon
+    use @extend
+
+    e.g. style icon on parent hover:
+        a:hover .inline-icon {
+            @extend .inline-icon.active;
+        }
+*/
+.inline-icon .color1-fill {
+  fill: #2a3052; }
+
+.inline-icon .color1-stroke {
+  stroke: #2a3052; }
+
+.inline-icon .color2-fill {
+  fill: none; }
+
+.inline-icon .color2-stroke {
+  stroke: none; }
+
+.inline-icon.active .color1-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-fill, footer .footer-links a:hover .inline-icon .color1-fill {
+  fill: #fff; }
+
+.inline-icon.active .color1-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-stroke, footer .footer-links a:hover .inline-icon .color1-stroke {
+  stroke: #fff; }
+
+.inline-icon.active .color2-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-fill, footer .footer-links a:hover .inline-icon .color2-fill {
+  fill: #2a3052; }
+
+.inline-icon.active .color2-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-stroke, footer .footer-links a:hover .inline-icon .color2-stroke {
+  stroke: #2a3052; }
+
+.inline-icon.active .color3-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-fill, footer .footer-links a:hover .inline-icon .color3-fill {
+  fill: #2a3052; }
+
+.inline-icon.active .color3-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-stroke, footer .footer-links a:hover .inline-icon .color3-stroke {
+  stroke: #2a3052; }
+
+.inline-icon.active .color4-fill, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color4-fill, .header .menu-items .menu-left .menu-links a.active .inline-icon .color4-fill, footer .footer-links a:hover .inline-icon .color4-fill {
+  fill: none; }
+
+.inline-icon.active .color4-stroke, .header .menu-items .menu-left .menu-links a:hover .inline-icon .color4-stroke, .header .menu-items .menu-left .menu-links a.active .inline-icon .color4-stroke, footer .footer-links a:hover .inline-icon .color4-stroke {
+  stroke: none; }
+
+.inline-icon.disabled .color1-fill {
+  fill: #e9e9ed; }
+
+.inline-icon.disabled .color1-stroke {
+  stroke: #e9e9ed; }
+
+.inline-icon.disabled .color2-fill {
+  fill: none; }
+
+.inline-icon.disabled .color2-stroke {
+  stroke: none; }
+
 .fullscreen-dialog {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -3843,6 +3827,78 @@ a {
         .contract-container .contract-contents .info-item > div:last-child {
           width: 50%; }
 
+.info-box {
+  position: absolute;
+  z-index: 10;
+  top: 10px;
+  right: 10px;
+  padding: 15px;
+  border: 1px solid #e9e9ed;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  font-weight: 300; }
+  .info-box .expired {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .info-box .expired svg {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px; }
+      .info-box .expired svg .color1-fill {
+        fill: #4caf50; }
+    .info-box .expired .pl-value {
+      color: #4caf50;
+      font-weight: bold;
+      font-size: 1rem;
+      line-height: 1.5rem; }
+      .info-box .expired .pl-value .percentage {
+        display: inline-block;
+        margin-left: 7px; }
+    .info-box .expired.lost .pl-value {
+      color: #f44336; }
+    .info-box .expired.lost svg .color1-fill {
+      fill: #f44336; }
+  .info-box .general {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    line-height: 1.4rem; }
+    .info-box .general .values {
+      margin-left: 10px;
+      margin-right: 20px;
+      text-align: right;
+      font-weight: bold; }
+      .info-box .general .values .profit {
+        color: #4caf50; }
+      .info-box .general .values .loss {
+        color: #f44336; }
+    .info-box .general .sell {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      margin: -15px;
+      margin-left: 15px;
+      padding: 15px;
+      border-left: 1px solid #e9e9ed; }
+      .info-box .general .sell .tooltip {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        line-height: 0; }
+        .info-box .general .sell .tooltip:before {
+          width: 350px;
+          white-space: normal; }
+
 .theme-wrapper.dark .contract-container {
   border-color: #4a4f6c;
   color: #aaacba; }
@@ -3856,6 +3912,15 @@ a {
     border-bottom-color: #4a4f6c; }
     .theme-wrapper.dark .contract-container .contract-contents .info-item > div:first-child {
       color: #aaacba; }
+
+.theme-wrapper.dark .info-box {
+  border-color: #4a4f6c;
+  background: rgba(42, 48, 82, 0.6); }
+  .theme-wrapper.dark .info-box .general .sell {
+    border-left-color: #4a4f6c; }
+    .theme-wrapper.dark .info-box .general .sell .btn:disabled {
+      background: #4a4f6c;
+      color: #60647e !important; }
 
 .portfolio {
   padding: 1.5rem 12px;
@@ -3932,12 +3997,9 @@ a {
         -ms-flex-align: center;
             align-items: center; }
     .portfolio-empty__icon {
-      margin: 0 auto 2rem;
-      -webkit-transform: scale(3, 3);
-              transform: scale(3, 3); }
-      .portfolio-empty__icon .scale-fix {
-        -webkit-transform: scaleX(0.96);
-                transform: scaleX(0.96); }
+      height: 64px;
+      width: 64px;
+      margin-bottom: 16px; }
     .portfolio-empty__title {
       font-size: 16px;
       font-weight: bold;
@@ -4220,7 +4282,7 @@ a {
     margin-bottom: -9px;
     padding: 7px;
     border-radius: 3px;
-    background: #2e8836;
+    background: #4caf50;
     color: #fff; }
     .chart-spot .content svg {
       margin-right: 5px; }
@@ -4229,7 +4291,7 @@ a {
     margin-bottom: 2px;
     width: 0;
     height: 0;
-    border-top: 15px solid #2e8836;
+    border-top: 15px solid #4caf50;
     border-left: 10px solid transparent;
     -webkit-transform: rotate(60deg);
             transform: rotate(60deg); }
@@ -4239,7 +4301,7 @@ a {
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    border: 2px solid #2e8836; }
+    border: 2px solid #4caf50; }
   .chart-spot.lost .content {
     background: #f44336; }
   .chart-spot.lost .arrow {
@@ -4435,11 +4497,8 @@ a {
         -ms-flex-align: center;
             align-items: center; }
     .statement-empty__icon {
-      display: inline-block;
       height: 64px;
       width: 64px;
-      background-size: 64px;
-      background-image: url("../images/app_2/header/icons/ic_statement_normal_light.svg");
       margin-bottom: 16px; }
     .statement-empty__title {
       font-size: 16px;
@@ -4884,33 +4943,8 @@ a {
     background: #2a3052; }
   .theme-wrapper.dark header {
     border-color: #4a4f6c; }
-    .theme-wrapper.dark header .menu-items .menu-links a .inline-icon.ic-header__trade .stroke-fill {
-      stroke: #aaacba;
-      fill: #2a3052; }
     .theme-wrapper.dark header .menu-items .menu-links a.active span {
       color: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__trade .stroke-fill {
-        fill: #fff;
-        stroke: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .stroke-only, .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__statement .stroke-only {
-        stroke: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .fill-only, .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__statement .fill-only {
-        fill: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .stroke-only:first-child {
-        fill: #fff;
-        stroke: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .stroke-only:nth-child(2) {
-        stroke: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .stroke-only:nth-child(3) {
-        stroke: #2a3052;
-        fill: #fff; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__portfolio .stroke-only:last-child {
-        stroke: #2a3052; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__statement .no-fill {
-        fill: #fff;
-        stroke: #2a3052; }
-      .theme-wrapper.dark header .menu-items .menu-links a.active span .inline-icon.ic-header__statement .fill-only {
-        fill: #2a3052; }
     .theme-wrapper.dark header .menu-items .menu-links a.active:after {
       background-color: #fff; }
     .theme-wrapper.dark header .menu-items .menu-links a:hover {
@@ -5069,20 +5103,9 @@ a {
     color: #aaacba; }
     .theme-wrapper.dark footer .footer-links a span {
       color: #aaacba; }
-    .theme-wrapper.dark footer .footer-links a.active, .theme-wrapper.dark footer .footer-links a:hover, .theme-wrapper.dark footer .footer-links a:focus {
+    .theme-wrapper.dark footer .footer-links a.active, .theme-wrapper.dark footer .footer-links a:hover {
       background: #4a4f6c; }
-      .theme-wrapper.dark footer .footer-links a.active .footer-icon path, .theme-wrapper.dark footer .footer-links a:hover .footer-icon path, .theme-wrapper.dark footer .footer-links a:focus .footer-icon path {
-        fill: #fff; }
-      .theme-wrapper.dark footer .footer-links a.active .footer-icon .stroke-only, .theme-wrapper.dark footer .footer-links a:hover .footer-icon .stroke-only, .theme-wrapper.dark footer .footer-links a:focus .footer-icon .stroke-only {
-        stroke: #fff;
-        fill: none; }
-      .theme-wrapper.dark footer .footer-links a.active .footer-icon .fill-only, .theme-wrapper.dark footer .footer-links a:hover .footer-icon .fill-only, .theme-wrapper.dark footer .footer-links a:focus .footer-icon .fill-only {
-        fill: #fff;
-        stroke: none; }
-      .theme-wrapper.dark footer .footer-links a.active .footer-icon .stroke-fill, .theme-wrapper.dark footer .footer-links a:hover .footer-icon .stroke-fill, .theme-wrapper.dark footer .footer-links a:focus .footer-icon .stroke-fill {
-        stroke: #fff;
-        fill: #fff; }
-      .theme-wrapper.dark footer .footer-links a.active:after, .theme-wrapper.dark footer .footer-links a:hover:after, .theme-wrapper.dark footer .footer-links a:focus:after {
+      .theme-wrapper.dark footer .footer-links a.active:after, .theme-wrapper.dark footer .footer-links a:hover:after {
         background: #fff; }
     .theme-wrapper.dark footer .server-time {
       border-color: #4a4f6c; }
@@ -5094,21 +5117,34 @@ a {
         fill: #60647e; }
     .theme-wrapper.dark .type-wrapper .type .stroke-white {
       stroke: #fff; }
-  .theme-wrapper.dark .inline-icon path {
+  .theme-wrapper.dark .inline-icon .color1-fill {
     fill: #aaacba; }
-  .theme-wrapper.dark .inline-icon .stroke-only {
-    stroke: #aaacba;
+  .theme-wrapper.dark .inline-icon .color1-stroke {
+    stroke: #aaacba; }
+  .theme-wrapper.dark .inline-icon .color2-fill {
     fill: none; }
-  .theme-wrapper.dark .inline-icon .fill-only {
-    fill: #aaacba;
+  .theme-wrapper.dark .inline-icon .color2-stroke {
     stroke: none; }
-  .theme-wrapper.dark .inline-icon .stroke-fill {
-    stroke: #aaacba;
-    fill: #aaacba; }
-  .theme-wrapper.dark .inline-icon .no-stroke {
-    stroke: none; }
-  .theme-wrapper.dark .inline-icon .no-fill {
+  .theme-wrapper.dark .inline-icon.active .color1-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color1-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color1-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color1-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color1-fill {
+    fill: #2a3052; }
+  .theme-wrapper.dark .inline-icon.active .color1-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color1-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color1-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color1-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color1-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color1-stroke {
+    stroke: #2a3052; }
+  .theme-wrapper.dark .inline-icon.active .color2-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color2-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color2-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color2-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color2-fill {
+    fill: #fff; }
+  .theme-wrapper.dark .inline-icon.active .color2-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color2-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color2-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color2-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color2-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color2-stroke {
+    stroke: #fff; }
+  .theme-wrapper.dark .inline-icon.active .color3-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color3-fill, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-fill, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color3-fill, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color3-fill, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color3-fill {
+    fill: #fff; }
+  .theme-wrapper.dark .inline-icon.active .color3-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a:hover .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a:hover .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark .header .menu-items .menu-left .menu-links a.active .inline-icon .color3-stroke, .header .menu-items .menu-left .menu-links a.active .theme-wrapper.dark .inline-icon .color3-stroke, .theme-wrapper.dark footer .footer-links a:hover .inline-icon .color3-stroke, footer .footer-links a:hover .theme-wrapper.dark .inline-icon .color3-stroke {
+    stroke: #fff; }
+  .theme-wrapper.dark .inline-icon.disabled .color1-fill {
+    fill: #60647e; }
+  .theme-wrapper.dark .inline-icon.disabled .color1-stroke {
+    stroke: #60647e; }
+  .theme-wrapper.dark .inline-icon.disabled .color2-fill {
     fill: none; }
+  .theme-wrapper.dark .inline-icon.disabled .color2-stroke {
+    stroke: none; }
   .theme-wrapper.dark .acc-switcher-header {
     border-color: #4a4f6c; }
   .theme-wrapper.dark .acc-switcher-list {

@@ -53,7 +53,7 @@ module.exports = Localize;
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var extend = __webpack_require__(117);
-__webpack_require__(160);
+__webpack_require__(165);
 
 /**
  * Write loading image to a container for ajax request
@@ -696,7 +696,7 @@ var urlForLanguage = __webpack_require__(14).urlFor;
 var urlLang = __webpack_require__(14).urlLang;
 var createElement = __webpack_require__(3).createElement;
 var isEmptyObject = __webpack_require__(3).isEmptyObject;
-__webpack_require__(340);
+__webpack_require__(347);
 
 var Url = function () {
     var location_url = void 0,
@@ -1029,7 +1029,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _class, _temp;
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -1151,17 +1151,14 @@ var connect = exports.connect = function connect(StoreClass, mapper) {
 /***/ }),
 /* 22 */,
 /* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var moment = __webpack_require__(9);
-var isCryptocurrency = __webpack_require__(34).isCryptocurrency;
+var isCryptocurrency = __webpack_require__(30).isCryptocurrency;
 var SocketCache = __webpack_require__(50);
 var LocalStore = __webpack_require__(7).LocalStore;
 var State = __webpack_require__(7).State;
@@ -1507,13 +1504,12 @@ var ClientBase = function () {
 module.exports = ClientBase;
 
 /***/ }),
+/* 25 */,
+/* 26 */,
+/* 27 */,
 /* 28 */,
 /* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1642,13 +1638,17 @@ module.exports = {
 };
 
 /***/ }),
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Client = __webpack_require__(27);
+var Client = __webpack_require__(24);
 var getLanguage = __webpack_require__(14).get;
 var isStorageSupported = __webpack_require__(7).isStorageSupported;
 var getAppId = __webpack_require__(38).getAppId;
@@ -1788,7 +1788,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ClientBase = __webpack_require__(27);
+var ClientBase = __webpack_require__(24);
 var SocketCache = __webpack_require__(50);
 var getLanguage = __webpack_require__(14).get;
 var State = __webpack_require__(7).State;
@@ -2282,53 +2282,11 @@ module.exports = SocketCache;
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.WS = exports.BinarySocketGeneral = undefined;
-
-var _logout = __webpack_require__(277);
-
-Object.keys(_logout).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _logout[key];
-    }
-  });
-});
-
-var _socket_general = __webpack_require__(578);
-
-var _socket_general2 = _interopRequireDefault(_socket_general);
-
-var _ws_methods = __webpack_require__(181);
-
-var _ws_methods2 = _interopRequireDefault(_ws_methods);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.BinarySocketGeneral = _socket_general2.default;
-exports.WS = _ws_methods2.default;
-
-/***/ }),
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var Cookies = __webpack_require__(48);
 var moment = __webpack_require__(9);
-var ClientBase = __webpack_require__(27);
+var ClientBase = __webpack_require__(24);
 var Login = __webpack_require__(35);
 var BinarySocket = __webpack_require__(42);
 var getElementById = __webpack_require__(5).getElementById;
@@ -2504,6 +2462,48 @@ var GTM = function () {
 module.exports = GTM;
 
 /***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.WS = exports.BinarySocketGeneral = undefined;
+
+var _logout = __webpack_require__(285);
+
+Object.keys(_logout).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _logout[key];
+    }
+  });
+});
+
+var _socket_general = __webpack_require__(589);
+
+var _socket_general2 = _interopRequireDefault(_socket_general);
+
+var _ws_methods = __webpack_require__(187);
+
+var _ws_methods2 = _interopRequireDefault(_ws_methods);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.BinarySocketGeneral = _socket_general2.default;
+exports.WS = _ws_methods2.default;
+
+/***/ }),
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
 /* 64 */,
 /* 65 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -2568,11 +2568,133 @@ exports.default = Section;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _currency_base = __webpack_require__(30);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Money = function Money(_ref) {
+    var amount = _ref.amount,
+        _ref$currency = _ref.currency,
+        currency = _ref$currency === undefined ? 'USD' : _ref$currency,
+        has_sign = _ref.has_sign,
+        _ref$is_formatted = _ref.is_formatted,
+        is_formatted = _ref$is_formatted === undefined ? true : _ref$is_formatted;
+
+    var sign = '';
+    if (+amount && (amount < 0 || has_sign)) {
+        sign = amount > 0 ? '+' : '-';
+    }
+
+    var abs_value = Math.abs(amount);
+    var final_amount = is_formatted ? (0, _currency_base.formatMoney)(currency, abs_value, true) : abs_value;
+
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        sign,
+        _react2.default.createElement('span', { className: 'symbols ' + currency.toLowerCase() }),
+        final_amount
+    );
+};
+
+Money.propTypes = {
+    amount: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    currency: _propTypes2.default.string,
+    has_sign: _propTypes2.default.bool,
+    is_formatted: _propTypes2.default.bool
+};
+
+exports.default = Money;
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Button = function Button(_ref) {
+    var _ref$className = _ref.className,
+        className = _ref$className === undefined ? '' : _ref$className,
+        children = _ref.children,
+        has_effect = _ref.has_effect,
+        id = _ref.id,
+        is_disabled = _ref.is_disabled,
+        onClick = _ref.onClick,
+        text = _ref.text,
+        wrapperClassName = _ref.wrapperClassName;
+
+    var classes = 'btn' + (has_effect ? ' effect' : '') + ' ' + className;
+    var button = _react2.default.createElement(
+        'button',
+        { id: id, className: classes, onClick: onClick || undefined, disabled: is_disabled },
+        _react2.default.createElement(
+            'span',
+            null,
+            text
+        ),
+        children
+    );
+    var wrapper = _react2.default.createElement(
+        'div',
+        { className: wrapperClassName },
+        button
+    );
+
+    return wrapperClassName ? wrapper : button;
+};
+
+Button.propTypes = {
+    className: _propTypes2.default.string,
+    children: _propTypes2.default.object,
+    has_effect: _propTypes2.default.bool,
+    id: _propTypes2.default.string,
+    is_disabled: _propTypes2.default.bool,
+    onClick: _propTypes2.default.func,
+    text: _propTypes2.default.string,
+    wrapperClassName: _propTypes2.default.string
+};
+
+exports.default = Button;
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.getContractPath = exports.getPath = exports.isRouteVisible = exports.findRouteByPath = exports.normalizePath = undefined;
 
-var _reactRouter = __webpack_require__(155);
+var _reactRouter = __webpack_require__(121);
 
-var _routes = __webpack_require__(134);
+var _routes = __webpack_require__(137);
 
 var _routes2 = _interopRequireDefault(_routes);
 
@@ -2616,7 +2738,7 @@ var getContractPath = exports.getContractPath = function getContractPath(contrac
 };
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2626,7 +2748,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _icon_arrow = __webpack_require__(500);
+var _icon_arrow = __webpack_require__(507);
 
 Object.keys(_icon_arrow).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -2638,7 +2760,7 @@ Object.keys(_icon_arrow).forEach(function (key) {
   });
 });
 
-var _icon_back = __webpack_require__(501);
+var _icon_back = __webpack_require__(508);
 
 Object.keys(_icon_back).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -2650,7 +2772,7 @@ Object.keys(_icon_back).forEach(function (key) {
   });
 });
 
-var _icon_close = __webpack_require__(255);
+var _icon_close = __webpack_require__(263);
 
 Object.keys(_icon_close).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -2662,7 +2784,7 @@ Object.keys(_icon_close).forEach(function (key) {
   });
 });
 
-var _icon_exclamation = __webpack_require__(502);
+var _icon_exclamation = __webpack_require__(510);
 
 Object.keys(_icon_exclamation).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -2675,7 +2797,90 @@ Object.keys(_icon_exclamation).forEach(function (key) {
 });
 
 /***/ }),
-/* 72 */
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _icon_bell = __webpack_require__(518);
+
+Object.keys(_icon_bell).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_bell[key];
+    }
+  });
+});
+
+var _icon_cashier = __webpack_require__(519);
+
+Object.keys(_icon_cashier).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_cashier[key];
+    }
+  });
+});
+
+var _icon_hamburger = __webpack_require__(520);
+
+Object.keys(_icon_hamburger).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_hamburger[key];
+    }
+  });
+});
+
+var _icon_portfolio = __webpack_require__(521);
+
+Object.keys(_icon_portfolio).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_portfolio[key];
+    }
+  });
+});
+
+var _icon_statement = __webpack_require__(522);
+
+Object.keys(_icon_statement).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_statement[key];
+    }
+  });
+});
+
+var _icon_trade = __webpack_require__(523);
+
+Object.keys(_icon_trade).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_trade[key];
+    }
+  });
+});
+
+/***/ }),
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2690,13 +2895,29 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _desc, _value, _class, _class2, _temp;
+var _desc, _value, _class, _descriptor, _descriptor2, _class2, _temp;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
+
+var _Validator = __webpack_require__(635);
+
+var _Validator2 = _interopRequireDefault(_Validator);
 
 var _utility = __webpack_require__(3);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _initDefineProp(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable,
+        writable: descriptor.writable,
+        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+}
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2729,6 +2950,10 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
     return desc;
 }
 
+function _initializerWarningHelper(descriptor, context) {
+    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
+
 /**
  * BaseStore class is the base class for all defined stores in the application. It handles some stuff such as:
  *  1. Creating snapshot object from the store.
@@ -2739,16 +2964,26 @@ var BaseStore = (_class = (_temp = _class2 = function () {
     /**
      * Constructor of the base class that gets properties' name of child which should be saved in storages
      *
-     * @param {Object}   root_store - An object that contains the root store of the app.
-     * @param {String[]} local_storage_properties - A list of properties' names that should be kept in localStorage.
-     * @param {String[]} session_storage_properties - A list of properties' names that should be kept in sessionStorage.
+     * @param {Object} options - An object that contains the following properties:
+     *     @property {Object}   root_store - An object that contains the root store of the app.
+     *     @property {String[]} local_storage_properties - A list of properties' names that should be kept in localStorage.
+     *     @property {String[]} session_storage_properties - A list of properties' names that should be kept in sessionStorage.
+     *     @property {Object}   validation_rules - An object that contains the validation rules for each property of the store.
      */
     function BaseStore() {
-        var root_store = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-        var local_storage_properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-        var session_storage_properties = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
         _classCallCheck(this, BaseStore);
+
+        _initDefineProp(this, 'validation_errors', _descriptor, this);
+
+        _initDefineProp(this, 'validation_rules', _descriptor2, this);
+
+        var root_store = options.root_store,
+            local_storage_properties = options.local_storage_properties,
+            session_storage_properties = options.session_storage_properties,
+            validation_rules = options.validation_rules;
+
 
         Object.defineProperty(this, 'root_store', {
             enumerable: false,
@@ -2766,6 +3001,7 @@ var BaseStore = (_class = (_temp = _class2 = function () {
         this.root_store = root_store;
         this.local_storage_properties = local_storage_properties || [];
         this.session_storage_properties = session_storage_properties || [];
+        this.setValidationRules(validation_rules);
 
         this.setupReactionForLocalStorage();
         this.setupReactionForSessionStorage();
@@ -2887,91 +3123,107 @@ var BaseStore = (_class = (_temp = _class2 = function () {
                 return _this3[k] = snapshot[k];
             });
         }
+
+        /**
+         * Sets validation error messages for an observable property of the store
+         *
+         * @param {String} propertyName - The observable property's name
+         * @param {String} messages - An array of strings that contains validation error messages for the particular property.
+         *
+         */
+
+    }, {
+        key: 'setValidationErrorMessages',
+        value: function setValidationErrorMessages(propertyName, messages) {
+            this.validation_errors[propertyName] = messages;
+        }
+
+        /**
+         * Sets validation rules
+         *
+         * @param {object} rules
+         *
+         */
+
+    }, {
+        key: 'setValidationRules',
+        value: function setValidationRules() {
+            var _this4 = this;
+
+            var rules = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+            Object.keys(rules).forEach(function (key) {
+                _this4.addRule(key, rules[key]);
+            });
+        }
+
+        /**
+         * Adds rules to the particular property
+         *
+         * @param {String} property
+         * @param {String} rules
+         *
+         */
+
+    }, {
+        key: 'addRule',
+        value: function addRule(property, rules) {
+            var _this5 = this;
+
+            this.validation_rules[property] = rules;
+
+            (0, _mobx.intercept)(this, property, function (change) {
+                _this5.validateProperty(property, change.newValue);
+                return change;
+            });
+        }
+
+        /**
+         * Validates a particular property of the store
+         *
+         * @param {String} property - The name of the property in the store
+         * @param {object} value    - The value of the property, it can be undefined.
+         *
+         */
+
+    }, {
+        key: 'validateProperty',
+        value: function validateProperty(property, value) {
+            var validator = new _Validator2.default(_defineProperty({}, property, value !== undefined ? value : this[property]), _defineProperty({}, property, this.validation_rules[property]));
+
+            validator.isPassed();
+            this.setValidationErrorMessages(property, validator.errors.get(property));
+        }
     }]);
 
     return BaseStore;
 }(), _class2.STORAGES = Object.freeze({
     LOCAL_STORAGE: Symbol('LOCAL_STORAGE'),
     SESSION_STORAGE: Symbol('SESSION_STORAGE')
-}), _temp), (_applyDecoratedDescriptor(_class.prototype, 'retrieveFromStorage', [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, 'retrieveFromStorage'), _class.prototype)), _class);
+}), _temp), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'validation_errors', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return {};
+    }
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'validation_rules', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return {};
+    }
+}), _applyDecoratedDescriptor(_class.prototype, 'retrieveFromStorage', [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, 'retrieveFromStorage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setValidationErrorMessages', [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, 'setValidationErrorMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setValidationRules', [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, 'setValidationRules'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addRule', [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, 'addRule'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'validateProperty', [_mobx.action], Object.getOwnPropertyDescriptor(_class.prototype, 'validateProperty'), _class.prototype)), _class);
 exports.default = BaseStore;
 
 /***/ }),
-/* 73 */,
-/* 74 */,
-/* 75 */,
 /* 76 */,
 /* 77 */,
 /* 78 */,
 /* 79 */,
 /* 80 */,
 /* 81 */,
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Button = function Button(_ref) {
-    var _ref$className = _ref.className,
-        className = _ref$className === undefined ? '' : _ref$className,
-        children = _ref.children,
-        has_effect = _ref.has_effect,
-        id = _ref.id,
-        is_disabled = _ref.is_disabled,
-        onClick = _ref.onClick,
-        text = _ref.text,
-        wrapperClassName = _ref.wrapperClassName;
-
-    var classes = 'btn' + (has_effect ? ' effect' : '') + ' ' + className;
-    var button = _react2.default.createElement(
-        'button',
-        { id: id, className: classes, onClick: onClick || undefined, disabled: is_disabled },
-        _react2.default.createElement(
-            'span',
-            null,
-            text
-        ),
-        children
-    );
-    var wrapper = _react2.default.createElement(
-        'div',
-        { className: wrapperClassName },
-        button
-    );
-
-    return wrapperClassName ? wrapper : button;
-};
-
-Button.propTypes = {
-    className: _propTypes2.default.string,
-    children: _propTypes2.default.object,
-    has_effect: _propTypes2.default.bool,
-    id: _propTypes2.default.string,
-    is_disabled: _propTypes2.default.bool,
-    onClick: _propTypes2.default.func,
-    text: _propTypes2.default.string,
-    wrapperClassName: _propTypes2.default.string
-};
-
-exports.default = Button;
-
-/***/ }),
-/* 83 */
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2981,7 +3233,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _date_time = __webpack_require__(615);
+var _date_time = __webpack_require__(626);
 
 Object.keys(_date_time).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -2994,8 +3246,6 @@ Object.keys(_date_time).forEach(function (key) {
 });
 
 /***/ }),
-/* 84 */,
-/* 85 */,
 /* 86 */,
 /* 87 */,
 /* 88 */,
@@ -3011,51 +3261,9 @@ Object.keys(_date_time).forEach(function (key) {
 /* 98 */,
 /* 99 */,
 /* 100 */,
-/* 101 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _currency_base = __webpack_require__(34);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Money = function Money(_ref) {
-    var amount = _ref.amount,
-        currency = _ref.currency,
-        _ref$is_formatted = _ref.is_formatted,
-        is_formatted = _ref$is_formatted === undefined ? true : _ref$is_formatted;
-    return _react2.default.createElement(
-        _react2.default.Fragment,
-        null,
-        _react2.default.createElement('span', { className: 'symbols ' + (currency || 'USD').toLowerCase() }),
-        is_formatted ? (0, _currency_base.formatMoney)(currency, amount, true) : amount
-    );
-};
-
-Money.propTypes = {
-    amount: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
-    currency: _propTypes2.default.string,
-    is_formatted: _propTypes2.default.bool
-};
-
-exports.default = Money;
-
-/***/ }),
-/* 102 */
+/* 101 */,
+/* 102 */,
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3077,7 +3285,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _tooltip = __webpack_require__(250);
+var _tooltip = __webpack_require__(134);
 
 var _tooltip2 = _interopRequireDefault(_tooltip);
 
@@ -3136,89 +3344,6 @@ Fieldset.propTypes = {
 exports.default = Fieldset;
 
 /***/ }),
-/* 103 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _icon_bell = __webpack_require__(510);
-
-Object.keys(_icon_bell).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _icon_bell[key];
-    }
-  });
-});
-
-var _icon_cashier = __webpack_require__(511);
-
-Object.keys(_icon_cashier).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _icon_cashier[key];
-    }
-  });
-});
-
-var _icon_hamburger = __webpack_require__(512);
-
-Object.keys(_icon_hamburger).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _icon_hamburger[key];
-    }
-  });
-});
-
-var _icon_portfolio = __webpack_require__(513);
-
-Object.keys(_icon_portfolio).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _icon_portfolio[key];
-    }
-  });
-});
-
-var _icon_statement = __webpack_require__(514);
-
-Object.keys(_icon_statement).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _icon_statement[key];
-    }
-  });
-});
-
-var _icon_trade = __webpack_require__(515);
-
-Object.keys(_icon_trade).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _icon_trade[key];
-    }
-  });
-});
-
-/***/ }),
 /* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3239,15 +3364,15 @@ var _moment = __webpack_require__(9);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _barrier = __webpack_require__(603);
+var _barrier = __webpack_require__(614);
 
-var _duration = __webpack_require__(279);
+var _duration = __webpack_require__(190);
 
-var _start_date = __webpack_require__(280);
+var _start_date = __webpack_require__(287);
 
-var _contract = __webpack_require__(600);
+var _contract = __webpack_require__(610);
 
-var _Services = __webpack_require__(57);
+var _Services = __webpack_require__(58);
 
 var _localize = __webpack_require__(2);
 
@@ -3391,8 +3516,9 @@ var ContractType = function () {
         var obj_duration_unit = getDurationUnit(duration_unit, contract_type, obj_start_type.contract_start_type);
 
         var obj_duration_units_list = getDurationUnitsList(contract_type, obj_start_type.contract_start_type);
+        var obj_duration_units_min_max = getDurationMinMax(contract_type, obj_start_type.contract_start_type);
 
-        return _extends({}, form_components, obj_basis, obj_trade_types, obj_start_dates, obj_start_type, obj_barrier, obj_duration_unit, obj_duration_units_list);
+        return _extends({}, form_components, obj_basis, obj_trade_types, obj_start_dates, obj_start_type, obj_barrier, obj_duration_unit, obj_duration_units_list, obj_duration_units_min_max);
     };
 
     var getContractType = function getContractType(list, contract_type) {
@@ -3430,9 +3556,13 @@ var ContractType = function () {
 
     // TODO: use this getter function to dynamically compare min/max versus duration amount
     var getDurationMinMax = function getDurationMinMax(contract_type, contract_start_type, contract_expiry_type) {
-        return {
-            duration_min_max: (0, _utility.getPropertyValue)(available_contract_types, [contract_type, 'config', 'durations', 'min_max', contract_start_type, contract_expiry_type]) || {}
-        };
+        var duration_min_max = (0, _utility.getPropertyValue)(available_contract_types, [contract_type, 'config', 'durations', 'min_max', contract_start_type]) || {};
+
+        if (contract_expiry_type) {
+            duration_min_max = duration_min_max[contract_expiry_type] || {};
+        }
+
+        return { duration_min_max: duration_min_max };
     };
 
     var getStartType = function getStartType(start_date) {
@@ -3598,7 +3728,8 @@ exports.default = ContractType;
 /* 118 */,
 /* 119 */,
 /* 120 */,
-/* 121 */
+/* 121 */,
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3642,7 +3773,6 @@ module.exports = {
 };
 
 /***/ }),
-/* 122 */,
 /* 123 */,
 /* 124 */,
 /* 125 */,
@@ -3651,7 +3781,8 @@ module.exports = {
 /* 128 */,
 /* 129 */,
 /* 130 */,
-/* 131 */
+/* 131 */,
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3680,7 +3811,7 @@ var CalendarPanelTypes = exports.CalendarPanelTypes = {
 };
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3690,7 +3821,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _drawer_header = __webpack_require__(242);
+var _drawer_header = __webpack_require__(250);
 
 Object.keys(_drawer_header).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3702,7 +3833,7 @@ Object.keys(_drawer_header).forEach(function (key) {
   });
 });
 
-var _drawer_item = __webpack_require__(243);
+var _drawer_item = __webpack_require__(251);
 
 Object.keys(_drawer_item).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3714,7 +3845,7 @@ Object.keys(_drawer_item).forEach(function (key) {
   });
 });
 
-var _drawer_items = __webpack_require__(454);
+var _drawer_items = __webpack_require__(458);
 
 Object.keys(_drawer_items).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3726,7 +3857,7 @@ Object.keys(_drawer_items).forEach(function (key) {
   });
 });
 
-var _drawer = __webpack_require__(241);
+var _drawer = __webpack_require__(249);
 
 Object.keys(_drawer).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3738,7 +3869,7 @@ Object.keys(_drawer).forEach(function (key) {
   });
 });
 
-var _drawer_toggle = __webpack_require__(455);
+var _drawer_toggle = __webpack_require__(459);
 
 Object.keys(_drawer_toggle).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3750,7 +3881,7 @@ Object.keys(_drawer_toggle).forEach(function (key) {
   });
 });
 
-var _toggle_drawer = __webpack_require__(456);
+var _toggle_drawer = __webpack_require__(460);
 
 Object.keys(_toggle_drawer).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -3763,7 +3894,56 @@ Object.keys(_toggle_drawer).forEach(function (key) {
 });
 
 /***/ }),
-/* 133 */
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(10);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Tooltip = function Tooltip(_ref) {
+    var message = _ref.message,
+        alignment = _ref.alignment,
+        children = _ref.children,
+        icon = _ref.icon;
+
+    var icon_name = icon === 'question' || icon === 'info' ? icon : 'question';
+    var icon_class = (0, _classnames2.default)(icon_name);
+    return _react2.default.createElement(
+        'span',
+        { className: 'tooltip', 'data-tooltip': message, 'data-tooltip-pos': alignment },
+        icon ? _react2.default.createElement('i', { className: icon_class }) : children
+    );
+};
+
+Tooltip.propTypes = {
+    alignment: _propTypes2.default.string,
+    children: _propTypes2.default.node,
+    icon: _propTypes2.default.string,
+    message: _propTypes2.default.string
+};
+
+exports.default = Tooltip;
+
+/***/ }),
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3775,9 +3955,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -3787,7 +3967,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Common = __webpack_require__(71);
+var _Common = __webpack_require__(73);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4043,7 +4223,62 @@ NativeSelect.propTypes = {
 exports.default = (0, _mobxReact.observer)(Dropdown);
 
 /***/ }),
-/* 134 */
+/* 136 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _connect = __webpack_require__(21);
+
+var _Date = __webpack_require__(85);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var RemainingTime = function RemainingTime(_ref) {
+    var _ref$end_time = _ref.end_time,
+        end_time = _ref$end_time === undefined ? null : _ref$end_time,
+        start_time = _ref.start_time;
+
+    if (!+end_time || start_time.unix() > +end_time) {
+        return '';
+    }
+
+    var remaining_time = (0, _Date.formatDuration)((0, _Date.getDiffDuration)(start_time.unix(), end_time));
+
+    return _react2.default.createElement(
+        'div',
+        { className: 'remaining-time' },
+        remaining_time
+    );
+};
+
+RemainingTime.propTypes = {
+    end_time: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]).isRequired,
+    start_time: _propTypes2.default.object
+};
+
+exports.default = (0, _connect.connect)(function (_ref2) {
+    var common = _ref2.common;
+    return {
+        start_time: common.server_time
+    };
+})(RemainingTime);
+
+/***/ }),
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4074,7 +4309,7 @@ var routes = {
 exports.default = routes;
 
 /***/ }),
-/* 135 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4094,7 +4329,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(49);
 
-var _helpers = __webpack_require__(70);
+var _helpers = __webpack_require__(72);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4121,9 +4356,6 @@ ContractLink.propTypes = {
 exports.default = ContractLink;
 
 /***/ }),
-/* 136 */,
-/* 137 */,
-/* 138 */,
 /* 139 */,
 /* 140 */,
 /* 141 */,
@@ -4143,7 +4375,9 @@ exports.default = ContractLink;
 /* 155 */,
 /* 156 */,
 /* 157 */,
-/* 158 */
+/* 158 */,
+/* 159 */,
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4282,7 +4516,7 @@ var NetworkMonitorBase = function () {
 module.exports = NetworkMonitorBase;
 
 /***/ }),
-/* 159 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4352,7 +4586,245 @@ var ServerTime = function () {
 module.exports = ServerTime;
 
 /***/ }),
-/* 160 */
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Mellt = __webpack_require__(163);
+var localize = __webpack_require__(2).localize;
+
+var checkPassword = function checkPassword(password_selector) {
+    var el_password = document.querySelector(password_selector);
+    if (!el_password) {
+        return;
+    }
+
+    var div = el_password.parentNode.querySelector('.days_to_crack') || document.createElement('div');
+
+    var daysToCrack = Mellt.checkPassword(el_password.value.trim());
+    if (daysToCrack < 0) {
+        div.textContent = localize('The password you entered is one of the world\'s most commonly used passwords. You should not be using this password.');
+    } else {
+        var years = void 0;
+        if (daysToCrack > 365) {
+            years = Math.round(daysToCrack / 365 * 10) / 10;
+            if (years > 1000000) {
+                years = Math.round(years / 1000000 * 10) / 10 + ' ' + localize('million');
+            } else if (years > 1000) {
+                years = Math.round(years / 1000) + ' ' + localize('thousand');
+            }
+        }
+        div.textContent = localize('Hint: it would take approximately [_1][_2] to crack this password.', [daysToCrack === 1000000000 ? '>' : '', years ? years + ' ' + localize('years') : daysToCrack + ' ' + localize('days')]);
+    }
+    div.className = 'days_to_crack fill-bg-color hint ' + (daysToCrack < 30 ? 'red' : 'green');
+    el_password.parentNode.appendChild(div);
+};
+
+var removeCheck = function removeCheck(password_selector) {
+    var el_message = document.querySelector(password_selector).parentNode.querySelector('.days_to_crack');
+    if (el_message) {
+        el_message.remove();
+    }
+};
+
+module.exports = {
+    removeCheck: removeCheck,
+    checkPassword: checkPassword
+};
+
+/***/ }),
+/* 163 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var CommonPasswords = __webpack_require__(164);
+
+/**
+ * Mellt
+ *
+ * Tests the strength of a password by calculating how long it would take to
+ * brute force it.
+ *
+ * @version 0.1.0
+ * @link http://mel.lt/ The homepage for this script.
+ * @link http://www.hammerofgod.com/passwordcheck.aspx Much of this is based
+ * on the description of Thor's Godly Privacy password strength checker,
+ * however the actual code below is all my own.
+ * @link http://xato.net/passwords/more-top-worst-passwords/ The included
+ * common passwords list is from Mark Burnett's password collection (which
+ * is excellent). You can of course use your own password file instead.
+ */
+var Mellt = function () {
+
+    // We're making some guesses here about human nature (again much of this is
+    // based on the TGP password strength checker, and Timothy "Thor" Mullen
+    // deserves the credit for the thinking behind this). Basically we're combining
+    // what we know about users (SHIFT+numbers are more common than other
+    // punctuation for example) combined with how an attacker will attack a
+    // password (most common letters first, expanding outwards).
+    //
+    // If you want to support passwords that use non-english characters, and
+    // your attacker knows this (for example, a Russian site would be expected
+    // to contain passwords in Russian characters) add your characters to one of
+    // the sets below, or create new sets and insert them in the right places.
+    var character_sets = ["0123456789", "abcdefghijklmnopqrstuvwxyz", "abcdefghijklmnopqrstuvwxyz0123456789", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+[]\"{}|;':,./<>?`~"];
+
+    /**
+     * Tests password strength by simulating how long it would take a cracker to
+     * brute force your password.
+     *
+     * Also optionally tests against a list of common passwords (contained in an
+     * external file) to weed out things like "password", which from a pure brute
+     * force perspective would be harder to break if it wasn't so common.
+     *
+     * The character sets being used in this checker assume English (ASCII)
+     * characters (no umlauts for example). If you run a non-english site, and you
+     * suspect the crackers will realize this, you may want to modify the
+     * character set to include the characters in your language.
+     *
+     * @param password string, The password to test the strength of
+     * @return number Returns a number specifying how many days it would take
+     * to brute force the password (at 1 billion checks a second) or -1 to
+     * indicate the password was found in the common passwords file. Obviously if
+     * they don't have direct access to the hashed passwords this time would be
+     * longer, and even then most computers (at the time of this writing) won't be
+     * able to test 1 billion hashes a second, but this function measures worst
+     * case scenario, so... I would recommend you require at least 30 days to brute
+     * force a password, obviously more if you're a bank or other secure system.
+     * @throws Exception If an error is encountered.
+     */
+    var checkPassword = function checkPassword(password) {
+
+        // First check passwords in the common password file if available.
+        // We do this because "password" takes 129 seconds, but is the first
+        // thing an attacker will try.
+        if (CommonPasswords.find(function (pass) {
+            return pass === password.toLowerCase();
+        })) {
+            // If their password exists in the common file, then it's
+            // zero time to crack this terrible password.
+            return -1;
+        }
+
+        // Figure out which character set the password is using (based on the most "complex" character in it).
+        var base = '';
+        var base_key = null;
+        var found_char = void 0;
+
+        var _loop = function _loop(i) {
+            found_char = false;
+            character_sets.some(function (character_set, idx) {
+                if (base_key <= idx && character_set.indexOf(password[i]) > -1) {
+                    base_key = idx;
+                    base = character_set;
+                    found_char = true;
+                    return true;
+                }
+                return false;
+            });
+            // If the character we were looking for wasn't anywhere in any of the
+            // character sets, assign the largest (last) character set as default.
+            if (!found_char) {
+                base = character_sets[character_sets.length - 1];
+                return "break";
+            }
+        };
+
+        for (var i = 0; i < password.length; i++) {
+            var _ret = _loop(i);
+
+            if (_ret === "break") break;
+        }
+
+        // Starting at the first character, figure out it's position in the character set
+        // and how many attempts will take to get there. For example, say your password
+        // was an integer (a bank card PIN number for example):
+        // 0 (or 0000 if you prefer) would be the very first password they attempted by the attacker.
+        // 9999 would be the last password they attempted (assuming 4 characters).
+        // Thus a password/PIN of 6529 would take 6529 attempts until the attacker found
+        // the proper combination. The same logic words for alphanumeric passwords, just
+        // with a larger number of possibilities for each position in the password. The
+        // key thing to note is the attacker doesn't need to test the entire range (every
+        // possible combination of all characters) they just need to get to the point in
+        // the list of possibilities that is your password. They can (in this example)
+        // ignore anything between 6530 and 9999. Using this logic, 'aaa' would be a worse
+        // password than 'zzz', because the attacker would encounter 'aaa' first.
+        var attempts = 0;
+        for (var i = 0; i < password.length; i++) {
+            // We power up to the reverse position in the string. For example, if we're trying
+            // to hack the 4 character PING code in the example above:
+            // First number * (number of characters possible in the charset ^ length of password)
+            // ie: 6 * (10^4) = 6000
+            // then add that same equation for the second number:
+            // 5 * (10^3) = 500
+            // then the third numbers
+            // 2 * (10^2) = 20
+            // and add on the last number
+            // 9
+            // Totals: 6000 + 500 + 20 + 9 = 6529 attempts before we encounter the correct password.
+            var power_of = password.length - i - 1;
+            // Character position within the base set. We add one on because strpos is base
+            // 0, we want base 1.
+            var char_at_position = base.indexOf(password[i]) + 1;
+            // If we're at the last character, simply add it's position in the character set
+            // this would be the "9" in the pin code example above.
+            if (power_of === 0) {
+                attempts += char_at_position;
+            }
+            // Otherwise we need to iterate through all the other characters positions to
+            // get here. For example, to find the 5 in 25 we can't just guess 2 and then 5
+            // (even though Hollywood seems to insist this is possible), we need to try 0,1,
+            // 2,3...15,16,17...23,24,25 (got it).
+            else {
+                    // This means we have to try every combination of values up to this point for
+                    // all previous characters. Which means we need to iterate through the entire
+                    // character set, X times, where X is our position -1. Then we need to multiply
+                    // that by this character's position.
+
+                    // Multiplier is the (10^4) or (10^3), etc in the pin code example above.
+                    // New attempts is the number of attempts we're adding for this position.
+                    // Add that on to our existing number of attempts.
+                    attempts += char_at_position * Math.pow(base.length, power_of);
+                }
+        }
+
+        // We can (worst case) try a billion passwords a second. Calculate how many days it
+        // will take us to get to the password.
+        // This allows us to calculate a number of days to crack. We use days because anything
+        // that can be cracked in less than a day is basically useless, so there's no point in
+        // having a smaller granularity (hours for example).
+        var days = attempts / (1000000000 * 60 * 60 * 24);
+
+        // If it's going to take more than a billion days to crack, just return a billion. This
+        // helps when code outside this function isn't using bcmath. Besides, if the password
+        // can survive 2.7 million years it's probably ok.
+        return days > 1000000000 ? 1000000000 : Math.round(days);
+    };
+
+    return {
+        checkPassword: checkPassword
+    };
+}();
+
+module.exports = Mellt;
+
+/***/ }),
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var CommonPasswords = ["password", "123456", "12345678", "1234", "qwerty", "12345", "dragon", "pussy", "baseball", "football", "letmein", "monkey", "696969", "abc123", "mustang", "michael", "shadow", "master", "jennifer", "111111", "2000", "jordan", "superman", "harley", "1234567", "fuckme", "hunter", "fuckyou", "trustno1", "ranger", "buster", "thomas", "tigger", "robert", "soccer", "fuck", "batman", "test", "pass", "killer", "hockey", "george", "charlie", "andrew", "michelle", "love", "sunshine", "jessica", "asshole", "6969", "pepper", "daniel", "access", "123456789", "654321", "joshua", "maggie", "starwars", "silver", "william", "dallas", "yankees", "123123", "ashley", "666666", "hello", "amanda", "orange", "biteme", "freedom", "computer", "sexy", "thunder", "nicole", "ginger", "heather", "hammer", "summer", "corvette", "taylor", "fucker", "austin", "1111", "merlin", "matthew", "121212", "golfer", "cheese", "princess", "martin", "chelsea", "patrick", "richard", "diamond", "yellow", "bigdog", "secret", "asdfgh", "sparky", "cowboy", "camaro", "anthony", "matrix", "falcon", "iloveyou", "bailey", "guitar", "jackson", "purple", "scooter", "phoenix", "aaaaaa", "morgan", "tigers", "porsche", "mickey", "maverick", "cookie", "nascar", "peanut", "justin", "131313", "money", "horny", "samantha", "panties", "steelers", "joseph", "snoopy", "boomer", "whatever", "iceman", "smokey", "gateway", "dakota", "cowboys", "eagles", "chicken", "dick", "black", "zxcvbn", "please", "andrea", "ferrari", "knight", "hardcore", "melissa", "compaq", "coffee", "booboo", "bitch", "johnny", "bulldog", "xxxxxx", "welcome", "james", "player", "ncc1701", "wizard", "scooby", "charles", "junior", "internet", "bigdick", "mike", "brandy", "tennis", "blowjob", "banana", "monster", "spider", "lakers", "miller", "rabbit", "enter", "mercedes", "brandon", "steven", "fender", "john", "yamaha", "diablo", "chris", "boston", "tiger", "marine", "chicago", "rangers", "gandalf", "winter", "bigtits", "barney", "edward", "raiders", "porn", "badboy", "blowme", "spanky", "bigdaddy", "johnson", "chester", "london", "midnight", "blue", "fishing", "000000", "hannah", "slayer", "11111111", "rachel", "sexsex", "redsox", "thx1138", "asdf", "marlboro", "panther", "zxcvbnm", "arsenal", "oliver", "qazwsx", "mother", "victoria", "7777777", "jasper", "angel", "david", "winner", "crystal", "golden", "butthead", "viking", "jack", "iwantu", "shannon", "murphy", "angels", "prince", "cameron", "girls", "madison", "wilson", "carlos", "hooters", "willie", "startrek", "captain", "maddog", "jasmine", "butter", "booger", "angela", "golf", "lauren", "rocket", "tiffany", "theman", "dennis", "liverpoo", "flower", "forever", "green", "jackie", "muffin", "turtle", "sophie", "danielle", "redskins", "toyota", "jason", "sierra", "winston", "debbie", "giants", "packers", "newyork", "jeremy", "casper", "bubba", "112233", "sandra", "lovers", "mountain", "united", "cooper", "driver", "tucker", "helpme", "fucking", "pookie", "lucky", "maxwell", "8675309", "bear", "suckit", "gators", "5150", "222222", "shithead", "fuckoff", "jaguar", "monica", "fred", "happy", "hotdog", "tits", "gemini", "lover", "xxxxxxxx", "777777", "canada", "nathan", "victor", "florida", "88888888", "nicholas", "rosebud", "metallic", "doctor", "trouble", "success", "stupid", "tomcat", "warrior", "peaches", "apples", "fish", "qwertyui", "magic", "buddy", "dolphins", "rainbow", "gunner", "987654", "freddy", "alexis", "braves", "cock", "2112", "1212", "cocacola", "xavier", "dolphin", "testing", "bond007", "member", "calvin", "voodoo", "7777", "samson", "alex", "apollo", "fire", "tester", "walter", "beavis", "voyager", "peter", "porno", "bonnie", "rush2112", "beer", "apple", "scorpio", "jonathan", "skippy", "sydney", "scott", "red123", "power", "gordon", "travis", "beaver", "star", "jackass", "flyers", "boobs", "232323", "zzzzzz", "steve", "rebecca", "scorpion", "doggie", "legend", "ou812", "yankee", "blazer", "bill", "runner", "birdie", "bitches", "555555", "parker", "topgun", "asdfasdf", "heaven", "viper", "animal", "2222", "bigboy", "4444", "arthur", "baby", "private", "godzilla", "donald", "williams", "lifehack", "phantom", "dave", "rock", "august", "sammy", "cool", "brian", "platinum", "jake", "bronco", "paul", "mark", "frank", "heka6w2", "copper", "billy", "cumshot", "garfield", "willow", "cunt", "little", "carter", "slut", "albert", "69696969", "kitten", "super", "jordan23", "eagle1", "shelby", "america", "11111", "jessie", "house", "free", "123321", "chevy", "bullshit", "white", "broncos", "horney", "surfer", "nissan", "999999", "saturn", "airborne", "elephant", "marvin", "shit", "action", "adidas", "qwert", "kevin", "1313", "explorer", "walker", "police", "christin", "december", "benjamin", "wolf", "sweet", "therock", "king", "online", "dickhead", "brooklyn", "teresa", "cricket", "sharon", "dexter", "racing", "penis", "gregory", "0000", "teens", "redwings", "dreams", "michigan", "hentai", "magnum", "87654321", "nothing", "donkey", "trinity", "digital", "333333", "stella", "cartman", "guinness", "123abc", "speedy", "buffalo", "kitty", "pimpin", "eagle", "einstein", "kelly", "nelson", "nirvana", "vampire", "xxxx", "playboy", "louise", "pumpkin", "snowball", "test123", "girl", "sucker", "mexico", "beatles", "fantasy", "ford", "gibson", "celtic", "marcus", "cherry", "cassie", "888888", "natasha", "sniper", "chance", "genesis", "hotrod", "reddog", "alexande", "college", "jester", "passw0rd", "bigcock", "smith", "lasvegas", "carmen", "slipknot", "3333", "death", "kimberly", "1q2w3e", "eclipse", "1q2w3e4r", "stanley", "samuel", "drummer", "homer", "montana", "music", "aaaa", "spencer", "jimmy", "carolina", "colorado", "creative", "hello1", "rocky", "goober", "friday", "bollocks", "scotty", "abcdef", "bubbles", "hawaii", "fluffy", "mine", "stephen", "horses", "thumper", "5555", "pussies", "darkness", "asdfghjk", "pamela", "boobies", "buddha", "vanessa", "sandman", "naughty", "douglas", "honda", "matt", "azerty", "6666", "shorty", "money1", "beach", "loveme", "4321", "simple", "poohbear", "444444", "badass", "destiny", "sarah", "denise", "vikings", "lizard", "melanie", "assman", "sabrina", "nintendo", "water", "good", "howard", "time", "123qwe", "november", "xxxxx", "october", "leather", "bastard", "young", "101010", "extreme", "hard", "password1", "vincent", "pussy1", "lacrosse", "hotmail", "spooky", "amateur", "alaska", "badger", "paradise", "maryjane", "poop", "crazy", "mozart", "video", "russell", "vagina", "spitfire", "anderson", "norman", "eric", "cherokee", "cougar", "barbara", "long", "420420", "family", "horse", "enigma", "allison", "raider", "brazil", "blonde", "jones", "55555", "dude", "drowssap", "jeff", "school", "marshall", "lovely", "1qaz2wsx", "jeffrey", "caroline", "franklin", "booty", "molly", "snickers", "leslie", "nipples", "courtney", "diesel", "rocks", "eminem", "westside", "suzuki", "daddy", "passion", "hummer", "ladies", "zachary", "frankie", "elvis", "reggie", "alpha", "suckme", "simpson", "patricia", "147147", "pirate", "tommy", "semperfi", "jupiter", "redrum", "freeuser", "wanker", "stinky", "ducati", "paris", "natalie", "babygirl", "bishop", "windows", "spirit", "pantera", "monday", "patches", "brutus", "houston", "smooth", "penguin", "marley", "forest", "cream", "212121", "flash", "maximus", "nipple", "bobby", "bradley", "vision", "pokemon", "champion", "fireman", "indian", "softball", "picard", "system", "clinton", "cobra", "enjoy", "lucky1", "claire", "claudia", "boogie", "timothy", "marines", "security", "dirty", "admin", "wildcats", "pimp", "dancer", "hardon", "veronica", "fucked", "abcd1234", "abcdefg", "ironman", "wolverin", "remember", "great", "freepass", "bigred", "squirt", "justice", "francis", "hobbes", "kermit", "pearljam", "mercury", "domino", "9999", "denver", "brooke", "rascal", "hitman", "mistress", "simon", "tony", "bbbbbb", "friend", "peekaboo", "naked", "budlight", "electric", "sluts", "stargate", "saints", "bondage", "brittany", "bigman", "zombie", "swimming", "duke", "qwerty1", "babes", "scotland", "disney", "rooster", "brenda", "mookie", "swordfis", "candy", "duncan", "olivia", "hunting", "blink182", "alicia", "8888", "samsung", "bubba1", "whore", "virginia", "general", "passport", "aaaaaaaa", "erotic", "liberty", "arizona", "jesus", "abcd", "newport", "skipper", "rolltide", "balls", "happy1", "galore", "christ", "weasel", "242424", "wombat", "digger", "classic", "bulldogs", "poopoo", "accord", "popcorn", "turkey", "jenny", "amber", "bunny", "mouse", "007007", "titanic", "liverpool", "dreamer", "everton", "friends", "chevelle", "carrie", "gabriel", "psycho", "nemesis", "burton", "pontiac", "connor", "eatme", "lickme", "roland", "cumming", "mitchell", "ireland", "lincoln", "arnold", "spiderma", "patriots", "goblue", "devils", "eugene", "empire", "asdfg", "cardinal", "brown", "shaggy", "froggy", "qwer", "kawasaki", "kodiak", "people", "phpbb", "light", "54321", "kramer", "chopper", "hooker", "honey", "whynot", "lesbian", "lisa", "baxter", "adam", "snake", "teen", "ncc1701d", "qqqqqq", "airplane", "britney", "avalon", "sandy", "sugar", "sublime", "stewart", "wildcat", "raven", "scarface", "elizabet", "123654", "trucks", "wolfpack", "pervert", "lawrence", "raymond", "redhead", "american", "alyssa", "bambam", "movie", "woody", "shaved", "snowman", "tiger1", "chicks", "raptor", "1969", "stingray", "shooter", "france", "stars", "madmax", "kristen", "sports", "jerry", "789456", "garcia", "simpsons", "lights", "ryan", "looking", "chronic", "alison", "hahaha", "packard", "hendrix", "perfect", "service", "spring", "srinivas", "spike", "katie", "252525", "oscar", "brother", "bigmac", "suck", "single", "cannon", "georgia", "popeye", "tattoo", "texas", "party", "bullet", "taurus", "sailor", "wolves", "panthers", "japan", "strike", "flowers", "pussycat", "chris1", "loverboy", "berlin", "sticky", "marina", "tarheels", "fisher", "russia", "connie", "wolfgang", "testtest", "mature", "bass", "catch22", "juice", "michael1", "nigger", "159753", "women", "alpha1", "trooper", "hawkeye", "head", "freaky", "dodgers", "pakistan", "machine", "pyramid", "vegeta", "katana", "moose", "tinker", "coyote", "infinity", "inside", "pepsi", "letmein1", "bang", "control", "hercules", "morris", "james1", "tickle", "outlaw", "browns", "billybob", "pickle", "test1", "michele", "antonio", "sucks", "pavilion", "changeme", "caesar", "prelude", "tanner", "adrian", "darkside", "bowling", "wutang", "sunset", "robbie", "alabama", "danger", "zeppelin", "juan", "rusty", "pppppp", "nick", "2001", "ping", "darkstar", "madonna", "qwe123", "bigone", "casino", "cheryl", "charlie1", "mmmmmm", "integra", "wrangler", "apache", "tweety", "qwerty12", "bobafett", "simone", "none", "business", "sterling", "trevor", "transam", "dustin", "harvey", "england", "2323", "seattle", "ssssss", "rose", "harry", "openup", "pandora", "pussys", "trucker", "wallace", "indigo", "storm", "malibu", "weed", "review", "babydoll", "doggy", "dilbert", "pegasus", "joker", "catfish", "flipper", "valerie", "herman", "fuckit", "detroit", "kenneth", "cheyenne", "bruins", "stacey", "smoke", "joey", "seven", "marino", "fetish", "xfiles", "wonder", "stinger", "pizza", "babe", "pretty", "stealth", "manutd", "gracie", "gundam", "cessna", "longhorn", "presario", "mnbvcxz", "wicked", "mustang1", "victory", "21122112", "shelly", "awesome", "athena", "q1w2e3r4", "help", "holiday", "knicks", "street", "redneck", "12341234", "casey", "gizmo", "scully", "dragon1", "devildog", "triumph", "eddie", "bluebird", "shotgun", "peewee", "ronnie", "angel1", "daisy", "special", "metallica", "madman", "country", "impala", "lennon", "roscoe", "omega", "access14", "enterpri", "miranda", "search", "smitty", "blizzard", "unicorn", "tight", "rick", "ronald", "asdf1234", "harrison", "trigger", "truck", "danny", "home", "winnie", "beauty", "thailand", "1234567890", "cadillac", "castle", "tyler", "bobcat", "buddy1", "sunny", "stones", "asian", "freddie", "chuck", "butt", "loveyou", "norton", "hellfire", "hotsex", "indiana", "short", "panzer", "lonewolf", "trumpet", "colors", "blaster", "12121212", "fireball", "logan", "precious", "aaron", "elaine", "jungle", "atlanta", "gold", "corona", "curtis", "nikki", "polaris", "timber", "theone", "baller", "chipper", "orlando", "island", "skyline", "dragons", "dogs", "benson", "licker", "goldie", "engineer", "kong", "pencil", "basketba", "open", "hornet", "world", "linda", "barbie", "chan", "farmer", "valentin", "wetpussy", "indians", "larry", "redman", "foobar", "travel", "morpheus", "bernie", "target", "141414", "hotstuff", "photos", "laura", "savage", "holly", "rocky1", "fuck_inside", "dollar", "turbo", "design", "newton", "hottie", "moon", "202020", "blondes", "4128", "lestat", "avatar", "future", "goforit", "random", "abgrtyu", "jjjjjj", "cancer", "q1w2e3", "smiley", "goldberg", "express", "virgin", "zipper", "wrinkle1", "stone", "andy", "babylon", "dong", "powers", "consumer", "dudley", "monkey1", "serenity", "samurai", "99999999", "bigboobs", "skeeter", "lindsay", "joejoe", "master1", "aaaaa", "chocolat", "christia", "birthday", "stephani", "tang", "1234qwer", "alfred", "ball", "98765432", "maria", "sexual", "maxima", "77777777", "sampson", "buckeye", "highland", "kristin", "seminole", "reaper", "bassman", "nugget", "lucifer", "airforce", "nasty", "watson", "warlock", "2121", "philip", "always", "dodge", "chrissy", "burger", "bird", "snatch", "missy", "pink", "gang", "maddie", "holmes", "huskers", "piglet", "photo", "joanne", "hamilton", "dodger", "paladin", "christy", "chubby", "buckeyes", "hamlet", "abcdefgh", "bigfoot", "sunday", "manson", "goldfish", "garden", "deftones", "icecream", "blondie", "spartan", "julie", "harold", "charger", "brandi", "stormy", "sherry", "pleasure", "juventus", "rodney", "galaxy", "holland", "escort", "zxcvb", "planet", "jerome", "wesley", "blues", "song", "peace", "david1", "ncc1701e", "1966", "51505150", "cavalier", "gambit", "karen", "sidney", "ripper", "oicu812", "jamie", "sister", "marie", "martha", "nylons", "aardvark", "nadine", "minnie", "whiskey", "bing", "plastic", "anal", "babylon5", "chang", "savannah", "loser", "racecar", "insane", "yankees1", "mememe", "hansolo", "chiefs", "fredfred", "freak", "frog", "salmon", "concrete", "yvonne", "zxcv", "shamrock", "atlantis", "warren", "wordpass", "julian", "mariah", "rommel", "1010", "harris", "predator", "sylvia", "massive", "cats", "sammy1", "mister", "stud", "marathon", "rubber", "ding", "trunks", "desire", "montreal", "justme", "faster", "kathleen", "irish", "1999", "bertha", "jessica1", "alpine", "sammie", "diamonds", "tristan", "00000", "swinger", "shan", "stallion", "pitbull", "letmein2", "roberto", "ready", "april", "palmer", "ming", "shadow1", "audrey", "chong", "clitoris", "wang", "shirley", "fuckers", "jackoff", "bluesky", "sundance", "renegade", "hollywoo", "151515", "bernard", "wolfman", "soldier", "picture", "pierre", "ling", "goddess", "manager", "nikita", "sweety", "titans", "hang", "fang", "ficken", "niners", "bottom", "bubble", "hello123", "ibanez", "webster", "sweetpea", "stocking", "323232", "tornado", "lindsey", "content", "bruce", "buck", "aragorn", "griffin", "chen", "campbell", "trojan", "christop", "newman", "wayne", "tina", "rockstar", "father", "geronimo", "pascal", "crimson", "brooks", "hector", "penny", "anna", "google", "camera", "chandler", "fatcat", "lovelove", "cody", "cunts", "waters", "stimpy", "finger", "cindy", "wheels", "viper1", "latin", "robin", "greenday", "987654321", "creampie", "brendan", "hiphop", "willy", "snapper", "funtime", "duck", "trombone", "adult", "cotton", "cookies", "kaiser", "mulder", "westham", "latino", "jeep", "ravens", "aurora", "drizzt", "madness", "energy", "kinky", "314159", "sophia", "stefan", "slick", "rocker", "55555555", "freeman", "french", "mongoose", "speed", "dddddd", "hong", "henry", "hungry", "yang", "catdog", "cheng", "ghost", "gogogo", "randy", "tottenha", "curious", "butterfl", "mission", "january", "singer", "sherman", "shark", "techno", "lancer", "lalala", "autumn", "chichi", "orion", "trixie", "clifford", "delta", "bobbob", "bomber", "holden", "kang", "kiss", "1968", "spunky", "liquid", "mary", "beagle", "granny", "network", "bond", "kkkkkk", "millie", "1973", "biggie", "beetle", "teacher", "susan", "toronto", "anakin", "genius", "dream", "cocks", "dang", "bush", "karate", "snakes", "bangkok", "callie", "fuckyou2", "pacific", "daytona", "kelsey", "infantry", "skywalke", "foster", "felix", "sailing", "raistlin", "vanhalen", "huang", "herbert", "jacob", "blackie", "tarzan", "strider", "sherlock", "lang", "gong", "sang", "dietcoke", "ultimate", "tree", "shai", "sprite", "ting", "artist", "chai", "chao", "devil", "python", "ninja", "misty", "ytrewq", "sweetie", "superfly", "456789", "tian", "jing", "jesus1", "freedom1", "dian", "drpepper", "potter", "chou", "darren", "hobbit", "violet", "yong", "shen", "phillip", "maurice", "gloria", "nolimit", "mylove", "biscuit", "yahoo", "shasta", "sex4me", "smoker", "smile", "pebbles", "pics", "philly", "tong", "tintin", "lesbians", "marlin", "cactus", "frank1", "tttttt", "chun", "danni", "emerald", "showme", "pirates", "lian", "dogg", "colleen", "xiao", "xian", "tazman", "tanker", "patton", "toshiba", "richie", "alberto", "gotcha", "graham", "dillon", "rang", "emily", "keng", "jazz", "bigguy", "yuan", "woman", "tomtom", "marion", "greg", "chaos", "fossil", "flight", "racerx", "tuan", "creamy", "boss", "bobo", "musicman", "warcraft", "window", "blade", "shuang", "sheila", "shun", "lick", "jian", "microsoft", "rong", "allen", "feng", "getsome", "sally", "quality", "kennedy", "morrison", "1977", "beng", "wwwwww", "yoyoyo", "zhang", "seng", "teddy", "joanna", "andreas", "harder", "luke", "qazxsw", "qian", "cong", "chuan", "deng", "nang", "boeing", "keeper", "western", "isabelle", "1963", "subaru", "sheng", "thuglife", "teng", "jiong", "miao", "martina", "mang", "maniac", "pussie", "tracey", "a1b2c3", "clayton", "zhou", "zhuang", "xing", "stonecol", "snow", "spyder", "liang", "jiang", "memphis", "regina", "ceng", "magic1", "logitech", "chuang", "dark", "million", "blow", "sesame", "shao", "poison", "titty", "terry", "kuan", "kuai", "kyle", "mian", "guan", "hamster", "guai", "ferret", "florence", "geng", "duan", "pang", "maiden", "quan", "velvet", "nong", "neng", "nookie", "buttons", "bian", "bingo", "biao", "zhong", "zeng", "xiong", "zhun", "ying", "zong", "xuan", "zang", "0.0.000", "suan", "shei", "shui", "sharks", "shang", "shua", "small", "peng", "pian", "piao", "liao", "meng", "miami", "reng", "guang", "cang", "change", "ruan", "diao", "luan", "lucas", "qing", "chui", "chuo", "cuan", "nuan", "ning", "heng", "huan", "kansas", "muscle", "monroe", "weng", "whitney", "1passwor", "bluemoon", "zhui", "zhua", "xiang", "zheng", "zhen", "zhei", "zhao", "zhan", "yomama", "zhai", "zhuo", "zuan", "tarheel", "shou", "shuo", "tiao", "lady", "leonard", "leng", "kuang", "jiao", "13579", "basket", "qiao", "qiong", "qiang", "chuai", "nian", "niao", "niang", "huai", "22222222", "bianca", "zhuan", "zhuai", "shuan", "shuai", "stardust", "jumper", "margaret", "archie", "66666666", "charlott", "forget", "qwertz", "bones", "history", "milton", "waterloo", "2002", "stuff", "11223344", "office", "oldman", "preston", "trains", "murray", "vertigo", "246810", "black1", "swallow", "smiles", "standard", "alexandr", "parrot", "luther", "user", "nicolas", "1976", "surfing", "pioneer", "pete", "masters", "apple1", "asdasd", "auburn", "hannibal", "frontier", "panama", "lucy", "buffy", "brianna", "welcome1", "vette", "blue22", "shemale", "111222", "baggins", "groovy", "global", "turner", "181818", "1979", "blades", "spanking", "life", "byteme", "lobster", "collins", "dawg", "hilton", "japanese", "1970", "1964", "2424", "polo", "markus", "coco", "deedee", "mikey", "1972", "171717", "1701", "strip", "jersey", "green1", "capital", "sasha", "sadie", "putter", "vader", "seven7", "lester", "marcel", "banshee", "grendel", "gilbert", "dicks", "dead", "hidden", "iloveu", "1980", "sound", "ledzep", "michel", "147258", "female", "bugger", "buffett", "bryan", "hell", "kristina", "molson", "2020", "wookie", "sprint", "thanks", "jericho", "102030", "grace", "fuckin", "mandy", "ranger1", "trebor", "deepthroat", "bonehead", "molly1", "mirage", "models", "1984", "2468", "stuart", "showtime", "squirrel", "pentium", "mario", "anime", "gator", "powder", "twister", "connect", "neptune", "bruno", "butts", "engine", "eatshit", "mustangs", "woody1", "shogun", "septembe", "pooh", "jimbo", "roger", "annie", "bacon", "center", "russian", "sabine", "damien", "mollie", "voyeur", "2525", "363636", "leonardo", "camel", "chair", "germany", "giant", "qqqq", "nudist", "bone", "sleepy", "tequila", "megan", "fighter", "garrett", "dominic", "obiwan", "makaveli", "vacation", "walnut", "1974", "ladybug", "cantona", "ccbill", "satan", "rusty1", "passwor1", "columbia", "napoleon", "dusty", "kissme", "motorola", "william1", "1967", "zzzz", "skater", "smut", "play", "matthew1", "robinson", "valley", "coolio", "dagger", "boner", "bull", "horndog", "jason1", "blake", "penguins", "rescue", "griffey", "8j4ye3uz", "californ", "champs", "qwertyuiop", "portland", "queen", "colt45", "boat", "xxxxxxx", "xanadu", "tacoma", "mason", "carpet", "gggggg", "safety", "palace", "italia", "stevie", "picturs", "picasso", "thongs", "tempest", "ricardo", "roberts", "asd123", "hairy", "foxtrot", "gary", "nimrod", "hotboy", "343434", "1111111", "asdfghjkl", "goose", "overlord", "blood", "wood", "stranger", "454545", "shaolin", "sooners", "socrates", "spiderman", "peanuts", "maxine", "rogers", "13131313", "andrew1", "filthy", "donnie", "ohyeah", "africa", "national", "kenny", "keith", "monique", "intrepid", "jasmin", "pickles", "assass", "fright", "potato", "darwin", "hhhhhh", "kingdom", "weezer", "424242", "pepsi1", "throat", "romeo", "gerard", "looker", "puppy", "butch", "monika", "suzanne", "sweets", "temple", "laurie", "josh", "megadeth", "analsex", "nymets", "ddddddd", "bigballs", "support", "stick", "today", "down", "oakland", "oooooo", "qweasd", "chucky", "bridge", "carrot", "chargers", "discover", "dookie", "condor", "night", "butler", "hoover", "horny1", "isabella", "sunrise", "sinner", "jojo", "megapass", "martini", "assfuck", "grateful", "ffffff", "abigail", "esther", "mushroom", "janice", "jamaica", "wright", "sims", "space", "there", "timmy", "7654321", "77777", "cccccc", "gizmodo", "roxanne", "ralph", "tractor", "cristina", "dance", "mypass", "hongkong", "helena", "1975", "blue123", "pissing", "thomas1", "redred", "rich", "basketball", "attack", "cash", "satan666", "drunk", "dixie", "dublin", "bollox", "kingkong", "katrina", "miles", "1971", "22222", "272727", "sexx", "penelope", "thompson", "anything", "bbbb", "battle", "grizzly", "passat", "porter", "tracy", "defiant", "bowler", "knickers", "monitor", "wisdom", "wild", "slappy", "thor", "letsgo", "robert1", "feet", "rush", "brownie", "hudson", "098765", "playing", "playtime", "lightnin", "melvin", "atomic", "bart", "hawk", "goku", "glory", "llllll", "qwaszx", "cosmos", "bosco", "knights", "bentley", "beast", "slapshot", "lewis", "assword", "frosty", "gillian", "sara", "dumbass", "mallard", "dddd", "deanna", "elwood", "wally", "159357", "titleist", "angelo", "aussie", "guest", "golfing", "doobie", "loveit", "chloe", "elliott", "werewolf", "vipers", "janine", "1965", "blabla", "surf", "sucking", "tardis", "serena", "shelley", "thegame", "legion", "rebels", "fernando", "fast", "gerald", "sarah1", "double", "onelove", "loulou", "toto", "crash", "blackcat", "0007", "tacobell", "soccer1", "jedi", "manuel", "method", "river", "chase", "ludwig", "poopie", "derrick", "boob", "breast", "kittycat", "isabel", "belly", "pikachu", "thunder1", "thankyou", "jose", "celeste", "celtics", "frances", "frogger", "scoobydo", "sabbath", "coltrane", "budman", "willis", "jackal", "bigger", "zzzzz", "silvia", "sooner", "licking", "gopher", "geheim", "lonestar", "primus", "pooper", "newpass", "brasil", "heather1", "husker", "element", "moomoo", "beefcake", "zzzzzzzz", "tammy", "shitty", "smokin", "personal", "jjjj", "anthony1", "anubis", "backup", "gorilla", "fuckface", "painter", "lowrider", "punkrock", "traffic", "claude", "daniela", "dale", "delta1", "nancy", "boys", "easy", "kissing", "kelley", "wendy", "theresa", "amazon", "alan", "fatass", "dodgeram", "dingdong", "malcolm", "qqqqqqqq", "breasts", "boots", "honda1", "spidey", "poker", "temp", "johnjohn", "miguel", "147852", "archer", "asshole1", "dogdog", "tricky", "crusader", "weather", "syracuse", "spankme", "speaker", "meridian", "amadeus", "back", "harley1", "falcons", "dorothy", "turkey50", "kenwood", "keyboard", "ilovesex", "1978", "blackman", "shazam", "shalom", "lickit", "jimbob", "richmond", "roller", "carson", "check", "fatman", "funny", "garbage", "sandiego", "loving", "magnus", "cooldude", "clover", "mobile", "bell", "payton", "plumber", "texas1", "tool", "topper", "jenna", "mariners", "rebel", "harmony", "caliente", "celica", "fletcher", "german", "diana", "oxford", "osiris", "orgasm", "punkin", "porsche9", "tuesday", "close", "breeze", "bossman", "kangaroo", "billie", "latinas", "judith", "astros", "scruffy", "donna", "qwertyu", "davis", "hearts", "kathy", "jammer", "java", "springer", "rhonda", "ricky", "1122", "goodtime", "chelsea1", "freckles", "flyboy", "doodle", "city", "nebraska", "bootie", "kicker", "webmaster", "vulcan", "iverson", "191919", "blueeyes", "stoner", "321321", "farside", "rugby", "director", "pussy69", "power1", "bobbie", "hershey", "hermes", "monopoly", "west", "birdman", "blessed", "blackjac", "southern", "peterpan", "thumbs", "lawyer", "melinda", "fingers", "fuckyou1", "rrrrrr", "a1b2c3d4", "coke", "nicola", "bohica", "heart", "elvis1", "kids", "blacky", "stories", "sentinel", "snake1", "phoebe", "jesse", "richard1", "1234abcd", "guardian", "candyman", "fisting", "scarlet", "dildo", "pancho", "mandingo", "lucky7", "condom", "munchkin", "billyboy", "summer1", "student", "sword", "skiing", "sergio", "site", "sony", "thong", "rootbeer", "assassin", "cassidy", "frederic", "fffff", "fitness", "giovanni", "scarlett", "durango", "postal", "achilles", "dawn", "dylan", "kisses", "warriors", "imagine", "plymouth", "topdog", "asterix", "hallo", "cameltoe", "fuckfuck", "bridget", "eeeeee", "mouth", "weird", "will", "sithlord", "sommer", "toby", "theking", "juliet", "avenger", "backdoor", "goodbye", "chevrole", "faith", "lorraine", "trance", "cosworth", "brad", "houses", "homers", "eternity", "kingpin", "verbatim", "incubus", "1961", "blond", "zaphod", "shiloh", "spurs", "station", "jennie", "maynard", "mighty", "aliens", "hank", "charly", "running", "dogman", "omega1", "printer", "aggies", "chocolate", "deadhead", "hope", "javier", "bitch1", "stone55", "pineappl", "thekid", "lizzie", "rockets", "ashton", "camels", "formula", "forrest", "rosemary", "oracle", "rain", "pussey", "porkchop", "abcde", "clancy", "nellie", "mystic", "inferno", "blackdog", "steve1", "pauline", "alexander", "alice", "alfa", "grumpy", "flames", "scream", "lonely", "puffy", "proxy", "valhalla", "unreal", "cynthia", "herbie", "engage", "yyyyyy", "010101", "solomon", "pistol", "melody", "celeb", "flying", "gggg", "santiago", "scottie", "oakley", "portugal", "a12345", "newbie", "mmmm", "venus", "1qazxsw2", "beverly", "zorro", "work", "writer", "stripper", "sebastia", "spread", "phil", "tobias", "links", "members", "metal", "1221", "andre", "565656", "funfun", "trojans", "again", "cyber", "hurrican", "moneys", "1x2zkg8w", "zeus", "thing", "tomato", "lion", "atlantic", "celine", "usa123", "trans", "account", "aaaaaaa", "homerun", "hyperion", "kevin1", "blacks", "44444444", "skittles", "sean", "hastings", "fart", "gangbang", "fubar", "sailboat", "older", "oilers", "craig", "conrad", "church", "damian", "dean", "broken", "buster1", "hithere", "immortal", "sticks", "pilot", "peters", "lexmark", "jerkoff", "maryland", "anders", "cheers", "possum", "columbus", "cutter", "muppet", "beautiful", "stolen", "swordfish", "sport", "sonic", "peter1", "jethro", "rockon", "asdfghj", "pass123", "paper", "pornos", "ncc1701a", "bootys", "buttman", "bonjour", "escape", "1960", "becky", "bears", "362436", "spartans", "tinman", "threesom", "lemons", "maxmax", "1414", "bbbbb", "camelot", "chad", "chewie", "gogo", "fusion", "saint", "dilligaf", "nopass", "myself", "hustler", "hunter1", "whitey", "beast1", "yesyes", "spank", "smudge", "pinkfloy", "patriot", "lespaul", "annette", "hammers", "catalina", "finish", "formula1", "sausage", "scooter1", "orioles", "oscar1", "over", "colombia", "cramps", "natural", "eating", "exotic", "iguana", "bella", "suckers", "strong", "sheena", "start", "slave", "pearl", "topcat", "lancelot", "angelica", "magelan", "racer", "ramona", "crunch", "british", "button", "eileen", "steph", "456123", "skinny", "seeking", "rockhard", "chief", "filter", "first", "freaks", "sakura", "pacman", "poontang", "dalton", "newlife", "homer1", "klingon", "watcher", "walleye", "tasha", "tasty", "sinatra", "starship", "steel", "starbuck", "poncho", "amber1", "gonzo", "grover", "catherin", "carol", "candle", "firefly", "goblin", "scotch", "diver", "usmc", "huskies", "eleven", "kentucky", "kitkat", "israel", "beckham", "bicycle", "yourmom", "studio", "tara", "33333333", "shane", "splash", "jimmy1", "reality", "12344321", "caitlin", "focus", "sapphire", "mailman", "raiders1", "clark", "ddddd", "hopper", "excalibu", "more", "wilbur", "illini", "imperial", "phillips", "lansing", "maxx", "gothic", "golfball", "carlton", "camille", "facial", "front242", "macdaddy", "qwer1234", "vectra", "cowboys1", "crazy1", "dannyboy", "jane", "betty", "benny", "bennett", "leader", "martinez", "aquarius", "barkley", "hayden", "caught", "franky", "ffff", "floyd", "sassy", "pppp", "pppppppp", "prodigy", "clarence", "noodle", "eatpussy", "vortex", "wanking", "beatrice", "billy1", "siemens", "pedro", "phillies", "research", "groups", "carolyn", "chevy1", "cccc", "fritz", "gggggggg", "doughboy", "dracula", "nurses", "loco", "madrid", "lollipop", "trout", "utopia", "chrono", "cooler", "conner", "nevada", "wibble", "werner", "summit", "marco", "marilyn", "1225", "babies", "capone", "fugazi", "panda", "mama", "qazwsxed", "puppies", "triton", "9876", "command", "nnnnnn", "ernest", "momoney", "iforgot", "wolfie", "studly", "shawn", "renee", "alien", "hamburg", "81fukkc", "741852", "catman", "china", "forgot", "gagging", "scott1", "drew", "oregon", "qweqwe", "train", "crazybab", "daniel1", "cutlass", "brothers", "holes", "heidi", "mothers", "music1", "what", "walrus", "1957", "bigtime", "bike", "xtreme", "simba", "ssss", "rookie", "angie", "bathing", "fresh", "sanchez", "rotten", "maestro", "luis", "look", "turbo1", "99999", "butthole", "hhhh", "elijah", "monty", "bender", "yoda", "shania", "shock", "phish", "thecat", "rightnow", "reagan", "baddog", "asia", "greatone", "gateway1", "randall", "abstr", "napster", "brian1", "bogart", "high", "hitler", "emma", "kill", "weaver", "wildfire", "jackson1", "isaiah", "1981", "belinda", "beaner", "yoyo", "0.0.0.000", "super1", "select", "snuggles", "slutty", "some", "phoenix1", "technics", "toon", "raven1", "rayray", "123789", "1066", "albion", "greens", "fashion", "gesperrt", "santana", "paint", "powell", "credit", "darling", "mystery", "bowser", "bottle", "brucelee", "hehehe", "kelly1", "mojo", "1998", "bikini", "woofwoof", "yyyy", "strap", "sites", "spears", "theodore", "julius", "richards", "amelia", "central", "f**k", "nyjets", "punisher", "username", "vanilla", "twisted", "bryant", "brent", "bunghole", "here", "elizabeth", "erica", "kimber", "viagra", "veritas", "pony", "pool", "titts", "labtec", "lifetime", "jenny1", "masterbate", "mayhem", "redbull", "govols", "gremlin", "505050", "gmoney", "rupert", "rovers", "diamond1", "lorenzo", "trident", "abnormal", "davidson", "deskjet", "cuddles", "nice", "bristol", "karina", "milano", "vh5150", "jarhead", "1982", "bigbird", "bizkit", "sixers", "slider", "star69", "starfish", "penetration", "tommy1", "john316", "meghan", "michaela", "market", "grant", "caligula", "carl", "flicks", "films", "madden", "railroad", "cosmo", "cthulhu", "bradford", "br0d3r", "military", "bearbear", "swedish", "spawn", "patrick1", "polly", "these", "todd", "reds", "anarchy", "groove", "franco", "fuckher", "oooo", "tyrone", "vegas", "airbus", "cobra1", "christine", "clips", "delete", "duster", "kitty1", "mouse1", "monkeys", "jazzman", "1919", "262626", "swinging", "stroke", "stocks", "sting", "pippen", "labrador", "jordan1", "justdoit", "meatball", "females", "saturday", "park", "vector", "cooter", "defender", "desert", "demon", "nike", "bubbas", "bonkers", "english", "kahuna", "wildman", "4121", "sirius", "static", "piercing", "terror", "teenage", "leelee", "marissa", "microsof", "mechanic", "robotech", "rated", "hailey", "chaser", "sanders", "salsero", "nuts", "macross", "quantum", "rachael", "tsunami", "universe", "daddy1", "cruise", "nguyen", "newpass6", "nudes", "hellyeah", "vernon", "1959", "zaq12wsx", "striker", "sixty", "steele", "spice", "spectrum", "smegma", "thumb", "jjjjjjjj", "mellow", "astrid", "cancun", "cartoon", "sabres", "samiam", "pants", "oranges", "oklahoma", "lust", "coleman", "denali", "nude", "noodles", "buzz", "brest", "hooter", "mmmmmmmm", "warthog", "bloody", "blueblue", "zappa", "wolverine", "sniffing", "lance", "jean", "jjjjj", "harper", "calico", "freee", "rover", "door", "pooter", "closeup", "bonsai", "evelyn", "emily1", "kathryn", "keystone", "iiii", "1955", "yzerman", "theboss", "tolkien", "jill", "megaman", "rasta", "bbbbbbbb", "bean", "handsome", "hal9000", "goofy", "gringo", "gofish", "gizmo1", "samsam", "scuba", "onlyme", "tttttttt", "corrado", "clown", "clapton", "deborah", "boris", "bulls", "vivian", "jayhawk", "bethany", "wwww", "sharky", "seeker", "ssssssss", "somethin", "pillow", "thesims", "lighter", "lkjhgf", "melissa1", "marcius2", "barry", "guiness", "gymnast", "casey1", "goalie", "godsmack", "doug", "lolo", "rangers1", "poppy", "abby", "clemson", "clipper", "deeznuts", "nobody", "holly1", "elliot", "eeee", "kingston", "miriam", "belle", "yosemite", "sucked", "sex123", "sexy69", "pic's", "tommyboy", "lamont", "meat", "masterbating", "marianne", "marc", "gretzky", "happyday", "frisco", "scratch", "orchid", "orange1", "manchest", "quincy", "unbelievable", "aberdeen", "dawson", "nathalie", "ne1469", "boxing", "hill", "korn", "intercourse", "161616", "1985", "ziggy", "supersta", "stoney", "senior", "amature", "barber", "babyboy", "bcfields", "goliath", "hack", "hardrock", "children", "frodo", "scout", "scrappy", "rosie", "qazqaz", "tracker", "active", "craving", "commando", "cohiba", "deep", "cyclone", "dana", "bubba69", "katie1", "mpegs", "vsegda", "jade", "irish1", "better", "sexy1", "sinclair", "smelly", "squerting", "lions", "jokers", "jeanette", "julia", "jojojo", "meathead", "ashley1", "groucho", "cheetah", "champ", "firefox", "gandalf1", "packer", "magnolia", "love69", "tyler1", "typhoon", "tundra", "bobby1", "kenworth", "village", "volley", "beth", "wolf359", "0420", "000007", "swimmer", "skydive", "smokes", "patty", "peugeot", "pompey", "legolas", "kristy", "redhot", "rodman", "redalert", "having", "grapes", "4runner", "carrera", "floppy", "dollars", "ou8122", "quattro", "adams", "cloud9", "davids", "nofear", "busty", "homemade", "mmmmm", "whisper", "vermont", "webmaste", "wives", "insertion", "jayjay", "philips", "phone", "topher", "tongue", "temptress", "midget", "ripken", "havefun", "gretchen", "canon", "celebrity", "five", "getting", "ghetto", "direct", "otto", "ragnarok", "trinidad", "usnavy", "conover", "cruiser", "dalshe", "nicole1", "buzzard", "hottest", "kingfish", "misfit", "moore", "milfnew", "warlord", "wassup", "bigsexy", "blackhaw", "zippy", "shearer", "tights", "thursday", "kungfu", "labia", "journey", "meatloaf", "marlene", "rider", "area51", "batman1", "bananas", "636363", "cancel", "ggggg", "paradox", "mack", "lynn", "queens", "adults", "aikido", "cigars", "nova", "hoosier", "eeyore", "moose1", "warez", "interacial", "streaming", "313131", "pertinant", "pool6123", "mayday", "rivers", "revenge", "animated", "banker", "baddest", "gordon24", "ccccc", "fortune", "fantasies", "touching", "aisan", "deadman", "homepage", "ejaculation", "whocares", "iscool", "jamesbon", "1956", "1pussy", "womam", "sweden", "skidoo", "spock", "sssss", "petra", "pepper1", "pinhead", "micron", "allsop", "amsterda", "army", "aside", "gunnar", "666999", "chip", "foot", "fowler", "february", "face", "fletch", "george1", "sapper", "science", "sasha1", "luckydog", "lover1", "magick", "popopo", "public", "ultima", "derek", "cypress", "booker", "businessbabe", "brandon1", "edwards", "experience", "vulva", "vvvv", "jabroni", "bigbear", "yummy", "010203", "searay", "secret1", "showing", "sinbad", "sexxxx", "soleil", "software", "piccolo", "thirteen", "leopard", "legacy", "jensen", "justine", "memorex", "marisa", "mathew", "redwing", "rasputin", "134679", "anfield", "greenbay", "gore", "catcat", "feather", "scanner", "pa55word", "contortionist", "danzig", "daisy1", "hores", "erik", "exodus", "vinnie", "iiiiii", "zero", "1001", "subway", "tank", "second", "snapple", "sneakers", "sonyfuck", "picks", "poodle", "test1234", "their", "llll", "junebug", "june", "marker", "mellon", "ronaldo", "roadkill", "amanda1", "asdfjkl", "beaches", "greene", "great1", "cheerleaers", "force", "doitnow", "ozzy", "madeline", "radio", "tyson", "christian", "daphne", "boxster", "brighton", "housewifes", "emmanuel", "emerson", "kkkk", "mnbvcx", "moocow", "vides", "wagner", "janet", "1717", "bigmoney", "blonds", "1000", "storys", "stereo", "4545", "420247", "seductive", "sexygirl", "lesbean", "live", "justin1", "124578", "animals", "balance", "hansen", "cabbage", "canadian", "gangbanged", "dodge1", "dimas", "lori", "loud", "malaka", "puss", "probes", "adriana", "coolman", "crawford", "dante", "nacked", "hotpussy", "erotica", "kool", "mirror", "wearing", "implants", "intruder", "bigass", "zenith", "woohoo", "womans", "tanya", "tango", "stacy", "pisces", "laguna", "krystal", "maxell", "andyod22", "barcelon", "chainsaw", "chickens", "flash1", "downtown", "orgasms", "magicman", "profit", "pusyy", "pothead", "coconut", "chuckie", "contact", "clevelan", "designer", "builder", "budweise", "hotshot", "horizon", "hole", "experienced", "mondeo", "wifes", "1962", "strange", "stumpy", "smiths", "sparks", "slacker", "piper", "pitchers", "passwords", "laptop", "jeremiah", "allmine", "alliance", "bbbbbbb", "asscock", "halflife", "grandma", "hayley", "88888", "cecilia", "chacha", "saratoga", "sandy1", "santos", "doogie", "number", "positive", "qwert40", "transexual", "crow", "close-up", "darrell", "bonita", "ib6ub9", "volvo", "jacob1", "iiiii", "beastie", "sunnyday", "stoned", "sonics", "starfire", "snapon", "pictuers", "pepe", "testing1", "tiberius", "lisalisa", "lesbain", "litle", "retard", "ripple", "austin1", "badgirl", "golfgolf", "flounder", "garage", "royals", "dragoon", "dickie", "passwor", "ocean", "majestic", "poppop", "trailers", "dammit", "nokia", "bobobo", "br549", "emmitt", "knock", "minime", "mikemike", "whitesox", "1954", "3232", "353535", "seamus", "solo", "sparkle", "sluttey", "pictere", "titten", "lback", "1024", "angelina", "goodluck", "charlton", "fingerig", "gallaries", "goat", "ruby", "passme", "oasis", "lockerroom", "logan1", "rainman", "twins", "treasure", "absolutely", "club", "custom", "cyclops", "nipper", "bucket", "homepage-", "hhhhh", "momsuck", "indain", "2345", "beerbeer", "bimmer", "susanne", "stunner", "stevens", "456456", "shell", "sheba", "tootsie", "tiny", "testerer", "reefer", "really", "1012", "harcore", "gollum", "545454", "chico", "caveman", "carole", "fordf150", "fishes", "gaymen", "saleen", "doodoo", "pa55w0rd", "looney", "presto", "qqqqq", "cigar", "bogey", "brewer", "helloo", "dutch", "kamikaze", "monte", "wasser", "vietnam", "visa", "japanees", "0123", "swords", "slapper", "peach", "jump", "marvel", "masterbaiting", "march", "redwood", "rolling", "1005", "ametuer", "chiks", "cathy", "callaway", "fucing", "sadie1", "panasoni", "mamas", "race", "rambo", "unknown", "absolut", "deacon", "dallas1", "housewife", "kristi", "keywest", "kirsten", "kipper", "morning", "wings", "idiot", "18436572", "1515", "beating", "zxczxc", "sullivan", "303030", "shaman", "sparrow", "terrapin", "jeffery", "masturbation", "mick", "redfish", "1492", "angus", "barrett", "goirish", "hardcock", "felicia", "forfun", "galary", "freeporn", "duchess", "olivier", "lotus", "pornographic", "ramses", "purdue", "traveler", "crave", "brando", "enter1", "killme", "moneyman", "welder", "windsor", "wifey", "indon", "yyyyy", "stretch", "taylor1", "4417", "shopping", "picher", "pickup", "thumbnils", "johnboy", "jets", "jess", "maureen", "anne", "ameteur", "amateurs", "apollo13", "hambone", "goldwing", "5050", "charley", "sally1", "doghouse", "padres", "pounding", "quest", "truelove", "underdog", "trader", "crack", "climber", "bolitas", "bravo", "hohoho", "model", "italian", "beanie", "beretta", "wrestlin", "stroker", "tabitha", "sherwood", "sexyman", "jewels", "johannes", "mets", "marcos", "rhino", "bdsm", "balloons", "goodman", "grils", "happy123", "flamingo", "games", "route66", "devo", "dino", "outkast", "paintbal", "magpie", "llllllll", "twilight", "critter", "christie", "cupcake", "nickel", "bullseye", "krista", "knickerless", "mimi", "murder", "videoes", "binladen", "xerxes", "slim", "slinky", "pinky", "peterson", "thanatos", "meister", "menace", "ripley", "retired", "albatros", "balloon", "bank", "goten", "5551212", "getsdown", "donuts", "divorce", "nwo4life", "lord", "lost", "underwear", "tttt", "comet", "deer", "damnit", "dddddddd", "deeznutz", "nasty1", "nonono", "nina", "enterprise", "eeeee", "misfit99", "milkman", "vvvvvv", "isaac", "1818", "blueboy", "beans", "bigbutt", "wyatt", "tech", "solution", "poetry", "toolman", "laurel", "juggalo", "jetski", "meredith", "barefoot", "50spanks", "gobears", "scandinavian", "original", "truman", "cubbies", "nitram", "briana", "ebony", "kings", "warner", "bilbo", "yumyum", "zzzzzzz", "stylus", "321654", "shannon1", "server", "secure", "silly", "squash", "starman", "steeler", "staples", "phrases", "techniques", "laser", "135790", "allan", "barker", "athens", "cbr600", "chemical", "fester", "gangsta", "fucku2", "freeze", "game", "salvador", "droopy", "objects", "passwd", "lllll", "loaded", "louis", "manchester", "losers", "vedder", "clit", "chunky", "darkman", "damage", "buckshot", "buddah", "boobed", "henti", "hillary", "webber", "winter1", "ingrid", "bigmike", "beta", "zidane", "talon", "slave1", "pissoff", "person", "thegreat", "living", "lexus", "matador", "readers", "riley", "roberta", "armani", "ashlee", "goldstar", "5656", "cards", "fmale", "ferris", "fuking", "gaston", "fucku", "ggggggg", "sauron", "diggler", "pacers", "looser", "pounded", "premier", "pulled", "town", "trisha", "triangle", "cornell", "collin", "cosmic", "deeper", "depeche", "norway", "bright", "helmet", "kristine", "kendall", "mustard", "misty1", "watch", "jagger", "bertie", "berger", "word", "3x7pxr", "silver1", "smoking", "snowboar", "sonny", "paula", "penetrating", "photoes", "lesbens", "lambert", "lindros", "lillian", "roadking", "rockford", "1357", "143143", "asasas", "goodboy", "898989", "chicago1", "card", "ferrari1", "galeries", "godfathe", "gawker", "gargoyle", "gangster", "rubble", "rrrr", "onetime", "pussyman", "pooppoop", "trapper", "twenty", "abraham", "cinder", "company", "newcastl", "boricua", "bunny1", "boxer", "hotred", "hockey1", "hooper", "edward1", "evan", "kris", "misery", "moscow", "milk", "mortgage", "bigtit", "show", "snoopdog", "three", "lionel", "leanne", "joshua1", "july", "1230", "assholes", "cedric", "fallen", "farley", "gene", "frisky", "sanity", "script", "divine", "dharma", "lucky13", "property", "tricia", "akira", "desiree", "broadway", "butterfly", "hunt", "hotbox", "hootie", "heat", "howdy", "earthlink", "karma", "kiteboy", "motley", "westwood", "1988", "bert", "blackbir", "biggles", "wrench", "working", "wrestle", "slippery", "pheonix", "penny1", "pianoman", "tomorrow", "thedude", "jenn", "jonjon", "jones1", "mattie", "memory", "micheal", "roadrunn", "arrow", "attitude", "azzer", "seahawks", "diehard", "dotcom", "lola", "tunafish", "chivas", "cinnamon", "clouds", "deluxe", "northern", "nuclear", "north", "boom", "boobie", "hurley", "krishna", "momomo", "modles", "volume", "23232323", "bluedog", "wwwwwww", "zerocool", "yousuck", "pluto", "limewire", "link", "joung", "marcia", "awnyce", "gonavy", "haha", "films+pic+galeries", "fabian", "francois", "girsl", "fuckthis", "girfriend", "rufus", "drive", "uncencored", "a123456", "airport", "clay", "chrisbln", "combat", "cygnus", "cupoi", "never", "netscape", "brett", "hhhhhhhh", "eagles1", "elite", "knockers", "kendra", "mommy", "1958", "tazmania", "shonuf", "piano", "pharmacy", "thedog", "lips", "jillian", "jenkins", "midway", "arsenal1", "anaconda", "australi", "gromit", "gotohell", "787878", "66666", "carmex2", "camber", "gator1", "ginger1", "fuzzy", "seadoo", "dorian", "lovesex", "rancid", "uuuuuu", "911911", "nature", "bulldog1", "helen", "health", "heater", "higgins", "kirk", "monalisa", "mmmmmmm", "whiteout", "virtual", "ventura", "jamie1", "japanes", "james007", "2727", "2469", "blam", "bitchass", "believe", "zephyr", "stiffy", "sweet1", "silent", "southpar", "spectre", "tigger1", "tekken", "lenny", "lakota", "lionking", "jjjjjjj", "medical", "megatron", "1369", "hawaiian", "gymnastic", "golfer1", "gunners", "7779311", "515151", "famous", "glass", "screen", "rudy", "royal", "sanfran", "drake", "optimus", "panther1", "love1", "mail", "maggie1", "pudding", "venice", "aaron1", "delphi", "niceass", "bounce", "busted", "house1", "killer1", "miracle", "momo", "musashi", "jammin", "2003", "234567", "wp2003wp", "submit", "silence", "sssssss", "state", "spikes", "sleeper", "passwort", "toledo", "kume", "media", "meme", "medusa", "mantis", "remote", "reading", "reebok", "1017", "artemis", "hampton", "harry1", "cafc91", "fettish", "friendly", "oceans", "oooooooo", "mango", "ppppp", "trainer", "troy", "uuuu", "909090", "cross", "death1", "news", "bullfrog", "hokies", "holyshit", "eeeeeee", "mitch", "jasmine1", "&amp", "&amp;", "sergeant", "spinner", "leon", "jockey", "records", "right", "babyblue", "hans", "gooner", "474747", "cheeks", "cars", "candice", "fight", "glow", "pass1234", "parola", "okokok", "pablo", "magical", "major", "ramsey", "poseidon", "989898", "confused", "circle", "crusher", "cubswin", "nnnn", "hollywood", "erin", "kotaku", "milo", "mittens", "whatsup", "vvvvv", "iomega", "insertions", "bengals", "bermuda", "biit", "yellow1", "012345", "spike1", "south", "sowhat", "pitures", "peacock", "pecker", "theend", "juliette", "jimmie", "romance", "augusta", "hayabusa", "hawkeyes", "castro", "florian", "geoffrey", "dolly", "lulu", "qaz123", "usarmy", "twinkle", "cloud", "chuckles", "cold", "hounddog", "hover", "hothot", "europa", "ernie", "kenshin", "kojak", "mikey1", "water1", "196969", "because", "wraith", "zebra", "wwwww", "33333", "simon1", "spider1", "snuffy", "philippe", "thunderb", "teddy1", "lesley", "marino13", "maria1", "redline", "renault", "aloha", "antoine", "handyman", "cerberus", "gamecock", "gobucks", "freesex", "duffman", "ooooo", "papa", "nuggets", "magician", "longbow", "preacher", "porno1", "county", "chrysler", "contains", "dalejr", "darius", "darlene", "dell", "navy", "buffy1", "hedgehog", "hoosiers", "honey1", "hott", "heyhey", "europe", "dutchess", "everest", "wareagle", "ihateyou", "sunflowe", "3434", "senators", "shag", "spoon", "sonoma", "stalker", "poochie", "terminal", "terefon", "laurence", "maradona", "maryann", "marty", "roman", "1007", "142536", "alibaba", "america1", "bartman", "astro", "goth", "century", "chicken1", "cheater", "four", "ghost1", "passpass", "oral", "r2d2c3po", "civic", "cicero", "myxworld", "kkkkk", "missouri", "wishbone", "infiniti", "jameson", "1a2b3c", "1qwerty", "wonderboy", "skip", "shojou", "stanford", "sparky1", "smeghead", "poiuy", "titanium", "torres", "lantern", "jelly", "jeanne", "meier", "1213", "bayern", "basset", "gsxr750", "cattle", "charlene", "fishing1", "fullmoon", "gilles", "dima", "obelix", "popo", "prissy", "ramrod", "unique", "absolute", "bummer", "hotone", "dynasty", "entry", "konyor", "missy1", "moses", "282828", "yeah", "xyz123", "stop", "426hemi", "404040", "seinfeld", "simmons", "pingpong", "lazarus", "matthews", "marine1", "manning", "recovery", "12345a", "beamer", "babyface", "greece", "gustav", "7007", "charity", "camilla", "ccccccc", "faggot", "foxy", "frozen", "gladiato", "duckie", "dogfood", "paranoid", "packers1", "longjohn", "radical", "tuna", "clarinet", "claudio", "circus", "danny1", "novell", "nights", "bonbon", "kashmir", "kiki", "mortimer", "modelsne", "moondog", "monaco", "vladimir", "insert", "1953", "zxc123", "supreme", "3131", "sexxx", "selena", "softail", "poipoi", "pong", "together", "mars", "martin1", "rogue", "alone", "avalanch", "audia4", "55bgates", "cccccccc", "chick", "came11", "figaro", "geneva", "dogboy", "dnsadm", "dipshit", "paradigm", "othello", "operator", "officer", "malone", "post", "rafael", "valencia", "tripod", "choice", "chopin", "coucou", "coach", "cocksuck", "common", "creature", "borussia", "book", "browning", "heritage", "hiziad", "homerj", "eight", "earth", "millions", "mullet", "whisky", "jacques", "store", "4242", "speedo", "starcraf", "skylar", "spaceman", "piggy", "pierce", "tiger2", "legos", "lala", "jezebel", "judy", "joker1", "mazda", "barton", "baker", "727272", "chester1", "fishman", "food", "rrrrrrrr", "sandwich", "dundee", "lumber", "magazine", "radar", "ppppppp", "tranny", "aaliyah", "admiral", "comics", "cleo", "delight", "buttfuck", "homeboy", "eternal", "kilroy", "kellie", "khan", "violin", "wingman", "walmart", "bigblue", "blaze", "beemer", "beowulf", "bigfish", "yyyyyyy", "woodie", "yeahbaby", "0123456", "tbone", "style", "syzygy", "starter", "lemon", "linda1", "merlot", "mexican", "11235813", "anita", "banner", "bangbang", "badman", "barfly", "grease", "carla", "charles1", "ffffffff", "screw", "doberman", "diane", "dogshit", "overkill", "counter", "coolguy", "claymore", "demons", "demo", "nomore", "normal", "brewster", "hhhhhhh", "hondas", "iamgod", "enterme", "everett", "electron", "eastside", "kayla", "minimoni", "mybaby", "wildbill", "wildcard", "ipswich", "200000", "bearcat", "zigzag", "yyyyyyyy", "xander", "sweetnes", "369369", "skyler", "skywalker", "pigeon", "peyton", "tipper", "lilly", "asdf123", "alphabet", "asdzxc", "babybaby", "banane", "barnes", "guyver", "graphics", "grand", "chinook", "florida1", "flexible", "fuckinside", "otis", "ursitesux", "tototo", "trust", "tower", "adam12", "christma", "corey", "chrome", "buddie", "bombers", "bunker", "hippie", "keegan", "misfits", "vickie", "292929", "woofer", "wwwwwwww", "stubby", "sheep", "secrets", "sparta", "stang", "spud", "sporty", "pinball", "jorge", "just4fun", "johanna", "maxxxx", "rebecca1", "gunther", "fatima", "fffffff", "freeway", "garion", "score", "rrrrr", "sancho", "outback", "maggot", "puddin", "trial", "adrienne", "987456", "colton", "clyde", "brain", "brains", "hoops", "eleanor", "dwayne", "kirby", "mydick", "villa", "19691969", "bigcat", "becker", "shiner", "silverad", "spanish", "templar", "lamer", "juicy", "marsha", "mike1", "maximum", "rhiannon", "real", "1223", "10101010", "arrows", "andres", "alucard", "baldwin", "baron", "avenue", "ashleigh", "haggis", "channel", "cheech", "safari", "ross", "dog123", "orion1", "paloma", "qwerasdf", "presiden", "vegitto", "trees", "969696", "adonis", "colonel", "cookie1", "newyork1", "brigitte", "buddyboy", "hellos", "heineken", "dwight", "eraser", "kerstin", "motion", "moritz", "millwall", "visual", "jaybird", "1983", "beautifu", "bitter", "yvette", "zodiac", "steven1", "sinister", "slammer", "smashing", "slick1", "sponge", "teddybea", "theater", "this", "ticklish", "lipstick", "jonny", "massage", "mann", "reynolds", "ring", "1211", "amazing", "aptiva", "applepie", "bailey1", "guitar1", "chanel", "canyon", "gagged", "fuckme1", "rough", "digital1", "dinosaur", "punk", "98765", "90210", "clowns", "cubs", "daniels", "deejay", "nigga", "naruto", "boxcar", "icehouse", "hotties", "electra", "kent", "widget", "india", "insanity", "1986", "2004", "best", "bluefish", "bingo1", "*****", "stratus", "strength", "sultan", "storm1", "44444", "4200", "sentnece", "season", "sexyboy", "sigma", "smokie", "spam", "point", "pippo", "ticket", "temppass", "joel", "manman", "medicine", "1022", "anton", "almond", "bacchus", "aztnm", "axio", "awful", "bamboo", "hakr", "gregor", "hahahaha", "5678", "casanova", "caprice", "camero1", "fellow", "fountain", "dupont", "dolphin1", "dianne", "paddle", "magnet", "qwert1", "pyon", "porsche1", "tripper", "vampires", "coming", "noway", "burrito", "bozo", "highheel", "hughes", "hookem", "eddie1", "ellie", "entropy", "kkkkkkkk", "kkkkkkk", "illinois", "jacobs", "1945", "1951", "24680", "21212121", "100000", "stonecold", "taco", "subzero", "sharp", "sexxxy", "skolko", "shanna", "skyhawk", "spurs1", "sputnik", "piazza", "testpass", "letter", "lane", "kurt", "jiggaman", "matilda", "1224", "harvard", "hannah1", "525252", "4ever", "carbon", "chef", "federico", "ghosts", "gina", "scorpio1", "rt6ytere", "madison1", "loki", "raquel", "promise", "coolness", "christina", "coldbeer", "citadel", "brittney", "highway", "evil", "monarch", "morgan1", "washingt", "1997", "bella1", "berry", "yaya", "yolanda", "superb", "taxman", "studman", "stephanie", "3636", "sherri", "sheriff", "shepherd", "poland", "pizzas", "tiffany1", "toilet", "latina", "lassie", "larry1", "joseph1", "mephisto", "meagan", "marian", "reptile", "rico", "razor", "1013", "barron", "hammer1", "gypsy", "grande", "carroll", "camper", "chippy", "cat123", "call", "chimera", "fiesta", "glock", "glenn", "domain", "dieter", "dragonba", "onetwo", "nygiants", "odessa", "password2", "louie", "quartz", "prowler", "prophet", "towers", "ultra", "cocker", "corleone", "dakota1", "cumm", "nnnnnnn", "natalia", "boxers", "hugo", "heynow", "hollow", "iceberg", "elvira", "kittykat", "kate", "kitchen", "wasabi", "vikings1", "impact", "beerman", "string", "sleep", "splinter", "snoopy1", "pipeline", "pocket", "legs", "maple", "mickey1", "manuela", "mermaid", "micro", "meowmeow", "redbird", "alisha", "baura", "battery", "grass", "chevys", "chestnut", "caravan", "carina", "charmed", "fraser", "frogman", "diving", "dogger", "draven", "drifter", "oatmeal", "paris1", "longdong", "quant4307s", "rachel1", "vegitta", "cole", "cobras", "corsair", "dadada", "noelle", "mylife", "nine", "bowwow", "body", "hotrats", "eastwood", "moonligh", "modena", "wave", "illusion", "iiiiiii", "jayhawks", "birgit", "zone", "sutton", "susana", "swingers", "shocker", "shrimp", "sexgod", "squall", "stefanie", "squeeze", "soul", "patrice", "poiu", "players", "tigers1", "toejam", "tickler", "line", "julie1", "jimbo1", "jefferso", "juanita", "michael2", "rodeo", "robot", "1023", "annie1", "bball", "guess", "happy2", "charter", "farm", "flasher", "falcon1", "fiction", "fastball", "gadget", "scrabble", "diaper", "dirtbike", "dinner", "oliver1", "partner", "paco", "lucille", "macman", "poopy", "popper", "postman", "ttttttt", "ursula", "acura", "cowboy1", "conan", "daewoo", "cyrus", "customer", "nation", "nemrac58", "nnnnn", "nextel", "bolton", "bobdylan", "hopeless", "eureka", "extra", "kimmie", "kcj9wx5n", "killbill", "musica", "volkswag", "wage", "windmill", "wert", "vintage", "iloveyou1", "itsme", "bessie", "zippo", "311311", "starligh", "smokey1", "spot", "snappy", "soulmate", "plasma", "thelma", "tonight", "krusty", "just4me", "mcdonald", "marius", "rochelle", "rebel1", "1123", "alfredo", "aubrey", "audi", "chantal", "fick", "goaway", "roses", "sales", "rusty2", "dirt", "dogbone", "doofus", "ooooooo", "oblivion", "mankind", "luck", "mahler", "lllllll", "pumper", "puck", "pulsar", "valkyrie", "tupac", "compass", "concorde", "costello", "cougars", "delaware", "niceguy", "nocturne", "bob123", "boating", "bronze", "hopkins", "herewego", "hewlett", "houhou", "hubert", "earnhard", "eeeeeeee", "keller", "mingus", "mobydick", "venture", "verizon", "imation", "1950", "1948", "1949", "223344", "bigbig", "blossom", "zack", "wowwow", "sissy", "skinner", "spiker", "square", "snooker", "sluggo", "player1", "junk", "jeannie", "jsbach", "jumbo", "jewel", "medic", "robins", "reddevil", "reckless", "123456a", "1125", "1031", "beacon", "astra", "gumby", "hammond", "hassan", "757575", "585858", "chillin", "fuck1", "sander", "lowell", "radiohea", "upyours", "trek", "courage", "coolcool", "classics", "choochoo", "darryl", "nikki1", "nitro", "bugs", "boytoy", "ellen", "excite", "kirsty", "kane", "wingnut", "wireless", "icu812", "1master", "beatle", "bigblock", "blanca", "wolfen", "summer99", "sugar1", "tartar", "sexysexy", "senna", "sexman", "sick", "someone", "soprano", "pippin", "platypus", "pixies", "telephon", "land", "laura1", "laurent", "rimmer", "road", "report", "1020", "12qwaszx", "arturo", "around", "hamish", "halifax", "fishhead", "forum", "dododo", "doit", "outside", "paramedi", "lonesome", "mandy1", "twist", "uuuuu", "uranus", "ttttt", "butcher", "bruce1", "helper", "hopeful", "eduard", "dusty1", "kathy1", "katherin", "moonbeam", "muscles", "monster1", "monkeybo", "morton", "windsurf", "vvvvvvv", "vivid", "install", "1947", "187187", "1941", "1952", "tatiana", "susan1", "31415926", "sinned", "sexxy", "senator", "sebastian", "shadows", "smoothie", "snowflak", "playstat", "playa", "playboy1", "toaster", "jerry1", "marie1", "mason1", "merlin1", "roger1", "roadster", "112358", "1121", "andrea1", "bacardi", "auto", "hardware", "hardy", "789789", "5555555", "captain1", "flores", "fergus", "sascha", "rrrrrrr", "dome", "onion", "nutter", "lololo", "qqqqqqq", "quick", "undertak", "uuuuuuuu", "uuuuuuu", "criminal", "cobain", "cindy1", "coors", "dani", "descent", "nimbus", "nomad", "nanook", "norwich", "bomb", "bombay", "broker", "hookup", "kiwi", "winners", "jackpot", "1a2b3c4d", "1776", "beardog", "bighead", "blast", "bird33", "0987", "stress", "shot", "spooge", "pelican", "peepee", "perry", "pointer", "titan", "thedoors", "jeremy1", "annabell", "altima", "baba", "hallie", "hate", "hardone", "5454", "candace", "catwoman", "flip", "faithful", "finance", "farmboy", "farscape", "genesis1", "salomon", "destroy", "papers", "option", "page", "loser1", "lopez", "r2d2", "pumpkins", "training", "chriss", "cumcum", "ninjas", "ninja1", "hung", "erika", "eduardo", "killers", "miller1", "islander", "jamesbond", "intel", "jarvis", "19841984", "2626", "bizzare", "blue12", "biker", "yoyoma", "sushi", "styles", "shitface", "series", "shanti", "spanker", "steffi", "smart", "sphinx", "please1", "paulie", "pistons", "tiburon", "limited", "maxwell1", "mdogg", "rockies", "armstron", "alexia", "arlene", "alejandr", "arctic", "banger", "audio", "asimov", "augustus", "grandpa", "753951", "4you", "chilly", "care1839", "chapman", "flyfish", "fantasia", "freefall", "santa", "sandrine", "oreo", "ohshit", "macbeth", "madcat", "loveya", "mallory", "rage", "quentin", "qwerqwer", "project", "ramirez", "colnago", "citizen", "chocha", "cobalt", "crystal1", "dabears", "nevets", "nineinch", "broncos1", "helene", "huge", "edgar", "epsilon", "easter", "kestrel", "moron", "virgil", "winston1", "warrior1", "iiiiiiii", "iloveyou2", "1616", "beat", "bettina", "woowoo", "zander", "straight", "shower", "sloppy", "specialk", "tinkerbe", "jellybea", "reader", "romero", "redsox1", "ride", "1215", "1112", "annika", "arcadia", "answer", "baggio", "base", "guido", "555666", "carmel", "cayman", "cbr900rr", "chips", "gabriell", "gertrude", "glennwei", "roxy", "sausages", "disco", "pass1", "luna", "lovebug", "macmac", "queenie", "puffin", "vanguard", "trip", "trinitro", "airwolf", "abbott", "aaa111", "cocaine", "cisco", "cottage", "dayton", "deadly", "datsun", "bricks", "bumper", "eldorado", "kidrock", "wizard1", "whiskers", "wind", "wildwood", "istheman", "interest", "italy", "25802580", "benoit", "bigones", "woodland", "wolfpac", "strawber", "suicide", "3030", "sheba1", "sixpack", "peace1", "physics", "pearson", "tigger2", "toad", "megan1", "meow", "ringo", "roll", "amsterdam", "717171", "686868", "5424", "catherine", "canuck", "football1", "footjob", "fulham", "seagull", "orgy", "lobo", "mancity", "truth", "trace", "vancouve", "vauxhall", "acidburn", "derf", "myspace1", "boozer", "buttercu", "howell", "hola", "easton", "minemine", "munch", "jared", "1dragon", "biology", "bestbuy", "bigpoppa", "blackout", "blowfish", "bmw325", "bigbob", "stream", "talisman", "tazz", "sundevil", "3333333", "skate", "shutup", "shanghai", "shop", "spencer1", "slowhand", "polish", "pinky1", "tootie", "thecrow", "leroy", "jonathon", "jubilee", "jingle", "martine", "matrix1", "manowar", "michaels", "messiah", "mclaren", "resident", "reilly", "redbaron", "rollins", "romans", "return", "rivera", "andromed", "athlon", "beach1", "badgers", "guitars", "harald", "harddick", "gotribe", "6996", "7grout", "5wr2i7h8", "635241", "chase1", "carver", "charlotte", "fallout", "fiddle", "fredrick", "fenris", "francesc", "fortuna", "ferguson", "fairlane", "felipe", "felix1", "forward", "gasman", "frost", "fucks", "sahara", "sassy1", "dogpound", "dogbert", "divx1", "manila", "loretta", "priest", "pornporn", "quasar", "venom", "987987", "access1", "clippers", "daylight", "decker", "daman", "data", "dentist", "crusty", "nathan1", "nnnnnnnn", "bruno1", "bucks", "brodie", "budapest", "kittens", "kerouac", "mother1", "waldo1", "wedding", "whistler", "whatwhat", "wanderer", "idontkno", "1942", "1946", "bigdawg", "bigpimp", "zaqwsx", "414141", "3000gt", "434343", "shoes", "serpent", "starr", "smurf", "pasword", "tommie", "thisisit", "lake", "john1", "robotics", "redeye", "rebelz", "1011", "alatam", "asses", "asians", "bama", "banzai", "harvest", "gonzalez", "hair", "hanson", "575757", "5329", "cascade", "chinese", "fatty", "fender1", "flower2", "funky", "sambo", "drummer1", "dogcat", "dottie", "oedipus", "osama", "macleod", "prozac", "private1", "rampage", "punch", "presley", "concord", "cook", "cinema", "cornwall", "cleaner", "christopher", "ciccio", "corinne", "clutch", "corvet07", "daemon", "bruiser", "boiler", "hjkl", "eyes", "egghead", "expert", "ethan", "kasper", "mordor", "wasted", "jamess", "iverson3", "bluesman", "zouzou", "090909", "1002", "switch", "stone1", "4040", "sisters", "sexo", "shawna", "smith1", "sperma", "sneaky", "polska", "thewho", "terminat", "krypton", "lawson", "library", "lekker", "jules", "johnson1", "johann", "justus", "rockie", "romano", "aspire", "bastards", "goodie", "cheese1", "fenway", "fishon", "fishin", "fuckoff1", "girls1", "sawyer", "dolores", "desmond", "duane", "doomsday", "pornking", "ramones", "rabbits", "transit", "aaaaa1", "clock", "delilah", "noel", "boyz", "bookworm", "bongo", "bunnies", "brady", "buceta", "highbury", "henry1", "heels", "eastern", "krissy", "mischief", "mopar", "ministry", "vienna", "weston", "wildone", "vodka", "jayson", "bigbooty", "beavis1", "betsy", "xxxxxx1", "yogibear", "000001", "0815", "zulu", "420000", "september", "sigmar", "sprout", "stalin", "peggy", "patch", "lkjhgfds", "lagnaf", "rolex", "redfox", "referee", "123123123", "1231", "angus1", "ariana", "ballin", "attila", "hall", "greedy", "grunt", "747474", "carpedie", "cecile", "caramel", "foxylady", "field", "gatorade", "gidget", "futbol", "frosch", "saiyan", "schmidt", "drums", "donner", "doggy1", "drum", "doudou", "pack", "pain", "nutmeg", "quebec", "valdepen", "trash", "triple", "tosser", "tuscl", "track", "comfort", "choke", "comein", "cola", "deputy", "deadpool", "bremen", "borders", "bronson", "break", "hotass", "hotmail1", "eskimo", "eggman", "koko", "kieran", "katrin", "kordell1", "komodo", "mone", "munich", "vvvvvvvv", "winger", "jaeger", "ivan", "jackson5", "2222222", "bergkamp", "bennie", "bigben", "zanzibar", "worm", "xxx123", "sunny1", "373737", "services", "sheridan", "slater", "slayer1", "snoop", "stacie", "peachy", "thecure", "times", "little1", "jennaj", "marquis", "middle", "rasta69", "1114", "aries", "havana", "gratis", "calgary", "checkers", "flanker", "salope", "dirty1", "draco", "dogface", "luv2epus", "rainbow6", "qwerty123", "umpire", "turnip", "vbnm", "tucson", "troll", "aileen", "codered", "commande", "damon", "nana", "neon", "nico", "nightwin", "neil", "boomer1", "bushido", "hotmail0", "horace", "enternow", "kaitlyn", "keepout", "karen1", "mindy", "mnbv", "viewsoni", "volcom", "wizards", "wine", "1995", "berkeley", "bite", "zach", "woodstoc", "tarpon", "shinobi", "starstar", "phat", "patience", "patrol", "toolbox", "julien", "johnny1", "joebob", "marble", "riders", "reflex", "120676", "1235", "angelus", "anthrax", "atlas", "hawks", "grandam", "harlem", "hawaii50", "gorgeous", "655321", "cabron", "challeng", "callisto", "firewall", "firefire", "fischer", "flyer", "flower1", "factory", "federal", "gambler", "frodo1", "funk", "sand", "sam123", "scania", "dingo", "papito", "passmast", "olive", "palermo", "ou8123", "lock", "ranch", "pride", "randy1", "twiggy", "travis1", "transfer", "treetop", "addict", "admin1", "963852", "aceace", "clarissa", "cliff", "cirrus", "clifton", "colin", "bobdole", "bonner", "bogus", "bonjovi", "bootsy", "boater", "elway7", "edison", "kelvin", "kenny1", "moonshin", "montag", "moreno", "wayne1", "white1", "jazzy", "jakejake", "1994", "1991", "2828", "blunt", "bluejays", "beau", "belmont", "worthy", "systems", "sensei", "southpark", "stan", "peeper", "pharao", "pigpen", "tomahawk", "teensex", "leedsutd", "larkin", "jermaine", "jeepster", "jimjim", "josephin", "melons", "marlon", "matthias", "marriage", "robocop", "1003", "1027", "antelope", "azsxdc", "gordo", "hazard", "granada", "8989", "7894", "ceasar", "cabernet", "cheshire", "california", "chelle", "candy1", "fergie", "fanny", "fidelio", "giorgio", "fuckhead", "ruth", "sanford", "diego", "dominion", "devon", "panic", "longer", "mackie", "qawsed", "trucking", "twelve", "chloe1", "coral", "daddyo", "nostromo", "boyboy", "booster", "bucky", "honolulu", "esquire", "dynamite", "motor", "mollydog", "wilder", "windows1", "waffle", "wallet", "warning", "virus", "washburn", "wealth", "vincent1", "jabber", "jaguars", "javelin", "irishman", "idefix", "bigdog1", "blue42", "blanked", "blue32", "biteme1", "bearcats", "blaine", "yessir", "sylveste", "team", "stephan", "sunfire", "tbird", "stryker", "3ip76k2", "sevens", "sheldon", "pilgrim", "tenchi", "titman", "leeds", "lithium", "lander", "linkin", "landon", "marijuan", "mariner", "markie", "midnite", "reddwarf", "1129", "123asd", "12312312", "allstar", "albany", "asdf12", "antonia", "aspen", "hardball", "goldfing", "7734", "49ers", "carlo", "chambers", "cable", "carnage", "callum", "carlos1", "fitter", "fandango", "festival", "flame", "gofast", "gamma", "fucmy69", "scrapper", "dogwood", "django", "magneto", "loose", "premium", "addison", "9999999", "abc1234", "cromwell", "newyear", "nichole", "bookie", "burns", "bounty", "brown1", "bologna", "earl", "entrance", "elway", "killjoy", "kerry", "keenan", "kick", "klondike", "mini", "mouser", "mohammed", "wayer", "impreza", "irene", "insomnia", "24682468", "2580", "24242424", "billbill", "bellaco", "blessing", "blues1", "bedford", "blanco", "blunts", "stinks", "teaser", "streets", "sf49ers", "shovel", "solitude", "spikey", "sonia", "pimpdadd", "timeout", "toffee", "lefty", "johndoe", "johndeer", "mega", "manolo", "mentor", "margie", "ratman", "ridge", "record", "rhodes", "robin1", "1124", "1210", "1028", "1226", "another", "babylove", "barbados", "harbor", "gramma", "646464", "carpente", "chaos1", "fishbone", "fireblad", "glasgow", "frogs", "scissors", "screamer", "salem", "scuba1", "ducks", "driven", "doggies", "dicky", "donovan", "obsidian", "rams", "progress", "tottenham", "aikman", "comanche", "corolla", "clarke", "conway", "cumslut", "cyborg", "dancing", "boston1", "bong", "houdini", "helmut", "elvisp", "edge", "keksa12", "misha", "monty1", "monsters", "wetter", "watford", "wiseguy", "veronika", "visitor", "janelle", "1989", "1987", "20202020", "biatch", "beezer", "bigguns", "blueball", "bitchy", "wyoming", "yankees2", "wrestler", "stupid1", "sealteam", "sidekick", "simple1", "smackdow", "sporting", "spiral", "smeller", "sperm", "plato", "tophat", "test2", "theatre", "thick", "toomuch", "leigh", "jello", "jewish", "junkie", "maxim", "maxime", "meadow", "remingto", "roofer", "124038", "1018", "1269", "1227", "123457", "arkansas", "alberta", "aramis", "andersen", "beaker", "barcelona", "baltimor", "googoo", "goochi", "852456", "4711", "catcher", "carman", "champ1", "chess", "fortress", "fishfish", "firefigh", "geezer", "rsalinas", "samuel1", "saigon", "scooby1", "doors", "dick1", "devin", "doom", "dirk", "doris", "dontknow", "load", "magpies", "manfred", "raleigh", "vader1", "universa", "tulips", "defense", "mygirl", "burn", "bowtie", "bowman", "holycow", "heinrich", "honeys", "enforcer", "katherine", "minerva", "wheeler", "witch", "waterboy", "jaime", "irving", "1992", "23skidoo", "bimbo", "blue11", "birddog", "woodman", "womble", "zildjian", "030303", "stinker", "stoppedby", "sexybabe", "speakers", "slugger", "spotty", "smoke1", "polopolo", "perfect1", "things", "torpedo", "tender", "thrasher", "lakeside", "lilith", "jimmys", "jerk", "junior1", "marsh", "masamune", "rice", "root", "1214", "april1", "allgood", "bambi", "grinch", "767676", "5252", "cherries", "chipmunk", "cezer121", "carnival", "capecod", "finder", "flint", "fearless", "goats", "funstuff", "gideon", "savior", "seabee", "sandro", "schalke", "salasana", "disney1", "duckman", "options", "pancake", "pantera1", "malice", "lookin", "love123", "lloyd", "qwert123", "puppet", "prayers", "union", "tracer", "crap", "creation", "cwoui", "nascar24", "hookers", "hollie", "hewitt", "estrella", "erection", "ernesto", "ericsson", "edthom", "kaylee", "kokoko", "kokomo", "kimball", "morales", "mooses", "monk", "walton", "weekend", "inter", "internal", "1michael", "1993", "19781978", "25252525", "worker", "summers", "surgery", "shibby", "shamus", "skibum", "sheepdog", "sex69", "spliff", "slipper", "spoons", "spanner", "snowbird", "slow", "toriamos", "temp123", "tennesse", "lakers1", "jomama", "julio", "mazdarx7", "rosario", "recon", "riddle", "room", "revolver", "1025", "1101", "barney1", "babycake", "baylor", "gotham", "gravity", "hallowee", "hancock", "616161", "515000", "caca", "cannabis", "castor", "chilli", "fdsa", "getout", "fuck69", "gators1", "sail", "sable", "rumble", "dolemite", "dork", "dickens", "duffer", "dodgers1", "painting", "onions", "logger", "lorena", "lookout", "magic32", "port", "poon", "prime", "twat", "coventry", "citroen", "christmas", "civicsi", "cocksucker", "coochie", "compaq1", "nancy1", "buzzer", "boulder", "butkus", "bungle", "hogtied", "honor", "hero", "hotgirls", "hilary", "heidi1", "eggplant", "mustang6", "mortal", "monkey12", "wapapapa", "wendy1", "volleyba", "vibrate", "vicky", "bledsoe", "blink", "birthday4", "woof", "xxxxx1", "talk", "stephen1", "suburban", "stock", "tabatha", "sheeba", "start1", "soccer10", "something", "starcraft", "soccer12", "peanut1", "plastics", "penthous", "peterbil", "tools", "tetsuo", "torino", "tennis1", "termite", "ladder", "last", "lemmein", "lakewood", "jughead", "melrose", "megane", "reginald", "redone", "request", "angela1", "alive", "alissa", "goodgirl", "gonzo1", "golden1", "gotyoass", "656565", "626262", "capricor", "chains", "calvin1", "foolish", "fallon", "getmoney", "godfather", "gabber", "gilligan", "runaway", "salami", "dummy", "dungeon", "dudedude", "dumb", "dope", "opus", "paragon", "oxygen", "panhead", "pasadena", "opendoor", "odyssey", "magellan", "lottie", "printing", "pressure", "prince1", "trustme", "christa", "court", "davies", "neville", "nono", "bread", "buffet", "hound", "kajak", "killkill", "mona", "moto", "mildred", "winner1", "vixen", "whiteboy", "versace", "winona", "voyager1", "instant", "indy", "jackjack", "bigal", "beech", "biggun", "blake1", "blue99", "big1", "woods", "synergy", "success1", "336699", "sixty9", "shark1", "skin", "simba1", "sharpe", "sebring", "spongebo", "spunk", "springs", "sliver", "phialpha", "password9", "pizza1", "plane", "perkins", "pookey", "tickling", "lexingky", "lawman", "joe123", "jolly", "mike123", "romeo1", "redheads", "reserve", "apple123", "alanis", "ariane", "antony", "backbone", "aviation", "band", "hand", "green123", "haley", "carlitos", "byebye", "cartman1", "camden", "chewy", "camaross", "favorite6", "forumwp", "franks", "ginscoot", "fruity", "sabrina1", "devil666", "doughnut", "pantie", "oldone", "paintball", "lumina", "rainbow1", "prosper", "total", "true", "umbrella", "ajax", "951753", "achtung", "abc12345", "compact", "color", "corn", "complete", "christi", "closer", "corndog", "deerhunt", "darklord", "dank", "nimitz", "brandy1", "bowl", "breanna", "holidays", "hetfield", "holein1", "hillbill", "hugetits", "east", "evolutio", "kenobi", "whiplash", "waldo", "wg8e3wjf", "wing", "istanbul", "invis", "1996", "benton", "bigjohn", "bluebell", "beef", "beater", "benji", "bluejay", "xyzzy", "wrestling", "storage", "superior", "suckdick", "taichi", "stellar", "stephane", "shaker", "skirt", "seymour", "semper", "splurge", "squeak", "pearls", "playball", "pitch", "phyllis", "pooky", "piss", "tomas", "titfuck", "joemama", "johnny5", "marcello", "marjorie", "married", "maxi", "rhubarb", "rockwell", "ratboy", "reload", "rooney", "redd", "1029", "1030", "1220", "anchor", "bbking", "baritone", "gryphon", "gone", "57chevy", "494949", "celeron", "fishy", "gladiator", "fucker1", "roswell", "dougie", "downer", "dicker", "diva", "domingo", "donjuan", "nympho", "omar", "praise", "racers", "trick", "trauma", "truck1", "trample", "acer", "corwin", "cricket1", "clemente", "climax", "denmark", "cuervo", "notnow", "nittany", "neutron", "native", "bosco1", "buffa", "breaker", "hello2", "hydro", "estelle", "exchange", "explore", "kisskiss", "kittys", "kristian", "montecar", "modem", "mississi", "mooney", "weiner", "washington", "20012001", "bigdick1", "bibi", "benfica", "yahoo1", "striper", "tabasco", "supra", "383838", "456654", "seneca", "serious", "shuttle", "socks", "stanton", "penguin1", "pathfind", "testibil", "thethe", "listen", "lightning", "lighting", "jeter2", "marma", "mark1", "metoo", "republic", "rollin", "redleg", "redbone", "redskin", "rocco", "1245", "armand", "anthony7", "altoids", "andrews", "barley", "away", "asswipe", "bauhaus", "bbbbbb1", "gohome", "harrier", "golfpro", "goldeney", "818181", "6666666", "5000", "5rxypn", "cameron1", "calling", "checker", "calibra", "fields", "freefree", "faith1", "fist", "fdm7ed", "finally", "giraffe", "glasses", "giggles", "fringe", "gate", "georgie", "scamper", "rrpass1", "screwyou", "duffy", "deville", "dimples", "pacino", "ontario", "passthie", "oberon", "quest1", "postov1000", "puppydog", "puffer", "raining", "protect", "qwerty7", "trey", "tribe", "ulysses", "tribal", "adam25", "a1234567", "compton", "collie", "cleopatr", "contract", "davide", "norris", "namaste", "myrtle", "buffalo1", "bonovox", "buckley", "bukkake", "burning", "burner", "bordeaux", "burly", "hun999", "emilie", "elmo", "enters", "enrique", "keisha", "mohawk", "willard", "vgirl", "whale", "vince", "jayden", "jarrett", "1812", "1943", "222333", "bigjim", "bigd", "zoom", "wordup", "ziggy1", "yahooo", "workout", "young1", "written", "xmas", "zzzzzz1", "surfer1", "strife", "sunlight", "tasha1", "skunk", "shauna", "seth", "soft", "sprinter", "peaches1", "planes", "pinetree", "plum", "pimping", "theforce", "thedon", "toocool", "leeann", "laddie", "list", "lkjh", "lara", "joke", "jupiter1", "mckenzie", "matty", "rene", "redrose", "1200", "102938", "annmarie", "alexa", "antares", "austin31", "ground", "goose1", "737373", "78945612", "789987", "6464", "calimero", "caster", "casper1", "cement", "chevrolet", "chessie", "caddy", "chill", "child", "canucks", "feeling", "favorite", "fellatio", "f00tball", "francine", "gateway2", "gigi", "gamecube", "giovanna", "rugby1", "scheisse", "dshade", "dudes", "dixie1", "owen", "offshore", "olympia", "lucas1", "macaroni", "manga", "pringles", "puff", "tribble", "trouble1", "ussy", "core", "clint", "coolhand", "colonial", "colt", "debra", "darthvad", "dealer", "cygnusx1", "natalie1", "newark", "husband", "hiking", "errors", "eighteen", "elcamino", "emmett", "emilia", "koolaid", "knight1", "murphy1", "volcano", "idunno", "2005", "2233", "block", "benito", "blueberr", "biguns", "yamahar1", "zapper", "zorro1", "0911", "3006", "sixsix", "shopper", "siobhan", "sextoy", "stafford", "snowboard", "speedway", "sounds", "pokey", "peabody", "playboy2", "titi", "think", "toast", "toonarmy", "lister", "lambda", "joecool", "jonas", "joyce", "juniper", "mercer", "max123", "manny", "massimo", "mariposa", "met2002", "reggae", "ricky1", "1236", "1228", "1016", "all4one", "arianna", "baberuth", "asgard", "gonzales", "484848", "5683", "6669", "catnip", "chiquita", "charisma", "capslock", "cashmone", "chat", "figure", "galant", "frenchy", "gizmodo1", "girlies", "gabby", "garner", "screwy", "doubled", "divers", "dte4uw", "done", "dragonfl", "maker", "locks", "rachelle", "treble", "twinkie", "trailer", "tropical", "acid", "crescent", "cooking", "cococo", "cory", "dabomb", "daffy", "dandfa", "cyrano", "nathanie", "briggs", "boners", "helium", "horton", "hoffman", "hellas", "espresso", "emperor", "killa", "kikimora", "wanda", "w4g8at", "verona", "ilikeit", "iforget", "1944", "20002000", "birthday1", "beatles1", "blue1", "bigdicks", "beethove", "blacklab", "blazers", "benny1", "woodwork", "0069", "0101", "taffy", "susie", "survivor", "swim", "stokes", "4567", "shodan", "spoiled", "steffen", "pissed", "pavlov", "pinnacle", "place", "petunia", "terrell", "thirty", "toni", "tito", "teenie", "lemonade", "lily", "lillie", "lalakers", "lebowski", "lalalala", "ladyboy", "jeeper", "joyjoy", "mercury1", "mantle", "mannn", "rocknrol", "riversid", "reeves", "123aaa", "11112222", "121314", "1021", "1004", "1120", "allen1", "ambers", "amstel", "ambrose", "alice1", "alleycat", "allegro", "ambrosia", "alley", "australia", "hatred", "gspot", "graves", "goodsex", "hattrick", "harpoon", "878787", "8inches", "4wwvte", "cassandr", "charlie123", "case", "chavez", "fighting", "gabriela", "gatsby", "fudge", "gerry", "generic", "gareth", "fuckme2", "samm", "sage", "seadog", "satchmo", "scxakv", "santafe", "dipper", "dingle", "dizzy", "outoutout", "madmad", "london1", "qbg26i", "pussy123", "randolph", "vaughn", "tzpvaw", "vamp", "comedy", "comp", "cowgirl", "coldplay", "dawgs", "delaney", "nt5d27", "novifarm", "needles", "notredam", "newness", "mykids", "bryan1", "bouncer", "hihihi", "honeybee", "iceman1", "herring", "horn", "hook", "hotlips", "dynamo", "klaus", "kittie", "kappa", "kahlua", "muffy", "mizzou", "mohamed", "musical", "wannabe", "wednesda", "whatup", "weller", "waterfal", "willy1", "invest", "blanche", "bear1", "billabon", "youknow", "zelda", "yyyyyy1", "zachary1", "01234567", "070462", "zurich", "superstar", "storms", "tail", "stiletto", "strat", "427900", "sigmachi", "shelter", "shells", "sexy123", "smile1", "sophie1", "stefano", "stayout", "somerset", "smithers", "playmate", "pinkfloyd", "phish1", "payday", "thebear", "telefon", "laetitia", "kswbdu", "larson", "jetta", "jerky", "melina", "metro", "revoluti", "retire", "respect", "1216", "1201", "1204", "1222", "1115", "archange", "barry1", "handball", "676767", "chandra", "chewbacc", "flesh", "furball", "gocubs", "fruit", "fullback", "gman", "gentle", "dunbar", "dewalt", "dominiqu", "diver1", "dhip6a", "olemiss", "ollie", "mandrake", "mangos", "pretzel", "pusssy", "tripleh", "valdez", "vagabond", "clean", "comment", "crew", "clovis", "deaths", "dandan", "csfbr5yy", "deadspin", "darrel", "ninguna", "noah", "ncc74656", "bootsie", "bp2002", "bourbon", "brennan", "bumble", "books", "hose", "heyyou", "houston1", "hemlock", "hippo", "hornets", "hurricane", "horseman", "hogan", "excess", "extensa", "muffin1", "virginie", "werdna", "idontknow", "info", "iron", "jack1", "1bitch", "151nxjmt", "bendover", "bmwbmw", "bills", "zaq123", "wxcvbn", "surprise", "supernov", "tahoe", "talbot", "simona", "shakur", "sexyone", "seviyi", "sonja", "smart1", "speed1", "pepito", "phantom1", "playoffs", "terry1", "terrier", "laser1", "lite", "lancia", "johngalt", "jenjen", "jolene", "midori", "message", "maserati", "matteo", "mental", "miami1", "riffraff", "ronald1", "reason", "rhythm", "1218", "1026", "123987", "1015", "1103", "armada", "architec", "austria", "gotmilk", "hawkins", "gray", "camila", "camp", "cambridg", "charge", "camero", "flex", "foreplay", "getoff", "glacier", "glotest", "froggie", "gerbil", "rugger", "sanity72", "salesman", "donna1", "dreaming", "deutsch", "orchard", "oyster", "palmtree", "ophelia", "pajero", "m5wkqf", "magenta", "luckyone", "treefrog", "vantage", "usmarine", "tyvugq", "uptown", "abacab", "aaaaaa1", "advance", "chuck1", "delmar", "darkange", "cyclones", "nate", "navajo", "nope", "border", "bubba123", "building", "iawgk2", "hrfzlz", "dylan1", "enrico", "encore", "emilio", "eclipse1", "killian", "kayleigh", "mutant", "mizuno", "mustang2", "video1", "viewer", "weed420", "whales", "jaguar1", "insight", "1990", "159159", "1love", "bliss", "bears1", "bigtruck", "binder", "bigboss", "blitz", "xqgann", "yeahyeah", "zeke", "zardoz", "stickman", "table", "3825", "signal", "sentra", "side", "shiva", "skipper1", "singapor", "southpaw", "sonora", "squid", "slamdunk", "slimjim", "placid", "photon", "placebo", "pearl1", "test12", "therock1", "tiger123", "leinad", "legman", "jeepers", "joeblow", "mccarthy", "mike23", "redcar", "rhinos", "rjw7x4", "1102", "13576479", "112211", "alcohol", "gwju3g", "greywolf", "7bgiqk", "7878", "535353", "4snz9g", "candyass", "cccccc1", "carola", "catfight", "cali", "fister", "fosters", "finland", "frankie1", "gizzmo", "fuller", "royalty", "rugrat", "sandie", "rudolf", "dooley", "dive", "doreen", "dodo", "drop", "oemdlg", "out3xf", "paddy", "opennow", "puppy1", "qazwsxedc", "pregnant", "quinn", "ramjet", "under", "uncle", "abraxas", "corner", "creed", "cocoa", "crown", "cows", "cn42qj", "dancer1", "death666", "damned", "nudity", "negative", "nimda2k", "buick", "bobb", "braves1", "brook", "henrik", "higher", "hooligan", "dust", "everlast", "karachi", "mortis", "mulligan", "monies", "motocros", "wally1", "weapon", "waterman", "view", "willie1", "vicki", "inspiron", "1test", "2929", "bigblack", "xytfu7", "yackwin", "zaq1xsw2", "yy5rbfsc", "100100", "0660", "tahiti", "takehana", "talks", "332211", "3535", "sedona", "seawolf", "skydiver", "shine", "spleen", "slash", "spjfet", "special1", "spooner", "slimshad", "sopranos", "spock1", "penis1", "patches1", "terri", "thierry", "thething", "toohot", "large", "limpone", "johnnie", "mash4077", "matchbox", "masterp", "maxdog", "ribbit", "reed", "rita", "rockin", "redhat", "rising", "1113", "14789632", "1331", "allday", "aladin", "andrey", "amethyst", "ariel", "anytime", "baseball1", "athome", "basil", "goofy1", "greenman", "gustavo", "goofball", "ha8fyp", "goodday", "778899", "charon", "chappy", "castillo", "caracas", "cardiff", "capitals", "canada1", "cajun", "catter", "freddy1", "favorite2", "frazier", "forme", "follow", "forsaken", "feelgood", "gavin", "gfxqx686", "garlic", "sarge", "saskia", "sanjose", "russ", "salsa", "dilbert1", "dukeduke", "downhill", "longhair", "loop", "locutus", "lockdown", "malachi", "mamacita", "lolipop", "rainyday", "pumpkin1", "punker", "prospect", "rambo1", "rainbows", "quake", "twin", "trinity1", "trooper1", "aimee", "citation", "coolcat", "crappy", "default", "dental", "deniro", "d9ungl", "daddys", "napoli", "nautica", "nermal", "bukowski", "brick", "bubbles1", "bogota", "board", "branch", "breath", "buds", "hulk", "humphrey", "hitachi", "evans", "ender", "export", "kikiki", "kcchiefs", "kram", "morticia", "montrose", "mongo", "waqw3p", "wizzard", "visited", "whdbtp", "whkzyc", "image", "154ugeiu", "1fuck", "binky", "blind", "bigred1", "blubber", "benz", "becky1", "year2005", "wonderfu", "wooden", "xrated", "0001", "tampabay", "survey", "tammy1", "stuffer", "3mpz4r", "3000", "3some", "selina", "sierra1", "shampoo", "silk", "shyshy", "slapnuts", "standby", "spartan1", "sprocket", "sometime", "stanley1", "poker1", "plus", "thought", "theshit", "torture", "thinking", "lavalamp", "light1", "laserjet", "jediknig", "jjjjj1", "jocelyn", "mazda626", "menthol", "maximo", "margaux", "medic1", "release", "richter", "rhino1", "roach", "renate", "repair", "reveal", "1209", "1234321", "amigos", "apricot", "alexandra", "asdfgh1", "hairball", "hatter", "graduate", "grimace", "7xm5rq", "6789", "cartoons", "capcom", "cheesy", "cashflow", "carrots", "camping", "fanatic", "fool", "format", "fleming", "girlie", "glover", "gilmore", "gardner", "safeway", "ruthie", "dogfart", "dondon", "diapers", "outsider", "odin", "opiate", "lollol", "love12", "loomis", "mallrats", "prague", "primetime21", "pugsley", "program", "r29hqq", "touch", "valleywa", "airman", "abcdefg1", "darkone", "cummer", "dempsey", "damn", "nadia", "natedogg", "nineball", "ndeyl5", "natchez", "newone", "normandy", "nicetits", "buddy123", "buddys", "homely", "husky", "iceland", "hr3ytm", "highlife", "holla", "earthlin", "exeter", "eatmenow", "kimkim", "karine", "k2trix", "kernel", "kirkland", "money123", "moonman", "miles1", "mufasa", "mousey", "wilma", "wilhelm", "whites", "warhamme", "instinct", "jackass1", "2277", "20spanks", "blobby", "blair", "blinky", "bikers", "blackjack", "becca", "blue23", "xman", "wyvern", "085tzzqi", "zxzxzx", "zsmj2v", "suede", "t26gn4", "sugars", "sylvie", "tantra", "swoosh", "swiss", "4226", "4271", "321123", "383pdjvl", "shoe", "shane1", "shelby1", "spades", "spain", "smother", "soup", "sparhawk", "pisser", "photo1", "pebble", "phones", "peavey", "picnic", "pavement", "terra", "thistle", "tokyo", "therapy", "lives", "linden", "kronos", "lilbit", "linux", "johnston", "material", "melanie1", "marbles", "redlight", "reno", "recall", "1208", "1138", "1008", "alchemy", "aolsucks", "alexalex", "atticus", "auditt", "ballet", "b929ezzh", "goodyear", "hanna", "griffith", "gubber", "863abgsg", "7474", "797979", "464646", "543210", "4zqauf", "4949", "ch5nmk", "carlito", "chewey", "carebear", "caleb", "checkmat", "cheddar", "chachi", "fever", "forgetit", "fine", "forlife", "giants1", "gates", "getit", "gamble", "gerhard", "galileo", "g3ujwg", "ganja", "rufus1", "rushmore", "scouts", "discus", "dudeman", "olympus", "oscars", "osprey", "madcow", "locust", "loyola", "mammoth", "proton", "rabbit1", "question", "ptfe3xxp", "pwxd5x", "purple1", "punkass", "prophecy", "uyxnyd", "tyson1", "aircraft", "access99", "abcabc", "cocktail", "colts", "civilwar", "cleveland", "claudia1", "contour", "clement", "dddddd1", "cypher", "denied", "dapzu455", "dagmar", "daisydog", "name", "noles", "butters", "buford", "hoochie", "hotel", "hoser", "eddy", "ellis", "eldiablo", "kingrich", "mudvayne", "motown", "mp8o6d", "wife", "vipergts", "italiano", "innocent", "2055", "2211", "beavers", "bloke", "blade1", "yamato", "zooropa", "yqlgr667", "050505", "zxcvbnm1", "zw6syj", "suckcock", "tango1", "swing", "stern", "stephens", "swampy", "susanna", "tammie", "445566", "333666", "380zliki", "sexpot", "sexylady", "sixtynin", "sickboy", "spiffy", "sleeping", "skylark", "sparkles", "slam", "pintail", "phreak", "places", "teller", "timtim", "tires", "thighs", "left", "latex", "llamas", "letsdoit", "lkjhg", "landmark", "letters", "lizzard", "marlins", "marauder", "metal1", "manu", "register", "righton", "1127", "alain", "alcat", "amigo", "basebal1", "azertyui", "attract", "azrael", "hamper", "gotenks", "golfgti", "gutter", "hawkwind", "h2slca", "harman", "grace1", "6chid8", "789654", "canine", "casio", "cazzo", "chamber", "cbr900", "cabrio", "calypso", "capetown", "feline", "flathead", "fisherma", "flipmode", "fungus", "goal", "g9zns4", "full", "giggle", "gabriel1", "fuck123", "saffron", "dogmeat", "dreamcas", "dirtydog", "dunlop", "douche", "dresden", "dickdick", "destiny1", "pappy", "oaktree", "lydia", "luft4", "puta", "prayer", "ramada", "trumpet1", "vcradq", "tulip", "tracy71", "tycoon", "aaaaaaa1", "conquest", "click", "chitown", "corps", "creepers", "constant", "couples", "code", "cornhole", "danman", "dada", "density", "d9ebk7", "cummins", "darth", "cute", "nash", "nirvana1", "nixon", "norbert", "nestle", "brenda1", "bonanza", "bundy", "buddies", "hotspur", "heavy", "horror", "hufmqw", "electro", "erasure", "enough", "elisabet", "etvww4", "ewyuza", "eric1", "kinder", "kenken", "kismet", "klaatu", "musician", "milamber", "willi", "waiting", "isacs155", "igor", "1million", "1letmein", "x35v8l", "yogi", "ywvxpz", "xngwoj", "zippy1", "020202", "****", "stonewal", "sweeney", "story", "sentry", "sexsexsex", "spence", "sonysony", "smirnoff", "star12", "solace", "sledge", "states", "snyder", "star1", "paxton", "pentagon", "pkxe62", "pilot1", "pommes", "paulpaul", "plants", "tical", "tictac", "toes", "lighthou", "lemans", "kubrick", "letmein22", "letmesee", "jys6wz", "jonesy", "jjjjjj1", "jigga", "joelle", "mate", "merchant", "redstorm", "riley1", "rosa", "relief", "14141414", "1126", "allison1", "badboy1", "asthma", "auggie", "basement", "hartley", "hartford", "hardwood", "gumbo", "616913", "57np39", "56qhxs", "4mnveh", "cake", "forbes", "fatluvr69", "fqkw5m", "fidelity", "feathers", "fresno", "godiva", "gecko", "gladys", "gibson1", "gogators", "fridge", "general1", "saxman", "rowing", "sammys", "scotts", "scout1", "sasasa", "samoht", "dragon69", "ducky", "dragonball", "driller", "p3wqaw", "nurse", "papillon", "oneone", "openit", "optimist", "longshot", "portia", "rapier", "pussy2", "ralphie", "tuxedo", "ulrike", "undertow", "trenton", "copenhag", "come", "delldell", "culinary", "deltas", "mytime", "nicky", "nickie", "noname", "noles1", "bucker", "bopper", "bullock", "burnout", "bryce", "hedges", "ibilltes", "hihje863", "hitter", "ekim", "espana", "eatme69", "elpaso", "envelope", "express1", "eeeeee1", "eatme1", "karaoke", "kara", "mustang5", "misses", "wellingt", "willem", "waterski", "webcam", "jasons", "infinite", "iloveyou!", "jakarta", "belair", "bigdad", "beerme", "yoshi", "yinyang", "zimmer", "x24ik3", "063dyjuy", "0000007", "ztmfcq", "stopit", "stooges", "survival", "stockton", "symow8", "strato", "2hot4u", "ship", "simons", "skins", "shakes", "sex1", "shield", "snacks", "softtail", "slimed123", "pizzaman", "pipe", "pitt", "pathetic", "pinto", "tigercat", "tonton", "lager", "lizzy", "juju", "john123", "jennings", "josiah", "jesse1", "jordon", "jingles", "martian", "mario1", "rootedit", "rochard", "redwine", "requiem", "riverrat", "rats", "1117", "1014", "1205", "althea", "allie", "amor", "amiga", "alpina", "alert", "atreides", "banana1", "bahamut", "hart", "golfman", "happines", "7uftyx", "5432", "5353", "5151", "4747", "byron", "chatham", "chadwick", "cherie", "foxfire", "ffvdj474", "freaked", "foreskin", "gayboy", "gggggg1", "glenda", "gameover", "glitter", "funny1", "scoobydoo", "scroll", "rudolph", "saddle", "saxophon", "dingbat", "digimon", "omicron", "parsons", "ohio", "panda1", "loloxx", "macintos", "lululu", "lollypop", "racer1", "queen1", "qwertzui", "prick", "upnfmc", "tyrant", "trout1", "9skw5g", "aceman", "adelaide", "acls2h", "aaabbb", "acapulco", "aggie", "comcast", "craft", "crissy", "cloudy", "cq2kph", "custer", "d6o8pm", "cybersex", "davecole", "darian", "crumbs", "daisey", "davedave", "dasani", "needle", "mzepab", "myporn", "narnia", "nineteen", "booger1", "bravo1", "budgie", "btnjey", "highlander", "hotel6", "humbug", "edwin", "ewtosi", "kristin1", "kobe", "knuckles", "keith1", "katarina", "muff", "muschi", "montana1", "wingchun", "wiggle", "whatthe", "walking", "watching", "vette1", "vols", "virago", "intj3a", "ishmael", "intern", "jachin", "illmatic", "199999", "2010", "beck", "blender", "bigpenis", "bengal", "blue1234", "your", "zaqxsw", "xray", "xxxxxxx1", "zebras", "yanks", "worlds", "tadpole", "stripes", "svetlana", "3737", "4343", "3728", "4444444", "368ejhih", "solar", "sonne", "smalls", "sniffer", "sonata", "squirts", "pitcher", "playstation", "pktmxr", "pescator", "points", "texaco", "lesbos", "lilian", "l8v53x", "jo9k2jw2", "jimbeam", "josie", "jimi", "jupiter2", "jurassic", "marines1", "maya", "rocket1", "ringer", "14725836", "12345679", "1219", "123098", "1233", "alessand", "althor", "angelika", "arch", "armando", "alpha123", "basher", "barefeet", "balboa", "bbbbb1", "banks", "badabing", "harriet", "gopack", "golfnut", "gsxr1000", "gregory1", "766rglqy", "8520", "753159", "8dihc6", "69camaro", "666777", "cheeba", "chino", "calendar", "cheeky", "camel1", "fishcake", "falling", "flubber", "giuseppe", "gianni", "gloves", "gnasher23", "frisbee", "fuzzy1", "fuzzball", "sauce", "save13tx", "schatz", "russell1", "sandra1", "scrotum", "scumbag", "sabre", "samdog", "dripping", "dragon12", "dragster", "paige", "orwell", "mainland", "lunatic", "lonnie", "lotion", "maine", "maddux", "qn632o", "poophead", "rapper", "porn4life", "producer", "rapunzel", "tracks", "velocity", "vanessa1", "ulrich", "trueblue", "vampire1", "abacus", "902100", "crispy", "corky", "crane", "chooch", "d6wnro", "cutie", "deal", "dabulls", "dehpye", "navyseal", "njqcw4", "nownow", "nigger1", "nightowl", "nonenone", "nightmar", "bustle", "buddy2", "boingo", "bugman", "bulletin", "bosshog", "bowie", "hybrid", "hillside", "hilltop", "hotlegs", "honesty", "hzze929b", "hhhhh1", "hellohel", "eloise", "evilone", "edgewise", "e5pftu", "eded", "embalmer", "excalibur", "elefant", "kenzie", "karl", "karin", "killah", "kleenex", "mouses", "mounta1n", "motors", "mutley", "muffdive", "vivitron", "winfield", "wednesday", "w00t88", "iloveit", "jarjar", "incest", "indycar", "17171717", "1664", "17011701", "222777", "2663", "beelch", "benben", "yitbos", "yyyyy1", "yasmin", "zapata", "zzzzz1", "stooge", "tangerin", "taztaz", "stewart1", "summer69", "sweetness", "system1", "surveyor", "stirling", "3qvqod", "3way", "456321", "sizzle", "simhrq", "shrink", "shawnee", "someday", "sparty", "ssptx452", "sphere", "spark", "slammed", "sober", "persian", "peppers", "ploppy", "pn5jvw", "poobear", "pianos", "plaster", "testme", "tiff", "thriller", "larissa", "lennox", "jewell", "master12", "messier", "rockey", "1229", "1217", "1478", "1009", "anastasi", "almighty", "amonra", "aragon", "argentin", "albino", "azazel", "grinder", "6uldv8", "83y6pv", "8888888", "4tlved", "515051", "carsten", "changes", "flanders", "flyers88", "ffffff1", "firehawk", "foreman", "firedog", "flashman", "ggggg1", "gerber", "godspeed", "galway", "giveitup", "funtimes", "gohan", "giveme", "geryfe", "frenchie", "sayang", "rudeboy", "savanna", "sandals", "devine", "dougal", "drag0n", "dga9la", "disaster", "desktop", "only", "onlyone", "otter", "pandas", "mafia", "lombard", "luckys", "lovejoy", "lovelife", "manders", "product", "qqh92r", "qcmfd454", "pork", "radar1", "punani", "ptbdhw", "turtles", "undertaker", "trs8f7", "tramp", "ugejvp", "abba", "911turbo", "acdc", "abcd123", "clever", "corina", "cristian", "create", "crash1", "colony", "crosby", "delboy", "daniele", "davinci", "daughter", "notebook", "niki", "nitrox", "borabora", "bonzai", "budd", "brisbane", "hotter", "heeled", "heroes", "hooyah", "hotgirl", "i62gbq", "horse1", "hills", "hpk2qc", "epvjb6", "echo", "korean", "kristie", "mnbvc", "mohammad", "mind", "mommy1", "munster", "wade", "wiccan", "wanted", "jacket", "2369", "bettyboo", "blondy", "bismark", "beanbag", "bjhgfi", "blackice", "yvtte545", "ynot", "yess", "zlzfrh", "wolvie", "007bond", "******", "tailgate", "tanya1", "sxhq65", "stinky1", "3234412", "3ki42x", "seville", "shimmer", "sheryl", "sienna", "shitshit", "skillet", "seaman", "sooners1", "solaris", "smartass", "pastor", "pasta", "pedros", "pennywis", "pfloyd", "tobydog", "thetruth", "lethal", "letme1n", "leland", "jenifer", "mario66", "micky", "rocky2", "rewq", "ripped", "reindeer", "1128", "1207", "1104", "1432", "aprilia", "allstate", "alyson", "bagels", "basic", "baggies", "barb", "barrage", "greatest", "gomez", "guru", "guard", "72d5tn", "606060", "4wcqjn", "caldwell", "chance1", "catalog", "faust", "film", "flange", "fran", "fartman", "geil", "gbhcf2", "fussball", "glen", "fuaqz4", "gameboy", "garnet", "geneviev", "rotary", "seahawk", "russel", "saab", "seal", "samadams", "devlt4", "ditto", "drevil", "drinker", "deuce", "dipstick", "donut", "octopus", "ottawa", "losangel", "loverman", "porky", "q9umoz", "rapture", "pump", "pussy4me", "university", "triplex", "ue8fpw", "trent", "trophy", "turbos", "troubles", "agent", "aaa340", "churchil", "crazyman", "consult", "creepy", "craven", "class", "cutiepie", "ddddd1", "dejavu", "cuxldv", "nettie", "nbvibt", "nikon", "niko", "norwood", "nascar1", "nolan", "bubba2", "boobear", "boogers", "buff", "bullwink", "bully", "bulldawg", "horsemen", "escalade", "editor", "eagle2", "dynamic", "ella", "efyreg", "edition", "kidney", "minnesot", "mogwai", "morrow", "msnxbi", "moonlight", "mwq6qlzo", "wars", "werder", "verygood", "voodoo1", "wheel", "iiiiii1", "159951", "1624", "1911a1", "2244", "bellagio", "bedlam", "belkin", "bill1", "woodrow", "xirt2k", "worship", "??????", "tanaka", "swift", "susieq", "sundown", "sukebe", "tales", "swifty", "2fast4u", "senate", "sexe", "sickness", "shroom", "shaun", "seaweed", "skeeter1", "status", "snicker", "sorrow", "spanky1", "spook", "patti", "phaedrus", "pilots", "pinch", "peddler", "theo", "thumper1", "tessie", "tiger7", "tmjxn151", "thematri", "l2g7k3", "letmeinn", "lazy", "jeffjeff", "joan", "johnmish", "mantra", "mariana", "mike69", "marshal", "mart", "mazda6", "riptide", "robots", "rental", "1107", "1130", "142857", "11001001", "1134", "armored", "alvin", "alec", "allnight", "alright", "amatuers", "bartok", "attorney", "astral", "baboon", "bahamas", "balls1", "bassoon", "hcleeb", "happyman", "granite", "graywolf", "golf1", "gomets", "8vjzus", "7890", "789123", "8uiazp", "5757", "474jdvff", "551scasi", "50cent", "camaro1", "cherry1", "chemist", "final", "firenze", "fishtank", "farrell", "freewill", "glendale", "frogfrog", "gerhardt", "ganesh", "same", "scirocco", "devilman", "doodles", "dinger", "okinawa", "olympic", "nursing", "orpheus", "ohmygod", "paisley", "pallmall", "null", "lounge", "lunchbox", "manhatta", "mahalo", "mandarin", "qwqwqw", "qguvyt", "pxx3eftp", "president", "rambler", "puzzle", "poppy1", "turk182", "trotter", "vdlxuc", "trish", "tugboat", "valiant", "tracie", "uwrl7c", "chris123", "coaster", "cmfnpu", "decimal", "debbie1", "dandy", "daedalus", "dede", "natasha1", "nissan1", "nancy123", "nevermin", "napalm", "newcastle", "boats", "branden", "britt", "bonghit", "hester", "ibxnsm", "hhhhhh1", "holger", "durham", "edmonton", "erwin", "equinox", "dvader", "kimmy", "knulla", "mustafa", "monsoon", "mistral", "morgana", "monica1", "mojave", "month", "monterey", "mrbill", "vkaxcs", "victor1", "wacker", "wendell", "violator", "vfdhif", "wilson1", "wavpzt", "verena", "wildstar", "winter99", "iqzzt580", "jarrod", "imback", "1914", "19741974", "1monkey", "1q2w3e4r5t", "2500", "2255", "blank", "bigshow", "bigbucks", "blackcoc", "zoomer", "wtcacq", "wobble", "xmen", "xjznq5", "yesterda", "yhwnqc", "zzzxxx", "streak", "393939", "2fchbg", "skinhead", "skilled", "shakira", "shaft", "shadow12", "seaside", "sigrid", "sinful", "silicon", "smk7366", "snapshot", "sniper1", "soccer11", "staff", "slap", "smutty", "peepers", "pleasant", "plokij", "pdiddy", "pimpdaddy", "thrust", "terran", "topaz", "today1", "lionhear", "littlema", "lauren1", "lincoln1", "lgnu9d", "laughing", "juneau", "methos", "medina", "merlyn", "rogue1", "romulus", "redshift", "1202", "1469", "12locked", "arizona1", "alfarome", "al9agd", "aol123", "altec", "apollo1", "arse", "baker1", "bbb747", "bach", "axeman", "astro1", "hawthorn", "goodfell", "hawks1", "gstring", "hannes", "8543852", "868686", "4ng62t", "554uzpad", "5401", "567890", "5232", "catfood", "frame", "flow", "fire1", "flipflop", "fffff1", "fozzie", "fluff", "garrison", "fzappa", "furious", "round", "rustydog", "sandberg", "scarab", "satin", "ruger", "samsung1", "destin", "diablo2", "dreamer1", "detectiv", "dominick", "doqvq3", "drywall", "paladin1", "papabear", "offroad", "panasonic", "nyyankee", "luetdi", "qcfmtz", "pyf8ah", "puddles", "privacy", "rainer", "pussyeat", "ralph1", "princeto", "trivia", "trewq", "tri5a3", "advent", "9898", "agyvorc", "clarkie", "coach1", "courier", "contest", "christo", "corinna", "chowder", "concept", "climbing", "cyzkhw", "davidb", "dad2ownu", "days", "daredevi", "de7mdf", "nose", "necklace", "nazgul", "booboo1", "broad", "bonzo", "brenna", "boot", "butch1", "huskers1", "hgfdsa", "hornyman", "elmer", "elektra", "england1", "elodie", "kermit1", "knife", "kaboom", "minute", "modern", "motherfucker", "morten", "mocha", "monday1", "morgoth", "ward", "weewee", "weenie", "walters", "vorlon", "website", "wahoo", "ilovegod", "insider", "jayman", "1911", "1dallas", "1900", "1ranger", "201jedlz", "2501", "1qaz", "bertram", "bignuts", "bigbad", "beebee", "billows", "belize", "bebe", "wvj5np", "wu4etd", "yamaha1", "wrinkle5", "zebra1", "yankee1", "zoomzoom", "09876543", "0311", "?????", "stjabn", "tainted", "3tmnej", "shoot", "skooter", "skelter", "sixteen", "starlite", "smack", "spice1", "stacey1", "smithy", "perrin", "pollux", "peternorth", "pixie", "paulina", "piston", "pick", "poets", "pine", "toons", "tooth", "topspin", "kugm7b", "legends", "jeepjeep", "juliana", "joystick", "junkmail", "jojojojo", "jonboy", "judge", "midland", "meteor", "mccabe", "matter", "mayfair", "meeting", "merrill", "raul", "riches", "reznor", "rockrock", "reboot", "reject", "robyn", "renee1", "roadway", "rasta220", "1411", "1478963", "1019", "archery", "allman", "andyandy", "barks", "bagpuss", "auckland", "gooseman", "hazmat", "gucci", "guns", "grammy", "happydog", "greek", "7kbe9d", "7676", "6bjvpe", "5lyedn", "5858", "5291", "charlie2", "chas", "c7lrwu", "candys", "chateau", "ccccc1", "cardinals", "fear", "fihdfv", "fortune12", "gocats", "gaelic", "fwsadn", "godboy", "gldmeo", "fx3tuo", "fubar1", "garland", "generals", "gforce", "rxmtkp", "rulz", "sairam", "dunhill", "division", "dogggg", "detect", "details", "doll", "drinks", "ozlq6qwm", "ov3ajy", "lockout", "makayla", "macgyver", "mallorca", "loves", "prima", "pvjegu", "qhxbij", "raphael", "prelude1", "totoro", "tusymo", "trousers", "tunnel", "valeria", "tulane", "turtle1", "tracy1", "aerosmit", "abbey1", "address", "clticic", "clueless", "cooper1", "comets", "collect", "corbin", "delpiero", "derick", "cyprus", "dante1", "dave1", "nounours", "neal", "nexus6", "nero", "nogard", "norfolk", "brent1", "booyah", "bootleg", "buckaroo", "bulls23", "bulls1", "booper", "heretic", "icecube", "hellno", "hounds", "honeydew", "hooters1", "hoes", "howie", "hevnm4", "hugohugo", "eighty", "epson", "evangeli", "eeeee1", "eyphed"];
+
+module.exports = CommonPasswords;
+
+/***/ }),
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4368,11 +4840,6 @@ if (!Element.prototype.matches) {
 }
 
 /***/ }),
-/* 161 */,
-/* 162 */,
-/* 163 */,
-/* 164 */,
-/* 165 */,
 /* 166 */,
 /* 167 */,
 /* 168 */,
@@ -4381,7 +4848,12 @@ if (!Element.prototype.matches) {
 /* 171 */,
 /* 172 */,
 /* 173 */,
-/* 174 */
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4435,7 +4907,7 @@ UILoader.propTypes = {
 exports.default = UILoader;
 
 /***/ }),
-/* 175 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4445,7 +4917,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _classnames = __webpack_require__(10);
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -4455,87 +4931,98 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _tooltip = __webpack_require__(134);
+
+var _tooltip2 = _interopRequireDefault(_tooltip);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var InputField = function InputField(_ref) {
+    var className = _ref.className,
+        error_messages = _ref.error_messages,
+        helper = _ref.helper,
+        is_float = _ref.is_float,
+        is_disabled = _ref.is_disabled,
+        label = _ref.label,
+        name = _ref.name,
+        onChange = _ref.onChange,
+        placeholder = _ref.placeholder,
+        prefix = _ref.prefix,
+        required = _ref.required,
+        _ref$step = _ref.step,
+        step = _ref$step === undefined ? '0.01' : _ref$step,
+        type = _ref.type,
+        value = _ref.value;
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+    var has_error = error_messages && error_messages.length;
+    var input = _react2.default.createElement('input', {
+        className: (0, _classnames2.default)({ error: has_error }),
+        type: type,
+        name: name,
+        step: is_float ? step : undefined,
+        placeholder: placeholder || undefined,
+        disabled: is_disabled,
+        value: value,
+        onChange: onChange,
+        required: required || undefined,
+        'data-tip': true,
+        'data-for': 'error_tooltip_' + name
+    });
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var InputField = function (_React$Component) {
-    _inherits(InputField, _React$Component);
-
-    function InputField() {
-        _classCallCheck(this, InputField);
-
-        return _possibleConstructorReturn(this, (InputField.__proto__ || Object.getPrototypeOf(InputField)).apply(this, arguments));
-    }
-
-    _createClass(InputField, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                { className: 'input-field ' + (this.props.className ? this.props.className : '') },
-                !!this.props.label && _react2.default.createElement(
-                    'label',
-                    { htmlFor: this.props.name, className: 'input-label' },
-                    this.props.label
-                ),
-                !!this.props.prefix && _react2.default.createElement(
-                    'i',
-                    null,
-                    _react2.default.createElement('span', { className: 'symbols ' + this.props.prefix.toLowerCase() })
-                ),
-                _react2.default.createElement('input', {
-                    type: this.props.type,
-                    name: this.props.name,
-                    step: this.props.is_currency ? '0.01' : undefined,
-                    placeholder: this.props.placeholder || undefined,
-                    disabled: this.props.is_disabled,
-                    value: this.props.value,
-                    onChange: this.props.onChange,
-                    required: this.props.required || undefined
-                }),
-                !!this.props.helper && _react2.default.createElement(
-                    'span',
-                    { className: 'input-helper' },
-                    this.props.helper
-                )
-            );
-        }
-    }]);
-
-    return InputField;
-}(_react2.default.Component);
+    return _react2.default.createElement(
+        'div',
+        {
+            className: 'input-field ' + (className || '')
+        },
+        _react2.default.createElement(
+            _tooltip2.default,
+            { alignment: 'left', message: has_error ? error_messages[0] : null },
+            !!label && _react2.default.createElement(
+                'label',
+                { htmlFor: name, className: 'input-label' },
+                label
+            ),
+            !!prefix && _react2.default.createElement(
+                'i',
+                null,
+                _react2.default.createElement('span', { className: 'symbols ' + prefix.toLowerCase() })
+            ),
+            !!helper && _react2.default.createElement(
+                'span',
+                { className: 'input-helper' },
+                helper
+            ),
+            input
+        )
+    );
+};
 
 // ToDo: Refactor input_field
 // supports more than two different types of 'value' as a prop.
 // Quick Solution - Pass two different props to input field.
 
-
+// import ReactTooltip              from 'react-tooltip';
 InputField.propTypes = {
     className: _propTypes2.default.string,
+    error_messages: _mobxReact.PropTypes.arrayOrObservableArray,
     helper: _propTypes2.default.bool,
-    is_currency: _propTypes2.default.bool,
+    is_float: _propTypes2.default.bool,
     is_disabled: _propTypes2.default.string,
-    is_nativepicker: _propTypes2.default.bool,
     label: _propTypes2.default.string,
     name: _propTypes2.default.string,
-    number: _propTypes2.default.string,
     onChange: _propTypes2.default.func,
     placeholder: _propTypes2.default.string,
     prefix: _propTypes2.default.string,
     required: _propTypes2.default.bool,
+    step: _propTypes2.default.string,
     type: _propTypes2.default.string,
     value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
 };
 
-exports.default = InputField;
+exports.default = (0, _mobxReact.observer)(InputField);
 
 /***/ }),
-/* 176 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4546,7 +5033,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.RouteWithSubRoutes = exports.default = exports.BinaryLink = undefined;
 
-var _helpers = __webpack_require__(70);
+var _helpers = __webpack_require__(72);
 
 Object.keys(_helpers).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -4558,15 +5045,15 @@ Object.keys(_helpers).forEach(function (key) {
   });
 });
 
-var _binary_link = __webpack_require__(487);
+var _binary_link = __webpack_require__(491);
 
 var _binary_link2 = _interopRequireDefault(_binary_link);
 
-var _binary_routes = __webpack_require__(488);
+var _binary_routes = __webpack_require__(492);
 
 var _binary_routes2 = _interopRequireDefault(_binary_routes);
 
-var _route_with_sub_routes = __webpack_require__(253);
+var _route_with_sub_routes = __webpack_require__(261);
 
 var _route_with_sub_routes2 = _interopRequireDefault(_route_with_sub_routes);
 
@@ -4577,7 +5064,7 @@ exports.default = _binary_routes2.default;
 exports.RouteWithSubRoutes = _route_with_sub_routes2.default;
 
 /***/ }),
-/* 177 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4623,7 +5110,49 @@ RedirectOnClick.propTypes = {
 exports.default = (0, _reactRouterDom.withRouter)(RedirectOnClick);
 
 /***/ }),
-/* 178 */
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mobxReact = __webpack_require__(17);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconFlag = function IconFlag() {
+    return _react2.default.createElement(
+        'svg',
+        { xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16', viewBox: '0 0 16 16' },
+        _react2.default.createElement(
+            'g',
+            { fill: 'none', fillRule: 'evenodd' },
+            _react2.default.createElement('path', { d: 'M0 0h16v16H0z' }),
+            _react2.default.createElement('path', { className: 'color1-fill', fill: '#fff', fillRule: 'nonzero', d: 'M5.736 15.144c.082.377-.181.745-.588.821-.406.076-.802-.167-.885-.545L1.084.856c-.082-.377.181-.745.588-.821.406-.077.802.167.885.544l3.179 14.565zM13.136 1.235c-2.8.256-3.3-1.03-5.971-.993C5.638.264 4.12.638 3.364.917l1.897 8.692c.462-.153 1.14-.284 2.054-.22 1.213.083 1.667.897 4.38.708 1.952-.137 3.029-1.223 3.029-1.223l.873-8.548s-.544.734-2.461.91z' })
+        )
+    );
+};
+
+IconFlag.propTypes = {
+    color: _propTypes2.default.string
+};
+
+exports.default = (0, _mobxReact.observer)(IconFlag);
+
+/***/ }),
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4633,7 +5162,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _icon_maximize = __webpack_require__(505);
+var _icon_maximize = __webpack_require__(513);
 
 Object.keys(_icon_maximize).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -4645,7 +5174,7 @@ Object.keys(_icon_maximize).forEach(function (key) {
   });
 });
 
-var _icon_quick_portfolio = __webpack_require__(506);
+var _icon_quick_portfolio = __webpack_require__(514);
 
 Object.keys(_icon_quick_portfolio).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -4657,7 +5186,7 @@ Object.keys(_icon_quick_portfolio).forEach(function (key) {
   });
 });
 
-var _icon_settings = __webpack_require__(507);
+var _icon_settings = __webpack_require__(515);
 
 Object.keys(_icon_settings).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -4670,7 +5199,7 @@ Object.keys(_icon_settings).forEach(function (key) {
 });
 
 /***/ }),
-/* 179 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4680,7 +5209,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _icon_trade_types = __webpack_require__(517);
+var _icon_trade_types = __webpack_require__(525);
 
 Object.keys(_icon_trade_types).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -4693,7 +5222,7 @@ Object.keys(_icon_trade_types).forEach(function (key) {
 });
 
 /***/ }),
-/* 180 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4728,7 +5257,7 @@ var contract_type_display = exports.contract_type_display = {
 };
 
 /***/ }),
-/* 181 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4740,7 +5269,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _subscription_manager = __webpack_require__(579);
+var _subscription_manager = __webpack_require__(590);
 
 var _subscription_manager2 = _interopRequireDefault(_subscription_manager);
 
@@ -4886,7 +5415,85 @@ var WS = function () {
 exports.default = WS;
 
 /***/ }),
-/* 182 */
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var getChartConfig = exports.getChartConfig = function getChartConfig(contract_info) {
+    if (!isEnded(contract_info)) return {}; // don't limit the range for ongoing contracts until smartchart supports it
+
+    var start = contract_info.date_start;
+    var end = contract_info.date_expiry;
+    var granularity = calculateGranularity(end - start);
+
+    return {
+        granularity: granularity,
+        chart_type: granularity ? 'candle' : 'mountain',
+        end_epoch: end + (granularity || 3),
+        start_epoch: start - (granularity || 3)
+    };
+};
+
+var hour_to_granularity_map = [[1, 0], [2, 120], [6, 600], [24, 900], [5 * 24, 3600], [30 * 24, 14400]];
+var calculateGranularity = function calculateGranularity(duration) {
+    return (hour_to_granularity_map.find(function (m) {
+        return duration <= m[0] * 3600;
+    }) || [null, 86400])[1];
+};
+
+var getDisplayStatus = exports.getDisplayStatus = function getDisplayStatus(contract_info) {
+    var status = 'purchased';
+    if (isEnded(contract_info)) {
+        status = contract_info.profit >= 0 ? 'won' : 'lost';
+    }
+    return status;
+};
+
+// for path dependent contracts the contract is sold from server side
+// so we need to use sell spot and sell spot time instead
+var getEndSpot = exports.getEndSpot = function getEndSpot(contract_info) {
+    return contract_info.is_path_dependent ? contract_info.sell_spot : contract_info.exit_tick;
+};
+
+var getEndSpotTime = exports.getEndSpotTime = function getEndSpotTime(contract_info) {
+    return contract_info.is_path_dependent ? contract_info.sell_spot_time : contract_info.exit_tick_time;
+};
+
+var getFinalPrice = exports.getFinalPrice = function getFinalPrice(contract_info) {
+    return +(contract_info.sell_price || contract_info.bid_price);
+};
+
+var getIndicativePrice = exports.getIndicativePrice = function getIndicativePrice(contract_info) {
+    return getFinalPrice(contract_info) && isEnded(contract_info) ? getFinalPrice(contract_info) : +contract_info.bid_price || null;
+};
+
+var isEnded = exports.isEnded = function isEnded(contract_info) {
+    return !!(contract_info.status && contract_info.status !== 'open' || contract_info.is_expired || contract_info.is_settleable);
+};
+
+var isSoldBeforeStart = exports.isSoldBeforeStart = function isSoldBeforeStart(contract_info) {
+    return contract_info.sell_time && +contract_info.sell_time < +contract_info.date_start;
+};
+
+var isStarted = exports.isStarted = function isStarted(contract_info) {
+    return !contract_info.is_forward_starting || contract_info.current_spot_time > contract_info.date_start;
+};
+
+var isUserSold = exports.isUserSold = function isUserSold(contract_info) {
+    return contract_info.status === 'sold';
+};
+
+var isValidToSell = exports.isValidToSell = function isValidToSell(contract_info) {
+    return !isEnded(contract_info) && !isUserSold(contract_info) && +contract_info.is_valid_to_sell === 1;
+};
+
+/***/ }),
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4924,14 +5531,120 @@ var BARRIER_LINE_STYLES = exports.BARRIER_LINE_STYLES = {
 };
 
 /***/ }),
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */,
-/* 189 */,
-/* 190 */,
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _moment = __webpack_require__(9);
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _localize = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var duration_maps = {
+    t: { display: 'ticks', order: 1 },
+    s: { display: 'seconds', order: 2, to_second: 1 },
+    m: { display: 'minutes', order: 3, to_second: 60 },
+    h: { display: 'hours', order: 4, to_second: 60 * 60 },
+    d: { display: 'days', order: 5, to_second: 60 * 60 * 24 }
+};
+
+var buildDurationConfig = function buildDurationConfig(contract) {
+    var durations = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { min_max: {}, units_display: {} };
+
+    durations.min_max[contract.start_type] = durations.min_max[contract.start_type] || {};
+    durations.units_display[contract.start_type] = durations.units_display[contract.start_type] || [];
+
+    var obj_min = getDurationFromString(contract.min_contract_duration);
+    var obj_max = getDurationFromString(contract.max_contract_duration);
+
+    durations.min_max[contract.start_type][contract.expiry_type] = {
+        min: convertDurationUnit(obj_min.duration, obj_min.unit, 's'),
+        max: convertDurationUnit(obj_max.duration, obj_max.unit, 's')
+    };
+
+    var arr_units = [];
+    durations.units_display[contract.start_type].forEach(function (obj) {
+        arr_units.push(obj.value);
+    });
+    if (/^tick|daily$/.test(contract.expiry_type)) {
+        if (arr_units.indexOf(obj_min.unit) === -1) {
+            arr_units.push(obj_min.unit);
+        }
+    } else {
+        Object.keys(duration_maps).forEach(function (u) {
+            if (arr_units.indexOf(u) === -1 && duration_maps[u].order >= duration_maps[obj_min.unit].order && duration_maps[u].order <= duration_maps[obj_max.unit].order) {
+                arr_units.push(u);
+            }
+        });
+    }
+
+    durations.units_display[contract.start_type] = arr_units.sort(function (a, b) {
+        return duration_maps[a].order > duration_maps[b].order ? 1 : -1;
+    }).reduce(function (o, c) {
+        return [].concat(_toConsumableArray(o), [{ text: (0, _localize.localize)(duration_maps[c].display), value: c }]);
+    }, []);
+
+    return durations;
+};
+
+var convertDurationUnit = function convertDurationUnit(value, from_unit, to_unit) {
+    if (!value || !from_unit || !to_unit) return null;
+    if (from_unit === to_unit || !('to_second' in duration_maps[from_unit])) return value;
+    return value * duration_maps[from_unit].to_second / duration_maps[to_unit].to_second;
+};
+
+var getDurationFromString = function getDurationFromString(duration_string) {
+    var duration = duration_string.toString().match(/[a-zA-Z]+|[0-9]+/g);
+    return {
+        duration: duration[0],
+        unit: duration[1]
+    };
+};
+
+var getExpiryType = function getExpiryType(store) {
+    var duration_unit = store.duration_unit,
+        expiry_date = store.expiry_date,
+        expiry_type = store.expiry_type;
+
+    var server_time = store.root_store.common.server_time;
+
+    var duration_is_day = expiry_type === 'duration' && duration_unit === 'd';
+    var expiry_is_after_today = expiry_type === 'endtime' && _moment2.default.utc(expiry_date).isAfter((0, _moment2.default)(server_time).utc(), 'day');
+
+    var contract_expiry_type = 'daily';
+    if (!duration_is_day && !expiry_is_after_today) {
+        contract_expiry_type = duration_unit === 't' ? 'tick' : 'intraday';
+    }
+
+    return contract_expiry_type;
+};
+
+var convertDurationLimit = function convertDurationLimit(value, unit) {
+    if (unit === 'm') {
+        var minute = value / 60;
+        return minute >= 1 ? Math.floor(minute) : 1;
+    } else if (unit === 'h') {
+        var hour = value / 3600;
+        return hour >= 1 ? Math.floor(hour) : 1;
+    }
+
+    return value;
+};
+
+module.exports = {
+    buildDurationConfig: buildDurationConfig,
+    convertDurationLimit: convertDurationLimit,
+    getExpiryType: getExpiryType
+};
+
+/***/ }),
 /* 191 */,
 /* 192 */,
 /* 193 */,
@@ -4980,7 +5693,15 @@ var BARRIER_LINE_STYLES = exports.BARRIER_LINE_STYLES = {
 /* 236 */,
 /* 237 */,
 /* 238 */,
-/* 239 */
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5033,7 +5754,7 @@ CalendarButton.propTypes = {
 };
 
 /***/ }),
-/* 240 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5044,7 +5765,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _data_table = __webpack_require__(451);
+var _data_table = __webpack_require__(455);
 
 var _data_table2 = _interopRequireDefault(_data_table);
 
@@ -5053,7 +5774,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _data_table2.default;
 
 /***/ }),
-/* 241 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5078,7 +5799,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _drawer_header = __webpack_require__(242);
+var _drawer_header = __webpack_require__(250);
 
 var _connect = __webpack_require__(21);
 
@@ -5210,7 +5931,7 @@ var drawer_component = (0, _connect.connect)(function (_ref2) {
 exports.Drawer = drawer_component;
 
 /***/ }),
-/* 242 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5233,7 +5954,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Common = __webpack_require__(71);
+var _Common = __webpack_require__(73);
 
 var _localize = __webpack_require__(2);
 
@@ -5287,7 +6008,7 @@ DrawerHeader.propTypes = {
 };
 
 /***/ }),
-/* 243 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5308,7 +6029,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Routes = __webpack_require__(176);
+var _Routes = __webpack_require__(181);
 
 var _connect = __webpack_require__(21);
 
@@ -5401,7 +6122,27 @@ var drawer_item_component = (0, _connect.connect)(function (_ref2) {
 exports.DrawerItem = drawer_item_component;
 
 /***/ }),
-/* 244 */
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _error_component = __webpack_require__(461);
+
+var _error_component2 = _interopRequireDefault(_error_component);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _error_component2.default;
+
+/***/ }),
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5441,7 +6182,7 @@ InkBar.propTypes = {
 exports.InkBar = InkBar;
 
 /***/ }),
-/* 245 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5464,7 +6205,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Common = __webpack_require__(71);
+var _Common = __webpack_require__(73);
 
 var _localize = __webpack_require__(2);
 
@@ -5541,7 +6282,7 @@ PopConfirmElement.propTypes = {
 exports.PopConfirmElement = PopConfirmElement;
 
 /***/ }),
-/* 246 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5559,7 +6300,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _toggle_button = __webpack_require__(249);
+var _toggle_button = __webpack_require__(258);
 
 var _toggle_button2 = _interopRequireDefault(_toggle_button);
 
@@ -5601,7 +6342,7 @@ SettingsControl.propTypes = {
 exports.default = SettingsControl;
 
 /***/ }),
-/* 247 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5659,7 +6400,7 @@ TabsItem.propTypes = {
 exports.TabsItem = TabsItem;
 
 /***/ }),
-/* 248 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5680,7 +6421,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _tabs_item = __webpack_require__(247);
+var _tabs_item = __webpack_require__(256);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5786,7 +6527,7 @@ TabsWrapper.propTypes = {
 exports.TabsWrapper = TabsWrapper;
 
 /***/ }),
-/* 249 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5830,56 +6571,7 @@ ToggleButton.propTypes = {
 exports.default = ToggleButton;
 
 /***/ }),
-/* 250 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _classnames = __webpack_require__(10);
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Tooltip = function Tooltip(_ref) {
-    var message = _ref.message,
-        alignment = _ref.alignment,
-        children = _ref.children,
-        icon = _ref.icon;
-
-    var icon_name = icon === 'question' || icon === 'info' ? icon : 'question';
-    var icon_class = (0, _classnames2.default)(icon_name);
-    return _react2.default.createElement(
-        'span',
-        { className: 'tooltip', 'data-tooltip': message, 'data-tooltip-pos': alignment },
-        icon ? _react2.default.createElement('i', { className: icon_class }) : children
-    );
-};
-
-Tooltip.propTypes = {
-    alignment: _propTypes2.default.string,
-    children: _propTypes2.default.string,
-    icon: _propTypes2.default.string,
-    message: _propTypes2.default.string
-};
-
-exports.default = Tooltip;
-
-/***/ }),
-/* 251 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5890,7 +6582,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _date_picker = __webpack_require__(474);
+var _date_picker = __webpack_require__(478);
 
 var _date_picker2 = _interopRequireDefault(_date_picker);
 
@@ -5899,7 +6591,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _date_picker2.default;
 
 /***/ }),
-/* 252 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5915,7 +6607,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _moment = __webpack_require__(9);
 
@@ -5929,7 +6621,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _start_date = __webpack_require__(280);
+var _start_date = __webpack_require__(287);
 
 var _localize = __webpack_require__(2);
 
@@ -6283,7 +6975,7 @@ TimePickerDropdown.propTypes = {
 exports.default = (0, _mobxReact.observer)(TimePicker);
 
 /***/ }),
-/* 253 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6301,13 +6993,19 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(49);
 
-var _routes = __webpack_require__(134);
+var _login_prompt = __webpack_require__(477);
+
+var _login_prompt2 = _interopRequireDefault(_login_prompt);
+
+var _app_config = __webpack_require__(493);
+
+var _routes = __webpack_require__(137);
 
 var _routes2 = _interopRequireDefault(_routes);
 
 var _login = __webpack_require__(35);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
@@ -6329,22 +7027,11 @@ var RouteWithSubRoutes = function RouteWithSubRoutes(route) {
             }
             result = _react2.default.createElement(_reactRouterDom.Redirect, { to: to });
         } else {
-            result = route.is_authenticated && !_client_base2.default.isLoggedIn() ? // TODO: update styling of the message below
-            _react2.default.createElement(
-                'div',
-                { className: 'login-message-wrapper' },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'message' },
-                    _react2.default.createElement(
-                        'a',
-                        { href: 'javascript:;', onClick: _login.redirectToLogin },
-                        (0, _localize.localize)('Please login to view this page.')
-                    )
-                )
-            ) : _react2.default.createElement(route.component, _extends({}, props, { routes: route.routes }));
+            result = route.is_authenticated && !_client_base2.default.isLoggedIn() ? _react2.default.createElement(_login_prompt2.default, { IconComponent: route.icon_component, onLogin: _login.redirectToLogin }) : _react2.default.createElement(route.component, _extends({}, props, { routes: route.routes }));
         }
 
+        var title = route.title ? (0, _localize.localize)(route.title) + ' | ' : '';
+        document.title = '' + title + _app_config.default_title;
         return result;
     };
 
@@ -6358,7 +7045,7 @@ var RouteWithSubRoutes = function RouteWithSubRoutes(route) {
 exports.default = RouteWithSubRoutes;
 
 /***/ }),
-/* 254 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6370,78 +7057,80 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reactRouterDom = __webpack_require__(49);
 
-var _Constants = __webpack_require__(258);
+var _Constants = __webpack_require__(265);
 
-var _Contract = __webpack_require__(523);
+var _NavBar = __webpack_require__(74);
+
+var _Contract = __webpack_require__(534);
 
 var _Contract2 = _interopRequireDefault(_Contract);
 
-var _Portfolio = __webpack_require__(529);
+var _Portfolio = __webpack_require__(540);
 
 var _Portfolio2 = _interopRequireDefault(_Portfolio);
 
-var _settings = __webpack_require__(575);
+var _settings = __webpack_require__(586);
 
 var _settings2 = _interopRequireDefault(_settings);
 
-var _Statement = __webpack_require__(544);
+var _Statement = __webpack_require__(555);
 
 var _Statement2 = _interopRequireDefault(_Statement);
 
-var _Trading = __webpack_require__(571);
+var _Trading = __webpack_require__(582);
 
 var _Trading2 = _interopRequireDefault(_Trading);
 
-var _account_password = __webpack_require__(268);
+var _account_password = __webpack_require__(276);
 
 var _account_password2 = _interopRequireDefault(_account_password);
 
-var _api_token = __webpack_require__(269);
+var _api_token = __webpack_require__(277);
 
 var _api_token2 = _interopRequireDefault(_api_token);
 
-var _authorized_applications = __webpack_require__(270);
+var _authorized_applications = __webpack_require__(278);
 
 var _authorized_applications2 = _interopRequireDefault(_authorized_applications);
 
-var _cashier_password = __webpack_require__(271);
+var _cashier_password = __webpack_require__(279);
 
 var _cashier_password2 = _interopRequireDefault(_cashier_password);
 
-var _financial_assessment = __webpack_require__(272);
+var _financial_assessment = __webpack_require__(280);
 
 var _financial_assessment2 = _interopRequireDefault(_financial_assessment);
 
-var _limits = __webpack_require__(273);
+var _limits = __webpack_require__(281);
 
 var _limits2 = _interopRequireDefault(_limits);
 
-var _login_history = __webpack_require__(274);
+var _login_history = __webpack_require__(282);
 
 var _login_history2 = _interopRequireDefault(_login_history);
 
-var _personal_details = __webpack_require__(275);
+var _personal_details = __webpack_require__(283);
 
 var _personal_details2 = _interopRequireDefault(_personal_details);
 
-var _self_exclusion = __webpack_require__(276);
+var _self_exclusion = __webpack_require__(284);
 
 var _self_exclusion2 = _interopRequireDefault(_self_exclusion);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var routes_config = [{ path: _Constants.routes.contract, component: _Contract2.default, is_authenticated: true }, { path: _Constants.routes.index, component: _reactRouterDom.Redirect, to: '/trade' }, { path: _Constants.routes.portfolio, component: _Portfolio2.default, is_authenticated: true }, { path: _Constants.routes.root, component: _reactRouterDom.Redirect, exact: true, to: '/trade' }, { path: _Constants.routes.statement, component: _Statement2.default, is_authenticated: true }, { path: _Constants.routes.trade, component: _Trading2.default, exact: true }, {
+var routes_config = [{ path: _Constants.routes.contract, component: _Contract2.default, title: 'Contract Details', is_authenticated: true }, { path: _Constants.routes.index, component: _reactRouterDom.Redirect, title: '', to: '/trade' }, { path: _Constants.routes.portfolio, component: _Portfolio2.default, title: 'Portfolio', is_authenticated: true, icon_component: _NavBar.IconPortfolio }, { path: _Constants.routes.root, component: _reactRouterDom.Redirect, title: '', exact: true, to: '/trade' }, { path: _Constants.routes.statement, component: _Statement2.default, title: 'Statement', is_authenticated: true, icon_component: _NavBar.IconStatement }, { path: _Constants.routes.trade, component: _Trading2.default, title: 'Trade', exact: true }, {
     path: _Constants.routes.settings,
     component: _settings2.default,
     is_authenticated: true,
-    routes: [{ path: _Constants.routes.personal, component: _personal_details2.default }, { path: _Constants.routes.financial, component: _financial_assessment2.default }, { path: _Constants.routes.account_password, component: _account_password2.default }, { path: _Constants.routes.cashier_password, component: _cashier_password2.default }, { path: _Constants.routes.exclusion, component: _self_exclusion2.default }, { path: _Constants.routes.limits, component: _limits2.default }, { path: _Constants.routes.history, component: _login_history2.default }, { path: _Constants.routes.token, component: _api_token2.default }, { path: _Constants.routes.apps, component: _authorized_applications2.default }]
+    routes: [{ path: _Constants.routes.personal, component: _personal_details2.default, title: 'Personal Details' }, { path: _Constants.routes.financial, component: _financial_assessment2.default, title: 'Financial Assessment' }, { path: _Constants.routes.account_password, component: _account_password2.default, title: 'Account Password' }, { path: _Constants.routes.cashier_password, component: _cashier_password2.default, title: 'Cashier Password' }, { path: _Constants.routes.exclusion, component: _self_exclusion2.default, title: 'Self Exclusion' }, { path: _Constants.routes.limits, component: _limits2.default, title: 'Account Limits' }, { path: _Constants.routes.history, component: _login_history2.default, title: 'Login History' }, { path: _Constants.routes.token, component: _api_token2.default, title: 'API Token' }, { path: _Constants.routes.apps, component: _authorized_applications2.default, title: 'Authorized Applications' }]
 }];
 
 // Settings Routes
 exports.default = routes_config;
 
 /***/ }),
-/* 255 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6471,7 +7160,7 @@ var IconClose = function IconClose(_ref) {
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16', viewBox: '0 0 16 16' },
-        _react2.default.createElement('path', { fill: '#2A3052', fillRule: 'nonzero', d: 'M8 7.293l4.146-4.147a.5.5 0 0 1 .708.708L8.707 8l4.147 4.146a.5.5 0 0 1-.708.708L8 8.707l-4.146 4.147a.5.5 0 0 1-.708-.708L7.293 8 3.146 3.854a.5.5 0 1 1 .708-.708L8 7.293z' })
+        _react2.default.createElement('path', { className: 'color1-fill', fill: '#2A3052', fillRule: 'nonzero', d: 'M8 7.293l4.146-4.147a.5.5 0 0 1 .708.708L8.707 8l4.147 4.146a.5.5 0 0 1-.708.708L8 8.707l-4.146 4.147a.5.5 0 0 1-.708-.708L7.293 8 3.146 3.854a.5.5 0 1 1 .708-.708L8 7.293z' })
     );
 };
 
@@ -6482,49 +7171,7 @@ IconClose.propTypes = {
 exports.IconClose = IconClose;
 
 /***/ }),
-/* 256 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _mobxReact = __webpack_require__(19);
-
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var IconFlag = function IconFlag() {
-    return _react2.default.createElement(
-        'svg',
-        { xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16', viewBox: '0 0 16 16' },
-        _react2.default.createElement(
-            'g',
-            { fill: 'none', fillRule: 'evenodd' },
-            _react2.default.createElement('path', { d: 'M0 0h16v16H0z' }),
-            _react2.default.createElement('path', { fill: '#fff', fillRule: 'nonzero', d: 'M5.736 15.144c.082.377-.181.745-.588.821-.406.076-.802-.167-.885-.545L1.084.856c-.082-.377.181-.745.588-.821.406-.077.802.167.885.544l3.179 14.565zM13.136 1.235c-2.8.256-3.3-1.03-5.971-.993C5.638.264 4.12.638 3.364.917l1.897 8.692c.462-.153 1.14-.284 2.054-.22 1.213.083 1.667.897 4.38.708 1.952-.137 3.029-1.223 3.029-1.223l.873-8.548s-.544.734-2.461.91z' })
-        )
-    );
-};
-
-IconFlag.propTypes = {
-    color: _propTypes2.default.string
-};
-
-exports.default = (0, _mobxReact.observer)(IconFlag);
-
-/***/ }),
-/* 257 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6534,7 +7181,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _icon_trade_categories = __webpack_require__(516);
+var _icon_trade_categories = __webpack_require__(524);
 
 Object.keys(_icon_trade_categories).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -6547,7 +7194,7 @@ Object.keys(_icon_trade_categories).forEach(function (key) {
 });
 
 /***/ }),
-/* 258 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6558,7 +7205,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.routes = undefined;
 
-var _contract = __webpack_require__(180);
+var _contract = __webpack_require__(186);
 
 Object.keys(_contract).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -6570,7 +7217,7 @@ Object.keys(_contract).forEach(function (key) {
   });
 });
 
-var _ui = __webpack_require__(259);
+var _ui = __webpack_require__(266);
 
 Object.keys(_ui).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -6582,7 +7229,7 @@ Object.keys(_ui).forEach(function (key) {
   });
 });
 
-var _routes2 = __webpack_require__(134);
+var _routes2 = __webpack_require__(137);
 
 var _routes3 = _interopRequireDefault(_routes2);
 
@@ -6591,7 +7238,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.routes = _routes3.default;
 
 /***/ }),
-/* 259 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6604,7 +7251,27 @@ var MAX_MOBILE_WIDTH = exports.MAX_MOBILE_WIDTH = 767;
 var MAX_TABLET_WIDTH = exports.MAX_TABLET_WIDTH = 980;
 
 /***/ }),
-/* 260 */
+/* 267 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _info_box = __webpack_require__(527);
+
+var _info_box2 = _interopRequireDefault(_info_box);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _info_box2.default;
+
+/***/ }),
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6626,19 +7293,19 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(49);
 
-var _details_contents = __webpack_require__(519);
+var _details_contents = __webpack_require__(530);
 
 var _details_contents2 = _interopRequireDefault(_details_contents);
 
-var _details_header = __webpack_require__(520);
+var _details_header = __webpack_require__(531);
 
 var _details_header2 = _interopRequireDefault(_details_header);
 
-var _ui_loader = __webpack_require__(174);
+var _ui_loader = __webpack_require__(179);
 
 var _ui_loader2 = _interopRequireDefault(_ui_loader);
 
-var _routes = __webpack_require__(134);
+var _routes = __webpack_require__(137);
 
 var _routes2 = _interopRequireDefault(_routes);
 
@@ -6744,7 +7411,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
 })(ContractDetails);
 
 /***/ }),
-/* 261 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6762,9 +7429,9 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _contract = __webpack_require__(180);
+var _contract = __webpack_require__(186);
 
-var _Types = __webpack_require__(179);
+var _Types = __webpack_require__(185);
 
 var _localize = __webpack_require__(2);
 
@@ -6795,7 +7462,7 @@ ContractTypeCell.propTypes = {
 exports.default = ContractTypeCell;
 
 /***/ }),
-/* 262 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6809,7 +7476,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _NavBar = __webpack_require__(103);
+var _NavBar = __webpack_require__(74);
 
 var _localize = __webpack_require__(2);
 
@@ -6839,7 +7506,7 @@ var EmptyPortfolioMessage = function EmptyPortfolioMessage() {
 exports.default = EmptyPortfolioMessage;
 
 /***/ }),
-/* 263 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6850,7 +7517,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _smart_chart = __webpack_require__(535);
+var _smart_chart = __webpack_require__(546);
 
 var _smart_chart2 = _interopRequireDefault(_smart_chart);
 
@@ -6859,7 +7526,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _smart_chart2.default;
 
 /***/ }),
-/* 264 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6881,7 +7548,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Common = __webpack_require__(71);
+var _Common = __webpack_require__(73);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6974,7 +7641,7 @@ FullScreenDialog.propTypes = {
 exports.default = FullScreenDialog;
 
 /***/ }),
-/* 265 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6992,7 +7659,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _contract_type_widget = __webpack_require__(549);
+var _contract_type_widget = __webpack_require__(560);
 
 var _contract_type_widget2 = _interopRequireDefault(_contract_type_widget);
 
@@ -7033,7 +7700,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(Contract);
 
 /***/ }),
-/* 266 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7047,7 +7714,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -7057,11 +7724,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ui = __webpack_require__(602);
+var _ui = __webpack_require__(612);
 
 var _connect = __webpack_require__(21);
 
-var _component = __webpack_require__(617);
+var _component = __webpack_require__(630);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7136,7 +7803,7 @@ exports.default = (0, _connect.connect)(function (_ref3) {
 })(TradeParams);
 
 /***/ }),
-/* 267 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7210,7 +7877,7 @@ MenuItem.propTypes = {
 exports.default = MenuItem;
 
 /***/ }),
-/* 268 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7248,7 +7915,7 @@ AccountPassword.propTypes = {
 exports.default = AccountPassword;
 
 /***/ }),
-/* 269 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7286,7 +7953,7 @@ ApiToken.propTypes = {
 exports.default = ApiToken;
 
 /***/ }),
-/* 270 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7324,7 +7991,7 @@ AuthorizedApplications.propTypes = {
 exports.default = AuthorizedApplications;
 
 /***/ }),
-/* 271 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7362,7 +8029,7 @@ CashierPassword.propTypes = {
 exports.default = CashierPassword;
 
 /***/ }),
-/* 272 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7400,7 +8067,7 @@ FinancialAssessment.propTypes = {
 exports.default = FinancialAssessment;
 
 /***/ }),
-/* 273 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7438,7 +8105,7 @@ Limits.propTypes = {
 exports.default = Limits;
 
 /***/ }),
-/* 274 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7476,7 +8143,7 @@ LoginHistory.propTypes = {
 exports.default = LoginHistory;
 
 /***/ }),
-/* 275 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7514,7 +8181,7 @@ PersonalDetails.propTypes = {
 exports.default = PersonalDetails;
 
 /***/ }),
-/* 276 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7552,7 +8219,7 @@ SelfExclusion.propTypes = {
 exports.default = SelfExclusion;
 
 /***/ }),
-/* 277 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7563,11 +8230,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.requestLogout = undefined;
 
-var _ws_methods = __webpack_require__(181);
+var _ws_methods = __webpack_require__(187);
 
 var _ws_methods2 = _interopRequireDefault(_ws_methods);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
@@ -7593,7 +8260,7 @@ var doLogout = function doLogout(response) {
 };
 
 /***/ }),
-/* 278 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7604,9 +8271,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.barriersObjectToArray = exports.barriersToString = exports.isBarrierSupported = undefined;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _barriers = __webpack_require__(182);
+var _barriers = __webpack_require__(189);
 
 var _utility = __webpack_require__(3);
 
@@ -7633,108 +8300,7 @@ var barriersObjectToArray = exports.barriersObjectToArray = function barriersObj
 };
 
 /***/ }),
-/* 279 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _moment = __webpack_require__(9);
-
-var _moment2 = _interopRequireDefault(_moment);
-
-var _localize = __webpack_require__(2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var duration_maps = {
-    t: { display: 'ticks', order: 1 },
-    s: { display: 'seconds', order: 2, to_second: 1 },
-    m: { display: 'minutes', order: 3, to_second: 60 },
-    h: { display: 'hours', order: 4, to_second: 60 * 60 },
-    d: { display: 'days', order: 5, to_second: 60 * 60 * 24 }
-};
-
-var buildDurationConfig = function buildDurationConfig(contract) {
-    var durations = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { min_max: {}, units_display: {} };
-
-    durations.min_max[contract.start_type] = durations.min_max[contract.start_type] || {};
-    durations.units_display[contract.start_type] = durations.units_display[contract.start_type] || [];
-
-    var obj_min = getDurationFromString(contract.min_contract_duration);
-    var obj_max = getDurationFromString(contract.max_contract_duration);
-
-    durations.min_max[contract.start_type][contract.expiry_type] = {
-        min: convertDurationUnit(obj_min.duration, obj_min.unit, 's'),
-        max: convertDurationUnit(obj_max.duration, obj_max.unit, 's')
-    };
-
-    var arr_units = [];
-    durations.units_display[contract.start_type].forEach(function (obj) {
-        arr_units.push(obj.value);
-    });
-    if (/^tick|daily$/.test(contract.expiry_type)) {
-        if (arr_units.indexOf(obj_min.unit) === -1) {
-            arr_units.push(obj_min.unit);
-        }
-    } else {
-        Object.keys(duration_maps).forEach(function (u) {
-            if (arr_units.indexOf(u) === -1 && duration_maps[u].order >= duration_maps[obj_min.unit].order && duration_maps[u].order <= duration_maps[obj_max.unit].order) {
-                arr_units.push(u);
-            }
-        });
-    }
-
-    durations.units_display[contract.start_type] = arr_units.sort(function (a, b) {
-        return duration_maps[a].order > duration_maps[b].order ? 1 : -1;
-    }).reduce(function (o, c) {
-        return [].concat(_toConsumableArray(o), [{ text: (0, _localize.localize)(duration_maps[c].display), value: c }]);
-    }, []);
-
-    return durations;
-};
-
-var convertDurationUnit = function convertDurationUnit(value, from_unit, to_unit) {
-    if (!value || !from_unit || !to_unit) return null;
-    if (from_unit === to_unit || !('to_second' in duration_maps[from_unit])) return value;
-    return value * duration_maps[from_unit].to_second / duration_maps[to_unit].to_second;
-};
-
-var getDurationFromString = function getDurationFromString(duration_string) {
-    var duration = duration_string.toString().match(/[a-zA-Z]+|[0-9]+/g);
-    return {
-        duration: duration[0],
-        unit: duration[1]
-    };
-};
-
-var getExpiryType = function getExpiryType(store) {
-    var duration_unit = store.duration_unit,
-        expiry_date = store.expiry_date,
-        expiry_type = store.expiry_type;
-
-    var server_time = store.root_store.common.server_time;
-
-    var duration_is_day = expiry_type === 'duration' && duration_unit === 'd';
-    var expiry_is_after_today = expiry_type === 'endtime' && _moment2.default.utc(expiry_date).isAfter((0, _moment2.default)(server_time).utc(), 'day');
-
-    var contract_expiry_type = 'daily';
-    if (!duration_is_day && !expiry_is_after_today) {
-        contract_expiry_type = duration_unit === 't' ? 'tick' : 'intraday';
-    }
-
-    return contract_expiry_type;
-};
-
-module.exports = {
-    buildDurationConfig: buildDurationConfig,
-    getExpiryType: getExpiryType
-};
-
-/***/ }),
-/* 280 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7795,7 +8361,7 @@ var isSessionAvailable = exports.isSessionAvailable = function isSessionAvailabl
 };
 
 /***/ }),
-/* 281 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7805,7 +8371,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _language = __webpack_require__(616);
+var _language = __webpack_require__(629);
 
 Object.keys(_language).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -7818,9 +8384,9 @@ Object.keys(_language).forEach(function (key) {
 });
 
 /***/ }),
-/* 282 */,
-/* 283 */,
-/* 284 */
+/* 289 */,
+/* 290 */,
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7850,13 +8416,6 @@ var Loading = function Loading(_ref) {
 exports.default = Loading;
 
 /***/ }),
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
 /* 292 */,
 /* 293 */,
 /* 294 */,
@@ -7912,7 +8471,14 @@ exports.default = Loading;
 /* 344 */,
 /* 345 */,
 /* 346 */,
-/* 347 */
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7922,9 +8488,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _propTypes = __webpack_require__(1);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _mobx = __webpack_require__(28);
 
 var _react = __webpack_require__(0);
 
@@ -7932,61 +8496,32 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = __webpack_require__(120);
 
-var _reactRouterDom = __webpack_require__(49);
+var _app = __webpack_require__(506);
 
-var _PortfolioDrawer = __webpack_require__(466);
+var _app2 = _interopRequireDefault(_app);
 
-var _PortfolioDrawer2 = _interopRequireDefault(_PortfolioDrawer);
-
-var _app_contents = __webpack_require__(490);
-
-var _app_contents2 = _interopRequireDefault(_app_contents);
-
-var _footer = __webpack_require__(491);
-
-var _footer2 = _interopRequireDefault(_footer);
-
-var _header = __webpack_require__(492);
-
-var _header2 = _interopRequireDefault(_header);
-
-var _theme_wrapper = __webpack_require__(493);
-
-var _theme_wrapper2 = _interopRequireDefault(_theme_wrapper);
-
-var _NavBar = __webpack_require__(103);
-
-var _routes = __webpack_require__(494);
-
-var _routes2 = _interopRequireDefault(_routes);
-
-var _Constants = __webpack_require__(258);
-
-var _network_monitor = __webpack_require__(577);
+var _network_monitor = __webpack_require__(588);
 
 var _network_monitor2 = _interopRequireDefault(_network_monitor);
 
-var _Stores = __webpack_require__(613);
+var _Stores = __webpack_require__(624);
 
 var _Stores2 = _interopRequireDefault(_Stores);
 
-var _connect = __webpack_require__(21);
+var _storage = __webpack_require__(627);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
-var _language = __webpack_require__(14);
-
-var _localize = __webpack_require__(2);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// configure({ enforceActions: true }); // disabled for SmartCharts compatibility
+(0, _mobx.configure)({ enforceActions: true });
 
-// import { configure }              from 'mobx';
 var initApp = function initApp() {
     _client_base2.default.init();
+
+    (0, _storage.setStorageEvents)();
 
     var root_store = new _Stores2.default();
 
@@ -7996,86 +8531,13 @@ var initApp = function initApp() {
 
     var app = document.getElementById('binary_app');
     if (app) {
-        (0, _reactDom.render)(_react2.default.createElement(BinaryApp, { root_store: root_store }), app);
+        (0, _reactDom.render)(_react2.default.createElement(_app2.default, { root_store: root_store }), app);
     }
-};
-
-/*
- * Retrieves basename from current url
- *
- * @return {string} returns the basename of current url
- */
-var getBasename = function getBasename() {
-    var regex_string = '(.*(' + Object.keys((0, _language.getAll)()).join('|') + ')/app(/index\\.html)?).*';
-    var basename = new RegExp(regex_string, 'ig').exec(window.location.pathname);
-
-    if (basename && basename.length) {
-        return basename[1];
-    }
-
-    return '/en/app/';
-};
-
-var BinaryApp = function BinaryApp(_ref) {
-    var root_store = _ref.root_store;
-    return _react2.default.createElement(
-        _reactRouterDom.BrowserRouter,
-        { basename: getBasename() },
-        _react2.default.createElement(
-            _connect.MobxProvider,
-            { store: root_store },
-            _react2.default.createElement(
-                _theme_wrapper2.default,
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { id: 'header' },
-                    _react2.default.createElement(_header2.default, {
-                        items: [{
-                            icon: _react2.default.createElement(_NavBar.IconTrade, { className: 'ic-header__trade' }),
-                            text: (0, _localize.localize)('Trade'),
-                            link_to: _Constants.routes.trade
-                        }, {
-                            icon: _react2.default.createElement(_NavBar.IconPortfolio, { className: 'ic-header__portfolio' }),
-                            text: (0, _localize.localize)('Portfolio'),
-                            link_to: _Constants.routes.portfolio
-                        }, {
-                            icon: _react2.default.createElement(_NavBar.IconStatement, { className: 'ic-header__statement' }),
-                            text: (0, _localize.localize)('Statement'),
-                            link_to: _Constants.routes.statement
-                        }]
-                    })
-                ),
-                _react2.default.createElement(
-                    _app_contents2.default,
-                    null,
-                    _react2.default.createElement(_routes2.default, null)
-                ),
-                _react2.default.createElement(_PortfolioDrawer2.default, null),
-                _react2.default.createElement(
-                    'footer',
-                    { id: 'footer' },
-                    _react2.default.createElement(_footer2.default, null)
-                )
-            )
-        )
-    );
-};
-
-BinaryApp.propTypes = {
-    root_store: _propTypes2.default.object
 };
 
 exports.default = initApp;
 
 /***/ }),
-/* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
-/* 354 */,
 /* 355 */,
 /* 356 */,
 /* 357 */,
@@ -8162,7 +8624,11 @@ exports.default = initApp;
 /* 438 */,
 /* 439 */,
 /* 440 */,
-/* 441 */
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */,
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8188,15 +8654,15 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _calendar_footer = __webpack_require__(442);
+var _calendar_footer = __webpack_require__(446);
 
 var _calendar_footer2 = _interopRequireDefault(_calendar_footer);
 
-var _calendar_header = __webpack_require__(443);
+var _calendar_header = __webpack_require__(447);
 
 var _calendar_header2 = _interopRequireDefault(_calendar_header);
 
-var _calendar_panel = __webpack_require__(444);
+var _calendar_panel = __webpack_require__(448);
 
 var _calendar_panel2 = _interopRequireDefault(_calendar_panel);
 
@@ -8475,7 +8941,7 @@ Calendar.propTypes = {
 exports.default = Calendar;
 
 /***/ }),
-/* 442 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8494,7 +8960,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _calendar_button = __webpack_require__(239);
+var _calendar_button = __webpack_require__(247);
 
 var _calendar_button2 = _interopRequireDefault(_calendar_button);
 
@@ -8534,7 +9000,7 @@ CalendarFooter.propTypes = {
 };
 
 /***/ }),
-/* 443 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8561,7 +9027,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _calendar_button = __webpack_require__(239);
+var _calendar_button = __webpack_require__(247);
 
 var _calendar_button2 = _interopRequireDefault(_calendar_button);
 
@@ -8648,7 +9114,7 @@ CalendarHeader.propTypes = {
 };
 
 /***/ }),
-/* 444 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8667,7 +9133,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _panels = __webpack_require__(450);
+var _panels = __webpack_require__(454);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8691,7 +9157,7 @@ CalendarPanel.propTypes = {
 };
 
 /***/ }),
-/* 445 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8702,7 +9168,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _calendar = __webpack_require__(441);
+var _calendar = __webpack_require__(445);
 
 var _calendar2 = _interopRequireDefault(_calendar);
 
@@ -8711,7 +9177,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _calendar2.default;
 
 /***/ }),
-/* 446 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8736,7 +9202,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _types = __webpack_require__(131);
+var _types = __webpack_require__(132);
 
 var _types2 = _interopRequireDefault(_types);
 
@@ -8828,7 +9294,7 @@ var CalendarDays = exports.CalendarDays = function CalendarDays(props) {
 CalendarDays.propTypes = _extends({}, _types2.default);
 
 /***/ }),
-/* 447 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8855,7 +9321,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _types = __webpack_require__(131);
+var _types = __webpack_require__(132);
 
 var _types2 = _interopRequireDefault(_types);
 
@@ -8908,7 +9374,7 @@ var CalendarDecades = exports.CalendarDecades = function CalendarDecades(_ref) {
 CalendarDecades.propTypes = _extends({}, _types2.default);
 
 /***/ }),
-/* 448 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8933,7 +9399,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _types = __webpack_require__(131);
+var _types = __webpack_require__(132);
 
 var _types2 = _interopRequireDefault(_types);
 
@@ -8975,7 +9441,7 @@ var CalendarMonths = exports.CalendarMonths = function CalendarMonths(_ref) {
 CalendarMonths.propTypes = _extends({}, _types2.default);
 
 /***/ }),
-/* 449 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9000,7 +9466,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _types = __webpack_require__(131);
+var _types = __webpack_require__(132);
 
 var _types2 = _interopRequireDefault(_types);
 
@@ -9043,7 +9509,7 @@ var CalendarYears = exports.CalendarYears = function CalendarYears(_ref) {
 CalendarYears.propTypes = _extends({}, _types2.default);
 
 /***/ }),
-/* 450 */
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9053,7 +9519,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _calendar_days = __webpack_require__(446);
+var _calendar_days = __webpack_require__(450);
 
 Object.keys(_calendar_days).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -9065,7 +9531,7 @@ Object.keys(_calendar_days).forEach(function (key) {
   });
 });
 
-var _calendar_months = __webpack_require__(448);
+var _calendar_months = __webpack_require__(452);
 
 Object.keys(_calendar_months).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -9077,7 +9543,7 @@ Object.keys(_calendar_months).forEach(function (key) {
   });
 });
 
-var _calendar_years = __webpack_require__(449);
+var _calendar_years = __webpack_require__(453);
 
 Object.keys(_calendar_years).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -9089,7 +9555,7 @@ Object.keys(_calendar_years).forEach(function (key) {
   });
 });
 
-var _calendar_decades = __webpack_require__(447);
+var _calendar_decades = __webpack_require__(451);
 
 Object.keys(_calendar_decades).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -9102,7 +9568,7 @@ Object.keys(_calendar_decades).forEach(function (key) {
 });
 
 /***/ }),
-/* 451 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9114,7 +9580,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -9124,7 +9590,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _table_row = __webpack_require__(453);
+var _table_row = __webpack_require__(457);
 
 var _table_row2 = _interopRequireDefault(_table_row);
 
@@ -9230,7 +9696,7 @@ DataTable.propTypes = {
 exports.default = DataTable;
 
 /***/ }),
-/* 452 */
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9272,7 +9738,7 @@ TableCell.propTypes = {
 exports.default = TableCell;
 
 /***/ }),
-/* 453 */
+/* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9290,7 +9756,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _table_cell = __webpack_require__(452);
+var _table_cell = __webpack_require__(456);
 
 var _table_cell2 = _interopRequireDefault(_table_cell);
 
@@ -9342,7 +9808,7 @@ TableRow.propTypes = {
 exports.default = TableRow;
 
 /***/ }),
-/* 454 */
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9369,7 +9835,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _drawer_item = __webpack_require__(243);
+var _drawer_item = __webpack_require__(251);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9461,7 +9927,7 @@ DrawerItems.propTypes = {
 exports.DrawerItems = DrawerItems;
 
 /***/ }),
-/* 455 */
+/* 459 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9480,7 +9946,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _toggle_button = __webpack_require__(249);
+var _toggle_button = __webpack_require__(258);
 
 var _toggle_button2 = _interopRequireDefault(_toggle_button);
 
@@ -9513,7 +9979,7 @@ DrawerToggle.propTypes = {
 exports.DrawerToggle = DrawerToggle;
 
 /***/ }),
-/* 456 */
+/* 460 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9538,7 +10004,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _drawer = __webpack_require__(241);
+var _drawer = __webpack_require__(249);
 
 var _connect = __webpack_require__(21);
 
@@ -9637,7 +10103,7 @@ var drawer_component = (0, _connect.connect)(function (_ref2) {
 exports.ToggleDrawer = drawer_component;
 
 /***/ }),
-/* 457 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9655,7 +10121,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _error_icon = __webpack_require__(458);
+var _icon_error = __webpack_require__(509);
+
+var _icon_error2 = _interopRequireDefault(_icon_error);
 
 var _localize = __webpack_require__(2);
 
@@ -9667,7 +10135,7 @@ var ErrorComponent = function ErrorComponent(_ref) {
     return _react2.default.createElement(
         'div',
         { className: 'error-container' },
-        _react2.default.createElement(_error_icon.ErrorIcon, { type: type }),
+        _react2.default.createElement(_icon_error2.default, { type: type }),
         _react2.default.createElement(
             'p',
             null,
@@ -9684,47 +10152,7 @@ ErrorComponent.propTypes = {
 exports.default = ErrorComponent;
 
 /***/ }),
-/* 458 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.ErrorIcon = undefined;
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ErrorIcon = function ErrorIcon() {
-    return (/* { type } */ // TODO: add icon for different types of error
-        _react2.default.createElement(
-            'svg',
-            { xmlns: 'http://www.w3.org/2000/svg', width: '64', height: '64', viewBox: '0 0 64 64' },
-            _react2.default.createElement(
-                'g',
-                { fill: 'none', fillRule: 'evenodd' },
-                _react2.default.createElement('circle', { cx: '32', cy: '32', r: '32', fill: '#FFC107' }),
-                _react2.default.createElement(
-                    'g',
-                    { fill: '#FFF', transform: 'matrix(1 0 0 -1 26 48)' },
-                    _react2.default.createElement('circle', { cx: '6', cy: '4', r: '4' }),
-                    _react2.default.createElement('path', { d: 'M6 12a4 4 0 0 1 4 4v12a4 4 0 1 1-8 0V16a4 4 0 0 1 4-4z' })
-                )
-            )
-        )
-    );
-};
-
-exports.ErrorIcon = ErrorIcon;
-
-/***/ }),
-/* 459 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9735,27 +10163,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _error_component = __webpack_require__(457);
-
-var _error_component2 = _interopRequireDefault(_error_component);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _error_component2.default;
-
-/***/ }),
-/* 460 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _inkbar = __webpack_require__(244);
+var _inkbar = __webpack_require__(253);
 
 Object.keys(_inkbar).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -9767,7 +10175,7 @@ Object.keys(_inkbar).forEach(function (key) {
   });
 });
 
-var _inkbar_div = __webpack_require__(461);
+var _inkbar_div = __webpack_require__(463);
 
 var _inkbar_div2 = _interopRequireDefault(_inkbar_div);
 
@@ -9776,7 +10184,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _inkbar_div2.default;
 
 /***/ }),
-/* 461 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9802,7 +10210,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _inkbar = __webpack_require__(244);
+var _inkbar = __webpack_require__(253);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9918,7 +10326,7 @@ InkBarDiv.propTypes = {
 exports.default = InkBarDiv;
 
 /***/ }),
-/* 462 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9928,7 +10336,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _notifications = __webpack_require__(463);
+var _notifications = __webpack_require__(465);
 
 Object.keys(_notifications).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -9941,7 +10349,7 @@ Object.keys(_notifications).forEach(function (key) {
 });
 
 /***/ }),
-/* 463 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9960,9 +10368,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Drawer = __webpack_require__(132);
+var _Drawer = __webpack_require__(133);
 
-var _NavBar = __webpack_require__(103);
+var _NavBar = __webpack_require__(74);
 
 var _localize = __webpack_require__(2);
 
@@ -10016,7 +10424,7 @@ Notifications.propTypes = {
 exports.Notifications = Notifications;
 
 /***/ }),
-/* 464 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10026,7 +10434,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _popconfirm = __webpack_require__(465);
+var _popconfirm = __webpack_require__(467);
 
 Object.keys(_popconfirm).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -10038,7 +10446,7 @@ Object.keys(_popconfirm).forEach(function (key) {
   });
 });
 
-var _popconfirm_element = __webpack_require__(245);
+var _popconfirm_element = __webpack_require__(254);
 
 Object.keys(_popconfirm_element).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -10051,7 +10459,7 @@ Object.keys(_popconfirm_element).forEach(function (key) {
 });
 
 /***/ }),
-/* 465 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10072,7 +10480,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _popconfirm_element = __webpack_require__(245);
+var _popconfirm_element = __webpack_require__(254);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10164,7 +10572,7 @@ PopConfirm.propTypes = {
 exports.PopConfirm = PopConfirm;
 
 /***/ }),
-/* 466 */
+/* 468 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10175,7 +10583,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _portfolio_drawer = __webpack_require__(467);
+var _portfolio_drawer = __webpack_require__(469);
 
 var _portfolio_drawer2 = _interopRequireDefault(_portfolio_drawer);
 
@@ -10184,7 +10592,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _portfolio_drawer2.default;
 
 /***/ }),
-/* 467 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10202,7 +10610,7 @@ var _classnames = __webpack_require__(10);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -10216,15 +10624,15 @@ var _connect = __webpack_require__(21);
 
 var _localize = __webpack_require__(2);
 
-var _portfolio_drawer_card = __webpack_require__(468);
+var _portfolio_drawer_card = __webpack_require__(470);
 
 var _portfolio_drawer_card2 = _interopRequireDefault(_portfolio_drawer_card);
 
-var _empty_portfolio_message = __webpack_require__(262);
+var _empty_portfolio_message = __webpack_require__(270);
 
 var _empty_portfolio_message2 = _interopRequireDefault(_empty_portfolio_message);
 
-var _Common = __webpack_require__(71);
+var _Common = __webpack_require__(73);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10320,6 +10728,7 @@ var PortfolioDrawer = function (_React$Component) {
 ;
 
 PortfolioDrawer.propTypes = {
+    children: _propTypes2.default.any,
     data: _mobxReact.PropTypes.arrayOrObservableArray,
     error: _propTypes2.default.string,
     currency: _propTypes2.default.string,
@@ -10336,7 +10745,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
         client = _ref.client,
         ui = _ref.ui;
     return {
-        data: modules.portfolio.data_with_remaining_time,
+        data: modules.portfolio.data,
         is_loading: modules.portfolio.is_loading,
         error: modules.portfolio.error,
         is_empty: modules.portfolio.is_empty,
@@ -10349,7 +10758,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
 })(PortfolioDrawer);
 
 /***/ }),
-/* 468 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10367,17 +10776,21 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _money = __webpack_require__(101);
+var _money = __webpack_require__(70);
 
 var _money2 = _interopRequireDefault(_money);
 
-var _helpers = __webpack_require__(70);
+var _helpers = __webpack_require__(72);
 
-var _redirect_onclick = __webpack_require__(177);
+var _redirect_onclick = __webpack_require__(182);
 
 var _redirect_onclick2 = _interopRequireDefault(_redirect_onclick);
 
-var _contract_type_cell = __webpack_require__(261);
+var _remaining_time = __webpack_require__(136);
+
+var _remaining_time2 = _interopRequireDefault(_remaining_time);
+
+var _contract_type_cell = __webpack_require__(269);
 
 var _contract_type_cell2 = _interopRequireDefault(_contract_type_cell);
 
@@ -10385,9 +10798,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var PortfolioDrawerCard = function PortfolioDrawerCard(_ref) {
     var currency = _ref.currency,
+        expiry_time = _ref.expiry_time,
         id = _ref.id,
         indicative = _ref.indicative,
-        remaining_time = _ref.remaining_time,
         status = _ref.status,
         type = _ref.type,
         underlying = _ref.underlying;
@@ -10412,16 +10825,16 @@ var PortfolioDrawerCard = function PortfolioDrawerCard(_ref) {
         _react2.default.createElement(
             'span',
             { className: 'portfolio-drawer-card__remaining-time' },
-            remaining_time
+            _react2.default.createElement(_remaining_time2.default, { end_time: expiry_time })
         )
     );
 };
 
 PortfolioDrawerCard.propTypes = {
     currency: _propTypes2.default.string,
+    expiry_time: _propTypes2.default.PropTypes.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
     id: _propTypes2.default.number,
     indicative: _propTypes2.default.number,
-    remaining_time: _propTypes2.default.string,
     status: _propTypes2.default.string,
     type: _propTypes2.default.string,
     underlying: _propTypes2.default.string
@@ -10430,7 +10843,7 @@ PortfolioDrawerCard.propTypes = {
 exports.default = PortfolioDrawerCard;
 
 /***/ }),
-/* 469 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10452,11 +10865,11 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Common = __webpack_require__(71);
+var _Common = __webpack_require__(73);
 
 var _localize = __webpack_require__(2);
 
-var _index = __webpack_require__(281);
+var _index = __webpack_require__(288);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10517,7 +10930,7 @@ LanguageDialog.propTypes = {
 exports.default = LanguageDialog;
 
 /***/ }),
-/* 470 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10541,9 +10954,9 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Tabs = __webpack_require__(471);
+var _Tabs = __webpack_require__(473);
 
-var _SettingsDialog = __webpack_require__(495);
+var _SettingsDialog = __webpack_require__(501);
 
 var _localize = __webpack_require__(2);
 
@@ -10639,7 +11052,7 @@ SettingsDialog.propTypes = {
 exports.default = SettingsDialog;
 
 /***/ }),
-/* 471 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10649,7 +11062,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _tabs = __webpack_require__(472);
+var _tabs = __webpack_require__(474);
 
 Object.keys(_tabs).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -10661,7 +11074,7 @@ Object.keys(_tabs).forEach(function (key) {
   });
 });
 
-var _tabs_item = __webpack_require__(247);
+var _tabs_item = __webpack_require__(256);
 
 Object.keys(_tabs_item).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -10673,7 +11086,7 @@ Object.keys(_tabs_item).forEach(function (key) {
   });
 });
 
-var _tabs_wrapper = __webpack_require__(248);
+var _tabs_wrapper = __webpack_require__(257);
 
 Object.keys(_tabs_wrapper).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -10686,7 +11099,7 @@ Object.keys(_tabs_wrapper).forEach(function (key) {
 });
 
 /***/ }),
-/* 472 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10711,7 +11124,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _tabs_wrapper = __webpack_require__(248);
+var _tabs_wrapper = __webpack_require__(257);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10800,7 +11213,7 @@ Tabs.propTypes = {
 exports.Tabs = Tabs;
 
 /***/ }),
-/* 473 */
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10820,15 +11233,15 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactPerfectScrollbar = __webpack_require__(853);
+var _reactPerfectScrollbar = __webpack_require__(870);
 
 var _reactPerfectScrollbar2 = _interopRequireDefault(_reactPerfectScrollbar);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
-var _gtm = __webpack_require__(63);
+var _gtm = __webpack_require__(57);
 
 var _gtm2 = _interopRequireDefault(_gtm);
 
@@ -10993,7 +11406,116 @@ var AccountSwitcher = function (_React$Component) {
 exports.default = AccountSwitcher;
 
 /***/ }),
-/* 474 */
+/* 476 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _fill_template = __webpack_require__(628);
+
+var _localize = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Localize = function Localize(_ref) {
+    var str = _ref.str,
+        replacers = _ref.replacers;
+
+    var localized = (0, _localize.localize)(str);
+    if (!/\[_\d+\]/.test(localized)) return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        localized
+    );
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        (0, _fill_template.fillTemplate)(localized, replacers)
+    );
+};
+
+Localize.propTypes = {
+    str: _propTypes2.default.string,
+    replacers: _propTypes2.default.object
+};
+
+exports.default = Localize;
+
+/***/ }),
+/* 477 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _localize = __webpack_require__(476);
+
+var _localize2 = _interopRequireDefault(_localize);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LoginPrompt = function LoginPrompt(_ref) {
+    var IconComponent = _ref.IconComponent,
+        onLogin = _ref.onLogin,
+        onSignup = _ref.onSignup;
+    return _react2.default.createElement(
+        'div',
+        { className: 'login-prompt' },
+        _react2.default.createElement(
+            'div',
+            { className: 'login-prompt__icon' },
+            IconComponent && // TODO: needs a general icon in case not specified in route
+            _react2.default.createElement(IconComponent, { className: 'disabled' })
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: 'login-prompt__message' },
+            _react2.default.createElement(_localize2.default, {
+                str: 'Please [_1]log in[_2] or [_3]sign up[_2] to view this page.',
+                replacers: {
+                    '1_2': _react2.default.createElement('a', { href: 'javascript:;', onClick: onLogin }),
+                    '3_2': _react2.default.createElement('a', { href: 'javascript:;', onClick: onSignup })
+                }
+            })
+        )
+    );
+};
+
+LoginPrompt.propTypes = {
+    IconComponent: _propTypes2.default.func,
+    onLogin: _propTypes2.default.func,
+    onSignup: _propTypes2.default.func
+};
+
+exports.default = LoginPrompt;
+
+/***/ }),
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11019,17 +11541,17 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _date_picker_input = __webpack_require__(475);
+var _date_picker_input = __webpack_require__(479);
 
 var _date_picker_input2 = _interopRequireDefault(_date_picker_input);
 
-var _Common = __webpack_require__(71);
+var _Common = __webpack_require__(73);
 
-var _Calendar = __webpack_require__(445);
+var _Calendar = __webpack_require__(449);
 
 var _Calendar2 = _interopRequireDefault(_Calendar);
 
-var _Date = __webpack_require__(83);
+var _Date = __webpack_require__(85);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11266,7 +11788,7 @@ DatePicker.propTypes = _extends({}, _date_picker_input2.default.propTypes, _Cale
 exports.default = DatePicker;
 
 /***/ }),
-/* 475 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11318,7 +11840,7 @@ DatePickerInput.propTypes = {
 };
 
 /***/ }),
-/* 476 */
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11328,7 +11850,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _toggle_fullscreen = __webpack_require__(477);
+var _toggle_fullscreen = __webpack_require__(481);
 
 Object.keys(_toggle_fullscreen).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -11340,7 +11862,7 @@ Object.keys(_toggle_fullscreen).forEach(function (key) {
   });
 });
 
-var _toggle_portfolio = __webpack_require__(478);
+var _toggle_portfolio = __webpack_require__(482);
 
 Object.keys(_toggle_portfolio).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -11352,7 +11874,7 @@ Object.keys(_toggle_portfolio).forEach(function (key) {
   });
 });
 
-var _toggle_settings = __webpack_require__(479);
+var _toggle_settings = __webpack_require__(483);
 
 Object.keys(_toggle_settings).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -11365,7 +11887,7 @@ Object.keys(_toggle_settings).forEach(function (key) {
 });
 
 /***/ }),
-/* 477 */
+/* 481 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11386,7 +11908,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Footer = __webpack_require__(178);
+var _Footer = __webpack_require__(184);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11473,7 +11995,7 @@ var ToggleFullScreen = function (_React$Component) {
 exports.ToggleFullScreen = ToggleFullScreen;
 
 /***/ }),
-/* 478 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11496,7 +12018,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Footer = __webpack_require__(178);
+var _Footer = __webpack_require__(184);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11504,7 +12026,7 @@ var TogglePortfolio = function TogglePortfolio(_ref) {
     var is_portfolio_drawer_on = _ref.is_portfolio_drawer_on,
         togglePortfolioDrawer = _ref.togglePortfolioDrawer;
 
-    var toggle_portfolio_class = (0, _classnames2.default)('footer-icon', 'ic-portfolio', {
+    var toggle_portfolio_class = (0, _classnames2.default)('ic-portfolio', {
         'active': is_portfolio_drawer_on
     });
     return _react2.default.createElement(
@@ -11526,7 +12048,7 @@ TogglePortfolio.propTypes = {
 exports.TogglePortfolio = TogglePortfolio;
 
 /***/ }),
-/* 479 */
+/* 483 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11549,11 +12071,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _settings_dialog = __webpack_require__(470);
+var _settings_dialog = __webpack_require__(472);
 
 var _settings_dialog2 = _interopRequireDefault(_settings_dialog);
 
-var _Footer = __webpack_require__(178);
+var _Footer = __webpack_require__(184);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11594,7 +12116,7 @@ ToggleSettings.propTypes = {
 exports.ToggleSettings = ToggleSettings;
 
 /***/ }),
-/* 480 */
+/* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11660,7 +12182,7 @@ AccountInfo.propTypes = {
 exports.AccountInfo = AccountInfo;
 
 /***/ }),
-/* 481 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11670,7 +12192,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _account_info = __webpack_require__(480);
+var _account_info = __webpack_require__(484);
 
 Object.keys(_account_info).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -11682,7 +12204,7 @@ Object.keys(_account_info).forEach(function (key) {
   });
 });
 
-var _login_button = __webpack_require__(482);
+var _login_button = __webpack_require__(486);
 
 Object.keys(_login_button).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -11694,7 +12216,7 @@ Object.keys(_login_button).forEach(function (key) {
   });
 });
 
-var _menu_links = __webpack_require__(483);
+var _menu_links = __webpack_require__(487);
 
 Object.keys(_menu_links).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -11706,7 +12228,7 @@ Object.keys(_menu_links).forEach(function (key) {
   });
 });
 
-var _toggle_menu_drawer = __webpack_require__(484);
+var _toggle_menu_drawer = __webpack_require__(488);
 
 Object.keys(_toggle_menu_drawer).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -11718,7 +12240,7 @@ Object.keys(_toggle_menu_drawer).forEach(function (key) {
   });
 });
 
-var _toggle_notifications_drawer = __webpack_require__(485);
+var _toggle_notifications_drawer = __webpack_require__(489);
 
 Object.keys(_toggle_notifications_drawer).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -11730,7 +12252,7 @@ Object.keys(_toggle_notifications_drawer).forEach(function (key) {
   });
 });
 
-var _upgrade_button = __webpack_require__(486);
+var _upgrade_button = __webpack_require__(490);
 
 Object.keys(_upgrade_button).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -11743,7 +12265,7 @@ Object.keys(_upgrade_button).forEach(function (key) {
 });
 
 /***/ }),
-/* 482 */
+/* 486 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11758,7 +12280,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _button = __webpack_require__(82);
+var _button = __webpack_require__(71);
 
 var _button2 = _interopRequireDefault(_button);
 
@@ -11780,7 +12302,7 @@ var LoginButton = function LoginButton() {
 exports.LoginButton = LoginButton;
 
 /***/ }),
-/* 483 */
+/* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11799,11 +12321,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _InkBar = __webpack_require__(460);
+var _InkBar = __webpack_require__(462);
 
 var _InkBar2 = _interopRequireDefault(_InkBar);
 
-var _Routes = __webpack_require__(176);
+var _Routes = __webpack_require__(181);
 
 var _url = __webpack_require__(11);
 
@@ -11853,7 +12375,7 @@ MenuLinks.propTypes = {
 exports.MenuLinks = MenuLinks;
 
 /***/ }),
-/* 484 */
+/* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11868,15 +12390,15 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _account_switcher = __webpack_require__(473);
+var _account_switcher = __webpack_require__(475);
 
 var _account_switcher2 = _interopRequireDefault(_account_switcher);
 
-var _Drawer = __webpack_require__(132);
+var _Drawer = __webpack_require__(133);
 
-var _menu_drawer = __webpack_require__(489);
+var _menu_drawer = __webpack_require__(495);
 
-var _NavBar = __webpack_require__(103);
+var _NavBar = __webpack_require__(74);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11896,7 +12418,7 @@ var ToggleMenuDrawer = function ToggleMenuDrawer() {
 exports.ToggleMenuDrawer = ToggleMenuDrawer;
 
 /***/ }),
-/* 485 */
+/* 489 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11911,11 +12433,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Notifications = __webpack_require__(462);
+var _Notifications = __webpack_require__(464);
 
-var _Drawer = __webpack_require__(132);
+var _Drawer = __webpack_require__(133);
 
-var _NavBar = __webpack_require__(103);
+var _NavBar = __webpack_require__(74);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11934,7 +12456,7 @@ var ToggleNotificationsDrawer = function ToggleNotificationsDrawer() {
 exports.ToggleNotificationsDrawer = ToggleNotificationsDrawer;
 
 /***/ }),
-/* 486 */
+/* 490 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11953,7 +12475,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _button = __webpack_require__(82);
+var _button = __webpack_require__(71);
 
 var _button2 = _interopRequireDefault(_button);
 
@@ -11979,7 +12501,7 @@ UpgradeButton.propTypes = {
 exports.UpgradeButton = UpgradeButton;
 
 /***/ }),
-/* 487 */
+/* 491 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12001,9 +12523,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(49);
 
-var _helpers = __webpack_require__(70);
+var _helpers = __webpack_require__(72);
 
-var _routes_config = __webpack_require__(254);
+var _routes_config = __webpack_require__(262);
 
 var _routes_config2 = _interopRequireDefault(_routes_config);
 
@@ -12042,7 +12564,7 @@ BinaryLink.propTypes = {
 exports.default = BinaryLink;
 
 /***/ }),
-/* 488 */
+/* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12058,11 +12580,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _route_with_sub_routes = __webpack_require__(253);
+var _route_with_sub_routes = __webpack_require__(261);
 
 var _route_with_sub_routes2 = _interopRequireDefault(_route_with_sub_routes);
 
-var _routes_config = __webpack_require__(254);
+var _routes_config = __webpack_require__(262);
 
 var _routes_config2 = _interopRequireDefault(_routes_config);
 
@@ -12077,7 +12599,59 @@ var BinaryRoutes = function BinaryRoutes() {
 exports.default = BinaryRoutes;
 
 /***/ }),
-/* 489 */
+/* 493 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var website_name = exports.website_name = 'Binary.com';
+var default_title = exports.default_title = website_name;
+
+/***/ }),
+/* 494 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _index = __webpack_require__(74);
+
+var _index2 = __webpack_require__(265);
+
+var _localize = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var header_links = [{
+    icon: _react2.default.createElement(_index.IconTrade, { className: 'ic-header__trade' }),
+    text: (0, _localize.localize)('Trade'),
+    link_to: _index2.routes.trade
+}, {
+    icon: _react2.default.createElement(_index.IconPortfolio, { className: 'ic-header__portfolio' }),
+    text: (0, _localize.localize)('Portfolio'),
+    link_to: _index2.routes.portfolio
+}, {
+    icon: _react2.default.createElement(_index.IconStatement, { className: 'ic-header__statement' }),
+    text: (0, _localize.localize)('Statement'),
+    link_to: _index2.routes.statement
+}];
+
+exports.default = header_links;
+
+/***/ }),
+/* 495 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12096,15 +12670,15 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Drawer = __webpack_require__(132);
+var _Drawer = __webpack_require__(133);
 
-var _Drawer2 = __webpack_require__(509);
+var _Drawer2 = __webpack_require__(517);
 
-var _NavBar = __webpack_require__(103);
+var _NavBar = __webpack_require__(74);
 
-var _Services = __webpack_require__(57);
+var _Services = __webpack_require__(58);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
@@ -12117,9 +12691,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var MenuDrawer = function MenuDrawer(_ref) {
     var is_dark_mode = _ref.is_dark_mode,
         is_mobile = _ref.is_mobile,
+        is_portfolio_drawer_on = _ref.is_portfolio_drawer_on,
         is_purchase_confirmed = _ref.is_purchase_confirmed,
         is_purchase_locked = _ref.is_purchase_locked,
         toggleDarkMode = _ref.toggleDarkMode,
+        togglePortfolioDrawer = _ref.togglePortfolioDrawer,
         togglePurchaseLock = _ref.togglePurchaseLock,
         togglePurchaseConfirmation = _ref.togglePurchaseConfirmation;
     return _react2.default.createElement(
@@ -12170,7 +12746,12 @@ var MenuDrawer = function MenuDrawer(_ref) {
             _react2.default.createElement(_Drawer.DrawerItem, {
                 icon: _react2.default.createElement(_Drawer2.IconLogout, { className: 'drawer-icon' }),
                 text: (0, _localize.localize)('Logout'),
-                custom_action: _Services.requestLogout
+                custom_action: function custom_action() {
+                    if (is_portfolio_drawer_on) {
+                        togglePortfolioDrawer(); // TODO: hide drawer inside logout, once it is a mobx action
+                    }
+                    (0, _Services.requestLogout)();
+                }
             })
         )
     );
@@ -12178,9 +12759,11 @@ var MenuDrawer = function MenuDrawer(_ref) {
 
 MenuDrawer.propTypes = {
     is_dark_mode: _propTypes2.default.bool,
+    is_portfolio_drawer_on: _propTypes2.default.bool,
     is_purchase_confirmed: _propTypes2.default.bool,
     is_purchase_locked: _propTypes2.default.bool,
     toggleDarkMode: _propTypes2.default.func,
+    togglePortfolioDrawer: _propTypes2.default.func,
     togglePurchaseConfirmation: _propTypes2.default.func,
     togglePurchaseLock: _propTypes2.default.func,
     is_mobile: _propTypes2.default.bool
@@ -12190,9 +12773,11 @@ var menu_drawer_component = (0, _connect.connect)(function (_ref2) {
     var ui = _ref2.ui;
     return {
         is_dark_mode: ui.is_dark_mode_on,
+        is_portfolio_drawer_on: ui.is_portfolio_drawer_on,
         is_purchase_confirmed: ui.is_purchase_confirm_on,
         is_purchase_locked: ui.is_purchase_lock_on,
         toggleDarkMode: ui.toggleDarkMode,
+        togglePortfolioDrawer: ui.togglePortfolioDrawer,
         togglePurchaseConfirmation: ui.togglePurchaseConfirmation,
         togglePurchaseLock: ui.togglePurchaseLock,
         is_mobile: ui.is_mobile
@@ -12202,7 +12787,7 @@ var menu_drawer_component = (0, _connect.connect)(function (_ref2) {
 exports.MenuDrawer = menu_drawer_component;
 
 /***/ }),
-/* 490 */
+/* 496 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12224,7 +12809,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = __webpack_require__(155);
+var _reactRouter = __webpack_require__(121);
 
 var _connect = __webpack_require__(21);
 
@@ -12258,7 +12843,7 @@ exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_
 })(AppContents));
 
 /***/ }),
-/* 491 */
+/* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12276,9 +12861,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Footer = __webpack_require__(476);
+var _Footer = __webpack_require__(480);
 
-var _server_time = __webpack_require__(499);
+var _server_time = __webpack_require__(505);
 
 var _server_time2 = _interopRequireDefault(_server_time);
 
@@ -12287,7 +12872,8 @@ var _connect = __webpack_require__(21);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Footer = function Footer(_ref) {
-    var is_portfolio_drawer_on = _ref.is_portfolio_drawer_on,
+    var is_logged_in = _ref.is_logged_in,
+        is_portfolio_drawer_on = _ref.is_portfolio_drawer_on,
         is_language_dialog_visible = _ref.is_language_dialog_visible,
         is_settings_dialog_on = _ref.is_settings_dialog_on,
         toggleSettingsDialog = _ref.toggleSettingsDialog,
@@ -12299,7 +12885,7 @@ var Footer = function Footer(_ref) {
         _react2.default.createElement(
             'div',
             { className: 'footer-links' },
-            _react2.default.createElement(_Footer.TogglePortfolio, {
+            is_logged_in && _react2.default.createElement(_Footer.TogglePortfolio, {
                 is_portfolio_drawer_on: is_portfolio_drawer_on,
                 togglePortfolioDrawer: togglePortfolioDrawer
             }),
@@ -12314,6 +12900,7 @@ var Footer = function Footer(_ref) {
 };
 
 Footer.propTypes = {
+    is_logged_in: _propTypes2.default.bool,
     is_language_dialog_visible: _propTypes2.default.bool,
     is_portfolio_drawer_on: _propTypes2.default.bool,
     is_settings_dialog_on: _propTypes2.default.bool,
@@ -12322,8 +12909,10 @@ Footer.propTypes = {
 };
 
 exports.default = (0, _connect.connect)(function (_ref2) {
-    var ui = _ref2.ui;
+    var client = _ref2.client,
+        ui = _ref2.ui;
     return {
+        is_logged_in: client.is_logged_in,
         is_language_dialog_visible: ui.is_language_dialog_on,
         is_portfolio_drawer_on: ui.is_portfolio_drawer_on,
         is_settings_dialog_on: ui.is_settings_dialog_on,
@@ -12333,7 +12922,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(Footer);
 
 /***/ }),
-/* 492 */
+/* 498 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12351,13 +12940,17 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = __webpack_require__(155);
+var _reactRouter = __webpack_require__(121);
 
-var _Header = __webpack_require__(481);
+var _Header = __webpack_require__(485);
+
+var _header_links = __webpack_require__(494);
+
+var _header_links2 = _interopRequireDefault(_header_links);
 
 var _connect = __webpack_require__(21);
 
-var _currency_base = __webpack_require__(34);
+var _currency_base = __webpack_require__(30);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12366,7 +12959,6 @@ var Header = function Header(_ref) {
         can_upgrade = _ref.can_upgrade,
         currency = _ref.currency,
         loginid = _ref.loginid,
-        items = _ref.items,
         is_logged_in = _ref.is_logged_in,
         onClickUpgrade = _ref.onClickUpgrade;
     return _react2.default.createElement(
@@ -12379,7 +12971,7 @@ var Header = function Header(_ref) {
                 'div',
                 { className: 'menu-left' },
                 _react2.default.createElement(_Header.ToggleMenuDrawer, null),
-                _react2.default.createElement(_Header.MenuLinks, { items: items })
+                _react2.default.createElement(_Header.MenuLinks, { items: _header_links2.default })
             ),
             _react2.default.createElement(
                 'div',
@@ -12409,7 +13001,6 @@ Header.propTypes = {
     can_upgrade: _propTypes2.default.bool,
     currency: _propTypes2.default.string,
     loginid: _propTypes2.default.string,
-    items: _propTypes2.default.array,
     is_dark_mode: _propTypes2.default.bool, // TODO: add dark theme handler
     is_logged_in: _propTypes2.default.bool,
     onClickUpgrade: _propTypes2.default.func // TODO: add click handler
@@ -12431,7 +13022,7 @@ exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_
 })(Header));
 
 /***/ }),
-/* 493 */
+/* 499 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12452,6 +13043,8 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = __webpack_require__(121);
 
 var _connect = __webpack_require__(21);
 
@@ -12476,15 +13069,15 @@ ThemeWrapper.propTypes = {
     children: _propTypes2.default.node
 };
 
-exports.default = (0, _connect.connect)(function (_ref2) {
+exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_ref2) {
     var ui = _ref2.ui;
     return {
         is_dark_theme: ui.is_dark_mode_on
     };
-})(ThemeWrapper);
+})(ThemeWrapper));
 
 /***/ }),
-/* 494 */
+/* 500 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12494,7 +13087,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -12504,17 +13097,21 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = __webpack_require__(155);
+var _reactRouter = __webpack_require__(121);
 
-var _Errors = __webpack_require__(459);
+var _Errors = __webpack_require__(252);
 
 var _Errors2 = _interopRequireDefault(_Errors);
 
-var _Routes = __webpack_require__(176);
+var _Routes = __webpack_require__(181);
 
 var _Routes2 = _interopRequireDefault(_Routes);
 
 var _connect = __webpack_require__(21);
+
+var _gtm = __webpack_require__(57);
+
+var _gtm2 = _interopRequireDefault(_gtm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12522,6 +13119,9 @@ var Routes = function Routes(props) {
     if (props.has_error) {
         return _react2.default.createElement(_Errors2.default, props.error);
     }
+
+    _gtm2.default.pushDataLayer(); // fire 'page_load' event
+
     return _react2.default.createElement(_Routes2.default, null);
 };
 
@@ -12530,7 +13130,7 @@ Routes.propTypes = {
     has_error: _propTypes2.default.bool
 };
 
-// need to wrap withRouter around connect 
+// need to wrap withRouter around connect
 // to prevent updates on <BinaryRoutes /> from being blocked
 exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_ref) {
     var common = _ref.common;
@@ -12541,7 +13141,7 @@ exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_
 })(Routes));
 
 /***/ }),
-/* 495 */
+/* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12552,15 +13152,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.LanguageSettings = exports.GeneralSettings = exports.ChartSettings = undefined;
 
-var _settings_chart = __webpack_require__(496);
+var _settings_chart = __webpack_require__(502);
 
 var _settings_chart2 = _interopRequireDefault(_settings_chart);
 
-var _settings_general = __webpack_require__(497);
+var _settings_general = __webpack_require__(503);
 
 var _settings_general2 = _interopRequireDefault(_settings_general);
 
-var _settings_language = __webpack_require__(498);
+var _settings_language = __webpack_require__(504);
 
 var _settings_language2 = _interopRequireDefault(_settings_language);
 
@@ -12571,7 +13171,7 @@ exports.GeneralSettings = _settings_general2.default;
 exports.LanguageSettings = _settings_language2.default;
 
 /***/ }),
-/* 496 */
+/* 502 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12589,7 +13189,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _settings_control = __webpack_require__(246);
+var _settings_control = __webpack_require__(255);
 
 var _settings_control2 = _interopRequireDefault(_settings_control);
 
@@ -12652,7 +13252,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(ChartSettings);
 
 /***/ }),
-/* 497 */
+/* 503 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12670,7 +13270,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _settings_control = __webpack_require__(246);
+var _settings_control = __webpack_require__(255);
 
 var _settings_control2 = _interopRequireDefault(_settings_control);
 
@@ -12749,7 +13349,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(GeneralSettings);
 
 /***/ }),
-/* 498 */
+/* 504 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12767,7 +13367,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _language_dialog = __webpack_require__(469);
+var _language_dialog = __webpack_require__(471);
 
 var _language_dialog2 = _interopRequireDefault(_language_dialog);
 
@@ -12802,7 +13402,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(LanguageSettings);
 
 /***/ }),
-/* 499 */
+/* 505 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12822,7 +13422,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _connect = __webpack_require__(21);
 
-var _Date = __webpack_require__(83);
+var _Date = __webpack_require__(85);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12850,7 +13450,98 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(ServerTime);
 
 /***/ }),
-/* 500 */
+/* 506 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(49);
+
+var _PortfolioDrawer = __webpack_require__(468);
+
+var _PortfolioDrawer2 = _interopRequireDefault(_PortfolioDrawer);
+
+var _app_contents = __webpack_require__(496);
+
+var _app_contents2 = _interopRequireDefault(_app_contents);
+
+var _footer = __webpack_require__(497);
+
+var _footer2 = _interopRequireDefault(_footer);
+
+var _header = __webpack_require__(498);
+
+var _header2 = _interopRequireDefault(_header);
+
+var _theme_wrapper = __webpack_require__(499);
+
+var _theme_wrapper2 = _interopRequireDefault(_theme_wrapper);
+
+var _routes = __webpack_require__(500);
+
+var _routes2 = _interopRequireDefault(_routes);
+
+var _connect = __webpack_require__(21);
+
+var _base_name = __webpack_require__(631);
+
+var _base_name2 = _interopRequireDefault(_base_name);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var App = function App(_ref) {
+    var root_store = _ref.root_store;
+    return _react2.default.createElement(
+        _reactRouterDom.BrowserRouter,
+        { basename: (0, _base_name2.default)() },
+        _react2.default.createElement(
+            _connect.MobxProvider,
+            { store: root_store },
+            _react2.default.createElement(
+                _theme_wrapper2.default,
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { id: 'header' },
+                    _react2.default.createElement(_header2.default, null)
+                ),
+                _react2.default.createElement(
+                    _app_contents2.default,
+                    null,
+                    _react2.default.createElement(_routes2.default, null)
+                ),
+                _react2.default.createElement(_PortfolioDrawer2.default, null),
+                _react2.default.createElement(
+                    'footer',
+                    { id: 'footer' },
+                    _react2.default.createElement(_footer2.default, null)
+                )
+            )
+        )
+    );
+};
+
+App.propTypes = {
+    root_store: _propTypes2.default.object
+};
+
+exports.default = App;
+
+/***/ }),
+/* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12887,7 +13578,7 @@ IconArrow.propTypes = {
 exports.IconArrow = IconArrow;
 
 /***/ }),
-/* 501 */
+/* 508 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12928,7 +13619,46 @@ IconBack.propTypes = {
 exports.IconBack = IconBack;
 
 /***/ }),
-/* 502 */
+/* 509 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconError = function IconError() {
+    return (/* { type } */ // TODO: add icon for different types of error
+        _react2.default.createElement(
+            'svg',
+            { xmlns: 'http://www.w3.org/2000/svg', width: '64', height: '64', viewBox: '0 0 64 64' },
+            _react2.default.createElement(
+                'g',
+                { fill: 'none', fillRule: 'evenodd' },
+                _react2.default.createElement('circle', { cx: '32', cy: '32', r: '32', fill: '#FFC107' }),
+                _react2.default.createElement(
+                    'g',
+                    { fill: '#FFF', transform: 'matrix(1 0 0 -1 26 48)' },
+                    _react2.default.createElement('circle', { cx: '6', cy: '4', r: '4' }),
+                    _react2.default.createElement('path', { d: 'M6 12a4 4 0 0 1 4 4v12a4 4 0 1 1-8 0V16a4 4 0 0 1 4-4z' })
+                )
+            )
+        )
+    );
+};
+
+exports.default = IconError;
+
+/***/ }),
+/* 510 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12975,7 +13705,7 @@ IconExclamation.propTypes = {
 exports.IconExclamation = IconExclamation;
 
 /***/ }),
-/* 503 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12985,7 +13715,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -13018,7 +13748,7 @@ IconEntrySpot.propTypes = {
 exports.default = (0, _mobxReact.observer)(IconEntrySpot);
 
 /***/ }),
-/* 504 */
+/* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13028,7 +13758,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -13061,7 +13791,7 @@ IconTick.propTypes = {
 exports.default = (0, _mobxReact.observer)(IconTick);
 
 /***/ }),
-/* 505 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13091,7 +13821,7 @@ var IconMaximize = function IconMaximize(_ref) {
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
-        _react2.default.createElement('path', { className: 'stroke-only', d: 'M1.5 10.5v4m4 0h-4m9 0h4m0 0v-4m0-9v4m0-4h-4m-5 0h-4m0 0v4', fill: 'none', strokeLinecap: 'square', stroke: '#2A3052' })
+        _react2.default.createElement('path', { className: 'color1-stroke color3-stroke', d: 'M1.5 10.5v4m4 0h-4m9 0h4m0 0v-4m0-9v4m0-4h-4m-5 0h-4m0 0v4', fill: 'none', strokeLinecap: 'square', stroke: '#2A3052' })
     );
 };
 
@@ -13102,7 +13832,7 @@ IconMaximize.propTypes = {
 exports.IconMaximize = IconMaximize;
 
 /***/ }),
-/* 506 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13132,7 +13862,7 @@ var IconQuickPortfolio = function IconQuickPortfolio(_ref) {
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 16 12' },
-        _react2.default.createElement('path', { fill: '#2A3052', fillRule: 'evenodd', d: 'M1 0h14c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H1a1 1 0 0 1-1-1V1c0-.6.4-1 1-1zm0 1v10h5V1H1zm6 0v10h8V1H7zm1.5 1.5a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1zm2 0h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1zm-2 2a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1zm2 0h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1zm-2 2a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1zm2 0h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1zm-2 2a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1zm2 0h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1z' })
+        _react2.default.createElement('path', { className: 'color1-fill color3-fill', fill: '#2A3052', fillRule: 'evenodd', d: 'M1 0h14c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H1a1 1 0 0 1-1-1V1c0-.6.4-1 1-1zm0 1v10h5V1H1zm6 0v10h8V1H7zm1.5 1.5a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1zm2 0h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1zm-2 2a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1zm2 0h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1zm-2 2a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1zm2 0h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1zm-2 2a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1zm2 0h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1z' })
     );
 };
 
@@ -13143,7 +13873,7 @@ IconQuickPortfolio.propTypes = {
 exports.IconQuickPortfolio = IconQuickPortfolio;
 
 /***/ }),
-/* 507 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13173,7 +13903,7 @@ var IconSettings = function IconSettings(_ref) {
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 16 16' },
-        _react2.default.createElement('path', { fill: '#2A3052', d: 'M15 6.9v-.4L13.8 6a6 6 0 0 0-.4-.9l.6-1-.2-.4a7.3 7.3 0 0 0-1.6-1.6l-.3-.2-1.1.5a6.1 6.1 0 0 0-1-.3L9.6 1h-.4A7 7 0 0 0 8 .9a7.1 7.1 0 0 0-1.1 0l-.4.1L6 2.2a6.3 6.3 0 0 0-.9.3l-1-.5-.4.2a7.2 7.2 0 0 0-1.6 1.6l-.2.3.5 1.1-.3 1-1.2.3v.4A7.2 7.2 0 0 0 .9 8v1.1l.1.4 1.2.4c0 .3.2.6.4.9l-.6 1 .2.4a7 7 0 0 0 1.6 1.6l.3.2 1.1-.6 1 .4.3 1.2h.4A7.2 7.2 0 0 0 9 15h.4l.4-1.2a6.5 6.5 0 0 0 .9-.3l1 .5.4-.2.8-.8a7.2 7.2 0 0 0 .8-.8l.2-.3-.5-1.1.3-1 1.2-.3v-.4l.1-1.1a6.3 6.3 0 0 0 0-1.1zm-1 1v.7l-.6.2-.5.2-.1.5-.4.8-.2.5.5 1a5.7 5.7 0 0 1-.5.4 5.2 5.2 0 0 1-.4.5l-1-.5-.5.2a5.2 5.2 0 0 1-.8.4l-.5.1-.2.5-.1.6a5.3 5.3 0 0 1-1.3 0l-.2-.6-.2-.5-.5-.1a4.7 4.7 0 0 1-.8-.4l-.5-.2-.4.2-.5.3a5.6 5.6 0 0 1-1-1l.5-1-.2-.4a4.8 4.8 0 0 1-.4-.8L3.1 9l-1-.3a5.3 5.3 0 0 1 0-1.4L3 7l.1-.5.4-.8.2-.5-.2-.4-.3-.6a6 6 0 0 1 1-.9l1 .5.4-.2.8-.4.5-.1.2-.5.1-.6a6 6 0 0 1 1.4 0L9 3l.5.2.8.4.5.2 1-.5.9 1-.5 1 .2.4.4.8.1.5.5.2.6.1V8zM8 5.4A2.7 2.7 0 0 0 5.3 8 2.7 2.7 0 0 0 8 10.7 2.7 2.7 0 0 0 10.7 8 2.7 2.7 0 0 0 8 5.3zM9.1 9a1.6 1.6 0 0 1-1.1.5c-.4 0-.8-.2-1.1-.5A1.6 1.6 0 0 1 6.4 8c0-.4.2-.8.5-1.1A1.6 1.6 0 0 1 8 6.4c.4 0 .8.2 1.1.5a1.6 1.6 0 0 1 0 2.2z' })
+        _react2.default.createElement('path', { className: 'color1-fill color3-fill', fill: '#2A3052', d: 'M15 6.9v-.4L13.8 6a6 6 0 0 0-.4-.9l.6-1-.2-.4a7.3 7.3 0 0 0-1.6-1.6l-.3-.2-1.1.5a6.1 6.1 0 0 0-1-.3L9.6 1h-.4A7 7 0 0 0 8 .9a7.1 7.1 0 0 0-1.1 0l-.4.1L6 2.2a6.3 6.3 0 0 0-.9.3l-1-.5-.4.2a7.2 7.2 0 0 0-1.6 1.6l-.2.3.5 1.1-.3 1-1.2.3v.4A7.2 7.2 0 0 0 .9 8v1.1l.1.4 1.2.4c0 .3.2.6.4.9l-.6 1 .2.4a7 7 0 0 0 1.6 1.6l.3.2 1.1-.6 1 .4.3 1.2h.4A7.2 7.2 0 0 0 9 15h.4l.4-1.2a6.5 6.5 0 0 0 .9-.3l1 .5.4-.2.8-.8a7.2 7.2 0 0 0 .8-.8l.2-.3-.5-1.1.3-1 1.2-.3v-.4l.1-1.1a6.3 6.3 0 0 0 0-1.1zm-1 1v.7l-.6.2-.5.2-.1.5-.4.8-.2.5.5 1a5.7 5.7 0 0 1-.5.4 5.2 5.2 0 0 1-.4.5l-1-.5-.5.2a5.2 5.2 0 0 1-.8.4l-.5.1-.2.5-.1.6a5.3 5.3 0 0 1-1.3 0l-.2-.6-.2-.5-.5-.1a4.7 4.7 0 0 1-.8-.4l-.5-.2-.4.2-.5.3a5.6 5.6 0 0 1-1-1l.5-1-.2-.4a4.8 4.8 0 0 1-.4-.8L3.1 9l-1-.3a5.3 5.3 0 0 1 0-1.4L3 7l.1-.5.4-.8.2-.5-.2-.4-.3-.6a6 6 0 0 1 1-.9l1 .5.4-.2.8-.4.5-.1.2-.5.1-.6a6 6 0 0 1 1.4 0L9 3l.5.2.8.4.5.2 1-.5.9 1-.5 1 .2.4.4.8.1.5.5.2.6.1V8zM8 5.4A2.7 2.7 0 0 0 5.3 8 2.7 2.7 0 0 0 8 10.7 2.7 2.7 0 0 0 10.7 8 2.7 2.7 0 0 0 8 5.3zM9.1 9a1.6 1.6 0 0 1-1.1.5c-.4 0-.8-.2-1.1-.5A1.6 1.6 0 0 1 6.4 8c0-.4.2-.8.5-1.1A1.6 1.6 0 0 1 8 6.4c.4 0 .8.2 1.1.5a1.6 1.6 0 0 1 0 2.2z' })
     );
 };
 
@@ -13184,7 +13914,7 @@ IconSettings.propTypes = {
 exports.IconSettings = IconSettings;
 
 /***/ }),
-/* 508 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13216,7 +13946,7 @@ var IconLogout = function IconLogout(_ref) {
         { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 16 16' },
         _react2.default.createElement(
             'g',
-            { fill: '#2A3052', fillRule: 'nonzero' },
+            { className: 'color1-fill', fill: '#2A3052', fillRule: 'nonzero' },
             _react2.default.createElement('path', { d: 'M8.4 13.8c0 .8-.4 1.4-.9 1.4H2c-.5 0-1-.6-1-1.4V2.4C1 1.6 1.5 1 2 1h5.6c.5 0 .9.6.9 1.4 0 .2.1.4.4.4.2 0 .3-.2.3-.4C9.1 1.2 8.4.2 7.5.2H2C.9.2.2 1.2.2 2.4v11.4C.2 15 1 16 2 16h5.6c1 0 1.6-1 1.6-2.2 0-.2-.1-.4-.3-.4-.3 0-.4.2-.4.4z' }),
             _react2.default.createElement('path', { d: 'M4.8 8.5h10.4c.2 0 .4-.2.4-.4s-.2-.4-.4-.4H4.8c-.2 0-.3.2-.3.4s.1.4.3.4z' }),
             _react2.default.createElement('path', { d: 'M11.3 4.4l3.8 4h.6v-.6l-4-4a.4.4 0 0 0-.4 0c-.2.2-.2.4 0 .6z' }),
@@ -13232,7 +13962,7 @@ IconLogout.propTypes = {
 exports.IconLogout = IconLogout;
 
 /***/ }),
-/* 509 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13242,7 +13972,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _icon_logout = __webpack_require__(508);
+var _icon_logout = __webpack_require__(516);
 
 Object.keys(_icon_logout).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -13255,7 +13985,7 @@ Object.keys(_icon_logout).forEach(function (key) {
 });
 
 /***/ }),
-/* 510 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13287,8 +14017,8 @@ var IconBell = function IconBell(_ref) {
         { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 16 16' },
         _react2.default.createElement(
             'g',
-            { className: 'stroke-only', fill: 'none', fillRule: 'evenodd', stroke: '#2A3052' },
-            _react2.default.createElement('path', { className: 'no-fill', d: 'M12.8 11.6l-.3-.2V7a4.5 4.5 0 1 0-9 0v4.4l-.3.2a1 1 0 0 0 .3 1.9h9a1 1 0 0 0 .3-2z' }),
+            { className: 'color1-stroke', fill: 'none', fillRule: 'evenodd', stroke: '#2A3052' },
+            _react2.default.createElement('path', { d: 'M12.8 11.6l-.3-.2V7a4.5 4.5 0 1 0-9 0v4.4l-.3.2a1 1 0 0 0 .3 1.9h9a1 1 0 0 0 .3-2z' }),
             _react2.default.createElement('path', { d: 'M7 2.5h2v-1a1 1 0 1 0-2 0v1zm-.5 11v.5a1.5 1.5 0 0 0 3 0v-.5h-3z' })
         )
     );
@@ -13301,7 +14031,7 @@ IconBell.propTypes = {
 exports.IconBell = IconBell;
 
 /***/ }),
-/* 511 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13360,7 +14090,7 @@ IconCashier.propTypes = {
 exports.IconCashier = IconCashier;
 
 /***/ }),
-/* 512 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13390,7 +14120,7 @@ var IconHamburger = function IconHamburger(_ref) {
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), width: '24', height: '24', viewBox: '0 0 24 24', xmlns: 'http://www.w3.org/2000/svg' },
-        _react2.default.createElement('path', { d: 'M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z', fill: '#000', fillRule: 'evenodd' })
+        _react2.default.createElement('path', { className: 'color1-fill', d: 'M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z', fill: '#000', fillRule: 'evenodd' })
     );
 };
 
@@ -13401,7 +14131,7 @@ IconHamburger.propTypes = {
 exports.IconHamburger = IconHamburger;
 
 /***/ }),
-/* 513 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13430,17 +14160,17 @@ var IconPortfolio = function IconPortfolio(_ref) {
     var className = _ref.className;
     return _react2.default.createElement(
         'svg',
-        { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16' },
+        { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16', viewBox: '0 0 16 16' },
         _react2.default.createElement(
             'g',
-            { fill: 'none', fillRule: 'evenodd', stroke: 'none', strokeWidth: '1' },
+            { className: 'color2-fill', fill: 'none', fillRule: 'evenodd', stroke: 'none', strokeWidth: '1' },
             _react2.default.createElement(
                 'g',
                 null,
-                _react2.default.createElement('path', { className: 'stroke-only', fill: 'none', stroke: '#2A3052', d: 'M1.5 14.5h13a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-13a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1z' }),
-                _react2.default.createElement('path', { className: 'stroke-only portfolio-fix', stroke: '#2A3052', d: 'M5.5 3v-.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1V3' }),
-                _react2.default.createElement('path', { className: 'stroke-only scale-fix', stroke: '#2A3052', strokeLinecap: 'square', d: 'M0 8l4.047 2.248a2 2 0 0 0 .971.252h5.964a2 2 0 0 0 .971-.252L16 8' }),
-                _react2.default.createElement('path', { className: 'stroke-only', stroke: '#2A3052', strokeLinecap: 'round', d: 'M6.5 8.5h3' })
+                _react2.default.createElement('path', { className: 'color1-stroke color2-fill color3-stroke', fill: 'none', stroke: '#2A3052', d: 'M1.5 14.5h13a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-13a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1z' }),
+                _react2.default.createElement('path', { className: 'color1-stroke color3-stroke color4-fill portfolio-fix', stroke: '#2A3052', d: 'M5.5 3v-.5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1V3' }),
+                _react2.default.createElement('path', { className: 'color1-stroke scale-fix', stroke: '#2A3052', strokeLinecap: 'square', d: 'M0 8l4.047 2.248a2 2 0 0 0 .971.252h5.964a2 2 0 0 0 .971-.252L16 8' }),
+                _react2.default.createElement('path', { className: 'color1-stroke', stroke: '#2A3052', strokeLinecap: 'round', d: 'M6.5 8.5h3' })
             )
         )
     );
@@ -13453,7 +14183,7 @@ IconPortfolio.propTypes = {
 exports.IconPortfolio = IconPortfolio;
 
 /***/ }),
-/* 514 */
+/* 522 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13485,13 +14215,13 @@ var IconStatement = function IconStatement(_ref) {
         { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
         _react2.default.createElement(
             'g',
-            { fill: 'none', fillRule: 'evenodd' },
+            { className: 'color2-fill', fill: 'none', fillRule: 'evenodd' },
             _react2.default.createElement(
                 'g',
-                { className: 'stroke-only', stroke: '#2A3052' },
-                _react2.default.createElement('path', { className: 'no-fill', d: 'M12.5 15.5V4.207L8.79.5H1a.5.5 0 0 0-.5.5v14a.5.5 0 0 0 .5.5h11.5zM12.5 6.5v9H14a1.5 1.5 0 0 0 1.5-1.5V7a.5.5 0 0 0-.5-.5h-2.5z' })
+                { className: 'color1-stroke', stroke: '#2A3052' },
+                _react2.default.createElement('path', { d: 'M12.5 15.5V4.207L8.79.5H1a.5.5 0 0 0-.5.5v14a.5.5 0 0 0 .5.5h11.5zM12.5 6.5v9H14a1.5 1.5 0 0 0 1.5-1.5V7a.5.5 0 0 0-.5-.5h-2.5z' })
             ),
-            _react2.default.createElement('path', { className: 'fill-only', d: 'M3.5 5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1z', fill: '#2A3052' })
+            _react2.default.createElement('path', { className: 'color1-fill', d: 'M3.5 5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 1 1 0 1h-3a.5.5 0 1 1 0-1z', fill: '#2A3052' })
         )
     );
 };
@@ -13503,7 +14233,7 @@ IconStatement.propTypes = {
 exports.IconStatement = IconStatement;
 
 /***/ }),
-/* 515 */
+/* 523 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13535,8 +14265,8 @@ var IconTrade = function IconTrade(_ref) {
         { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
         _react2.default.createElement(
             'g',
-            { stroke: '#2A3052', fill: 'none', fillRule: 'evenodd' },
-            _react2.default.createElement('path', { className: 'stroke-fill', d: 'M.5 15.5h3V9a.5.5 0 0 0-.5-.5H1a.5.5 0 0 0-.5.5v6.5zM6.5 15.5h3V5a.5.5 0 0 0-.5-.5H7a.5.5 0 0 0-.5.5v10.5zM12.5 15.5h3V1a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 0-.5.5v14.5z' })
+            { className: 'color1-stroke color3-stroke', stroke: '#2A3052', fill: 'none', fillRule: 'evenodd' },
+            _react2.default.createElement('path', { className: 'color2-fill stroke-fill', d: 'M.5 15.5h3V9a.5.5 0 0 0-.5-.5H1a.5.5 0 0 0-.5.5v6.5zM6.5 15.5h3V5a.5.5 0 0 0-.5-.5H7a.5.5 0 0 0-.5.5v10.5zM12.5 15.5h3V1a.5.5 0 0 0-.5-.5h-2a.5.5 0 0 0-.5.5v14.5z' })
         )
     );
 };
@@ -13548,7 +14278,7 @@ IconTrade.propTypes = {
 exports.IconTrade = IconTrade;
 
 /***/ }),
-/* 516 */
+/* 524 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13567,7 +14297,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Types = __webpack_require__(179);
+var _Types = __webpack_require__(185);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13831,7 +14561,7 @@ IconTradeCategory.propTypes = {
 exports.IconTradeCategory = IconTradeCategory;
 
 /***/ }),
-/* 517 */
+/* 525 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14135,7 +14865,7 @@ IconTradeType.propTypes = {
 exports.IconTradeType = IconTradeType;
 
 /***/ }),
-/* 518 */
+/* 526 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14178,7 +14908,7 @@ IconLock.propTypes = {
 exports.IconLock = IconLock;
 
 /***/ }),
-/* 519 */
+/* 527 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14188,7 +14918,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -14198,7 +14928,263 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _info_group = __webpack_require__(521);
+var _info_box_expired = __webpack_require__(528);
+
+var _info_box_expired2 = _interopRequireDefault(_info_box_expired);
+
+var _info_box_general = __webpack_require__(529);
+
+var _info_box_general2 = _interopRequireDefault(_info_box_general);
+
+var _logic = __webpack_require__(188);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InfoBox = function InfoBox(_ref) {
+    var contract_info = _ref.contract_info;
+
+    var is_ended = (0, _logic.isEnded)(contract_info);
+    var InfoBoxLive = _info_box_general2.default; // /digit/.test(contract_info.contract_type) ? InfoBoxDigit : InfoBoxGeneral;
+
+    return _react2.default.createElement(
+        'div',
+        { className: 'info-box' },
+        is_ended ? _react2.default.createElement(_info_box_expired2.default, { contract_info: contract_info }) : _react2.default.createElement(InfoBoxLive, { contract_info: contract_info })
+    );
+};
+
+InfoBox.propTypes = {
+    contract_info: _propTypes2.default.object
+};
+
+exports.default = (0, _mobxReact.observer)(InfoBox);
+
+/***/ }),
+/* 528 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mobxReact = __webpack_require__(17);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _money = __webpack_require__(70);
+
+var _money2 = _interopRequireDefault(_money);
+
+var _icon_flag = __webpack_require__(183);
+
+var _icon_flag2 = _interopRequireDefault(_icon_flag);
+
+var _localize = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InfoBoxExpired = function InfoBoxExpired(_ref) {
+    var contract_info = _ref.contract_info;
+    var currency = contract_info.currency,
+        profit = contract_info.profit,
+        profit_percentage = contract_info.profit_percentage;
+
+
+    var percentage_text = '' + (profit_percentage > 0 ? '+' : '') + profit_percentage + '%';
+
+    return _react2.default.createElement(
+        'div',
+        { className: 'expired ' + (profit > 0 ? 'won' : 'lost') },
+        _react2.default.createElement(_icon_flag2.default, null),
+        _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+                'div',
+                null,
+                (0, _localize.localize)('Profit/Loss'),
+                ':'
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'pl-value' },
+                _react2.default.createElement(_money2.default, { amount: profit, currency: currency, has_sign: true }),
+                _react2.default.createElement(
+                    'span',
+                    { className: 'percentage' },
+                    '(',
+                    percentage_text,
+                    ')'
+                )
+            )
+        )
+    );
+};
+
+InfoBoxExpired.propTypes = {
+    contract_info: _propTypes2.default.object
+};
+
+exports.default = (0, _mobxReact.observer)(InfoBoxExpired);
+
+/***/ }),
+/* 529 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mobxReact = __webpack_require__(17);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _money = __webpack_require__(70);
+
+var _money2 = _interopRequireDefault(_money);
+
+var _tooltip = __webpack_require__(134);
+
+var _tooltip2 = _interopRequireDefault(_tooltip);
+
+var _button = __webpack_require__(71);
+
+var _button2 = _interopRequireDefault(_button);
+
+var _remaining_time = __webpack_require__(136);
+
+var _remaining_time2 = _interopRequireDefault(_remaining_time);
+
+var _logic = __webpack_require__(188);
+
+var _localize = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InfoBoxGeneral = function InfoBoxGeneral(_ref) {
+    var contract_info = _ref.contract_info;
+    var buy_price = contract_info.buy_price,
+        currency = contract_info.currency,
+        date_expiry = contract_info.date_expiry,
+        profit = contract_info.profit;
+
+
+    var indicative_price = (0, _logic.getIndicativePrice)(contract_info);
+    var is_started = (0, _logic.isStarted)(contract_info);
+    var is_valid_to_sell = (0, _logic.isValidToSell)(contract_info);
+
+    var sell_message = is_valid_to_sell ? (0, _localize.localize)('Contract will be sold at the prevailing market price when the request is received by our servers. This price may differ from the indicated price.') : contract_info.validation_error;
+
+    return _react2.default.createElement(
+        'div',
+        { className: 'general' },
+        _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+                'div',
+                null,
+                (0, _localize.localize)('Purchase Price')
+            ),
+            _react2.default.createElement(
+                'div',
+                null,
+                (0, _localize.localize)('Indicative Price')
+            ),
+            _react2.default.createElement(
+                'div',
+                null,
+                (0, _localize.localize)('Profit/Loss')
+            )
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: 'values' },
+            _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(_money2.default, { amount: buy_price, currency: currency })
+            ),
+            _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(_money2.default, { amount: indicative_price, currency: currency })
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: profit >= 0 ? 'profit' : 'loss' },
+                _react2.default.createElement(_money2.default, { amount: profit, currency: currency, has_sign: true })
+            )
+        ),
+        _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+                'div',
+                null,
+                (0, _localize.localize)('Remaining Time')
+            ),
+            _react2.default.createElement(
+                'strong',
+                null,
+                is_started && date_expiry ? _react2.default.createElement(_remaining_time2.default, { end_time: date_expiry }) : '-'
+            )
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: 'sell' },
+            _react2.default.createElement(_tooltip2.default, { alignment: 'left', icon: 'question', message: sell_message }),
+            _react2.default.createElement(_button2.default, { className: 'secondary green', text: (0, _localize.localize)('Sell'), is_disabled: !is_valid_to_sell })
+        )
+    );
+};
+
+InfoBoxGeneral.propTypes = {
+    contract_info: _propTypes2.default.object
+};
+
+exports.default = (0, _mobxReact.observer)(InfoBoxGeneral);
+
+/***/ }),
+/* 530 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mobxReact = __webpack_require__(17);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _info_group = __webpack_require__(532);
 
 var _info_group2 = _interopRequireDefault(_info_group);
 
@@ -14247,7 +15233,7 @@ DetailsContents.propTypes = {
 exports.default = (0, _mobxReact.observer)(DetailsContents);
 
 /***/ }),
-/* 520 */
+/* 531 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14261,7 +15247,7 @@ var _classnames = __webpack_require__(10);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -14271,7 +15257,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ui = __webpack_require__(580);
+var _ui = __webpack_require__(591);
 
 var _localize = __webpack_require__(2);
 
@@ -14299,7 +15285,7 @@ DetailsHeader.propTypes = {
 exports.default = (0, _mobxReact.observer)(DetailsHeader);
 
 /***/ }),
-/* 521 */
+/* 532 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14309,7 +15295,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -14361,7 +15347,7 @@ InfoGroup.propTypes = {
 exports.default = (0, _mobxReact.observer)(InfoGroup);
 
 /***/ }),
-/* 522 */
+/* 533 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14381,37 +15367,57 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _contract_details = __webpack_require__(260);
+var _contract_details = __webpack_require__(268);
 
 var _contract_details2 = _interopRequireDefault(_contract_details);
 
-var _SmartChart = __webpack_require__(263);
+var _InfoBox = __webpack_require__(267);
+
+var _InfoBox2 = _interopRequireDefault(_InfoBox);
+
+var _SmartChart = __webpack_require__(271);
 
 var _SmartChart2 = _interopRequireDefault(_SmartChart);
 
+var _Errors = __webpack_require__(252);
+
+var _Errors2 = _interopRequireDefault(_Errors);
+
 var _connect = __webpack_require__(21);
+
+var _localize = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Contract = function Contract(_ref) {
     var _ref$chart_config = _ref.chart_config,
         chart_config = _ref$chart_config === undefined ? {} : _ref$chart_config,
+        contract_info = _ref.contract_info,
+        has_error = _ref.has_error,
         match = _ref.match,
         symbol = _ref.symbol;
-    return _react2.default.createElement(
+    return has_error ? _react2.default.createElement(_Errors2.default, { message: (0, _localize.localize)('Unkown Error!') }) : _react2.default.createElement(
         'div',
         { className: 'trade-container' },
         _react2.default.createElement(
             'div',
             { className: 'chart-container notice-msg' },
-            symbol && _react2.default.createElement(_SmartChart2.default, _extends({ symbol: symbol }, chart_config))
+            symbol && _react2.default.createElement(_SmartChart2.default, _extends({
+                InfoBox: _react2.default.createElement(_InfoBox2.default, { contract_info: contract_info }),
+                symbol: symbol
+            }, chart_config))
         ),
-        _react2.default.createElement(_contract_details2.default, { contract_id: match.params.contract_id })
+        _react2.default.createElement(_contract_details2.default, {
+            contract_id: match.params.contract_id,
+            key: match.params.contract_id
+        })
     );
 };
 
 Contract.propTypes = {
     chart_config: _propTypes2.default.object,
+    contract_info: _propTypes2.default.object,
+    has_error: _propTypes2.default.bool,
     match: _propTypes2.default.object,
     symbol: _propTypes2.default.string
 };
@@ -14420,12 +15426,14 @@ exports.default = (0, _connect.connect)(function (_ref2) {
     var modules = _ref2.modules;
     return {
         chart_config: modules.contract.chart_config,
+        contract_info: modules.contract.contract_info,
+        has_error: modules.contract.has_error,
         symbol: modules.contract.contract_info.underlying
     };
 })(Contract);
 
 /***/ }),
-/* 523 */
+/* 534 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14436,7 +15444,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _contract = __webpack_require__(522);
+var _contract = __webpack_require__(533);
 
 var _contract2 = _interopRequireDefault(_contract);
 
@@ -14445,7 +15453,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _contract2.default;
 
 /***/ }),
-/* 524 */
+/* 535 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14457,7 +15465,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _react = __webpack_require__(0);
 
@@ -14467,7 +15475,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _portfolio_card = __webpack_require__(526);
+var _portfolio_card = __webpack_require__(537);
 
 var _portfolio_card2 = _interopRequireDefault(_portfolio_card);
 
@@ -14497,7 +15505,7 @@ CardList.propTypes = {
 exports.default = CardList;
 
 /***/ }),
-/* 525 */
+/* 536 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14515,7 +15523,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _money = __webpack_require__(101);
+var _money = __webpack_require__(70);
 
 var _money2 = _interopRequireDefault(_money);
 
@@ -14550,7 +15558,7 @@ IndicativeCell.propTypes = {
 exports.default = IndicativeCell;
 
 /***/ }),
-/* 526 */
+/* 537 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14568,31 +15576,35 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _contract_link = __webpack_require__(135);
+var _contract_link = __webpack_require__(138);
 
 var _contract_link2 = _interopRequireDefault(_contract_link);
 
-var _money = __webpack_require__(101);
+var _money = __webpack_require__(70);
 
 var _money2 = _interopRequireDefault(_money);
 
-var _helpers = __webpack_require__(70);
+var _helpers = __webpack_require__(72);
 
-var _redirect_onclick = __webpack_require__(177);
+var _redirect_onclick = __webpack_require__(182);
 
 var _redirect_onclick2 = _interopRequireDefault(_redirect_onclick);
+
+var _remaining_time = __webpack_require__(136);
+
+var _remaining_time2 = _interopRequireDefault(_remaining_time);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PortfolioCard = function PortfolioCard(_ref) {
     var currency = _ref.currency,
         details = _ref.details,
+        expiry_time = _ref.expiry_time,
         id = _ref.id,
         indicative = _ref.indicative,
         payout = _ref.payout,
         purchase = _ref.purchase,
         reference = _ref.reference,
-        remaining_time = _ref.remaining_time,
         status = _ref.status;
     return _react2.default.createElement(
         _redirect_onclick2.default,
@@ -14603,7 +15615,7 @@ var PortfolioCard = function PortfolioCard(_ref) {
             _react2.default.createElement(
                 'span',
                 { className: 'portfolio-card__date' },
-                remaining_time
+                _react2.default.createElement(_remaining_time2.default, { end_time: expiry_time })
             ),
             _react2.default.createElement(
                 'span',
@@ -14657,19 +15669,19 @@ var PortfolioCard = function PortfolioCard(_ref) {
 PortfolioCard.propTypes = {
     currency: _propTypes2.default.string,
     details: _propTypes2.default.string,
+    expiry_time: _propTypes2.default.string,
     id: _propTypes2.default.number,
     indicative: _propTypes2.default.number,
     payout: _propTypes2.default.number,
     purchase: _propTypes2.default.number,
     reference: _propTypes2.default.number,
-    remaining_time: _propTypes2.default.string,
     status: _propTypes2.default.string
 };
 
 exports.default = PortfolioCard;
 
 /***/ }),
-/* 527 */
+/* 538 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14684,21 +15696,25 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _contract_type_cell = __webpack_require__(261);
+var _contract_type_cell = __webpack_require__(269);
 
 var _contract_type_cell2 = _interopRequireDefault(_contract_type_cell);
 
-var _indicative_cell = __webpack_require__(525);
+var _indicative_cell = __webpack_require__(536);
 
 var _indicative_cell2 = _interopRequireDefault(_indicative_cell);
 
-var _contract_link = __webpack_require__(135);
+var _contract_link = __webpack_require__(138);
 
 var _contract_link2 = _interopRequireDefault(_contract_link);
 
-var _money = __webpack_require__(101);
+var _money = __webpack_require__(70);
 
 var _money2 = _interopRequireDefault(_money);
+
+var _remaining_time = __webpack_require__(136);
+
+var _remaining_time2 = _interopRequireDefault(_remaining_time);
 
 var _localize = __webpack_require__(2);
 
@@ -14730,27 +15746,32 @@ var getTableColumnsTemplate = exports.getTableColumnsTemplate = function getTabl
         col_index: 'details'
     }, {
         title: (0, _localize.localize)('Remaining Time'),
-        col_index: 'remaining_time'
+        col_index: 'expiry_time',
+        renderCellContent: function renderCellContent(_ref3) {
+            var cell_value = _ref3.cell_value,
+                is_footer = _ref3.is_footer;
+            return is_footer ? '' : _react2.default.createElement(_remaining_time2.default, { end_time: cell_value });
+        }
     }, {
         title: (0, _localize.localize)('Potential Payout'),
         col_index: 'payout',
-        renderCellContent: function renderCellContent(_ref3) {
-            var cell_value = _ref3.cell_value;
-            return _react2.default.createElement(_money2.default, { amount: cell_value, currency: currency });
-        }
-    }, {
-        title: (0, _localize.localize)('Purchase'),
-        col_index: 'purchase',
         renderCellContent: function renderCellContent(_ref4) {
             var cell_value = _ref4.cell_value;
             return _react2.default.createElement(_money2.default, { amount: cell_value, currency: currency });
         }
     }, {
+        title: (0, _localize.localize)('Purchase'),
+        col_index: 'purchase',
+        renderCellContent: function renderCellContent(_ref5) {
+            var cell_value = _ref5.cell_value;
+            return _react2.default.createElement(_money2.default, { amount: cell_value, currency: currency });
+        }
+    }, {
         title: (0, _localize.localize)('Indicative'),
         col_index: 'indicative',
-        renderCellContent: function renderCellContent(_ref5) {
-            var cell_value = _ref5.cell_value,
-                row_obj = _ref5.row_obj;
+        renderCellContent: function renderCellContent(_ref6) {
+            var cell_value = _ref6.cell_value,
+                row_obj = _ref6.row_obj;
             return _react2.default.createElement(_indicative_cell2.default, { amount: +cell_value, currency: currency, status: row_obj.status });
         }
     }];
@@ -14758,7 +15779,7 @@ var getTableColumnsTemplate = exports.getTableColumnsTemplate = function getTabl
 /* eslint-enable react/display-name, react/prop-types */
 
 /***/ }),
-/* 528 */
+/* 539 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14774,7 +15795,7 @@ var _classnames = __webpack_require__(10);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -14786,25 +15807,25 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(49);
 
-var _card_list = __webpack_require__(524);
+var _card_list = __webpack_require__(535);
 
 var _card_list2 = _interopRequireDefault(_card_list);
 
-var _empty_portfolio_message = __webpack_require__(262);
+var _empty_portfolio_message = __webpack_require__(270);
 
 var _empty_portfolio_message2 = _interopRequireDefault(_empty_portfolio_message);
 
-var _data_table_constants = __webpack_require__(527);
+var _data_table_constants = __webpack_require__(538);
 
-var _DataTable = __webpack_require__(240);
+var _DataTable = __webpack_require__(248);
 
 var _DataTable2 = _interopRequireDefault(_DataTable);
 
-var _helpers = __webpack_require__(70);
+var _helpers = __webpack_require__(72);
 
 var _connect = __webpack_require__(21);
 
-var _loading = __webpack_require__(284);
+var _loading = __webpack_require__(291);
 
 var _loading2 = _interopRequireDefault(_loading);
 
@@ -14914,7 +15935,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
         ui = _ref2.ui;
     return {
         currency: client.currency,
-        data: modules.portfolio.data_with_remaining_time,
+        data: modules.portfolio.data,
         error: modules.portfolio.error,
         is_empty: modules.portfolio.is_empty,
         is_loading: modules.portfolio.is_loading,
@@ -14927,7 +15948,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })((0, _reactRouterDom.withRouter)(Portfolio));
 
 /***/ }),
-/* 529 */
+/* 540 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14938,7 +15959,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _portfolio = __webpack_require__(528);
+var _portfolio = __webpack_require__(539);
 
 var _portfolio2 = _interopRequireDefault(_portfolio);
 
@@ -14947,7 +15968,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _portfolio2.default;
 
 /***/ }),
-/* 530 */
+/* 541 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14957,11 +15978,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _smartcharts = __webpack_require__(123);
+var _smartcharts = __webpack_require__(124);
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -14997,7 +16018,7 @@ ChartMarker.propTypes = {
 exports.default = (0, _mobxReact.observer)(ChartMarker);
 
 /***/ }),
-/* 531 */
+/* 542 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15007,7 +16028,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -15040,7 +16061,7 @@ MarkerLine.propTypes = {
 exports.default = (0, _mobxReact.observer)(MarkerLine);
 
 /***/ }),
-/* 532 */
+/* 543 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15054,7 +16075,7 @@ var _classnames = __webpack_require__(10);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -15064,7 +16085,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _currency_base = __webpack_require__(34);
+var _currency_base = __webpack_require__(30);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15096,7 +16117,7 @@ MarkerSpot.propTypes = {
 exports.default = (0, _mobxReact.observer)(MarkerSpot);
 
 /***/ }),
-/* 533 */
+/* 544 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15106,7 +16127,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _smartcharts = __webpack_require__(123);
+var _smartcharts = __webpack_require__(124);
 
 var _propTypes = __webpack_require__(1);
 
@@ -15144,7 +16165,7 @@ ControlWidgets.propTypes = {
 exports.default = ControlWidgets;
 
 /***/ }),
-/* 534 */
+/* 545 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15154,7 +16175,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _smartcharts = __webpack_require__(123);
+var _smartcharts = __webpack_require__(124);
 
 var _propTypes = __webpack_require__(1);
 
@@ -15167,18 +16188,21 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TopWidgets = function TopWidgets(_ref) {
-    var _ref$is_title_enabled = _ref.is_title_enabled,
+    var InfoBox = _ref.InfoBox,
+        _ref$is_title_enabled = _ref.is_title_enabled,
         is_title_enabled = _ref$is_title_enabled === undefined ? true : _ref$is_title_enabled,
         onSymbolChange = _ref.onSymbolChange;
     return _react2.default.createElement(
         _react2.default.Fragment,
         null,
+        InfoBox,
         _react2.default.createElement(_smartcharts.ChartTitle, { enabled: is_title_enabled, onChange: onSymbolChange }),
         _react2.default.createElement(_smartcharts.AssetInformation, null)
     );
 };
 
 TopWidgets.propTypes = {
+    InfoBox: _propTypes2.default.node,
     is_title_enabled: _propTypes2.default.bool,
     onSymbolChange: _propTypes2.default.func
 };
@@ -15186,7 +16210,7 @@ TopWidgets.propTypes = {
 exports.default = TopWidgets;
 
 /***/ }),
-/* 535 */
+/* 546 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15198,7 +16222,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _smartcharts = __webpack_require__(123);
+var _smartcharts = __webpack_require__(124);
 
 var _propTypes = __webpack_require__(1);
 
@@ -15208,19 +16232,19 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _marker = __webpack_require__(530);
+var _marker = __webpack_require__(541);
 
 var _marker2 = _interopRequireDefault(_marker);
 
-var _control_widgets = __webpack_require__(533);
+var _control_widgets = __webpack_require__(544);
 
 var _control_widgets2 = _interopRequireDefault(_control_widgets);
 
-var _top_widgets = __webpack_require__(534);
+var _top_widgets = __webpack_require__(545);
 
 var _top_widgets2 = _interopRequireDefault(_top_widgets);
 
-var _symbol = __webpack_require__(536);
+var _symbol = __webpack_require__(547);
 
 var _connect = __webpack_require__(21);
 
@@ -15249,6 +16273,7 @@ var Chart = function (_React$Component) {
 
         _this.topWidgets = function () {
             return _react2.default.createElement(_top_widgets2.default, {
+                InfoBox: _this.props.InfoBox,
                 is_title_enabled: _this.props.is_title_enabled,
                 onSymbolChange: (0, _symbol.symbolChange)(_this.props.onSymbolChange)
             });
@@ -15322,6 +16347,7 @@ Chart.propTypes = {
     chart_type: _propTypes2.default.string,
     end_epoch: _propTypes2.default.number,
     granularity: _propTypes2.default.number,
+    InfoBox: _propTypes2.default.node,
     is_title_enabled: _propTypes2.default.bool,
     is_mobile: _propTypes2.default.bool,
     markers_array: _propTypes2.default.array,
@@ -15352,7 +16378,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
 })(Chart);
 
 /***/ }),
-/* 536 */
+/* 547 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15362,18 +16388,18 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var symbolChange = exports.symbolChange = function symbolChange(onSymbolChange) {
-    return onSymbolChange && function (symbol_obj) {
+    return onSymbolChange && function (symbol) {
         onSymbolChange({
             target: {
                 name: 'symbol',
-                value: symbol_obj.symbol
+                value: symbol
             }
         });
     };
 };
 
 /***/ }),
-/* 537 */
+/* 548 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15412,7 +16438,7 @@ AmountCell.propTypes = {
 exports.default = AmountCell;
 
 /***/ }),
-/* 538 */
+/* 549 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15432,7 +16458,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _localize = __webpack_require__(2);
 
-var _button = __webpack_require__(82);
+var _NavBar = __webpack_require__(74);
+
+var _button = __webpack_require__(71);
 
 var _button2 = _interopRequireDefault(_button);
 
@@ -15443,7 +16471,7 @@ var EmptyStatementMessage = function EmptyStatementMessage(_ref) {
     return _react2.default.createElement(
         'div',
         { className: 'statement-empty' },
-        _react2.default.createElement('span', { className: 'statement-empty__icon' }),
+        _react2.default.createElement(_NavBar.IconStatement, { className: 'statement-empty__icon' }),
         _react2.default.createElement(
             'span',
             { className: 'statement-empty__title' },
@@ -15465,7 +16493,7 @@ EmptyStatementMessage.propTypes = {
 exports.default = EmptyStatementMessage;
 
 /***/ }),
-/* 539 */
+/* 550 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15487,13 +16515,13 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _contract_link = __webpack_require__(135);
+var _contract_link = __webpack_require__(138);
 
 var _contract_link2 = _interopRequireDefault(_contract_link);
 
-var _helpers = __webpack_require__(70);
+var _helpers = __webpack_require__(72);
 
-var _redirect_onclick = __webpack_require__(177);
+var _redirect_onclick = __webpack_require__(182);
 
 var _redirect_onclick2 = _interopRequireDefault(_redirect_onclick);
 
@@ -15584,7 +16612,7 @@ StatementCard.propTypes = {
 exports.default = StatementCard;
 
 /***/ }),
-/* 540 */
+/* 551 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15596,7 +16624,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _react = __webpack_require__(0);
 
@@ -15606,7 +16634,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _statement_card = __webpack_require__(539);
+var _statement_card = __webpack_require__(550);
 
 var _statement_card2 = _interopRequireDefault(_statement_card);
 
@@ -15635,7 +16663,7 @@ StatementCardList.propTypes = {
 exports.default = StatementCardList;
 
 /***/ }),
-/* 541 */
+/* 552 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15650,11 +16678,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _amount_cell = __webpack_require__(537);
+var _amount_cell = __webpack_require__(548);
 
 var _amount_cell2 = _interopRequireDefault(_amount_cell);
 
-var _contract_link = __webpack_require__(135);
+var _contract_link = __webpack_require__(138);
 
 var _contract_link2 = _interopRequireDefault(_contract_link);
 
@@ -15676,7 +16704,7 @@ var getTableColumnsTemplate = exports.getTableColumnsTemplate = function getTabl
 /* eslint-enable react/display-name, react/prop-types */
 
 /***/ }),
-/* 542 */
+/* 553 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15692,7 +16720,7 @@ var _classnames = __webpack_require__(10);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -15704,29 +16732,29 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(49);
 
-var _statement_filter = __webpack_require__(543);
+var _statement_filter = __webpack_require__(554);
 
 var _statement_filter2 = _interopRequireDefault(_statement_filter);
 
-var _statement_card_list = __webpack_require__(540);
+var _statement_card_list = __webpack_require__(551);
 
 var _statement_card_list2 = _interopRequireDefault(_statement_card_list);
 
-var _empty_statement_message = __webpack_require__(538);
+var _empty_statement_message = __webpack_require__(549);
 
 var _empty_statement_message2 = _interopRequireDefault(_empty_statement_message);
 
-var _data_table_constants = __webpack_require__(541);
+var _data_table_constants = __webpack_require__(552);
 
-var _DataTable = __webpack_require__(240);
+var _DataTable = __webpack_require__(248);
 
 var _DataTable2 = _interopRequireDefault(_DataTable);
 
-var _helpers = __webpack_require__(70);
+var _helpers = __webpack_require__(72);
 
 var _connect = __webpack_require__(21);
 
-var _loading = __webpack_require__(284);
+var _loading = __webpack_require__(291);
 
 var _loading2 = _interopRequireDefault(_loading);
 
@@ -15867,7 +16895,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })((0, _reactRouterDom.withRouter)(Statement));
 
 /***/ }),
-/* 543 */
+/* 554 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15889,7 +16917,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _DatePicker = __webpack_require__(251);
+var _DatePicker = __webpack_require__(259);
 
 var _DatePicker2 = _interopRequireDefault(_DatePicker);
 
@@ -15966,7 +16994,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(Filter);
 
 /***/ }),
-/* 544 */
+/* 555 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15977,7 +17005,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _statement = __webpack_require__(542);
+var _statement = __webpack_require__(553);
 
 var _statement2 = _interopRequireDefault(_statement);
 
@@ -15986,7 +17014,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _statement2.default;
 
 /***/ }),
-/* 545 */
+/* 556 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16002,11 +17030,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _full_screen_dialog = __webpack_require__(264);
+var _full_screen_dialog = __webpack_require__(272);
 
 var _full_screen_dialog2 = _interopRequireDefault(_full_screen_dialog);
 
-var _trade_params = __webpack_require__(266);
+var _trade_params = __webpack_require__(274);
 
 var _trade_params2 = _interopRequireDefault(_trade_params);
 
@@ -16078,7 +17106,7 @@ var MobileWidget = function (_React$PureComponent) {
 exports.default = MobileWidget;
 
 /***/ }),
-/* 546 */
+/* 557 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16096,7 +17124,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _full_screen_dialog = __webpack_require__(264);
+var _full_screen_dialog = __webpack_require__(272);
 
 var _full_screen_dialog2 = _interopRequireDefault(_full_screen_dialog);
 
@@ -16141,7 +17169,7 @@ ContractTypeDialog.propTypes = {
 exports.default = ContractTypeDialog;
 
 /***/ }),
-/* 547 */
+/* 558 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16151,7 +17179,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -16161,7 +17189,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Categories = __webpack_require__(257);
+var _Categories = __webpack_require__(264);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16202,7 +17230,7 @@ ContractTypeItem.propTypes = {
 exports.default = ContractTypeItem;
 
 /***/ }),
-/* 548 */
+/* 559 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16212,7 +17240,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -16222,7 +17250,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _contract_type_item = __webpack_require__(547);
+var _contract_type_item = __webpack_require__(558);
 
 var _contract_type_item2 = _interopRequireDefault(_contract_type_item);
 
@@ -16274,7 +17302,7 @@ ContractTypeList.propTypes = {
 exports.default = ContractTypeList;
 
 /***/ }),
-/* 549 */
+/* 560 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16294,17 +17322,17 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _contract_type_dialog = __webpack_require__(546);
+var _contract_type_dialog = __webpack_require__(557);
 
 var _contract_type_dialog2 = _interopRequireDefault(_contract_type_dialog);
 
-var _contract_type_list = __webpack_require__(548);
+var _contract_type_list = __webpack_require__(559);
 
 var _contract_type_list2 = _interopRequireDefault(_contract_type_list);
 
-var _Common = __webpack_require__(71);
+var _Common = __webpack_require__(73);
 
-var _Categories = __webpack_require__(257);
+var _Categories = __webpack_require__(264);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16448,7 +17476,7 @@ ContractTypeWidget.propTypes = {
 exports.default = ContractTypeWidget;
 
 /***/ }),
-/* 550 */
+/* 561 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16463,7 +17491,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _button = __webpack_require__(82);
+var _button = __webpack_require__(71);
 
 var _button2 = _interopRequireDefault(_button);
 
@@ -16491,7 +17519,7 @@ var ErrorBalance = function ErrorBalance() {
 exports.ErrorBalance = ErrorBalance;
 
 /***/ }),
-/* 551 */
+/* 562 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16532,7 +17560,7 @@ ErrorGeneral.propTypes = {
 exports.ErrorGeneral = ErrorGeneral;
 
 /***/ }),
-/* 552 */
+/* 563 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16547,7 +17575,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _button = __webpack_require__(82);
+var _button = __webpack_require__(71);
 
 var _button2 = _interopRequireDefault(_button);
 
@@ -16592,7 +17620,7 @@ var ErrorLogin = function ErrorLogin() {
 exports.ErrorLogin = ErrorLogin;
 
 /***/ }),
-/* 553 */
+/* 564 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16602,7 +17630,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _error_balance = __webpack_require__(550);
+var _error_balance = __webpack_require__(561);
 
 Object.keys(_error_balance).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -16614,7 +17642,7 @@ Object.keys(_error_balance).forEach(function (key) {
   });
 });
 
-var _error_general = __webpack_require__(551);
+var _error_general = __webpack_require__(562);
 
 Object.keys(_error_general).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -16626,7 +17654,7 @@ Object.keys(_error_general).forEach(function (key) {
   });
 });
 
-var _error_login = __webpack_require__(552);
+var _error_login = __webpack_require__(563);
 
 Object.keys(_error_login).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -16639,7 +17667,7 @@ Object.keys(_error_login).forEach(function (key) {
 });
 
 /***/ }),
-/* 554 */
+/* 565 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16650,7 +17678,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _message_box = __webpack_require__(555);
+var _message_box = __webpack_require__(566);
 
 var _message_box2 = _interopRequireDefault(_message_box);
 
@@ -16659,7 +17687,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _message_box2.default;
 
 /***/ }),
-/* 555 */
+/* 566 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16677,15 +17705,15 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Templates = __webpack_require__(553);
+var _Templates = __webpack_require__(564);
 
-var _purchase_result = __webpack_require__(556);
+var _purchase_result = __webpack_require__(567);
 
 var _purchase_result2 = _interopRequireDefault(_purchase_result);
 
 var _utility = __webpack_require__(3);
 
-var _icon_close = __webpack_require__(255);
+var _icon_close = __webpack_require__(263);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16735,7 +17763,7 @@ MessageBox.propTypes = {
 exports.default = MessageBox;
 
 /***/ }),
-/* 556 */
+/* 567 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16757,7 +17785,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Date = __webpack_require__(83);
+var _Date = __webpack_require__(85);
 
 var _localize = __webpack_require__(2);
 
@@ -16869,7 +17897,7 @@ PurchaseResult.propTypes = {
 exports.default = PurchaseResult;
 
 /***/ }),
-/* 557 */
+/* 568 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16880,7 +17908,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _purchase_lock = __webpack_require__(558);
+var _purchase_lock = __webpack_require__(569);
 
 var _purchase_lock2 = _interopRequireDefault(_purchase_lock);
 
@@ -16889,7 +17917,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _purchase_lock2.default;
 
 /***/ }),
-/* 558 */
+/* 569 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16907,13 +17935,13 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _button = __webpack_require__(82);
+var _button = __webpack_require__(71);
 
 var _button2 = _interopRequireDefault(_button);
 
 var _localize = __webpack_require__(2);
 
-var _icon_lock = __webpack_require__(518);
+var _icon_lock = __webpack_require__(526);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16953,7 +17981,7 @@ PurchaseLock.propTypes = {
 exports.default = PurchaseLock;
 
 /***/ }),
-/* 559 */
+/* 570 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16971,15 +17999,15 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _money = __webpack_require__(101);
+var _money = __webpack_require__(70);
 
 var _money2 = _interopRequireDefault(_money);
 
-var _tooltip = __webpack_require__(250);
+var _tooltip = __webpack_require__(134);
 
 var _tooltip2 = _interopRequireDefault(_tooltip);
 
-var _Types = __webpack_require__(179);
+var _Types = __webpack_require__(185);
 
 var _localize = __webpack_require__(2);
 
@@ -17102,7 +18130,7 @@ ContractInfo.propTypes = {
 exports.default = ContractInfo;
 
 /***/ }),
-/* 560 */
+/* 571 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17116,7 +18144,7 @@ var _classnames = __webpack_require__(10);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -17126,23 +18154,23 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _dropdown = __webpack_require__(133);
+var _dropdown = __webpack_require__(135);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
-var _fieldset = __webpack_require__(102);
+var _fieldset = __webpack_require__(103);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
-var _input_field = __webpack_require__(175);
+var _input_field = __webpack_require__(180);
 
 var _input_field2 = _interopRequireDefault(_input_field);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
-var _currency_base = __webpack_require__(34);
+var _currency_base = __webpack_require__(30);
 
 var _localize = __webpack_require__(2);
 
@@ -17156,7 +18184,8 @@ var Amount = function Amount(_ref) {
         currency = _ref.currency,
         is_minimized = _ref.is_minimized,
         is_nativepicker = _ref.is_nativepicker,
-        onChange = _ref.onChange;
+        onChange = _ref.onChange,
+        validation_errors = _ref.validation_errors;
 
     if (is_minimized) {
         return _react2.default.createElement(
@@ -17212,9 +18241,10 @@ var Amount = function Amount(_ref) {
                 name: 'amount',
                 value: amount,
                 onChange: onChange,
-                is_currency: true,
+                is_float: true,
                 prefix: has_currency ? currency : null,
-                is_nativepicker: is_nativepicker
+                is_nativepicker: is_nativepicker,
+                error_messages: validation_errors.amount
             })
         )
     );
@@ -17228,13 +18258,14 @@ Amount.propTypes = {
     currency: _propTypes2.default.string,
     is_minimized: _propTypes2.default.bool,
     is_nativepicker: _propTypes2.default.bool,
-    onChange: _propTypes2.default.func
+    onChange: _propTypes2.default.func,
+    validation_errors: _propTypes2.default.object
 };
 
 exports.default = (0, _mobxReact.observer)(Amount);
 
 /***/ }),
-/* 561 */
+/* 572 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17244,7 +18275,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -17254,11 +18285,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _fieldset = __webpack_require__(102);
+var _fieldset = __webpack_require__(103);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
-var _input_field = __webpack_require__(175);
+var _input_field = __webpack_require__(180);
 
 var _input_field2 = _interopRequireDefault(_input_field);
 
@@ -17271,7 +18302,8 @@ var Barrier = function Barrier(_ref) {
         barrier_2 = _ref.barrier_2,
         barrier_count = _ref.barrier_count,
         is_minimized = _ref.is_minimized,
-        onChange = _ref.onChange;
+        onChange = _ref.onChange,
+        validation_errors = _ref.validation_errors;
 
     if (is_minimized) {
         if (barrier_count !== 2) {
@@ -17309,14 +18341,16 @@ var Barrier = function Barrier(_ref) {
             type: 'text',
             name: 'barrier_1',
             value: barrier_1,
-            onChange: onChange
+            onChange: onChange,
+            error_messages: validation_errors.barrier_1 || []
         }),
         barrier_count === 2 && _react2.default.createElement(_input_field2.default, {
             type: 'text',
             name: 'barrier_2',
             value: barrier_2,
             onChange: onChange,
-            is_currency: true
+            is_float: true,
+            error_messages: validation_errors.barrier_2
         })
     );
 };
@@ -17326,13 +18360,14 @@ Barrier.propTypes = {
     barrier_2: _propTypes2.default.string,
     barrier_count: _propTypes2.default.number,
     is_minimized: _propTypes2.default.bool,
-    onChange: _propTypes2.default.func
+    onChange: _propTypes2.default.func,
+    validation_errors: _propTypes2.default.object
 };
 
 exports.default = (0, _mobxReact.observer)(Barrier);
 
 /***/ }),
-/* 562 */
+/* 573 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17348,7 +18383,7 @@ var _classnames = __webpack_require__(10);
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _moment = __webpack_require__(9);
 
@@ -17362,23 +18397,23 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _DatePicker = __webpack_require__(251);
+var _DatePicker = __webpack_require__(259);
 
 var _DatePicker2 = _interopRequireDefault(_DatePicker);
 
-var _dropdown = __webpack_require__(133);
+var _dropdown = __webpack_require__(135);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
-var _fieldset = __webpack_require__(102);
+var _fieldset = __webpack_require__(103);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
-var _input_field = __webpack_require__(175);
+var _input_field = __webpack_require__(180);
 
 var _input_field2 = _interopRequireDefault(_input_field);
 
-var _time_picker = __webpack_require__(252);
+var _time_picker = __webpack_require__(260);
 
 var _time_picker2 = _interopRequireDefault(_time_picker);
 
@@ -17411,7 +18446,8 @@ var Duration = function Duration(_ref) {
         server_time = _ref.server_time,
         sessions = _ref.sessions,
         start_date = _ref.start_date,
-        start_time = _ref.start_time;
+        start_time = _ref.start_time,
+        validation_errors = _ref.validation_errors;
 
     var moment_now = (0, _moment2.default)(server_time);
     if (!now_date || moment_now.date() !== now_date.date()) {
@@ -17502,7 +18538,8 @@ var Duration = function Duration(_ref) {
                     name: 'duration',
                     value: duration,
                     onChange: onChange,
-                    is_nativepicker: is_nativepicker
+                    is_nativepicker: is_nativepicker,
+                    error_messages: validation_errors.duration || []
                 }),
                 _react2.default.createElement(_dropdown2.default, {
                     list: duration_units_list,
@@ -17559,13 +18596,14 @@ Duration.propTypes = {
     server_time: _propTypes2.default.object,
     sessions: _mobxReact.PropTypes.arrayOrObservableArray,
     start_date: _propTypes2.default.number,
-    start_time: _propTypes2.default.string
+    start_time: _propTypes2.default.string,
+    validation_errors: _propTypes2.default.object
 };
 
 exports.default = (0, _mobxReact.observer)(Duration);
 
 /***/ }),
-/* 563 */
+/* 574 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17575,7 +18613,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -17585,11 +18623,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _dropdown = __webpack_require__(133);
+var _dropdown = __webpack_require__(135);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
-var _fieldset = __webpack_require__(102);
+var _fieldset = __webpack_require__(103);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
@@ -17646,7 +18684,7 @@ LastDigit.propTypes = {
 exports.default = (0, _mobxReact.observer)(LastDigit);
 
 /***/ }),
-/* 564 */
+/* 575 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17656,7 +18694,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobxReact = __webpack_require__(19);
+var _mobxReact = __webpack_require__(17);
 
 var _propTypes = __webpack_require__(1);
 
@@ -17666,15 +18704,15 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _dropdown = __webpack_require__(133);
+var _dropdown = __webpack_require__(135);
 
 var _dropdown2 = _interopRequireDefault(_dropdown);
 
-var _fieldset = __webpack_require__(102);
+var _fieldset = __webpack_require__(103);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
-var _time_picker = __webpack_require__(252);
+var _time_picker = __webpack_require__(260);
 
 var _time_picker2 = _interopRequireDefault(_time_picker);
 
@@ -17755,7 +18793,7 @@ StartDate.propTypes = {
 exports.default = (0, _mobxReact.observer)(StartDate);
 
 /***/ }),
-/* 565 */
+/* 576 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17773,11 +18811,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _screen_large = __webpack_require__(566);
+var _screen_large = __webpack_require__(577);
 
 var _screen_large2 = _interopRequireDefault(_screen_large);
 
-var _screen_small = __webpack_require__(567);
+var _screen_small = __webpack_require__(578);
 
 var _screen_small2 = _interopRequireDefault(_screen_small);
 
@@ -17797,7 +18835,7 @@ FormLayout.propTypes = {
 exports.default = FormLayout;
 
 /***/ }),
-/* 566 */
+/* 577 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17815,19 +18853,19 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _contract_type = __webpack_require__(265);
+var _contract_type = __webpack_require__(273);
 
 var _contract_type2 = _interopRequireDefault(_contract_type);
 
-var _purchase = __webpack_require__(568);
+var _purchase = __webpack_require__(579);
 
 var _purchase2 = _interopRequireDefault(_purchase);
 
-var _trade_params = __webpack_require__(266);
+var _trade_params = __webpack_require__(274);
 
 var _trade_params2 = _interopRequireDefault(_trade_params);
 
-var _ui_loader = __webpack_require__(174);
+var _ui_loader = __webpack_require__(179);
 
 var _ui_loader2 = _interopRequireDefault(_ui_loader);
 
@@ -17867,7 +18905,7 @@ ScreenLarge.propTypes = {
 exports.default = ScreenLarge;
 
 /***/ }),
-/* 567 */
+/* 578 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17885,11 +18923,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _mobile_widget = __webpack_require__(545);
+var _mobile_widget = __webpack_require__(556);
 
 var _mobile_widget2 = _interopRequireDefault(_mobile_widget);
 
-var _contract_type = __webpack_require__(265);
+var _contract_type = __webpack_require__(273);
 
 var _contract_type2 = _interopRequireDefault(_contract_type);
 
@@ -17916,7 +18954,7 @@ ScreenSmall.propTypes = {
 exports.default = ScreenSmall;
 
 /***/ }),
-/* 568 */
+/* 579 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17934,29 +18972,29 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _contract_info = __webpack_require__(559);
+var _contract_info = __webpack_require__(570);
 
 var _contract_info2 = _interopRequireDefault(_contract_info);
 
-var _MessageBox = __webpack_require__(554);
+var _MessageBox = __webpack_require__(565);
 
 var _MessageBox2 = _interopRequireDefault(_MessageBox);
 
-var _PurchaseLock = __webpack_require__(557);
+var _PurchaseLock = __webpack_require__(568);
 
 var _PurchaseLock2 = _interopRequireDefault(_PurchaseLock);
 
-var _PopConfirm = __webpack_require__(464);
+var _PopConfirm = __webpack_require__(466);
 
-var _ui_loader = __webpack_require__(174);
+var _ui_loader = __webpack_require__(179);
 
 var _ui_loader2 = _interopRequireDefault(_ui_loader);
 
-var _button = __webpack_require__(82);
+var _button = __webpack_require__(71);
 
 var _button2 = _interopRequireDefault(_button);
 
-var _fieldset = __webpack_require__(102);
+var _fieldset = __webpack_require__(103);
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
@@ -18080,7 +19118,7 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 })(Purchase);
 
 /***/ }),
-/* 569 */
+/* 580 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18096,7 +19134,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
 var _propTypes = __webpack_require__(1);
 
@@ -18207,7 +19245,7 @@ exports.default = (0, _connect.connect)(function (_ref4) {
 })(Test);
 
 /***/ }),
-/* 570 */
+/* 581 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18227,19 +19265,23 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _test = __webpack_require__(569);
+var _test = __webpack_require__(580);
 
 var _test2 = _interopRequireDefault(_test);
 
-var _form_layout = __webpack_require__(565);
+var _form_layout = __webpack_require__(576);
 
 var _form_layout2 = _interopRequireDefault(_form_layout);
 
-var _contract_details = __webpack_require__(260);
+var _InfoBox = __webpack_require__(267);
+
+var _InfoBox2 = _interopRequireDefault(_InfoBox);
+
+var _contract_details = __webpack_require__(268);
 
 var _contract_details2 = _interopRequireDefault(_contract_details);
 
-var _SmartChart = __webpack_require__(263);
+var _SmartChart = __webpack_require__(271);
 
 var _SmartChart2 = _interopRequireDefault(_SmartChart);
 
@@ -18273,6 +19315,7 @@ var Trade = function (_React$Component) {
         key: 'render',
         value: function render() {
             var contract_id = (0, _utility.getPropertyValue)(this.props.purchase_info, ['buy', 'contract_id']);
+            var InfoBoxComponent = this.props.is_contract_mode ? _react2.default.createElement(_InfoBox2.default, { contract_info: this.props.contract_info }) : null;
 
             return _react2.default.createElement(
                 'div',
@@ -18281,6 +19324,7 @@ var Trade = function (_React$Component) {
                     'div',
                     { className: 'chart-container notice-msg' },
                     this.props.symbol && _react2.default.createElement(_SmartChart2.default, {
+                        InfoBox: InfoBoxComponent,
                         onSymbolChange: this.props.onSymbolChange,
                         symbol: this.props.symbol
                     }),
@@ -18295,6 +19339,8 @@ var Trade = function (_React$Component) {
 }(_react2.default.Component);
 
 Trade.propTypes = {
+    contract_info: _propTypes2.default.object,
+    is_contract_mode: _propTypes2.default.bool,
     is_mobile: _propTypes2.default.bool,
     is_trade_enabled: _propTypes2.default.bool,
     onSymbolChange: _propTypes2.default.func,
@@ -18308,6 +19354,8 @@ exports.default = (0, _connect.connect)(function (_ref) {
     var modules = _ref.modules,
         ui = _ref.ui;
     return {
+        contract_info: modules.contract.contract_info,
+        is_contract_mode: modules.smart_chart.is_contract_mode,
         is_trade_enabled: modules.trade.is_trade_enabled,
         onClickNewTrade: modules.trade.onClickNewTrade,
         onSymbolChange: modules.trade.onChange,
@@ -18319,7 +19367,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
 })(Trade);
 
 /***/ }),
-/* 571 */
+/* 582 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18330,7 +19378,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _trade = __webpack_require__(570);
+var _trade = __webpack_require__(581);
 
 var _trade2 = _interopRequireDefault(_trade);
 
@@ -18339,7 +19387,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _trade2.default;
 
 /***/ }),
-/* 572 */
+/* 583 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18357,7 +19405,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _menu_list = __webpack_require__(573);
+var _menu_list = __webpack_require__(584);
 
 var _menu_list2 = _interopRequireDefault(_menu_list);
 
@@ -18394,7 +19442,7 @@ Menu.propTypes = {
 exports.default = Menu;
 
 /***/ }),
-/* 573 */
+/* 584 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18412,7 +19460,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _menu_item = __webpack_require__(267);
+var _menu_item = __webpack_require__(275);
 
 var _menu_item2 = _interopRequireDefault(_menu_item);
 
@@ -18451,7 +19499,7 @@ MenuList.propTypes = {
 exports.default = MenuList;
 
 /***/ }),
-/* 574 */
+/* 585 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18477,7 +19525,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(49);
 
-var _menu_item = __webpack_require__(267);
+var _menu_item = __webpack_require__(275);
 
 var _menu_item2 = _interopRequireDefault(_menu_item);
 
@@ -18581,7 +19629,7 @@ MobileDropdown.propTypes = {
 exports.default = MobileDropdown;
 
 /***/ }),
-/* 575 */
+/* 586 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18603,15 +19651,15 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _menu = __webpack_require__(572);
+var _menu = __webpack_require__(583);
 
 var _menu2 = _interopRequireDefault(_menu);
 
-var _mobile_dropdown = __webpack_require__(574);
+var _mobile_dropdown = __webpack_require__(585);
 
 var _mobile_dropdown2 = _interopRequireDefault(_mobile_dropdown);
 
-var _settings_data = __webpack_require__(576);
+var _settings_data = __webpack_require__(587);
 
 var _settings_data2 = _interopRequireDefault(_settings_data);
 
@@ -18709,7 +19757,7 @@ Settings.propTypes = {
 exports.default = Settings;
 
 /***/ }),
-/* 576 */
+/* 587 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18719,39 +19767,39 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _account_password = __webpack_require__(268);
+var _account_password = __webpack_require__(276);
 
 var _account_password2 = _interopRequireDefault(_account_password);
 
-var _api_token = __webpack_require__(269);
+var _api_token = __webpack_require__(277);
 
 var _api_token2 = _interopRequireDefault(_api_token);
 
-var _authorized_applications = __webpack_require__(270);
+var _authorized_applications = __webpack_require__(278);
 
 var _authorized_applications2 = _interopRequireDefault(_authorized_applications);
 
-var _cashier_password = __webpack_require__(271);
+var _cashier_password = __webpack_require__(279);
 
 var _cashier_password2 = _interopRequireDefault(_cashier_password);
 
-var _financial_assessment = __webpack_require__(272);
+var _financial_assessment = __webpack_require__(280);
 
 var _financial_assessment2 = _interopRequireDefault(_financial_assessment);
 
-var _limits = __webpack_require__(273);
+var _limits = __webpack_require__(281);
 
 var _limits2 = _interopRequireDefault(_limits);
 
-var _login_history = __webpack_require__(274);
+var _login_history = __webpack_require__(282);
 
 var _login_history2 = _interopRequireDefault(_login_history);
 
-var _personal_details = __webpack_require__(275);
+var _personal_details = __webpack_require__(283);
 
 var _personal_details2 = _interopRequireDefault(_personal_details);
 
-var _self_exclusion = __webpack_require__(276);
+var _self_exclusion = __webpack_require__(284);
 
 var _self_exclusion2 = _interopRequireDefault(_self_exclusion);
 
@@ -18815,7 +19863,7 @@ var data = [{
 exports.default = data;
 
 /***/ }),
-/* 577 */
+/* 588 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18825,9 +19873,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _index = __webpack_require__(57);
+var _index = __webpack_require__(58);
 
-var _network_monitor_base = __webpack_require__(158);
+var _network_monitor_base = __webpack_require__(160);
 
 var _network_monitor_base2 = _interopRequireDefault(_network_monitor_base);
 
@@ -18847,7 +19895,7 @@ var NetworkMonitor = function () {
 exports.default = NetworkMonitor;
 
 /***/ }),
-/* 578 */
+/* 589 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18857,25 +19905,25 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _logout = __webpack_require__(277);
+var _logout = __webpack_require__(285);
 
-var _ws_methods = __webpack_require__(181);
+var _ws_methods = __webpack_require__(187);
 
 var _ws_methods2 = _interopRequireDefault(_ws_methods);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
-var _currency_base = __webpack_require__(34);
+var _currency_base = __webpack_require__(30);
 
 var _login = __webpack_require__(35);
 
 var _login2 = _interopRequireDefault(_login);
 
-var _server_time = __webpack_require__(159);
+var _server_time = __webpack_require__(161);
 
 var _server_time2 = _interopRequireDefault(_server_time);
 
@@ -19077,7 +20125,7 @@ var ResponseHandlers = function () {
 }();
 
 /***/ }),
-/* 579 */
+/* 590 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19288,7 +20336,7 @@ var SubscriptionManager = function () {
 exports.default = SubscriptionManager;
 
 /***/ }),
-/* 580 */
+/* 591 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19303,11 +20351,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _icon_flag = __webpack_require__(256);
+var _icon_flag = __webpack_require__(183);
 
 var _icon_flag2 = _interopRequireDefault(_icon_flag);
 
-var _icon_tick = __webpack_require__(504);
+var _icon_tick = __webpack_require__(512);
 
 var _icon_tick2 = _interopRequireDefault(_icon_tick);
 
@@ -19320,7 +20368,7 @@ var header_config = exports.header_config = {
 };
 
 /***/ }),
-/* 581 */
+/* 592 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19331,7 +20379,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createChartBarrier = undefined;
 
-var _barriers = __webpack_require__(182);
+var _barriers = __webpack_require__(189);
 
 var createChartBarrier = exports.createChartBarrier = function createChartBarrier(SmartChartStore, contract_info) {
     SmartChartStore.removeBarriers();
@@ -19356,7 +20404,7 @@ var createChartBarrier = exports.createChartBarrier = function createChartBarrie
 };
 
 /***/ }),
-/* 582 */
+/* 593 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19373,7 +20421,7 @@ var _extend = __webpack_require__(117);
 
 var _extend2 = _interopRequireDefault(_extend);
 
-var _markers = __webpack_require__(588);
+var _markers = __webpack_require__(598);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19445,7 +20493,7 @@ var createMarkerConfig = function createMarkerConfig(marker_type, x, y, content_
 };
 
 /***/ }),
-/* 583 */
+/* 594 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19462,15 +20510,15 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _money = __webpack_require__(101);
+var _money = __webpack_require__(70);
 
 var _money2 = _interopRequireDefault(_money);
 
-var _contract = __webpack_require__(180);
+var _contract = __webpack_require__(186);
 
-var _Date = __webpack_require__(83);
+var _Date = __webpack_require__(85);
 
-var _currency_base = __webpack_require__(34);
+var _currency_base = __webpack_require__(30);
 
 var _localize = __webpack_require__(2);
 
@@ -19516,77 +20564,7 @@ var getDetailsExpiry = exports.getDetailsExpiry = function getDetailsExpiry(stor
 };
 
 /***/ }),
-/* 584 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var getChartConfig = exports.getChartConfig = function getChartConfig(contract_info) {
-    if (!isEnded(contract_info)) return {}; // don't limit the range for ongoing contracts until smartchart supports it
-
-    var start = contract_info.date_start;
-    var end = contract_info.date_expiry;
-    var granularity = calculateGranularity(end - start);
-
-    return {
-        granularity: granularity,
-        chart_type: granularity ? 'candle' : 'mountain',
-        end_epoch: end + (granularity || 3),
-        start_epoch: start - (granularity || 3)
-    };
-};
-
-var hour_to_granularity_map = [[1, 0], [2, 120], [6, 600], [24, 900], [5 * 24, 3600], [30 * 24, 14400]];
-var calculateGranularity = function calculateGranularity(duration) {
-    return (hour_to_granularity_map.find(function (m) {
-        return duration <= m[0] * 3600;
-    }) || [null, 86400])[1];
-};
-
-var getDisplayStatus = exports.getDisplayStatus = function getDisplayStatus(is_ended, profit) {
-    var status = 'purchased';
-    if (is_ended) {
-        status = profit >= 0 ? 'won' : 'lost';
-    }
-    return status;
-};
-
-// for path dependent contracts the contract is sold from server side
-// so we need to use sell spot and sell spot time instead
-var getEndSpot = exports.getEndSpot = function getEndSpot(contract_info) {
-    return contract_info.is_path_dependent ? contract_info.sell_spot : contract_info.exit_tick;
-};
-
-var getEndSpotTime = exports.getEndSpotTime = function getEndSpotTime(contract_info) {
-    return contract_info.is_path_dependent ? contract_info.sell_spot_time : contract_info.exit_tick_time;
-};
-
-var getFinalPrice = exports.getFinalPrice = function getFinalPrice(contract_info) {
-    return contract_info.sell_price || contract_info.bid_price;
-};
-
-var getIndicativePrice = exports.getIndicativePrice = function getIndicativePrice(store) {
-    return store.final_price && store.is_ended ? store.final_price : store.contract_info.bid_price || null;
-};
-
-var isEnded = exports.isEnded = function isEnded(contract_info) {
-    return contract_info.status !== 'open' || contract_info.is_expired || contract_info.is_settleable;
-};
-
-var isSoldBeforeStart = exports.isSoldBeforeStart = function isSoldBeforeStart(contract_info) {
-    return contract_info.sell_time && +contract_info.sell_time < +contract_info.date_start;
-};
-
-var isUserSold = exports.isUserSold = function isUserSold(contract_info) {
-    return contract_info.status === 'sold';
-};
-
-/***/ }),
-/* 585 */
+/* 595 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19599,23 +20577,25 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3;
+var _dec, _dec2, _dec3, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _chart_barriers = __webpack_require__(581);
+var _chart_barriers = __webpack_require__(592);
 
-var _chart_markers = __webpack_require__(582);
+var _chart_markers = __webpack_require__(593);
 
-var _details = __webpack_require__(583);
+var _details = __webpack_require__(594);
 
-var _logic = __webpack_require__(584);
+var _logic = __webpack_require__(188);
 
-var _base_store = __webpack_require__(72);
+var _base_store = __webpack_require__(75);
 
 var _base_store2 = _interopRequireDefault(_base_store);
 
-var _Services = __webpack_require__(57);
+var _Services = __webpack_require__(58);
+
+var _utility = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19682,7 +20662,7 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContractStore.__proto__ || Object.getPrototypeOf(ContractStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'contract_id', _descriptor, _this), _initDefineProp(_this, 'contract_info', _descriptor2, _this), _initDefineProp(_this, 'onUnmount', _descriptor3, _this), _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContractStore.__proto__ || Object.getPrototypeOf(ContractStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'contract_id', _descriptor, _this), _initDefineProp(_this, 'contract_info', _descriptor2, _this), _initDefineProp(_this, 'has_error', _descriptor3, _this), _initDefineProp(_this, 'onUnmount', _descriptor4, _this), _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(ContractStore, [{
@@ -19706,8 +20686,12 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
         value: function updateProposal(response) {
             this.contract_info = response.proposal_open_contract;
 
-            (0, _chart_barriers.createChartBarrier)(this.smart_chart, this.contract_info);
-            (0, _chart_markers.createChartMarkers)(this.smart_chart, this.contract_info, this);
+            if ((0, _utility.isEmptyObject)(this.contract_info)) {
+                this.has_error = true;
+            } else {
+                (0, _chart_barriers.createChartBarrier)(this.smart_chart, this.contract_info);
+                (0, _chart_markers.createChartMarkers)(this.smart_chart, this.contract_info, this);
+            }
         }
 
         // ---------------------------
@@ -19732,7 +20716,7 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
     }, {
         key: 'display_status',
         get: function get() {
-            return (0, _logic.getDisplayStatus)(this.is_ended, this.contract_info.profit);
+            return (0, _logic.getDisplayStatus)(this.contract_info);
         }
     }, {
         key: 'end_spot',
@@ -19752,7 +20736,7 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
     }, {
         key: 'indicative_price',
         get: function get() {
-            return (0, _logic.getIndicativePrice)(this);
+            return (0, _logic.getIndicativePrice)(this.contract_info);
         }
     }, {
         key: 'is_ended',
@@ -19765,9 +20749,19 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             return (0, _logic.isSoldBeforeStart)(this.contract_info);
         }
     }, {
+        key: 'is_started',
+        get: function get() {
+            return (0, _logic.isStarted)(this.contract_info);
+        }
+    }, {
         key: 'is_user_sold',
         get: function get() {
             return (0, _logic.isUserSold)(this.contract_info);
+        }
+    }, {
+        key: 'is_valid_to_sell',
+        get: function get() {
+            return (0, _logic.isValidToSell)(this.contract_info);
         }
     }]);
 
@@ -19780,7 +20774,12 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
     initializer: function initializer() {
         return _mobx.observable.object({});
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec2], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'has_error', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return false;
+    }
+}), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec2], {
     enumerable: true,
     initializer: function initializer() {
         var _this2 = this;
@@ -19794,12 +20793,12 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             _this2.smart_chart.setContractMode(false);
         };
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'updateProposal', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'updateProposal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'chart_config', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'chart_config'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'details_expiry', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'details_expiry'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'details_info', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'details_info'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display_status', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'display_status'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'end_spot', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'end_spot'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'end_spot_time', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'end_spot_time'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'final_price', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'final_price'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'indicative_price', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'indicative_price'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_ended', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_ended'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_sold_before_start', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_sold_before_start'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_user_sold', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_user_sold'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'updateProposal', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'updateProposal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'chart_config', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'chart_config'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'details_expiry', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'details_expiry'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'details_info', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'details_info'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'display_status', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'display_status'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'end_spot', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'end_spot'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'end_spot_time', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'end_spot_time'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'final_price', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'final_price'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'indicative_price', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'indicative_price'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_ended', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_ended'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_sold_before_start', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_sold_before_start'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_started', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_started'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_user_sold', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_user_sold'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_valid_to_sell', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_valid_to_sell'), _class.prototype)), _class));
 exports.default = ContractStore;
 ;
 
 /***/ }),
-/* 586 */
+/* 596 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19833,7 +20832,7 @@ var formatPortfolioResponse = exports.formatPortfolioResponse = function formatP
 };
 
 /***/ }),
-/* 587 */
+/* 597 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19846,19 +20845,17 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _format_response = __webpack_require__(586);
+var _format_response = __webpack_require__(596);
 
-var _base_store = __webpack_require__(72);
+var _base_store = __webpack_require__(75);
 
 var _base_store2 = _interopRequireDefault(_base_store);
 
-var _Services = __webpack_require__(57);
-
-var _Date = __webpack_require__(83);
+var _Services = __webpack_require__(58);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19911,7 +20908,7 @@ function _initializerWarningHelper(descriptor, context) {
     throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, (_class = function (_BaseStore) {
+var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(PortfolioStore, _BaseStore);
 
     function PortfolioStore() {
@@ -19934,6 +20931,12 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             this.data = [];
             this.is_loading = false;
             this.error = '';
+        }
+    }, {
+        key: 'portfolioHandler',
+        value: function portfolioHandler(response) {
+            this.is_loading = false;
+            this.updatePortfolio(response);
         }
     }, {
         key: 'transactionHandler',
@@ -19998,7 +21001,7 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
                 return;
             }
             this.error = '';
-            if (response.portfolio.contracts && response.portfolio.contracts.length !== 0) {
+            if (response.portfolio.contracts) {
                 this.data = (0, _format_response.formatPortfolioResponse)(response.portfolio.contracts);
             }
         }
@@ -20017,19 +21020,6 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
                 this.clearTable();
                 _Services.WS.forgetAll('proposal_open_contract', 'transaction');
             }
-        }
-    }, {
-        key: 'data_with_remaining_time',
-        get: function get() {
-            var _this3 = this;
-
-            // don't use es6 spread operator here
-            // modifying object in place is 20 times faster (http://jsben.ch/YTUEK)
-            // this function runs every second
-            return this.data.map(function (portfolio_pos) {
-                portfolio_pos.remaining_time = (0, _Date.formatDuration)((0, _Date.getDiffDuration)(_this3.root_store.common.server_time.unix(), portfolio_pos.expiry_time));
-                return portfolio_pos;
-            });
         }
     }, {
         key: 'totals',
@@ -20075,24 +21065,21 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
 }), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'initializePortfolio', [_dec], {
     enumerable: true,
     initializer: function initializer() {
-        var _this4 = this;
+        var _this3 = this;
 
         return function () {
-            _this4.is_loading = true;
+            _this3.is_loading = true;
 
-            _Services.WS.portfolio().then(function (response) {
-                _this4.is_loading = false;
-                _this4.updatePortfolio(response);
-            });
-            _Services.WS.subscribeProposalOpenContract(null, _this4.proposalOpenContractHandler, false);
-            _Services.WS.subscribeTransaction(_this4.transactionHandler, false);
+            _Services.WS.portfolio().then(_this3.portfolioHandler);
+            _Services.WS.subscribeProposalOpenContract(null, _this3.proposalOpenContractHandler, false);
+            _Services.WS.subscribeTransaction(_this3.transactionHandler, false);
         };
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'clearTable', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'clearTable'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transactionHandler', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'transactionHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'proposalOpenContractHandler', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'proposalOpenContractHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updatePortfolio', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'updatePortfolio'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'data_with_remaining_time', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'data_with_remaining_time'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totals', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totals'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'clearTable', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'clearTable'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'portfolioHandler', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'portfolioHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transactionHandler', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'transactionHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'proposalOpenContractHandler', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'proposalOpenContractHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updatePortfolio', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'updatePortfolio'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totals', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totals'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype)), _class));
 exports.default = PortfolioStore;
 
 /***/ }),
-/* 588 */
+/* 598 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20107,19 +21094,19 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _marker_line = __webpack_require__(531);
+var _marker_line = __webpack_require__(542);
 
 var _marker_line2 = _interopRequireDefault(_marker_line);
 
-var _marker_spot = __webpack_require__(532);
+var _marker_spot = __webpack_require__(543);
 
 var _marker_spot2 = _interopRequireDefault(_marker_spot);
 
-var _icon_flag = __webpack_require__(256);
+var _icon_flag = __webpack_require__(183);
 
 var _icon_flag2 = _interopRequireDefault(_icon_flag);
 
-var _icon_entry_spot = __webpack_require__(503);
+var _icon_entry_spot = __webpack_require__(511);
 
 var _icon_entry_spot2 = _interopRequireDefault(_icon_entry_spot);
 
@@ -20160,7 +21147,7 @@ var MARKER_TYPES_CONFIG = exports.MARKER_TYPES_CONFIG = {
 };
 
 /***/ }),
-/* 589 */
+/* 599 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20175,11 +21162,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _dec, _dec2, _dec3, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _barriers = __webpack_require__(182);
+var _barriers = __webpack_require__(189);
 
-var _barriers2 = __webpack_require__(278);
+var _barriers2 = __webpack_require__(286);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -20335,7 +21322,7 @@ var ChartBarrierStore = exports.ChartBarrierStore = (_dec = _mobx.action.bound, 
 }), _applyDecoratedDescriptor(_class.prototype, 'updateBarriers', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'updateBarriers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateBarrierShade', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'updateBarrierShade'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onBarrierChange', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'onBarrierChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'barrier_count', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'barrier_count'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'default_shade', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'default_shade'), _class.prototype)), _class));
 
 /***/ }),
-/* 590 */
+/* 600 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20348,7 +21335,7 @@ exports.ChartMarkerStore = undefined;
 
 var _desc, _value, _class, _descriptor, _descriptor2;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
 function _initDefineProp(target, property, descriptor, context) {
     if (!descriptor) return;
@@ -20417,7 +21404,7 @@ var ChartMarkerStore = exports.ChartMarkerStore = (_class = function ChartMarker
 })), _class);
 
 /***/ }),
-/* 591 */
+/* 601 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20432,25 +21419,25 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
 
 var _extend2 = __webpack_require__(117);
 
 var _extend3 = _interopRequireDefault(_extend2);
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _chart_barrier_store = __webpack_require__(589);
+var _chart_barrier_store = __webpack_require__(599);
 
-var _chart_marker_store = __webpack_require__(590);
+var _chart_marker_store = __webpack_require__(600);
 
-var _barriers = __webpack_require__(278);
+var _barriers = __webpack_require__(286);
 
-var _base_store = __webpack_require__(72);
+var _base_store = __webpack_require__(75);
 
 var _base_store2 = _interopRequireDefault(_base_store);
 
-var _Services = __webpack_require__(57);
+var _Services = __webpack_require__(58);
 
 var _utility = __webpack_require__(3);
 
@@ -20521,7 +21508,7 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SmartChartStore.__proto__ || Object.getPrototypeOf(SmartChartStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'symbol', _descriptor, _this), _initDefineProp(_this, 'barriers', _descriptor2, _this), _initDefineProp(_this, 'markers', _descriptor3, _this), _initDefineProp(_this, 'is_title_enabled', _descriptor4, _this), _this.is_contract_mode = false, _initDefineProp(_this, 'onUnmount', _descriptor5, _this), _initDefineProp(_this, 'createBarriers', _descriptor6, _this), _this.wsSubscribe = function (request_object, callback) {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SmartChartStore.__proto__ || Object.getPrototypeOf(SmartChartStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'symbol', _descriptor, _this), _initDefineProp(_this, 'barriers', _descriptor2, _this), _initDefineProp(_this, 'markers', _descriptor3, _this), _initDefineProp(_this, 'is_title_enabled', _descriptor4, _this), _initDefineProp(_this, 'is_contract_mode', _descriptor5, _this), _initDefineProp(_this, 'onUnmount', _descriptor6, _this), _initDefineProp(_this, 'createBarriers', _descriptor7, _this), _this.wsSubscribe = function (request_object, callback) {
             if (request_object.subscribe !== 1) return;
             _Services.WS.subscribeTicksHistory(_extends({}, request_object), callback); // use a copy of the request_object to prevent updating the source
         }, _this.wsForget = function (match_values, callback) {
@@ -20629,7 +21616,12 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
     initializer: function initializer() {
         return true;
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'setContractMode', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'setContractMode'), _class.prototype), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec2], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'is_contract_mode', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return false;
+    }
+}), _applyDecoratedDescriptor(_class.prototype, 'setContractMode', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'setContractMode'), _class.prototype), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec2], {
     enumerable: true,
     initializer: function initializer() {
         var _this3 = this;
@@ -20640,7 +21632,7 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
             _this3.removeMarkers();
         };
     }
-}), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'createBarriers', [_dec3], {
+}), _descriptor7 = _applyDecoratedDescriptor(_class.prototype, 'createBarriers', [_dec3], {
     enumerable: true,
     initializer: function initializer() {
         var _this4 = this;
@@ -20663,7 +21655,7 @@ exports.default = SmartChartStore;
 ;
 
 /***/ }),
-/* 592 */
+/* 602 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20674,9 +21666,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.formatStatementTransaction = undefined;
 
-var _Date = __webpack_require__(83);
+var _Date = __webpack_require__(85);
 
-var _currency_base = __webpack_require__(34);
+var _currency_base = __webpack_require__(30);
 
 var _localize = __webpack_require__(2);
 
@@ -20705,7 +21697,7 @@ var formatStatementTransaction = exports.formatStatementTransaction = function f
 };
 
 /***/ }),
-/* 593 */
+/* 603 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20720,23 +21712,23 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
 var _moment = __webpack_require__(9);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _format_response = __webpack_require__(592);
+var _format_response = __webpack_require__(602);
 
-var _base_store = __webpack_require__(72);
+var _base_store = __webpack_require__(75);
 
 var _base_store2 = _interopRequireDefault(_base_store);
 
-var _Services = __webpack_require__(57);
+var _Services = __webpack_require__(58);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
@@ -20795,7 +21787,7 @@ function _initializerWarningHelper(descriptor, context) {
 
 var batch_size = 100; // request response limit
 
-var StatementStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, (_class = function (_BaseStore) {
+var StatementStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(StatementStore, _BaseStore);
 
     function StatementStore() {
@@ -20828,27 +21820,28 @@ var StatementStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
     }, {
         key: 'fetchNextBatch',
         value: function fetchNextBatch() {
-            var _this2 = this;
-
             if (this.has_loaded_all || this.is_loading) return;
 
             this.is_loading = true;
 
+            _Services.WS.statement(batch_size, this.data.length, _extends({}, this.date_from && { date_from: (0, _moment2.default)(this.date_from).unix() }, this.date_to && { date_to: (0, _moment2.default)(this.date_to).add(1, 'd').subtract(1, 's').unix() })).then(this.statementHandler);
+        }
+    }, {
+        key: 'statementHandler',
+        value: function statementHandler(response) {
+            if ('error' in response) {
+                this.error = response.error.message;
+                return;
+            }
+
             var currency = _client_base2.default.get('currency');
-
-            _Services.WS.statement(batch_size, this.data.length, _extends({}, this.date_from && { date_from: (0, _moment2.default)(this.date_from).unix() }, this.date_to && { date_to: (0, _moment2.default)(this.date_to).add(1, 'd').subtract(1, 's').unix() })).then(function (response) {
-                if ('error' in response) {
-                    _this2.error = response.error.message;
-                    return;
-                }
-                var formatted_transactions = response.statement.transactions.map(function (transaction) {
-                    return (0, _format_response.formatStatementTransaction)(transaction, currency);
-                });
-
-                _this2.data = [].concat(_toConsumableArray(_this2.data), _toConsumableArray(formatted_transactions));
-                _this2.has_loaded_all = formatted_transactions.length < batch_size;
-                _this2.is_loading = false;
+            var formatted_transactions = response.statement.transactions.map(function (transaction) {
+                return (0, _format_response.formatStatementTransaction)(transaction, currency);
             });
+
+            this.data = [].concat(_toConsumableArray(this.data), _toConsumableArray(formatted_transactions));
+            this.has_loaded_all = formatted_transactions.length < batch_size;
+            this.is_loading = false;
         }
     }, {
         key: 'handleDateChange',
@@ -20927,11 +21920,11 @@ var StatementStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
     initializer: function initializer() {
         return '';
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'clearTable', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearTable'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearDateFilter', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'clearDateFilter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fetchNextBatch', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'fetchNextBatch'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleDateChange', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'handleDateChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleScroll', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'handleScroll'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'has_selected_date', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'has_selected_date'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'clearTable', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'clearTable'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearDateFilter', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'clearDateFilter'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fetchNextBatch', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'fetchNextBatch'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'statementHandler', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'statementHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleDateChange', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'handleDateChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleScroll', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'handleScroll'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'has_selected_date', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'has_selected_date'), _class.prototype)), _class));
 exports.default = StatementStore;
 
 /***/ }),
-/* 594 */
+/* 604 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20959,7 +21952,7 @@ var onChangeContractType = exports.onChangeContractType = function onChangeContr
 };
 
 /***/ }),
-/* 595 */
+/* 605 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20972,9 +21965,9 @@ exports.getCurrenciesAsync = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _currency = __webpack_require__(605);
+var _currency = __webpack_require__(616);
 
-var _Services = __webpack_require__(57);
+var _Services = __webpack_require__(58);
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
@@ -21010,7 +22003,7 @@ var getCurrenciesAsync = exports.getCurrenciesAsync = function () {
 }();
 
 /***/ }),
-/* 596 */
+/* 606 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21027,7 +22020,7 @@ var _contract_type = __webpack_require__(104);
 
 var _contract_type2 = _interopRequireDefault(_contract_type);
 
-var _duration = __webpack_require__(279);
+var _duration = __webpack_require__(190);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21044,7 +22037,7 @@ var onChangeExpiry = exports.onChangeExpiry = function onChangeExpiry(store) {
 };
 
 /***/ }),
-/* 597 */
+/* 607 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21055,7 +22048,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.processPurchase = undefined;
 
-var _Services = __webpack_require__(57);
+var _Services = __webpack_require__(58);
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
@@ -21085,7 +22078,7 @@ var processPurchase = exports.processPurchase = function () {
 }();
 
 /***/ }),
-/* 598 */
+/* 608 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21123,11 +22116,13 @@ var onChangeStartDate = exports.onChangeStartDate = function onChangeStartDate(s
     start_time = obj_start_time.start_time;
     var obj_end_time = _contract_type2.default.getEndTime(sessions, start_date, start_time, expiry_date, expiry_time);
 
-    return _extends({}, obj_contract_start_type, obj_duration_units_list, obj_duration_unit, obj_sessions, obj_start_time, obj_end_time);
+    var obj_duration_min_max = _contract_type2.default.getDurationMinMax(contract_type, contract_start_type);
+
+    return _extends({}, obj_contract_start_type, obj_duration_units_list, obj_duration_min_max, obj_duration_unit, obj_sessions, obj_start_time, obj_end_time);
 };
 
 /***/ }),
-/* 599 */
+/* 609 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21169,7 +22164,7 @@ var onChangeSymbolAsync = exports.onChangeSymbolAsync = function () {
 }();
 
 /***/ }),
-/* 600 */
+/* 610 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21212,7 +22207,7 @@ var getContractCategoriesConfig = exports.getContractCategoriesConfig = function
 };
 
 /***/ }),
-/* 601 */
+/* 611 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21225,7 +22220,7 @@ Object.defineProperty(exports, "__esModule", {
 var allowed_query_string_variables = exports.allowed_query_string_variables = ['amount', 'barrier_1', 'barrier_2', 'basis', 'contract_start_type', 'contract_type', 'currency', 'duration', 'duration_unit', 'expiry_date', 'expiry_type', 'last_digit', 'start_date', 'symbol'];
 
 /***/ }),
-/* 602 */
+/* 612 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21236,23 +22231,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.form_components = undefined;
 
-var _duration = __webpack_require__(562);
+var _duration = __webpack_require__(573);
 
 var _duration2 = _interopRequireDefault(_duration);
 
-var _start_date = __webpack_require__(564);
+var _start_date = __webpack_require__(575);
 
 var _start_date2 = _interopRequireDefault(_start_date);
 
-var _last_digit = __webpack_require__(563);
+var _last_digit = __webpack_require__(574);
 
 var _last_digit2 = _interopRequireDefault(_last_digit);
 
-var _amount = __webpack_require__(560);
+var _amount = __webpack_require__(571);
 
 var _amount2 = _interopRequireDefault(_amount);
 
-var _barrier = __webpack_require__(561);
+var _barrier = __webpack_require__(572);
 
 var _barrier2 = _interopRequireDefault(_barrier);
 
@@ -21261,7 +22256,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var form_components = exports.form_components = [{ name: 'start_date', Component: _start_date2.default }, { name: 'duration', Component: _duration2.default }, { name: 'barrier', Component: _barrier2.default }, { name: 'last_digit', Component: _last_digit2.default }, { name: 'amount', Component: _amount2.default }];
 
 /***/ }),
-/* 603 */
+/* 613 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var validation_rules = {
+    amount: [['req', { message: 'The amount is a required field.' }], ['number', { min: 0, type: 'float' }]],
+    barrier_1: ['barrier'],
+    barrier_2: ['barrier'],
+    duration: [['req', { message: 'The duration is a required field.' }]]
+};
+
+exports.default = validation_rules;
+
+/***/ }),
+/* 614 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21290,7 +22304,7 @@ var buildBarriersConfig = exports.buildBarriersConfig = function buildBarriersCo
 };
 
 /***/ }),
-/* 604 */
+/* 615 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21309,7 +22323,7 @@ var setChartBarrier = exports.setChartBarrier = function setChartBarrier(SmartCh
 };
 
 /***/ }),
-/* 605 */
+/* 616 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21320,7 +22334,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getDefaultCurrency = exports.buildCurrenciesList = undefined;
 
-var _currency_base = __webpack_require__(34);
+var _currency_base = __webpack_require__(30);
 
 var _localize = __webpack_require__(2);
 
@@ -21357,7 +22371,7 @@ var getDefaultCurrency = exports.getDefaultCurrency = function getDefaultCurrenc
 };
 
 /***/ }),
-/* 606 */
+/* 617 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21372,7 +22386,7 @@ var _extend = __webpack_require__(117);
 
 var _extend2 = _interopRequireDefault(_extend);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
@@ -21382,19 +22396,19 @@ var _contract_type = __webpack_require__(104);
 
 var _contract_type2 = _interopRequireDefault(_contract_type);
 
-var _contract_type3 = __webpack_require__(594);
+var _contract_type3 = __webpack_require__(604);
 
 var ContractType = _interopRequireWildcard(_contract_type3);
 
-var _currency = __webpack_require__(595);
+var _currency = __webpack_require__(605);
 
 var Currency = _interopRequireWildcard(_currency);
 
-var _duration = __webpack_require__(596);
+var _duration = __webpack_require__(606);
 
 var Duration = _interopRequireWildcard(_duration);
 
-var _start_date = __webpack_require__(598);
+var _start_date = __webpack_require__(608);
 
 var StartDate = _interopRequireWildcard(_start_date);
 
@@ -21469,7 +22483,7 @@ var extendOrReplace = function extendOrReplace(source, new_values) {
 };
 
 /***/ }),
-/* 607 */
+/* 618 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21486,9 +22500,9 @@ var _moment = __webpack_require__(9);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _Date = __webpack_require__(83);
+var _Date = __webpack_require__(85);
 
-var _currency_base = __webpack_require__(34);
+var _currency_base = __webpack_require__(30);
 
 var _utility = __webpack_require__(3);
 
@@ -21549,7 +22563,7 @@ var createProposalRequestForContract = function createProposalRequestForContract
 };
 
 /***/ }),
-/* 608 */
+/* 619 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21569,7 +22583,7 @@ var pickDefaultSymbol = exports.pickDefaultSymbol = function pickDefaultSymbol()
 };
 
 /***/ }),
-/* 609 */
+/* 620 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21584,41 +22598,47 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26, _descriptor27, _descriptor28, _descriptor29, _descriptor30;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26, _descriptor27, _descriptor28, _descriptor29, _descriptor30, _descriptor31;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _purchase = __webpack_require__(597);
+var _purchase = __webpack_require__(607);
 
-var _symbol = __webpack_require__(599);
+var _symbol = __webpack_require__(609);
 
 var _Symbol = _interopRequireWildcard(_symbol);
 
-var _query_string = __webpack_require__(601);
+var _query_string = __webpack_require__(611);
 
-var _chart = __webpack_require__(604);
+var _validation_rules = __webpack_require__(613);
+
+var _validation_rules2 = _interopRequireDefault(_validation_rules);
+
+var _chart = __webpack_require__(615);
 
 var _contract_type = __webpack_require__(104);
 
 var _contract_type2 = _interopRequireDefault(_contract_type);
 
-var _process = __webpack_require__(606);
+var _duration = __webpack_require__(190);
 
-var _proposal = __webpack_require__(607);
+var _process = __webpack_require__(617);
 
-var _symbol2 = __webpack_require__(608);
+var _proposal = __webpack_require__(618);
 
-var _base_store = __webpack_require__(72);
+var _symbol2 = __webpack_require__(619);
+
+var _base_store = __webpack_require__(75);
 
 var _base_store2 = _interopRequireDefault(_base_store);
 
-var _Services = __webpack_require__(57);
+var _Services = __webpack_require__(58);
 
-var _URL = __webpack_require__(618);
+var _url_helper = __webpack_require__(632);
 
-var _URL2 = _interopRequireDefault(_URL);
+var _url_helper2 = _interopRequireDefault(_url_helper);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
@@ -21683,7 +22703,7 @@ function _initializerWarningHelper(descriptor, context) {
     throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, (_class = function (_BaseStore) {
+var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(TradeStore, _BaseStore);
 
     // Purchase
@@ -21693,14 +22713,23 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
     // Barrier
 
 
-    // Duration
+    // Amount
 
 
-    // Underlying
-    function TradeStore(root_store) {
+    // Contract Type
+    function TradeStore(_ref) {
+        var root_store = _ref.root_store;
+
         _classCallCheck(this, TradeStore);
 
-        var _this = _possibleConstructorReturn(this, (TradeStore.__proto__ || Object.getPrototypeOf(TradeStore)).call(this, root_store, null, _query_string.allowed_query_string_variables));
+        var session_storage_properties = _query_string.allowed_query_string_variables;
+        var options = {
+            root_store: root_store,
+            session_storage_properties: session_storage_properties,
+            validation_rules: _validation_rules2.default
+        };
+
+        var _this = _possibleConstructorReturn(this, (TradeStore.__proto__ || Object.getPrototypeOf(TradeStore)).call(this, options));
 
         _initDefineProp(_this, 'is_purchase_enabled', _descriptor, _this);
 
@@ -21736,31 +22765,33 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
 
         _initDefineProp(_this, 'duration_units_list', _descriptor17, _this);
 
-        _initDefineProp(_this, 'expiry_date', _descriptor18, _this);
+        _initDefineProp(_this, 'duration_min_max', _descriptor18, _this);
 
-        _initDefineProp(_this, 'expiry_time', _descriptor19, _this);
+        _initDefineProp(_this, 'expiry_date', _descriptor19, _this);
 
-        _initDefineProp(_this, 'expiry_type', _descriptor20, _this);
+        _initDefineProp(_this, 'expiry_time', _descriptor20, _this);
 
-        _initDefineProp(_this, 'barrier_1', _descriptor21, _this);
+        _initDefineProp(_this, 'expiry_type', _descriptor21, _this);
 
-        _initDefineProp(_this, 'barrier_2', _descriptor22, _this);
+        _initDefineProp(_this, 'barrier_1', _descriptor22, _this);
 
-        _initDefineProp(_this, 'barrier_count', _descriptor23, _this);
+        _initDefineProp(_this, 'barrier_2', _descriptor23, _this);
 
-        _initDefineProp(_this, 'start_date', _descriptor24, _this);
+        _initDefineProp(_this, 'barrier_count', _descriptor24, _this);
 
-        _initDefineProp(_this, 'start_dates_list', _descriptor25, _this);
+        _initDefineProp(_this, 'start_date', _descriptor25, _this);
 
-        _initDefineProp(_this, 'start_time', _descriptor26, _this);
+        _initDefineProp(_this, 'start_dates_list', _descriptor26, _this);
 
-        _initDefineProp(_this, 'sessions', _descriptor27, _this);
+        _initDefineProp(_this, 'start_time', _descriptor27, _this);
 
-        _initDefineProp(_this, 'last_digit', _descriptor28, _this);
+        _initDefineProp(_this, 'sessions', _descriptor28, _this);
 
-        _initDefineProp(_this, 'proposal_info', _descriptor29, _this);
+        _initDefineProp(_this, 'last_digit', _descriptor29, _this);
 
-        _initDefineProp(_this, 'purchase_info', _descriptor30, _this);
+        _initDefineProp(_this, 'proposal_info', _descriptor30, _this);
+
+        _initDefineProp(_this, 'purchase_info', _descriptor31, _this);
 
         _this.proposal_requests = {};
 
@@ -21768,6 +22799,13 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
         if (_client_base2.default.isLoggedIn) {
             _this.processNewValuesAsync({ currency: _client_base2.default.get('currency') });
         }
+
+        // Adds intercept to change min_max value of duration validation
+        (0, _mobx.reaction)(function () {
+            return [_this.duration_min_max, _this.contract_expiry_type, _this.duration_unit];
+        }, function () {
+            _this.changeDurationValidationRules();
+        });
         return _this;
     }
 
@@ -21777,16 +22815,16 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
     // Start Time
 
 
-    // Amount
+    // Duration
 
 
-    // Contract Type
+    // Underlying
 
 
     _createClass(TradeStore, [{
         key: 'init',
         value: function () {
-            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
                 var _this2 = this;
 
                 var active_symbols;
@@ -21826,7 +22864,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
             }));
 
             function init() {
-                return _ref.apply(this, arguments);
+                return _ref2.apply(this, arguments);
             }
 
             return init;
@@ -21881,7 +22919,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
             var _this4 = this;
 
             Object.keys((0, _utility.cloneObject)(new_state)).forEach(function (key) {
-                if (key === 'root_store') return;
+                if (key === 'root_store' || ['validation_rules', 'validation_errors'].indexOf(key) > -1) return;
                 if (JSON.stringify(_this4[key]) === JSON.stringify(new_state[key])) {
                     delete new_state[key];
                 } else {
@@ -21892,7 +22930,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
 
                     // Add changes to queryString of the url
                     if (_query_string.allowed_query_string_variables.indexOf(key) !== -1) {
-                        _URL2.default.setQueryParam(_defineProperty({}, key, new_state[key]));
+                        _url_helper2.default.setQueryParam(_defineProperty({}, key, new_state[key]));
                     }
 
                     _this4[key] = new_state[key];
@@ -21904,7 +22942,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
     }, {
         key: 'processNewValuesAsync',
         value: function () {
-            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
                 var obj_new_values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 var is_changed_by_user = arguments[1];
                 var new_state, is_barrier_changed, snapshot;
@@ -21964,7 +23002,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
             }));
 
             function processNewValuesAsync() {
-                return _ref2.apply(this, arguments);
+                return _ref3.apply(this, arguments);
             }
 
             return processNewValuesAsync;
@@ -22008,14 +23046,35 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
         key: 'updateQueryString',
         value: function updateQueryString() {
             // Update the url's query string by default values of the store
-            var queryParams = _URL2.default.updateQueryString(this, _query_string.allowed_query_string_variables);
+            var queryParams = _url_helper2.default.updateQueryString(this, _query_string.allowed_query_string_variables);
 
             // update state values from query string
             var config = {};
             [].concat(_toConsumableArray(queryParams)).forEach(function (param) {
-                config[param[0]] = isNaN(param[1]) ? param[1] : +param[1];
+                return config[param[0]] = param[1];
             });
             this.processNewValuesAsync(config);
+        }
+    }, {
+        key: 'changeDurationValidationRules',
+        value: function changeDurationValidationRules() {
+            var index = this.validation_rules.duration.findIndex(function (item) {
+                return item[0] === 'number';
+            });
+            var limits = this.duration_min_max[this.contract_expiry_type] || false;
+            var duration_options = {
+                min: (0, _duration.convertDurationLimit)(+limits.min, this.duration_unit),
+                max: (0, _duration.convertDurationLimit)(+limits.max, this.duration_unit)
+            };
+
+            if (limits) {
+                if (index > -1) {
+                    this.validation_rules.duration[index][1] = duration_options;
+                } else {
+                    this.validation_rules.duration.push(['number', duration_options]);
+                }
+                this.validateProperty('duration', this.duration);
+            }
         }
     }]);
 
@@ -22103,77 +23162,82 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
     initializer: function initializer() {
         return [];
     }
-}), _descriptor18 = _applyDecoratedDescriptor(_class.prototype, 'expiry_date', [_mobx.observable], {
+}), _descriptor18 = _applyDecoratedDescriptor(_class.prototype, 'duration_min_max', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return {};
+    }
+}), _descriptor19 = _applyDecoratedDescriptor(_class.prototype, 'expiry_date', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '';
     }
-}), _descriptor19 = _applyDecoratedDescriptor(_class.prototype, 'expiry_time', [_mobx.observable], {
+}), _descriptor20 = _applyDecoratedDescriptor(_class.prototype, 'expiry_time', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '09:40';
     }
-}), _descriptor20 = _applyDecoratedDescriptor(_class.prototype, 'expiry_type', [_mobx.observable], {
+}), _descriptor21 = _applyDecoratedDescriptor(_class.prototype, 'expiry_type', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 'duration';
     }
-}), _descriptor21 = _applyDecoratedDescriptor(_class.prototype, 'barrier_1', [_mobx.observable], {
+}), _descriptor22 = _applyDecoratedDescriptor(_class.prototype, 'barrier_1', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '';
     }
-}), _descriptor22 = _applyDecoratedDescriptor(_class.prototype, 'barrier_2', [_mobx.observable], {
+}), _descriptor23 = _applyDecoratedDescriptor(_class.prototype, 'barrier_2', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '';
     }
-}), _descriptor23 = _applyDecoratedDescriptor(_class.prototype, 'barrier_count', [_mobx.observable], {
+}), _descriptor24 = _applyDecoratedDescriptor(_class.prototype, 'barrier_count', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 0;
     }
-}), _descriptor24 = _applyDecoratedDescriptor(_class.prototype, 'start_date', [_mobx.observable], {
+}), _descriptor25 = _applyDecoratedDescriptor(_class.prototype, 'start_date', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return Number(0);
     }
-}), _descriptor25 = _applyDecoratedDescriptor(_class.prototype, 'start_dates_list', [_mobx.observable], {
+}), _descriptor26 = _applyDecoratedDescriptor(_class.prototype, 'start_dates_list', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return [];
     }
-}), _descriptor26 = _applyDecoratedDescriptor(_class.prototype, 'start_time', [_mobx.observable], {
+}), _descriptor27 = _applyDecoratedDescriptor(_class.prototype, 'start_time', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '12:30';
     }
-}), _descriptor27 = _applyDecoratedDescriptor(_class.prototype, 'sessions', [_mobx.observable], {
+}), _descriptor28 = _applyDecoratedDescriptor(_class.prototype, 'sessions', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return [];
     }
-}), _descriptor28 = _applyDecoratedDescriptor(_class.prototype, 'last_digit', [_mobx.observable], {
+}), _descriptor29 = _applyDecoratedDescriptor(_class.prototype, 'last_digit', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 3;
     }
-}), _descriptor29 = _applyDecoratedDescriptor(_class.prototype, 'proposal_info', [_mobx.observable], {
+}), _descriptor30 = _applyDecoratedDescriptor(_class.prototype, 'proposal_info', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return {};
     }
-}), _descriptor30 = _applyDecoratedDescriptor(_class.prototype, 'purchase_info', [_mobx.observable], {
+}), _descriptor31 = _applyDecoratedDescriptor(_class.prototype, 'purchase_info', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return {};
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'init', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onChange', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'onChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onHoverPurchase', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'onHoverPurchase'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onPurchase', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'onPurchase'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onClickNewTrade', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'onClickNewTrade'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateStore', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'updateStore'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'requestProposal', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'requestProposal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onProposalResponse', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'onProposalResponse'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onChartBarrierChange', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'onChartBarrierChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateQueryString', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'updateQueryString'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'init', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onChange', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'onChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onHoverPurchase', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'onHoverPurchase'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onPurchase', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'onPurchase'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onClickNewTrade', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'onClickNewTrade'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateStore', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'updateStore'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'requestProposal', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'requestProposal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onProposalResponse', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'onProposalResponse'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onChartBarrierChange', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'onChartBarrierChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateQueryString', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'updateQueryString'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'changeDurationValidationRules', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'changeDurationValidationRules'), _class.prototype)), _class));
 exports.default = TradeStore;
 ;
 
 /***/ }),
-/* 610 */
+/* 621 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22184,23 +23248,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _contract_store = __webpack_require__(585);
+var _contract_store = __webpack_require__(595);
 
 var _contract_store2 = _interopRequireDefault(_contract_store);
 
-var _portfolio_store = __webpack_require__(587);
+var _portfolio_store = __webpack_require__(597);
 
 var _portfolio_store2 = _interopRequireDefault(_portfolio_store);
 
-var _smart_chart_store = __webpack_require__(591);
+var _smart_chart_store = __webpack_require__(601);
 
 var _smart_chart_store2 = _interopRequireDefault(_smart_chart_store);
 
-var _statement_store = __webpack_require__(593);
+var _statement_store = __webpack_require__(603);
 
 var _statement_store2 = _interopRequireDefault(_statement_store);
 
-var _trade_store = __webpack_require__(609);
+var _trade_store = __webpack_require__(620);
 
 var _trade_store2 = _interopRequireDefault(_trade_store);
 
@@ -22211,18 +23275,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var ModulesStore = function ModulesStore(root_store) {
     _classCallCheck(this, ModulesStore);
 
-    this.contract = new _contract_store2.default(root_store);
-    this.portfolio = new _portfolio_store2.default(root_store);
-    this.smart_chart = new _smart_chart_store2.default(root_store);
+    this.contract = new _contract_store2.default({ root_store: root_store });
+    this.portfolio = new _portfolio_store2.default({ root_store: root_store });
+    this.smart_chart = new _smart_chart_store2.default({ root_store: root_store });
     this.statement = new _statement_store2.default();
-    this.trade = new _trade_store2.default(root_store);
+    this.trade = new _trade_store2.default({ root_store: root_store });
 };
 
 exports.default = ModulesStore;
 ;
 
 /***/ }),
-/* 611 */
+/* 622 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22235,13 +23299,13 @@ exports.default = undefined;
 
 var _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _base_store = __webpack_require__(72);
+var _base_store = __webpack_require__(75);
 
 var _base_store2 = _interopRequireDefault(_base_store);
 
-var _client_base = __webpack_require__(27);
+var _client_base = __webpack_require__(24);
 
 var _client_base2 = _interopRequireDefault(_client_base);
 
@@ -22347,7 +23411,7 @@ exports.default = ClientStore;
 ;
 
 /***/ }),
-/* 612 */
+/* 623 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22362,17 +23426,17 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _dec, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
 var _moment = __webpack_require__(9);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _base_store = __webpack_require__(72);
+var _base_store = __webpack_require__(75);
 
 var _base_store2 = _interopRequireDefault(_base_store);
 
-var _index = __webpack_require__(281);
+var _index = __webpack_require__(288);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22482,7 +23546,7 @@ exports.default = CommonStore;
 ;
 
 /***/ }),
-/* 613 */
+/* 624 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22493,19 +23557,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _client_store = __webpack_require__(611);
+var _client_store = __webpack_require__(622);
 
 var _client_store2 = _interopRequireDefault(_client_store);
 
-var _common_store = __webpack_require__(612);
+var _common_store = __webpack_require__(623);
 
 var _common_store2 = _interopRequireDefault(_common_store);
 
-var _Modules = __webpack_require__(610);
+var _Modules = __webpack_require__(621);
 
 var _Modules2 = _interopRequireDefault(_Modules);
 
-var _ui_store = __webpack_require__(614);
+var _ui_store = __webpack_require__(625);
 
 var _ui_store2 = _interopRequireDefault(_ui_store);
 
@@ -22526,7 +23590,7 @@ exports.default = RootStore;
 ;
 
 /***/ }),
-/* 614 */
+/* 625 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22541,13 +23605,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12;
 
-var _mobx = __webpack_require__(29);
+var _mobx = __webpack_require__(28);
 
-var _base_store = __webpack_require__(72);
+var _base_store = __webpack_require__(75);
 
 var _base_store2 = _interopRequireDefault(_base_store);
 
-var _ui = __webpack_require__(259);
+var _ui = __webpack_require__(266);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22612,7 +23676,7 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
 
         var local_storage_properties = ['is_chart_asset_info_visible', 'is_chart_countdown_visible', 'is_chart_layout_default', 'is_dark_mode_on', 'is_portfolio_drawer_on', 'is_purchase_confirm_on', 'is_purchase_lock_on'];
 
-        var _this = _possibleConstructorReturn(this, (UIStore.__proto__ || Object.getPrototypeOf(UIStore)).call(this, null, local_storage_properties));
+        var _this = _possibleConstructorReturn(this, (UIStore.__proto__ || Object.getPrototypeOf(UIStore)).call(this, { local_storage_properties: local_storage_properties }));
 
         _initDefineProp(_this, 'is_main_drawer_on', _descriptor, _this);
 
@@ -22799,7 +23863,7 @@ exports.default = UIStore;
 ;
 
 /***/ }),
-/* 615 */
+/* 626 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22903,7 +23967,102 @@ var formatDuration = exports.formatDuration = function formatDuration(duration) 
 };
 
 /***/ }),
-/* 616 */
+/* 627 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var setStorageEvents = exports.setStorageEvents = function setStorageEvents() {
+    window.addEventListener('storage', function (evt) {
+        switch (evt.key) {
+            case 'active_loginid':
+                if (document.hidden && (evt.newValue === '' || !window.is_logging_in)) {
+                    window.location.reload();
+                }
+                break;
+            // no default
+        }
+    });
+};
+
+/***/ }),
+/* 628 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.fillTemplate = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fillTemplate = exports.fillTemplate = function fillTemplate(template, replacers) {
+    var res = [];
+    var str = template;
+    var open_tag_id = null;
+
+    while (str.length) {
+        var match = str.match(/\[_(\d+)\]/);
+
+        if (!match) {
+            res.push(str);
+            break;
+        }
+
+        var tag = match[0],
+            tag_id = match[1],
+            index = match.index;
+
+
+        var before = str.slice(0, index);
+        str = str.slice(index + tag.length);
+
+        if (open_tag_id) {
+            var pair_code = open_tag_id + '_' + tag_id;
+            var wrapper = replacers[pair_code];
+
+            if (!_react2.default.isValidElement(wrapper)) throw new Error('Localize: pair tag ' + pair_code + ' must be replaced with a react element.');
+            if (!wrapper) throw new Error('Localize: no ' + open_tag_id + ' or ' + pair_code + ' replacer for "' + template + '" template.');
+
+            res.push(_react2.default.cloneElement(wrapper, { key: index, children: before }));
+            open_tag_id = null;
+        } else {
+            if (before.length) res.push(before);
+
+            if (tag_id in replacers) {
+                res.push(replacers[tag_id]);
+            } else {
+                open_tag_id = tag_id;
+            }
+        }
+    }
+    if (open_tag_id) throw new Error('Localize: no ' + open_tag_id + ' replacer for "' + template + '" template.');
+
+    // concat adjacent strings in result array
+    return res.reduce(function (arr, current) {
+        var last = arr[arr.length - 1];
+        if (typeof last === 'string' && typeof current === 'string') {
+            arr[arr.length - 1] = last + current;
+        } else {
+            arr.push(current);
+        }
+        return arr;
+    }, []);
+};
+
+/***/ }),
+/* 629 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22935,7 +24094,7 @@ var getURL = exports.getURL = function getURL(lang) {
 };
 
 /***/ }),
-/* 617 */
+/* 630 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22983,29 +24142,38 @@ var getPropFromStores = function getPropFromStores(prop) {
 };
 
 /***/ }),
-/* 618 */
+/* 631 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
-var _url = __webpack_require__(619);
+var _language = __webpack_require__(14);
 
-Object.defineProperty(exports, 'default', {
-  enumerable: true,
-  get: function get() {
-    return _interopRequireDefault(_url).default;
-  }
-});
+/*
+ * Retrieves basename from current url
+ *
+ * @return {string} returns the basename of current url
+ */
+var getBaseName = function getBaseName() {
+    var regex_string = '(.*(' + Object.keys((0, _language.getAll)()).join('|') + ')/app(/index\\.html)?).*';
+    var basename = new RegExp(regex_string, 'ig').exec(window.location.pathname);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+    if (basename && basename.length) {
+        return basename[1];
+    }
+
+    return '/en/app/';
+};
+
+exports.default = getBaseName;
 
 /***/ }),
-/* 619 */
+/* 632 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23123,21 +24291,411 @@ var URLHelper = function () {
 exports.default = URLHelper;
 
 /***/ }),
-/* 620 */
+/* 633 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(122);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.pass_length = exports.pre_build_dvrs = undefined;
 
-__webpack_require__(157);
+var _client_base = __webpack_require__(24);
 
-var _app = __webpack_require__(347);
+var _client_base2 = _interopRequireDefault(_client_base);
+
+var _currency_base = __webpack_require__(30);
+
+var _check_password = __webpack_require__(162);
+
+var _check_password2 = _interopRequireDefault(_check_password);
+
+var _localize = __webpack_require__(2);
+
+var _string_util = __webpack_require__(20);
+
+var _utility = __webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// ------------------------------
+// ----- Validation Methods -----
+// ------------------------------
+var validRequired = function validRequired(value /* , options, field */) {
+    if (value === undefined || value === null) {
+        return false;
+    }
+
+    var str = String(value).replace(/\s/g, '');
+    return str.length > 0;
+};
+var validEmail = function validEmail(value) {
+    return (/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}$/.test(value)
+    );
+};
+var validPassword = function validPassword(value, options, field) {
+    if (/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+/.test(value)) {
+        _check_password2.default.checkPassword(field.selector);
+        return true;
+    }
+    // else
+    return false;
+};
+var validLetterSymbol = function validLetterSymbol(value) {
+    return !/[`~!@#$%^&*)(_=+[}{\]\\/";:?><,|\d]+/.test(value);
+};
+var validGeneral = function validGeneral(value) {
+    return !/[`~!@#$%^&*)(_=+[}{\]\\/";:?><|]+/.test(value);
+};
+var validAddress = function validAddress(value) {
+    return !/[`~!$%^&*_=+[}{\]\\"?><|]+/.test(value);
+};
+var validPostCode = function validPostCode(value) {
+    return (/^[a-zA-Z\d-\s]*$/.test(value)
+    );
+};
+var validPhone = function validPhone(value) {
+    return (/^\+?[0-9\s]*$/.test(value)
+    );
+};
+var validRegular = function validRegular(value, options) {
+    return options.regex.test(value);
+};
+var validEmailToken = function validEmailToken(value) {
+    return value.trim().length === 8;
+};
+var validTaxID = function validTaxID(value) {
+    return (/^[a-zA-Z0-9]*[\w-]*$/.test(value)
+    );
+};
+var validBarrier = function validBarrier(value) {
+    return (/^[+-]\d+\.?\d*$/.test(value)
+    );
+};
+
+var validCompare = function validCompare(value, options) {
+    return value === $(options.to).val();
+};
+var validNotEqual = function validNotEqual(value, options) {
+    return value !== $(options.to).val();
+};
+var validMin = function validMin(value, options) {
+    return options.min ? value.length >= options.min : true;
+};
+var validLength = function validLength(value, options) {
+    return (options.min ? value.length >= options.min : true) && (options.max ? value.length <= options.max : true);
+};
+
+var validNumber = function validNumber(value, opts) {
+    var options = (0, _utility.cloneObject)(opts);
+    var message = null;
+    if (options.allow_empty && value.length === 0) {
+        return true;
+    }
+
+    var is_ok = true;
+    if ('min' in options && typeof options.min === 'function') {
+        options.min = options.min();
+    }
+    if ('max' in options && typeof options.max === 'function') {
+        options.max = options.max();
+    }
+
+    if (!(options.type === 'float' ? /^\d+(\.\d+)?$/ : /^\d+$/).test(value) || isNaN(value)) {
+        is_ok = false;
+        message = (0, _localize.localize)('Should be a valid number.');
+    } else if (options.type === 'float' && options.decimals && !new RegExp('^\\d+(\\.\\d{0,' + options.decimals + '})?$').test(value)) {
+        is_ok = false;
+        message = (0, _localize.localize)('Up to [_1] decimal places are allowed.', [options.decimals]);
+    } else if ('min' in options && 'max' in options && +options.min === +options.max && +value !== +options.min) {
+        is_ok = false;
+        message = (0, _localize.localize)('Should be [_1]', [(0, _currency_base.addComma)(options.min, options.format_money ? (0, _currency_base.getDecimalPlaces)(_client_base2.default.get('currency')) : undefined)]);
+    } else if ('min' in options && 'max' in options && (+value < +options.min || isMoreThanMax(value, options))) {
+        is_ok = false;
+        message = (0, _localize.localize)('Should be between [_1] and [_2]', [(0, _currency_base.addComma)(options.min, options.format_money ? (0, _currency_base.getDecimalPlaces)(_client_base2.default.get('currency')) : undefined), (0, _currency_base.addComma)(options.max, options.format_money ? (0, _currency_base.getDecimalPlaces)(_client_base2.default.get('currency')) : undefined)]);
+    } else if ('min' in options && +value < +options.min) {
+        is_ok = false;
+        message = (0, _localize.localize)('Should be more than [_1]', [(0, _currency_base.addComma)(options.min, options.format_money ? (0, _currency_base.getDecimalPlaces)(_client_base2.default.get('currency')) : undefined)]);
+    } else if ('max' in options && isMoreThanMax(value, options)) {
+        is_ok = false;
+        message = (0, _localize.localize)('Should be less than [_1]', [(0, _currency_base.addComma)(options.max, options.format_money ? (0, _currency_base.getDecimalPlaces)(_client_base2.default.get('currency')) : undefined)]);
+    }
+
+    pre_build_dvrs.number.message = message;
+    return is_ok;
+};
+
+var isMoreThanMax = function isMoreThanMax(value, options) {
+    return options.type === 'float' ? +value > +options.max : (0, _string_util.compareBigUnsignedInt)(value, options.max) === 1;
+};
+
+var pre_build_dvrs = exports.pre_build_dvrs = {
+    address: { func: validAddress, message: 'Only letters, numbers, space, and these special characters are allowed: - . \' # ; : ( ) , @ /' },
+    barrier: { func: validBarrier, message: 'Only numbers and these special characters are allowed: + - .' },
+    compare: { func: validCompare, message: 'The two passwords that you entered do not match.' },
+    email: { func: validEmail, message: 'Invalid email address.' },
+    general: { func: validGeneral, message: 'Only letters, numbers, space, hyphen, period, and apostrophe are allowed.' },
+    length: { func: validLength, message: 'You should enter [_1] characters.' },
+    letter_symbol: { func: validLetterSymbol, message: 'Only letters, space, hyphen, period, and apostrophe are allowed.' },
+    min: { func: validMin, message: 'Minimum of [_1] characters required.' },
+    not_equal: { func: validNotEqual, message: '[_1] and [_2] cannot be the same.' },
+    number: { func: validNumber, message: '' },
+    password: { func: validPassword, message: 'Password should have lower and uppercase letters with numbers.' },
+    phone: { func: validPhone, message: 'Only numbers and spaces are allowed.' },
+    postcode: { func: validPostCode, message: 'Only letters, numbers, space, and hyphen are allowed.' },
+    regular: { func: validRegular, message: '' },
+    req: { func: validRequired, message: '' },
+    signup_token: { func: validEmailToken, message: 'The length of token should be 8.' },
+    tax_id: { func: validTaxID, message: 'Should start with letter or number, and may contain hyphen and underscore.' }
+};
+
+var pass_length = exports.pass_length = function pass_length(type) {
+    return { min: /^mt$/.test(type) ? 8 : 6, max: 25 };
+};
+
+/***/ }),
+/* 634 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Errors = function () {
+    function Errors() {
+        _classCallCheck(this, Errors);
+
+        this.errors = {};
+    }
+
+    _createClass(Errors, [{
+        key: "add",
+        value: function add(attribute, message) {
+            if (!this.has(attribute)) {
+                this.errors[attribute] = [];
+            }
+
+            if (this.errors[attribute].indexOf(message) === -1) {
+                this.errors[attribute].push(message);
+            }
+        }
+    }, {
+        key: "all",
+        value: function all() {
+            return this.errors;
+        }
+    }, {
+        key: "first",
+        value: function first(attribute) {
+            if (this.has(attribute)) {
+                return this.errors[attribute][0];
+            }
+            return null;
+        }
+    }, {
+        key: "get",
+        value: function get(attribute) {
+            if (this.has(attribute)) {
+                return this.errors[attribute];
+            }
+
+            return [];
+        }
+    }, {
+        key: "has",
+        value: function has(attribute) {
+            return Object.prototype.hasOwnProperty.call(this.errors, attribute);
+        }
+    }]);
+
+    return Errors;
+}();
+
+exports.default = Errors;
+
+/***/ }),
+/* 635 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _validator = __webpack_require__(636);
+
+var _validator2 = _interopRequireDefault(_validator);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _validator2.default;
+
+/***/ }),
+/* 636 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _declarative_validation_rules = __webpack_require__(633);
+
+var _errors = __webpack_require__(634);
+
+var _errors2 = _interopRequireDefault(_errors);
+
+var _localize = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Validator = function () {
+    function Validator(input, rules) {
+        _classCallCheck(this, Validator);
+
+        this.input = input;
+        this.rules = rules;
+        this.errors = new _errors2.default();
+        this.error_count = 0;
+    }
+
+    /**
+     * Add failure and error message for given rule
+     *
+     * @param {string} attribute
+     * @param {object} rule
+     */
+
+
+    _createClass(Validator, [{
+        key: 'addFailure',
+        value: function addFailure(attribute, rule) {
+            var message = rule.options.message || _declarative_validation_rules.pre_build_dvrs[rule.name].message;
+            if (rule.name === 'length') {
+                message = (0, _localize.localize)(message, [rule.options.min === rule.options.max ? rule.options.min : rule.options.min + '-' + rule.options.max]);
+            } else if (rule.name === 'min') {
+                message = (0, _localize.localize)(message, [rule.options.min]);
+            } else if (rule.name === 'not_equal') {
+                message = (0, _localize.localize)(message, [(0, _localize.localize)(rule.options.name1), (0, _localize.localize)(rule.options.name2)]);
+            } else {
+                message = (0, _localize.localize)(message);
+            }
+            this.errors.add(attribute, message);
+            this.error_count++;
+        }
+
+        /**
+         * Runs validator
+         *
+         * @return {boolean} Whether it passes; true = passes, false = fails
+         */
+
+    }, {
+        key: 'check',
+        value: function check() {
+            var _this = this;
+
+            Object.keys(this.input).forEach(function (attribute) {
+                if (!Object.prototype.hasOwnProperty.call(_this.rules, attribute)) {
+                    return;
+                }
+
+                _this.rules[attribute].forEach(function (rule) {
+                    var ruleObject = Validator.getRuleObject(rule);
+
+                    if (!ruleObject.validator && typeof ruleObject.validator !== 'function') {
+                        return;
+                    }
+
+                    if (_this.input[attribute] === '' && ruleObject.name !== 'req') {
+                        return;
+                    }
+
+                    var is_valid = ruleObject.validator(_this.input[attribute], ruleObject.options);
+
+                    if (!is_valid) {
+                        _this.addFailure(attribute, ruleObject);
+                    }
+                });
+            });
+            return !this.error_count;
+        }
+
+        /**
+         * Determine if validation passes
+         * 
+         * @return {boolean}
+         */
+
+    }, {
+        key: 'isPassed',
+        value: function isPassed() {
+            return this.check();
+        }
+
+        /**
+         * Converts the rule array to an object
+         *
+         * @param {array} rule
+         * @return {object}
+         */
+
+    }], [{
+        key: 'getRuleObject',
+        value: function getRuleObject(rule) {
+            var rule_object = {};
+            if (typeof rule === 'string') {
+                rule_object.name = rule;
+            } else {
+                rule_object.name = rule[0];
+            }
+
+            rule_object.validator = rule_object.name === 'custom' ? rule[1].func : _declarative_validation_rules.pre_build_dvrs[rule_object.name].func;
+            rule_object.options = rule[1] || {};
+
+            return rule_object;
+        }
+    }]);
+
+    return Validator;
+}();
+
+exports.default = Validator;
+
+/***/ }),
+/* 637 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(123);
+
+__webpack_require__(159);
+
+var _app = __webpack_require__(354);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _check_new_release = __webpack_require__(121);
+var _check_new_release = __webpack_require__(122);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23152,23 +24710,6 @@ window.addEventListener('pageshow', function (e) {
 });
 
 /***/ }),
-/* 621 */,
-/* 622 */,
-/* 623 */,
-/* 624 */,
-/* 625 */,
-/* 626 */,
-/* 627 */,
-/* 628 */,
-/* 629 */,
-/* 630 */,
-/* 631 */,
-/* 632 */,
-/* 633 */,
-/* 634 */,
-/* 635 */,
-/* 636 */,
-/* 637 */,
 /* 638 */,
 /* 639 */,
 /* 640 */,
@@ -23405,11 +24946,27 @@ window.addEventListener('pageshow', function (e) {
 /* 871 */,
 /* 872 */,
 /* 873 */,
-/* 874 */
+/* 874 */,
+/* 875 */,
+/* 876 */,
+/* 877 */,
+/* 878 */,
+/* 879 */,
+/* 880 */,
+/* 881 */,
+/* 882 */,
+/* 883 */,
+/* 884 */,
+/* 885 */,
+/* 886 */,
+/* 887 */,
+/* 888 */,
+/* 889 */,
+/* 890 */
 /***/ (function(module, exports) {
 
 module.exports = CIQ;
 
 /***/ })
-],[620]);
+],[637]);
 //# sourceMappingURL=binary_app.js.map
