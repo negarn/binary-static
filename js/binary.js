@@ -3330,6 +3330,7 @@ var Validation = function () {
                         }
                         field.$error = $parent.find('.' + error_class);
                     }
+                    field.$submit_btn_error = $form.find('#msg_form');
 
                     var event = events_map[field.type];
 
@@ -3350,7 +3351,7 @@ var Validation = function () {
         // need to init Dropdown after we have responses from ws
         var el_all_select = document.querySelectorAll('select:not([multiple]):not([single])');
         el_all_select.forEach(function (el) {
-            if (el.id) {
+            if (el.id && el.length) {
                 Dropdown('#' + el.id);
             }
         });
@@ -3551,6 +3552,9 @@ var Validation = function () {
     var clearError = function clearError(field) {
         if (field.$error && field.$error.length) {
             field.$error.setVisibility(0);
+            if (field.$submit_btn_error && field.$submit_btn_error.length) {
+                field.$submit_btn_error.setVisibility(0);
+            }
         }
     };
 
@@ -8093,7 +8097,7 @@ var getPropertyValue = __webpack_require__(1).getPropertyValue;
  *
  * Usage:
  *
- * `socket.send(Price.proposal())` to send price proposal to sever
+ * `socket.send(Price.proposal())` to send price proposal to server
  * `Price.display()` to display the price details returned from server
  */
 var Price = function () {
@@ -8237,16 +8241,6 @@ var Price = function () {
 
         if (!position) {
             return;
-        }
-
-        // hide all containers except current one
-        if (position === 'middle') {
-            if ($('#price_container_top').is(':visible') || $('#price_container_bottom').is(':visible')) {
-                $('#price_container_top').fadeOut(0);
-                $('#price_container_bottom').fadeOut(0);
-            }
-        } else if ($('#price_container_middle').is(':visible')) {
-            $('#price_container_middle').fadeOut(0);
         }
 
         var container = CommonFunctions.getElementById('price_container_' + position);
@@ -8426,17 +8420,40 @@ var Price = function () {
 
         processForgetProposalOpenContract();
         processForgetProposals().then(function () {
+            var position_is_visible = {
+                top: false,
+                middle: false,
+                bottom: false
+            };
+            var first_price_proposal = true;
             Object.keys(types || {}).forEach(function (type_of_contract) {
+                var position = commonTrading.contractTypeDisplayMapping(type_of_contract);
+                position_is_visible[position] = true;
                 BinarySocket.send(Price.proposal(type_of_contract), { callback: function callback(response) {
                         if (response.error && response.error.code === 'AlreadySubscribed') {
                             BinarySocket.send({ forget_all: 'proposal' });
                         } else if (response.echo_req && response.echo_req !== null && response.echo_req.passthrough && response.echo_req.passthrough.form_id === form_id) {
                             Price.display(response, Contract.contractType()[Contract.form()]);
                         }
-                        commonTrading.hideOverlayContainer();
-                        commonTrading.hidePriceOverlay();
+                        if (first_price_proposal) {
+                            commonTrading.hideOverlayContainer();
+                            commonTrading.hidePriceOverlay();
+                            setPriceContainersVisibility(position_is_visible);
+                            first_price_proposal = false;
+                        }
                     } });
             });
+        });
+    };
+
+    var setPriceContainersVisibility = function setPriceContainersVisibility(position_is_visible) {
+        Object.keys(position_is_visible).forEach(function (position) {
+            var container = CommonFunctions.getElementById('price_container_' + position);
+            if (position_is_visible[position]) {
+                $(container).fadeIn(0);
+            } else {
+                $(container).fadeOut(0);
+            }
         });
     };
 
@@ -9213,7 +9230,6 @@ var MBPrice = function () {
                 currency: MBContract.getCurrency(),
                 symbol: proposal.echo_req.symbol,
                 date_expiry: proposal.echo_req.date_expiry,
-                trading_period_start: proposal.echo_req.trading_period_start,
                 product_type: 'multi_barrier',
                 app_markup_percentage: '0'
             }
@@ -12814,9 +12830,7 @@ var MBProcess = function () {
             date_expiry: durations[1],
             contract_type: [],
             barriers: [],
-            product_type: 'multi_barrier',
-
-            trading_period_start: durations[0]
+            product_type: 'multi_barrier'
         };
 
         var available_contracts = MBContract.getCurrentContracts();
@@ -15090,6 +15104,7 @@ var Home = function () {
         var error = response.error;
         if (!error) {
             $('.signup-box div').replaceWith($('<p/>', { text: localize('Thank you for signing up! Please check your email to complete the registration process.'), class: 'gr-10 gr-centered center-text' }));
+            $('#social-signup').setVisibility(0);
         } else {
             $('#signup_error').setVisibility(1).text(error.message);
         }
@@ -27338,11 +27353,13 @@ var Authenticate = function () {
                     showError(file);
                 }
             });
-            if (is_any_file_error) {
+            var total_to_upload = response.length;
+            if (is_any_file_error || !total_to_upload) {
+                removeButtonLoading();
+                enableDisableSubmit();
                 return; // don't start submitting files until all front-end validation checks pass
             }
 
-            var total_to_upload = response.length;
             var isLastUpload = function isLastUpload() {
                 return total_to_upload === idx_to_upload + 1;
             };
@@ -27355,7 +27372,7 @@ var Authenticate = function () {
                     if (!api_response.error && !api_response.warning) {
                         $status.text(localize('Submitted')).append($('<span/>', { class: 'checked' }));
                         $('#' + api_response.passthrough.class).attr('type', 'hidden'); // don't allow users to change submitted files
-                        $('label[for=' + api_response.passthrough.class + '] span').attr('class', 'checked');
+                        $('label[for=' + api_response.passthrough.class + ']').removeClass('selected error').find('span').attr('class', 'checked');
                     }
                     uploadNextFile();
                 }).catch(function (error) {
@@ -27471,7 +27488,7 @@ var Authenticate = function () {
         var accepted_formats_regex = /selfie/.test(file.passthrough.class) ? /^(PNG|JPG|JPEG|GIF)$/i : /^(PNG|JPG|JPEG|GIF|PDF)$/i;
 
         if (!(file.documentFormat || '').match(accepted_formats_regex)) {
-            return localize('Invalid document format: "[_1]"', [file.documentFormat]);
+            return localize('Invalid document format.');
         }
         if (file.buffer && file.buffer.byteLength >= 8 * 1024 * 1024) {
             return localize('File ([_1]) size exceeds the permitted limit. Maximum allowed file size: [_2]', [file.filename, '8MB']);
@@ -30675,7 +30692,7 @@ var MetaTraderUI = function () {
             _$form.find('.binary-balance').html('' + formatMoney(client_currency, Client.get('balance')));
             _$form.find('.mt5-account').text('' + localize('[_1] Account [_2]', [accounts_info[acc_type].title, accounts_info[acc_type].info.login]));
             _$form.find('.mt5-balance').html('' + formatMoney(mt_currency, accounts_info[acc_type].info.balance));
-            _$form.find('.symbols').addClass(mt_currency.toLowerCase());
+            _$form.find('.symbols.mt-currency').addClass(mt_currency.toLowerCase());
             _$form.find('label[for="txt_amount_deposit"]').append(' ' + client_currency);
             _$form.find('label[for="txt_amount_withdrawal"]').append(' ' + mt_currency);
 
@@ -30733,6 +30750,7 @@ var MetaTraderUI = function () {
         var is_new_account = /new_account/.test(action);
         var $acc_actions = $container.find('.acc-actions');
         $acc_actions.find('.new-account').setVisibility(is_new_account);
+        $acc_actions.find('.act_new_account_mam').setVisibility(is_new_account && Client.get('landing_company_shortcode') === 'costarica');
         $acc_actions.find('.has-account').setVisibility(!is_new_account);
         $acc_actions.find('.has-mam').setVisibility(is_new_account ? 0 : getPropertyValue(accounts_info, [Client.get('mt5_account'), 'info', 'manager_id']));
         $detail.setVisibility(!is_new_account);
