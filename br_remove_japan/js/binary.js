@@ -9049,7 +9049,6 @@ var MBPrice = function () {
                 currency: MBContract.getCurrency(),
                 symbol: proposal.echo_req.symbol,
                 date_expiry: proposal.echo_req.date_expiry,
-                trading_period_start: proposal.echo_req.trading_period_start,
                 product_type: 'multi_barrier',
                 app_markup_percentage: '0'
             }
@@ -12341,9 +12340,7 @@ var MBProcess = function () {
             date_expiry: durations[1],
             contract_type: [],
             barriers: [],
-            product_type: 'multi_barrier',
-
-            trading_period_start: durations[0]
+            product_type: 'multi_barrier'
         };
 
         var available_contracts = MBContract.getCurrentContracts();
@@ -14280,7 +14277,9 @@ var MetaTraderConfig = function () {
             },
             pre_submit: function pre_submit($form, acc_type) {
                 return new Promise(function (resolve) {
-                    if (!accounts_info[acc_type].is_demo && State.getResponse('landing_company.gaming_company.shortcode') === 'malta') {
+                    var is_volatility = !accounts_info[acc_type].mt5_account_type;
+
+                    if (is_volatility && !accounts_info[acc_type].is_demo && State.getResponse('landing_company.gaming_company.shortcode') === 'malta') {
                         Dialog.confirm({
                             id: 'confirm_new_account',
                             message: ['Trading Contracts for Difference (CFDs) on Volatility Indices may not be suitable for everyone. Please ensure that you fully understand the risks involved, including the possibility of losing all the funds in your MT5 account. Gambling can be addictive – please play responsibly.', 'Do you wish to continue?']
@@ -21811,9 +21810,12 @@ var State = __webpack_require__(6).State;
 var toTitleCase = __webpack_require__(15).toTitleCase;
 var Url = __webpack_require__(8);
 var template = __webpack_require__(1).template;
+var isEmptyObject = __webpack_require__(1).isEmptyObject;
 
 var DepositWithdraw = function () {
     var default_iframe_height = 700;
+
+    var response_withdrawal = {};
 
     var cashier_type = void 0,
         token = void 0,
@@ -21845,20 +21847,29 @@ var DepositWithdraw = function () {
     var checkToken = function checkToken() {
         token = Url.getHashValue('token');
         if (!token) {
-            BinarySocket.send({
-                verify_email: Client.get('email'),
-                type: 'payment_withdraw'
-            }).then(function (response_withdraw) {
-                if ('error' in response_withdraw) {
-                    showError('custom_error', response_withdraw.error.message);
-                } else {
-                    showMessage('check_email_message');
-                }
-            });
+            if (isEmptyObject(response_withdrawal)) {
+                BinarySocket.send({
+                    verify_email: Client.get('email'),
+                    type: 'payment_withdraw'
+                }).then(function (response) {
+                    response_withdrawal = response;
+                    handleWithdrawalResponse();
+                });
+            } else {
+                handleWithdrawalResponse();
+            }
         } else if (!validEmailToken(token)) {
             showError('token_error');
         } else {
             getCashierURL();
+        }
+    };
+
+    var handleWithdrawalResponse = function handleWithdrawalResponse() {
+        if ('error' in response_withdrawal) {
+            showError('custom_error', response_withdrawal.error.message);
+        } else {
+            showMessage('check_email_message');
         }
     };
 
@@ -22066,6 +22077,7 @@ var DepositWithdraw = function () {
 
     var onUnload = function onUnload() {
         window.removeEventListener('message', setFrameHeight);
+        response_withdrawal = {};
     };
 
     return {
@@ -30025,7 +30037,8 @@ var FinancialAccOpening = function () {
 
     var handleResponse = function handleResponse(response) {
         if ('error' in response && response.error.code === 'show risk disclaimer') {
-            $('#financial-form').setVisibility(0);
+            $(form_id).setVisibility(0);
+            $('#client_message').setVisibility(0);
             var $financial_risk = $('#financial-risk');
             $financial_risk.setVisibility(1);
             $.scrollTo($financial_risk, 500, { offset: -10 });
