@@ -9049,6 +9049,7 @@ var MBPrice = function () {
                 currency: MBContract.getCurrency(),
                 symbol: proposal.echo_req.symbol,
                 date_expiry: proposal.echo_req.date_expiry,
+                trading_period_start: proposal.echo_req.trading_period_start,
                 product_type: 'multi_barrier',
                 app_markup_percentage: '0'
             }
@@ -12340,7 +12341,9 @@ var MBProcess = function () {
             date_expiry: durations[1],
             contract_type: [],
             barriers: [],
-            product_type: 'multi_barrier'
+            product_type: 'multi_barrier',
+
+            trading_period_start: durations[0]
         };
 
         var available_contracts = MBContract.getCurrentContracts();
