@@ -12489,7 +12489,7 @@ var MBProcess = function () {
 
     var getSymbols = function getSymbols() {
         var promises = [BinarySocket.wait('website_status')];
-        if (Client.isLoggedIn()) {
+        if (Client.isLoggedIn() && Client.get('residence')) {
             promises.push(BinarySocket.wait('landing_company'));
         }
         Promise.all(promises).then(function () {
@@ -22898,7 +22898,11 @@ var MBTradePage = function () {
         }
         showCurrency(Client.get('currency'));
 
-        BinarySocket.wait('landing_company', 'active_symbols').then(function () {
+        var promises = [BinarySocket.wait('active_symbols')];
+        if (!Client.isLoggedIn() || Client.get('residence')) {
+            promises.push(BinarySocket.wait('landing_company'));
+        }
+        Promise.all(promises).then(function () {
             if (events_initialized === 0) {
                 events_initialized = 1;
                 MBTradingEvents.init();
