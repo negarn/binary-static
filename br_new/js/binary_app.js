@@ -3189,7 +3189,7 @@ var BaseStore = (_class = (_temp = _class2 = function () {
     }, {
         key: 'validateProperty',
         value: function validateProperty(property, value) {
-            var validator = new _Validator2.default(_defineProperty({}, property, value !== undefined ? value : this[property]), _defineProperty({}, property, this.validation_rules[property]));
+            var validator = new _Validator2.default(_defineProperty({}, property, value !== undefined ? value : this[property]), _defineProperty({}, property, this.validation_rules[property]), this);
 
             validator.isPassed();
             this.setValidationErrorMessages(property, validator.errors.get(property));
@@ -4953,8 +4953,10 @@ var InputField = function InputField(_ref) {
     var className = _ref.className,
         error_messages = _ref.error_messages,
         helper = _ref.helper,
-        is_float = _ref.is_float,
         is_disabled = _ref.is_disabled,
+        is_float = _ref.is_float,
+        _ref$is_signed = _ref.is_signed,
+        is_signed = _ref$is_signed === undefined ? false : _ref$is_signed,
         label = _ref.label,
         name = _ref.name,
         onChange = _ref.onChange,
@@ -4967,18 +4969,39 @@ var InputField = function InputField(_ref) {
         value = _ref.value;
 
     var has_error = error_messages && error_messages.length;
+
+    var changeValue = function changeValue(e) {
+        if (type === 'number') {
+            var is_empty = !e.target.value || e.target.value === '';
+            var signed_regex = is_signed ? '[\\+-]?' : '';
+
+            var is_number = new RegExp('^' + signed_regex + '(\\d*)?' + (is_float ? '(\\.\\d+)?' : '') + '(?<=\\d)(?<!-0)$').test(e.target.value);
+
+            var is_not_completed_number = is_float && new RegExp('^' + signed_regex + '(\\.|\\d+\\.)?$').test(e.target.value);
+
+            if (is_number || is_empty) {
+                e.target.value = is_empty || is_signed ? e.target.value : +e.target.value;
+            } else if (!is_not_completed_number) {
+                e.target.value = value;
+                return;
+            }
+        }
+
+        onChange(e);
+    };
+
     var input = _react2.default.createElement('input', {
         className: (0, _classnames2.default)({ error: has_error }),
-        type: type,
-        name: name,
-        step: is_float ? step : undefined,
-        placeholder: placeholder || undefined,
         disabled: is_disabled,
-        value: value,
-        onChange: onChange,
-        required: required || undefined,
+        'data-for': 'error_tooltip_' + name,
         'data-tip': true,
-        'data-for': 'error_tooltip_' + name
+        name: name,
+        onChange: changeValue,
+        placeholder: placeholder || undefined,
+        required: required || undefined,
+        step: is_float ? step : undefined,
+        type: type === 'number' ? 'text' : type,
+        value: value
     });
 
     return _react2.default.createElement(
@@ -5012,14 +5035,13 @@ var InputField = function InputField(_ref) {
 // ToDo: Refactor input_field
 // supports more than two different types of 'value' as a prop.
 // Quick Solution - Pass two different props to input field.
-
-// import ReactTooltip              from 'react-tooltip';
 InputField.propTypes = {
     className: _propTypes2.default.string,
     error_messages: _mobxReact.PropTypes.arrayOrObservableArray,
     helper: _propTypes2.default.bool,
     is_float: _propTypes2.default.bool,
     is_disabled: _propTypes2.default.string,
+    is_signed: _propTypes2.default.bool,
     label: _propTypes2.default.string,
     name: _propTypes2.default.string,
     onChange: _propTypes2.default.func,
@@ -12777,7 +12799,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var LoginButton = function LoginButton() {
     return _react2.default.createElement(_button2.default, {
-        className: 'primary orange',
+        className: 'secondary orange',
         has_effect: true,
         text: (0, _localize.localize)('Log in'),
         onClick: _login.redirectToLogin
@@ -18985,7 +19007,7 @@ var Amount = function Amount(_ref) {
                 is_nativepicker: is_nativepicker
             }),
             _react2.default.createElement(_input_field2.default, {
-                type: 'text',
+                type: 'number',
                 name: 'amount',
                 value: amount,
                 onChange: onChange,
@@ -19086,19 +19108,22 @@ var Barrier = function Barrier(_ref) {
             icon: 'barriers'
         },
         _react2.default.createElement(_input_field2.default, {
-            type: 'text',
+            type: 'number',
             name: 'barrier_1',
             value: barrier_1,
             onChange: onChange,
-            error_messages: validation_errors.barrier_1 || []
+            error_messages: validation_errors.barrier_1 || [],
+            is_float: true,
+            is_signed: true
         }),
         barrier_count === 2 && _react2.default.createElement(_input_field2.default, {
-            type: 'text',
+            type: 'number',
             name: 'barrier_2',
             value: barrier_2,
             onChange: onChange,
+            error_messages: validation_errors.barrier_2,
             is_float: true,
-            error_messages: validation_errors.barrier_2
+            is_signed: true
         })
     );
 };
@@ -19283,7 +19308,7 @@ var Duration = function Duration(_ref) {
                     is_nativepicker: is_nativepicker,
                     footer: (0, _localize.localize)('The minimum duration is 1 day')
                 }) : _react2.default.createElement(_input_field2.default, {
-                    type: 'text',
+                    type: 'number',
                     name: 'duration',
                     value: duration,
                     onChange: onChange,
@@ -21176,10 +21201,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var getDetailsInfo = exports.getDetailsInfo = function getDetailsInfo(contract_info) {
     var _ref;
 
-    var contract_type = contract_info.contract_type,
+    var buy_price = contract_info.buy_price,
+        contract_type = contract_info.contract_type,
+        currency = contract_info.currency,
         date_start = contract_info.date_start,
-        sell_time = contract_info.sell_time,
-        entry_spot = contract_info.entry_spot;
+        entry_spot = contract_info.entry_spot,
+        sell_time = contract_info.sell_time;
 
     // if a forward starting contract was sold before starting
     // API will still send entry spot when start time is passed
@@ -21190,7 +21217,7 @@ var getDetailsInfo = exports.getDetailsInfo = function getDetailsInfo(contract_i
     var txt_entry_spot = entry_spot && !is_sold_before_start ? (0, _currency_base.addComma)(entry_spot) : '-';
 
     // TODO: don't localize on every call
-    return _ref = {}, _defineProperty(_ref, (0, _localize.localize)('Contract Type'), _contract.contract_type_display[contract_type]), _defineProperty(_ref, (0, _localize.localize)('Start Time'), txt_start_time), _defineProperty(_ref, (0, _localize.localize)('Entry Spot'), txt_entry_spot), _ref;
+    return _ref = {}, _defineProperty(_ref, (0, _localize.localize)('Contract Type'), _contract.contract_type_display[contract_type]), _defineProperty(_ref, (0, _localize.localize)('Start Time'), txt_start_time), _defineProperty(_ref, (0, _localize.localize)('Entry Spot'), txt_entry_spot), _defineProperty(_ref, (0, _localize.localize)('Purchase Price'), _react2.default.createElement(_money2.default, { amount: buy_price, currency: currency })), _ref;
 };
 
 var getDetailsExpiry = exports.getDetailsExpiry = function getDetailsExpiry(store) {
@@ -21199,6 +21226,7 @@ var getDetailsExpiry = exports.getDetailsExpiry = function getDetailsExpiry(stor
     if (!store.is_ended) return {};
 
     var contract_info = store.contract_info,
+        currency = store.currency,
         end_spot = store.end_spot,
         end_spot_time = store.end_spot_time,
         indicative_price = store.indicative_price,
@@ -21208,7 +21236,7 @@ var getDetailsExpiry = exports.getDetailsExpiry = function getDetailsExpiry(stor
     // for user sold contracts sell spot can get updated when the next tick becomes available
     // so we only show end time instead of any spot information
 
-    return _extends({}, is_user_sold ? _defineProperty({}, (0, _localize.localize)('End Time'), contract_info.date_expiry && (0, _Date.toGMTFormat)(+contract_info.date_expiry * 1000)) : (_ref3 = {}, _defineProperty(_ref3, (0, _localize.localize)('Exit Spot'), end_spot ? (0, _currency_base.addComma)(end_spot) : '-'), _defineProperty(_ref3, (0, _localize.localize)('Exit Spot Time'), end_spot_time ? (0, _Date.toGMTFormat)(+end_spot_time * 1000) : '-'), _ref3), _defineProperty({}, (0, _localize.localize)('Payout'), _react2.default.createElement(_money2.default, { amount: indicative_price, currency: 'USD' })));
+    return _extends({}, is_user_sold ? _defineProperty({}, (0, _localize.localize)('End Time'), contract_info.date_expiry && (0, _Date.toGMTFormat)(+contract_info.date_expiry * 1000)) : (_ref3 = {}, _defineProperty(_ref3, (0, _localize.localize)('Exit Spot'), end_spot ? (0, _currency_base.addComma)(end_spot) : '-'), _defineProperty(_ref3, (0, _localize.localize)('Exit Spot Time'), end_spot_time ? (0, _Date.toGMTFormat)(+end_spot_time * 1000) : '-'), _ref3), _defineProperty({}, (0, _localize.localize)('Payout'), _react2.default.createElement(_money2.default, { amount: indicative_price, currency: currency })));
 };
 
 /***/ }),
@@ -22971,8 +22999,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 var validation_rules = {
     amount: [['req', { message: 'The amount is a required field.' }], ['number', { min: 0, type: 'float' }]],
-    barrier_1: ['barrier'],
-    barrier_2: ['barrier'],
+    barrier_1: [['req', { condition: function condition(store) {
+            return store.barrier_count;
+        }, message: 'The barrier is a required field.' }], ['barrier', { condition: function condition(store) {
+            return store.contract_expiry_type !== 'daily' && store.barrier_count;
+        } }], ['number', { condition: function condition(store) {
+            return store.contract_expiry_type === 'daily' && store.barrier_count;
+        }, type: 'float' }]],
+    barrier_2: [['req', { condition: function condition(store) {
+            return store.barrier_count;
+        }, message: 'The barrier is a required field.' }], ['barrier', { condition: function condition(store) {
+            return store.contract_expiry_type !== 'daily' && store.barrier_count;
+        } }], ['number', { condition: function condition(store) {
+            return store.contract_expiry_type === 'daily' && store.barrier_count;
+        }, type: 'float' }]],
     duration: [['req', { message: 'The duration is a required field.' }]]
 };
 
@@ -23625,14 +23665,13 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
         value: function onChange(e) {
             var _e$target = e.target,
                 name = _e$target.name,
-                value = _e$target.value,
-                type = _e$target.type;
+                value = _e$target.value;
 
             if (!(name in this)) {
                 throw new Error('Invalid Argument: ' + name);
             }
 
-            this.processNewValuesAsync(_defineProperty({}, name, type === 'number' ? +value : value), true);
+            this.processNewValuesAsync(_defineProperty({}, name, value), true);
         }
     }, {
         key: 'onHoverPurchase',
@@ -25210,7 +25249,7 @@ var validNumber = function validNumber(value, opts) {
         options.max = options.max();
     }
 
-    if (!(options.type === 'float' ? /^\d+(\.\d+)?$/ : /^\d+$/).test(value) || isNaN(value)) {
+    if (!(options.type === 'float' ? /^\d*(\.\d+)?$/ : /^\d+$/).test(value) || isNaN(value)) {
         is_ok = false;
         message = (0, _localize.localize)('Should be a valid number.');
     } else if (options.type === 'float' && options.decimals && !new RegExp('^\\d+(\\.\\d{0,' + options.decimals + '})?$').test(value)) {
@@ -25376,11 +25415,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Validator = function () {
     function Validator(input, rules) {
+        var store = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
         _classCallCheck(this, Validator);
 
         this.input = input;
         this.rules = rules;
+        this.store = store;
         this.errors = new _errors2.default();
+
         this.error_count = 0;
     }
 
@@ -25432,6 +25475,10 @@ var Validator = function () {
                         return;
                     }
 
+                    if (ruleObject.options.condition && !ruleObject.options.condition(_this.store)) {
+                        return;
+                    }
+
                     if (_this.input[attribute] === '' && ruleObject.name !== 'req') {
                         return;
                     }
@@ -25468,15 +25515,13 @@ var Validator = function () {
     }], [{
         key: 'getRuleObject',
         value: function getRuleObject(rule) {
-            var rule_object = {};
-            if (typeof rule === 'string') {
-                rule_object.name = rule;
-            } else {
-                rule_object.name = rule[0];
-            }
+            var is_rule_string = typeof rule === 'string';
+            var rule_object = {
+                name: is_rule_string ? rule : rule[0],
+                options: is_rule_string ? {} : rule[1] || {}
+            };
 
             rule_object.validator = rule_object.name === 'custom' ? rule[1].func : _declarative_validation_rules.pre_build_dvrs[rule_object.name].func;
-            rule_object.options = rule[1] || {};
 
             return rule_object;
         }

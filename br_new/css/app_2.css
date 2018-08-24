@@ -453,19 +453,67 @@ span.tooltip {
     margin: 48px 0 35px;
     height: calc(100vh - 48px - 35px);
     overflow-y: auto;
-    overflow-x: hidden; }
+    overflow-x: hidden;
+    -webkit-transition: -webkit-transform 0.25s ease;
+    transition: -webkit-transform 0.25s ease;
+    transition: transform 0.25s ease;
+    transition: transform 0.25s ease, -webkit-transform 0.25s ease;
+    will-change: transform; }
+    .app-contents > .container:not(.trade-container) {
+      -webkit-transition: -webkit-transform 0.25s ease;
+      transition: -webkit-transform 0.25s ease;
+      transition: transform 0.25s ease;
+      transition: transform 0.25s ease, -webkit-transform 0.25s ease; }
     .app-contents--show-portfolio-drawer {
-      margin-right: 228px; }
-      @media screen and (max-width: 1280px) {
-        .app-contents--show-portfolio-drawer .trade-container .chart-container {
-          grid-column: col-start 1 / span 9; }
-        .app-contents--show-portfolio-drawer .trade-container .sidebar-container, .app-contents--show-portfolio-drawer .trade-container .contract-wrapper {
-          grid-column: col-start 10 / span 3; } }
-      @media screen and (max-width: 980px) {
-        .app-contents--show-portfolio-drawer .trade-container .chart-container {
-          grid-column: col-start 1 / span 8; }
-        .app-contents--show-portfolio-drawer .trade-container .sidebar-container, .app-contents--show-portfolio-drawer .trade-container .contract-wrapper {
-          grid-column: col-start 9 / span 4; } }
+      -webkit-transform: translateX(-228px);
+              transform: translateX(-228px); }
+      .app-contents--show-portfolio-drawer .chart-container .ciq-chart .cq-top-ui-widgets, .app-contents--show-portfolio-drawer .chart-container .ciq-chart .cq-chart-controls {
+        -webkit-transform: translateX(228px);
+                transform: translateX(228px); }
+      .app-contents--show-portfolio-drawer .chart-container .ciq-chart .cq-top-ui-widgets .info-box {
+        -webkit-transform: translateX(-228px);
+                transform: translateX(-228px); }
+      .app-contents--show-portfolio-drawer .chart-container .cq-chart-controls {
+        will-change: max-width;
+        max-width: calc(100% - 228px);
+        -webkit-transform: translateX(228px);
+                transform: translateX(228px); }
+      .app-contents--show-portfolio-drawer .chart-container .cq-chart-control-left .cq-chart-controls {
+        -webkit-transform: translateX(228px) !important;
+                transform: translateX(228px) !important; }
+      .app-contents--show-portfolio-drawer .chart-container .cq-chart-control-left .info-box {
+        -webkit-transform: translateX(-228px) !important;
+                transform: translateX(-228px) !important; }
+      .app-contents--show-portfolio-drawer > .container:not(.trade-container) {
+        -webkit-transform: translateX(228px);
+                transform: translateX(228px);
+        padding-right: 228px; }
+        .app-contents--show-portfolio-drawer > .container:not(.trade-container).portfolio {
+          padding-right: calc(228px + 12px); }
+    .app-contents .chart-container .cq-chart-control-left .cq-chart-controls {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+      -webkit-transition: -webkit-transform 0.25s ease;
+      transition: -webkit-transform 0.25s ease;
+      transition: transform 0.25s ease;
+      transition: transform 0.25s ease, -webkit-transform 0.25s ease; }
+    .app-contents .chart-container .cq-chart-control-left .cq-top-ui-widgets {
+      left: 90px; }
+      .app-contents .chart-container .cq-chart-control-left .cq-top-ui-widgets .info-box {
+        -webkit-transform: translateX(0);
+                transform: translateX(0); }
+    .app-contents .chart-container .ciq-chart .cq-top-ui-widgets, .app-contents .chart-container .ciq-chart .info-box {
+      -webkit-transition: -webkit-transform 0.25s ease;
+      transition: -webkit-transform 0.25s ease;
+      transition: transform 0.25s ease;
+      transition: transform 0.25s ease, -webkit-transform 0.25s ease; }
+      .app-contents .chart-container .ciq-chart .cq-top-ui-widgets .cq-symbols-display, .app-contents .chart-container .ciq-chart .info-box .cq-symbols-display {
+        z-index: 1; }
+    .app-contents .chart-container .ciq-chart .cq-chart-controls {
+      -webkit-transition: max-width 0.25s ease, -webkit-transform 0.25s ease;
+      transition: max-width 0.25s ease, -webkit-transform 0.25s ease;
+      transition: max-width 0.25s ease, transform 0.25s ease;
+      transition: max-width 0.25s ease, transform 0.25s ease, -webkit-transform 0.25s ease; }
     @media screen and (max-width: 768px) {
       .app-contents {
         margin-bottom: 0;
@@ -1515,14 +1563,13 @@ hr {
   right: 0;
   -webkit-transform: translateX(100%);
           transform: translateX(100%);
-  -webkit-transition: -webkit-transform 0.25s;
-  transition: -webkit-transform 0.25s;
-  transition: transform 0.25s;
-  transition: transform 0.25s, -webkit-transform 0.25s;
+  -webkit-transition: opacity 0.4s linear;
+  transition: opacity 0.4s linear;
   border-left: 1px solid #e9e9ed;
   background-color: #fff;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  opacity: 0;
   color: #2a3052;
   /*
         PORTFOLIO DRAWER CARD STARTS
@@ -1532,7 +1579,8 @@ hr {
     */ }
   .portfolio-drawer--open {
     -webkit-transform: translateX(0);
-            transform: translateX(0); }
+            transform: translateX(0);
+    opacity: 1; }
   .portfolio-drawer__header {
     height: 40px;
     display: -webkit-box;
@@ -1737,9 +1785,7 @@ hr {
           touch-action: manipulation; }
     .input-field input.error {
       color: #f44336;
-      /* stylelint-disable-line color-no-hex */
-      border: 1px solid #f44336;
-      /* stylelint-disable-line color-no-hex */ }
+      border: 1px solid #f44336 !important; }
   .input-field label.input-label {
     font-size: 0.875rem;
     /* stylelint-disable-line number-max-precision */
@@ -4129,15 +4175,14 @@ a {
       .theme-wrapper.dark .contract-container .contract-contents .info-item > div:first-child {
         color: #aaacba; }
 
-.theme-wrapper.dark .info-box-container {
+.theme-wrapper.dark .info-box-container .info-box {
+  background: rgba(42, 48, 82, 0.6);
   border-color: #4a4f6c; }
-  .theme-wrapper.dark .info-box-container .info-box {
-    background: rgba(42, 48, 82, 0.6); }
-    .theme-wrapper.dark .info-box-container .info-box .general .sell {
-      border-left-color: #4a4f6c; }
-      .theme-wrapper.dark .info-box-container .info-box .general .sell .btn:disabled {
-        background: #4a4f6c;
-        color: #60647e !important; }
+  .theme-wrapper.dark .info-box-container .info-box .general .sell {
+    border-left-color: #4a4f6c; }
+    .theme-wrapper.dark .info-box-container .info-box .general .sell .btn:disabled {
+      background: #4a4f6c;
+      color: #60647e !important; }
 
 .portfolio {
   padding: 1.5rem 12px;
