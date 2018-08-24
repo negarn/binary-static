@@ -12489,7 +12489,7 @@ var MBProcess = function () {
 
     var getSymbols = function getSymbols() {
         var promises = [BinarySocket.wait('website_status')];
-        if (Client.isLoggedIn() && Client.get('residence')) {
+        if (Client.isLoggedIn()) {
             promises.push(BinarySocket.wait('landing_company'));
         }
         Promise.all(promises).then(function () {
@@ -22884,7 +22884,8 @@ var MBTradePage = function () {
     var onLoad = function onLoad() {
         State.set('is_mb_trading', true);
         BinarySocket.wait('authorize').then(init);
-        if (!Client.isLoggedIn()) {
+        if (!Client.isLoggedIn() || !Client.get('residence')) {
+            // if client is logged out or they don't have residence set
             BinarySocket.wait('website_status').then(function () {
                 BinarySocket.send({ landing_company: State.getResponse('website_status.clients_country') });
             });
@@ -22898,11 +22899,7 @@ var MBTradePage = function () {
         }
         showCurrency(Client.get('currency'));
 
-        var promises = [BinarySocket.wait('active_symbols')];
-        if (!Client.isLoggedIn() || Client.get('residence')) {
-            promises.push(BinarySocket.wait('landing_company'));
-        }
-        Promise.all(promises).then(function () {
+        BinarySocket.wait('landing_company', 'active_symbols').then(function () {
             if (events_initialized === 0) {
                 events_initialized = 1;
                 MBTradingEvents.init();
