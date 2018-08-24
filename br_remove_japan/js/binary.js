@@ -5877,7 +5877,7 @@ var TradingAnalysis = function () {
         if (State.get('is_mb_trading')) {
             showChart();
         }
-        if (current_tab === 'tab_porftolio') {
+        if (current_tab === 'tab_portfolio') {
             MBPortfolio.show();
         } else {
             MBPortfolio.hide();
