@@ -14637,7 +14637,7 @@ var MetaTraderConfig = function () {
                 var response_get_settings = State.getResponse('get_settings');
 
                 var showCitizenshipMessage = function showCitizenshipMessage() {
-                    $message.find('.citizen').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', ' + acc_type + ')');
+                    $message.find('.citizen').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', \'' + acc_type + '\')');
                 };
 
                 if (!accounts_info[acc_type].is_demo) {
@@ -14657,7 +14657,7 @@ var MetaTraderConfig = function () {
                                     is_ok = false;
                                 }
                                 if (!response_get_settings.tax_residence || !response_get_settings.tax_identification_number) {
-                                    $message.find('.tax').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', ' + acc_type + ')');
+                                    $message.find('.tax').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', \'' + acc_type + '\')');
                                     is_ok = false;
                                 }
                                 if (!response_get_settings.citizen) {
@@ -30919,8 +30919,9 @@ var MetaTraderUI = function () {
 
         var count = 0;
         Object.keys(accounts_info).filter(function (acc_type) {
-            return !accounts_info[acc_type].is_demo;
-        }).forEach(function (acc_type) {
+            return !accounts_info[acc_type].is_demo && accounts_info[acc_type].mt5_account_type !== 'mamm';
+        }) // toEnableMAM: remove second check
+        .forEach(function (acc_type) {
             count++;
             var $acc = $acc_template.clone();
             var type = acc_type.split('_').slice(1).join('_');
