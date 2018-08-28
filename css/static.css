@@ -810,12 +810,8 @@ div.kineticjs-content {
     margin-right: 5px; }
   .payment-methods__reference-pdf {
     background-image: url("../images/common/reference/pdf.svg"); }
-    .payment-methods__reference-pdf.payment-methods__reference--disabled {
-      background-image: url("../images/common/reference/pdf_disabled.svg"); }
   .payment-methods__reference-video {
     background-image: url("../images/common/reference/youtube.svg"); }
-    .payment-methods__reference-video.payment-methods__reference--disabled {
-      background-image: url("../images/common/reference/youtube_disabled.svg"); }
 
 .box-row {
   border-bottom: 1px solid #dedede; }
@@ -985,6 +981,12 @@ div.kineticjs-content {
 
 .regulation-content .background-gray {
   margin-top: -30px; }
+
+.regulation-content .margin-right-0 {
+  margin-right: 0 !important; }
+
+.regulation-content .margin-left-0 {
+  margin-left: 0 !important; }
 
 .tour-content#content {
   margin-bottom: 0; }
