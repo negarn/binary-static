@@ -30913,9 +30913,8 @@ var MetaTraderUI = function () {
 
         var count = 0;
         Object.keys(accounts_info).filter(function (acc_type) {
-            return !accounts_info[acc_type].is_demo && accounts_info[acc_type].mt5_account_type !== 'mamm';
-        }) // toEnableMAM: remove second check
-        .forEach(function (acc_type) {
+            return !accounts_info[acc_type].is_demo;
+        }).forEach(function (acc_type) {
             count++;
             var $acc = $acc_template.clone();
             var type = acc_type.split('_').slice(1).join('_');
