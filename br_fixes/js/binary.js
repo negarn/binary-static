@@ -14631,8 +14631,6 @@ var MetaTraderConfig = function () {
 
             if (!Client.get('currency')) {
                 resolve($messages.find('#msg_set_currency').html());
-            } else if (Client.get('is_virtual')) {
-                resolve(needsRealMessage());
             }
 
             BinarySocket.wait('get_settings').then(function () {
@@ -14642,7 +14640,12 @@ var MetaTraderConfig = function () {
                     $message.find('.citizen').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', \'' + acc_type + '\')');
                 };
 
-                if (accounts_info[acc_type].account_type === 'financial') {
+                var is_virtual = Client.get('is_virtual');
+                if (is_virtual && !accounts_info[acc_type].is_demo) {
+                    // virtual clients can only open demo MT accounts
+                    resolve(needsRealMessage());
+                } else if (accounts_info[acc_type].account_type === 'financial') {
+                    // financial accounts have their own checks
                     BinarySocket.wait('get_account_status', 'landing_company').then(function () {
                         var is_ok = true;
                         if (State.getResponse('landing_company.mt_financial_company.shortcode') === 'maltainvest' && !Client.hasAccountType('financial', 1)) {
@@ -14673,7 +14676,8 @@ var MetaTraderConfig = function () {
                             resolve($message.html());
                         }
                     });
-                } else if (!response_get_settings.citizen) {
+                } else if (!is_virtual && !response_get_settings.citizen) {
+                    // all accounts need to have citizenship set - if current client is virtual we don't have citizenship
                     showCitizenshipMessage();
                     $message.find(message_selector).setVisibility(1);
                     resolve($message.html());
