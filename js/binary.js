@@ -31053,6 +31053,8 @@ var toISOFormat = __webpack_require__(17).toISOFormat;
 var FinancialAccOpening = function () {
     var form_id = '#financial-form';
 
+    var get_settings = void 0;
+
     var onLoad = function onLoad() {
         if (Client.hasAccountType('financial') || !Client.get('residence')) {
             BinaryPjax.loadPreviousUrl();
@@ -31063,8 +31065,8 @@ var FinancialAccOpening = function () {
 
         if (AccountOpening.redirectAccount()) return;
 
-        var req_financial_assessment = BinarySocket.send({ get_financial_assessment: 1 }).then(function () {
-            var get_financial_assessment = State.getResponse('get_financial_assessment');
+        var req_financial_assessment = BinarySocket.send({ get_financial_assessment: 1 }).then(function (response) {
+            var get_financial_assessment = response.get_financial_assessment;
             if (!isEmptyObject(get_financial_assessment)) {
                 var keys = Object.keys(get_financial_assessment);
                 keys.forEach(function (key) {
@@ -31073,8 +31075,8 @@ var FinancialAccOpening = function () {
                 });
             }
         });
-        var req_settings = BinarySocket.wait('get_settings').then(function () {
-            var get_settings = State.getResponse('get_settings');
+        var req_settings = BinarySocket.wait('get_settings').then(function (response) {
+            get_settings = response.get_settings;
             var $element = void 0,
                 value = void 0;
             Object.keys(get_settings).forEach(function (key) {
@@ -31082,7 +31084,7 @@ var FinancialAccOpening = function () {
                 value = get_settings[key];
                 if (key === 'date_of_birth') {
                     var moment_val = moment.utc(value * 1000);
-                    value = moment_val.format('DD MMM, YYYY');
+                    get_settings[key] = moment_val.format('DD MMM, YYYY');
                     $element.attr({
                         'data-value': toISOFormat(moment_val),
                         'type': 'text'
@@ -31096,6 +31098,7 @@ var FinancialAccOpening = function () {
         Promise.all([req_settings, req_financial_assessment]).then(function () {
             AccountOpening.populateForm(form_id, getValidations, true);
 
+            $('#date_of_birth').val(get_settings.date_of_birth);
             FormManager.handleSubmit({
                 form_selector: form_id,
                 obj_request: { new_account_maltainvest: 1, accept_risk: 0 },
