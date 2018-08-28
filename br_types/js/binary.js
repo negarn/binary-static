@@ -31043,14 +31043,15 @@ module.exports = MetaTraderUI;
 var Client = __webpack_require__(3);
 var BinarySocket = __webpack_require__(5);
 var Scroll = __webpack_require__(87);
+var State = __webpack_require__(6).State;
 
 var TypesOfAccounts = function () {
     var onLoad = function onLoad() {
         Scroll.goToHashSection();
 
         if (Client.isLoggedIn()) {
-            BinarySocket.wait('landing_company').then(function (response) {
-                var should_show_maltainvest_content = response.landing_company.financial_company.shortcode === 'maltainvest'; // for VRTC, MLT, or MF
+            BinarySocket.wait('landing_company').then(function () {
+                var should_show_maltainvest_content = State.getResponse('landing_company.financial_company.shortcode') === 'maltainvest'; // for VRTC, MLT, or MF
                 $('.hide-maltainvest').setVisibility(!should_show_maltainvest_content);
                 $('.show-maltainvest').setVisibility(should_show_maltainvest_content);
                 showContent();
