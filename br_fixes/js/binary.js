@@ -14220,15 +14220,16 @@ var PersonalDetails = function () {
         } else {
             var is_financial = Client.isAccountOfType('financial');
             var is_gaming = Client.isAccountOfType('gaming');
-            var is_for_mt = localStorage.getItem('personal_details_redirect');
-            var is_for_mt_real = /real/.test(is_for_mt);
+            var mt_acct_type = localStorage.getItem('personal_details_redirect');
+            var is_for_mt_citizen = !!mt_acct_type; // all mt account opening requires citizen
+            var is_for_mt_tax = /real/.test(mt_acct_type) && mt_acct_type.split('_').length > 2; // demo and volatility mt accounts do not require tax info
 
             validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 6, max: 35, value: function value() {
                         return $('#phone').val().replace(/^\+/, '');
-                    } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#tax_residence', validations: is_financial || is_for_mt_real ? ['req'] : '' }, { selector: '#citizen', validations: is_financial || is_gaming || is_for_mt ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
+                    } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#tax_residence', validations: is_financial || is_for_mt_tax ? ['req'] : '' }, { selector: '#citizen', validations: is_financial || is_gaming || is_for_mt_citizen ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
 
             var tax_id_validation = { selector: '#tax_identification_number', validations: ['tax_id', ['length', { min: 0, max: 20 }]] };
-            if (is_financial || is_for_mt_real) {
+            if (is_financial || is_for_mt_tax) {
                 tax_id_validation.validations[1][1].min = 1;
                 tax_id_validation.validations.unshift('req');
             }
@@ -14636,7 +14637,7 @@ var MetaTraderConfig = function () {
                 var response_get_settings = State.getResponse('get_settings');
 
                 var showCitizenshipMessage = function showCitizenshipMessage() {
-                    $message.find('.citizen').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', \'' + urlFor('user/metatrader') + '#' + acc_type + '\')');
+                    $message.find('.citizen').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', ' + acc_type + ')');
                 };
 
                 if (!accounts_info[acc_type].is_demo) {
@@ -14656,7 +14657,7 @@ var MetaTraderConfig = function () {
                                     is_ok = false;
                                 }
                                 if (!response_get_settings.tax_residence || !response_get_settings.tax_identification_number) {
-                                    $message.find('.tax').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', \'' + urlFor('user/metatrader') + '#' + acc_type + '\')');
+                                    $message.find('.tax').setVisibility(1).find('a').attr('onclick', 'localStorage.setItem(\'personal_details_redirect\', ' + acc_type + ')');
                                     is_ok = false;
                                 }
                                 if (!response_get_settings.citizen) {
