@@ -31063,37 +31063,37 @@ var FinancialAccOpening = function () {
 
         if (AccountOpening.redirectAccount()) return;
 
-        var req_financial_assessment = BinarySocket.send({ get_financial_assessment: 1 });
-        var req_settings = BinarySocket.wait('get_settings');
-
-        Promise.all([req_financial_assessment, req_settings]).then(function () {
+        var req_financial_assessment = BinarySocket.send({ get_financial_assessment: 1 }).then(function () {
             var get_financial_assessment = State.getResponse('get_financial_assessment');
-            var get_settings = State.getResponse('get_settings');
             if (!isEmptyObject(get_financial_assessment)) {
                 var keys = Object.keys(get_financial_assessment);
                 keys.forEach(function (key) {
                     var val = get_financial_assessment[key];
                     $('#' + key).val(val);
                 });
-
-                var $element = void 0,
-                    value = void 0;
-                Object.keys(get_settings).forEach(function (key) {
-                    $element = $('#' + key);
-                    value = get_settings[key];
-                    if (key === 'date_of_birth') {
-                        var moment_val = moment.utc(value * 1000);
-                        value = moment_val.format('DD MMM, YYYY');
-                        $element.attr({
-                            'data-value': toISOFormat(moment_val),
-                            'type': 'text'
-                        });
-                        $('.input-disabled').attr('disabled', 'disabled');
-                    }
-                    if (value) $element.val(value);
-                });
             }
-        }).then(function () {
+        });
+        var req_settings = BinarySocket.wait('get_settings').then(function () {
+            var get_settings = State.getResponse('get_settings');
+            var $element = void 0,
+                value = void 0;
+            Object.keys(get_settings).forEach(function (key) {
+                $element = $('#' + key);
+                value = get_settings[key];
+                if (key === 'date_of_birth') {
+                    var moment_val = moment.utc(value * 1000);
+                    value = moment_val.format('DD MMM, YYYY');
+                    $element.attr({
+                        'data-value': toISOFormat(moment_val),
+                        'type': 'text'
+                    });
+                    $('.input-disabled').attr('disabled', 'disabled');
+                }
+                if (value) $element.val(value);
+            });
+        });
+
+        Promise.all([req_settings, req_financial_assessment]).then(function () {
             AccountOpening.populateForm(form_id, getValidations, true);
 
             FormManager.handleSubmit({
