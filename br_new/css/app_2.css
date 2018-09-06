@@ -1944,7 +1944,7 @@ a.btn {
         -ms-flex-align: center;
             align-items: center;
     line-height: 38px;
-    padding: 0 12px;
+    padding: 0 8px;
     color: #333;
     font-weight: 500; }
     .calendar .calendar-footer .calendar-footer-extra + .calendar-footer-btn {
