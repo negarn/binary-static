@@ -14781,6 +14781,8 @@ var now_date = void 0,
     min_date_duration = void 0,
     max_date_duration = void 0,
     min_date_expiry = void 0,
+    min_day = void 0,
+    max_day = void 0,
     start_date_time = void 0;
 
 var Duration = function Duration(_ref) {
@@ -14802,14 +14804,19 @@ var Duration = function Duration(_ref) {
         validation_errors = _ref.validation_errors;
 
     var moment_now = (0, _moment2.default)(server_time);
-    var min_day = (0, _duration.convertDurationUnit)(duration_min_max[contract_expiry_type].min, 's', 'd');
-    var max_day = (0, _duration.convertDurationUnit)(duration_min_max[contract_expiry_type].max, 's', 'd');
-    if (!now_date || moment_now.date() !== now_date.date()) {
+    var new_min_day = (0, _duration.convertDurationUnit)(duration_min_max[contract_expiry_type].min, 's', 'd');
+    var new_max_day = (0, _duration.convertDurationUnit)(duration_min_max[contract_expiry_type].max, 's', 'd');
+    if (!now_date || moment_now.date() !== now_date.date() || duration_unit === 'd' && (min_day !== new_min_day || max_day !== new_max_day)) {
+        if (duration_unit === 'd') {
+            min_day = new_min_day;
+            max_day = new_max_day;
+        }
+
         var moment_today = moment_now.clone().startOf('day');
 
         now_date = moment_now.clone();
-        min_date_duration = moment_today.clone().add(min_day, 'd');
-        max_date_duration = moment_today.clone().add(max_day, 'd');
+        min_date_duration = moment_today.clone().add(min_day || 1, 'd');
+        max_date_duration = moment_today.clone().add(max_day || 365, 'd');
         min_date_expiry = moment_today.clone();
     }
     var moment_expiry = _moment2.default.utc(expiry_date);
