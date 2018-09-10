@@ -22588,7 +22588,7 @@ var PaymentAgentWithdraw = function () {
         token = token || getHashValue('token');
         if (!token) {
             BinarySocket.send({ verify_email: Client.get('email'), type: 'paymentagent_withdraw' });
-            if (!+getAppId() !== 1) {
+            if (+getAppId() !== 1) {
                 // TODO: update app_id to handle desktop
                 handleVerifyCode(function (verification_code) {
                     token = verification_code;
