@@ -7271,6 +7271,8 @@ module.exports = TabSelector;
 var FormManager = __webpack_require__(17);
 
 var handleVerifyCode = function handleVerifyCode(onSubmit) {
+    var hide_wrapper = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
     var $wrapper = $('#verification_code_wrapper');
     $wrapper.setVisibility(1);
     var verify_form_id = '#frm_verify';
@@ -7279,7 +7281,7 @@ var handleVerifyCode = function handleVerifyCode(onSubmit) {
     FormManager.handleSubmit({
         form_selector: verify_form_id,
         fnc_response_handler: function fnc_response_handler() {
-            $wrapper.setVisibility(0);
+            $wrapper.setVisibility(!hide_wrapper);
             if (typeof onSubmit === 'function') {
                 onSubmit($(verification_code).val());
             }
@@ -29715,7 +29717,7 @@ var LostPassword = function () {
                 $(form_id).setVisibility(0);
                 handleVerifyCode(function () {
                     BinaryPjax.load(urlFor('user/reset_passwordws') + '#token=' + $('#txt_verification_code').val());
-                });
+                }, false);
             } else {
                 $(form_id).html($('<div/>', { class: 'notice-msg', text: localize('Please check your email for the password reset link.') }));
             }
