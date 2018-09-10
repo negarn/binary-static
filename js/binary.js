@@ -22181,27 +22181,34 @@ var DepositWithdraw = function () {
         }
     };
 
+    var sendWithdrawalEmail = function sendWithdrawalEmail(onResponse) {
+        if (isEmptyObject(response_withdrawal)) {
+            BinarySocket.send({
+                verify_email: Client.get('email'),
+                type: 'payment_withdraw'
+            }).then(function (response) {
+                response_withdrawal = response;
+                if (typeof onResponse === 'function') {
+                    onResponse();
+                }
+            });
+        } else if (typeof onResponse === 'function') {
+            onResponse();
+        }
+    };
+
     var checkToken = function checkToken() {
         token = Url.getHashValue('token');
         if (+getAppId() !== 1) {
             // TODO: update app_id to handle desktop
+            sendWithdrawalEmail();
             $loading.remove();
             handleVerifyCode(function () {
                 token = $('#txt_verification_code').val();
                 getCashierURL();
             });
         } else if (!token) {
-            if (isEmptyObject(response_withdrawal)) {
-                BinarySocket.send({
-                    verify_email: Client.get('email'),
-                    type: 'payment_withdraw'
-                }).then(function (response) {
-                    response_withdrawal = response;
-                    handleWithdrawalResponse();
-                });
-            } else {
-                handleWithdrawalResponse();
-            }
+            sendWithdrawalEmail(handleWithdrawalResponse);
         } else if (!validEmailToken(token)) {
             showError('token_error');
         } else {
@@ -22580,6 +22587,7 @@ var PaymentAgentWithdraw = function () {
     var checkToken = function checkToken($ddl_agents, pa_list) {
         token = token || getHashValue('token');
         if (!token) {
+            BinarySocket.send({ verify_email: Client.get('email'), type: 'paymentagent_withdraw' });
             if (!+getAppId() !== 1) {
                 // TODO: update app_id to handle desktop
                 handleVerifyCode(function (verification_code) {
@@ -22587,7 +22595,6 @@ var PaymentAgentWithdraw = function () {
                     checkToken($ddl_agents, pa_list);
                 });
             } else {
-                BinarySocket.send({ verify_email: Client.get('email'), type: 'paymentagent_withdraw' });
                 setActiveView(view_ids.notice);
             }
         } else if (!validEmailToken(token)) {
