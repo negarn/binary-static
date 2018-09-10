@@ -12099,7 +12099,6 @@ var checkClientsCountry = function checkClientsCountry() {
         var clients_country = website_status.clients_country;
         if (clients_country === 'id') {
             limitLanguage('ID');
-            $('.show-id').setVisibility(1);
         } else {
             createLanguageDropDown(website_status);
         }
