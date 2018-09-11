@@ -1627,12 +1627,17 @@ module.exports = Defaults;
  *
  */
 
+var binary_desktop_app_id = 14473;
+
 var getAppId = function getAppId() {
     var app_id = null;
     var user_app_id = ''; // you can insert Application ID of your registered application here
     var config_app_id = window.localStorage.getItem('config.app_id');
     if (config_app_id) {
         app_id = config_app_id;
+    } else if (/desktop-app/i.test(window.location.href)) {
+        window.localStorage.removeItem('config.default_app_id');
+        app_id = binary_desktop_app_id;
     } else if (/staging\.binary\.com/i.test(window.location.hostname)) {
         window.localStorage.removeItem('config.default_app_id');
         app_id = 1098;
@@ -1647,8 +1652,8 @@ var getAppId = function getAppId() {
 };
 
 var isBinaryApp = function isBinaryApp() {
-    return +getAppId() === 14473;
-}; // Binary desktop app id
+    return +getAppId() === binary_desktop_app_id;
+};
 
 var getSocketURL = function getSocketURL() {
     var server_url = window.localStorage.getItem('config.server_url');
@@ -3364,7 +3369,7 @@ var getAppId = __webpack_require__(24).getAppId;
 
 var GTM = function () {
     var isGtmApplicable = function isGtmApplicable() {
-        return (/^(1|1098)$/.test(getAppId())
+        return (/^(1|1098|14473)$/.test(getAppId())
         );
     };
 
