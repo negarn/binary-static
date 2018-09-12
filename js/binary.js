@@ -1045,8 +1045,8 @@ var BinaryPjax = function () {
         // }
 
         event.preventDefault();
-        // check if url is not same as current
-        if (location.href !== url) {
+        // check if url is not same as current or if url has `anchor` query
+        if (location.href !== url || Url.paramsHash().anchor) {
             processUrl(url);
         }
     };
@@ -1635,8 +1635,9 @@ var getAppId = function getAppId() {
     var config_app_id = window.localStorage.getItem('config.app_id');
     if (config_app_id) {
         app_id = config_app_id;
-    } else if (/desktop-app/i.test(window.location.href)) {
+    } else if (/desktop-app/i.test(window.location.href) || window.localStorage.getItem('config.is_desktop_app')) {
         window.localStorage.removeItem('config.default_app_id');
+        window.localStorage.setItem('config.is_desktop_app', 1);
         app_id = binary_desktop_app_id;
     } else if (/staging\.binary\.com/i.test(window.location.hostname)) {
         window.localStorage.removeItem('config.default_app_id');
