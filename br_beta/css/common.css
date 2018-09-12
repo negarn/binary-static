@@ -232,7 +232,11 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 /* form styles */
 label {
-  line-height: 25px; }
+  line-height: 25px;
+  pointer-events: none; }
+  label * {
+    pointer-events: auto;
+    cursor: pointer; }
 
 /* used for form label in grid structure */
 .form_label {
@@ -357,10 +361,13 @@ _:-ms-fullscreen, :root #content-holder {
   vertical-align: middle; }
 
 input[type=checkbox] {
-  margin-top: -5px;
-  margin-right: 5px; }
-  input[type=checkbox]#email_consent {
-    margin-top: 5px; }
+  margin: 5px 5px 5px 0;
+  padding: 7px;
+  cursor: pointer; }
+  input[type=checkbox] ~ label {
+    pointer-events: auto; }
+  input[type=checkbox]#email_consent, input[type=checkbox]#chk_accept {
+    margin-left: 5px; }
 
 .no-scroll, .no-scroll body {
   overflow: hidden; }
@@ -1136,6 +1143,10 @@ table {
 .table-container .w-80 {
   width: 80px; }
 
+@media (max-width: 767px) and (orientation: portrait) {
+  .table-container {
+    overflow-x: auto; } }
+
 @media (max-width: 600px) {
   .table-container td {
     padding-left: 5px !important;
@@ -1442,8 +1453,6 @@ body.ZH_TW .google-play-badge {
     overflow: scroll;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    overflow-x: auto; }
-  .table-container {
     overflow-x: auto; }
   .welcome-content .box-grid:first-child div {
     margin-bottom: 0.5rem; }

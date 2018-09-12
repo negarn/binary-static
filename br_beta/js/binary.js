@@ -1045,8 +1045,8 @@ var BinaryPjax = function () {
         // }
 
         event.preventDefault();
-        // check if url is not same as current
-        if (location.href !== url) {
+        // check if url is not same as current or if url has `anchor` query
+        if (location.href !== url || Url.paramsHash().anchor) {
             processUrl(url);
         }
     };
@@ -1627,12 +1627,18 @@ module.exports = Defaults;
  *
  */
 
+var binary_desktop_app_id = 14473;
+
 var getAppId = function getAppId() {
     var app_id = null;
     var user_app_id = ''; // you can insert Application ID of your registered application here
     var config_app_id = window.localStorage.getItem('config.app_id');
     if (config_app_id) {
         app_id = config_app_id;
+    } else if (/desktop-app/i.test(window.location.href) || window.localStorage.getItem('config.is_desktop_app')) {
+        window.localStorage.removeItem('config.default_app_id');
+        window.localStorage.setItem('config.is_desktop_app', 1);
+        app_id = binary_desktop_app_id;
     } else if (/staging\.binary\.com/i.test(window.location.hostname)) {
         window.localStorage.removeItem('config.default_app_id');
         app_id = 1098;
@@ -1644,6 +1650,10 @@ var getAppId = function getAppId() {
         app_id = 1;
     }
     return app_id;
+};
+
+var isBinaryApp = function isBinaryApp() {
+    return +getAppId() === binary_desktop_app_id;
 };
 
 var getSocketURL = function getSocketURL() {
@@ -1691,6 +1701,7 @@ var getSocketURL = function getSocketURL() {
 
 module.exports = {
     getAppId: getAppId,
+    isBinaryApp: isBinaryApp,
     getSocketURL: getSocketURL
 };
 
@@ -3359,7 +3370,7 @@ var getAppId = __webpack_require__(24).getAppId;
 
 var GTM = function () {
     var isGtmApplicable = function isGtmApplicable() {
-        return (/^(1|1098)$/.test(getAppId())
+        return (/^(1|1098|14473)$/.test(getAppId())
         );
     };
 
@@ -14423,7 +14434,7 @@ var GTM = __webpack_require__(58);
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
 var urlFor = __webpack_require__(8).urlFor;
-var getAppId = __webpack_require__(24).getAppId;
+var isBinaryApp = __webpack_require__(24).isBinaryApp;
 
 var MetaTraderConfig = function () {
     var mt_companies = {
@@ -14624,8 +14635,7 @@ var MetaTraderConfig = function () {
             },
             success_msg_selector: '#frm_verify_password_reset',
             onSuccess: function onSuccess(response, $form) {
-                if (+getAppId() !== 1) {
-                    // TODO: update app_id to handle desktop
+                if (isBinaryApp()) {
                     $form.find('#frm_verify_password_reset').setVisibility(0);
                     var action = 'verify_password_reset_token';
                     var reset_token = '#frm_' + action;
@@ -22149,7 +22159,7 @@ var toTitleCase = __webpack_require__(16).toTitleCase;
 var Url = __webpack_require__(8);
 var template = __webpack_require__(1).template;
 var isEmptyObject = __webpack_require__(1).isEmptyObject;
-var getAppId = __webpack_require__(24).getAppId;
+var isBinaryApp = __webpack_require__(24).isBinaryApp;
 
 var DepositWithdraw = function () {
     var default_iframe_height = 700;
@@ -22201,8 +22211,7 @@ var DepositWithdraw = function () {
 
     var checkToken = function checkToken() {
         token = Url.getHashValue('token');
-        if (+getAppId() !== 1) {
-            // TODO: update app_id to handle desktop
+        if (isBinaryApp()) {
             sendWithdrawalEmail();
             $loading.remove();
             handleVerifyCode(function () {
@@ -22551,7 +22560,7 @@ var validEmailToken = __webpack_require__(52).validEmailToken;
 var handleVerifyCode = __webpack_require__(96).handleVerifyCode;
 var localize = __webpack_require__(2).localize;
 var getHashValue = __webpack_require__(8).getHashValue;
-var getAppId = __webpack_require__(24).getAppId;
+var isBinaryApp = __webpack_require__(24).isBinaryApp;
 
 var PaymentAgentWithdraw = function () {
     var view_ids = {
@@ -22590,8 +22599,7 @@ var PaymentAgentWithdraw = function () {
         token = token || getHashValue('token');
         if (!token) {
             BinarySocket.send({ verify_email: Client.get('email'), type: 'paymentagent_withdraw' });
-            if (+getAppId() !== 1) {
-                // TODO: update app_id to handle desktop
+            if (isBinaryApp()) {
                 handleVerifyCode(function (verification_code) {
                     token = verification_code;
                     checkToken($ddl_agents, pa_list);
@@ -23207,7 +23215,7 @@ var getElementById = __webpack_require__(3).getElementById;
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
 var urlFor = __webpack_require__(8).urlFor;
-var getAppId = __webpack_require__(24).getAppId;
+var isBinaryApp = __webpack_require__(24).isBinaryApp;
 
 var NewAccount = function () {
     var clients_country = void 0,
@@ -23254,8 +23262,7 @@ var NewAccount = function () {
             showError('error', response.error.message);
         } else {
             $(form_id).setVisibility(0);
-            if (+getAppId() !== 1) {
-                // TODO: update app_id to handle desktop
+            if (isBinaryApp()) {
                 BinaryPjax.load(urlFor('new_account/virtualws'));
             } else {
                 $verify_email.setVisibility(1);
@@ -29703,7 +29710,7 @@ var FormManager = __webpack_require__(17);
 var handleVerifyCode = __webpack_require__(96).handleVerifyCode;
 var localize = __webpack_require__(2).localize;
 var urlFor = __webpack_require__(8).urlFor;
-var getAppId = __webpack_require__(24).getAppId;
+var isBinaryApp = __webpack_require__(24).isBinaryApp;
 
 var LostPassword = function () {
     var form_id = '#frm_lost_password';
@@ -29712,8 +29719,7 @@ var LostPassword = function () {
         if (response.verify_email) {
             $('#password_reset_description').setVisibility(0);
             $('#check_spam').setVisibility(1);
-            if (+getAppId() !== 1) {
-                // TODO: update app_id to handle desktop
+            if (isBinaryApp()) {
                 $(form_id).setVisibility(0);
                 handleVerifyCode(function () {
                     BinaryPjax.load(urlFor('user/reset_passwordws') + '#token=' + $('#txt_verification_code').val());
@@ -30608,14 +30614,13 @@ var State = __webpack_require__(6).State;
 var urlFor = __webpack_require__(8).urlFor;
 var getPropertyValue = __webpack_require__(1).getPropertyValue;
 var isEmptyObject = __webpack_require__(1).isEmptyObject;
-var getAppId = __webpack_require__(24).getAppId;
+var isBinaryApp = __webpack_require__(24).isBinaryApp;
 
 var VirtualAccOpening = function () {
     var form = '#virtual-form';
 
     var onLoad = function onLoad() {
-        if (+getAppId() !== 1) {
-            // TODO: update app_id to handle desktop
+        if (isBinaryApp()) {
             $(form).setVisibility(0);
             handleVerifyCode(init);
         } else {
@@ -31541,7 +31546,7 @@ var urlFor = __webpack_require__(8).urlFor;
 var BinaryPjax = __webpack_require__(15);
 var BinarySocket = __webpack_require__(4);
 var FormManager = __webpack_require__(17);
-var getAppId = __webpack_require__(24).getAppId;
+var isBinaryApp = __webpack_require__(24).isBinaryApp;
 
 var Home = function () {
     var clients_country = void 0;
@@ -31588,8 +31593,7 @@ var Home = function () {
         var error = response.error;
         if (error) {
             $('#signup_error').setVisibility(1).text(error.message);
-        } else if (+getAppId() !== 1) {
-            // TODO: update app_id to handle desktop
+        } else if (isBinaryApp()) {
             BinaryPjax.load(urlFor('new_account/virtualws'));
         } else {
             $('.signup-box div').replaceWith($('<p/>', { text: localize('Thank you for signing up! Please check your email to complete the registration process.'), class: 'gr-10 gr-centered center-text' }));
