@@ -223,6 +223,15 @@
   text-align: center;
   margin: 0 auto; }
 
+.get-started #step-2 {
+  background-image: url("../images/pages//get-started/mt5/how-to-trade-binary/step-2-bg.png");
+  height: 311px; }
+  .get-started #step-2 > div {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%); }
+
 .formula span {
   display: inline-block;
   padding: 10px 20px;
