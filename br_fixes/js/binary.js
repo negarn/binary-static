@@ -12199,22 +12199,17 @@ module.exports = {
 "use strict";
 
 
-var getElementById = __webpack_require__(3).getElementById;
 var State = __webpack_require__(6).State;
 var Client = __webpack_require__(5);
 var BinarySocket = __webpack_require__(4);
 var isEuCountry = __webpack_require__(124).isEuCountry;
 
-var hideEU = function hideEU(id_to_show) {
+var hideEU = function hideEU() {
     BinarySocket.wait('website_status', 'authorize').then(function () {
         var residence = Client.get('residence');
         if (!residence && State.get('is_eu') || residence && isEuCountry(residence)) {
             $('.eu-hide').setVisibility(0);
             $('.eu-hide-parent').parent().setVisibility(0);
-        }
-        if (id_to_show) {
-            getElementById('loading').setVisibility(0);
-            getElementById(id_to_show).setVisibility(1);
         }
     });
 };
@@ -22183,7 +22178,7 @@ var Cashier = function () {
         PaymentMethods: {
             onLoad: function onLoad() {
                 showContent();
-                hideEU('payment_methods_wrapper');
+                hideEU();
             }
         }
     };
@@ -31902,7 +31897,7 @@ module.exports = {
     },
     Tour: {
         onLoad: function onLoad() {
-            hideEU('tour');
+            hideEU();
         }
     }
 };
