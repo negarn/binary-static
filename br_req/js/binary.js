@@ -3102,6 +3102,7 @@ var Validation = function () {
                     }
                 });
                 if (has_required && $form.find('.indicates-required').length === 0) {
+
                     $btn_submit.parent().append($('<p/>', { class: 'hint' }).append($('<span/>', { class: 'required_field_asterisk no-margin indicates-required', text: '*' })).append($('<span/>', { text: ' ' + localize('Indicates required field') })));
                 }
             }
