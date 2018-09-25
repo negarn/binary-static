@@ -3056,9 +3056,6 @@ var Validation = function () {
             forms[form_selector] = { $form: $form };
             if (Array.isArray(fields) && fields.length) {
                 forms[form_selector].fields = fields;
-                var $btn_submit = $form.find('button[type="submit"]');
-
-                var has_required = false;
                 fields.forEach(function (field) {
                     field.$ = $form.find(field.selector);
                     if (!field.$.length || !field.validations) return;
@@ -3078,7 +3075,6 @@ var Validation = function () {
                             if (!$label.length) $label = $parent.find('label');
                             if ($label.length && $label.find('span.required_field_asterisk').length === 0) {
                                 $($label[0]).append($('<span/>', { class: 'required_field_asterisk', text: '*' }));
-                                has_required = true;
                             }
                         }
                         if ($parent.find('p.' + error_class).length === 0) {
@@ -3101,9 +3097,6 @@ var Validation = function () {
                         });
                     }
                 });
-                if (has_required && $form.find('.indicates-required').length === 0) {
-                    $btn_submit.parent().append($('<p/>', { class: 'hint' }).append($('<span/>', { class: 'required_field_asterisk no-margin indicates-required', text: '*' })).append($('<span/>', { text: ' ' + localize('Indicates required field') })));
-                }
             }
         }
 
@@ -22164,22 +22157,16 @@ var Cashier = function () {
                     displayTopUpButton();
                 }
                 var residence = Client.get('residence');
-                var currency = Client.get('currency');
                 if (residence) {
                     BinarySocket.send({ paymentagent_list: residence }).then(function (response) {
                         var list = getPropertyValue(response, ['paymentagent_list', 'list']);
                         if (list && list.length) {
-                            var regex_currency = new RegExp(currency);
-                            if (!/^(UST|DAI)$/.test(currency) || list.find(function (pa) {
-                                return regex_currency.test(pa.currencies);
-                            })) {
-                                $('#payment-agent-section').setVisibility(1);
-                            }
+                            $('#payment-agent-section').setVisibility(1);
                         }
                     });
                 }
-                $(isCryptocurrency(currency) ? '.crypto_currency' : '.normal_currency').setVisibility(1);
-                if (/^BCH/.test(currency)) {
+                $(isCryptocurrency(Client.get('currency')) ? '.crypto_currency' : '.normal_currency').setVisibility(1);
+                if (/^BCH/.test(Client.get('currency'))) {
                     getElementById('message_bitcoin_cash').setVisibility(1);
                 }
             });
