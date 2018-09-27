@@ -14165,7 +14165,8 @@ var PersonalDetails = function () {
                     return;
                 }
                 var get_settings = data.get_settings;
-                var has_required_mt = get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen;
+                var has_required_mt = /real_vanuatu_(standard|advanced)/.test(redirect_url) ? get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen : get_settings.citizen // only check Citizen if user selects mt volatility account
+                ;
                 if (redirect_url && has_required_mt) {
                     localStorage.removeItem('personal_details_redirect');
                     $.scrollTo($('h1#heading'), 500, { offset: -10 });
@@ -27103,16 +27104,22 @@ var PaymentAgentTransfer = function () {
     var onLoad = function onLoad() {
         PaymentAgentTransferUI.initValues();
         BinarySocket.wait('get_settings', 'balance').then(function () {
+            var currency = Client.get('currency');
+            if (!currency || +Client.get('balance') === 0) {
+                $('#pa_transfer_loading').remove();
+                $('#no_balance_error').setVisibility(1);
+                return;
+            }
             is_authenticated_payment_agent = State.getResponse('get_settings.is_authenticated_payment_agent');
             if (is_authenticated_payment_agent) {
                 BinarySocket.send({
                     paymentagent_list: Client.get('residence'),
-                    currency: Client.get('currency')
+                    currency: currency
                 }).then(function (response) {
                     var pa_values = response.paymentagent_list.list.filter(function (a) {
                         return a.paymentagent_loginid === Client.get('loginid');
                     })[0];
-                    init(pa_values);
+                    init(pa_values, currency);
                 });
             } else {
                 setFormVisibility(false);
@@ -27120,20 +27127,10 @@ var PaymentAgentTransfer = function () {
         });
     };
 
-    var init = function init(pa) {
+    var init = function init(pa, currency) {
         var form_id = '#frm_paymentagent_transfer';
-        var $no_bal_err = $('#no_balance_error');
-        var currency = Client.get('currency');
-
         $form_error = $('#form_error');
 
-        if (!currency || +Client.get('balance') === 0) {
-            $('#pa_transfer_loading').remove();
-            $no_bal_err.setVisibility(1);
-            return;
-        }
-
-        $no_bal_err.setVisibility(0);
         setFormVisibility(true);
         PaymentAgentTransferUI.updateFormView(currency);
 
