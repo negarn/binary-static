@@ -22523,6 +22523,8 @@ module.exports = DepositWithdraw;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var BinaryPjax = __webpack_require__(15);
 var Client = __webpack_require__(5);
 var BinarySocket = __webpack_require__(4);
@@ -22554,10 +22556,10 @@ var PaymentAgentList = function () {
     };
 
     var sendRequest = function sendRequest(country) {
-        BinarySocket.send({
-            paymentagent_list: country,
-            currency: Client.get('currency')
-        }).then(function (response) {
+        var currency = Client.get('currency');
+        BinarySocket.send(_extends({
+            paymentagent_list: country
+        }, currency && { currency: currency })).then(function (response) {
             if (response.paymentagent_list) {
                 populateAgentsList(response.paymentagent_list.list);
             }
