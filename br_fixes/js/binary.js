@@ -22625,7 +22625,7 @@ var FormManager = __webpack_require__(17);
 var validEmailToken = __webpack_require__(52).validEmailToken;
 var handleVerifyCode = __webpack_require__(96).handleVerifyCode;
 var localize = __webpack_require__(2).localize;
-var getHashValue = __webpack_require__(8).getHashValue;
+var Url = __webpack_require__(8);
 var isBinaryApp = __webpack_require__(24).isBinaryApp;
 
 var PaymentAgentWithdraw = function () {
@@ -22662,7 +22662,7 @@ var PaymentAgentWithdraw = function () {
     };
 
     var checkToken = function checkToken($ddl_agents, pa_list) {
-        token = token || getHashValue('token');
+        token = token || Url.getHashValue('token');
         if (!token) {
             BinarySocket.send({ verify_email: Client.get('email'), type: 'paymentagent_withdraw' });
             if (isBinaryApp()) {
@@ -22780,6 +22780,10 @@ var PaymentAgentWithdraw = function () {
                 showPageError('', 'withdrawal-locked-error');
             } else {
                 currency = Client.get('currency');
+                if (!currency || +Client.get('balance') === 0) {
+                    showPageError(localize('Please [_1]deposit[_2] to your account.', ['<a href=\'' + (Url.urlFor('cashier/forwardws') + '?action=deposit') + '\'>', '</a>']));
+                    return;
+                }
                 BinarySocket.send({
                     paymentagent_list: Client.get('residence'),
                     currency: currency
