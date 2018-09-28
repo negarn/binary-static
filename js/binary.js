@@ -14328,23 +14328,21 @@ module.exports = PersonalDetails;
 var BinaryPjax = __webpack_require__(15);
 var Client = __webpack_require__(5);
 var BinarySocket = __webpack_require__(4);
-var localize = __webpack_require__(2).localize;
+var FormManager = __webpack_require__(17);
 var State = __webpack_require__(6).State;
 
 var professionalClient = function () {
     var is_in_page = false;
 
     var onLoad = function onLoad() {
-        BinarySocket.wait('get_account_status', 'landing_company').then(function () {
+        BinarySocket.wait('get_settings', 'get_account_status', 'landing_company').then(function () {
             init(Client.isAccountOfType('financial'), true);
         });
     };
 
     var init = function init(is_financial, is_page) {
         is_in_page = !!is_page;
-        BinarySocket.wait('landing_company').then(function () {
-            populateProfessionalClient(is_financial);
-        });
+        populateProfessionalClient(is_financial);
     };
 
     var populateProfessionalClient = function populateProfessionalClient(is_financial) {
@@ -14400,24 +14398,13 @@ var professionalClient = function () {
 
         if (is_in_page) {
             $('#loading').remove();
-            $('#frm_professional').off('submit').on('submit', function (e) {
-                e.preventDefault();
-                if ($chk_professional.is(':checked')) {
-                    BinarySocket.wait('get_settings').then(function (res) {
-                        BinarySocket.send(populateReq(res.get_settings)).then(function (response) {
-                            if (response.error) {
-                                $error.text(response.error.message).setVisibility(1);
-                            } else {
-                                BinarySocket.send({ get_account_status: 1 }).then(function () {
-                                    populateProfessionalClient(true);
-                                });
-                            }
-                        });
-                    });
-                } else {
-                    $error.text(localize('This field is required.')).setVisibility(1);
-                }
-            }).setVisibility(1);
+            $('#frm_professional').setVisibility(1);
+            FormManager.init('#frm_professional', [{ selector: '#chk_professional', exclude_request: 1, validations: [['req', { hide_asterisk: true }]] }]);
+            FormManager.handleSubmit({
+                form_selector: '#frm_professional',
+                obj_request: populateReq(State.getResponse('get_settings')),
+                fnc_response_handler: handleResponse
+            });
         }
 
         $(document).on('keydown click', function (e) {
@@ -14443,6 +14430,16 @@ var professionalClient = function () {
         }
 
         return req;
+    };
+
+    var handleResponse = function handleResponse(response) {
+        if (response.error) {
+            $('#form_message').text(response.error.message).setVisibility(1);
+        } else {
+            BinarySocket.send({ get_account_status: 1 }).then(function () {
+                populateProfessionalClient(true);
+            });
+        }
     };
 
     return {
