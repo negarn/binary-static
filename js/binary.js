@@ -21339,7 +21339,12 @@ var BinarySocketGeneral = function () {
                         BinarySocket.send({ get_account_status: 1 });
                         BinarySocket.send({ payout_currencies: 1 });
                         BinarySocket.send({ mt5_login_list: 1 });
-                        setResidence(response.authorize.country || Client.get('residence'));
+                        var clients_country = response.authorize.country || Client.get('residence');
+                        setResidence(clients_country);
+                        // for logged in clients send landing company with IP address as residence
+                        if (!clients_country) {
+                            BinarySocket.send({ landing_company: State.getResponse('website_status.clients_country') });
+                        }
                         if (!Client.get('is_virtual')) {
                             BinarySocket.send({ get_self_exclusion: 1 });
                         }
