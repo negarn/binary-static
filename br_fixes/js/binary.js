@@ -2004,6 +2004,8 @@ var Header = function () {
                 }) < 0 ? Boolean(false) : Boolean(true);
             };
 
+            var has_no_tnc_limit = Client.get('landing_company_shortcode') === 'costarica';
+
             var messages = {
                 authenticate: function authenticate() {
                     return buildMessage('[_1]Authenticate your account[_2] now to take full advantage of all payment methods available.', 'user/authenticate');
@@ -2045,7 +2047,7 @@ var Header = function () {
                     return buildMessage('Please [_1]complete your account profile[_2] to lift your withdrawal and trading limits.', 'user/settings/detailsws');
                 },
                 tnc: function tnc() {
-                    return buildMessage('Please [_1]accept the updated Terms and Conditions[_2] to lift your deposit and trading limits.', 'user/tnc_approvalws');
+                    return buildMessage('Please [_1]accept the updated Terms and Conditions[_2]' + (has_no_tnc_limit ? '' : ' to lift your deposit and trading limits') + '.', 'user/tnc_approvalws');
                 },
                 unwelcome: function unwelcome() {
                     return buildMessage('Trading and deposits have been disabled on your account. Kindly [_1]contact customer support[_2] for assistance.', 'contact');
