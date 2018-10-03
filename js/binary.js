@@ -10355,6 +10355,8 @@ module.exports = Durations;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var moment = __webpack_require__(9);
 var requireHighstock = __webpack_require__(31).requireHighstock;
 var Reset = __webpack_require__(79);
@@ -10440,7 +10442,7 @@ var TickDisplay = function () {
                         plot();
                     } },
                 margin_top: show_contract_result ? 30 : null,
-                has_animation: true,
+                has_animation: show_contract_result,
                 height: show_contract_result ? 163 : null,
                 radius: 4,
                 title: show_contract_result ? '' : display_symbol,
@@ -10453,7 +10455,7 @@ var TickDisplay = function () {
                 },
                 type: 'line',
                 width: data.width ? data.width : show_contract_result ? 394 : null,
-                x_axis: { labels: { enabled: false }, max: number_of_ticks + 1, min: 0, type: 'linear' }
+                x_axis: _extends({ labels: { enabled: false } }, show_contract_result ? { max: number_of_ticks + 1, min: 0, type: 'linear' } : {})
             }, options);
         });
     };
