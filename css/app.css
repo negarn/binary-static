@@ -1365,8 +1365,7 @@ a.previous-wrapper {
         #trading_socket_container #contract_prices_container .price_container .contract_purchase.button-disabled .purchase_button {
           cursor: auto; }
     #trading_socket_container #contract_prices_container #contract_purchase_reference {
-      margin-bottom: 10px;
-      padding: 7px; }
+      padding-top: 7px; }
     #trading_socket_container #contract_prices_container #confirmation_error {
       padding: 20px;
       font-style: italic;
