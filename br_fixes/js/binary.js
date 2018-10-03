@@ -6606,8 +6606,8 @@ var ViewPopup = function () {
 
         if (current_spot_time) {
             if (window.time && current_spot_time > window.time.unix()) {
-                var epoch = +current_spot_time * (current_spot_time.toString().length === 10 ? 1000 : 1);
-                window.time = moment(epoch).utc();
+                // epoch needs to be 13 digits before turning to moment
+                window.time = moment(+current_spot_time * 1000).utc();
                 updateTimers();
             }
             containerSetText('trade_details_current_date', epochToDateTime(current_spot_time));
@@ -6692,8 +6692,7 @@ var ViewPopup = function () {
 
     // This is called by clock.js in order to sync time updates on header as well as view popup
     var updateTimers = function updateTimers() {
-        var time = window.time ? window.time.clone() : 0;
-        var now = Math.max(Math.floor(time / 1000), contract.current_spot_time || 0);
+        var now = Math.max(Math.floor((window.time || 0) / 1000), contract.current_spot_time || 0);
         containerSetText('trade_details_live_date', epochToDateTime(now));
         Clock.showLocalTimeOnHover('#trade_details_live_date');
 
@@ -10101,7 +10100,7 @@ var Durations = function () {
         var date_start_val = CommonFunctions.getElementById('date_start').value;
         // if 'now' is selected, take first option's value
         if (!date_start_val || isNaN(+date_start_val)) {
-            date_start_val = window.time.clone();
+            date_start_val = window.time;
         } else {
             date_start_val = moment.unix(date_start_val).utc();
         }
@@ -12795,7 +12794,7 @@ var MBProcess = function () {
     };
 
     var checkMarketStatus = function checkMarketStatus(close) {
-        var now = window.time.clone().unix();
+        var now = window.time.unix();
 
         // if market is closed, else if market is open
         if (now > close) {
@@ -24460,7 +24459,7 @@ var Highchart = function () {
             request.granularity = granularity;
         }
 
-        var now_unix = +(window.time.clone().valueOf() / 1000).toFixed(0);
+        var now_unix = +(window.time.valueOf() / 1000).toFixed(0);
         if (!contract.is_settleable && !exit_tick_time && now_unix < end_time && !is_chart_subscribed) {
             request.subscribe = 1;
         }
@@ -24494,7 +24493,7 @@ var Highchart = function () {
     };
 
     var sendTickRequest = function sendTickRequest() {
-        if (!entry_tick_time && !is_chart_delayed && start_time && window.time.clone().unix() >= parseInt(start_time)) {
+        if (!entry_tick_time && !is_chart_delayed && start_time && window.time.unix() >= parseInt(start_time)) {
             HighchartUI.showError('', localize('Waiting for entry tick.'));
         } else if (!is_history_send) {
             is_history_send = true;
@@ -29408,7 +29407,7 @@ var StatementUI = function () {
     };
 
     var exportCSV = function exportCSV() {
-        downloadCSV(Statement.generateCSV(all_data), 'Statement_' + Client.get('loginid') + '_latest' + $('#rows_count').text() + '_' + window.time.clone().replace(/\s/g, '_').replace(/:/g, '') + '.csv');
+        downloadCSV(Statement.generateCSV(all_data), 'Statement_' + Client.get('loginid') + '_latest' + $('#rows_count').text() + '_' + window.time.replace(/\s/g, '_').replace(/:/g, '') + '.csv');
     };
 
     return {
