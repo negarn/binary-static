@@ -12258,7 +12258,7 @@ var ChartSettings = function () {
     };
 
     var setChartOptions = function setChartOptions(params) {
-        chart_options = _extends({
+        chart_options = {
             chart: _extends({
                 animation: params.has_animation || false,
                 backgroundColor: null, /* make background transparent */
@@ -12320,8 +12320,8 @@ var ChartSettings = function () {
             title: {
                 style: { fontSize: '16px' },
                 text: params.title
-            }
-        }, params.tooltip || {}, {
+            },
+            tooltip: _extends({}, params.tooltip || {}),
             xAxis: _extends({}, params.x_axis || {}),
             yAxis: {
                 labels: {
@@ -12337,7 +12337,7 @@ var ChartSettings = function () {
                 opposite: false,
                 title: ''
             }
-        });
+        };
         if (params.has_zone && params.user_sold) {
             chart_options.series[0].zones.pop();
         }
