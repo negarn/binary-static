@@ -24400,7 +24400,7 @@ var Highchart = function () {
             data: data,
             type: type,
             display_decimals: (history ? history.prices[0] : candles[0].open).split('.')[1].length || 3,
-            entry_time: entry_tick_time ? entry_tick_time * 1000 : start_time * 1000,
+            entry_time: (entry_tick_time || start_time) * 1000,
             exit_time: exit_time ? exit_time * 1000 : null,
             has_zone: true,
             height: Math.max(el.parentElement.offsetHeight, 450),
