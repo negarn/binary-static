@@ -414,7 +414,7 @@ module.exports = BinarySocketBase;
 
 
 var BinarySocket = __webpack_require__(4);
-var RealityCheckData = __webpack_require__(135);
+var RealityCheckData = __webpack_require__(134);
 var ClientBase = __webpack_require__(86);
 var SocketCache = __webpack_require__(74);
 var getElementById = __webpack_require__(3).getElementById;
@@ -1721,7 +1721,7 @@ var Client = __webpack_require__(5);
 var BinarySocket = __webpack_require__(4);
 var showHidePulser = __webpack_require__(121).showHidePulser;
 var checkClientsCountry = __webpack_require__(77).checkClientsCountry;
-var MetaTrader = __webpack_require__(134);
+var MetaTrader = __webpack_require__(133);
 var GTM = __webpack_require__(58);
 var Login = __webpack_require__(46);
 var SocketCache = __webpack_require__(74);
@@ -4443,7 +4443,7 @@ var Client = __webpack_require__(5);
 var BinarySocket = __webpack_require__(4);
 var isLoginPages = __webpack_require__(46).isLoginPages;
 var getElementById = __webpack_require__(3).getElementById;
-var Crowdin = __webpack_require__(163);
+var Crowdin = __webpack_require__(162);
 var Language = __webpack_require__(21);
 var State = __webpack_require__(6).State;
 
@@ -6608,12 +6608,12 @@ module.exports = WebtraderChart;
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 var moment = __webpack_require__(9);
-var ViewPopupUI = __webpack_require__(136);
+var ViewPopupUI = __webpack_require__(135);
 var Highchart = __webpack_require__(284);
 var Callputspread = __webpack_require__(99);
 var Lookback = __webpack_require__(61);
 var Reset = __webpack_require__(79);
-var TickDisplay = __webpack_require__(131);
+var TickDisplay = __webpack_require__(130);
 var Clock = __webpack_require__(47);
 var BinarySocket = __webpack_require__(4);
 var getElementById = __webpack_require__(3).getElementById;
@@ -7745,16 +7745,16 @@ module.exports = Callputspread;
 "use strict";
 
 
-var Barriers = __webpack_require__(129);
+var Barriers = __webpack_require__(128);
 var updateWarmChart = __webpack_require__(31).updateWarmChart;
 var DigitInfo = __webpack_require__(283);
 var Defaults = __webpack_require__(23);
 var getActiveTab = __webpack_require__(177).getActiveTab;
 var Purchase = __webpack_require__(180);
 var Tick = __webpack_require__(62);
-var TickDisplay = __webpack_require__(131);
+var TickDisplay = __webpack_require__(130);
 var MBDefaults = __webpack_require__(48);
-var MBTick = __webpack_require__(128);
+var MBTick = __webpack_require__(127);
 var BinarySocket = __webpack_require__(4);
 var State = __webpack_require__(6).State;
 
@@ -8420,7 +8420,7 @@ module.exports = {
 
 var SelectMatcher = __webpack_require__(26).select2Matcher;
 var Cookies = __webpack_require__(56);
-var generateBirthDate = __webpack_require__(169);
+var generateBirthDate = __webpack_require__(168);
 var FormManager = __webpack_require__(17);
 var BinaryPjax = __webpack_require__(15);
 var Client = __webpack_require__(5);
@@ -8428,7 +8428,7 @@ var BinarySocket = __webpack_require__(4);
 var professionalClient = __webpack_require__(183);
 var getElementById = __webpack_require__(3).getElementById;
 var makeOption = __webpack_require__(3).makeOption;
-var Geocoder = __webpack_require__(164);
+var Geocoder = __webpack_require__(163);
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
 var urlFor = __webpack_require__(8).urlFor;
@@ -8966,158 +8966,6 @@ module.exports = showPopup;
 "use strict";
 
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var addComma = __webpack_require__(7).addComma;
-var isCallputspread = __webpack_require__(99).isCallputspread;
-var isReset = __webpack_require__(79).isReset;
-var localize = __webpack_require__(2).localize;
-
-var ChartSettings = function () {
-    var chart_options = void 0,
-        labels = void 0,
-        txt_subtitle = void 0;
-
-    var common_horizontal_line_style = 'margin-bottom: 3px; margin-left: 10px; height: 0; width: 20px; border: 0; border-bottom: 2px; display: inline-block;';
-    var common_vertical_line_style = 'margin-bottom: -3px; margin-left: 10px; height: 15px; width: 5px; border: 0; border-left: 2px; display: inline-block;';
-    var common_spot_style = 'margin-left: 10px; display: inline-block; border-radius: 6px;';
-
-    // display a guide for clients to know what each line/spot in chart means
-    var setLabels = function setLabels(params) {
-        labels = labels || { // needs to be inside setLabels function so localize works
-            barrier_line: '<span style="' + common_horizontal_line_style + ' border-color: green; border-style: solid;"></span> ' + localize('Barrier') + ' ',
-            barrier_spot: '<span style="' + common_horizontal_line_style + ' border-color: green; border-style: dotted;"></span> ' + localize('Barrier') + ' ',
-            end_time: '<span style="' + common_vertical_line_style + ' border-color: #e98024; border-style: dashed;"></span> ' + localize('End Time') + ' ',
-            entry_spot: '<span style="' + common_spot_style + ' border: 3px solid orange; width: 4px; height: 4px;"></span> ' + localize('Entry Spot') + ' ',
-            exit_spot: '<span style="' + common_spot_style + ' background-color: orange; width:10px; height: 10px;"></span> ' + localize('Exit Spot') + ' ',
-            delay: '<span class="chart-delay"> ' + localize('Charting for this underlying is delayed') + ' </span>',
-            highest_tick: '<span style="' + common_horizontal_line_style + ' border-color: #e98024; border-style: dashed;"></span> ' + localize('Highest Tick') + ' ',
-            lowest_tick: '<span style="' + common_horizontal_line_style + ' border-color: #e98024; border-style: dashed;"></span> ' + localize('Lowest Tick') + ' ',
-            payout_range: '<span class="chart-payout-range"> ' + localize('Payout Range') + ' </span>',
-            purchase_time: '<span style="' + common_vertical_line_style + ' border-color: #7cb5ec; border-style: solid;"></span> ' + localize('Purchase Time') + ' ',
-            reset_time: '<span style="' + common_vertical_line_style + ' border-color: #e98024; border-color: #000; border-style: solid;"></span> ' + localize('Reset Time') + ' ',
-            start_end_time: '<span style="' + common_vertical_line_style + ' border-color: #e98024; border-style: solid;"></span> ' + localize('Start/End Time') + ' ',
-            selected_tick: '<span style="margin-left: 10px; display: inline-block; border-radius: 6px; background-color: orange; width:10px; height: 10px;"></span> ' + localize('Selected Tick'),
-            start_time: '<span style="' + common_vertical_line_style + ' border-color: #e98024; border-style: solid;"></span> ' + localize('Start Time') + ' '
-        };
-
-        var is_high_low_ticks = params.contract_type === 'highlowticks';
-        var barrier = params.is_tick_trade ? labels.barrier_line : labels.barrier_spot;
-        var start_time = is_high_low_ticks ? labels.start_end_time : labels.start_time;
-        var highest_lowest = /^tickhigh_/i.test(params.shortcode) ? labels.highest_tick : labels.lowest_tick;
-        txt_subtitle = (params.is_chart_delayed ? labels.delay : '') + (params.is_forward_starting ? labels.purchase_time : '') + (params.is_sold_before_start ? '' : start_time) + (history ? params.is_sold_before_start || params.is_tick_trade ? '' : labels.entry_spot : '') + (params.has_barrier && !params.is_sold_before_start ? barrier : '') + (history ? params.is_user_sold || params.is_tick_trade ? '' : labels.exit_spot : '') + (isReset(params.contract_type) ? labels.reset_time : '') + (is_high_low_ticks ? labels.selected_tick : '') + (is_high_low_ticks ? '' : labels.end_time) + (is_high_low_ticks ? highest_lowest : '') + (isCallputspread(params.contract_type) ? labels.payout_range : '');
-    };
-
-    var setChartOptions = function setChartOptions(params) {
-        chart_options = {
-            chart: _extends({
-                animation: params.has_animation || false,
-                backgroundColor: null, /* make background transparent */
-                borderWidth: 0,
-                events: _extends({}, params.events || {}),
-                height: params.height,
-                marginLeft: 70,
-                marginRight: params.margin_right || 30,
-                marginTop: params.margin_top || 70,
-                renderTo: params.el
-            }, params.width && { type: params.width }),
-            credits: { enabled: false },
-            exporting: { enabled: false },
-            legend: { enabled: false },
-            plotOptions: {
-                candlestick: {
-                    color: 'red',
-                    lineColor: 'black',
-                    shadow: true,
-                    upColor: 'green',
-                    upLineColor: 'black'
-                },
-                line: {
-                    marker: {
-                        enabled: true,
-                        radius: params.radius
-                    }
-                }
-            },
-            rangeSelector: { enabled: false },
-            series: [_extends({
-                connectNulls: true,
-                cropThreshold: Infinity,
-                data: params.data,
-                name: params.title,
-                softThreshold: false,
-                turboThreshold: Infinity,
-                type: params.type
-            }, params.has_zone && {
-                zoneAxis: 'x',
-                // zones are used to display color of the line
-                zones: [{
-                    // make the line grey until it reaches entry time or start time if entry spot time is not yet known
-                    value: params.entry_time,
-                    color: '#ccc'
-                }, {
-                    // make the line default color until exit time is reached
-                    value: params.exit_time,
-                    color: ''
-                }, {
-                    // make the line grey again after trade ended
-                    color: '#ccc'
-                }]
-            })],
-            subtitle: _extends({}, params.user_sold && { style: { left: '180px' } }, {
-                text: ChartSettings.getSubtitle(),
-                useHTML: true
-            }),
-            title: {
-                style: { fontSize: '16px' },
-                text: params.title
-            },
-            tooltip: {
-                valueDecimals: params.display_decimals,
-                xDateFormat: '%A, %b %e, %H:%M:%S GMT'
-            },
-            xAxis: _extends({}, params.x_axis || {}),
-            yAxis: {
-                labels: {
-                    align: 'left',
-                    formatter: function formatter() {
-                        return addComma(this.value.toFixed(params.display_decimals));
-                    },
-
-                    x: -60
-                },
-                maxPadding: 0.05,
-                minPadding: 0.05,
-                opposite: false,
-                title: ''
-            }
-        };
-        if (params.has_zone && params.user_sold) {
-            chart_options.series[0].zones.pop();
-        }
-    };
-
-    return {
-        getChartOptions: function getChartOptions() {
-            return chart_options;
-        },
-        getSubtitle: function getSubtitle() {
-            return txt_subtitle;
-        },
-        setChartOptions: setChartOptions,
-        setLabels: setLabels
-    };
-}();
-
-module.exports = ChartSettings;
-
-/***/ }),
-/* 126 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 var BinarySocket = __webpack_require__(4);
 var isEuCountry = __webpack_require__(77).isEuCountry;
 
@@ -9136,7 +8984,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 127 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9462,7 +9310,7 @@ var MBPrice = function () {
 module.exports = MBPrice;
 
 /***/ }),
-/* 128 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9585,7 +9433,7 @@ var MBTick = function () {
 module.exports = MBTick;
 
 /***/ }),
-/* 129 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9802,7 +9650,7 @@ var Barriers = function () {
 module.exports = Barriers;
 
 /***/ }),
-/* 130 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9810,7 +9658,7 @@ module.exports = Barriers;
 
 var Dropdown = __webpack_require__(26).selectDropdown;
 var moment = __webpack_require__(9);
-var Barriers = __webpack_require__(129);
+var Barriers = __webpack_require__(128);
 var commonTrading = __webpack_require__(31);
 var commonIndependent = __webpack_require__(49);
 var Contract = __webpack_require__(60);
@@ -10501,7 +10349,7 @@ var Durations = function () {
 module.exports = Durations;
 
 /***/ }),
-/* 131 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10511,10 +10359,10 @@ var moment = __webpack_require__(9);
 var requireHighstock = __webpack_require__(31).requireHighstock;
 var Reset = __webpack_require__(79);
 var Tick = __webpack_require__(62);
-var updatePurchaseStatus = __webpack_require__(132).updatePurchaseStatus;
-var ViewPopupUI = __webpack_require__(136);
+var updatePurchaseStatus = __webpack_require__(131).updatePurchaseStatus;
+var ViewPopupUI = __webpack_require__(135);
 var BinarySocket = __webpack_require__(4);
-var ChartSettings = __webpack_require__(125);
+var ChartSettings = __webpack_require__(170);
 var addComma = __webpack_require__(120).addComma;
 var CommonFunctions = __webpack_require__(3);
 var localize = __webpack_require__(2).localize;
@@ -11095,7 +10943,7 @@ var TickDisplay = function () {
 module.exports = TickDisplay;
 
 /***/ }),
-/* 132 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11132,7 +10980,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 133 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11357,7 +11205,7 @@ var PortfolioInit = function () {
 module.exports = PortfolioInit;
 
 /***/ }),
-/* 134 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11599,7 +11447,7 @@ var MetaTrader = function () {
 module.exports = MetaTrader;
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11690,7 +11538,7 @@ var RealityCheckData = function () {
 module.exports = RealityCheckData;
 
 /***/ }),
-/* 136 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11901,6 +11749,7 @@ var ViewPopupUI = function () {
 module.exports = ViewPopupUI;
 
 /***/ }),
+/* 136 */,
 /* 137 */,
 /* 138 */,
 /* 139 */,
@@ -11926,8 +11775,7 @@ module.exports = ViewPopupUI;
 /* 159 */,
 /* 160 */,
 /* 161 */,
-/* 162 */,
-/* 163 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11972,7 +11820,7 @@ var Crowdin = function () {
 module.exports = Crowdin;
 
 /***/ }),
-/* 164 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12085,7 +11933,7 @@ var Geocoder = function () {
 module.exports = Geocoder;
 
 /***/ }),
-/* 165 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12123,7 +11971,7 @@ if (!('includes' in Array.prototype)) {
 }
 
 /***/ }),
-/* 166 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12139,7 +11987,7 @@ if (!('includes' in String.prototype)) {
 }
 
 /***/ }),
-/* 167 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12218,7 +12066,7 @@ var MenuSelector = function () {
 module.exports = MenuSelector;
 
 /***/ }),
-/* 168 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12275,7 +12123,7 @@ var Footer = function () {
 module.exports = Footer;
 
 /***/ }),
-/* 169 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12302,7 +12150,7 @@ var generateBirthDate = function generateBirthDate() {
 module.exports = generateBirthDate;
 
 /***/ }),
-/* 170 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12352,6 +12200,158 @@ module.exports = {
     getDateToFrom: getDateToFrom,
     attachDateToPicker: attachDateToPicker
 };
+
+/***/ }),
+/* 170 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var addComma = __webpack_require__(7).addComma;
+var isCallputspread = __webpack_require__(99).isCallputspread;
+var isReset = __webpack_require__(79).isReset;
+var localize = __webpack_require__(2).localize;
+
+var ChartSettings = function () {
+    var chart_options = void 0,
+        labels = void 0,
+        txt_subtitle = void 0;
+
+    var common_horizontal_line_style = 'margin-bottom: 3px; margin-left: 10px; height: 0; width: 20px; border: 0; border-bottom: 2px; display: inline-block;';
+    var common_vertical_line_style = 'margin-bottom: -3px; margin-left: 10px; height: 15px; width: 5px; border: 0; border-left: 2px; display: inline-block;';
+    var common_spot_style = 'margin-left: 10px; display: inline-block; border-radius: 6px;';
+
+    // display a guide for clients to know what each line/spot in chart means
+    var setLabels = function setLabels(params) {
+        labels = labels || { // needs to be inside setLabels function so localize works
+            barrier_line: '<span style="' + common_horizontal_line_style + ' border-color: green; border-style: solid;"></span> ' + localize('Barrier') + ' ',
+            barrier_spot: '<span style="' + common_horizontal_line_style + ' border-color: green; border-style: dotted;"></span> ' + localize('Barrier') + ' ',
+            end_time: '<span style="' + common_vertical_line_style + ' border-color: #e98024; border-style: dashed;"></span> ' + localize('End Time') + ' ',
+            entry_spot: '<span style="' + common_spot_style + ' border: 3px solid orange; width: 4px; height: 4px;"></span> ' + localize('Entry Spot') + ' ',
+            exit_spot: '<span style="' + common_spot_style + ' background-color: orange; width:10px; height: 10px;"></span> ' + localize('Exit Spot') + ' ',
+            delay: '<span class="chart-delay"> ' + localize('Charting for this underlying is delayed') + ' </span>',
+            highest_tick: '<span style="' + common_horizontal_line_style + ' border-color: #e98024; border-style: dashed;"></span> ' + localize('Highest Tick') + ' ',
+            lowest_tick: '<span style="' + common_horizontal_line_style + ' border-color: #e98024; border-style: dashed;"></span> ' + localize('Lowest Tick') + ' ',
+            payout_range: '<span class="chart-payout-range"> ' + localize('Payout Range') + ' </span>',
+            purchase_time: '<span style="' + common_vertical_line_style + ' border-color: #7cb5ec; border-style: solid;"></span> ' + localize('Purchase Time') + ' ',
+            reset_time: '<span style="' + common_vertical_line_style + ' border-color: #e98024; border-color: #000; border-style: solid;"></span> ' + localize('Reset Time') + ' ',
+            start_end_time: '<span style="' + common_vertical_line_style + ' border-color: #e98024; border-style: solid;"></span> ' + localize('Start/End Time') + ' ',
+            selected_tick: '<span style="margin-left: 10px; display: inline-block; border-radius: 6px; background-color: orange; width:10px; height: 10px;"></span> ' + localize('Selected Tick'),
+            start_time: '<span style="' + common_vertical_line_style + ' border-color: #e98024; border-style: solid;"></span> ' + localize('Start Time') + ' '
+        };
+
+        var is_high_low_ticks = params.contract_type === 'highlowticks';
+        var barrier = params.is_tick_trade ? labels.barrier_line : labels.barrier_spot;
+        var start_time = is_high_low_ticks ? labels.start_end_time : labels.start_time;
+        var highest_lowest = /^tickhigh_/i.test(params.shortcode) ? labels.highest_tick : labels.lowest_tick;
+        txt_subtitle = (params.is_chart_delayed ? labels.delay : '') + (params.is_forward_starting ? labels.purchase_time : '') + (params.is_sold_before_start ? '' : start_time) + (history ? params.is_sold_before_start || params.is_tick_trade ? '' : labels.entry_spot : '') + (params.has_barrier && !params.is_sold_before_start ? barrier : '') + (history ? params.is_user_sold || params.is_tick_trade ? '' : labels.exit_spot : '') + (isReset(params.contract_type) ? labels.reset_time : '') + (is_high_low_ticks ? labels.selected_tick : '') + (is_high_low_ticks ? '' : labels.end_time) + (is_high_low_ticks ? highest_lowest : '') + (isCallputspread(params.contract_type) ? labels.payout_range : '');
+    };
+
+    var setChartOptions = function setChartOptions(params) {
+        chart_options = {
+            chart: _extends({
+                animation: params.has_animation || false,
+                backgroundColor: null, /* make background transparent */
+                borderWidth: 0,
+                events: _extends({}, params.events || {}),
+                height: params.height,
+                marginLeft: 70,
+                marginRight: params.margin_right || 30,
+                marginTop: params.margin_top || 70,
+                renderTo: params.el
+            }, params.width && { type: params.width }),
+            credits: { enabled: false },
+            exporting: { enabled: false },
+            legend: { enabled: false },
+            plotOptions: {
+                candlestick: {
+                    color: 'red',
+                    lineColor: 'black',
+                    shadow: true,
+                    upColor: 'green',
+                    upLineColor: 'black'
+                },
+                line: {
+                    marker: {
+                        enabled: true,
+                        radius: params.radius
+                    }
+                }
+            },
+            rangeSelector: { enabled: false },
+            series: [_extends({
+                connectNulls: true,
+                cropThreshold: Infinity,
+                data: params.data,
+                name: params.title,
+                softThreshold: false,
+                turboThreshold: Infinity,
+                type: params.type
+            }, params.has_zone && {
+                zoneAxis: 'x',
+                // zones are used to display color of the line
+                zones: [{
+                    // make the line grey until it reaches entry time or start time if entry spot time is not yet known
+                    value: params.entry_time,
+                    color: '#ccc'
+                }, {
+                    // make the line default color until exit time is reached
+                    value: params.exit_time,
+                    color: ''
+                }, {
+                    // make the line grey again after trade ended
+                    color: '#ccc'
+                }]
+            })],
+            subtitle: _extends({}, params.user_sold && { style: { left: '180px' } }, {
+                text: ChartSettings.getSubtitle(),
+                useHTML: true
+            }),
+            title: {
+                style: { fontSize: '16px' },
+                text: params.title
+            },
+            tooltip: {
+                valueDecimals: params.display_decimals,
+                xDateFormat: '%A, %b %e, %H:%M:%S GMT'
+            },
+            xAxis: _extends({}, params.x_axis || {}),
+            yAxis: {
+                labels: {
+                    align: 'left',
+                    formatter: function formatter() {
+                        return addComma(this.value.toFixed(params.display_decimals));
+                    },
+
+                    x: -60
+                },
+                maxPadding: 0.05,
+                minPadding: 0.05,
+                opposite: false,
+                title: ''
+            }
+        };
+        if (params.has_zone && params.user_sold) {
+            chart_options.series[0].zones.pop();
+        }
+    };
+
+    return {
+        getChartOptions: function getChartOptions() {
+            return chart_options;
+        },
+        getSubtitle: function getSubtitle() {
+            return txt_subtitle;
+        },
+        setChartOptions: setChartOptions,
+        setLabels: setLabels
+    };
+}();
+
+module.exports = ChartSettings;
 
 /***/ }),
 /* 171 */
@@ -12649,7 +12649,7 @@ module.exports = TimePicker;
 
 
 var Client = __webpack_require__(5);
-var PortfolioInit = __webpack_require__(133);
+var PortfolioInit = __webpack_require__(132);
 var State = __webpack_require__(6).State;
 
 var MBPortfolio = function () {
@@ -12709,9 +12709,9 @@ module.exports = MBPortfolio;
 var MBContract = __webpack_require__(78);
 var MBDefaults = __webpack_require__(48);
 var MBNotifications = __webpack_require__(98);
-var MBPrice = __webpack_require__(127);
+var MBPrice = __webpack_require__(126);
 var MBSymbols = __webpack_require__(176);
-var MBTick = __webpack_require__(128);
+var MBTick = __webpack_require__(127);
 var showChart = __webpack_require__(92).showChart;
 var commonTrading = __webpack_require__(31);
 var BinaryPjax = __webpack_require__(15);
@@ -13272,7 +13272,7 @@ var TradingAnalysis = __webpack_require__(91);
 var commonTrading = __webpack_require__(31);
 var Contract = __webpack_require__(60);
 var Defaults = __webpack_require__(23);
-var Durations = __webpack_require__(130);
+var Durations = __webpack_require__(129);
 var GetTicks = __webpack_require__(100);
 var Lookback = __webpack_require__(61);
 var Notifications = __webpack_require__(178);
@@ -13648,8 +13648,8 @@ var isLookback = __webpack_require__(61).isLookback;
 var isCallputspread = __webpack_require__(99).isCallputspread;
 var Symbols = __webpack_require__(80);
 var Tick = __webpack_require__(62);
-var TickDisplay = __webpack_require__(131);
-var updateValues = __webpack_require__(132);
+var TickDisplay = __webpack_require__(130);
+var updateValues = __webpack_require__(131);
 var Client = __webpack_require__(5);
 var BinarySocket = __webpack_require__(4);
 var formatMoney = __webpack_require__(7).formatMoney;
@@ -14076,7 +14076,7 @@ var Header = __webpack_require__(27);
 var BinarySocket = __webpack_require__(4);
 var formatMoney = __webpack_require__(7).formatMoney;
 var FormManager = __webpack_require__(17);
-var Geocoder = __webpack_require__(164);
+var Geocoder = __webpack_require__(163);
 var CommonFunctions = __webpack_require__(3);
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
@@ -20778,7 +20778,7 @@ var TradePage = __webpack_require__(291);
 var Authenticate = __webpack_require__(292);
 var ChangePassword = __webpack_require__(293);
 var PaymentAgentTransfer = __webpack_require__(294);
-var Portfolio = __webpack_require__(133);
+var Portfolio = __webpack_require__(132);
 var ProfitTable = __webpack_require__(297);
 var Settings = __webpack_require__(300);
 var APIToken = __webpack_require__(301);
@@ -20795,7 +20795,7 @@ var Statement = __webpack_require__(313);
 var TopUpVirtual = __webpack_require__(316);
 var Accounts = __webpack_require__(317);
 var LostPassword = __webpack_require__(319);
-var MetaTrader = __webpack_require__(134);
+var MetaTrader = __webpack_require__(133);
 var TypesOfAccounts = __webpack_require__(321);
 var FinancialAccOpening = __webpack_require__(322);
 var RealAccOpening = __webpack_require__(323);
@@ -21176,7 +21176,7 @@ var Cookies = __webpack_require__(56);
 var Client = __webpack_require__(5);
 var Contents = __webpack_require__(257);
 var Header = __webpack_require__(27);
-var Footer = __webpack_require__(168);
+var Footer = __webpack_require__(167);
 var Menu = __webpack_require__(259);
 var BinarySocket = __webpack_require__(4);
 var checkLanguage = __webpack_require__(77).checkLanguage;
@@ -21185,7 +21185,7 @@ var RealityCheck = __webpack_require__(326);
 var Login = __webpack_require__(46);
 var elementInnerHtml = __webpack_require__(3).elementInnerHtml;
 var getElementById = __webpack_require__(3).getElementById;
-var Crowdin = __webpack_require__(163);
+var Crowdin = __webpack_require__(162);
 var Language = __webpack_require__(21);
 var PushNotification = __webpack_require__(253);
 var Localize = __webpack_require__(2);
@@ -21194,8 +21194,8 @@ var State = __webpack_require__(6).State;
 var scrollToTop = __webpack_require__(88).scrollToTop;
 var Url = __webpack_require__(8);
 var createElement = __webpack_require__(1).createElement;
+__webpack_require__(164);
 __webpack_require__(165);
-__webpack_require__(166);
 
 var Page = function () {
     var init = function init() {
@@ -21392,7 +21392,7 @@ module.exports = Redirect;
 
 var Client = __webpack_require__(5);
 var Clock = __webpack_require__(47);
-var Footer = __webpack_require__(168);
+var Footer = __webpack_require__(167);
 var Header = __webpack_require__(27);
 var BinarySocket = __webpack_require__(4);
 var Dialog = __webpack_require__(75);
@@ -21617,7 +21617,7 @@ var Client = __webpack_require__(5);
 var BinarySocket = __webpack_require__(4);
 var State = __webpack_require__(6).State;
 var updateTabDisplay = __webpack_require__(89).updateTabDisplay;
-var MetaTrader = __webpack_require__(134);
+var MetaTrader = __webpack_require__(133);
 
 /*
     data-show attribute controls element visibility based on
@@ -22242,7 +22242,7 @@ module.exports = AccountTransfer;
 var Client = __webpack_require__(5);
 var Header = __webpack_require__(27);
 var BinarySocket = __webpack_require__(4);
-var hideEU = __webpack_require__(126).hideEU;
+var hideEU = __webpack_require__(125).hideEU;
 var isCryptocurrency = __webpack_require__(7).isCryptocurrency;
 var getElementById = __webpack_require__(3).getElementById;
 var paramsHash = __webpack_require__(8).paramsHash;
@@ -23046,9 +23046,9 @@ module.exports = MBDisplayCurrencies;
 var MBContract = __webpack_require__(78);
 var MBDefaults = __webpack_require__(48);
 var MBNotifications = __webpack_require__(98);
-var MBPrice = __webpack_require__(127);
+var MBPrice = __webpack_require__(126);
 var MBProcess = __webpack_require__(175);
-var MBTick = __webpack_require__(128);
+var MBTick = __webpack_require__(127);
 var MBSymbols = __webpack_require__(176);
 var TradingAnalysis = __webpack_require__(91);
 var debounce = __webpack_require__(31).debounce;
@@ -23294,7 +23294,7 @@ var MBContract = __webpack_require__(78);
 var MBDisplayCurrencies = __webpack_require__(274);
 var MBTradingEvents = __webpack_require__(275);
 var MBPortfolio = __webpack_require__(174);
-var MBPrice = __webpack_require__(127);
+var MBPrice = __webpack_require__(126);
 var MBProcess = __webpack_require__(175);
 var cleanupChart = __webpack_require__(92).cleanupChart;
 var BinaryPjax = __webpack_require__(15);
@@ -24277,9 +24277,8 @@ var Defaults = __webpack_require__(23);
 var GetTicks = __webpack_require__(100);
 var Lookback = __webpack_require__(61);
 var Reset = __webpack_require__(79);
-var ViewPopupUI = __webpack_require__(136);
+var ViewPopupUI = __webpack_require__(135);
 var BinarySocket = __webpack_require__(4);
-var setLabels = __webpack_require__(125).setLabels;
 var addComma = __webpack_require__(7).addComma;
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
@@ -24395,7 +24394,7 @@ var Highchart = function () {
             return null;
         }
 
-        setLabels(getHighchartLabelParams());
+        HighchartUI.updateLabels(chart, getHighchartLabelParams());
 
         var chart_options = {
             data: data,
@@ -24956,7 +24955,7 @@ module.exports = Highchart;
 "use strict";
 
 
-var ChartSettings = __webpack_require__(125);
+var ChartSettings = __webpack_require__(170);
 var localize = __webpack_require__(2).localize;
 
 var HighchartUI = function () {
@@ -24964,7 +24963,9 @@ var HighchartUI = function () {
 
     var updateLabels = function updateLabels(chart, params) {
         ChartSettings.setLabels(params);
-        chart.setTitle(null, { text: ChartSettings.getSubtitle() });
+        if (chart) {
+            chart.setTitle(null, { text: ChartSettings.getSubtitle() });
+        }
     };
 
     var setChartOptions = function setChartOptions(params) {
@@ -25360,11 +25361,11 @@ module.exports = displayCurrencies;
 
 var moment = __webpack_require__(9);
 var TradingAnalysis = __webpack_require__(91);
-var Barriers = __webpack_require__(129);
+var Barriers = __webpack_require__(128);
 var CommonTrading = __webpack_require__(31);
 var CommonIndependent = __webpack_require__(49);
 var Defaults = __webpack_require__(23);
-var Durations = __webpack_require__(130);
+var Durations = __webpack_require__(129);
 var GetTicks = __webpack_require__(100);
 var Notifications = __webpack_require__(178);
 var Price = __webpack_require__(101);
@@ -26398,7 +26399,7 @@ var moment = __webpack_require__(9);
 var CommonIndependent = __webpack_require__(49);
 var Contract = __webpack_require__(60);
 var Defaults = __webpack_require__(23);
-var Durations = __webpack_require__(130);
+var Durations = __webpack_require__(129);
 var getElementById = __webpack_require__(3).getElementById;
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
@@ -27436,7 +27437,7 @@ var ProfitTableUI = __webpack_require__(299);
 var ViewPopup = __webpack_require__(93);
 var showLocalTimeOnHover = __webpack_require__(47).showLocalTimeOnHover;
 var BinarySocket = __webpack_require__(4);
-var DateTo = __webpack_require__(170);
+var DateTo = __webpack_require__(169);
 var addTooltip = __webpack_require__(59).addTooltip;
 var buildOauthApps = __webpack_require__(59).buildOauthApps;
 var localize = __webpack_require__(2).localize;
@@ -29124,7 +29125,7 @@ var StatementUI = __webpack_require__(315);
 var ViewPopup = __webpack_require__(93);
 var showLocalTimeOnHover = __webpack_require__(47).showLocalTimeOnHover;
 var BinarySocket = __webpack_require__(4);
-var DateTo = __webpack_require__(170);
+var DateTo = __webpack_require__(169);
 var addTooltip = __webpack_require__(59).addTooltip;
 var buildOauthApps = __webpack_require__(59).buildOauthApps;
 var localize = __webpack_require__(2).localize;
@@ -30929,7 +30930,7 @@ module.exports = WelcomePage;
 "use strict";
 
 
-var RealityCheckData = __webpack_require__(135);
+var RealityCheckData = __webpack_require__(134);
 var RealityCheckUI = __webpack_require__(327);
 var Client = __webpack_require__(5);
 var BinarySocket = __webpack_require__(4);
@@ -30979,13 +30980,13 @@ module.exports = RealityCheck;
 "use strict";
 
 
-var RealityCheckData = __webpack_require__(135);
+var RealityCheckData = __webpack_require__(134);
 var showLocalTimeOnHover = __webpack_require__(47).showLocalTimeOnHover;
 var BinarySocket = __webpack_require__(4);
 var FormManager = __webpack_require__(17);
 var urlFor = __webpack_require__(8).urlFor;
+__webpack_require__(164);
 __webpack_require__(165);
-__webpack_require__(166);
 
 var RealityCheckUI = function () {
     var summary_url = urlFor('user/reality_check_summary');
@@ -31128,7 +31129,7 @@ module.exports = RealityCheckUI;
 "use strict";
 
 
-var generateBirthDate = __webpack_require__(169);
+var generateBirthDate = __webpack_require__(168);
 var FormManager = __webpack_require__(17);
 var Login = __webpack_require__(46);
 var localize = __webpack_require__(2).localize;
@@ -31359,8 +31360,8 @@ module.exports = TelegramBot;
 "use strict";
 
 
-var PortfolioInit = __webpack_require__(133);
-var updateContractBalance = __webpack_require__(132).updateContractBalance;
+var PortfolioInit = __webpack_require__(132);
+var updateContractBalance = __webpack_require__(131).updateContractBalance;
 var Client = __webpack_require__(5);
 var BinarySocket = __webpack_require__(4);
 var formatMoney = __webpack_require__(7).formatMoney;
@@ -31597,7 +31598,7 @@ module.exports = Contact;
 "use strict";
 
 
-var MenuSelector = __webpack_require__(167);
+var MenuSelector = __webpack_require__(166);
 
 module.exports = {
     BinaryOptions: {
@@ -31920,13 +31921,13 @@ module.exports = Regulation;
 
 var tabListener = __webpack_require__(26).tabListener;
 var ImageSlider = __webpack_require__(247);
-var MenuSelector = __webpack_require__(167);
+var MenuSelector = __webpack_require__(166);
 var Scroll = __webpack_require__(88);
 var handleHash = __webpack_require__(1).handleHash;
 var BinaryPjax = __webpack_require__(15);
 var Client = __webpack_require__(5);
 var Header = __webpack_require__(27);
-var hideEU = __webpack_require__(126).hideEU;
+var hideEU = __webpack_require__(125).hideEU;
 
 module.exports = {
     OpenPositions: {
@@ -32012,7 +32013,7 @@ module.exports = {
 
 var tabListener = __webpack_require__(26).tabListener;
 var localize = __webpack_require__(2).localize;
-var hideEU = __webpack_require__(126).hideEU;
+var hideEU = __webpack_require__(125).hideEU;
 var TNCApproval = __webpack_require__(185);
 
 var TermsAndConditions = function () {
