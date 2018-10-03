@@ -10444,6 +10444,13 @@ var TickDisplay = function () {
                 height: show_contract_result ? 163 : null,
                 radius: 4,
                 title: show_contract_result ? '' : display_symbol,
+                tooltip: {
+                    formatter: function formatter() {
+                        var new_y = addComma(this.y.toFixed(display_decimals));
+                        var mom = moment.utc(applicable_ticks[this.x].epoch * 1000).format('dddd, MMM D, HH:mm:ss');
+                        return mom + '<br/>' + display_symbol + ' ' + new_y;
+                    }
+                },
                 type: 'line',
                 width: data.width ? data.width : show_contract_result ? 394 : null,
                 x_axis: { labels: { enabled: false }, max: number_of_ticks + 1, min: 0, type: 'linear' }
@@ -12251,7 +12258,7 @@ var ChartSettings = function () {
     };
 
     var setChartOptions = function setChartOptions(params) {
-        chart_options = {
+        chart_options = _extends({
             chart: _extends({
                 animation: params.has_animation || false,
                 backgroundColor: null, /* make background transparent */
@@ -12313,11 +12320,8 @@ var ChartSettings = function () {
             title: {
                 style: { fontSize: '16px' },
                 text: params.title
-            },
-            tooltip: {
-                valueDecimals: params.display_decimals,
-                xDateFormat: '%A, %b %e, %H:%M:%S GMT'
-            },
+            }
+        }, params.tooltip || {}, {
             xAxis: _extends({}, params.x_axis || {}),
             yAxis: {
                 labels: {
@@ -12333,7 +12337,7 @@ var ChartSettings = function () {
                 opposite: false,
                 title: ''
             }
-        };
+        });
         if (params.has_zone && params.user_sold) {
             chart_options.series[0].zones.pop();
         }
@@ -24396,16 +24400,22 @@ var Highchart = function () {
 
         HighchartUI.updateLabels(chart, getHighchartLabelParams());
 
+        var display_decimals = (history ? history.prices[0] : candles[0].open).split('.')[1].length || 3;
+
         var chart_options = {
             data: data,
+            display_decimals: display_decimals,
             type: type,
-            display_decimals: (history ? history.prices[0] : candles[0].open).split('.')[1].length || 3,
             entry_time: (entry_tick_time || start_time) * 1000,
             exit_time: exit_time ? exit_time * 1000 : null,
             has_zone: true,
             height: Math.max(el.parentElement.offsetHeight, 450),
             radius: 2,
             title: localize(init_options.title),
+            tooltip: {
+                valueDecimals: display_decimals,
+                xDateFormat: '%A, %b %e, %H:%M:%S GMT'
+            },
             user_sold: contract.status === 'sold',
             x_axis: { label: { format: '{value:%H:%M:%S}', overflow: 'justify' } }
         };
