@@ -709,17 +709,22 @@ label + input {
     padding-bottom: 10px;
     float: none; } }
 
-.chart-delay {
+.highcharts-container .chart-delay {
   display: block;
   text-align: center;
   margin-bottom: 0.2em;
   color: #c03; }
 
-.chart-payout-range {
+.highcharts-container .chart-payout-range {
   margin-left: 10px; }
-  .chart-payout-range:before {
+  .highcharts-container .chart-payout-range:before {
     content: url("../images/pages/trade/chart_payout_range.svg");
     display: inline-block; }
+
+.highcharts-container .highcharts-tooltip span {
+  background-color: #fff; }
+  .highcharts-container .highcharts-tooltip span span:first-child {
+    height: 30px; }
 
 .lightbox {
   display: -webkit-box;

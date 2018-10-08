@@ -10447,7 +10447,6 @@ var TickDisplay = function () {
                 radius: 4,
                 title: show_contract_result ? '' : display_symbol,
                 tooltip: {
-                    useHTML: true,
                     formatter: function formatter() {
                         var new_y = addComma(this.y.toFixed(display_decimals));
                         var mom = moment.utc(applicable_ticks[this.x].epoch * 1000).format('dddd, MMM D, HH:mm:ss');
@@ -12324,7 +12323,9 @@ var ChartSettings = function () {
                 style: { fontSize: '16px' },
                 text: params.title
             },
-            tooltip: _extends({}, params.tooltip || {}),
+            tooltip: _extends({}, params.tooltip || {}, {
+                useHTML: true
+            }),
             xAxis: _extends({}, params.x_axis || {}),
             yAxis: {
                 labels: {
