@@ -1414,6 +1414,14 @@ a.previous-wrapper {
         padding-left: 3px; }
     #trading_socket_container #contract_prices_container #confirmation_message {
       padding-bottom: 34px; }
+      #trading_socket_container #contract_prices_container #confirmation_message #trade_tick_chart .highcharts-tooltip span {
+        top: 1px !important;
+        left: 2px !important; }
+        #trading_socket_container #contract_prices_container #confirmation_message #trade_tick_chart .highcharts-tooltip span .tooltip-body {
+          background-color: #fff;
+          padding: 6px;
+          margin-bottom: -14px;
+          margin-right: -14px; }
     #trading_socket_container #contract_prices_container #contract_purchase_descr {
       background-color: #fff;
       border: 2px solid #dedede;

@@ -10447,10 +10447,11 @@ var TickDisplay = function () {
                 radius: 4,
                 title: show_contract_result ? '' : display_symbol,
                 tooltip: {
+                    useHTML: true,
                     formatter: function formatter() {
                         var new_y = addComma(this.y.toFixed(display_decimals));
                         var mom = moment.utc(applicable_ticks[this.x].epoch * 1000).format('dddd, MMM D, HH:mm:ss');
-                        return mom + '<br/>' + display_symbol + ' ' + new_y;
+                        return '<div class=\'tooltip-body\'>' + mom + '<br/>' + display_symbol + ' ' + new_y + '</div>';
                     }
                 },
                 type: 'line',
