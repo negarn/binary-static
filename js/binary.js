@@ -10521,9 +10521,11 @@ var TickDisplay = function () {
     };
 
     var initializeChart = function initializeChart(config, data) {
+        var has_reset_barrier = contract.entry_spot && contract.barrier && Reset.isReset(contract_category) && Reset.isNewBarrier(contract.entry_spot, contract.barrier);
         ChartSettings.setLabels({
             contract_type: contract_category,
             has_barrier: should_set_barrier && contract_category !== 'highlowticks',
+            is_reset_barrier: has_reset_barrier,
             is_tick_trade: true,
             shortcode: contract.shortcode
         });
@@ -10855,6 +10857,16 @@ var TickDisplay = function () {
 
             CommonFunctions.elementInnerHtml(CommonFunctions.getElementById('contract_purchase_barrier'), localize('Reset Barrier') + ': ' + reset_barrier);
             reset_spot_plotted = true;
+            ChartSettings.setLabels({
+                contract_type: contract_category,
+                has_barrier: true,
+                is_reset_barrier: true,
+                is_tick_trade: true,
+                shortcode: contract.shortcode
+            });
+            if (chart) {
+                chart.setTitle(null, { text: ChartSettings.getSubtitle() });
+            }
         }
 
         evaluateContractOutcome();
@@ -12246,6 +12258,7 @@ var ChartSettings = function () {
             lowest_tick: '<span style="' + common_horizontal_line_style + ' border-color: #e98024; border-style: dashed;"></span> ' + localize('Lowest Tick') + ' ',
             payout_range: '<span class="chart-payout-range"> ' + localize('Payout Range') + ' </span>',
             purchase_time: '<span style="' + common_vertical_line_style + ' border-color: #7cb5ec; border-style: solid;"></span> ' + localize('Purchase Time') + ' ',
+            reset_barrier: '<span style="' + common_horizontal_line_style + ' border-color: green; border-style: solid;"></span> ' + localize('Reset Barrier') + ' ',
             reset_time: '<span style="' + common_vertical_line_style + ' border-color: #e98024; border-color: #000; border-style: solid;"></span> ' + localize('Reset Time') + ' ',
             start_end_time: '<span style="' + common_vertical_line_style + ' border-color: #e98024; border-style: solid;"></span> ' + localize('Start/End Time') + ' ',
             selected_tick: '<span style="margin-left: 10px; display: inline-block; border-radius: 6px; background-color: orange; width:10px; height: 10px;"></span> ' + localize('Selected Tick'),
@@ -12253,7 +12266,8 @@ var ChartSettings = function () {
         };
 
         var is_high_low_ticks = params.contract_type === 'highlowticks';
-        var barrier = params.is_tick_trade ? labels.barrier_line : labels.barrier_spot;
+        var barrier_line = params.is_reset_barrier ? labels.reset_barrier : labels.barrier_line;
+        var barrier = params.is_tick_trade ? barrier_line : labels.barrier_spot;
         var start_time = is_high_low_ticks ? labels.start_end_time : labels.start_time;
         var highest_lowest = /^tickhigh_/i.test(params.shortcode) ? labels.highest_tick : labels.lowest_tick;
         txt_subtitle = (params.is_chart_delayed ? labels.delay : '') + (params.is_forward_starting ? labels.purchase_time : '') + (params.is_sold_before_start ? '' : start_time) + (history ? params.is_sold_before_start || params.is_tick_trade ? '' : labels.entry_spot : '') + (params.has_barrier && !params.is_sold_before_start ? barrier : '') + (history ? params.is_user_sold || params.is_tick_trade ? '' : labels.exit_spot : '') + (isReset(params.contract_type) ? labels.reset_time : '') + (is_high_low_ticks ? labels.selected_tick : '') + (is_high_low_ticks ? '' : labels.end_time) + (is_high_low_ticks ? highest_lowest : '') + (isCallputspread(params.contract_type) ? labels.payout_range : '');
