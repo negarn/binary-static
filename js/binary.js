@@ -12266,8 +12266,8 @@ var ChartSettings = function () {
         };
 
         var is_high_low_ticks = params.contract_type === 'highlowticks';
-        var barrier_line = params.is_reset_barrier ? labels.reset_barrier : labels.barrier_line;
-        var barrier = params.is_tick_trade ? barrier_line : labels.barrier_spot;
+        var barrier_style = params.is_tick_trade ? labels.barrier_line : labels.barrier_spot;
+        var barrier = params.is_reset_barrier ? labels.reset_barrier : barrier_style;
         var start_time = is_high_low_ticks ? labels.start_end_time : labels.start_time;
         var highest_lowest = /^tickhigh_/i.test(params.shortcode) ? labels.highest_tick : labels.lowest_tick;
         txt_subtitle = (params.is_chart_delayed ? labels.delay : '') + (params.is_forward_starting ? labels.purchase_time : '') + (params.is_sold_before_start ? '' : start_time) + (history ? params.is_sold_before_start || params.is_tick_trade ? '' : labels.entry_spot : '') + (params.has_barrier && !params.is_sold_before_start ? barrier : '') + (history ? params.is_user_sold || params.is_tick_trade ? '' : labels.exit_spot : '') + (isReset(params.contract_type) ? labels.reset_time : '') + (is_high_low_ticks ? labels.selected_tick : '') + (is_high_low_ticks ? '' : labels.end_time) + (is_high_low_ticks ? highest_lowest : '') + (isCallputspread(params.contract_type) ? labels.payout_range : '');
