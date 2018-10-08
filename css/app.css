@@ -1414,6 +1414,8 @@ a.previous-wrapper {
         padding-left: 3px; }
     #trading_socket_container #contract_prices_container #confirmation_message {
       padding-bottom: 34px; }
+      #trading_socket_container #contract_prices_container #confirmation_message #contract_highlowtick {
+        margin-top: 10px; }
       #trading_socket_container #contract_prices_container #confirmation_message div.button {
         padding-top: 7px; }
       #trading_socket_container #contract_prices_container #confirmation_message #trade_tick_chart .highcharts-tooltip span {
