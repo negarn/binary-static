@@ -10434,6 +10434,9 @@ var TickDisplay = function () {
         setXIndicators();
         requireHighstock(function (Highstock) {
             Highcharts = Highstock;
+            var is_small_width = window.innerWidth < 480;
+            var overlay_margin_top = is_small_width ? 70 : 40;
+            var overlay_height = is_small_width ? 200 : 170;
             initializeChart({
                 display_decimals: display_decimals,
                 data: [],
@@ -10441,9 +10444,9 @@ var TickDisplay = function () {
                 events: { load: function load() {
                         plot();
                     } },
-                margin_top: show_contract_result ? 30 : null,
+                margin_top: show_contract_result ? overlay_margin_top : null,
                 has_animation: show_contract_result,
-                height: show_contract_result ? 163 : null,
+                height: show_contract_result ? overlay_height : null,
                 radius: 4,
                 title: show_contract_result ? '' : display_symbol,
                 tooltip: {
