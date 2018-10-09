@@ -24308,6 +24308,7 @@ var getPropertyValue = __webpack_require__(1).getPropertyValue;
 
 var Highchart = function () {
     var chart = void 0,
+        chart_options = void 0,
         chart_promise = void 0,
         options = void 0,
         response_id = void 0,
@@ -24420,7 +24421,7 @@ var Highchart = function () {
 
         var display_decimals = (history ? history.prices[0] : candles[0].open).split('.')[1].length || 3;
 
-        var chart_options = {
+        chart_options = {
             data: data,
             display_decimals: display_decimals,
             type: type,
@@ -24448,6 +24449,7 @@ var Highchart = function () {
                 chart = Highcharts.StockChart(el, HighchartUI.getChartOptions());
                 is_initialized = true;
 
+                $(window).on('resize', updateHighchartOptions);
                 if (Callputspread.isCallputspread(contract.contract_type)) {
                     Callputspread.init(chart, contract);
                 }
@@ -24480,6 +24482,19 @@ var Highchart = function () {
         chart[type + 'Axis'][0].removePlotLine(id);
     };
 
+    var updateHighchartOptions = function updateHighchartOptions() {
+        if (chart) {
+            chart.update({ chart: { marginTop: window.innerWidth <= 480 ? 120 : 70 } });
+        }
+    };
+
+    var onClose = function onClose(fnc) {
+        if (typeof fuc === 'function') {
+            fnc();
+        }
+        $(window).off('resize', updateHighchartOptions);
+    };
+
     var handleResponse = function handleResponse(response) {
         var type = response.msg_type;
         var error = response.error;
@@ -24498,15 +24513,19 @@ var Highchart = function () {
                     var page_underlying = State.get('is_mb_trading') ? MBDefaults.get('underlying') : Defaults.get('underlying');
                     if (page_underlying !== (tick || ohlc).symbol) {
                         ViewPopupUI.storeSubscriptionID(response_id, true);
-                        ViewPopupUI.setOnCloseFunction();
+                        ViewPopupUI.setOnCloseFunction(onClose);
                     } else {
-                        ViewPopupUI.setOnCloseFunction(GetTicks.request);
+                        ViewPopupUI.setOnCloseFunction(function () {
+                            return onClose(GetTicks.request);
+                        });
                     }
                 } else {
                     ViewPopupUI.storeSubscriptionID(response_id, true);
-                    ViewPopupUI.setOnCloseFunction();
+                    ViewPopupUI.setOnCloseFunction(onClose);
                 }
                 is_response_id_set = true;
+            } else {
+                ViewPopupUI.setOnCloseFunction(onClose);
             }
             if (history || candles) {
                 var length = (history ? history.times : candles).length;
