@@ -8369,7 +8369,7 @@ var crypto_config = {
 };
 
 var getMinWithdrawal = function getMinWithdrawal(currency) {
-    return getPropertyValue(currencies_config, [currency, 'transfer_min']) || (isCryptocurrency(currency) ? getPropertyValue(crypto_config, [currency, 'min_withdrawal']) || 0.002 : 1);
+    return getPropertyValue(currencies_config, [currency, 'withdrawal_min']) || (isCryptocurrency(currency) ? getPropertyValue(crypto_config, [currency, 'min_withdrawal']) || 0.002 : 1);
 };
 
 // @param {String} limit = max|min
