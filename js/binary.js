@@ -12283,7 +12283,7 @@ var ChartSettings = function () {
                 height: params.height,
                 marginLeft: 70,
                 marginRight: params.margin_right || 30,
-                marginTop: params.margin_top || 70,
+                marginTop: params.margin_top || (window.innerWidth <= 480 ? 120 : 70),
                 renderTo: params.el
             }, params.width && { type: params.width }),
             credits: { enabled: false },
