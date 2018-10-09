@@ -24483,8 +24483,9 @@ var Highchart = function () {
     };
 
     var updateHighchartOptions = function updateHighchartOptions() {
-        if (chart) {
-            chart.update({ chart: { marginTop: window.innerWidth <= 480 ? 120 : 70 } });
+        if (chart && chart_options) {
+            HighchartUI.setChartOptions(chart_options);
+            chart.update(HighchartUI.getChartOptions());
         }
     };
 
