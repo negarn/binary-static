@@ -7877,6 +7877,7 @@ var getPropertyValue = __webpack_require__(1).getPropertyValue;
 var Price = function () {
     var type_display_id_mapping = {};
     var form_id = 0;
+    var is_resubscribing = false;
 
     var createProposal = function createProposal(type_of_contract) {
         var proposal = {
@@ -8146,7 +8147,7 @@ var Price = function () {
      * Function to process and calculate price based on current form
      * parameters or change in form parameters
      */
-    var processPriceRequest = function processPriceRequest() {
+    var processPriceRequest = function processPriceRequest(has_resubscribed) {
         Price.incrFormId();
         commonTrading.showPriceOverlay();
         var types = Contract.contractType()[Contract.form()];
@@ -8216,8 +8217,9 @@ var Price = function () {
                     commonTrading.hidePriceOverlay();
                 } else {
                     BinarySocket.send(proposal, { callback: function callback(response) {
-                            if (response.error && response.error.code === 'AlreadySubscribed') {
-                                BinarySocket.send({ forget_all: 'proposal' });
+                            if (response.error && response.error.code === 'AlreadySubscribed' && !is_resubscribing) {
+                                is_resubscribing = true;
+                                processPriceRequest(true);
                             } else if (response.echo_req && response.echo_req !== null && response.echo_req.passthrough && response.echo_req.passthrough.form_id === form_id) {
                                 Price.display(response, Contract.contractType()[Contract.form()]);
                             }
@@ -8230,6 +8232,9 @@ var Price = function () {
                         } });
                 }
             });
+            if (has_resubscribed) {
+                is_resubscribing = false;
+            }
         });
     };
 
@@ -30298,7 +30303,8 @@ var MetaTraderUI = function () {
                 _$form.find('#view_1 #btn_next')[error_msg ? 'addClass' : 'removeClass']('button-disabled');
                 _$form.find('#view_1 #btn_cancel').removeClass('invisible');
             });
-            _$form.find('#new_account_no_deposit_bonus_msg').setVisibility(/real_vanuatu_standard/.test(new_acc_type));
+            // uncomment to show No Deposit Bonus note
+            // $form.find('#new_account_no_deposit_bonus_msg').setVisibility(/real_vanuatu_standard/.test(new_acc_type));
         }
     };
 
