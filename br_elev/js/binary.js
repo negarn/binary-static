@@ -21133,6 +21133,15 @@ var Page = function () {
             Menu.makeMobileMenu();
             recordAffiliateExposure();
             endpointNotification();
+            BinarySocket.wait('get_settings').then(function (response) {
+                window._elev.on('load', function (_elev) {
+                    _elev.setUser({
+                        email: response.get_settings.email,
+                        first_name: response.get_settings.first_name || (Client.get('is_virtual') ? 'virtual' : ''),
+                        last_name: response.get_settings.last_name || (Client.get('is_virtual') ? 'virtual' : '')
+                    });
+                });
+            });
         }
         Contents.onLoad();
 
