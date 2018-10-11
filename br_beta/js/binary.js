@@ -31304,11 +31304,11 @@ var RealityCheckUI = function () {
     var getSummaryAsync = function getSummaryAsync() {
         if (RealityCheckUI.shouldShowPopup()) {
             BinarySocket.send({ reality_check: 1 }).then(function (response) {
-                if (response.reality_check) {
-                    getAjax(RealityCheckData.summaryData(response.reality_check));
-                } else if (response.error && !/user\/statementws\.html/.test(window.location.pathname)) {
+                if (response.error && !/user\/statementws\.html/.test(window.location.pathname)) {
                     // don't block statement page for reality check error, but block all other pages
                     $('#content').empty().html($('<div/>', { class: 'container' }).append($('<p/>', { class: 'notice-msg center-text', text: response.error.message })));
+                } else if (response.reality_check) {
+                    getAjax(RealityCheckData.summaryData(response.reality_check));
                 }
             });
         }
