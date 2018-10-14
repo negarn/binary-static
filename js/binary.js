@@ -21472,12 +21472,12 @@ var BinarySocketGeneral = function () {
         switch (response.msg_type) {
             case 'website_status':
                 if (response.website_status) {
-                    createLanguageDropDown(response.website_status);
                     is_available = /^up$/i.test(response.website_status.site_status);
                     if (is_available && !BinarySocket.availability()) {
                         window.location.reload();
                         return;
                     }
+                    createLanguageDropDown(response.website_status);
                     if (response.website_status.message) {
                         Footer.displayNotification(response.website_status.message);
                     } else {
