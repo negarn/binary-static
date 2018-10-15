@@ -8395,12 +8395,12 @@ var BinaryPjax = __webpack_require__(15);
 var Client = __webpack_require__(5);
 var BinarySocket = __webpack_require__(4);
 var professionalClient = __webpack_require__(183);
-var getElementById = __webpack_require__(3).getElementById;
-var makeOption = __webpack_require__(3).makeOption;
+var CommonFunctions = __webpack_require__(3);
 var Geocoder = __webpack_require__(163);
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
 var urlFor = __webpack_require__(8).urlFor;
+var getPropertyValue = __webpack_require__(1).getPropertyValue;
 
 var AccountOpening = function () {
     var redirectAccount = function redirectAccount() {
@@ -8421,7 +8421,11 @@ var AccountOpening = function () {
     var populateForm = function populateForm(form_id, getValidations, is_financial) {
         getResidence(form_id, getValidations);
         generateBirthDate();
-        if (State.getResponse('landing_company.financial_company.shortcode') === 'maltainvest') {
+        var landing_company = State.getResponse('landing_company');
+        var lc_to_upgrade_to = landing_company[is_financial ? 'financial_company' : 'gaming_company'] || landing_company.financial_company;
+        CommonFunctions.elementTextContent(CommonFunctions.getElementById('lc-name'), lc_to_upgrade_to.name);
+        CommonFunctions.elementTextContent(CommonFunctions.getElementById('lc-country'), lc_to_upgrade_to.country);
+        if (getPropertyValue(landing_company, ['financial_company', 'shortcode']) === 'maltainvest') {
             professionalClient.init(is_financial, false);
         }
         Geocoder.init(form_id);
@@ -8444,8 +8448,8 @@ var AccountOpening = function () {
             var $options = $('<div/>');
             var $options_with_disabled = $('<div/>');
             residence_list.forEach(function (res) {
-                $options.append(makeOption({ text: res.text, value: res.value }));
-                $options_with_disabled.append(makeOption({
+                $options.append(CommonFunctions.makeOption({ text: res.text, value: res.value }));
+                $options_with_disabled.append(CommonFunctions.makeOption({
                     text: res.text,
                     value: res.value,
                     is_disabled: res.disabled
@@ -8482,7 +8486,7 @@ var AccountOpening = function () {
 
             if (/^(malta|maltainvest|iom)$/.test(State.getResponse('authorize.upgradeable_landing_companies'))) {
                 var $citizen = $('#citizen');
-                getElementById('citizen_row').setVisibility(1);
+                CommonFunctions.getElementById('citizen_row').setVisibility(1);
                 if ($citizen.length) {
                     BinarySocket.wait('get_settings').then(function (response) {
                         var citizen = response.get_settings.citizen;
@@ -21639,9 +21643,7 @@ var createLanguageDropDown = function createLanguageDropDown(website_status) {
     });
     var $select_language = $languages.find(select_language_id);
     languages.forEach(function (language) {
-        if (language !== 'ID') {
-            $select_language.append($('<li/>', { class: language, text: mapCodeToLanguage(language) }));
-        }
+        $select_language.append($('<li/>', { class: language, text: mapCodeToLanguage(language) }));
     });
 
     $select_language.find('.' + current_language + ':eq(1)').setVisibility(0);
@@ -29728,6 +29730,10 @@ var Accounts = function () {
         return Client.getLandingCompanyValue(account, landing_company, 'name');
     };
 
+    var getCompanyCountry = function getCompanyCountry(account) {
+        return Client.getLandingCompanyValue(account, landing_company, 'country');
+    };
+
     var populateNewAccounts = function populateNewAccounts(upgrade_info) {
         var new_account = upgrade_info;
         var account = {
@@ -29735,7 +29741,11 @@ var Accounts = function () {
             financial: new_account.type === 'financial'
         };
 
-        $(form_id).find('tbody').append($('<tr/>').append($('<td/>').html($('<span/>', { text: localize(toTitleCase(new_account.type) + ' Account'), 'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) }))).append($('<td/>', { text: getAvailableMarkets(account) })).append($('<td/>', { text: Client.getLandingCompanyValue(account, landing_company, 'legal_allowed_currencies').join(', ') })).append($('<td/>').html($('<a/>', { class: 'button', href: urlFor(new_account.upgrade_link) }).html($('<span/>', { text: localize('Create') })))));
+        $(form_id).find('tbody').append($('<tr/>').append($('<td/>').html($('<span/>', {
+            text: localize(toTitleCase(new_account.type) + ' Account'),
+            'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) + ' ' + localize('Jurisdiction') + ': ' + getCompanyCountry(account),
+            'data-balloon-length': 'large'
+        }))).append($('<td/>', { text: getAvailableMarkets(account) })).append($('<td/>', { text: Client.getLandingCompanyValue(account, landing_company, 'legal_allowed_currencies').join(', ') })).append($('<td/>').html($('<a/>', { class: 'button', href: urlFor(new_account.upgrade_link) }).html($('<span/>', { text: localize('Create') })))));
     };
 
     var populateExistingAccounts = function populateExistingAccounts() {
@@ -29765,7 +29775,9 @@ var Accounts = function () {
 
         if (!Client.isAccountOfType('virtual', loginid)) {
             var company_name = getCompanyName(loginid);
-            account_type_prop['data-balloon'] = localize('Counterparty') + ': ' + company_name;
+            var company_country = getCompanyCountry(loginid);
+            account_type_prop['data-balloon'] = localize('Counterparty') + ': ' + company_name + ' ' + localize('Jurisdiction') + ': ' + company_country;
+            account_type_prop['data-balloon-length'] = 'large';
         }
 
         var is_disabled = Client.get('is_disabled', loginid);
@@ -29812,7 +29824,12 @@ var Accounts = function () {
 
     var populateMultiAccount = function populateMultiAccount() {
         var currencies = getCurrencies(landing_company);
-        $(form_id).find('tbody').append($('<tr/>', { id: 'new_account_opening' }).append($('<td/>').html($('<span/>', { text: localize('Real Account'), 'data-balloon': localize('Counterparty') + ': ' + getCompanyName({ real: 1 }) }))).append($('<td/>', { text: getAvailableMarkets({ real: 1 }) })).append($('<td/>', { class: 'account-currency' })).append($('<td/>').html($('<button/>', { text: localize('Create'), type: 'submit' }))));
+        var account = { real: 1 };
+        $(form_id).find('tbody').append($('<tr/>', { id: 'new_account_opening' }).append($('<td/>').html($('<span/>', {
+            text: localize('Real Account'),
+            'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) + ' ' + localize('Jurisdiction') + ': ' + getCompanyCountry(account),
+            'data-balloon-length': 'large'
+        }))).append($('<td/>', { text: getAvailableMarkets({ real: 1 }) })).append($('<td/>', { class: 'account-currency' })).append($('<td/>').html($('<button/>', { text: localize('Create'), type: 'submit' }))));
 
         $('#note').setVisibility(1);
 
