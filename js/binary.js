@@ -29743,7 +29743,7 @@ var Accounts = function () {
 
         $(form_id).find('tbody').append($('<tr/>').append($('<td/>').html($('<span/>', {
             text: localize(toTitleCase(new_account.type) + ' Account'),
-            'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) + ' ' + localize('Jurisdiction') + ': ' + getCompanyCountry(account),
+            'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) + ', ' + localize('Jurisdiction') + ': ' + getCompanyCountry(account),
             'data-balloon-length': 'large'
         }))).append($('<td/>', { text: getAvailableMarkets(account) })).append($('<td/>', { text: Client.getLandingCompanyValue(account, landing_company, 'legal_allowed_currencies').join(', ') })).append($('<td/>').html($('<a/>', { class: 'button', href: urlFor(new_account.upgrade_link) }).html($('<span/>', { text: localize('Create') })))));
     };
@@ -29776,7 +29776,7 @@ var Accounts = function () {
         if (!Client.isAccountOfType('virtual', loginid)) {
             var company_name = getCompanyName(loginid);
             var company_country = getCompanyCountry(loginid);
-            account_type_prop['data-balloon'] = localize('Counterparty') + ': ' + company_name + ' ' + localize('Jurisdiction') + ': ' + company_country;
+            account_type_prop['data-balloon'] = localize('Counterparty') + ': ' + company_name + ', ' + localize('Jurisdiction') + ': ' + company_country;
             account_type_prop['data-balloon-length'] = 'large';
         }
 
@@ -29827,7 +29827,7 @@ var Accounts = function () {
         var account = { real: 1 };
         $(form_id).find('tbody').append($('<tr/>', { id: 'new_account_opening' }).append($('<td/>').html($('<span/>', {
             text: localize('Real Account'),
-            'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) + ' ' + localize('Jurisdiction') + ': ' + getCompanyCountry(account),
+            'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) + ', ' + localize('Jurisdiction') + ': ' + getCompanyCountry(account),
             'data-balloon-length': 'large'
         }))).append($('<td/>', { text: getAvailableMarkets({ real: 1 }) })).append($('<td/>', { class: 'account-currency' })).append($('<td/>').html($('<button/>', { text: localize('Create'), type: 'submit' }))));
 
