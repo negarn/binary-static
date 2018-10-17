@@ -1584,6 +1584,17 @@ body #not_authenticated_financial ul.checked > li {
   background-color: #fff;
   border-radius: 8px; }
 
+.keep-safe-container .box.bordered {
+  border: 1px solid #dedede;
+  height: 100%; }
+  .keep-safe-container .box.bordered > div {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    padding: 20px; }
+    .keep-safe-container .box.bordered > div img {
+      padding-right: 20px; }
+
 .timeline {
   margin: 0 auto;
   overflow: hidden;
