@@ -28271,6 +28271,11 @@ var FinancialAssessment = function () {
             event.preventDefault();
             submitForm();
         });
+        BinarySocket.wait('landing_company').then(function () {
+            if (State.getResponse('authorize.upgradeable_landing_companies').indexOf('costarica') !== -1) {
+                getElementById('risk_disclaimer').setVisibility(1);
+            }
+        });
 
         getFinancialAssessment();
     };
