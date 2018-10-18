@@ -28272,7 +28272,7 @@ var FinancialAssessment = function () {
             submitForm();
         });
         BinarySocket.wait('landing_company').then(function () {
-            if (State.getResponse('authorize.upgradeable_landing_companies').indexOf('costarica') !== -1) {
+            if (/^(costarica|maltainvest)$/.test(Client.get('landing_company_shortcode'))) {
                 getElementById('risk_disclaimer').setVisibility(1);
             }
         });
