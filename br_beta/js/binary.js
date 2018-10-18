@@ -1466,102 +1466,6 @@ module.exports = Language;
 "use strict";
 
 
-var getElementById = __webpack_require__(3).getElementById;
-var isVisible = __webpack_require__(3).isVisible;
-var State = __webpack_require__(6).State;
-var Url = __webpack_require__(8);
-var isEmptyObject = __webpack_require__(1).isEmptyObject;
-
-/*
- * Handles trading page default values
- *
- * Priorities:
- * 1. Client's input: on each change to form, it will reflect to both query string & session storage
- * 2. Query string parameters: will change session storage values
- * 3. Session storage values: if none of the above, it will be the source
- *
- */
-
-var Defaults = function () {
-    var params = {};
-    var getDefault = function getDefault(key) {
-        var p_value = params[key] || Url.param(key);
-        var s_value = sessionStorage.getItem(key);
-        if (p_value && (!s_value || p_value !== s_value)) {
-            sessionStorage.setItem(key, p_value);
-        }
-        if (!p_value && s_value) {
-            setDefault(key, s_value);
-        }
-        return p_value || s_value;
-    };
-
-    var setDefault = function setDefault(key) {
-        var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-        if (!key) return;
-        if (isEmptyObject(params)) params = Url.paramsHash();
-        if (params[key] !== value) {
-            params[key] = value;
-            // to increase speed, do not set values when form is still loading
-            if (!isVisible(getElementById('trading_init_progress'))) {
-                sessionStorage.setItem(key, value);
-                updateURL();
-            }
-        }
-    };
-
-    var removeDefault = function removeDefault() {
-        for (var _len = arguments.length, keys = Array(_len), _key = 0; _key < _len; _key++) {
-            keys[_key] = arguments[_key];
-        }
-
-        if (isEmptyObject(params)) params = Url.paramsHash();
-        var is_updated = false;
-        keys.forEach(function (key) {
-            if (key in params) {
-                sessionStorage.removeItem(key);
-                delete params[key];
-                is_updated = true;
-            }
-        });
-        if (is_updated) {
-            updateURL();
-        }
-    };
-
-    var updateAll = function updateAll() {
-        Object.keys(params).forEach(function (key) {
-            sessionStorage.setItem(key, params[key]);
-        });
-        updateURL();
-    };
-
-    var updateURL = function updateURL() {
-        if (!State.get('is_trading')) return;
-        Url.updateParamsWithoutReload(params, false);
-    };
-
-    return {
-        get: getDefault,
-        set: setDefault,
-        update: updateAll,
-        remove: removeDefault,
-        clear: function clear() {
-            params = {};
-        }
-    };
-}();
-
-module.exports = Defaults;
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 // const Cookies = require('js-cookie');
 
 /*
@@ -1650,6 +1554,102 @@ module.exports = {
     isBinaryApp: isBinaryApp,
     getSocketURL: getSocketURL
 };
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getElementById = __webpack_require__(3).getElementById;
+var isVisible = __webpack_require__(3).isVisible;
+var State = __webpack_require__(6).State;
+var Url = __webpack_require__(8);
+var isEmptyObject = __webpack_require__(1).isEmptyObject;
+
+/*
+ * Handles trading page default values
+ *
+ * Priorities:
+ * 1. Client's input: on each change to form, it will reflect to both query string & session storage
+ * 2. Query string parameters: will change session storage values
+ * 3. Session storage values: if none of the above, it will be the source
+ *
+ */
+
+var Defaults = function () {
+    var params = {};
+    var getDefault = function getDefault(key) {
+        var p_value = params[key] || Url.param(key);
+        var s_value = sessionStorage.getItem(key);
+        if (p_value && (!s_value || p_value !== s_value)) {
+            sessionStorage.setItem(key, p_value);
+        }
+        if (!p_value && s_value) {
+            setDefault(key, s_value);
+        }
+        return p_value || s_value;
+    };
+
+    var setDefault = function setDefault(key) {
+        var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+        if (!key) return;
+        if (isEmptyObject(params)) params = Url.paramsHash();
+        if (params[key] !== value) {
+            params[key] = value;
+            // to increase speed, do not set values when form is still loading
+            if (!isVisible(getElementById('trading_init_progress'))) {
+                sessionStorage.setItem(key, value);
+                updateURL();
+            }
+        }
+    };
+
+    var removeDefault = function removeDefault() {
+        for (var _len = arguments.length, keys = Array(_len), _key = 0; _key < _len; _key++) {
+            keys[_key] = arguments[_key];
+        }
+
+        if (isEmptyObject(params)) params = Url.paramsHash();
+        var is_updated = false;
+        keys.forEach(function (key) {
+            if (key in params) {
+                sessionStorage.removeItem(key);
+                delete params[key];
+                is_updated = true;
+            }
+        });
+        if (is_updated) {
+            updateURL();
+        }
+    };
+
+    var updateAll = function updateAll() {
+        Object.keys(params).forEach(function (key) {
+            sessionStorage.setItem(key, params[key]);
+        });
+        updateURL();
+    };
+
+    var updateURL = function updateURL() {
+        if (!State.get('is_trading')) return;
+        Url.updateParamsWithoutReload(params, false);
+    };
+
+    return {
+        get: getDefault,
+        set: setDefault,
+        update: updateAll,
+        remove: removeDefault,
+        clear: function clear() {
+            params = {};
+        }
+    };
+}();
+
+module.exports = Defaults;
 
 /***/ }),
 /* 24 */,
@@ -2182,7 +2182,7 @@ module.exports = Header;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var Symbols = __webpack_require__(80);
 var Tick = __webpack_require__(63);
 var contractsElement = __webpack_require__(287);
@@ -2970,7 +2970,7 @@ module.exports = {
 var Client = __webpack_require__(96);
 var getLanguage = __webpack_require__(20).get;
 var isStorageSupported = __webpack_require__(6).isStorageSupported;
-var getAppId = __webpack_require__(23).getAppId;
+var getAppId = __webpack_require__(22).getAppId;
 
 var Login = function () {
     var redirectToLogin = function redirectToLogin() {
@@ -3408,7 +3408,7 @@ var getElementById = __webpack_require__(3).getElementById;
 var isVisible = __webpack_require__(3).isVisible;
 var getLanguage = __webpack_require__(20).get;
 var State = __webpack_require__(6).State;
-var getAppId = __webpack_require__(23).getAppId;
+var getAppId = __webpack_require__(22).getAppId;
 
 var GTM = function () {
     var isGtmApplicable = function isGtmApplicable() {
@@ -3598,7 +3598,7 @@ module.exports = {
 
 
 var localize = __webpack_require__(2).localize;
-var getAppId = __webpack_require__(23).getAppId;
+var getAppId = __webpack_require__(22).getAppId;
 
 var buildOauthApps = function buildOauthApps(response) {
     if (!response || !response.oauth_apps) return {};
@@ -3878,7 +3878,7 @@ module.exports = Contract;
 
 
 var Contract = __webpack_require__(61);
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var localize = __webpack_require__(2).localize;
 
 /**
@@ -5077,8 +5077,8 @@ var State = __webpack_require__(6).State;
 var cloneObject = __webpack_require__(1).cloneObject;
 var getPropertyValue = __webpack_require__(1).getPropertyValue;
 var isEmptyObject = __webpack_require__(1).isEmptyObject;
-var getAppId = __webpack_require__(23).getAppId;
-var getSocketURL = __webpack_require__(23).getSocketURL;
+var getAppId = __webpack_require__(22).getAppId;
+var getSocketURL = __webpack_require__(22).getSocketURL;
 
 /*
  * An abstraction layer over native javascript WebSocket,
@@ -5901,7 +5901,7 @@ module.exports = DatePicker;
 
 
 var showChart = __webpack_require__(91).showChart;
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var getActiveTab = __webpack_require__(176).getActiveTab;
 var GetTicks = __webpack_require__(101);
 var MBDefaults = __webpack_require__(47);
@@ -6175,7 +6175,7 @@ var getLanguage = __webpack_require__(20).get;
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
 var getPropertyValue = __webpack_require__(1).getPropertyValue;
-var Config = __webpack_require__(23);
+var Config = __webpack_require__(22);
 
 var WebtraderChart = function () {
     var chart = void 0,
@@ -7988,7 +7988,7 @@ module.exports = Callputspread;
 var Barriers = __webpack_require__(127);
 var updateWarmChart = __webpack_require__(31).updateWarmChart;
 var DigitInfo = __webpack_require__(284);
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var getActiveTab = __webpack_require__(176).getActiveTab;
 var Purchase = __webpack_require__(179);
 var Tick = __webpack_require__(63);
@@ -8099,7 +8099,7 @@ var displayPriceMovement = __webpack_require__(48).displayPriceMovement;
 var getStartDateNode = __webpack_require__(48).getStartDateNode;
 var getTradingTimes = __webpack_require__(48).getTradingTimes;
 var Contract = __webpack_require__(61);
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var getLookBackFormula = __webpack_require__(62).getFormula;
 var isLookback = __webpack_require__(62).isLookback;
 var Client = __webpack_require__(5);
@@ -9519,7 +9519,7 @@ module.exports = MBTick;
 var moment = __webpack_require__(9);
 var countDecimalPlaces = __webpack_require__(48).countDecimalPlaces;
 var Contract = __webpack_require__(61);
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var Tick = __webpack_require__(63);
 var elementTextContent = __webpack_require__(3).elementTextContent;
 var getElementById = __webpack_require__(3).getElementById;
@@ -9739,7 +9739,7 @@ var Barriers = __webpack_require__(127);
 var commonTrading = __webpack_require__(31);
 var commonIndependent = __webpack_require__(48);
 var Contract = __webpack_require__(61);
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var Price = __webpack_require__(102);
 var Reset = __webpack_require__(79);
 var BinarySocket = __webpack_require__(4);
@@ -13388,7 +13388,7 @@ var moment = __webpack_require__(9);
 var TradingAnalysis = __webpack_require__(90);
 var commonTrading = __webpack_require__(31);
 var Contract = __webpack_require__(61);
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var Durations = __webpack_require__(128);
 var GetTicks = __webpack_require__(101);
 var Lookback = __webpack_require__(62);
@@ -14710,7 +14710,7 @@ var GTM = __webpack_require__(58);
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
 var urlFor = __webpack_require__(8).urlFor;
-var isBinaryApp = __webpack_require__(23).isBinaryApp;
+var isBinaryApp = __webpack_require__(22).isBinaryApp;
 
 var MetaTraderConfig = function () {
     var configMtCompanies = function () {
@@ -22637,7 +22637,7 @@ var State = __webpack_require__(6).State;
 var Url = __webpack_require__(8);
 var template = __webpack_require__(1).template;
 var isEmptyObject = __webpack_require__(1).isEmptyObject;
-var isBinaryApp = __webpack_require__(23).isBinaryApp;
+var isBinaryApp = __webpack_require__(22).isBinaryApp;
 
 var DepositWithdraw = function () {
     var default_iframe_height = 700;
@@ -23040,7 +23040,7 @@ var validEmailToken = __webpack_require__(52).validEmailToken;
 var handleVerifyCode = __webpack_require__(98).handleVerifyCode;
 var localize = __webpack_require__(2).localize;
 var Url = __webpack_require__(8);
-var isBinaryApp = __webpack_require__(23).isBinaryApp;
+var isBinaryApp = __webpack_require__(22).isBinaryApp;
 
 var PaymentAgentWithdraw = function () {
     var view_ids = {
@@ -23232,8 +23232,8 @@ module.exports = PaymentAgentWithdraw;
 "use strict";
 
 
-var getAppId = __webpack_require__(23).getAppId;
-var getSocketURL = __webpack_require__(23).getSocketURL;
+var getAppId = __webpack_require__(22).getAppId;
+var getSocketURL = __webpack_require__(22).getSocketURL;
 
 var Endpoint = function () {
     var onLoad = function onLoad() {
@@ -23700,7 +23700,7 @@ var getElementById = __webpack_require__(3).getElementById;
 var localize = __webpack_require__(2).localize;
 var State = __webpack_require__(6).State;
 var urlFor = __webpack_require__(8).urlFor;
-var isBinaryApp = __webpack_require__(23).isBinaryApp;
+var isBinaryApp = __webpack_require__(22).isBinaryApp;
 
 var NewAccount = function () {
     var clients_country = void 0,
@@ -24640,7 +24640,7 @@ var getHighstock = __webpack_require__(31).requireHighstock;
 var MBContract = __webpack_require__(78);
 var MBDefaults = __webpack_require__(47);
 var Callputspread = __webpack_require__(100);
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var GetTicks = __webpack_require__(101);
 var Lookback = __webpack_require__(62);
 var Reset = __webpack_require__(79);
@@ -25445,7 +25445,7 @@ var _reactDom = __webpack_require__(229);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _defaults = __webpack_require__(22);
+var _defaults = __webpack_require__(23);
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -25717,7 +25717,7 @@ exports.default = init;
 "use strict";
 
 
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var Currency = __webpack_require__(7);
 var State = __webpack_require__(6).State;
 
@@ -25759,7 +25759,7 @@ var TradingAnalysis = __webpack_require__(90);
 var Barriers = __webpack_require__(127);
 var CommonTrading = __webpack_require__(31);
 var CommonIndependent = __webpack_require__(48);
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var Durations = __webpack_require__(128);
 var GetTicks = __webpack_require__(101);
 var Notifications = __webpack_require__(177);
@@ -26207,7 +26207,7 @@ var _symbols = __webpack_require__(80);
 
 var _symbols2 = _interopRequireDefault(_symbols);
 
-var _defaults = __webpack_require__(22);
+var _defaults = __webpack_require__(23);
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -26795,7 +26795,7 @@ var Dropdown = __webpack_require__(25).selectDropdown;
 var moment = __webpack_require__(9);
 var CommonIndependent = __webpack_require__(48);
 var Contract = __webpack_require__(61);
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var Durations = __webpack_require__(128);
 var getElementById = __webpack_require__(3).getElementById;
 var localize = __webpack_require__(2).localize;
@@ -26934,7 +26934,7 @@ var TradingAnalysis = __webpack_require__(90);
 var commonTrading = __webpack_require__(31);
 var cleanupChart = __webpack_require__(91).cleanupChart;
 var displayCurrencies = __webpack_require__(288);
-var Defaults = __webpack_require__(22);
+var Defaults = __webpack_require__(23);
 var TradingEvents = __webpack_require__(289);
 var Price = __webpack_require__(102);
 var Process = __webpack_require__(178);
@@ -30247,7 +30247,7 @@ var FormManager = __webpack_require__(16);
 var handleVerifyCode = __webpack_require__(98).handleVerifyCode;
 var localize = __webpack_require__(2).localize;
 var urlFor = __webpack_require__(8).urlFor;
-var isBinaryApp = __webpack_require__(23).isBinaryApp;
+var isBinaryApp = __webpack_require__(22).isBinaryApp;
 
 var LostPassword = function () {
     var form_id = '#frm_lost_password';
@@ -31161,7 +31161,7 @@ var LocalStore = __webpack_require__(6).LocalStore;
 var State = __webpack_require__(6).State;
 var urlFor = __webpack_require__(8).urlFor;
 var Utility = __webpack_require__(1);
-var isBinaryApp = __webpack_require__(23).isBinaryApp;
+var isBinaryApp = __webpack_require__(22).isBinaryApp;
 
 var VirtualAccOpening = function () {
     var form = '#virtual-form';
@@ -32108,7 +32108,7 @@ var BinaryPjax = __webpack_require__(15);
 var BinarySocket = __webpack_require__(4);
 var isEuCountry = __webpack_require__(59).isEuCountry;
 var FormManager = __webpack_require__(16);
-var isBinaryApp = __webpack_require__(23).isBinaryApp;
+var isBinaryApp = __webpack_require__(22).isBinaryApp;
 
 var Home = function () {
     var clients_country = void 0;
@@ -32256,11 +32256,12 @@ module.exports = JobDetails;
 
 var BinarySocket = __webpack_require__(4);
 var isIndonesia = __webpack_require__(59).isIndonesia;
+var isBinaryApp = __webpack_require__(22).isBinaryApp;
 
 var KeepSafe = function () {
     var onLoad = function onLoad() {
         BinarySocket.wait('website_status').then(function () {
-            $('.id-show').setVisibility(isIndonesia());
+            $('.desktop-app').setVisibility(isIndonesia() && !isBinaryApp());
         });
     };
 
