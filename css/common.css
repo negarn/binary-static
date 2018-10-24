@@ -85,7 +85,7 @@ small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td, .table-container tr div .td,
+table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
@@ -138,13 +138,13 @@ sup, .sup, .sup:visited {
   font-weight: normal;
   margin-left: 2px; }
 
-table.middle td, table.middle .table-container tr div .td, .table-container tr div table.middle .td {
+table.middle td {
   vertical-align: middle; }
 
-table.thin-border td, table.thin-border .table-container tr div .td, .table-container tr div table.thin-border .td {
+table.thin-border td {
   border-bottom: 1px solid #dedede; }
 
-table td.no-border, table .table-container tr div .no-border.td, .table-container tr div table .no-border.td {
+table td.no-border {
   border: 0; }
 
 select, input, button, textarea {
@@ -249,10 +249,8 @@ label {
   text-align: left;
   margin-bottom: 5px; }
 
-.form-row.two-rows input:not([type='radio']), .form-row.two-rows select {
-  width: 100%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box; }
+.form-row.two-rows input, .form-row.two-rows select {
+  width: calc(100% - 6px); }
 
 .input {
   width: 45%; }
@@ -359,13 +357,10 @@ _:-ms-fullscreen, :root #content-holder {
   vertical-align: middle; }
 
 input[type=checkbox] {
-  margin: 5px 5px 5px 0;
-  padding: 7px;
-  cursor: pointer; }
-  input[type=checkbox] ~ label {
-    pointer-events: auto; }
-  input[type=checkbox]#email_consent, input[type=checkbox]#chk_accept {
-    margin-left: 5px; }
+  margin-top: -5px;
+  margin-right: 5px; }
+  input[type=checkbox]#email_consent {
+    margin-top: 5px; }
 
 .no-scroll, .no-scroll body {
   overflow: hidden; }
@@ -648,7 +643,7 @@ li strong.margin-right {
 .section-divider .circle {
   padding: 7px 5px !important; }
 
-.no-capitalize, .no-capitalize > a {
+.no-capitalize > a {
   text-transform: none !important; }
 
 label + input {
@@ -707,26 +702,17 @@ label + input {
     padding-bottom: 10px;
     float: none; } }
 
-.highcharts-container .highcharts-subtitle > div:not(.delay) {
-  display: inline-block; }
-
-.highcharts-container .highcharts-subtitle > div .chart-delay {
+.chart-delay {
   display: block;
   text-align: center;
   margin-bottom: 0.2em;
   color: #c03; }
 
-.highcharts-container .highcharts-subtitle > div .chart-payout-range {
-  margin-left: 10px;
-  margin-right: 5px; }
-  .highcharts-container .highcharts-subtitle > div .chart-payout-range:before {
+.chart-payout-range {
+  margin-left: 10px; }
+  .chart-payout-range:before {
     content: url("../images/pages/trade/chart_payout_range.svg");
     display: inline-block; }
-
-.highcharts-container .highcharts-tooltip span {
-  background-color: #fff; }
-  .highcharts-container .highcharts-tooltip span span:first-child {
-    height: 30px; }
 
 .lightbox {
   display: -webkit-box;
@@ -763,7 +749,7 @@ label + input {
     .image-slider #go_next {
       right: 15px; } }
 
-#reality_check_content td, #reality_check_content .table-container tr div .td, .table-container tr div #reality_check_content .td {
+#reality_check_content td {
   width: 12.5%; }
 
 #reality_check_content [data-balloon] {
@@ -786,21 +772,15 @@ label + input {
   text-decoration: underline; }
 
 #footer #footer-regulatory {
-  padding-bottom: 30px; }
-  #footer #footer-regulatory a, #footer #footer-regulatory p, #footer #footer-regulatory .fld-risk-warning legend {
-    font-size: 13px !important; }
-  #footer #footer-regulatory a, #footer #footer-regulatory p {
-    font-weight: 100; }
+  padding-bottom: 30px;
+  color: #a8a8a8; }
   #footer #footer-regulatory a {
-    color: #dedede; }
-  #footer #footer-regulatory p, #footer #footer-regulatory .fld-risk-warning legend {
-    color: #a8a8a8;
+    font-size: 13px !important; }
+  #footer #footer-regulatory p {
+    font-size: 13px;
+    font-weight: 100;
     text-align: justify;
     margin: 0 0 10px; }
-  #footer #footer-regulatory .fld-risk-warning {
-    border-color: #44484c; }
-    #footer #footer-regulatory .fld-risk-warning legend {
-      text-transform: uppercase; }
   #footer #footer-regulatory .about-binary {
     border-top: 1px solid #44484c;
     border-bottom: 1px solid #44484c;
@@ -810,6 +790,29 @@ label + input {
       margin: 0; }
   #footer #footer-regulatory .risk-warning p {
     font-size: 16px; }
+  #footer #footer-regulatory #iom_icon_footer {
+    max-width: 90px; }
+  #footer #footer-regulatory #lga_icon_footer {
+    max-width: 70px; }
+  #footer #footer-regulatory #gamstop_icon_footer {
+    max-width: 120px; }
+  @media screen and (max-width: 480px) {
+    #footer #footer-regulatory .icon-row {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column; }
+      #footer #footer-regulatory .icon-row > * {
+        margin-right: 0;
+        margin-bottom: 20px; }
+    #footer #footer-regulatory .social-icons {
+      margin-left: 0; }
+    #footer #footer-regulatory #iom_icon_footer {
+      max-width: 110px; }
+    #footer #footer-regulatory #lga_icon_footer {
+      max-width: 80px; }
+    #footer #footer-regulatory #gamstop_icon_footer {
+      max-width: 130px; } }
   #footer #footer-regulatory #ratelimit-error-message, #footer #footer-regulatory #site-status-message {
     position: fixed;
     top: 0;
@@ -818,20 +821,6 @@ label + input {
     z-index: 999; }
   #footer #footer-regulatory #site-status-message {
     z-index: 9999; }
-
-#footer .iom-icon {
-  width: 90px; }
-
-#footer .lga-icon {
-  width: 100px; }
-
-#footer .gamstop-icon {
-  width: 109px; }
-
-#footer .gamstop-icon.data-show-visible + .lga-icon {
-  width: 70px;
-  margin-bottom: 3px;
-  margin-left: -10px; }
 
 #footer .flex-row {
   display: -webkit-box;
@@ -846,16 +835,21 @@ label + input {
           align-items: center; }
 
 #footer .lga-gamstop-icon-container {
+  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-orient: vertical;
-  -webkit-box-direction: reverse;
-      -ms-flex-direction: column-reverse;
-          flex-direction: column-reverse; }
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around; }
+  #footer .lga-gamstop-icon-container div, #footer .lga-gamstop-icon-container a {
+    width: 100%; }
 
 #footer .social-icons {
   margin-left: auto; }
@@ -871,19 +865,6 @@ label + input {
 
 #footer .regulation-logos > * {
   margin-right: 20px; }
-
-#footer .regulation-logos .vanuatu-icon {
-  width: 160px;
-  margin-left: -30px;
-  margin-right: 0; }
-
-#footer .regulation-logos .bvi-icon {
-  width: 115px;
-  margin-left: -30px;
-  margin-right: 0; }
-
-#footer .regulation-logos .labuan-icon {
-  width: 120px; }
 
 #footer #end-note {
   line-height: 25px;
@@ -919,18 +900,6 @@ label + input {
     padding-left: 7px; }
     #footer #status_notification_close:hover {
       cursor: pointer; }
-
-@media screen and (max-width: 590px) {
-  #footer .icon-row {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column; }
-    #footer .icon-row > * {
-      margin-right: 0;
-      margin-bottom: 20px; }
-  #footer .social-icons {
-    margin-left: 0; } }
 
 body #topbar {
   text-align: right; }
@@ -1129,7 +1098,7 @@ table {
     background: #f2f2f2;
     border-bottom: 1px solid #44484c;
     vertical-align: middle; }
-  table td, table .table-container tr div .td, .table-container tr div table .td {
+  table td {
     vertical-align: top;
     border-width: 0 1px;
     padding: 4px;
@@ -1160,48 +1129,41 @@ table {
   border-bottom: none;
   overflow: hidden; }
 
-.table-container td, .table-container tr div .td {
+.table-container td {
   text-align: left;
   padding-left: 10px; }
-  .table-container td[data-balloon], .table-container tr div .td[data-balloon] {
+  .table-container td[data-balloon] {
     border-bottom: 3px solid #f2f2f2; }
 
 .table-container .w-80 {
   width: 80px; }
 
-.table-container tr div .td {
-  display: table-cell; }
-
-@media (max-width: 767px) and (orientation: portrait) {
-  .table-container {
-    overflow-x: auto; } }
-
 @media (max-width: 600px) {
-  .table-container td, .table-container tr div .td {
+  .table-container td {
     padding-left: 5px !important;
     padding-right: 5px !important; }
   .table-container th {
     padding-left: 5px !important;
     padding-right: 5px !important; } }
 
-.table-container #statement-table tr > th.details, .table-container #statement-table tr > td.details, .table-container #statement-table tr div tr > .details.td, .table-container tr div #statement-table tr > .details.td, .table-container #profit-table tr > th.details, .table-container #profit-table tr > td.details, .table-container #profit-table tr div tr > .details.td, .table-container tr div #profit-table tr > .details.td {
+.table-container #statement-table tr > th.details, .table-container #statement-table tr > td.details, .table-container #profit-table tr > th.details, .table-container #profit-table tr > td.details {
   display: none !important; }
 
-.table-container #statement-table tr td, .table-container #statement-table tr div .td, .table-container #profit-table tr td, .table-container #profit-table tr div .td {
+.table-container #statement-table tr td, .table-container #profit-table tr td {
   overflow: initial; }
 
 @media (max-width: 600px) {
-  .table-container #statement-table tr > th.details, .table-container #statement-table tr > td.details, .table-container #statement-table tr div tr > .details.td, .table-container tr div #statement-table tr > .details.td, .table-container #profit-table tr > th.details, .table-container #profit-table tr > td.details, .table-container #profit-table tr div tr > .details.td, .table-container tr div #profit-table tr > .details.td {
+  .table-container #statement-table tr > th.details, .table-container #statement-table tr > td.details, .table-container #profit-table tr > th.details, .table-container #profit-table tr > td.details {
     display: table-cell !important; }
-    .table-container #statement-table tr > th.details .button, .table-container #statement-table tr > td.details .button, .table-container #statement-table tr div tr > .details.td .button, .table-container tr div #statement-table tr > .details.td .button, .table-container #profit-table tr > th.details .button, .table-container #profit-table tr > td.details .button, .table-container #profit-table tr div tr > .details.td .button, .table-container tr div #profit-table tr > .details.td .button {
+    .table-container #statement-table tr > th.details .button, .table-container #statement-table tr > td.details .button, .table-container #profit-table tr > th.details .button, .table-container #profit-table tr > td.details .button {
       padding: 8px 15px; }
-  .table-container #statement-table tr th, .table-container #statement-table tr td, .table-container #statement-table tr div .td, .table-container #profit-table tr th, .table-container #profit-table tr td, .table-container #profit-table tr div .td {
+  .table-container #statement-table tr th, .table-container #statement-table tr td, .table-container #profit-table tr th, .table-container #profit-table tr td {
     font-size: 0.7561436673rem; } }
 
 @media (max-width: 600px) {
-  .table-container #profit-table tr > th.contract, .table-container #profit-table tr > td.contract, .table-container #profit-table tr div tr > .contract.td, .table-container tr div #profit-table tr > .contract.td {
+  .table-container #profit-table tr > th.contract, .table-container #profit-table tr > td.contract {
     display: none !important; }
-  .table-container #statement-table tr > th.desc, .table-container #statement-table tr > td.desc, .table-container #statement-table tr div tr > .desc.td, .table-container tr div #statement-table tr > .desc.td {
+  .table-container #statement-table tr > th.desc, .table-container #statement-table tr > td.desc {
     display: none !important; } }
 
 /**
@@ -1272,8 +1234,41 @@ body .app-store-badge, body .google-play-badge {
   display: inline-block;
   background-size: contain; }
 
-body.EN .calls_recording, body.ID .calls_recording, body.RU .calls_recording {
+body.EN .calls_recording {
   display: block !important; }
+
+body.JA .ja-hide {
+  display: none !important; }
+
+body.JA .regulatory-logo {
+  display: none !important; }
+
+body.JA #header #menu-top li {
+  white-space: nowrap; }
+
+body.JA #profit-table .buy-price, body.JA #profit-table .sell-price, body.JA #profit-table .payout, body.JA #profit-table .pl.loss, body.JA #profit-table .act, body.JA #statement-table .buy-price, body.JA #statement-table .sell-price, body.JA #statement-table .payout, body.JA #statement-table .pl.loss, body.JA #statement-table .act {
+  white-space: nowrap; }
+
+body.JA #email_consent_label {
+  font-size: 0.7561436673rem; }
+
+body.JA #footer #footer-regulatory #regulatory-text {
+  font-size: 0.8695652174rem; }
+
+body.JA #footer #footer-regulatory .gr-9, body.JA #footer #footer-regulatory .gr-7-p {
+  width: 100% !important; }
+
+body.JA #mb_trading .payout-input .hint, body.JA #mb_trading .payout-input label {
+  font-size: 0.6575162324rem; }
+
+body.JA #mb_trading #currency {
+  font-size: 0.6575162324rem; }
+
+@media screen and (max-width: 480px) {
+  body.JA #mb_trading .trade_form {
+    font-size: 1rem; }
+    body.JA #mb_trading .trade_form #spot, body.JA #mb_trading .trade_form .current .name {
+      font-size: 1.15rem; } }
 
 /*Vietnamese Language */
 body.VI {
@@ -1301,6 +1296,20 @@ body.FR #trading_socket_container #contract_form_name_nav {
 
 body.FR #header .account-type {
   font-size: 0.8695652174rem; }
+
+/*Indonesian Language */
+body.ID .calls_recording {
+  display: block !important; }
+
+body.ID .regulatory-logo {
+  display: none !important; }
+
+body.ID #regulatory-text {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+body.ID .id-hide {
+  display: none !important; }
 
 body.IT #legal-tab li.tm-li-2, body.DE #legal-tab li.tm-li-2 {
   margin-right: 0 !important;
@@ -1333,6 +1342,9 @@ body.RU #trading_socket_container .contract_heading {
 
 body.RU #trading_socket_container #expiry_type {
   max-width: 185px; }
+
+body.RU .calls_recording {
+  display: block !important; }
 
 body.RU .ru-hide {
   display: none !important; }
@@ -1399,6 +1411,12 @@ body.IT .app-store-badge {
 body.IT .google-play-badge {
   background-image: url("../images/pages/applications/googleplay_it.svg"); }
 
+body.JA .app-store-badge {
+  background-image: url("../images/pages/applications/appstore_ja.svg"); }
+
+body.JA .google-play-badge {
+  background-image: url("../images/pages/applications/googleplay_ja.svg"); }
+
 body.PL .app-store-badge {
   background-image: url("../images/pages/applications/appstore_pl.svg"); }
 
@@ -1450,6 +1468,10 @@ body.ZH_TW .google-play-badge {
   #header ul#menu-top.smaller-font a {
     font-size: 0.7561436673rem; } }
 
+@media screen and (max-width: 959px) {
+  .home-jp-content #banner {
+    background-position-x: 0; } }
+
 @media screen and (min-width: 767) and (max-width: 768px) {
   .center-text-p {
     text-align: center; }
@@ -1461,6 +1483,8 @@ body.ZH_TW .google-play-badge {
     overflow: scroll;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+    overflow-x: auto; }
+  .table-container {
     overflow-x: auto; }
   .welcome-content .box-grid:first-child div {
     margin-bottom: 0.5rem; }
@@ -1480,6 +1504,8 @@ body.ZH_TW .google-play-badge {
     padding: 0; }
   #end-note {
     display: none; }
+  .home-jp-content #banner {
+    background-position-x: 15%; }
   #content .content-tab-container.light .tab-menu-wrap ul.tm-ul li.tm-li a {
     font-size: 0.8695652174rem; }
   #content .light .tab-menu-wrap ul.tm-ul li.tm-li.tab-selector {
