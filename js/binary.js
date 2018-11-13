@@ -12127,7 +12127,7 @@ module.exports = ViewPopupUI;
 var ClientBase = __webpack_require__(87);
 var GTM = __webpack_require__(51);
 var BinarySocket = __webpack_require__(75);
-var getLanguage = __webpack_require__(18).getLanguage;
+var getLanguage = __webpack_require__(18).get;
 var createElement = __webpack_require__(1).createElement;
 
 var Elevio = function () {
