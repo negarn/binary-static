@@ -12135,8 +12135,10 @@ var Elevio = function () {
         if (!window._elev) return;
         window._elev.on('load', function (elev) {
             // eslint-disable-line no-underscore-dangle
-            if (getLanguage().toLowerCase() === 'id') {
-                window._elev.setLanguage('id');
+            var available_elev_languages = ['id'];
+            var current_language = getLanguage().toLowerCase();
+            if (available_elev_languages.indexOf(current_language) !== -1) {
+                window._elev.setLanguage(current_language);
             }
             setUserInfo(elev);
             setTranslations(elev);
