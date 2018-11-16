@@ -3449,7 +3449,7 @@ var Validation = function () {
         );
     };
     var validPhone = function validPhone(value) {
-        return (/^\+?[0-9\s]*$/.test(value)
+        return (/^\+?((-|\s)*[0-9])*$/.test(value)
         );
     };
     var validRegular = function validRegular(value, options) {
@@ -3532,7 +3532,7 @@ var Validation = function () {
                 address: { func: validAddress, message: localize('Only letters, numbers, space, and these special characters are allowed: [_1]', '- . \' # ; : ( ) , @ /') },
                 letter_symbol: { func: validLetterSymbol, message: localize('Only letters, space, hyphen, period, and apostrophe are allowed.') },
                 postcode: { func: validPostCode, message: localize('Only letters, numbers, space, and hyphen are allowed.') },
-                phone: { func: validPhone, message: localize('Only numbers and spaces are allowed.') },
+                phone: { func: validPhone, message: localize('Only numbers, hyphens, and spaces are allowed.') },
                 compare: { func: validCompare, message: localize('The two passwords that you entered do not match.') },
                 not_equal: { func: validNotEqual, message: localizeKeepPlaceholders('[_1] and [_2] cannot be the same.') },
                 min: { func: validMin, message: localizeKeepPlaceholders('Minimum of [_1] characters required.') },
@@ -9087,8 +9087,8 @@ var AccountOpening = function () {
     };
 
     var commonValidations = function commonValidations() {
-        var req = [{ selector: '#salutation', validations: ['req'] }, { selector: '#first_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 30 }]] }, { selector: '#last_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 30 }]] }, { selector: '#date_of_birth', validations: ['req'] }, { selector: '#address_line_1', validations: ['req', 'address', ['length', { min: 1, max: 70 }]] }, { selector: '#address_line_2', validations: ['address', ['length', { min: 0, max: 70 }]] }, { selector: '#address_city', validations: ['req', 'letter_symbol', ['length', { min: 1, max: 35 }]] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol', ['length', { min: 0, max: 35 }]] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 6, max: 35, value: function value() {
-                    return $('#phone').val().replace(/^\+/, '');
+        var req = [{ selector: '#salutation', validations: ['req'] }, { selector: '#first_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 30 }]] }, { selector: '#last_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 30 }]] }, { selector: '#date_of_birth', validations: ['req'] }, { selector: '#address_line_1', validations: ['req', 'address', ['length', { min: 1, max: 70 }]] }, { selector: '#address_line_2', validations: ['address', ['length', { min: 0, max: 70 }]] }, { selector: '#address_city', validations: ['req', 'letter_symbol', ['length', { min: 1, max: 35 }]] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol', ['length', { min: 0, max: 35 }]] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
+                    return $('#phone').val().replace(/\D/g, '');
                 } }]] }, { selector: '#secret_question', validations: ['req'] }, { selector: '#secret_answer', validations: ['req', 'general', ['length', { min: 4, max: 50 }]] }, { selector: '#tnc', validations: [['req', { message: localize('Please accept the terms and conditions.') }]], exclude_request: 1 }, { request_field: 'residence', value: Client.get('residence') }, { request_field: 'client_type', value: function value() {
                 return $('#chk_professional').is(':checked') ? 'professional' : 'retail';
             } }];
@@ -14748,8 +14748,8 @@ var PersonalDetails = function () {
             var is_for_mt_tax = /real/.test(mt_acct_type) && mt_acct_type.split('_').length > 2; // demo and volatility mt accounts do not require tax info
             var is_tax_req = is_financial || is_for_mt_tax && +State.getResponse('landing_company.config.tax_details_required') === 1;
 
-            validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 6, max: 35, value: function value() {
-                        return $('#phone').val().replace(/^\+/, '');
+            validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
+                        return $('#phone').val().replace(/\D/g, '');
                     } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#tax_residence', validations: is_tax_req ? ['req'] : '' }, { selector: '#citizen', validations: is_financial || is_gaming || is_for_mt_citizen ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
 
             var tax_id_validation = { selector: '#tax_identification_number', validations: ['tax_id', ['length', { min: 0, max: 20 }]] };
