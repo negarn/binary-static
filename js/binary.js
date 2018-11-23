@@ -17737,8 +17737,8 @@ var TradingAnalysis = function () {
     var showExplanation = function showExplanation() {
         var $container = $('#tab_explanation-content');
 
-        $container.find('#explanation_winning > div, #explanation_explain > div, #explanation_image, #explanation_note, #explanation_note > div').setVisibility(0);
-        $container.find('#explanation_winning, #winning_' + form_name + ', #explanation_explain, #explain_' + form_name).setVisibility(1);
+        $container.find('#explanation_winning > div, #explanation_explain > div, #explanation_image, #explanation_note, #explanation_note > div, #explanation_duration > div').setVisibility(0);
+        $container.find('#explanation_winning, #winning_' + form_name + ', #explanation_explain, #explain_' + form_name + ', #duration_' + Defaults.get('market')).setVisibility(1);
 
         if ($container.find('#note_' + form_name).length) {
             $('#explanation_note, #note_' + form_name).setVisibility(1);
