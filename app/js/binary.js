@@ -18530,7 +18530,7 @@ var switchAccount = exports.switchAccount = function switchAccount(loginid) {
     }
     sessionStorage.setItem('active_tab', '1');
     // set local storage
-    _gtm2.default.setLoginFlag();
+    _gtm2.default.setLoginFlag('account_switch');
     _client_base2.default.set('cashier_confirmed', 0);
     _client_base2.default.set('accepted_bch', 0);
     _client_base2.default.set('loginid', loginid);

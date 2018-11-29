@@ -925,7 +925,7 @@ var GTM = function () {
 
     var eventHandler = function eventHandler(get_settings) {
         if (!isGtmApplicable()) return;
-        var is_login = localStorage.getItem('GTM_login') === '1';
+        var login_event = localStorage.getItem('GTM_login');
         var is_new_account = localStorage.getItem('GTM_new_account') === '1';
 
         localStorage.removeItem('GTM_login');
@@ -946,10 +946,12 @@ var GTM = function () {
             url: window.location.href,
             bom_today: Math.floor(Date.now() / 1000)
         };
+
         if (is_new_account) {
             data.event = 'new_account';
             data.bom_date_joined = data.bom_today;
         }
+
         if (!ClientBase.get('is_virtual')) {
             data.bom_age = parseInt((moment().unix() - get_settings.date_of_birth) / 31557600);
             data.bom_firstname = get_settings.first_name;
@@ -957,8 +959,8 @@ var GTM = function () {
             data.bom_phone = get_settings.phone;
         }
 
-        if (is_login) {
-            data.event = 'log_in';
+        if (login_event) {
+            data.event = login_event;
             BinarySocket.wait('mt5_login_list').then(function (response) {
                 (response.mt5_login_list || []).forEach(function (obj) {
                     var acc_type = (ClientBase.getMT5AccountType(obj.group) || '').replace('real_vanuatu', 'financial').replace('vanuatu_', '').replace('costarica', 'gaming'); // i.e. financial_cent, demo_cent, demo_gaming, real_gaming
@@ -1047,8 +1049,8 @@ var GTM = function () {
         eventHandler: eventHandler,
         pushPurchaseData: pushPurchaseData,
         mt5NewAccount: mt5NewAccount,
-        setLoginFlag: function setLoginFlag() {
-            if (isGtmApplicable()) localStorage.setItem('GTM_login', '1');
+        setLoginFlag: function setLoginFlag(event_name) {
+            if (isGtmApplicable()) localStorage.setItem('GTM_login', event_name);
         }
     };
 }();
@@ -7741,9 +7743,9 @@ var Scroll = function () {
                 // if we've scrolled more than the navigation, change its position to fixed to stick to top,
                 // otherwise change it back to relative
                 if (scroll_top + $sidebar[0].offsetHeight > $sidebar_container[0].offsetHeight + $sidebar_container.offset().top) {
-                    $sidebar.css({ position: 'absolute', bottom: 0, top: '', width: width });
+                    $sidebar.css({ position: 'absolute', bottom: 0, top: '', 'max-width': width, 'width': '100%' });
                 } else if (scroll_top > sticky_navigation_offset_top) {
-                    $sidebar.css({ position: 'fixed', top: 0, bottom: '', width: width });
+                    $sidebar.css({ position: 'fixed', top: 0, bottom: '', 'max-width': width, 'width': '100%' });
                 } else {
                     $sidebar.css({ position: 'relative' });
                 }
@@ -10033,7 +10035,7 @@ var Header = function () {
 
         sessionStorage.setItem('active_tab', '1');
         // set local storage
-        GTM.setLoginFlag();
+        GTM.setLoginFlag('account_switch');
         Client.set('cashier_confirmed', 0);
         Client.set('accepted_bch', 0);
         Client.set('loginid', loginid);
@@ -10451,7 +10453,7 @@ var LoggedInHandler = function () {
         }
 
         if (Client.isLoggedIn()) {
-            GTM.setLoginFlag();
+            GTM.setLoginFlag('log_in');
             Client.set('session_start', parseInt(moment().valueOf() / 1000));
             // Remove cookies that were set by the old code
             removeCookies('email', 'login', 'loginid', 'loginid_list', 'residence');
@@ -12423,7 +12425,9 @@ var getCurrencyList = function getCurrencyList(currencies) {
     var $cryptocurrencies = $('<optgroup/>', { label: localize('Crypto') });
 
     currencies.forEach(function (currency) {
-        (CurrencyBase.isCryptocurrency(currency) ? $cryptocurrencies : $fiat_currencies).append($('<option/>', { value: currency, text: currency }));
+        var is_crypto_currency = CurrencyBase.isCryptocurrency(currency);
+        var currency_name = is_crypto_currency ? CurrencyBase.getCurrencyName(currency) + ' (' + currency + ')' : currency;
+        (is_crypto_currency ? $cryptocurrencies : $fiat_currencies).append($('<option/>', { value: currency, text: currency_name }));
     });
 
     return $currencies.append($fiat_currencies.children().length ? $fiat_currencies : '').append($cryptocurrencies.children().length ? $cryptocurrencies : '');
@@ -29402,6 +29406,27 @@ var Accounts = function () {
     var landing_company = void 0;
     var form_id = '#new_accounts';
 
+    var TableHeaders = function () {
+        var table_headers = void 0;
+
+        var initTableHeaders = function initTableHeaders() {
+            return {
+                account: localize('Account'),
+                available_markets: localize('Available Markets'),
+                available_currencies: localize('Available Currencies')
+            };
+        };
+
+        return {
+            get: function get() {
+                if (!table_headers) {
+                    table_headers = initTableHeaders();
+                }
+                return table_headers;
+            }
+        };
+    }();
+
     var onLoad = function onLoad() {
         if (!Client.get('residence')) {
             // ask client to set residence first since cannot wait landing_company otherwise
@@ -29442,18 +29467,18 @@ var Accounts = function () {
     };
 
     var populateNewAccounts = function populateNewAccounts(upgrade_info) {
+        var table_headers = TableHeaders.get();
         var new_account = upgrade_info;
         var account = {
             real: new_account.type === 'real',
             financial: new_account.type === 'financial'
         };
         var new_account_title = new_account.type === 'financial' ? localize('Financial Account') : localize('Real Account');
-
-        $(form_id).find('tbody').append($('<tr/>').append($('<td/>').html($('<span/>', {
+        $(form_id).find('tbody').append($('<tr/>').append($('<td/>', { datath: table_headers.account }).html($('<span/>', {
             text: new_account_title,
             'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) + ', ' + localize('Jurisdiction') + ': ' + getCompanyCountry(account),
             'data-balloon-length': 'large'
-        }))).append($('<td/>', { text: getAvailableMarkets(account) })).append($('<td/>', { text: Client.getLandingCompanyValue(account, landing_company, 'legal_allowed_currencies').join(', ') })).append($('<td/>').html($('<a/>', { class: 'button', href: urlFor(new_account.upgrade_link) }).html($('<span/>', { text: localize('Create') })))));
+        }))).append($('<td/>', { text: getAvailableMarkets(account), datath: table_headers.available_markets })).append($('<td/>', { text: Client.getLandingCompanyValue(account, landing_company, 'legal_allowed_currencies').join(', '), datath: table_headers.available_currencies })).append($('<td/>').html($('<a/>', { class: 'button', href: urlFor(new_account.upgrade_link) }).html($('<span/>', { text: localize('Create') })))));
     };
 
     var populateExistingAccounts = function populateExistingAccounts() {
@@ -29546,13 +29571,14 @@ var Accounts = function () {
     };
 
     var populateMultiAccount = function populateMultiAccount() {
+        var table_headers = TableHeaders.get();
         var currencies = getCurrencies(landing_company);
         var account = { real: 1 };
-        $(form_id).find('tbody').append($('<tr/>', { id: 'new_account_opening' }).append($('<td/>').html($('<span/>', {
+        $(form_id).find('tbody').append($('<tr/>', { id: 'new_account_opening' }).append($('<td/>', { datath: table_headers.account }).html($('<span/>', {
             text: localize('Real Account'),
             'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) + ', ' + localize('Jurisdiction') + ': ' + getCompanyCountry(account),
             'data-balloon-length': 'large'
-        }))).append($('<td/>', { text: getAvailableMarkets({ real: 1 }) })).append($('<td/>', { class: 'account-currency' })).append($('<td/>').html($('<button/>', { text: localize('Create'), type: 'submit' }))));
+        }))).append($('<td/>', { text: getAvailableMarkets({ real: 1 }), datath: table_headers.available_markets })).append($('<td/>', { class: 'account-currency', datath: table_headers.available_currencies })).append($('<td/>').html($('<button/>', { text: localize('Create'), type: 'submit' }))));
 
         $('#note').setVisibility(1);
 
