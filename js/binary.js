@@ -802,7 +802,7 @@ var Elevio = function () {
         if (!window._elev) return; // eslint-disable-line no-underscore-dangle
         window._elev.on('load', function (elev) {
             // eslint-disable-line no-underscore-dangle
-            var available_elev_languages = ['id'];
+            var available_elev_languages = ['id', 'ru'];
             var current_language = getLanguage().toLowerCase();
             if (available_elev_languages.indexOf(current_language) !== -1) {
                 window._elev.setLanguage(current_language); // eslint-disable-line no-underscore-dangle
@@ -14060,6 +14060,18 @@ var Cashier = function () {
             $toggler = $(e.target).closest('.toggler');
             $toggler.children().toggleClass('active');
             $toggler.toggleClass('open');
+        });
+        showCashierNote();
+    };
+
+    var showCashierNote = function showCashierNote() {
+        // TODO: remove `wait` & residence check to release to all countries
+        BinarySocket.wait('authorize').then(function () {
+            $('.cashier_note').setVisibility(Client.isLoggedIn() && // only show to logged-in clients
+            !Client.get('is_virtual') && // only show to real accounts
+            !isCryptocurrency(Client.get('currency')) && // only show to fiat currencies
+            /^(vn|ng|lk|id)$/.test(Client.get('residence')) // only show to Vietnam, Nigeria, Sri Lanka, Indonesia
+            );
         });
     };
 
