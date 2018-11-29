@@ -744,7 +744,9 @@ label + input {
       background-size: 100%;
       background-position: bottom;
       background-repeat: no-repeat; }
-      #interview_popup_container .popup__head h1 {
+      #interview_popup_container .popup__head .header-1 {
+        font-size: 36px;
+        font-weight: 300;
         color: #fff;
         margin: 0; }
     #interview_popup_container .popup__present_img {
@@ -757,7 +759,7 @@ label + input {
       padding: 20px 35px 30px; }
       #interview_popup_container .popup__body .header-2 {
         color: #e98024;
-        font-size: 1.75rem;
+        font-size: 28px;
         font-weight: 300; }
     #interview_popup_container .popup__options {
       display: -webkit-box;
@@ -793,11 +795,11 @@ label + input {
       height: 20px;
       margin: 0 15px;
       background: #a1aab3; }
-  #interview_popup_container h1, #interview_popup_container .header-2 {
+  #interview_popup_container .header-1, #interview_popup_container .header-2 {
     text-align: center;
     line-height: 1.15; }
   @media screen and (max-width: 768px) {
-    #interview_popup_container h1 {
+    #interview_popup_container .header {
       font-size: 24px; }
     #interview_popup_container .header-2 {
       font-size: 18px; }
