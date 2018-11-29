@@ -2281,8 +2281,6 @@ div.datepicker-container {
     cursor: pointer; }
     .time-picker #time-picker-input.time-picker-input::-webkit-input-placeholder {
       color: #e9e9ed; }
-    .time-picker #time-picker-input.time-picker-input:-ms-input-placeholder {
-      color: #e9e9ed; }
     .time-picker #time-picker-input.time-picker-input::-ms-input-placeholder {
       color: #e9e9ed; }
     .time-picker #time-picker-input.time-picker-input::placeholder {

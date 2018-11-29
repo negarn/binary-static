@@ -742,7 +742,7 @@ var getMinWithdrawal = function getMinWithdrawal(currency) {
 };
 
 var getMinTransfer = function getMinTransfer(currency) {
-    return getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', 'min']) || getMinWithdrawal(currency);
+    return getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', 'limits', 'min']) || getMinWithdrawal(currency);
 };
 
 var getTransferFee = function getTransferFee(currency_from, currency_to) {
