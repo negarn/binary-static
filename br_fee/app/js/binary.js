@@ -9337,6 +9337,10 @@ var _network_monitor = __webpack_require__(/*! ../Services/network_monitor */ ".
 
 var _network_monitor2 = _interopRequireDefault(_network_monitor);
 
+var _outdated_browser = __webpack_require__(/*! ../Services/outdated_browser */ "./src/javascript/app_2/Services/outdated_browser.js");
+
+var _outdated_browser2 = _interopRequireDefault(_outdated_browser);
+
 var _Stores = __webpack_require__(/*! ../Stores */ "./src/javascript/app_2/Stores/index.js");
 
 var _Stores2 = _interopRequireDefault(_Stores);
@@ -9359,6 +9363,7 @@ var initApp = function initApp() {
     var root_store = new _Stores2.default();
 
     _network_monitor2.default.init(root_store);
+    _outdated_browser2.default.init(root_store);
     root_store.modules.trade.init();
 
     var app = document.getElementById('binary_app');
@@ -18525,7 +18530,7 @@ var switchAccount = exports.switchAccount = function switchAccount(loginid) {
     }
     sessionStorage.setItem('active_tab', '1');
     // set local storage
-    _gtm2.default.setLoginFlag();
+    _gtm2.default.setLoginFlag('account_switch');
     _client_base2.default.set('cashier_confirmed', 0);
     _client_base2.default.set('accepted_bch', 0);
     _client_base2.default.set('loginid', loginid);
@@ -18674,6 +18679,64 @@ var NetworkMonitor = function () {
 }();
 
 exports.default = NetworkMonitor;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Services/outdated_browser.js":
+/*!***********************************************************!*\
+  !*** ./src/javascript/app_2/Services/outdated_browser.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
+
+var _localize = __webpack_require__(/*! ../../_common/localize */ "./src/javascript/_common/localize.js");
+
+var common_store = void 0;
+
+var OutdatedBrowser = function () {
+    var init = function init(store) {
+        common_store = store.common;
+
+        var src = '//browser-update.org/update.min.js';
+        if (document.querySelector('script[src*="' + src + '"]')) return;
+        window.$buoop = {
+            vs: { i: 11, f: -4, o: -4, s: 9, c: -4 },
+            api: 4,
+            url: 'https://whatbrowser.org/',
+            noclose: true, // Do not show the 'ignore' button to close the notification
+            reminder: 0, // show all the time
+            onshow: updateStore,
+            nomessage: true,
+            insecure: true
+        };
+        if (document.body) {
+            var script = document.createElement('script');
+            script.setAttribute('src', src);
+            document.body.appendChild(script);
+        }
+    };
+
+    var updateStore = (0, _mobx.action)('showError', function () {
+        if (common_store) {
+            common_store.showError((0, _localize.localize)('Your web browser is out of date and may affect your trading experience. Proceed at your own risk.'));
+        }
+    });
+
+    return {
+        init: init
+    };
+}();
+
+exports.default = OutdatedBrowser;
 
 /***/ }),
 
