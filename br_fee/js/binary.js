@@ -746,7 +746,7 @@ var getMinTransfer = function getMinTransfer(currency) {
 };
 
 var getTransferFee = function getTransferFee(currency_from, currency_to) {
-    return getPropertyValue(currencies_config, [currency_from, 'transfer_between_accounts', 'fees', currency_to]) || '1%';
+    return (getPropertyValue(currencies_config, [currency_from, 'transfer_between_accounts', 'fees', currency_to]) || '1') + '%';
 };
 
 // @param {String} limit = max|min
