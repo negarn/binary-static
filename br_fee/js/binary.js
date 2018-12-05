@@ -750,6 +750,10 @@ var getTransferFee = function getTransferFee(currency_from, currency_to) {
     return (typeof transfer_fee === 'undefined' ? '1' : transfer_fee) + '%';
 };
 
+var getMinimumTransferFee = function getMinimumTransferFee(currency) {
+    return isCryptocurrency(currency) ? '0.00000001' : '0.01';
+};
+
 // @param {String} limit = max|min
 var getPaWithdrawalLimit = function getPaWithdrawalLimit(currency, limit) {
     if (isCryptocurrency(currency)) {
@@ -777,6 +781,7 @@ module.exports = {
     getMinWithdrawal: getMinWithdrawal,
     getMinTransfer: getMinTransfer,
     getTransferFee: getTransferFee,
+    getMinimumTransferFee: getMinimumTransferFee,
     getMinPayout: getMinPayout,
     getPaWithdrawalLimit: getPaWithdrawalLimit,
     getCurrencies: function getCurrencies() {
@@ -9133,6 +9138,9 @@ var BinaryLoader = function () {
         },
         only_real: function only_real() {
             return localize('This feature is not relevant to virtual-money accounts.');
+        },
+        not_authenticated: function not_authenticated() {
+            return localize('This page is only available to logged out clients.');
         }
     };
 
@@ -9155,7 +9163,7 @@ var BinaryLoader = function () {
                 });
             }
         } else if (config.not_authenticated && Client.isLoggedIn()) {
-            BinaryPjax.load(Client.defaultRedirectUrl(), true);
+            handleNotAuthenticated();
         } else {
             loadActiveScript(config);
         }
@@ -9194,6 +9202,33 @@ var BinaryLoader = function () {
                 Login.redirectToLogin();
             });
         }
+    };
+
+    var handleNotAuthenticated = function handleNotAuthenticated() {
+        var content = container.querySelector('#content .container');
+        if (!content) {
+            return;
+        }
+
+        var outer_container = createElement('div', { class: 'logged_out_title_container', html: content.getElementsByTagName('h1')[0] });
+        var rowDiv = function rowDiv(element) {
+            var row_element = createElement('div', { class: 'gr-padding-10' });
+            row_element.appendChild(element);
+            return row_element;
+        };
+        var inner_container = createElement('div', { class: 'center-text' });
+        var error_msg = createElement('div', { class: 'center-text notice-msg', text: error_messages.not_authenticated() });
+        var logout_cta = createElement('button');
+        var logout_span = createElement('span', { text: localize('Sign out') });
+
+        logout_cta.addEventListener('click', function () {
+            Client.doLogout({ logout: 1 });
+        });
+        logout_cta.appendChild(logout_span);
+        inner_container.appendChild(rowDiv(error_msg));
+        inner_container.appendChild(rowDiv(logout_cta));
+        outer_container.append(inner_container);
+        content.html(outer_container);
     };
 
     return {
@@ -9846,6 +9881,7 @@ module.exports = Contents;
 var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
 var Client = __webpack_require__(/*! ../base/client */ "./src/javascript/app/base/client.js");
 var isEuCountry = __webpack_require__(/*! ../common/country_base */ "./src/javascript/app/common/country_base.js").isEuCountry;
+var LocalStore = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").LocalStore;
 var State = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").State;
 
 var Footer = function () {
@@ -9872,15 +9908,25 @@ var Footer = function () {
     };
 
     var displayNotification = function displayNotification(message) {
-        var $status_notification = $('#status_notification');
-        var $status_message_text = $('#status_notification_text');
-        var $close_icon = $('#status_notification_close');
+        BinarySocket.wait('time').then(function (response) {
+            var notification_storage = LocalStore.getObject('status_notification');
+            var time_difference = parseInt(response.time) - (parseInt(notification_storage.close_time) || 0);
+            var required_difference = 30 * 60;
 
-        $status_notification.css('display', 'flex');
-        $status_message_text.html(message);
+            if (time_difference > required_difference || notification_storage.message !== message) {
+                var $status_message_text = $('#status_notification_text');
+                var $close_icon = $('#status_notification_close');
+                var $status_notification = $('#status_notification');
 
-        $close_icon.off('click').on('click', function () {
-            $status_notification.slideUp(200);
+                $status_notification.css('display', 'flex');
+                $status_message_text.html(message);
+                $close_icon.off('click').on('click', function () {
+                    $status_notification.slideUp(200);
+                    notification_storage.message = message;
+                    notification_storage.close_time = response.time;
+                    LocalStore.setObject('status_notification', notification_storage);
+                });
+            }
         });
     };
 
@@ -11298,13 +11344,22 @@ var AccountOpening = function () {
         $('.upgrademessage').children('a').setVisibility(should_show);
     };
 
+    var registerPepToggle = function registerPepToggle() {
+        $('#pep_declaration_note_toggle').off('click').on('click', function (e) {
+            e.stopPropagation();
+            $('#pep_declaration_note_toggle').toggleClass('open');
+            $('#pep_declaration_note').slideToggle();
+        });
+    };
+
     return {
         redirectAccount: redirectAccount,
         populateForm: populateForm,
         handleNewAccount: handleNewAccount,
         commonValidations: commonValidations,
         selectCheckboxValidation: selectCheckboxValidation,
-        showHidePulser: showHidePulser
+        showHidePulser: showHidePulser,
+        registerPepToggle: registerPepToggle
     };
 }();
 
@@ -12247,7 +12302,7 @@ var eu_country_rule = 'eucountry';
 var ContentVisibility = function () {
     var init = function init() {
         BinarySocket.wait('authorize', 'landing_company', 'website_status').then(function () {
-            var current_landing_company_shortcode = State.getResponse('authorize.landing_company_name');
+            var current_landing_company_shortcode = State.getResponse('authorize.landing_company_name') || 'default';
             controlVisibility(current_landing_company_shortcode, MetaTrader.isEligible(), State.getResponse('landing_company.mt_financial_company.shortcode'));
         });
     };
@@ -13838,6 +13893,7 @@ var AccountTransfer = function () {
         el_reset_transfer = void 0,
         el_transfer_fee = void 0,
         el_fee_amount = void 0,
+        el_fee_minimum = void 0,
         el_transfer_info = void 0,
         el_success_form = void 0,
         client_balance = void 0,
@@ -13884,6 +13940,7 @@ var AccountTransfer = function () {
 
         if (Client.hasCurrencyType('crypto') && Client.hasCurrencyType('fiat')) {
             setTransferFeeAmount();
+            elementTextContent(el_fee_minimum, client_currency + ' ' + Currency.getMinimumTransferFee(client_currency));
             el_transfer_fee.setVisibility(1);
         } else {
             el_transfer_info.setVisibility(1);
@@ -13979,6 +14036,7 @@ var AccountTransfer = function () {
 
         el_transfer_fee = getElementById('transfer_fee');
         el_fee_amount = getElementById('transfer_fee_amount');
+        el_fee_minimum = getElementById('transfer_fee_minimum');
         el_transfer_info = getElementById('transfer_info');
         el_success_form = getElementById('success_form');
         el_reset_transfer = getElementById('reset_transfer');
@@ -14052,7 +14110,6 @@ module.exports = AccountTransfer;
 
 
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
-var Header = __webpack_require__(/*! ../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var isCryptocurrency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").isCryptocurrency;
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
@@ -14065,7 +14122,6 @@ var Cashier = function () {
 
     var showContent = function showContent() {
         Client.activateByClientType();
-        Header.upgradeMessageVisibility(); // To handle the upgrade buttons visibility
         var anchor = paramsHash().anchor;
         var $toggler = void 0;
         if (anchor) {
@@ -16919,11 +16975,11 @@ var NewAccount = function () {
             }
         });
 
-        $google_btn.on('click', function (e) {
+        $google_btn.off('click').on('click', function (e) {
             e.preventDefault();
             window.location.href = Login.socialLoginUrl('google');
         });
-        $login_btn.on('click', function (e) {
+        $login_btn.off('click').on('click', function (e) {
             e.preventDefault();
             Login.redirectToLogin();
         });
@@ -16959,8 +17015,6 @@ var NewAccount = function () {
 
     var onUnload = function onUnload() {
         getElementById('footer').setVisibility(1);
-        $google_btn.off('click');
-        $login_btn.off('click');
     };
 
     return {
@@ -22486,7 +22540,8 @@ var Markets = (_temp = _class = function (_React$Component) {
             },
             markets: markets_arr,
             active_market: market_symbol,
-            query: ''
+            query: '',
+            open_dropdown_scroll_id: 0
         };
         _this.el_underlying.value = underlying_symbol;
         return _this;
@@ -22712,6 +22767,28 @@ var Markets = (_temp = _class = function (_React$Component) {
         _this2.stickyHeader(position);
     };
 
+    this.openScrollMonitor = function (element) {
+        // if there is no scroll, we don't need to register anything.
+        if (element.scrollHeight < element.clientHeight) return;
+        var forceScroll = function forceScroll(e) {
+            e.scrollTop += 1;
+            e.scrollTop -= 1;
+        };
+        _this2.setState({
+            open_dropdown_scroll_id: setInterval(forceScroll.bind(null, element), 300)
+        });
+        setTimeout(function () {
+            _this2.closeScrollMonitor();
+        }, 1500);
+    };
+
+    this.closeScrollMonitor = function () {
+        clearInterval(_this2.state.open_dropdown_scroll_id);
+        _this2.setState({
+            open_dropdown_scroll_id: 0
+        });
+    };
+
     this.openDropdown = function () {
         _this2.setState({ open: true });
         Object.values(_this2.references.market_nodes).forEach(function (node) {
@@ -22722,6 +22799,8 @@ var Markets = (_temp = _class = function (_React$Component) {
         });
         _this2.references.list.scrollTop = 0;
         _this2.scrollToElement(_this2.state.underlying.symbol, 0, 70);
+        var scrollable = document.querySelector('.markets_dropdown .list');
+        _this2.openScrollMonitor(scrollable);
     };
 
     this.onUnderlyingClick = function (underlying_symbol, market_symbol) {
@@ -25510,6 +25589,8 @@ var Authenticate = function () {
             if ($(e.target).is('span.remove')) resetLabel(event);
         });
 
+        // Hide success message on another file selected
+        hideSuccess();
         // Change submit button state
         enableDisableSubmit();
     };
@@ -25847,9 +25928,18 @@ var Authenticate = function () {
         var msg = localize('We are reviewing your documents. For more details [_1]contact us[_2].', ['<a href="' + Url.urlFor('contact') + '">', '</a>']);
         displayNotification(msg, false, 'document_under_review');
         setTimeout(function () {
-            $('#not_authenticated, #not_authenticated_financial').setVisibility(0); // Just hide it
+            removeButtonLoading();
+            $button.setVisibility(0);
+            $('.submit-status').setVisibility(0);
             $('#success-message').setVisibility(1);
         }, 3000);
+    };
+
+    var hideSuccess = function hideSuccess() {
+        if ($button) {
+            $button.setVisibility(1);
+        }
+        $('#success-message').setVisibility(0);
     };
 
     var onResponse = function onResponse(response, is_last_upload) {
@@ -28028,6 +28118,9 @@ var PersonalDetails = function () {
                     if (should_update_value || should_show_label) {
                         // if should show label, set the value of the non-label so that it doesn't count as missing information
                         $(should_show_label ? '#' + key : el_key).val(get_settings[key] ? get_settings[key].split(',') : '').trigger('change');
+                        if (should_show_label) {
+                            CommonFunctions.getElementById('row_' + key).setVisibility(0);
+                        }
                     }
                 }
             }
@@ -29776,6 +29869,7 @@ var LostPassword = function () {
     var responseHandler = function responseHandler(response) {
         if (response.verify_email) {
             $('#password_reset_description').setVisibility(0);
+            $('#password_reset_social').setVisibility(0);
             $('#check_spam').setVisibility(1);
             if (isBinaryApp()) {
                 $(form_id).setVisibility(0);
@@ -30612,7 +30706,7 @@ module.exports = MetaTrader;
 
 var MetaTraderConfig = __webpack_require__(/*! ./metatrader.config */ "./src/javascript/app/pages/user/metatrader/metatrader.config.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
-var formatMoney = __webpack_require__(/*! ../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var Currency = __webpack_require__(/*! ../../../common/currency */ "./src/javascript/app/common/currency.js");
 var Validation = __webpack_require__(/*! ../../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
 var getTransferFee = __webpack_require__(/*! ../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").getTransferFee;
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
@@ -30767,7 +30861,7 @@ var MetaTraderUI = function () {
                 $list.find('#acc_group_real').setVisibility(1);
             }
             if (acc_type === Client.get('mt5_account')) {
-                var mt_balance = formatMoney(MetaTraderConfig.getCurrency(acc_type), +accounts_info[acc_type].info.balance);
+                var mt_balance = Currency.formatMoney(MetaTraderConfig.getCurrency(acc_type), +accounts_info[acc_type].info.balance);
                 $acc_item.find('.mt-balance').html(mt_balance);
                 $action.find('.mt5-balance').html(mt_balance);
             }
@@ -30799,7 +30893,7 @@ var MetaTraderUI = function () {
                 var info = accounts_info[acc_type].info[key];
                 var mapping = {
                     balance: function balance() {
-                        return isNaN(info) ? '' : formatMoney(MetaTraderConfig.getCurrency(acc_type), +info);
+                        return isNaN(info) ? '' : Currency.formatMoney(MetaTraderConfig.getCurrency(acc_type), +info);
                     },
                     leverage: function leverage() {
                         return '1:' + info;
@@ -30899,17 +30993,19 @@ var MetaTraderUI = function () {
             var mt_currency = MetaTraderConfig.getCurrency(acc_type);
             cloneForm();
             _$form.find('.binary-account').text('' + localize('[_1] Account [_2]', ['Binary', Client.get('loginid')]));
-            _$form.find('.binary-balance').html('' + formatMoney(client_currency, Client.get('balance')));
+            _$form.find('.binary-balance').html('' + Currency.formatMoney(client_currency, Client.get('balance')));
             _$form.find('.mt5-account').text('' + localize('[_1] Account [_2]', [accounts_info[acc_type].title, accounts_info[acc_type].info.login]));
-            _$form.find('.mt5-balance').html('' + formatMoney(mt_currency, accounts_info[acc_type].info.balance));
+            _$form.find('.mt5-balance').html('' + Currency.formatMoney(mt_currency, accounts_info[acc_type].info.balance));
             _$form.find('.symbols.mt-currency').addClass(mt_currency.toLowerCase());
             _$form.find('label[for="txt_amount_deposit"]').append(' ' + client_currency);
             _$form.find('label[for="txt_amount_withdrawal"]').append(' ' + mt_currency);
 
             var should_show_transfer_fee = client_currency !== mt_currency;
             if (should_show_transfer_fee) {
-                $('#transfer_fee_to').text(getTransferFee(client_currency, mt_currency));
-                $('#transfer_fee_from').text(getTransferFee(mt_currency, client_currency));
+                $('#transfer_fee_amount_to').text(getTransferFee(client_currency, mt_currency));
+                $('#transfer_fee_minimum_to').text(Currency.getMinimumTransferFee(client_currency));
+                $('#transfer_fee_amount_from').text(getTransferFee(mt_currency, client_currency));
+                $('#transfer_fee_minimum_from').text(Currency.getMinimumTransferFee(mt_currency));
             }
             _$form.find('#txt_amount_deposit, #txt_amount_withdrawal').siblings('.hint').setVisibility(should_show_transfer_fee);
 
@@ -31356,6 +31452,7 @@ var FinancialAccOpening = function () {
         });
 
         AccountOpening.showHidePulser(0);
+        AccountOpening.registerPepToggle();
     };
 
     var getValidations = function getValidations() {
@@ -31446,6 +31543,7 @@ var RealAccOpening = function () {
             BinaryPjax.loadPreviousUrl();
         }
         AccountOpening.showHidePulser(0);
+        AccountOpening.registerPepToggle();
     };
 
     var getValidations = function getValidations() {
@@ -32855,7 +32953,7 @@ var ViewPopup = function () {
         var link = Utility.createElement('a', { class: 'previous-wrapper' });
 
         link.appendChild(Utility.createElement('span', { class: 'previous align-self-center' }));
-        link.appendChild(Utility.createElement('span', { class: 'nowrap', text: localize('View Chart') }));
+        link.appendChild(Utility.createElement('span', { class: 'nowrap', text: localize('View chart') }));
         link.addEventListener('click', function () {
             setAuditVisibility(0);
         });
