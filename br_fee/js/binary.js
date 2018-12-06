@@ -751,7 +751,7 @@ var getTransferFee = function getTransferFee(currency_from, currency_to) {
 };
 
 var getMinimumTransferFee = function getMinimumTransferFee(currency) {
-    return isCryptocurrency(currency) ? '0.00000001' : '0.01';
+    return 1 / Math.pow(10, getDecimalPlaces(currency));
 };
 
 // @param {String} limit = max|min
