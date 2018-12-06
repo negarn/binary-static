@@ -1,0 +1,9 @@
+{
+  "binary.js": "/app/js/binary.js",
+  "binary.js.map": "/app/js/binary.js.map",
+  "binary_common.js": "/app/js/binary_common.min.js",
+  "binary_common.js.map": "/app/js/binary_common.min.js.map",
+  "react_mobx.js": "/app/js/react_mobx.min.js",
+  "smartcharts.js": "/app/js/smartcharts.min.js",
+  "vendor.js": "/app/js/vendor.min.js"
+}
