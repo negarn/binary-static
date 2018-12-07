@@ -752,7 +752,7 @@ var getTransferFee = function getTransferFee(currency_from, currency_to) {
 
 var getMinimumTransferFee = function getMinimumTransferFee(currency) {
     var decimals = getDecimalPlaces(currency);
-    return (1 / Math.pow(10, decimals)).toFixed(decimals); // we need toFixed() so that it doesn't display in scientific notation, e.g. 1e-8 for currencies with 8 decimal places
+    return currency + ' ' + (1 / Math.pow(10, decimals)).toFixed(decimals); // we need toFixed() so that it doesn't display in scientific notation, e.g. 1e-8 for currencies with 8 decimal places
 };
 
 // @param {String} limit = max|min
@@ -13941,7 +13941,7 @@ var AccountTransfer = function () {
 
         if (Client.hasCurrencyType('crypto') && Client.hasCurrencyType('fiat')) {
             setTransferFeeAmount();
-            elementTextContent(el_fee_minimum, client_currency + ' ' + Currency.getMinimumTransferFee(client_currency));
+            elementTextContent(el_fee_minimum, Currency.getMinimumTransferFee(client_currency));
             el_transfer_fee.setVisibility(1);
         } else {
             el_transfer_info.setVisibility(1);
