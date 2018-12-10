@@ -741,8 +741,11 @@ var getMinWithdrawal = function getMinWithdrawal(currency) {
     return isCryptocurrency(currency) ? getPropertyValue(CryptoConfig.get(), [currency, 'min_withdrawal']) || 0.002 : 1;
 };
 
+// returns in a string format, e.g. '0.00000001'
 var getMinTransfer = function getMinTransfer(currency) {
-    return getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', 'limits', 'min']) || getMinWithdrawal(currency);
+    var min_transfer = getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', 'limits', 'min']) || getMinWithdrawal(currency);
+    var decimals = getDecimalPlaces(currency);
+    return min_transfer.toFixed(decimals); // we need toFixed() so that it doesn't display in scientific notation, e.g. 1e-8 for currencies with 8 decimal places
 };
 
 var getTransferFee = function getTransferFee(currency_from, currency_to) {
@@ -750,6 +753,7 @@ var getTransferFee = function getTransferFee(currency_from, currency_to) {
     return (typeof transfer_fee === 'undefined' ? '1' : transfer_fee) + '%';
 };
 
+// returns in a string format, e.g. '0.00000001'
 var getMinimumTransferFee = function getMinimumTransferFee(currency) {
     var decimals = getDecimalPlaces(currency);
     return currency + ' ' + (1 / Math.pow(10, decimals)).toFixed(decimals); // we need toFixed() so that it doesn't display in scientific notation, e.g. 1e-8 for currencies with 8 decimal places
@@ -14047,7 +14051,7 @@ var AccountTransfer = function () {
             client_balance = +getPropertyValue(response, ['balance', 'balance']);
             client_currency = Client.get('currency');
             var min_amount = Currency.getMinTransfer(client_currency);
-            if (!client_balance || client_balance < min_amount) {
+            if (!client_balance || client_balance < +min_amount) {
                 getElementById(messages.parent).setVisibility(1);
                 if (client_currency) {
                     elementTextContent(getElementById('min_required_amount'), client_currency + ' ' + min_amount);
@@ -14074,7 +14078,7 @@ var AccountTransfer = function () {
                         return;
                     }
                     withdrawal_limit = +response_limits.get_limits.remainder;
-                    if (withdrawal_limit < min_amount) {
+                    if (withdrawal_limit < +min_amount) {
                         getElementById(messages.limit).setVisibility(1);
                         getElementById(messages.parent).setVisibility(1);
                         return;
