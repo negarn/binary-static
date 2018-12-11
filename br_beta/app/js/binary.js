@@ -136,7 +136,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "/br_beta/js/";
+/******/ 	__webpack_require__.p = "/br_beta/app/js/";
 /******/
 /******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
 /******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
@@ -7538,6 +7538,18 @@ Object.keys(_account_info).forEach(function (key) {
   });
 });
 
+var _install_pwa_button = __webpack_require__(/*! ./install_pwa_button.jsx */ "./src/javascript/app_2/App/Components/Layout/Header/install_pwa_button.jsx");
+
+Object.keys(_install_pwa_button).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _install_pwa_button[key];
+    }
+  });
+});
+
 var _login_button = __webpack_require__(/*! ./login_button.jsx */ "./src/javascript/app_2/App/Components/Layout/Header/login_button.jsx");
 
 Object.keys(_login_button).forEach(function (key) {
@@ -7585,6 +7597,70 @@ Object.keys(_toggle_notifications_drawer).forEach(function (key) {
     }
   });
 });
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Layout/Header/install_pwa_button.jsx":
+/*!**********************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Layout/Header/install_pwa_button.jsx ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.InstallPWAButton = undefined;
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
+var _button = __webpack_require__(/*! ../../Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
+
+var _button2 = _interopRequireDefault(_button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InstallPWAButton = function InstallPWAButton(_ref) {
+    var prompt_event = _ref.prompt_event,
+        onClick = _ref.onClick;
+
+
+    var showPrompt = function showPrompt() {
+        if (prompt_event) {
+            prompt_event.prompt();
+            prompt_event.userChoice.then(function (choice_result) {
+                if (choice_result.outcome === 'accepted') {
+                    onClick();
+                }
+            });
+        }
+    };
+
+    return _react2.default.createElement(_button2.default, {
+        className: 'primary orange',
+        has_effect: true,
+        text: (0, _localize.localize)('Install'),
+        onClick: showPrompt
+    });
+};
+
+InstallPWAButton.propTypes = {
+    onClick: _propTypes2.default.func,
+    prompt_event: _propTypes2.default.object
+};
+
+exports.InstallPWAButton = InstallPWAButton;
 
 /***/ }),
 
@@ -8585,12 +8661,28 @@ var Header = function Header(_ref) {
     var balance = _ref.balance,
         can_upgrade = _ref.can_upgrade,
         currency = _ref.currency,
-        loginid = _ref.loginid,
+        hideInstallButton = _ref.hideInstallButton,
         is_acc_switcher_on = _ref.is_acc_switcher_on,
+        is_install_button_visible = _ref.is_install_button_visible,
         is_logged_in = _ref.is_logged_in,
         is_mobile = _ref.is_mobile,
+        loginid = _ref.loginid,
         onClickUpgrade = _ref.onClickUpgrade,
+        pwa_prompt_event = _ref.pwa_prompt_event,
+        setPWAPromptEvent = _ref.setPWAPromptEvent,
+        showInstallButton = _ref.showInstallButton,
         toggleAccountsDialog = _ref.toggleAccountsDialog;
+
+
+    window.addEventListener('beforeinstallprompt', function (e) {
+        console.log('Going to show the installation prompt'); // eslint-disable-line no-console
+
+        e.preventDefault();
+
+        setPWAPromptEvent(e);
+        showInstallButton();
+    });
+
     return _react2.default.createElement(
         'header',
         { className: 'header' },
@@ -8609,6 +8701,10 @@ var Header = function Header(_ref) {
                 _react2.default.createElement(
                     'div',
                     { className: 'acc-balance-container' },
+                    is_install_button_visible && is_logged_in && _react2.default.createElement(_Header.InstallPWAButton, {
+                        prompt_event: pwa_prompt_event,
+                        onClick: hideInstallButton
+                    }),
                     is_logged_in ? _react2.default.createElement(
                         _react2.default.Fragment,
                         null,
@@ -8633,12 +8729,17 @@ Header.propTypes = {
     balance: _propTypes2.default.string,
     can_upgrade: _propTypes2.default.bool,
     currency: _propTypes2.default.string,
+    hideInstallButton: _propTypes2.default.func,
     is_acc_switcher_on: _propTypes2.default.bool,
     is_dark_mode: _propTypes2.default.bool, // TODO: add dark theme handler
+    is_install_button_visible: _propTypes2.default.bool,
     is_logged_in: _propTypes2.default.bool,
     is_mobile: _propTypes2.default.bool,
     loginid: _propTypes2.default.string,
     onClickUpgrade: _propTypes2.default.func, // TODO: add click handler
+    pwa_prompt_event: _propTypes2.default.object,
+    setPWAPromptEvent: _propTypes2.default.func,
+    showInstallButton: _propTypes2.default.func,
     toggleAccountsDialog: _propTypes2.default.func
 };
 
@@ -8653,9 +8754,14 @@ exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_
         currency: client.currency,
         is_logged_in: client.is_logged_in,
         loginid: client.loginid,
+        hideInstallButton: ui.hideInstallButton,
         is_acc_switcher_on: ui.is_accounts_switcher_on,
         is_dark_mode: ui.is_dark_mode_on,
+        is_install_button_visible: ui.is_install_button_visible,
         is_mobile: ui.is_mobile,
+        pwa_prompt_event: ui.pwa_prompt_event,
+        setPWAPromptEvent: ui.setPWAPromptEvent,
+        showInstallButton: ui.showInstallButton,
         toggleAccountsDialog: ui.toggleAccountsDialog
     };
 })(Header));
@@ -13956,28 +14062,43 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js");
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
-var _NavBar = __webpack_require__(/*! ../../../Assets/Header/NavBar */ "./src/javascript/app_2/Assets/Header/NavBar/index.js");
+var _localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
 var _button = __webpack_require__(/*! ../../../App/Components/Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
 
 var _button2 = _interopRequireDefault(_button);
+
+var _NavBar = __webpack_require__(/*! ../../../Assets/Header/NavBar */ "./src/javascript/app_2/Assets/Header/NavBar/index.js");
+
+var _Constants = __webpack_require__(/*! ../../../Constants */ "./src/javascript/app_2/Constants/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var EmptyStatementMessage = function EmptyStatementMessage(_ref) {
     var has_selected_date = _ref.has_selected_date;
     return _react2.default.createElement(
-        'div',
-        { className: 'statement-empty' },
-        _react2.default.createElement(_NavBar.IconStatement, { className: 'statement-empty__icon' }),
+        _react2.default.Fragment,
+        null,
         _react2.default.createElement(
-            'span',
-            { className: 'statement-empty__text' },
-            !has_selected_date ? (0, _localize.localize)('Your account has no trading activity.') : (0, _localize.localize)('Your account has no trading activity for the selected period.')
-        ),
-        !has_selected_date && _react2.default.createElement(_button2.default, { className: 'secondary orange', text: (0, _localize.localize)('Trade now') })
+            'div',
+            { className: 'statement-empty' },
+            _react2.default.createElement(_NavBar.IconStatement, { className: 'statement-empty__icon' }),
+            _react2.default.createElement(
+                'span',
+                { className: 'statement-empty__text' },
+                !has_selected_date ? (0, _localize.localize)('Your account has no trading activity.') : (0, _localize.localize)('Your account has no trading activity for the selected period.')
+            ),
+            !has_selected_date && _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: _Constants.routes.trade },
+                _react2.default.createElement(_button2.default, {
+                    className: 'secondary orange',
+                    text: (0, _localize.localize)('Trade now')
+                })
+            )
+        )
     );
 };
 
@@ -24641,7 +24762,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16;
 
 var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
 
@@ -24702,9 +24823,10 @@ function _initializerWarningHelper(descriptor, context) {
     throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, _dec16 = _mobx.action.bound, _dec17 = _mobx.action.bound, _dec18 = _mobx.action.bound, (_class = function (_BaseStore) {
+var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, _dec16 = _mobx.action.bound, _dec17 = _mobx.action.bound, _dec18 = _mobx.action.bound, _dec19 = _mobx.action.bound, _dec20 = _mobx.action.bound, _dec21 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(UIStore, _BaseStore);
 
+    // PWA event and config
     function UIStore() {
         _classCallCheck(this, UIStore);
 
@@ -24736,9 +24858,13 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
 
         _initDefineProp(_this, 'is_chart_layout_default', _descriptor12, _this);
 
-        _initDefineProp(_this, 'screen_width', _descriptor13, _this);
+        _initDefineProp(_this, 'is_install_button_visible', _descriptor13, _this);
 
-        _initDefineProp(_this, 'toast_messages', _descriptor14, _this);
+        _initDefineProp(_this, 'pwa_prompt_event', _descriptor14, _this);
+
+        _initDefineProp(_this, 'screen_width', _descriptor15, _this);
+
+        _initDefineProp(_this, 'toast_messages', _descriptor16, _this);
 
         window.addEventListener('resize', _this.handleResize);
         (0, _mobx.autorun)(function () {
@@ -24838,6 +24964,23 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
             this.is_notifications_drawer_on = false;
         }
     }, {
+        key: 'showInstallButton',
+        value: function showInstallButton() {
+            // TODO The value should be change to `True` whenever the design of showing installation prompt gets ready.
+            this.is_install_button_visible = false;
+        }
+    }, {
+        key: 'hideInstallButton',
+        value: function hideInstallButton() {
+            this.is_install_button_visible = false;
+            this.pwa_prompt_event = null;
+        }
+    }, {
+        key: 'setPWAPromptEvent',
+        value: function setPWAPromptEvent(e) {
+            this.pwa_prompt_event = e;
+        }
+    }, {
         key: 'addToastMessage',
         value: function addToastMessage(toast_message) {
             this.toast_messages.push(toast_message);
@@ -24928,17 +25071,27 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
     initializer: function initializer() {
         return true;
     }
-}), _descriptor13 = _applyDecoratedDescriptor(_class.prototype, 'screen_width', [_mobx.observable], {
+}), _descriptor13 = _applyDecoratedDescriptor(_class.prototype, 'is_install_button_visible', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return false;
+    }
+}), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'pwa_prompt_event', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return null;
+    }
+}), _descriptor15 = _applyDecoratedDescriptor(_class.prototype, 'screen_width', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return window.innerWidth;
     }
-}), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'toast_messages', [_mobx.observable], {
+}), _descriptor16 = _applyDecoratedDescriptor(_class.prototype, 'toast_messages', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return [];
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'handleResize', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'handleResize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_mobile', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_mobile'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_tablet', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_tablet'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleAccountsDialog', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleAccountsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartLayout', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartAssetInfo', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartAssetInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartCountdown', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartCountdown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePurchaseLock', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePurchaseLock'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePurchaseConfirmation', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePurchaseConfirmation'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleDarkMode', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleDarkMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleSettingsDialog', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleSettingsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showLanguageDialog', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'showLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideLanguageDialog', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'hideLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePortfolioDrawer', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePortfolioDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showMainDrawer', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'showMainDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showNotificationsDrawer', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'showNotificationsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideDrawers', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'hideDrawers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addToastMessage', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'addToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeToastMessage', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'removeToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeAllToastMessages', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'removeAllToastMessages'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'handleResize', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'handleResize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_mobile', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_mobile'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_tablet', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_tablet'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleAccountsDialog', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleAccountsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartLayout', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartAssetInfo', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartAssetInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartCountdown', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartCountdown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePurchaseLock', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePurchaseLock'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePurchaseConfirmation', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePurchaseConfirmation'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleDarkMode', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleDarkMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleSettingsDialog', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleSettingsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showLanguageDialog', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'showLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideLanguageDialog', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'hideLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePortfolioDrawer', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePortfolioDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showMainDrawer', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'showMainDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showNotificationsDrawer', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'showNotificationsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideDrawers', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'hideDrawers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showInstallButton', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'showInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideInstallButton', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'hideInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setPWAPromptEvent', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'setPWAPromptEvent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addToastMessage', [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, 'addToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeToastMessage', [_dec20], Object.getOwnPropertyDescriptor(_class.prototype, 'removeToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeAllToastMessages', [_dec21], Object.getOwnPropertyDescriptor(_class.prototype, 'removeAllToastMessages'), _class.prototype)), _class));
 exports.default = UIStore;
 
 /***/ }),
@@ -25980,6 +26133,97 @@ exports.default = GTM;
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/Utils/pwa/index.js":
+/*!*************************************************!*\
+  !*** ./src/javascript/app_2/Utils/pwa/index.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.unregister = exports.default = undefined;
+
+var _register_service_worker = __webpack_require__(/*! ./register_service_worker */ "./src/javascript/app_2/Utils/pwa/register_service_worker.js");
+
+Object.defineProperty(exports, 'unregister', {
+  enumerable: true,
+  get: function get() {
+    return _register_service_worker.unregister;
+  }
+});
+
+var _register_service_worker2 = _interopRequireDefault(_register_service_worker);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _register_service_worker2.default;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Utils/pwa/register_service_worker.js":
+/*!*******************************************************************!*\
+  !*** ./src/javascript/app_2/Utils/pwa/register_service_worker.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = register;
+exports.unregister = unregister;
+function register() {
+    // Register the service worker
+    if ( /* process.env.NODE_ENV === 'production' && */'serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            var path_name = window.location.pathname;
+            path_name = /index\.html/g.test(path_name) ? window.location.pathname.replace('index.html', '') : '';
+            var sw_url = path_name + 'service-worker.js';
+            navigator.serviceWorker.register(sw_url).then(function (registration) {
+                registration.onupdatefound = function () {
+                    var installingWorker = registration.installing;
+                    installingWorker.onstatechange = function () {
+                        if (installingWorker.state === 'installed') {
+                            if (navigator.serviceWorker.controller) {
+                                // At this point, the old content will have been purged and
+                                // the fresh content will have been added to the cache.
+                                // It's the perfect time to display a "New content is
+                                // available; please refresh." message in your web app.
+                                console.log('New content is available; please refresh.'); // eslint-disable-line no-console
+                            } else {
+                                // At this point, everything has been precached.
+                                // It's the perfect time to display a
+                                // "Content is cached for offline use." message.
+                                console.log('Content is cached for offline use.'); // eslint-disable-line no-console
+                            }
+                        }
+                    };
+                };
+            }).catch(function (error) {
+                console.error('Error during service worker registration:', error); // eslint-disable-line no-console
+            });
+        });
+    }
+}
+
+function unregister() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(function (registration) {
+            registration.unregister();
+        });
+    }
+}
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/index.js":
 /*!***************************************!*\
   !*** ./src/javascript/app_2/index.js ***!
@@ -26000,6 +26244,10 @@ var _app = __webpack_require__(/*! ./App/app */ "./src/javascript/app_2/App/app.
 
 var _app2 = _interopRequireDefault(_app);
 
+var _pwa = __webpack_require__(/*! ./Utils/pwa */ "./src/javascript/app_2/Utils/pwa/index.js");
+
+var _pwa2 = _interopRequireDefault(_pwa);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.check_new_release = _check_new_release.checkNewRelease; // used by GTM to update page after a new release
@@ -26011,6 +26259,8 @@ window.addEventListener('pageshow', function (e) {
         (0, _app2.default)();
     }
 });
+
+(0, _pwa2.default)();
 
 /***/ }),
 
