@@ -1,9 +1,23 @@
 {
+  "account_password.js": "/app/js/account_password-67c66084bc424d34b10b.js",
+  "api_toke.js": "/app/js/api_toke-7c72ca04a060c6e8363d.js",
+  "authorized_application.js": "/app/js/authorized_application-97635409ac3488b8a4dc.js",
   "binary.js": "/app/js/binary.js",
   "binary.js.map": "/app/js/binary.js.map",
   "binary_common.js": "/app/js/binary_common.min.js",
   "binary_common.js.map": "/app/js/binary_common.min.js.map",
+  "cashier_password.js": "/app/js/cashier_password-0061f340e2203b85c4de.js",
+  "contract.js": "/app/js/contract-d5ff3abe544011cd2843.js",
+  "financial_assessment.js": "/app/js/financial_assessment-fa615b65ab7d51a072e8.js",
+  "limits.js": "/app/js/limits-6122a66075b7120f5152.js",
+  "login_history.js": "/app/js/login_history-f73b0e94430bafb6dff4.js",
+  "personal_details.js": "/app/js/personal_details-8c2c516db1200e2e67f1.js",
+  "portfolio.js": "/app/js/portfolio-1584857c9715b9ff1453.js",
   "react_mobx.js": "/app/js/react_mobx.min.js",
-  "smartcharts.js": "/app/js/smartcharts.min.js",
-  "vendor.js": "/app/js/vendor.min.js"
+  "self_exclusion.js": "/app/js/self_exclusion-10c70715aab8e89cdf0f.js",
+  "settings.js": "/app/js/settings-ca9468bf93e3269db11e.js",
+  "smart_chart.js": "/app/js/smart_chart-3bd5fe29258265801823.js",
+  "statement.js": "/app/js/statement-2879562294b7483a1594.js",
+  "vendor.js": "/app/js/vendor.min.js",
+  "vendors~smart_chart.js": "/app/js/vendors~smart_chart-2c0607fba4d5b39501b4.js"
 }
