@@ -1,9 +1,0 @@
-{
-  "binary.js": "/br_fee/app/js/binary.js",
-  "binary.js.map": "/br_fee/app/js/binary.js.map",
-  "binary_common.js": "/br_fee/app/js/binary_common.min.js",
-  "binary_common.js.map": "/br_fee/app/js/binary_common.min.js.map",
-  "react_mobx.js": "/br_fee/app/js/react_mobx.min.js",
-  "smartcharts.js": "/br_fee/app/js/smartcharts.min.js",
-  "vendor.js": "/br_fee/app/js/vendor.min.js"
-}
