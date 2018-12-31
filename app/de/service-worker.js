@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["/app/js/account_password-67c66084bc424d34b10b.js","ec36c802635a2923caef19133b8948d5"],["/app/js/api_toke-7c72ca04a060c6e8363d.js","74a501b22e730da63426e8e5933cba99"],["/app/js/authorized_application-97635409ac3488b8a4dc.js","8d0ab8add475981a0cfd71324a6c3ba0"],["/app/js/binary.js","28b1c9171f22d4cc7dc8eb0a29ab8f08"],["/app/js/binary_common.min.js","b2bd191c105084b3d0995b6b743ea5ea"],["/app/js/cashier_password-0061f340e2203b85c4de.js","c432fe50f3f0621204654c1abf09b3ab"],["/app/js/contract-d5ff3abe544011cd2843.js","57119da7529b8da225667dd2d3435247"],["/app/js/financial_assessment-fa615b65ab7d51a072e8.js","d4ac3772ebac45c8eeff6229349327f7"],["/app/js/limits-6122a66075b7120f5152.js","ec1d377caad6bc4364b0d0afd6f1a175"],["/app/js/login_history-f73b0e94430bafb6dff4.js","e787fadd80433884c62fe83b2167c030"],["/app/js/personal_details-8c2c516db1200e2e67f1.js","8b0c63a1a21a9ca4cfc825d747ab2c87"],["/app/js/portfolio-1584857c9715b9ff1453.js","897d00c4d30f4e13f0681b1ccf8d43e0"],["/app/js/react_mobx.min.js","6c3a093c2f2aa46c6408e5e4bff2c751"],["/app/js/self_exclusion-10c70715aab8e89cdf0f.js","69087953c001cd4e43e679f022f2feea"],["/app/js/settings-ca9468bf93e3269db11e.js","3fca043c68dfad0f92d7e6c826d3d534"],["/app/js/smart_chart-3bd5fe29258265801823.js","be00ce02df8deccefc19bf0924fad9b1"],["/app/js/statement-2879562294b7483a1594.js","2e00d75d457a36dd7a1a25103d1bfccd"],["/app/js/vendor.min.js","0b1e985fa9951172427c1146f1f70211"],["/app/js/vendors~smart_chart-2c0607fba4d5b39501b4.js","24cfd50cf559d038735242dd0bd1a62d"]];
+var precacheConfig = [["/app/js/404-1f20d1cb6ffbf53419ed.js","694e4fa5e2c24c444396a08193dedfd2"],["/app/js/account_password-67c66084bc424d34b10b.js","ec36c802635a2923caef19133b8948d5"],["/app/js/api_toke-7c72ca04a060c6e8363d.js","74a501b22e730da63426e8e5933cba99"],["/app/js/authorized_application-97635409ac3488b8a4dc.js","8d0ab8add475981a0cfd71324a6c3ba0"],["/app/js/binary.js","3f68207c09b37f60db09655b1ac38355"],["/app/js/binary_common.min.js","1e47ffde9ada80bb0861dc86cc14540f"],["/app/js/cashier_password-0061f340e2203b85c4de.js","c432fe50f3f0621204654c1abf09b3ab"],["/app/js/contract-d5ff3abe544011cd2843.js","57119da7529b8da225667dd2d3435247"],["/app/js/financial_assessment-fa615b65ab7d51a072e8.js","d4ac3772ebac45c8eeff6229349327f7"],["/app/js/limits-6122a66075b7120f5152.js","ec1d377caad6bc4364b0d0afd6f1a175"],["/app/js/login_history-f73b0e94430bafb6dff4.js","e787fadd80433884c62fe83b2167c030"],["/app/js/personal_details-8c2c516db1200e2e67f1.js","8b0c63a1a21a9ca4cfc825d747ab2c87"],["/app/js/portfolio-1584857c9715b9ff1453.js","897d00c4d30f4e13f0681b1ccf8d43e0"],["/app/js/react_mobx.min.js","6c3a093c2f2aa46c6408e5e4bff2c751"],["/app/js/self_exclusion-10c70715aab8e89cdf0f.js","69087953c001cd4e43e679f022f2feea"],["/app/js/settings-b65a79071afa6712cab7.js","0a5b7c0b33c9e4e3d35d4df03c419dc4"],["/app/js/smart_chart-3bd5fe29258265801823.js","be00ce02df8deccefc19bf0924fad9b1"],["/app/js/statement-0024c341cb419b599fb3.js","b279472e009e9272006f6303e6fde4f1"],["/app/js/vendor.min.js","0b1e985fa9951172427c1146f1f70211"],["/app/js/vendors~smart_chart-2c0607fba4d5b39501b4.js","24cfd50cf559d038735242dd0bd1a62d"]];
 var cacheName = 'sw-precache-v3-sw-precache-webpack-plugin-' + (self.registration ? self.registration.scope : '');
 
 
@@ -45,7 +45,7 @@ var ignoreUrlParametersMatching = [/^utm_/];
 
 
 
-var addDirectoryIndex = function (originalUrl, index) {
+var addDirectoryIndex = function(originalUrl, index) {
     var url = new URL(originalUrl);
     if (url.pathname.slice(-1) === '/') {
       url.pathname += index;
@@ -53,7 +53,7 @@ var addDirectoryIndex = function (originalUrl, index) {
     return url.toString();
   };
 
-var cleanResponse = function (originalResponse) {
+var cleanResponse = function(originalResponse) {
     // If this is not a redirected response, then we don't have to do anything.
     if (!originalResponse.redirected) {
       return Promise.resolve(originalResponse);
@@ -75,7 +75,7 @@ var cleanResponse = function (originalResponse) {
     });
   };
 
-var createCacheKey = function (originalUrl, paramName, paramValue,
+var createCacheKey = function(originalUrl, paramName, paramValue,
                            dontCacheBustUrlsMatching) {
     // Create a new URL object to avoid modifying originalUrl.
     var url = new URL(originalUrl);
@@ -91,7 +91,7 @@ var createCacheKey = function (originalUrl, paramName, paramValue,
     return url.toString();
   };
 
-var isPathWhitelisted = function (whitelist, absoluteUrlString) {
+var isPathWhitelisted = function(whitelist, absoluteUrlString) {
     // If the whitelist is empty, then consider all URLs to be whitelisted.
     if (whitelist.length === 0) {
       return true;
@@ -104,7 +104,7 @@ var isPathWhitelisted = function (whitelist, absoluteUrlString) {
     });
   };
 
-var stripIgnoredUrlParameters = function (originalUrl,
+var stripIgnoredUrlParameters = function(originalUrl,
     ignoreUrlParametersMatching) {
     var url = new URL(originalUrl);
     // Remove the hash; see https://github.com/GoogleChrome/sw-precache/issues/290

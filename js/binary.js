@@ -497,7 +497,6 @@ var ClientBase = function () {
         var can_open_multi = false;
         var type = void 0,
             can_upgrade_to = void 0;
-
         if ((upgradeable_landing_companies || []).length) {
             var current_landing_company = get('landing_company_shortcode');
 
@@ -621,6 +620,7 @@ var ClientBase = function () {
         setNewAccount: setNewAccount,
         currentLandingCompany: currentLandingCompany,
         shouldCompleteTax: shouldCompleteTax,
+        getAllAccountsObject: getAllAccountsObject,
         getMT5AccountType: getMT5AccountType,
         getBasicUpgradeInfo: getBasicUpgradeInfo,
         getLandingCompanyValue: getLandingCompanyValue,
@@ -7379,6 +7379,30 @@ if (!('includes' in Array.prototype)) {
 
 /***/ }),
 
+/***/ "./src/javascript/_common/lib/polyfills/element.closest.js":
+/*!*****************************************************************!*\
+  !*** ./src/javascript/_common/lib/polyfills/element.closest.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+if (!Element.prototype.closest) {
+    Element.prototype.closest = function (s) {
+        var el = this;
+        if (!document.documentElement.contains(el)) return null;
+        do {
+            if (el.matches(s)) return el;
+            el = el.parentElement || el.parentNode;
+        } while (el !== null && el.nodeType === 1);
+        return null;
+    };
+}
+
+/***/ }),
+
 /***/ "./src/javascript/_common/lib/polyfills/element.matches.js":
 /*!*****************************************************************!*\
   !*** ./src/javascript/_common/lib/polyfills/element.matches.js ***!
@@ -9058,6 +9082,8 @@ module.exports = {
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var BinaryPjax = __webpack_require__(/*! ./binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var pages_config = __webpack_require__(/*! ./binary_pages */ "./src/javascript/app/base/binary_pages.js");
 var Client = __webpack_require__(/*! ./client */ "./src/javascript/app/base/client.js");
@@ -9124,10 +9150,10 @@ var BinaryLoader = function () {
         GTM.pushDataLayer({ event: 'page_load' });
 
         var this_page = e.detail.getAttribute('data-page');
-        if (this_page in pages_config) {
-            loadHandler(pages_config[this_page]);
+        if (Object.prototype.hasOwnProperty.call(pages_config, this_page)) {
+            loadHandler(this_page);
         } else if (/\/get-started\//i.test(window.location.pathname)) {
-            loadHandler(pages_config['get-started']);
+            loadHandler('get-started');
         }
 
         ContentVisibility.init();
@@ -9149,7 +9175,8 @@ var BinaryLoader = function () {
         }
     };
 
-    var loadHandler = function loadHandler(config) {
+    var loadHandler = function loadHandler(this_page) {
+        var config = _extends({}, pages_config[this_page]);
         active_script = config.module;
         if (config.is_authenticated) {
             if (!Client.isLoggedIn()) {
@@ -9168,7 +9195,11 @@ var BinaryLoader = function () {
                 });
             }
         } else if (config.not_authenticated && Client.isLoggedIn()) {
-            handleNotAuthenticated();
+            if (this_page === 'home') {
+                BinaryPjax.load(Client.defaultRedirectUrl(), true);
+            } else {
+                handleNotAuthenticated();
+            }
         } else {
             loadActiveScript(config);
         }
@@ -9736,6 +9767,9 @@ var Client = function () {
         if (response.logout !== 1) return;
         removeCookies('login', 'loginid', 'loginid_list', 'email', 'residence', 'settings'); // backward compatibility
         removeCookies('reality_check', 'affiliate_token', 'affiliate_tracking');
+        // clear elev.io session storage
+        sessionStorage.removeItem('_elevaddon-6app');
+        sessionStorage.removeItem('_elevaddon-6create');
         ClientBase.clearAllAccounts();
         ClientBase.set('loginid', '');
         SocketCache.clear();
@@ -11160,6 +11194,7 @@ var AccountOpening = function () {
 
     var populateForm = function populateForm(form_id, getValidations, is_financial) {
         getResidence(form_id, getValidations);
+        handleTaxIdentificationNumber();
         generateBirthDate();
         var landing_company = State.getResponse('landing_company');
         var lc_to_upgrade_to = landing_company[is_financial ? 'financial_company' : 'gaming_company'] || landing_company.financial_company;
@@ -11180,7 +11215,6 @@ var AccountOpening = function () {
     var handleResidenceList = function handleResidenceList(residence_list, form_id, getValidations) {
         if (residence_list.length > 0) {
             var $place_of_birth = $('#place_of_birth');
-            var $tax_residence = $('#tax_residence');
             var $phone = $('#phone');
             var residence_value = Client.get('residence') || '';
             var residence_text = '';
@@ -11205,9 +11239,12 @@ var AccountOpening = function () {
 
             $('#lbl_residence').html($('<strong/>', { text: residence_text }));
 
-            if ($place_of_birth.length) {
-                BinarySocket.wait('get_settings').then(function (response) {
-                    var place_of_birth = response.get_settings.place_of_birth;
+            BinarySocket.wait('get_settings').then(function (response) {
+                var citizen = response.get_settings.citizen;
+                var place_of_birth = response.get_settings.place_of_birth;
+                var tax_residence = response.get_settings.tax_residence;
+
+                if ($place_of_birth.length) {
                     if (place_of_birth) {
                         var txt_place_of_birth = (residence_list.find(function (obj) {
                             return obj.value === place_of_birth;
@@ -11221,15 +11258,12 @@ var AccountOpening = function () {
                             return SelectMatcher(params, data);
                         }
                     });
-                });
-            }
+                }
 
-            if (/^(malta|maltainvest|iom)$/.test(State.getResponse('authorize.upgradeable_landing_companies'))) {
-                var $citizen = $('#citizen');
-                CommonFunctions.getElementById('citizen_row').setVisibility(1);
-                if ($citizen.length) {
-                    BinarySocket.wait('get_settings').then(function (response) {
-                        var citizen = response.get_settings.citizen;
+                if (/^(malta|maltainvest|iom)$/.test(State.getResponse('authorize.upgradeable_landing_companies'))) {
+                    var $citizen = $('#citizen');
+                    CommonFunctions.getElementById('citizen_row').setVisibility(1);
+                    if ($citizen.length) {
                         if (citizen) {
                             var txt_citizen = (residence_list.find(function (obj) {
                                 return obj.value === citizen;
@@ -11243,27 +11277,49 @@ var AccountOpening = function () {
                                 return SelectMatcher(params, data);
                             }
                         });
-                    });
+                    }
                 }
-            }
 
-            if ($tax_residence) {
-                $tax_residence.html($options_with_disabled.html()).promise().done(function () {
-                    setTimeout(function () {
-                        $tax_residence.select2().val(getTaxResidence() || residence_value).trigger('change').setVisibility(1);
-                    }, 500);
-                });
-            }
+                var $tax_residence_select = $('#tax_residence');
+                $tax_residence_select.html($options_with_disabled.html());
 
+                if (tax_residence) {
+                    var tax_residences_arr = tax_residence.split(',');
+                    var txt_tax_residence = tax_residences_arr.map(function (current_residence) {
+                        return (residence_list.find(function (obj) {
+                            return obj.value === current_residence;
+                        }) || {}).text;
+                    }).join(', ') || tax_residence;
+                    $('#lbl_tax_residence').text(txt_tax_residence);
+
+                    $tax_residence_select.select2(tax_residences_arr.length > 1 ? { multiple: true } : {}) // Multiple in some cases, users could prev select more than 1 residence
+                    .val(tax_residences_arr) // Set value for validation
+                    .attr({ 'data-force': true, 'data-value': tax_residence }).trigger('change');
+                    CommonFunctions.getElementById('row_lbl_tax_residence').setVisibility(1);
+                } else {
+                    $tax_residence_select.select2().val(residence_value) // Attempt auto-assign country_residence to tax_residence if none set
+                    .trigger('change');
+                    CommonFunctions.getElementById('row_tax_residence').setVisibility(1);
+                }
+            });
             BinarySocket.send({ states_list: Client.get('residence') }).then(function (data) {
                 return handleState(data.states_list, form_id, getValidations);
             });
         }
     };
 
-    var getTaxResidence = function getTaxResidence() {
-        var tax_residence = State.getResponse('get_settings.tax_residence');
-        return tax_residence ? tax_residence.split(',') : '';
+    var handleTaxIdentificationNumber = function handleTaxIdentificationNumber() {
+        BinarySocket.wait('get_settings').then(function (response) {
+            var tax_identification_number = response.get_settings.tax_identification_number;
+            if (tax_identification_number) {
+                $('#lbl_tax_identification_number').text(tax_identification_number);
+                CommonFunctions.getElementById('row_lbl_tax_identification_number').setVisibility(1);
+                $('#tax_identification_number').val(tax_identification_number) // Set value for validation
+                .attr({ 'data-force': true, 'data-value': tax_identification_number });
+            } else {
+                CommonFunctions.getElementById('row_tax_identification_number').setVisibility(1);
+            }
+        });
     };
 
     var handleState = function handleState(states_list, form_id, getValidations) {
@@ -11302,7 +11358,6 @@ var AccountOpening = function () {
             }
         });
     };
-
     var handleNewAccount = function handleNewAccount(response, message_type) {
         if (response.error) {
             var errorMessage = response.error.message;
@@ -11322,7 +11377,7 @@ var AccountOpening = function () {
     var commonValidations = function commonValidations() {
         var req = [{ selector: '#salutation', validations: ['req'] }, { selector: '#first_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 30 }]] }, { selector: '#last_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 30 }]] }, { selector: '#date_of_birth', validations: ['req'] }, { selector: '#address_line_1', validations: ['req', 'address', ['length', { min: 1, max: 70 }]] }, { selector: '#address_line_2', validations: ['address', ['length', { min: 0, max: 70 }]] }, { selector: '#address_city', validations: ['req', 'letter_symbol', ['length', { min: 1, max: 35 }]] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol', ['length', { min: 0, max: 35 }]] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
                     return $('#phone').val().replace(/\D/g, '');
-                } }]] }, { selector: '#secret_question', validations: ['req'] }, { selector: '#secret_answer', validations: ['req', 'general', ['length', { min: 4, max: 50 }]] }, { selector: '#tnc', validations: [['req', { message: localize('Please accept the terms and conditions.') }]], exclude_request: 1 }, { request_field: 'residence', value: Client.get('residence') }, { request_field: 'client_type', value: function value() {
+                } }]] }, { selector: '#secret_question', validations: ['req'] }, { selector: '#secret_answer', validations: ['req', 'general', ['length', { min: 4, max: 50 }]] }, { selector: '#tnc', validations: [['req', { message: localize('Please accept the terms and conditions.') }]], exclude_request: 1 }, { selector: '#tax_residence', validations: ['req', ['length', { min: 1, max: 20 }]] }, { selector: '#tax_identification_number', validations: ['req'] }, { request_field: 'residence', value: Client.get('residence') }, { request_field: 'client_type', value: function value() {
                 return $('#chk_professional').is(':checked') ? 'professional' : 'retail';
             } }];
 
@@ -12615,7 +12670,7 @@ var FormManager = function () {
 
         fields.forEach(function (field) {
             if (!field.exclude_request) {
-                if (field.$.is(':visible') || field.value) {
+                if (field.$.is(':visible') || field.value || field.$.attr('data-force')) {
                     val = field.$.val();
                     key = field.request_field || field.selector;
 
@@ -22656,6 +22711,7 @@ var Markets = (_temp = _class = function (_React$Component) {
                             type: 'text',
                             maxLength: 20,
                             onInput: searchSymbols,
+                            onChange: searchSymbols,
                             placeholder: (0, _localize.localize)('Search...'),
                             value: query
                         }),
@@ -28109,40 +28165,56 @@ var PersonalDetails = function () {
         showHideMissingDetails();
     };
 
-    var show_label_if_any_value = ['account_opening_reason', 'citizen', 'place_of_birth'];
+    var show_label_if_any_value = ['account_opening_reason', 'citizen', 'place_of_birth', 'tax_residence', 'tax_identification_number'];
+    var force_update_fields = ['tax_residence', 'tax_identification_number'];
 
     var displayGetSettingsData = function displayGetSettingsData(get_settings) {
         var populate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-        var el_id = void 0,
-            el_key = void 0,
-            has_label = void 0,
-            should_show_label = void 0,
-            should_update_value = void 0;
         Object.keys(get_settings).forEach(function (key) {
-            has_label = show_label_if_any_value.indexOf(key) !== -1;
-            should_show_label = has_label && get_settings[key]; // if we have a value for any of these fields, show them as label
-            el_id = '' + (should_show_label ? 'lbl_' : '') + key;
-            el_key = CommonFunctions.getElementById(el_id);
-            if (el_key) {
+            var has_label = show_label_if_any_value.includes(key);
+            var force_update = force_update_fields.includes(key);
+            var should_show_label = has_label && get_settings[key];
+            var element_id = '' + (should_show_label ? 'lbl_' : '') + key;
+            var element_key = CommonFunctions.getElementById(element_id);
+
+            if (element_key) {
                 editable_fields[key] = get_settings[key] !== null ? get_settings[key] : '';
                 if (populate) {
-                    should_update_value = /select|text/i.test(el_key.type);
+                    var should_update_value = /select|text/i.test(element_key.type);
                     if (has_label) {
-                        CommonFunctions.getElementById('row_' + el_id).setVisibility(1);
+                        CommonFunctions.getElementById('row_' + element_id).setVisibility(1);
                     }
-                    if (el_key.type === 'checkbox') {
-                        el_key.checked = !!get_settings[key];
+                    if (element_key.type === 'checkbox') {
+                        element_key.checked = !!get_settings[key];
                     } else if (!should_update_value) {
                         // for all non (checkbox|select|text) elements
-                        var localized_text = (document.querySelector('#' + key + ' option[value="' + get_settings[key] + '"]') || {}).innerText || get_settings[key];
-                        CommonFunctions.elementInnerHtml(el_key, localized_text || '-');
+                        var getOptionText = function getOptionText(value) {
+                            return (document.querySelector('#' + key + ' option[value="' + value + '"]') || {}).innerText || value;
+                        };
+                        var localized_text = void 0;
+                        if (key === 'tax_residence') {
+                            // Resolve comma-separated country codes to country names
+                            localized_text = get_settings[key] ? get_settings[key].split(',').map(function (value) {
+                                return getOptionText(value);
+                            }).join(', ') : '';
+                        } else {
+                            localized_text = getOptionText(get_settings[key]);
+                        }
+                        CommonFunctions.elementInnerHtml(element_key, localized_text || '-');
                     }
                     if (should_update_value || should_show_label) {
                         // if should show label, set the value of the non-label so that it doesn't count as missing information
-                        $(should_show_label ? '#' + key : el_key).val(get_settings[key] ? get_settings[key].split(',') : '').trigger('change');
+                        var $element = $(should_show_label ? '#' + key : element_key);
+                        var el_value = get_settings[key] ? get_settings[key].split(',') : '';
+                        $element.val(el_value).trigger('change');
                         if (should_show_label) {
+                            // If we show label, (input) row should be hidden
                             CommonFunctions.getElementById('row_' + key).setVisibility(0);
+                        }
+                        if (force_update) {
+                            // Force pushing values, used for (API-)expected values
+                            $element.attr({ 'data-force': true, 'data-value': el_value });
                         }
                     }
                 }
@@ -28270,7 +28342,8 @@ var PersonalDetails = function () {
                     var $tax_residence = $('#tax_residence');
                     $tax_residence.html($options_with_disabled.html()).promise().done(function () {
                         setTimeout(function () {
-                            $tax_residence.select2().val(get_settings_data.tax_residence ? get_settings_data.tax_residence.split(',') : '').trigger('change').setVisibility(1);
+                            var residence_value = get_settings_data.tax_residence ? get_settings_data.tax_residence.split(',') : Client.get('residence') || '';
+                            $tax_residence.select2().val(residence_value).trigger('change').setVisibility(1);
                         }, 500);
                     });
 
@@ -31491,7 +31564,7 @@ var FinancialAccOpening = function () {
     };
 
     var getValidations = function getValidations() {
-        var validations = AccountOpening.commonValidations().concat(AccountOpening.selectCheckboxValidation(form_id), [{ selector: '#citizen', validations: ['req'] }, { selector: '#tax_identification_number', validations: ['req', 'tax_id', ['length', { min: 1, max: 20 }]] }, { selector: '#chk_tax_id', validations: [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]], exclude_request: 1 }]);
+        var validations = AccountOpening.commonValidations().concat(AccountOpening.selectCheckboxValidation(form_id), [{ selector: '#citizen', validations: ['req'] }, { selector: '#tax_residence', validations: ['req'] }, { selector: '#tax_identification_number', validations: ['req', 'tax_id', ['length', { min: 1, max: 20 }]] }, { selector: '#chk_tax_id', validations: [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]], exclude_request: 1 }]);
         var place_of_birth = State.getResponse('get_settings.place_of_birth');
         if (place_of_birth) {
             validations = validations.concat([{ request_field: 'place_of_birth', value: place_of_birth }]);
@@ -31810,17 +31883,19 @@ var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/ja
 var createElement = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").createElement;
 var getElementById = __webpack_require__(/*! ../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var Url = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js");
+var showLoadingImage = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").showLoadingImage;
 
 var WelcomePage = function () {
     var onLoad = function onLoad() {
         BinarySocket.wait('authorize', 'landing_company', 'get_settings').then(function () {
+            var welcome_msg = getElementById('welcome_container');
+
             if (Client.hasAccountType('real')) {
-                Url.defaultRedirectUrl();
+                window.location.href = Client.defaultRedirectUrl();
+                showLoadingImage(welcome_msg, 'dark');
             }
 
             var upgrade_info = Client.getUpgradeInfo();
-
-            var welcome_msg = getElementById('welcome_container');
             if (welcome_msg) {
                 var upgrade_title_el = getElementById('upgrade_title');
                 upgrade_title_el.html(upgrade_info.type === 'financial' ? localize('Financial Account') : localize('Real Account'));
@@ -33717,6 +33792,7 @@ window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jqu
 __webpack_require__(/*! babel-polyfill */ "./node_modules/babel-polyfill/lib/index.js");
 __webpack_require__(/*! promise-polyfill */ "./node_modules/promise-polyfill/promise.js");
 __webpack_require__(/*! ./_common/lib/polyfills/nodelist.foreach */ "./src/javascript/_common/lib/polyfills/nodelist.foreach.js");
+__webpack_require__(/*! ./_common/lib/polyfills/element.closest */ "./src/javascript/_common/lib/polyfills/element.closest.js");
 
 __webpack_require__(/*! @binary-com/binary-style */ "./node_modules/@binary-com/binary-style/binary.js");
 __webpack_require__(/*! @binary-com/binary-style/binary.more */ "./node_modules/@binary-com/binary-style/binary.more.js");

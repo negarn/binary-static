@@ -1,4 +1,5 @@
 {
+  "404.js": "/app/js/404-1f20d1cb6ffbf53419ed.js",
   "account_password.js": "/app/js/account_password-67c66084bc424d34b10b.js",
   "api_toke.js": "/app/js/api_toke-7c72ca04a060c6e8363d.js",
   "authorized_application.js": "/app/js/authorized_application-97635409ac3488b8a4dc.js",
@@ -15,9 +16,9 @@
   "portfolio.js": "/app/js/portfolio-1584857c9715b9ff1453.js",
   "react_mobx.js": "/app/js/react_mobx.min.js",
   "self_exclusion.js": "/app/js/self_exclusion-10c70715aab8e89cdf0f.js",
-  "settings.js": "/app/js/settings-ca9468bf93e3269db11e.js",
+  "settings.js": "/app/js/settings-b65a79071afa6712cab7.js",
   "smart_chart.js": "/app/js/smart_chart-3bd5fe29258265801823.js",
-  "statement.js": "/app/js/statement-2879562294b7483a1594.js",
+  "statement.js": "/app/js/statement-0024c341cb419b599fb3.js",
   "vendor.js": "/app/js/vendor.min.js",
   "vendors~smart_chart.js": "/app/js/vendors~smart_chart-2c0607fba4d5b39501b4.js"
 }
