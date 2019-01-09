@@ -16949,6 +16949,7 @@ var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/
 var Header = __webpack_require__(/*! ../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var getDecimalPlaces = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").getDecimalPlaces;
+var TopUpVirtualPopup = __webpack_require__(/*! ../../pages/user/account/top_up_virtual/pop_up */ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js");
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
@@ -16960,7 +16961,12 @@ var MBTradePage = function () {
 
     var onLoad = function onLoad() {
         State.set('is_mb_trading', true);
-        BinarySocket.wait('authorize').then(init);
+        BinarySocket.wait('authorize').then(function () {
+            if (Client.get('is_virtual')) {
+                TopUpVirtualPopup.onLoad();
+            }
+            init();
+        });
         if (!Client.isLoggedIn() || !Client.get('residence')) {
             // if client is logged out or they don't have residence set
             BinarySocket.wait('website_status').then(function () {
