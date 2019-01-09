@@ -2067,6 +2067,16 @@ a.previous-wrapper {
 #settings_container .notice-circle {
   margin: auto 15px; }
 
+.lightbox#top_up_virtual_pop_up > div {
+  max-width: 25em;
+  padding: 32px; }
+  .lightbox#top_up_virtual_pop_up > div #cancel span, .lightbox#top_up_virtual_pop_up > div #statement_redirect span {
+    width: calc(100% - 50px); }
+  .lightbox#top_up_virtual_pop_up > div #topup, .lightbox#top_up_virtual_pop_up > div #continue {
+    width: calc(100% - 25px); }
+  .lightbox#top_up_virtual_pop_up > div #understood {
+    width: 100%; }
+
 @media screen and (max-width: 480px) {
   .api_token table td, .api_token table th, #applications-container table td, #applications-container table th {
     font-size: 0.7561436673rem; }
