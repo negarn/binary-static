@@ -16961,12 +16961,7 @@ var MBTradePage = function () {
 
     var onLoad = function onLoad() {
         State.set('is_mb_trading', true);
-        BinarySocket.wait('authorize').then(function () {
-            if (Client.get('is_virtual')) {
-                TopUpVirtualPopup.onLoad();
-            }
-            init();
-        });
+        BinarySocket.wait('authorize').then(init);
         if (!Client.isLoggedIn() || !Client.get('residence')) {
             // if client is logged out or they don't have residence set
             BinarySocket.wait('website_status').then(function () {
@@ -16998,6 +16993,10 @@ var MBTradePage = function () {
         State.set('is_chart_allowed', true);
         State.set('ViewPopup.onDisplayed', MBPrice.hidePriceOverlay);
         $('.container').css('max-width', '1200px');
+        // if not loaded by pjax, balance update function calls TopUpVirtualPopup
+        if (State.get('is_loaded_by_pjax')) {
+            TopUpVirtualPopup.init(State.getResponse('balance.balance'));
+        }
     };
 
     var showCurrency = function showCurrency(currency) {
@@ -24004,10 +24003,12 @@ module.exports = Process;
 "use strict";
 
 
+var isCallputspread = __webpack_require__(/*! ./callputspread */ "./src/javascript/app/pages/trade/callputspread.js").isCallputspread;
 var Contract = __webpack_require__(/*! ./contract */ "./src/javascript/app/pages/trade/contract.js");
+var hidePriceOverlay = __webpack_require__(/*! ./common */ "./src/javascript/app/pages/trade/common.js").hidePriceOverlay;
 var getLookBackFormula = __webpack_require__(/*! ./lookback */ "./src/javascript/app/pages/trade/lookback.js").getFormula;
 var isLookback = __webpack_require__(/*! ./lookback */ "./src/javascript/app/pages/trade/lookback.js").isLookback;
-var isCallputspread = __webpack_require__(/*! ./callputspread */ "./src/javascript/app/pages/trade/callputspread.js").isCallputspread;
+var processPriceRequest = __webpack_require__(/*! ./price */ "./src/javascript/app/pages/trade/price.js").processPriceRequest;
 var Symbols = __webpack_require__(/*! ./symbols */ "./src/javascript/app/pages/trade/symbols.js");
 var Tick = __webpack_require__(/*! ./tick */ "./src/javascript/app/pages/trade/tick.js");
 var TickDisplay = __webpack_require__(/*! ./tick_trade */ "./src/javascript/app/pages/trade/tick_trade.js");
@@ -24016,9 +24017,11 @@ var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/
 var Header = __webpack_require__(/*! ../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var formatMoney = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var TopUpVirtualPopup = __webpack_require__(/*! ../../pages/user/account/top_up_virtual/pop_up */ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js");
 var CommonFunctions = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var localizeKeepPlaceholders = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localizeKeepPlaceholders;
+var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var padLeft = __webpack_require__(/*! ../../../_common/string_util */ "./src/javascript/_common/string_util.js").padLeft;
 var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var createElement = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").createElement;
@@ -24065,31 +24068,38 @@ var Purchase = function () {
         var has_chart = !/^(digits|highlowticks)$/.test(Contract.form());
         var show_chart = !error && passthrough.duration <= 10 && passthrough.duration_unit === 't';
 
-        contracts_list.style.display = 'none';
-
         if (error) {
-            container.style.display = 'block';
-            message_container.hide();
-            if (/AuthorizationRequired/.test(error.code)) {
-                authorization_error.setVisibility(1);
-                var authorization_error_btn_login = CommonFunctions.getElementById('authorization_error_btn_login');
-                authorization_error_btn_login.removeEventListener('click', loginOnClick);
-                authorization_error_btn_login.addEventListener('click', loginOnClick);
+            var balance = State.getResponse('balance.balance');
+            if (/InsufficientBalance/.test(error.code) && TopUpVirtualPopup.shouldShow(balance, true)) {
+                hidePriceOverlay();
+                processPriceRequest();
+                TopUpVirtualPopup.show(error.message);
             } else {
-                confirmation_error.setVisibility(1);
-                var message = error.message;
-                if (/RestrictedCountry/.test(error.code)) {
-                    var additional_message = '';
-                    if (/FinancialBinaries/.test(error.code)) {
-                        additional_message = localize('Try our [_1]Volatility Indices[_2].', ['<a href="' + urlFor('get-started/binary-options', 'anchor=volatility-indices#range-of-markets') + '" >', '</a>']);
-                    } else if (/Random/.test(error.code)) {
-                        additional_message = localize('Try our other markets.');
+                contracts_list.style.display = 'none';
+                container.style.display = 'block';
+                message_container.hide();
+                if (/AuthorizationRequired/.test(error.code)) {
+                    authorization_error.setVisibility(1);
+                    var authorization_error_btn_login = CommonFunctions.getElementById('authorization_error_btn_login');
+                    authorization_error_btn_login.removeEventListener('click', loginOnClick);
+                    authorization_error_btn_login.addEventListener('click', loginOnClick);
+                } else {
+                    confirmation_error.setVisibility(1);
+                    var message = error.message;
+                    if (/RestrictedCountry/.test(error.code)) {
+                        var additional_message = '';
+                        if (/FinancialBinaries/.test(error.code)) {
+                            additional_message = localize('Try our [_1]Volatility Indices[_2].', ['<a href="' + urlFor('get-started/binary-options', 'anchor=volatility-indices#range-of-markets') + '" >', '</a>']);
+                        } else if (/Random/.test(error.code)) {
+                            additional_message = localize('Try our other markets.');
+                        }
+                        message = error.message + '. ' + additional_message;
                     }
-                    message = error.message + '. ' + additional_message;
+                    CommonFunctions.elementInnerHtml(confirmation_error, message);
                 }
-                CommonFunctions.elementInnerHtml(confirmation_error, message);
             }
         } else {
+            contracts_list.style.display = 'none';
             CommonFunctions.getElementById('guideBtn').style.display = 'none';
             container.style.display = 'table-row';
             message_container.show();
@@ -25512,7 +25522,10 @@ var TradePage = function () {
             Header.displayAccountStatus();
             if (Client.get('is_virtual')) {
                 Header.upgradeMessageVisibility(); // To handle the upgrade buttons visibility
-                TopUpVirtualPopup.onLoad();
+                // if not loaded by pjax, balance update function calls TopUpVirtualPopup
+                if (State.get('is_loaded_by_pjax')) {
+                    TopUpVirtualPopup.init(State.getResponse('balance.balance'));
+                }
             }
             Client.activateByClientType('trading_socket_container');
             BinarySocket.send({ payout_currencies: 1 }).then(function () {
@@ -29614,75 +29627,99 @@ module.exports = StatementUI;
 "use strict";
 
 
+var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var BinaryPjax = __webpack_require__(/*! ../../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../../base/socket */ "./src/javascript/app/base/socket.js");
 var showPopup = __webpack_require__(/*! ../../../../common/attach_dom/popup */ "./src/javascript/app/common/attach_dom/popup.js");
 var getElementById = __webpack_require__(/*! ../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var urlFor = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
+var State = __webpack_require__(/*! ../../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 
 var TopUpVirtualPopup = function () {
-    var onLoad = function onLoad() {
-        BinarySocket.wait('balance').then(function (response) {
-            if (+response.balance.balance < 1000 && !Client.get('hide_top_up')) {
-                var form_id = '#frm_confirm';
-                var popup_id = 'top_up_virtual_pop_up';
-                var popup_url = urlFor('user/top_up_virtual_pop_up');
-                showPopup({
-                    form_id: form_id,
-                    popup_id: popup_id,
-                    url: popup_url,
-                    content_id: '#top_up',
-                    additionalFunction: function additionalFunction() {
-                        var el_cancel = getElementById('cancel');
-                        var el_popup = getElementById(popup_id);
-                        el_cancel.addEventListener('click', function () {
-                            if (el_popup) {
-                                el_popup.remove();
+    var form_id = '#frm_confirm';
+    var popup_id = 'top_up_virtual_pop_up';
+
+    var init = function init(balance) {
+        if (shouldShowPopup(balance)) {
+            showTopUpPopup();
+        }
+    };
+
+    var shouldShowPopup = function shouldShowPopup(balance, should_ignore_hide) {
+        // this is only applicable to virtual clients who are on smart trader page or ladders page
+        if (!(Client.get('is_virtual') && (State.get('is_trading') || State.get('is_mb_trading')))) {
+            return false;
+        }
+        // this is only applicable to clients who have less than 1k balance and have not set popup to remain hidden
+        var hide_virtual_top_up_until = should_ignore_hide ? 0 : Client.get('hide_virtual_top_up_until');
+        if (+balance >= 1000 || hide_virtual_top_up_until && moment.utc().diff(moment.unix(hide_virtual_top_up_until).utc(), 'day') < 1) {
+            return false;
+        }
+
+        return true;
+    };
+
+    var showTopUpPopup = function showTopUpPopup(message) {
+        var popup_url = urlFor('user/top_up_virtual_pop_up');
+        showPopup({
+            form_id: form_id,
+            popup_id: popup_id,
+            url: popup_url,
+            content_id: '#top_up',
+            additionalFunction: function additionalFunction() {
+                if (message) {
+                    getElementById('top_up_message').textContent = message;
+                    getElementById('chk_hide_top_up').parentNode.setVisibility(0);
+                }
+                var el_cancel = getElementById('cancel');
+                var el_popup = getElementById(popup_id);
+                el_cancel.addEventListener('click', function () {
+                    Client.set('hide_virtual_top_up_until', moment.utc().add(1, 'day').unix());
+                    if (el_popup) {
+                        el_popup.remove();
+                    }
+                });
+                var el_chk_hide_top_up = getElementById('chk_hide_top_up');
+                el_chk_hide_top_up.addEventListener('click', function () {
+                    if (el_chk_hide_top_up.checked) {
+                        Client.set('hide_virtual_top_up_until', moment.utc().add(10, 'year').unix());
+                    } else {
+                        Client.set('hide_virtual_top_up_until', moment.utc().unix());
+                    }
+                });
+            },
+            onAccept: function onAccept() {
+                BinarySocket.send({ topup_virtual: '1' }).then(function (response_top_up) {
+                    var el_popup = getElementById(popup_id);
+                    if (el_popup) {
+                        el_popup.remove();
+                    }
+                    if (response_top_up.error) {
+                        showPopup({
+                            form_id: form_id,
+                            popup_id: popup_id,
+                            url: popup_url,
+                            content_id: '#top_up_error',
+                            additionalFunction: function additionalFunction() {
+                                getElementById('top_up_error_message').textContent = response_top_up.error.message;
                             }
                         });
-                        var el_chk_hide_top_up = getElementById('chk_hide_top_up');
-                        el_chk_hide_top_up.addEventListener('click', function () {
-                            if (el_chk_hide_top_up.checked) {
-                                Client.set('hide_top_up', 1);
-                            } else {
-                                Client.set('hide_top_up', 0);
-                            }
-                        });
-                    },
-                    onAccept: function onAccept() {
-                        BinarySocket.send({ topup_virtual: '1' }).then(function (response_top_up) {
-                            var el_popup = getElementById(popup_id);
-                            if (el_popup) {
-                                el_popup.remove();
-                            }
-                            if (response_top_up.error) {
-                                showPopup({
-                                    form_id: form_id,
-                                    popup_id: popup_id,
-                                    url: popup_url,
-                                    content_id: '#top_up_error',
-                                    additionalFunction: function additionalFunction() {
-                                        getElementById('top_up_error_message').textContent = response_top_up.error.message;
+                    } else {
+                        showPopup({
+                            form_id: form_id,
+                            popup_id: popup_id,
+                            url: popup_url,
+                            content_id: '#top_up_success',
+                            additionalFunction: function additionalFunction() {
+                                getElementById('client_loginid').textContent = Client.get('loginid');
+                                var el_redirect = getElementById('statement_redirect');
+                                var el_new_popup = getElementById(popup_id);
+                                el_redirect.addEventListener('click', function () {
+                                    if (el_new_popup) {
+                                        el_new_popup.remove();
                                     }
-                                });
-                            } else {
-                                showPopup({
-                                    form_id: form_id,
-                                    popup_id: popup_id,
-                                    url: popup_url,
-                                    content_id: '#top_up_success',
-                                    additionalFunction: function additionalFunction() {
-                                        getElementById('client_loginid').textContent = Client.get('loginid');
-                                        var el_redirect = getElementById('statement_redirect');
-                                        var el_new_popup = getElementById(popup_id);
-                                        el_redirect.addEventListener('click', function () {
-                                            if (el_new_popup) {
-                                                el_new_popup.remove();
-                                            }
-                                            BinaryPjax.load(urlFor('user/statementws'));
-                                        });
-                                    }
+                                    BinaryPjax.load(urlFor('user/statementws'));
                                 });
                             }
                         });
@@ -29693,7 +29730,9 @@ var TopUpVirtualPopup = function () {
     };
 
     return {
-        onLoad: onLoad
+        init: init,
+        shouldShow: shouldShowPopup,
+        show: showTopUpPopup
     };
 }();
 
@@ -32765,6 +32804,7 @@ var updateContractBalance = __webpack_require__(/*! ../trade/update_values */ ".
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var formatMoney = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var TopUpVirtualPopup = __webpack_require__(/*! ../../pages/user/account/top_up_virtual/pop_up */ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js");
 var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var updateBalance = function updateBalance(response) {
@@ -32782,6 +32822,7 @@ var updateBalance = function updateBalance(response) {
         var view = formatMoney(currency, balance);
         updateContractBalance(balance);
         $('.topMenuBalance, .binary-balance').html(view).css('visibility', 'visible');
+        TopUpVirtualPopup.init(balance);
     });
 };
 
