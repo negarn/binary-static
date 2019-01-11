@@ -11758,6 +11758,8 @@ var showPopup = __webpack_require__(/*! ./popup */ "./src/javascript/app/common/
 var elementInnerHtml = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementInnerHtml;
 var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 
+// use this function if you need a simple popup with just a confirm or also a cancel button
+// if you need to show a form with some validations, use showPopup() instead
 var Dialog = function () {
     var baseDialog = function baseDialog(options) {
         var is_alert = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -11771,11 +11773,18 @@ var Dialog = function () {
                     var el_dialog = container;
                     var el_btn_ok = container.querySelector('#btn_ok');
                     var el_btn_cancel = container.querySelector('#btn_cancel');
+                    var el_title = container.querySelector('#dialog_title');
 
                     if (!el_dialog) return;
 
                     var localized_message = Array.isArray(options.localized_message) ? options.localized_message.join('<p />') : options.localized_message;
                     elementInnerHtml(container.querySelector('#dialog_message'), localized_message);
+
+                    var localized_title = options.localized_title;
+                    if (localized_title && el_title) {
+                        el_title.setVisibility(1);
+                        elementInnerHtml(container.querySelector('#dialog_title'), localized_title);
+                    }
 
                     if (is_alert) {
                         el_btn_cancel.classList.add('invisible');
@@ -11791,6 +11800,14 @@ var Dialog = function () {
 
                     if (options.ok_text && el_btn_ok.firstElementChild) {
                         el_btn_ok.firstElementChild.textContent = options.ok_text;
+                    }
+
+                    if (options.cancel_text && el_btn_cancel.firstElementChild) {
+                        el_btn_cancel.firstElementChild.textContent = options.cancel_text;
+                    }
+
+                    if (typeof options.additionalFunction === 'function') {
+                        options.additionalFunction();
                     }
 
                     el_btn_ok.addEventListener('click', function () {
@@ -11961,6 +11978,8 @@ var createElement = __webpack_require__(/*! ../../../_common/utility */ "./src/j
 var cache = {};
 var popup_queue = [];
 
+// use this function if you need to show a form with some validations in popup
+// if you need a simple popup with just a confirm or also a cancel button use Dialog instead
 var showPopup = function showPopup(options) {
     if (cache[options.url]) {
         callback(options);
@@ -29631,8 +29650,10 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 var BinaryPjax = __webpack_require__(/*! ../../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../../base/socket */ "./src/javascript/app/base/socket.js");
+var Dialog = __webpack_require__(/*! ../../../../common/attach_dom/dialog */ "./src/javascript/app/common/attach_dom/dialog.js");
 var showPopup = __webpack_require__(/*! ../../../../common/attach_dom/popup */ "./src/javascript/app/common/attach_dom/popup.js");
 var getElementById = __webpack_require__(/*! ../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
+var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var urlFor = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var State = __webpack_require__(/*! ../../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 
@@ -29662,6 +29683,7 @@ var TopUpVirtualPopup = function () {
 
     var showTopUpPopup = function showTopUpPopup(message) {
         var popup_url = urlFor('user/top_up_virtual_pop_up');
+        // use showPopup since we have a checkbox
         showPopup({
             form_id: form_id,
             popup_id: popup_id,
@@ -29672,7 +29694,7 @@ var TopUpVirtualPopup = function () {
                     getElementById('top_up_message').textContent = message;
                     getElementById('chk_hide_top_up').parentNode.setVisibility(0);
                 }
-                var el_cancel = getElementById('cancel');
+                var el_cancel = getElementById('btn_cancel');
                 var el_popup = getElementById(popup_id);
                 el_cancel.addEventListener('click', function () {
                     Client.set('hide_virtual_top_up_until', moment.utc().add(1, 'day').unix());
@@ -29695,32 +29717,23 @@ var TopUpVirtualPopup = function () {
                     if (el_popup) {
                         el_popup.remove();
                     }
+                    // use Dialog for both error and success since there are no form elements or validation to be done
                     if (response_top_up.error) {
-                        showPopup({
-                            form_id: form_id,
-                            popup_id: popup_id,
-                            url: popup_url,
-                            content_id: '#top_up_error',
-                            additionalFunction: function additionalFunction() {
-                                getElementById('top_up_error_message').textContent = response_top_up.error.message;
-                            }
+                        Dialog.alert({
+                            id: 'top_up_error',
+                            localized_title: localize('Top up error'),
+                            localized_message: response_top_up.error.message,
+                            ok_text: localize('Understood')
                         });
                     } else {
-                        showPopup({
-                            form_id: form_id,
-                            popup_id: popup_id,
-                            url: popup_url,
-                            content_id: '#top_up_success',
-                            additionalFunction: function additionalFunction() {
-                                getElementById('client_loginid').textContent = Client.get('loginid');
-                                var el_redirect = getElementById('statement_redirect');
-                                var el_new_popup = getElementById(popup_id);
-                                el_redirect.addEventListener('click', function () {
-                                    if (el_new_popup) {
-                                        el_new_popup.remove();
-                                    }
-                                    BinaryPjax.load(urlFor('user/statementws'));
-                                });
+                        Dialog.confirm({
+                            id: 'top_up_success',
+                            localized_title: localize('Top-up successful'),
+                            localized_message: localize('[_1] has been credited into your Virtual Account: [_2].', '$10,000.00', Client.get('loginid')),
+                            cancel_text: localize('Go to statement'),
+                            ok_text: localize('Continue trading'),
+                            onAbort: function onAbort() {
+                                BinaryPjax.load(urlFor('user/statementws'));
                             }
                         });
                     }
