@@ -12019,8 +12019,10 @@ var callback = function callback(options) {
         options.additionalFunction(lightbox);
     }
 
+    var $btn_submit = $(options.form_id + ' button[type=\'submit\']');
     getElementById(options.form_id.slice(1)).addEventListener('submit', function (e) {
         e.preventDefault();
+        $btn_submit.attr('disabled', 'disabled'); // make sure it's only submitted once
         if (options.validations) {
             if (Validation.validate(options.form_id)) {
                 if (lightbox) {
@@ -12029,6 +12031,8 @@ var callback = function callback(options) {
                 if (typeof options.onAccept === 'function') {
                     options.onAccept();
                 }
+            } else {
+                $btn_submit.removeAttr('disabled');
             }
         } else if (typeof options.onAccept === 'function') {
             options.onAccept();
@@ -29670,7 +29674,7 @@ var TopUpVirtualPopup = function () {
         }
         // this is only applicable to clients who have less than 1k balance and have not set popup to remain hidden
         var hide_virtual_top_up_until = should_ignore_hide ? 0 : Client.get('hide_virtual_top_up_until');
-        if (+balance >= 1000 || hide_virtual_top_up_until && moment.utc().diff(moment.unix(hide_virtual_top_up_until).utc(), 'day') < 1) {
+        if (+balance >= 21000 || hide_virtual_top_up_until && moment.utc().diff(moment.unix(hide_virtual_top_up_until).utc(), 'day') < 1) {
             return false;
         }
 
