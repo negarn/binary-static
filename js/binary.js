@@ -12019,10 +12019,8 @@ var callback = function callback(options) {
         options.additionalFunction(lightbox);
     }
 
-    var $btn_submit = $(options.form_id + ' button[type=\'submit\']');
     getElementById(options.form_id.slice(1)).addEventListener('submit', function (e) {
         e.preventDefault();
-        $btn_submit.attr('disabled', 'disabled'); // make sure it's only submitted once
         if (options.validations) {
             if (Validation.validate(options.form_id)) {
                 if (lightbox) {
@@ -12031,8 +12029,6 @@ var callback = function callback(options) {
                 if (typeof options.onAccept === 'function') {
                     options.onAccept();
                 }
-            } else {
-                $btn_submit.removeAttr('disabled');
             }
         } else if (typeof options.onAccept === 'function') {
             options.onAccept();
@@ -29714,6 +29710,10 @@ var TopUpVirtualPopup = function () {
                     } else {
                         Client.set('hide_virtual_top_up_until', moment.utc().unix());
                     }
+                });
+                var $btn_ok = $('#btn_ok');
+                $btn_ok.on('click dblclick', function () {
+                    $btn_ok.attr('disabled', 'disabled');
                 });
             },
             onAccept: function onAccept() {
