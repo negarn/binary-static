@@ -11806,10 +11806,6 @@ var Dialog = function () {
                         el_btn_cancel.firstElementChild.textContent = options.cancel_text;
                     }
 
-                    if (typeof options.additionalFunction === 'function') {
-                        options.additionalFunction();
-                    }
-
                     el_btn_ok.addEventListener('click', function () {
                         el_dialog.remove();
                         if (typeof options.onConfirm === 'function') {
@@ -29682,20 +29678,25 @@ var TopUpVirtualPopup = function () {
     };
 
     var showTopUpPopup = function showTopUpPopup(message) {
-        var popup_url = urlFor('user/top_up_virtual_pop_up');
         // use showPopup since we have a checkbox
         showPopup({
             form_id: form_id,
             popup_id: popup_id,
-            url: popup_url,
+            url: urlFor('user/top_up_virtual_pop_up'),
             content_id: '#top_up',
             additionalFunction: function additionalFunction() {
                 if (message) {
                     getElementById('top_up_message').textContent = message;
                     getElementById('chk_hide_top_up').parentNode.setVisibility(0);
                 }
-                var el_cancel = getElementById('btn_cancel');
+                var el_redirect = getElementById('top_up_cashier_redirect');
                 var el_popup = getElementById(popup_id);
+                el_redirect.addEventListener('click', function () {
+                    if (el_popup) {
+                        el_popup.remove();
+                    }
+                });
+                var el_cancel = getElementById('btn_cancel');
                 el_cancel.addEventListener('click', function () {
                     Client.set('hide_virtual_top_up_until', moment.utc().add(1, 'day').unix());
                     if (el_popup) {
@@ -29729,7 +29730,7 @@ var TopUpVirtualPopup = function () {
                         Dialog.confirm({
                             id: 'top_up_success',
                             localized_title: localize('Top-up successful'),
-                            localized_message: localize('[_1] has been credited into your Virtual Account: [_2].', '$10,000.00', Client.get('loginid')),
+                            localized_message: localize('[_1] has been credited into your Virtual Account: [_2].', ['$10,000.00', Client.get('loginid')]),
                             cancel_text: localize('Go to statement'),
                             ok_text: localize('Continue trading'),
                             onAbort: function onAbort() {
