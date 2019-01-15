@@ -952,6 +952,8 @@ var GTM = function () {
             pushDataLayer({ bom_affiliate_token: affiliate_token.t });
         }
 
+        // Get current time (moment, set by server), else fallback to client time
+        var moment_now = window.time || moment().utc();
         var data = {
             visitorId: ClientBase.get('loginid'),
             bom_account_type: ClientBase.getAccountType(),
@@ -960,7 +962,7 @@ var GTM = function () {
             bom_country_abbrev: get_settings.country_code,
             bom_email: get_settings.email,
             url: window.location.href,
-            bom_today: Math.floor(Date.now() / 1000)
+            bom_today: moment_now.unix()
         };
 
         if (is_new_account) {
@@ -969,7 +971,7 @@ var GTM = function () {
         }
 
         if (!ClientBase.get('is_virtual')) {
-            data.bom_age = parseInt((moment().unix() - get_settings.date_of_birth) / 31557600);
+            data.bom_age = moment_now.diff(moment.unix(get_settings.date_of_birth).utc(), 'year');
             data.bom_firstname = get_settings.first_name;
             data.bom_lastname = get_settings.last_name;
             data.bom_phone = get_settings.phone;
@@ -1060,10 +1062,55 @@ var GTM = function () {
         pushDataLayer(gtm_data);
     };
 
+    // Pushes deposit & withdrawal data from transaction-stream to GTM
+    var pushTransactionData = function pushTransactionData(response) {
+        var extra_data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+        if (!isGtmApplicable() || ClientBase.get('is_virtual')) return;
+        if (!response.transaction || !response.transaction.action) return;
+        if (!['deposit', 'withdrawal'].includes(response.transaction.action)) return;
+
+        var moment_now = window.time || moment().utc();
+        var storage_key = 'GTM_transactions';
+
+        // Remove values from prev days so localStorage doesn't grow to infinity
+        var gtm_transactions = JSON.parse(localStorage.getItem(storage_key)) || {};
+        if (Object.prototype.hasOwnProperty.call(gtm_transactions, 'timestamp')) {
+            if (moment_now.isAfter(moment.unix(gtm_transactions.timestamp).utc(), 'day')) {
+                localStorage.removeItem(storage_key);
+                gtm_transactions = { timestamp: moment_now.unix() };
+            }
+        }
+        var transactions_arr = gtm_transactions.transactions || [];
+        if (!transactions_arr.includes(response.transaction.transaction_id)) {
+            var data = {
+                event: 'transaction',
+                bom_account_type: ClientBase.getAccountType(),
+                bom_today: moment_now.unix(),
+                transaction: {
+                    id: response.transaction.transaction_id,
+                    type: response.transaction.action,
+                    time: response.transaction.transaction_time,
+                    amount: response.transaction.amount,
+                    balance: response.transaction.balance
+                }
+            };
+            Object.assign(data, extra_data);
+            pushDataLayer(data);
+
+            transactions_arr.push(response.transaction.transaction_id);
+            gtm_transactions.transactions = transactions_arr;
+            gtm_transactions.timestamp = gtm_transactions.timestamp || moment_now.unix();
+
+            localStorage.setItem(storage_key, JSON.stringify(gtm_transactions));
+        }
+    };
+
     return {
         pushDataLayer: pushDataLayer,
         eventHandler: eventHandler,
         pushPurchaseData: pushPurchaseData,
+        pushTransactionData: pushTransactionData,
         mt5NewAccount: mt5NewAccount,
         setLoginFlag: function setLoginFlag(event_name) {
             if (isGtmApplicable()) localStorage.setItem('GTM_login', event_name);
@@ -1854,6 +1901,230 @@ var SocketCache = function () {
 }();
 
 module.exports = SocketCache;
+
+/***/ }),
+
+/***/ "./src/javascript/_common/base/subscription_manager.js":
+/*!*************************************************************!*\
+  !*** ./src/javascript/_common/base/subscription_manager.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _socket_base = __webpack_require__(/*! ./socket_base */ "./src/javascript/_common/base/socket_base.js");
+
+var _socket_base2 = _interopRequireDefault(_socket_base);
+
+var _utility = __webpack_require__(/*! ../utility */ "./src/javascript/_common/utility.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * A layer over BinarySocket to handle subscribing to streaming calls
+ * in order to keep track of subscriptions, manage forget, prevent multiple subscription at the same time, ...
+ *
+ * structure of the the subscription object is:
+ * {
+ *     1: { msg_type: 'proposal', request: { ... }, stream_id: '...', subscribers: [ ... ] },
+ *     2: ...
+ * }
+ * object keys: subscription_id that assigned to each subscription
+ * msg_type   : msg_type of the request for faster filtering
+ * request    : the request object, used to subscribe to the same stream when there is a new subscribe request with exactly the same values
+ * stream_id  : id of the stream which stored from its response and used to forget the stream when needed
+ * subscribers: an array of callbacks to dispatch the response to
+ */
+var SubscriptionManager = function () {
+    var subscriptions = {};
+    var forget_requested = {};
+
+    var subscription_id = 0;
+
+    /**
+     * To submit request for a new subscription
+     *
+     * @param {String}   msg_type             msg_type of the request
+     * @param {Object}   request_obj          the whole object of the request to be made
+     * @param {Function} fncCallback          callback function to pass the responses to
+     * @param {Boolean}  should_forget_first  when it's true: forgets the previous subscription, then subscribes after receiving the forget response (if any)
+     */
+    var subscribe = function subscribe(msg_type, request_obj, fncCallback) {
+        var should_forget_first = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+        if (should_forget_first) {
+            forget(msg_type, fncCallback).then(function () {
+                subscribe(msg_type, request_obj, fncCallback);
+            });
+            return;
+        }
+
+        var sub_id = Object.keys(subscriptions).find(function (id) {
+            return (0, _utility.isDeepEqual)(request_obj, subscriptions[id].request);
+        });
+
+        if (!sub_id) {
+            sub_id = ++subscription_id;
+
+            subscriptions[sub_id] = {
+                msg_type: msg_type,
+                request: (0, _utility.cloneObject)(request_obj),
+                stream_id: '', // stream_id will be updated after receiving the response
+                subscribers: [fncCallback]
+            };
+
+            _socket_base2.default.send(request_obj, {
+                callback: function callback(response) {
+                    return dispatch(response, sub_id);
+                }
+            });
+        } else if (!hasCallbackFunction(sub_id, fncCallback)) {
+            // there is already an active subscription for the very same request which fncCallback is not subscribed to it yet
+            subscriptions[sub_id].subscribers.push(fncCallback);
+        }
+    };
+
+    // dispatches the response to subscribers of the specific subscription id (internal use only)
+    var dispatch = function dispatch(response, sub_id) {
+        var stream_id = (0, _utility.getPropertyValue)(response, [response.msg_type, 'id']);
+
+        if (!subscriptions[sub_id]) {
+            if (!forget_requested[stream_id]) {
+                forgetStream(stream_id);
+            }
+            return;
+        }
+
+        var sub_info = subscriptions[sub_id];
+        // set the stream_id
+        if (!sub_info.stream_id && stream_id) {
+            sub_info.stream_id = stream_id;
+        }
+
+        // callback subscribers
+        var subscribers = sub_info.subscribers;
+        if (subscribers.length) {
+            if (
+            // it is the first response
+            !sub_info.stream_id && (
+            // the first response returned error
+            response.error ||
+            // not a subscription (i.e. subscribed proposal_open_contract for an expired contract)
+            // also to filter out streams with no stream id but later it will continue streaming (i.e. proposal_open_contract without contract id)
+            !(0, _utility.isEmptyObject)(response[response.msg_type]) &&
+            // check msg_type to filter out those calls which don't return stream `id` on first response (tick_history, ...)
+            response.msg_type === sub_info.msg_type) ||
+            // remove when response isn't first and response has no stream_id
+            !stream_id && sub_info.stream_id) {
+                delete subscriptions[sub_id];
+            }
+            sub_info.subscribers.forEach(function (fnc) {
+                fnc(response);
+            });
+        } else {
+            delete subscriptions[sub_id];
+            forgetStream(sub_info.stream_id);
+        }
+    };
+
+    /**
+     * To forget a subscription which submitted for a specific callback function
+     *
+     * @param  {String}   msg_type      msg_type to forget
+     * @param  {Function} fncCallback   the same function passed to subscribe()
+     *     (this is the way to distinguish between different subscribers of the same stream at the same time)
+     * @param  {Object}   match_values  optional, to only forget subscriptions having request that "contains" provided values
+     * @return {Promise}  the promise object of all possible forget requests
+     */
+    var forget = function forget(msg_type, fncCallback, match_values) {
+        if (typeof fncCallback !== 'function') {
+            throw new Error('Missing callback function. To forget all subscriptions of msg_type: ' + msg_type + ', please call forgetAll().');
+        }
+
+        // find corresponding id(s)
+        var sub_ids = Object.keys(subscriptions).filter(function (id) {
+            return subscriptions[id].msg_type === msg_type && hasCallbackFunction(id, fncCallback);
+        });
+
+        var forgets_list = [];
+        sub_ids.forEach(function (id) {
+            if (match_values && !hasValues(subscriptions[id].request, match_values)) {
+                return;
+            }
+            var stream_id = subscriptions[id].stream_id;
+            if (stream_id && subscriptions[id].subscribers.length === 1) {
+                delete subscriptions[id];
+                forgets_list.push(forgetStream(stream_id));
+            } else {
+                // there are other subscribers, or for some reason there is no stream_id:
+                // (i.e. returned an error, or forget() being called before the first response)
+                subscriptions[id].subscribers.splice(subscriptions[id].subscribers.indexOf(fncCallback), 1);
+            }
+        });
+        return Promise.all(forgets_list);
+    };
+
+    /**
+     * To forget all active subscriptions of a list of msg_types
+     *
+     * @param  {String}  msg_types  list of msg_types to forget
+     * @return {Promise} the promise object of all possible forget_all requests
+     */
+    var forgetAll = function forgetAll() {
+        for (var _len = arguments.length, msg_types = Array(_len), _key = 0; _key < _len; _key++) {
+            msg_types[_key] = arguments[_key];
+        }
+
+        var types_to_forget = {};
+
+        msg_types.forEach(function (msg_type) {
+            var sub_ids = Object.keys(subscriptions).filter(function (id) {
+                return subscriptions[id].msg_type === msg_type;
+            });
+            if (sub_ids.length) {
+                sub_ids.forEach(function (id) {
+                    delete subscriptions[id];
+                });
+                types_to_forget[msg_type] = true;
+            }
+        });
+
+        return Promise.resolve(!(0, _utility.isEmptyObject)(types_to_forget) ? _socket_base2.default.send({ forget_all: Object.keys(types_to_forget) }) : {});
+    };
+
+    var forgetStream = function forgetStream(stream_id) {
+        forget_requested[stream_id] = true; // to prevent forgetting multiple times
+        return Promise.resolve(stream_id ? _socket_base2.default.send({ forget: stream_id }).then(function () {
+            delete forget_requested[stream_id];
+        }) : {});
+    };
+
+    var hasCallbackFunction = function hasCallbackFunction(sub_id, fncCallback) {
+        return subscriptions[sub_id] && subscriptions[sub_id].subscribers.indexOf(fncCallback) !== -1;
+    };
+
+    var hasValues = function hasValues(request_obj, values_obj) {
+        return (typeof request_obj === 'undefined' ? 'undefined' : _typeof(request_obj)) === 'object' && (typeof values_obj === 'undefined' ? 'undefined' : _typeof(values_obj)) === 'object' && Object.keys(values_obj).every(function (key) {
+            return request_obj[key] === values_obj[key];
+        });
+    };
+
+    return {
+        subscribe: subscribe,
+        forget: forget,
+        forgetAll: forgetAll
+    };
+}();
+
+exports.default = SubscriptionManager;
 
 /***/ }),
 
@@ -9250,6 +9521,14 @@ var BinaryLoader = function () {
         ContentVisibility.init();
 
         BinarySocket.wait('authorize', 'website_status', 'landing_company').then(function () {
+            // first time load.
+            var last_image = $('#content img').last();
+            if (last_image) {
+                last_image.on('load', function () {
+                    ScrollToAnchor.init();
+                });
+            }
+
             ScrollToAnchor.init();
         });
     };
@@ -9420,7 +9699,7 @@ var TwoFactorAuthentication = __webpack_require__(/*! ../pages/user/account/sett
 var PersonalDetails = __webpack_require__(/*! ../pages/user/account/settings/personal_details */ "./src/javascript/app/pages/user/account/settings/personal_details.js");
 var professionalClient = __webpack_require__(/*! ../pages/user/account/settings/professional_client */ "./src/javascript/app/pages/user/account/settings/professional_client.js");
 var Statement = __webpack_require__(/*! ../pages/user/account/statement/statement.init */ "./src/javascript/app/pages/user/account/statement/statement.init.js");
-var TopUpVirtual = __webpack_require__(/*! ../pages/user/account/top_up_virtual */ "./src/javascript/app/pages/user/account/top_up_virtual.js");
+var TopUpVirtual = __webpack_require__(/*! ../pages/user/account/top_up_virtual/top_up_virtual */ "./src/javascript/app/pages/user/account/top_up_virtual/top_up_virtual.js");
 var Accounts = __webpack_require__(/*! ../pages/user/accounts */ "./src/javascript/app/pages/user/accounts.js");
 var LostPassword = __webpack_require__(/*! ../pages/user/lost_password */ "./src/javascript/app/pages/user/lost_password.js");
 var MetaTrader = __webpack_require__(/*! ../pages/user/metatrader/metatrader */ "./src/javascript/app/pages/user/metatrader/metatrader.js");
@@ -9458,32 +9737,42 @@ var pages_config = {
     asset_indexws: { module: AssetIndexUI },
     authenticate: { module: Authenticate, is_authenticated: true, only_real: true },
     authorised_appsws: { module: AuthorisedApps, is_authenticated: true },
+    careers: { module: StaticPages.Careers },
     cashier: { module: Cashier },
     cashier_passwordws: { module: CashierPassword, is_authenticated: true, only_real: true },
-    change_passwordws: { module: ChangePassword, is_authenticated: true },
+    cfds: { module: GetStarted.CFDs },
     // charity                  : { module: Charity },
+    change_passwordws: { module: ChangePassword, is_authenticated: true },
     contact: { module: Contact },
+    cryptocurrencies: { module: GetStarted.Cryptocurrencies },
+    cyberjaya: { module: StaticPages.Locations },
     detailsws: { module: PersonalDetails, is_authenticated: true, needs_currency: true },
+    download: { module: MetatraderDownloadUI },
     economic_calendar: { module: EconomicCalendar },
     endpoint: { module: Endpoint },
     epg_forwardws: { module: DepositWithdraw, is_authenticated: true, only_real: true },
+    faq: { module: StaticPages.AffiliatesFAQ },
+    forex: { module: GetStarted.Forex },
     forwardws: { module: DepositWithdraw, is_authenticated: true, only_real: true },
     home: { module: Home, not_authenticated: true },
     iphistoryws: { module: IPHistory, is_authenticated: true },
+    labuan: { module: StaticPages.Locations },
     landing_page: { module: StaticPages.LandingPage, is_authenticated: true, only_virtual: true },
     limitsws: { module: Limits, is_authenticated: true, only_real: true, needs_currency: true },
     logged_inws: { module: LoggedInHandler },
     lost_passwordws: { module: LostPassword, not_authenticated: true },
+    malta: { module: StaticPages.Locations },
     maltainvestws: { module: FinancialAccOpening, is_authenticated: true },
     market_timesws: { module: TradingTimesUI },
+    metals: { module: GetStarted.Metals },
     metatrader: { module: MetaTrader, is_authenticated: true, needs_currency: true },
     multi_barriers_trading: { module: MBTradePage, needs_currency: true },
     payment_agent_listws: { module: PaymentAgentList, is_authenticated: true },
     payment_methods: { module: Cashier.PaymentMethods },
     platforms: { module: Platforms },
     portfoliows: { module: Portfolio, is_authenticated: true, needs_currency: true },
-    profit_tablews: { module: ProfitTable, is_authenticated: true, needs_currency: true },
     professional: { module: professionalClient, is_authenticated: true, only_real: true },
+    profit_tablews: { module: ProfitTable, is_authenticated: true, needs_currency: true },
     realws: { module: RealAccOpening, is_authenticated: true },
     redirect: { module: Redirect },
     regulation: { module: Regulation },
@@ -9501,36 +9790,28 @@ var pages_config = {
     virtualws: { module: VirtualAccOpening, not_authenticated: true },
     welcome: { module: WelcomePage, is_authenticated: true, only_virtual: true },
     withdrawws: { module: PaymentAgentWithdraw, is_authenticated: true, only_real: true },
+
+    'binary-in-numbers': { module: StaticPages.BinaryInNumbers },
     'binary-options': { module: GetStarted.BinaryOptions },
     'binary-options-mt5': { module: GetStarted.BinaryOptionsForMT5 },
-    'careers': { module: StaticPages.Careers },
     'contact-2': { module: Contact2 },
-    'cyberjaya': { module: StaticPages.Locations },
-    'cfds': { module: GetStarted.CFDs },
     'contract-specifications': { module: TabSelector },
-    'cryptocurrencies': { module: GetStarted.Cryptocurrencies },
-    'download': { module: MetatraderDownloadUI },
-    'faq': { module: StaticPages.AffiliatesFAQ },
-    'forex': { module: GetStarted.Forex },
     'get-started': { module: TabSelector },
     'how-to-trade-mt5': { module: TabSelector },
     'ib-faq': { module: StaticPages.IBProgrammeFAQ },
     'ib-signup': { module: TabSelector },
     'job-details': { module: JobDetails },
     'keep-safe': { module: KeepSafe },
-    'labuan': { module: StaticPages.Locations },
-    'malta': { module: StaticPages.Locations },
-    'metals': { module: GetStarted.Metals },
     'new-account': { module: NewAccount, not_authenticated: true },
     'open-positions': { module: StaticPages.OpenPositions },
     'open-source-projects': { module: StaticPages.OpenSourceProjects },
     'payment-agent': { module: StaticPages.PaymentAgent },
     'set-currency': { module: SetCurrency, is_authenticated: true, only_real: true, needs_currency: true },
+    'telegram-bot': { module: TelegramBot, is_authenticated: true },
     'terms-and-conditions': { module: TermsAndConditions },
     'types-of-accounts': { module: TypesOfAccounts },
     'video-facility': { module: VideoFacility, is_authenticated: true, only_real: true },
-    'why-us': { module: WhyUs },
-    'telegram-bot': { module: TelegramBot, is_authenticated: true }
+    'why-us': { module: WhyUs }
 };
 /* eslint-enable max-len */
 
@@ -11072,6 +11353,7 @@ var SessionDurationLimit = __webpack_require__(/*! ../common/session_duration_li
 var updateBalance = __webpack_require__(/*! ../pages/user/update_balance */ "./src/javascript/app/pages/user/update_balance.js");
 var GTM = __webpack_require__(/*! ../../_common/base/gtm */ "./src/javascript/_common/base/gtm.js");
 var Login = __webpack_require__(/*! ../../_common/base/login */ "./src/javascript/_common/base/login.js");
+var SubscriptionManager = __webpack_require__(/*! ../../_common/base/subscription_manager */ "./src/javascript/_common/base/subscription_manager.js").default;
 var Crowdin = __webpack_require__(/*! ../../_common/crowdin */ "./src/javascript/_common/crowdin.js");
 var localize = __webpack_require__(/*! ../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var LocalStore = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").LocalStore;
@@ -11140,6 +11422,9 @@ var BinarySocketGeneral = function () {
                         BinarySocket.send({ get_account_status: 1 });
                         BinarySocket.send({ payout_currencies: 1 });
                         BinarySocket.send({ mt5_login_list: 1 });
+                        SubscriptionManager.subscribe('transaction', { transaction: 1, subscribe: 1 }, function () {
+                            return false;
+                        });
                         var clients_country = response.authorize.country || Client.get('residence');
                         setResidence(clients_country);
                         // for logged in clients send landing company with IP address as residence
@@ -11191,6 +11476,9 @@ var BinarySocketGeneral = function () {
                         $('#topMenuPaymentAgent').setVisibility(1);
                     }
                 }
+                break;
+            case 'transaction':
+                GTM.pushTransactionData(response, { bom_ui: 'new' });
                 break;
             // no default
         }
@@ -11849,6 +12137,8 @@ var showPopup = __webpack_require__(/*! ./popup */ "./src/javascript/app/common/
 var elementInnerHtml = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementInnerHtml;
 var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 
+// use this function if you need a simple popup with just a confirm or also a cancel button
+// if you need to show a form with some validations, use showPopup() instead
 var Dialog = function () {
     var baseDialog = function baseDialog(options) {
         var is_alert = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -11862,11 +12152,18 @@ var Dialog = function () {
                     var el_dialog = container;
                     var el_btn_ok = container.querySelector('#btn_ok');
                     var el_btn_cancel = container.querySelector('#btn_cancel');
+                    var el_title = container.querySelector('#dialog_title');
 
                     if (!el_dialog) return;
 
                     var localized_message = Array.isArray(options.localized_message) ? options.localized_message.join('<p />') : options.localized_message;
                     elementInnerHtml(container.querySelector('#dialog_message'), localized_message);
+
+                    var localized_title = options.localized_title;
+                    if (localized_title && el_title) {
+                        el_title.setVisibility(1);
+                        elementInnerHtml(container.querySelector('#dialog_title'), localized_title);
+                    }
 
                     if (is_alert) {
                         el_btn_cancel.classList.add('invisible');
@@ -11882,6 +12179,10 @@ var Dialog = function () {
 
                     if (options.ok_text && el_btn_ok.firstElementChild) {
                         el_btn_ok.firstElementChild.textContent = options.ok_text;
+                    }
+
+                    if (options.cancel_text && el_btn_cancel.firstElementChild) {
+                        el_btn_cancel.firstElementChild.textContent = options.cancel_text;
                     }
 
                     el_btn_ok.addEventListener('click', function () {
@@ -12052,6 +12353,8 @@ var createElement = __webpack_require__(/*! ../../../_common/utility */ "./src/j
 var cache = {};
 var popup_queue = [];
 
+// use this function if you need to show a form with some validations in popup
+// if you need a simple popup with just a confirm or also a cancel button use Dialog instead
 var showPopup = function showPopup(options) {
     if (cache[options.url]) {
         callback(options);
@@ -17038,6 +17341,7 @@ var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/
 var Header = __webpack_require__(/*! ../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var getDecimalPlaces = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").getDecimalPlaces;
+var TopUpVirtualPopup = __webpack_require__(/*! ../../pages/user/account/top_up_virtual/pop_up */ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js");
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
@@ -17081,6 +17385,10 @@ var MBTradePage = function () {
         State.set('is_chart_allowed', true);
         State.set('ViewPopup.onDisplayed', MBPrice.hidePriceOverlay);
         $('.container').css('max-width', '1200px');
+        // if not loaded by pjax, balance update function calls TopUpVirtualPopup
+        if (State.get('is_loaded_by_pjax')) {
+            TopUpVirtualPopup.init(State.getResponse('balance.balance'));
+        }
     };
 
     var showCurrency = function showCurrency(currency) {
@@ -18069,6 +18377,10 @@ var TradingAnalysis = function () {
             staysinout: {
                 image1: 'stays-between.svg',
                 image2: 'goes-outside.svg'
+            },
+            digits: {
+                image1: 'matches.svg',
+                image2: 'differs.svg'
             },
             evenodd: {
                 image1: 'even.svg',
@@ -24087,10 +24399,12 @@ module.exports = Process;
 "use strict";
 
 
+var isCallputspread = __webpack_require__(/*! ./callputspread */ "./src/javascript/app/pages/trade/callputspread.js").isCallputspread;
 var Contract = __webpack_require__(/*! ./contract */ "./src/javascript/app/pages/trade/contract.js");
+var hidePriceOverlay = __webpack_require__(/*! ./common */ "./src/javascript/app/pages/trade/common.js").hidePriceOverlay;
 var getLookBackFormula = __webpack_require__(/*! ./lookback */ "./src/javascript/app/pages/trade/lookback.js").getFormula;
 var isLookback = __webpack_require__(/*! ./lookback */ "./src/javascript/app/pages/trade/lookback.js").isLookback;
-var isCallputspread = __webpack_require__(/*! ./callputspread */ "./src/javascript/app/pages/trade/callputspread.js").isCallputspread;
+var processPriceRequest = __webpack_require__(/*! ./price */ "./src/javascript/app/pages/trade/price.js").processPriceRequest;
 var Symbols = __webpack_require__(/*! ./symbols */ "./src/javascript/app/pages/trade/symbols.js");
 var Tick = __webpack_require__(/*! ./tick */ "./src/javascript/app/pages/trade/tick.js");
 var TickDisplay = __webpack_require__(/*! ./tick_trade */ "./src/javascript/app/pages/trade/tick_trade.js");
@@ -24099,9 +24413,11 @@ var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/
 var Header = __webpack_require__(/*! ../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var formatMoney = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var TopUpVirtualPopup = __webpack_require__(/*! ../../pages/user/account/top_up_virtual/pop_up */ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js");
 var CommonFunctions = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var localizeKeepPlaceholders = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localizeKeepPlaceholders;
+var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var padLeft = __webpack_require__(/*! ../../../_common/string_util */ "./src/javascript/_common/string_util.js").padLeft;
 var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var createElement = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").createElement;
@@ -24148,31 +24464,38 @@ var Purchase = function () {
         var has_chart = !/^(digits|highlowticks)$/.test(Contract.form());
         var show_chart = !error && passthrough.duration <= 10 && passthrough.duration_unit === 't';
 
-        contracts_list.style.display = 'none';
-
         if (error) {
-            container.style.display = 'block';
-            message_container.hide();
-            if (/AuthorizationRequired/.test(error.code)) {
-                authorization_error.setVisibility(1);
-                var authorization_error_btn_login = CommonFunctions.getElementById('authorization_error_btn_login');
-                authorization_error_btn_login.removeEventListener('click', loginOnClick);
-                authorization_error_btn_login.addEventListener('click', loginOnClick);
+            var balance = State.getResponse('balance.balance');
+            if (/InsufficientBalance/.test(error.code) && TopUpVirtualPopup.shouldShow(balance, true)) {
+                hidePriceOverlay();
+                processPriceRequest();
+                TopUpVirtualPopup.show(error.message);
             } else {
-                confirmation_error.setVisibility(1);
-                var message = error.message;
-                if (/RestrictedCountry/.test(error.code)) {
-                    var additional_message = '';
-                    if (/FinancialBinaries/.test(error.code)) {
-                        additional_message = localize('Try our [_1]Volatility Indices[_2].', ['<a href="' + urlFor('get-started/binary-options', 'anchor=volatility-indices#range-of-markets') + '" >', '</a>']);
-                    } else if (/Random/.test(error.code)) {
-                        additional_message = localize('Try our other markets.');
+                contracts_list.style.display = 'none';
+                container.style.display = 'block';
+                message_container.hide();
+                if (/AuthorizationRequired/.test(error.code)) {
+                    authorization_error.setVisibility(1);
+                    var authorization_error_btn_login = CommonFunctions.getElementById('authorization_error_btn_login');
+                    authorization_error_btn_login.removeEventListener('click', loginOnClick);
+                    authorization_error_btn_login.addEventListener('click', loginOnClick);
+                } else {
+                    confirmation_error.setVisibility(1);
+                    var message = error.message;
+                    if (/RestrictedCountry/.test(error.code)) {
+                        var additional_message = '';
+                        if (/FinancialBinaries/.test(error.code)) {
+                            additional_message = localize('Try our [_1]Volatility Indices[_2].', ['<a href="' + urlFor('get-started/binary-options', 'anchor=volatility-indices#range-of-markets') + '" >', '</a>']);
+                        } else if (/Random/.test(error.code)) {
+                            additional_message = localize('Try our other markets.');
+                        }
+                        message = error.message + '. ' + additional_message;
                     }
-                    message = error.message + '. ' + additional_message;
+                    CommonFunctions.elementInnerHtml(confirmation_error, message);
                 }
-                CommonFunctions.elementInnerHtml(confirmation_error, message);
             }
         } else {
+            contracts_list.style.display = 'none';
             CommonFunctions.getElementById('guideBtn').style.display = 'none';
             container.style.display = 'table-row';
             message_container.show();
@@ -25570,6 +25893,7 @@ var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/
 var Header = __webpack_require__(/*! ../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var Guide = __webpack_require__(/*! ../../common/guide */ "./src/javascript/app/common/guide.js");
+var TopUpVirtualPopup = __webpack_require__(/*! ../../pages/user/account/top_up_virtual/pop_up */ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js");
 var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 
 var TradePage = function () {
@@ -25594,6 +25918,10 @@ var TradePage = function () {
             Header.displayAccountStatus();
             if (Client.get('is_virtual')) {
                 Header.upgradeMessageVisibility(); // To handle the upgrade buttons visibility
+                // if not loaded by pjax, balance update function calls TopUpVirtualPopup
+                if (State.get('is_loaded_by_pjax')) {
+                    TopUpVirtualPopup.init(State.getResponse('balance.balance'));
+                }
             }
             Client.activateByClientType('trading_socket_container');
             BinarySocket.send({ payout_currencies: 1 }).then(function () {
@@ -26514,6 +26842,7 @@ var Client = __webpack_require__(/*! ../../../../base/client */ "./src/javascrip
 var BinarySocket = __webpack_require__(/*! ../../../../base/socket */ "./src/javascript/app/base/socket.js");
 var formatMoney = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
 var GetAppDetails = __webpack_require__(/*! ../../../../common/get_app_details */ "./src/javascript/app/common/get_app_details.js");
+var SubscriptionManager = __webpack_require__(/*! ../../../../../_common/base/subscription_manager */ "./src/javascript/_common/base/subscription_manager.js").default;
 var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var urlParam = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js").param;
 var getPropertyValue = __webpack_require__(/*! ../../../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
@@ -26543,7 +26872,7 @@ var PortfolioInit = function () {
             updatePortfolio(response);
         });
         // Subscribe to transactions to auto update new purchases
-        BinarySocket.send({ transaction: 1, subscribe: 1 }, { callback: transactionResponseHandler });
+        SubscriptionManager.subscribe('transaction', { transaction: 1, subscribe: 1 }, transactionResponseHandler);
         BinarySocket.send({ oauth_apps: 1 }).then(function (response) {
             updateOAuthApps(response);
         });
@@ -26711,7 +27040,8 @@ var PortfolioInit = function () {
     };
 
     var onUnload = function onUnload() {
-        BinarySocket.send({ forget_all: ['proposal_open_contract', 'transaction'] });
+        BinarySocket.send({ forget_all: ['proposal_open_contract'] });
+        SubscriptionManager.forget('transaction', transactionResponseHandler);
         $('#portfolio-body').empty();
         $('#portfolio-content').setVisibility(0);
         is_initialized = false;
@@ -29696,20 +30026,149 @@ module.exports = StatementUI;
 
 /***/ }),
 
-/***/ "./src/javascript/app/pages/user/account/top_up_virtual.js":
-/*!*****************************************************************!*\
-  !*** ./src/javascript/app/pages/user/account/top_up_virtual.js ***!
-  \*****************************************************************/
+/***/ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js":
+/*!************************************************************************!*\
+  !*** ./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
-var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
-var formatMoney = __webpack_require__(/*! ../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
-var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+var BinaryPjax = __webpack_require__(/*! ../../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
+var Client = __webpack_require__(/*! ../../../../base/client */ "./src/javascript/app/base/client.js");
+var BinarySocket = __webpack_require__(/*! ../../../../base/socket */ "./src/javascript/app/base/socket.js");
+var Dialog = __webpack_require__(/*! ../../../../common/attach_dom/dialog */ "./src/javascript/app/common/attach_dom/dialog.js");
+var showPopup = __webpack_require__(/*! ../../../../common/attach_dom/popup */ "./src/javascript/app/common/attach_dom/popup.js");
+var getElementById = __webpack_require__(/*! ../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
+var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var urlFor = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
+var State = __webpack_require__(/*! ../../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
+
+var TopUpVirtualPopup = function () {
+    var form_id = '#frm_confirm';
+    var popup_id = 'top_up_virtual_pop_up';
+
+    var init = function init(balance) {
+        if (shouldShowPopup(balance)) {
+            showTopUpPopup();
+        }
+    };
+
+    var shouldShowPopup = function shouldShowPopup(balance, should_ignore_hide) {
+        // this is only applicable to virtual clients who are on smart trader page or ladders page
+        if (!(Client.get('is_virtual') && (State.get('is_trading') || State.get('is_mb_trading')))) {
+            return false;
+        }
+        // this is only applicable to clients who have less than 1k balance and have not set popup to remain hidden
+        var hide_virtual_top_up_until = should_ignore_hide ? 0 : Client.get('hide_virtual_top_up_until');
+        if (+balance >= 1000 || hide_virtual_top_up_until && moment.utc().diff(moment.unix(hide_virtual_top_up_until).utc(), 'day') < 1) {
+            return false;
+        }
+
+        return true;
+    };
+
+    var doTopUp = function doTopUp() {
+        BinarySocket.send({ topup_virtual: '1' }).then(function (response_top_up) {
+            var el_popup = getElementById(popup_id);
+            if (el_popup) {
+                el_popup.remove();
+            }
+            // use Dialog for both error and success since there are no form elements or validation to be done
+            if (response_top_up.error) {
+                Dialog.alert({
+                    id: 'top_up_error',
+                    localized_title: localize('Top up error'),
+                    localized_message: response_top_up.error.message,
+                    ok_text: localize('Understood')
+                });
+            } else {
+                Dialog.confirm({
+                    id: 'top_up_success',
+                    localized_title: localize('Top-up successful'),
+                    localized_message: localize('[_1] has been credited into your Virtual Account: [_2].', ['$10,000.00', Client.get('loginid')]),
+                    cancel_text: localize('Go to statement'),
+                    ok_text: localize('Continue trading'),
+                    onAbort: function onAbort() {
+                        BinaryPjax.load(urlFor('user/statementws'));
+                    }
+                });
+            }
+        });
+    };
+
+    var showTopUpPopup = function showTopUpPopup(message) {
+        // use showPopup since we have a checkbox
+        showPopup({
+            form_id: form_id,
+            popup_id: popup_id,
+            url: urlFor('user/top_up_virtual_pop_up'),
+            content_id: '#top_up',
+            additionalFunction: function additionalFunction() {
+                if (message) {
+                    getElementById('top_up_message').textContent = message;
+                    getElementById('chk_hide_top_up').parentNode.setVisibility(0);
+                }
+                var el_redirect = getElementById('top_up_cashier_redirect');
+                var el_popup = getElementById(popup_id);
+                el_redirect.addEventListener('click', function () {
+                    if (el_popup) {
+                        el_popup.remove();
+                    }
+                });
+                var el_cancel = getElementById('btn_cancel');
+                el_cancel.addEventListener('click', function () {
+                    Client.set('hide_virtual_top_up_until', moment.utc().add(1, 'day').unix());
+                    if (el_popup) {
+                        el_popup.remove();
+                    }
+                });
+                var el_chk_hide_top_up = getElementById('chk_hide_top_up');
+                el_chk_hide_top_up.addEventListener('click', function () {
+                    if (el_chk_hide_top_up.checked) {
+                        Client.set('hide_virtual_top_up_until', moment.utc().add(10, 'year').unix());
+                    } else {
+                        Client.set('hide_virtual_top_up_until', moment.utc().unix());
+                    }
+                });
+                var $btn_ok = $('#btn_ok');
+                $btn_ok.on('click dblclick', function () {
+                    // use this instead of submit as multi click is not handled in submit
+                    $btn_ok.attr('disabled', 'disabled');
+                    doTopUp();
+                });
+            }
+        });
+    };
+
+    return {
+        init: init,
+        shouldShow: shouldShowPopup,
+        show: showTopUpPopup
+    };
+}();
+
+module.exports = TopUpVirtualPopup;
+
+/***/ }),
+
+/***/ "./src/javascript/app/pages/user/account/top_up_virtual/top_up_virtual.js":
+/*!********************************************************************************!*\
+  !*** ./src/javascript/app/pages/user/account/top_up_virtual/top_up_virtual.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Client = __webpack_require__(/*! ../../../../base/client */ "./src/javascript/app/base/client.js");
+var BinarySocket = __webpack_require__(/*! ../../../../base/socket */ "./src/javascript/app/base/socket.js");
+var formatMoney = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 
 var TopUpVirtual = function () {
     var $views = void 0;
@@ -29727,7 +30186,7 @@ var TopUpVirtual = function () {
             if (response.error) {
                 showMessage(response.error.message, false);
             } else {
-                showMessage(localize('[_1] has been credited into your virtual account: [_2].', [formatMoney(response.topup_virtual.currency, response.topup_virtual.amount), Client.get('loginid')]), true);
+                showMessage(localize('[_1] has been credited into your Virtual Account: [_2].', [formatMoney(response.topup_virtual.currency, response.topup_virtual.amount), Client.get('loginid')]), true);
             }
             $('.barspinner').setVisibility(0);
         });
@@ -32760,6 +33219,7 @@ var updateContractBalance = __webpack_require__(/*! ../trade/update_values */ ".
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var formatMoney = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var TopUpVirtualPopup = __webpack_require__(/*! ../../pages/user/account/top_up_virtual/pop_up */ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js");
 var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var updateBalance = function updateBalance(response) {
@@ -32777,6 +33237,7 @@ var updateBalance = function updateBalance(response) {
         var view = formatMoney(currency, balance);
         updateContractBalance(balance);
         $('.topMenuBalance, .binary-balance').html(view).css('visibility', 'visible');
+        TopUpVirtualPopup.init(balance);
     });
 };
 
@@ -34193,7 +34654,7 @@ module.exports = {
     },
     BinaryOptionsForMT5: {
         onLoad: function onLoad() {
-            MenuSelector.init(['what-are-binary-options', 'how-to-trade-binary']);
+            MenuSelector.init(['what-are-binary-options', 'how-to-trade-binary', 'types-of-trades']);
         },
         onUnload: function onUnload() {
             MenuSelector.clean();
@@ -34622,6 +35083,11 @@ module.exports = {
         },
         onUnload: function onUnload() {
             MenuSelector.clean();
+        }
+    },
+    BinaryInNumbers: {
+        onLoad: function onLoad() {
+            Scroll.scrollToHashSection();
         }
     }
 };

@@ -15634,6 +15634,10 @@ var _ws_methods = __webpack_require__(/*! ./ws_methods */ "./src/javascript/app_
 
 var _ws_methods2 = _interopRequireDefault(_ws_methods);
 
+var _gtm = __webpack_require__(/*! ../Utils/gtm */ "./src/javascript/app_2/Utils/gtm.js");
+
+var _gtm2 = _interopRequireDefault(_gtm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var client_store = void 0,
@@ -15720,6 +15724,9 @@ var BinarySocketGeneral = function () {
                 break;
             case 'payout_currencies':
                 client_store.responsePayoutCurrencies(response.payout_currencies);
+                break;
+            case 'transaction':
+                _gtm2.default.pushTransactionData(response, { bom_ui: 'new' });
                 break;
             // no default
         }
@@ -15832,230 +15839,6 @@ var ResponseHandlers = function () {
 
 /***/ }),
 
-/***/ "./src/javascript/app_2/Services/subscription_manager.js":
-/*!***************************************************************!*\
-  !*** ./src/javascript/app_2/Services/subscription_manager.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _socket_base = __webpack_require__(/*! ../../_common/base/socket_base */ "./src/javascript/_common/base/socket_base.js");
-
-var _socket_base2 = _interopRequireDefault(_socket_base);
-
-var _utility = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * A layer over BinarySocket to handle subscribing to streaming calls
- * in order to keep track of subscriptions, manage forget, prevent multiple subscription at the same time, ...
- *
- * structure of the the subscription object is:
- * {
- *     1: { msg_type: 'proposal', request: { ... }, stream_id: '...', subscribers: [ ... ] },
- *     2: ...
- * }
- * object keys: subscription_id that assigned to each subscription
- * msg_type   : msg_type of the request for faster filtering
- * request    : the request object, used to subscribe to the same stream when there is a new subscribe request with exactly the same values
- * stream_id  : id of the stream which stored from its response and used to forget the stream when needed
- * subscribers: an array of callbacks to dispatch the response to
- */
-var SubscriptionManager = function () {
-    var subscriptions = {};
-    var forget_requested = {};
-
-    var subscription_id = 0;
-
-    /**
-     * To submit request for a new subscription
-     *
-     * @param {String}   msg_type             msg_type of the request
-     * @param {Object}   request_obj          the whole object of the request to be made
-     * @param {Function} fncCallback          callback function to pass the responses to
-     * @param {Boolean}  should_forget_first  when it's true: forgets the previous subscription, then subscribes after receiving the forget response (if any)
-     */
-    var subscribe = function subscribe(msg_type, request_obj, fncCallback) {
-        var should_forget_first = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-
-        if (should_forget_first) {
-            forget(msg_type, fncCallback).then(function () {
-                subscribe(msg_type, request_obj, fncCallback);
-            });
-            return;
-        }
-
-        var sub_id = Object.keys(subscriptions).find(function (id) {
-            return (0, _utility.isDeepEqual)(request_obj, subscriptions[id].request);
-        });
-
-        if (!sub_id) {
-            sub_id = ++subscription_id;
-
-            subscriptions[sub_id] = {
-                msg_type: msg_type,
-                request: (0, _utility.cloneObject)(request_obj),
-                stream_id: '', // stream_id will be updated after receiving the response
-                subscribers: [fncCallback]
-            };
-
-            _socket_base2.default.send(request_obj, {
-                callback: function callback(response) {
-                    return dispatch(response, sub_id);
-                }
-            });
-        } else if (!hasCallbackFunction(sub_id, fncCallback)) {
-            // there is already an active subscription for the very same request which fncCallback is not subscribed to it yet
-            subscriptions[sub_id].subscribers.push(fncCallback);
-        }
-    };
-
-    // dispatches the response to subscribers of the specific subscription id (internal use only)
-    var dispatch = function dispatch(response, sub_id) {
-        var stream_id = (0, _utility.getPropertyValue)(response, [response.msg_type, 'id']);
-
-        if (!subscriptions[sub_id]) {
-            if (!forget_requested[stream_id]) {
-                forgetStream(stream_id);
-            }
-            return;
-        }
-
-        var sub_info = subscriptions[sub_id];
-        // set the stream_id
-        if (!sub_info.stream_id && stream_id) {
-            sub_info.stream_id = stream_id;
-        }
-
-        // callback subscribers
-        var subscribers = sub_info.subscribers;
-        if (subscribers.length) {
-            if (
-            // it is the first response
-            !sub_info.stream_id && (
-            // the first response returned error
-            response.error ||
-            // not a subscription (i.e. subscribed proposal_open_contract for an expired contract)
-            // also to filter out streams with no stream id but later it will continue streaming (i.e. proposal_open_contract without contract id)
-            !(0, _utility.isEmptyObject)(response[response.msg_type]) &&
-            // check msg_type to filter out those calls which don't return stream `id` on first response (tick_history, ...)
-            response.msg_type === sub_info.msg_type) ||
-            // remove when response isn't first and response has no stream_id
-            !stream_id && sub_info.stream_id) {
-                delete subscriptions[sub_id];
-            }
-            sub_info.subscribers.forEach(function (fnc) {
-                fnc(response);
-            });
-        } else {
-            delete subscriptions[sub_id];
-            forgetStream(sub_info.stream_id);
-        }
-    };
-
-    /**
-     * To forget a subscription which submitted for a specific callback function
-     *
-     * @param  {String}   msg_type      msg_type to forget
-     * @param  {Function} fncCallback   the same function passed to subscribe()
-     *     (this is the way to distinguish between different subscribers of the same stream at the same time)
-     * @param  {Object}   match_values  optional, to only forget subscriptions having request that "contains" provided values
-     * @return {Promise}  the promise object of all possible forget requests
-     */
-    var forget = function forget(msg_type, fncCallback, match_values) {
-        if (typeof fncCallback !== 'function') {
-            throw new Error('Missing callback function. To forget all subscriptions of msg_type: ' + msg_type + ', please call forgetAll().');
-        }
-
-        // find corresponding id(s)
-        var sub_ids = Object.keys(subscriptions).filter(function (id) {
-            return subscriptions[id].msg_type === msg_type && hasCallbackFunction(id, fncCallback);
-        });
-
-        var forgets_list = [];
-        sub_ids.forEach(function (id) {
-            if (match_values && !hasValues(subscriptions[id].request, match_values)) {
-                return;
-            }
-            var stream_id = subscriptions[id].stream_id;
-            if (stream_id && subscriptions[id].subscribers.length === 1) {
-                delete subscriptions[id];
-                forgets_list.push(forgetStream(stream_id));
-            } else {
-                // there are other subscribers, or for some reason there is no stream_id:
-                // (i.e. returned an error, or forget() being called before the first response)
-                subscriptions[id].subscribers.splice(subscriptions[id].subscribers.indexOf(fncCallback), 1);
-            }
-        });
-        return Promise.all(forgets_list);
-    };
-
-    /**
-     * To forget all active subscriptions of a list of msg_types
-     *
-     * @param  {String}  msg_types  list of msg_types to forget
-     * @return {Promise} the promise object of all possible forget_all requests
-     */
-    var forgetAll = function forgetAll() {
-        for (var _len = arguments.length, msg_types = Array(_len), _key = 0; _key < _len; _key++) {
-            msg_types[_key] = arguments[_key];
-        }
-
-        var types_to_forget = {};
-
-        msg_types.forEach(function (msg_type) {
-            var sub_ids = Object.keys(subscriptions).filter(function (id) {
-                return subscriptions[id].msg_type === msg_type;
-            });
-            if (sub_ids.length) {
-                sub_ids.forEach(function (id) {
-                    delete subscriptions[id];
-                });
-                types_to_forget[msg_type] = true;
-            }
-        });
-
-        return Promise.resolve(!(0, _utility.isEmptyObject)(types_to_forget) ? _socket_base2.default.send({ forget_all: Object.keys(types_to_forget) }) : {});
-    };
-
-    var forgetStream = function forgetStream(stream_id) {
-        forget_requested[stream_id] = true; // to prevent forgetting multiple times
-        return Promise.resolve(stream_id ? _socket_base2.default.send({ forget: stream_id }).then(function () {
-            delete forget_requested[stream_id];
-        }) : {});
-    };
-
-    var hasCallbackFunction = function hasCallbackFunction(sub_id, fncCallback) {
-        return subscriptions[sub_id] && subscriptions[sub_id].subscribers.indexOf(fncCallback) !== -1;
-    };
-
-    var hasValues = function hasValues(request_obj, values_obj) {
-        return (typeof request_obj === 'undefined' ? 'undefined' : _typeof(request_obj)) === 'object' && (typeof values_obj === 'undefined' ? 'undefined' : _typeof(values_obj)) === 'object' && Object.keys(values_obj).every(function (key) {
-            return request_obj[key] === values_obj[key];
-        });
-    };
-
-    return {
-        subscribe: subscribe,
-        forget: forget,
-        forgetAll: forgetAll
-    };
-}();
-
-exports.default = SubscriptionManager;
-
-/***/ }),
-
 /***/ "./src/javascript/app_2/Services/ws_methods.js":
 /*!*****************************************************!*\
   !*** ./src/javascript/app_2/Services/ws_methods.js ***!
@@ -16076,11 +15859,11 @@ var _socket_base = __webpack_require__(/*! ../../_common/base/socket_base */ "./
 
 var _socket_base2 = _interopRequireDefault(_socket_base);
 
-var _utility = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js");
-
-var _subscription_manager = __webpack_require__(/*! ./subscription_manager */ "./src/javascript/app_2/Services/subscription_manager.js");
+var _subscription_manager = __webpack_require__(/*! ../../_common/base/subscription_manager */ "./src/javascript/_common/base/subscription_manager.js");
 
 var _subscription_manager2 = _interopRequireDefault(_subscription_manager);
+
+var _utility = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
