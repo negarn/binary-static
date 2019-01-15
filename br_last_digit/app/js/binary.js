@@ -5469,8 +5469,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
@@ -5483,57 +5481,56 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var DigitSelector = function DigitSelector(_ref) {
+    var name = _ref.name,
+        onChange = _ref.onChange,
+        selected_digit = _ref.selected_digit;
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var DigitSelector = function (_React$Component) {
-    _inherits(DigitSelector, _React$Component);
-
-    function DigitSelector(props) {
-        _classCallCheck(this, DigitSelector);
-
-        var _this = _possibleConstructorReturn(this, (DigitSelector.__proto__ || Object.getPrototypeOf(DigitSelector)).call(this, props));
-
-        _this.handleSelect = _this.handleSelect.bind(_this);
-        return _this;
-    }
-
-    _createClass(DigitSelector, [{
-        key: 'handleSelect',
-        value: function handleSelect(item) {
-            if (+item.target.getAttribute('data-value') !== this.props.selected_digit) {
-                this.props.onChange({ target: { name: this.props.name, value: +item.target.getAttribute('data-value') } });
-            }
+    var handleSelect = function handleSelect(item) {
+        if (+item.target.getAttribute('data-value') !== selected_digit) {
+            onChange({ target: { name: name, value: +item.target.getAttribute('data-value') } });
         }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
+    };
 
-            return _react2.default.createElement(
-                'div',
-                { className: 'digit-selector center-text' },
-                [].concat(_toConsumableArray(Array(10).keys())).map(function (i) {
-                    return _react2.default.createElement(
-                        'div',
-                        {
-                            key: i,
-                            className: 'digit-selection' + (_this2.props.selected_digit === i ? ' selected' : ''),
-                            'data-value': i,
-                            onClick: _this2.handleSelect
-                        },
-                        i
-                    );
-                })
-            );
-        }
-    }]);
-
-    return DigitSelector;
-}(_react2.default.Component);
+    return _react2.default.createElement(
+        'div',
+        { className: 'digit-selector center-text' },
+        _react2.default.createElement(
+            'div',
+            null,
+            [].concat(_toConsumableArray(Array(5).keys())).map(function (i) {
+                return _react2.default.createElement(
+                    'span',
+                    {
+                        key: i,
+                        className: 'digit-selector__selection' + (selected_digit === i ? ' selected' : ''),
+                        'data-value': i,
+                        onClick: handleSelect
+                    },
+                    i
+                );
+            })
+        ),
+        _react2.default.createElement(
+            'div',
+            null,
+            [].concat(_toConsumableArray(Array(5).keys())).map(function (i) {
+                return i + 5;
+            }).map(function (i) {
+                return _react2.default.createElement(
+                    'span',
+                    {
+                        key: i,
+                        className: 'digit-selector__selection' + (selected_digit === i ? ' selected' : ''),
+                        'data-value': i,
+                        onClick: handleSelect
+                    },
+                    i
+                );
+            })
+        )
+    );
+};
 
 DigitSelector.propTypes = {
     name: _propTypes2.default.string,

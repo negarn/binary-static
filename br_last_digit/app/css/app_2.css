@@ -5308,8 +5308,8 @@ a {
       background: transparent; }
     .binary-app fieldset .digit-selector {
       margin-top: 15px; }
-      .binary-app fieldset .digit-selector .digit-selection {
-        width: 40px;
+      .binary-app fieldset .digit-selector__selection {
+        width: calc(20% - 5px);
         height: 24px;
         border-radius: 4px;
         display: -webkit-inline-box;
@@ -5323,10 +5323,12 @@ a {
                 align-items: center;
         background-color: #2a3052;
         margin: 0 5px 5px 0; }
-        .binary-app fieldset .digit-selector .digit-selection.selected {
+        .binary-app fieldset .digit-selector__selection.selected {
           background-color: #4a4f6c; }
-        .binary-app fieldset .digit-selector .digit-selection:hover {
+        .binary-app fieldset .digit-selector__selection:hover {
           cursor: pointer; }
+        .binary-app fieldset .digit-selector__selection:last-child {
+          margin-right: 0; }
     @media screen and (max-height: 800px) {
       .binary-app fieldset .fieldset-header {
         margin-bottom: -8px; }
