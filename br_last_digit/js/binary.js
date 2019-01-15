@@ -28564,6 +28564,7 @@ var PersonalDetails = function () {
 
     var editable_fields = void 0,
         is_virtual = void 0,
+        is_fully_authenticated = void 0,
         residence = void 0,
         get_settings_data = void 0;
 
@@ -28572,6 +28573,12 @@ var PersonalDetails = function () {
         get_settings_data = {};
         is_virtual = Client.get('is_virtual');
         residence = Client.get('residence');
+    };
+
+    var checkStatus = function checkStatus(status, string) {
+        return status.findIndex(function (s) {
+            return s === string;
+        }) < 0 ? Boolean(false) : Boolean(true);
     };
 
     var showHideTaxMessage = function showHideTaxMessage() {
@@ -28791,7 +28798,7 @@ var PersonalDetails = function () {
                 if (additionalCheck(get_settings)) {
                     getDetailsResponse(get_settings);
                     showFormMessage(localize('Your settings have been updated successfully.'), true);
-                    Geocoder.validate(form_id);
+                    if (!is_fully_authenticated) Geocoder.validate(form_id);
                 }
             });
         } else {
@@ -28890,8 +28897,9 @@ var PersonalDetails = function () {
     var onLoad = function onLoad() {
         BinarySocket.wait('get_account_status', 'get_settings').then(function () {
             init();
+            var account_status = State.getResponse('get_account_status').status;
             get_settings_data = State.getResponse('get_settings');
-
+            is_fully_authenticated = checkStatus(account_status, 'authenticated');
             if (is_virtual) {
                 getDetailsResponse(get_settings_data);
             }
@@ -28903,7 +28911,7 @@ var PersonalDetails = function () {
                             BinarySocket.send({ states_list: residence }).then(function (response_state) {
                                 populateStates(response_state).then(function () {
                                     getDetailsResponse(get_settings_data, response.residence_list);
-                                    if (!is_virtual) {
+                                    if (!is_virtual && !is_fully_authenticated) {
                                         Geocoder.validate(form_id);
                                     }
                                 });

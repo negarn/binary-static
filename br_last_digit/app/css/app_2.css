@@ -114,9 +114,6 @@ fieldset {
   -webkit-transition: none !important;
   transition: none !important; }
 
-.center-text {
-  text-align: center; }
-
 @font-face {
   font-family: 'BinarySymbols';
   font-style: normal;
@@ -5307,7 +5304,8 @@ a {
       padding: 0;
       background: transparent; }
     .binary-app fieldset .digit-selector {
-      margin-top: 15px; }
+      margin-top: 15px;
+      text-align: center; }
       .binary-app fieldset .digit-selector__selection {
         width: calc(20% - 5px);
         height: 24px;

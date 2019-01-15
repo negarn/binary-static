@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_toke":"api_toke","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio":"portfolio","self_exclusion":"self_exclusion","settings":"settings","statement":"statement","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"1f20d1cb6ffbf53419ed","account_password":"67c66084bc424d34b10b","api_toke":"7c72ca04a060c6e8363d","authorized_application":"97635409ac3488b8a4dc","cashier_password":"0061f340e2203b85c4de","contract":"d5ff3abe544011cd2843","financial_assessment":"fa615b65ab7d51a072e8","limits":"6122a66075b7120f5152","login_history":"f73b0e94430bafb6dff4","personal_details":"8c2c516db1200e2e67f1","portfolio":"1a4425be49f4fd7f85cc","self_exclusion":"10c70715aab8e89cdf0f","settings":"b65a79071afa6712cab7","statement":"d0b9847e8e35ffae3f6e","vendors~smart_chart":"46f7af5d2158a76c674c","smart_chart":"3bd5fe29258265801823"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_toke":"api_toke","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio":"portfolio","self_exclusion":"self_exclusion","settings":"settings","statement":"statement","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"1f20d1cb6ffbf53419ed","account_password":"67c66084bc424d34b10b","api_toke":"7c72ca04a060c6e8363d","authorized_application":"97635409ac3488b8a4dc","cashier_password":"0061f340e2203b85c4de","contract":"d5ff3abe544011cd2843","financial_assessment":"fa615b65ab7d51a072e8","limits":"6122a66075b7120f5152","login_history":"f73b0e94430bafb6dff4","personal_details":"8c2c516db1200e2e67f1","portfolio":"1a4425be49f4fd7f85cc","self_exclusion":"10c70715aab8e89cdf0f","settings":"b65a79071afa6712cab7","statement":"d0b9847e8e35ffae3f6e","vendors~smart_chart":"e29bce83a9f50024f42a","smart_chart":"3bd5fe29258265801823"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -5492,13 +5492,15 @@ var DigitSelector = function DigitSelector(_ref) {
         }
     };
 
+    var arr_five = [].concat(_toConsumableArray(Array(5).keys()));
+
     return _react2.default.createElement(
         'div',
-        { className: 'digit-selector center-text' },
+        { className: 'digit-selector' },
         _react2.default.createElement(
             'div',
             null,
-            [].concat(_toConsumableArray(Array(5).keys())).map(function (i) {
+            arr_five.map(function (i) {
                 return _react2.default.createElement(
                     'span',
                     {
@@ -5514,7 +5516,7 @@ var DigitSelector = function DigitSelector(_ref) {
         _react2.default.createElement(
             'div',
             null,
-            [].concat(_toConsumableArray(Array(5).keys())).map(function (i) {
+            arr_five.map(function (i) {
                 return i + 5;
             }).map(function (i) {
                 return _react2.default.createElement(
