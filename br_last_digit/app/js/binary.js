@@ -5455,95 +5455,6 @@ exports.default = Button;
 
 /***/ }),
 
-/***/ "./src/javascript/app_2/App/Components/Form/digit_selector.jsx":
-/*!*********************************************************************!*\
-  !*** ./src/javascript/app_2/App/Components/Form/digit_selector.jsx ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var DigitSelector = function DigitSelector(_ref) {
-    var name = _ref.name,
-        onChange = _ref.onChange,
-        selected_digit = _ref.selected_digit;
-
-    var handleSelect = function handleSelect(item) {
-        if (+item.target.getAttribute('data-value') !== selected_digit) {
-            onChange({ target: { name: name, value: +item.target.getAttribute('data-value') } });
-        }
-    };
-
-    var arr_five = [].concat(_toConsumableArray(Array(5).keys()));
-
-    return _react2.default.createElement(
-        'div',
-        { className: 'digit-selector' },
-        _react2.default.createElement(
-            'div',
-            null,
-            arr_five.map(function (i) {
-                return _react2.default.createElement(
-                    'span',
-                    {
-                        key: i,
-                        className: 'digit-selector__selection' + (selected_digit === i ? ' selected' : ''),
-                        'data-value': i,
-                        onClick: handleSelect
-                    },
-                    i
-                );
-            })
-        ),
-        _react2.default.createElement(
-            'div',
-            null,
-            arr_five.map(function (i) {
-                return i + 5;
-            }).map(function (i) {
-                return _react2.default.createElement(
-                    'span',
-                    {
-                        key: i,
-                        className: 'digit-selector__selection' + (selected_digit === i ? ' selected' : ''),
-                        'data-value': i,
-                        onClick: handleSelect
-                    },
-                    i
-                );
-            })
-        )
-    );
-};
-
-DigitSelector.propTypes = {
-    name: _propTypes2.default.string,
-    onChange: _propTypes2.default.func,
-    selected_digit: _propTypes2.default.number
-};
-
-exports.default = DigitSelector;
-
-/***/ }),
-
 /***/ "./src/javascript/app_2/App/Components/Form/fieldset.jsx":
 /*!***************************************************************!*\
   !*** ./src/javascript/app_2/App/Components/Form/fieldset.jsx ***!
@@ -5782,6 +5693,81 @@ InputField.propTypes = {
 };
 
 exports.default = (0, _mobxReact.observer)(InputField);
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/number_selector.jsx":
+/*!**********************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/number_selector.jsx ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// arr_arr_numbers is an array of arrays where each nested array indicates one row
+// for example [[1, 2, 3]] will be a single row of these three numbers
+// but [[1, 2, 3], [4, 5, 6]] will be two rows:
+// first row with the first three numbers and second row with the last three numbers
+var NumberSelector = function NumberSelector(_ref) {
+    var arr_arr_numbers = _ref.arr_arr_numbers,
+        name = _ref.name,
+        onChange = _ref.onChange,
+        selected_number = _ref.selected_number;
+
+    var handleSelect = function handleSelect(item) {
+        if (+item.target.getAttribute('data-value') !== selected_number) {
+            onChange({ target: { name: name, value: +item.target.getAttribute('data-value') } });
+        }
+    };
+
+    return _react2.default.createElement(
+        'div',
+        { className: 'number-selector' },
+        arr_arr_numbers.map(function (arr_numbers, idx) {
+            return _react2.default.createElement(
+                'div',
+                { key: idx },
+                arr_numbers.map(function (i) {
+                    return _react2.default.createElement(
+                        'span',
+                        {
+                            key: i,
+                            className: 'number-selector__selection' + (selected_number === i ? ' selected' : ''),
+                            'data-value': i,
+                            onClick: handleSelect
+                        },
+                        i
+                    );
+                })
+            );
+        })
+    );
+};
+
+NumberSelector.propTypes = {
+    arr_arr_numbers: _propTypes2.default.arrayOf(_propTypes2.default.array),
+    name: _propTypes2.default.string,
+    onChange: _propTypes2.default.func,
+    selected_number: _propTypes2.default.number
+};
+
+exports.default = NumberSelector;
 
 /***/ }),
 
@@ -14347,15 +14333,17 @@ var _react2 = _interopRequireDefault(_react);
 
 var _localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
-var _digit_selector = __webpack_require__(/*! ../../../../../App/Components/Form/digit_selector.jsx */ "./src/javascript/app_2/App/Components/Form/digit_selector.jsx");
+var _number_selector = __webpack_require__(/*! ../../../../../App/Components/Form/number_selector.jsx */ "./src/javascript/app_2/App/Components/Form/number_selector.jsx");
 
-var _digit_selector2 = _interopRequireDefault(_digit_selector);
+var _number_selector2 = _interopRequireDefault(_number_selector);
 
 var _fieldset = __webpack_require__(/*! ../../../../../App/Components/Form/fieldset.jsx */ "./src/javascript/app_2/App/Components/Form/fieldset.jsx");
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var LastDigit = function LastDigit(_ref) {
     var is_minimized = _ref.is_minimized,
@@ -14370,16 +14358,20 @@ var LastDigit = function LastDigit(_ref) {
             (0, _localize.localize)('Last Digit') + ': ' + last_digit
         );
     }
+    var arr_five = [].concat(_toConsumableArray(Array(5).keys()));
     return _react2.default.createElement(
         _fieldset2.default,
         {
             header: (0, _localize.localize)('Last Digit Prediction'),
             is_center: true
         },
-        _react2.default.createElement(_digit_selector2.default, {
+        _react2.default.createElement(_number_selector2.default, {
+            arr_arr_numbers: [arr_five, arr_five.map(function (i) {
+                return i + 5;
+            })],
             name: 'last_digit',
             onChange: onChange,
-            selected_digit: +last_digit
+            selected_number: +last_digit
         })
     );
 };

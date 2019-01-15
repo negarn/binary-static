@@ -114,6 +114,9 @@ fieldset {
   -webkit-transition: none !important;
   transition: none !important; }
 
+.center-text {
+  text-align: center; }
+
 @font-face {
   font-family: 'BinarySymbols';
   font-style: normal;
@@ -5303,10 +5306,10 @@ a {
       border: 0;
       padding: 0;
       background: transparent; }
-    .binary-app fieldset .digit-selector {
+    .binary-app fieldset .number-selector {
       margin-top: 15px;
       text-align: center; }
-      .binary-app fieldset .digit-selector__selection {
+      .binary-app fieldset .number-selector__selection {
         width: calc(20% - 5px);
         height: 24px;
         border-radius: 4px;
@@ -5321,11 +5324,11 @@ a {
                 align-items: center;
         background-color: #2a3052;
         margin: 0 5px 5px 0; }
-        .binary-app fieldset .digit-selector__selection.selected {
+        .binary-app fieldset .number-selector__selection.selected {
           background-color: #4a4f6c; }
-        .binary-app fieldset .digit-selector__selection:hover {
+        .binary-app fieldset .number-selector__selection:hover {
           cursor: pointer; }
-        .binary-app fieldset .digit-selector__selection:last-child {
+        .binary-app fieldset .number-selector__selection:last-child {
           margin-right: 0; }
     @media screen and (max-height: 800px) {
       .binary-app fieldset .fieldset-header {
