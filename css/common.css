@@ -175,6 +175,13 @@ button.full-width, button.full-width span, .button.full-width, .button.full-widt
 button.full-width .barspinner, .button.full-width .barspinner {
   display: inline-block; }
 
+span.checked {
+  background: url("../images/pages/authenticate/checked.svg") no-repeat;
+  width: 16px;
+  height: 12px;
+  display: inline-block;
+  margin-left: 5px; }
+
 input, button, textarea, select, optgroup, option, xmp {
   font-family: inherit;
   font-size: inherit;
@@ -206,8 +213,57 @@ fieldset {
   fieldset .text-display {
     /* TODO: replace all occurrences of id with the class */
     line-height: 25px; }
-  fieldset #geocode_error {
-    margin: 5px 15px; }
+  fieldset .postcode-form-row #address_postcode {
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    width: 100%; }
+    @media screen and (max-width: 860px) {
+      fieldset .postcode-form-row #address_postcode {
+        -webkit-box-sizing: unset;
+                box-sizing: unset;
+        width: unset; } }
+  fieldset #geocode_error, fieldset #geocode_success, fieldset #geocode_status > .barspinner {
+    margin: 1rem auto; }
+  fieldset #geocode_error.notice-msg {
+    font-size: 0.8695652174rem; }
+  fieldset .geocode-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 4px; }
+    fieldset .geocode-container .geocode-btn-container {
+      margin-left: -12px; }
+      @media screen and (max-width: 860px) {
+        fieldset .geocode-container .geocode-btn-container {
+          margin-left: unset; } }
+    @media screen and (max-width: 860px) {
+      fieldset .geocode-container {
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        margin-top: 0.5rem;
+        -ms-flex-preferred-size: 100%;
+            flex-basis: 100%;
+        max-width: 100%; } }
+  fieldset #geocode_validate.geocode-btn {
+    -webkit-transition: color 0.25s linear;
+    transition: color 0.25s linear;
+    color: #2a3052; }
+    fieldset #geocode_validate.geocode-btn-disabled {
+      cursor: not-allowed;
+      color: #f2f2f2; }
+  fieldset #geocode_success > div.success-msg ul.checked {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+  fieldset #geocode_success > div.success-msg p {
+    margin: 0; }
 
 .error-msg {
   width: 100%;
@@ -710,6 +766,44 @@ label + input {
       width: 100%;
       text-align: left !important; } }
 
+@media screen and (max-width: 480px) {
+  #token_form p.error-msg {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+  #token_form .scope-list {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+    #token_form .scope-list input[type='checkbox'] + label {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
+    #token_form .scope-list p.error-msg {
+      position: absolute;
+      left: 0; }
+    #token_form .scope-list .scope-types {
+      -ms-flex-preferred-size: unset;
+          flex-basis: unset;
+      max-width: unset;
+      -webkit-box-flex: unset;
+          -ms-flex: unset;
+              flex: unset; }
+      #token_form .scope-list .scope-types:last-child {
+        margin-bottom: 16px; } }
+
 /* TODO: remove when UX research is finished */
 #interview_popup_container {
   height: 100vh;
@@ -888,6 +982,18 @@ label + input {
     border-radius: 4px;
     overflow: auto;
     text-align: left; }
+  .lightbox#set_currency_popup_container #dialog_content {
+    max-width: 24em;
+    padding: 25px 15px; }
+  .lightbox#set_currency_popup_container #frm_confirm {
+    width: 100%; }
+  .lightbox#set_currency_popup_container a#btn_cancel, .lightbox#set_currency_popup_container a#btn_ok {
+    width: 45%;
+    width: calc(50% - 5px);
+    display: inline-block; }
+    .lightbox#set_currency_popup_container a#btn_cancel span, .lightbox#set_currency_popup_container a#btn_ok span {
+      width: 45%;
+      width: calc(100% - 50px); }
 
 .image-slider {
   position: relative; }
