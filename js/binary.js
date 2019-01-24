@@ -1155,7 +1155,7 @@ var Login = function () {
         var date_first_contact = LocalStore.get('date_first_contact');
         var marketing_queries = '&signup_device=' + signup_device + (date_first_contact ? '&date_first_contact=' + date_first_contact : '');
 
-        return server_url && /qa/.test(server_url) ? 'https://www.' + server_url.split('.')[1] + '.com/oauth2/authorize?app_id=' + getAppId() + '&l=' + language + marketing_queries : urlForCurrentDomain('https://oauth.binary.com/oauth2/authorize?app_id=' + getAppId() + '&l=' + language + marketing_queries);
+        return server_url && /qa/.test(server_url) ? 'https://' + server_url + '/oauth2/authorize?app_id=' + getAppId() + '&l=' + language + marketing_queries : urlForCurrentDomain('https://oauth.binary.com/oauth2/authorize?app_id=' + getAppId() + '&l=' + language + marketing_queries);
     };
 
     var isLoginPages = function isLoginPages() {
@@ -10298,9 +10298,11 @@ module.exports = Contents;
 "use strict";
 
 
+var Cookies = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
 var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
 var Client = __webpack_require__(/*! ../base/client */ "./src/javascript/app/base/client.js");
 var isEuCountry = __webpack_require__(/*! ../common/country_base */ "./src/javascript/app/common/country_base.js").isEuCountry;
+var getElementById = __webpack_require__(/*! ../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var LocalStore = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").LocalStore;
 var State = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").State;
 
@@ -10327,19 +10329,82 @@ var Footer = function () {
         $status_notification.slideUp(200);
     };
 
+    // by default elevio is 8px above bottom of page, and scrollup is 18px above elevio
+    var adjustElevioAndScrollup = function adjustElevioAndScrollup() {
+        var elevio_height = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 8;
+        var scrollup_height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 18;
+
+        var $elevio_button = $('#_elev_io ._6byvm');
+        var $scrollup = $('#scrollup');
+
+        $elevio_button.attr('style', 'bottom: ' + elevio_height + 'px !important');
+        $scrollup.attr('style', 'bottom: ' + ($elevio_button.height() + scrollup_height) + 'px');
+    };
+
+    var clearDialogMessage = function clearDialogMessage() {
+        var $dialog_notification = $('#dialog_notification');
+        var el_footer = getElementById('footer');
+        var $status_notification = $('#status_notification');
+        var gap_to_notification = 8;
+
+        $status_notification.css('bottom', gap_to_notification + 'px');
+        el_footer.style.paddingBottom = '0px';
+        $dialog_notification.slideUp(200);
+        adjustElevioAndScrollup();
+    };
+
+    var displayDialogMessage = function displayDialogMessage() {
+        BinarySocket.wait('website_status', 'authorize', 'landing_company').then(function () {
+            if (isEuCountry()) {
+                var $dialog_notification = $('#dialog_notification');
+                var $status_notification = $('#status_notification');
+                var el_dialog_notification_accept = getElementById('dialog_notification_accept');
+                var el_footer = getElementById('footer');
+                var gap_dialog_to_elevio = 30;
+                var gap_elevio_to_scrollup = 10;
+                var gap_to_notification = 8;
+
+                $dialog_notification.css('display', 'flex');
+                el_footer.style.paddingBottom = $dialog_notification.height() + 'px';
+                adjustElevioAndScrollup($dialog_notification.height() + gap_dialog_to_elevio, $dialog_notification.height() + gap_dialog_to_elevio + gap_elevio_to_scrollup);
+                if ($status_notification.css('display') !== 'none') {
+                    $status_notification.css('bottom', $dialog_notification.height() + gap_dialog_to_elevio + 'px');
+                }
+
+                el_dialog_notification_accept.addEventListener('click', function () {
+                    adjustElevioAndScrollup();
+                    $dialog_notification.slideUp(200);
+                    el_footer.style.paddingBottom = '0px';
+                    $status_notification.css('bottom', gap_to_notification + 'px');
+                    Cookies.set('CookieConsent', 1);
+                });
+                window.addEventListener('resize', function () {
+                    adjustElevioAndScrollup($dialog_notification.height() + gap_dialog_to_elevio, $dialog_notification.height() + gap_dialog_to_elevio + gap_elevio_to_scrollup);
+                    $status_notification.css('bottom', $dialog_notification.height() + gap_dialog_to_elevio + 'px');
+                    el_footer.style.paddingBottom = $dialog_notification.height() + 'px';
+                });
+            }
+        });
+    };
+
     var displayNotification = function displayNotification(message) {
         BinarySocket.wait('time').then(function (response) {
             var notification_storage = LocalStore.getObject('status_notification');
+            var $dialog_notification = $('#dialog_notification');
+            var $status_notification = $('#status_notification');
             var time_difference = parseInt(response.time) - (parseInt(notification_storage.close_time) || 0);
             var required_difference = 30 * 60;
+            var gap_dialog_to_elevio = 30;
 
             if (time_difference > required_difference || notification_storage.message !== message) {
                 var $status_message_text = $('#status_notification_text');
                 var $close_icon = $('#status_notification_close');
-                var $status_notification = $('#status_notification');
 
                 $status_notification.css('display', 'flex');
                 $status_message_text.html(message);
+                if ($dialog_notification.css('display') !== 'none') {
+                    $status_notification.css('bottom', $dialog_notification.height() + gap_dialog_to_elevio + 'px');
+                }
                 $close_icon.off('click').on('click', function () {
                     $status_notification.slideUp(200);
                     notification_storage.message = message;
@@ -10353,7 +10418,9 @@ var Footer = function () {
     return {
         onLoad: onLoad,
         clearNotification: clearNotification,
-        displayNotification: displayNotification
+        displayNotification: displayNotification,
+        displayDialogMessage: displayDialogMessage,
+        clearDialogMessage: clearDialogMessage
     };
 }();
 
@@ -11340,6 +11407,7 @@ module.exports = BinarySocketBase;
 "use strict";
 
 
+var Cookies = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
 var Client = __webpack_require__(/*! ./client */ "./src/javascript/app/base/client.js");
 var Clock = __webpack_require__(/*! ./clock */ "./src/javascript/app/base/clock.js");
 var Footer = __webpack_require__(/*! ./footer */ "./src/javascript/app/base/footer.js");
@@ -11401,6 +11469,11 @@ var BinarySocketGeneral = function () {
                     // for logged out clients send landing company with IP address as residence
                     if (!Client.isLoggedIn() && !State.getResponse('landing_company')) {
                         BinarySocket.send({ landing_company: response.website_status.clients_country });
+                    }
+                    if (!Client.isLoggedIn() && !Cookies.get('CookieConsent')) {
+                        Footer.displayDialogMessage();
+                    } else {
+                        Footer.clearDialogMessage();
                     }
                 }
                 break;
@@ -28101,11 +28174,6 @@ var FinancialAssessment = function () {
             $.scrollTo($('h1#heading'), 500, { offset: -10 });
             $(form_selector).setVisibility(0);
             $('#msg_main').setVisibility(1);
-            BinarySocket.send({ get_account_status: 1 }).then(function (response_status) {
-                if (+response_status.get_account_status.prompt_client_to_authenticate && Client.isAccountOfType('financial')) {
-                    $('#msg_authenticate').setVisibility(1);
-                }
-            });
         } else {
             $('#msg_form').attr('class', is_success ? 'success-msg' : 'errorfield').html(is_success ? $('<ul/>', { class: 'checked', style: 'display: inline-block;' }).append($('<li/>', { text: localized_msg })) : localized_msg).css('display', 'block').delay(5000).fadeOut(1000);
         }
@@ -28761,13 +28829,11 @@ var PersonalDetails = function () {
         if (!is_error) {
             var redirect_url = localStorage.getItem('personal_details_redirect');
             // to update tax information message for financial clients
-            BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function (response_status) {
+            BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function () {
                 showHideTaxMessage();
                 Header.displayAccountStatus();
-                if (redirect_url && +response_status.get_account_status.prompt_client_to_authenticate && Client.isAccountOfType('financial')) {
-                    $('#msg_authenticate').setVisibility(1);
-                }
             });
+
             // to update the State with latest get_settings data
             BinarySocket.send({ get_settings: 1 }, { forced: true }).then(function (data) {
                 if (is_virtual && response.echo_req.residence) {

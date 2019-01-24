@@ -13,12 +13,12 @@
   "limits.js": "/app/js/limits-6122a66075b7120f5152.js",
   "login_history.js": "/app/js/login_history-f73b0e94430bafb6dff4.js",
   "personal_details.js": "/app/js/personal_details-8c2c516db1200e2e67f1.js",
-  "portfolio.js": "/app/js/portfolio-1a4425be49f4fd7f85cc.js",
+  "portfolio.js": "/app/js/portfolio-16052a629104e3c26ee7.js",
   "react_mobx.js": "/app/js/react_mobx.min.js",
   "self_exclusion.js": "/app/js/self_exclusion-10c70715aab8e89cdf0f.js",
   "settings.js": "/app/js/settings-b65a79071afa6712cab7.js",
   "smart_chart.js": "/app/js/smart_chart-3bd5fe29258265801823.js",
-  "statement.js": "/app/js/statement-d0b9847e8e35ffae3f6e.js",
+  "statement.js": "/app/js/statement-df0f87e87ef416986955.js",
   "vendor.js": "/app/js/vendor.min.js",
   "vendors~smart_chart.js": "/app/js/vendors~smart_chart-e29bce83a9f50024f42a.js"
 }
