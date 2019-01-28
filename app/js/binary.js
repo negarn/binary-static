@@ -380,6 +380,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
 
+var _calendar_body = __webpack_require__(/*! ./calendar_body.jsx */ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar_body.jsx");
+
+var _calendar_body2 = _interopRequireDefault(_calendar_body);
+
 var _calendar_footer = __webpack_require__(/*! ./calendar_footer.jsx */ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar_footer.jsx");
 
 var _calendar_footer2 = _interopRequireDefault(_calendar_footer);
@@ -387,10 +391,6 @@ var _calendar_footer2 = _interopRequireDefault(_calendar_footer);
 var _calendar_header = __webpack_require__(/*! ./calendar_header.jsx */ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar_header.jsx");
 
 var _calendar_header2 = _interopRequireDefault(_calendar_header);
-
-var _calendar_panel = __webpack_require__(/*! ./calendar_panel.jsx */ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar_panel.jsx");
-
-var _calendar_panel2 = _interopRequireDefault(_calendar_panel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -422,15 +422,6 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
         return _this;
     }
 
-    // navigates to next or previous's month/year/decade/century
-
-
-    // selects a day, a month, a year, or a decade
-
-
-    // sets Calendar active view
-
-
     _createClass(Calendar, [{
         key: 'render',
         value: function render() {
@@ -440,8 +431,6 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
                 footer = _props.footer,
                 has_today_btn = _props.has_today_btn,
                 id = _props.id,
-                max_date = _props.max_date,
-                min_date = _props.min_date,
                 start_date = _props.start_date;
             var _state = this.state,
                 calendar_date = _state.calendar_date,
@@ -451,30 +440,29 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
 
             return _react2.default.createElement(
                 'div',
-                { id: id, className: 'calendar', value: selected_date },
+                { id: id, className: 'calendar', 'data-value': selected_date },
                 children,
                 _react2.default.createElement(_calendar_header2.default, {
                     calendar_date: calendar_date,
+                    calendar_view: calendar_view,
                     isPeriodDisabled: this.isPeriodDisabled,
-                    onClick: this.navigators,
-                    onSelect: this.calendarViews,
-                    calendar_view: calendar_view
+                    navigateTo: this.navigateTo,
+                    switchView: this.switchView
                 }),
-                _react2.default.createElement(_calendar_panel2.default, {
+                _react2.default.createElement(_calendar_body2.default, {
                     calendar_date: calendar_date,
+                    calendar_view: calendar_view,
                     date_format: date_format,
                     isPeriodDisabled: this.isPeriodDisabled,
-                    max_date: max_date,
-                    min_date: min_date,
                     start_date: start_date,
-                    onClick: this.panelSelectors,
                     selected_date: selected_date,
-                    calendar_view: calendar_view
+                    updateSelected: this.updateSelected,
+                    sessions: this.props.sessions
                 }),
                 _react2.default.createElement(_calendar_footer2.default, {
                     footer: footer,
-                    onClick: this.setToday,
-                    has_today_btn: has_today_btn
+                    has_today_btn: has_today_btn,
+                    onClick: this.setToday
                 })
             );
         }
@@ -484,89 +472,20 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
 }(_react2.default.PureComponent), _initialiseProps = function _initialiseProps() {
     var _this2 = this;
 
-    this.navigators = {
-        nextMonth: function nextMonth() {
-            _this2.navigateTo(1, 'months', true);
-        },
-        previousMonth: function previousMonth() {
-            _this2.navigateTo(1, 'months', false);
-        },
-        nextYear: function nextYear() {
-            _this2.navigateTo(1, 'years', true);
-        },
-        previousYear: function previousYear() {
-            _this2.navigateTo(1, 'years', false);
-        },
-        nextDecade: function nextDecade() {
-            _this2.navigateTo(10, 'years', true);
-        },
-        previousDecade: function previousDecade() {
-            _this2.navigateTo(10, 'years', false);
-        },
-        nextCentury: function nextCentury() {
-            _this2.navigateTo(100, 'years', true);
-        },
-        previousCentury: function previousCentury() {
-            _this2.navigateTo(100, 'years', false);
-        }
-    };
-    this.panelSelectors = {
-        date: function date(e, is_disabled) {
-            _this2.updateSelectedDate(e, is_disabled);
-        },
-        month: function month(e) {
-            _this2.updateSelected(e, 'month');
-        },
-        year: function year(e) {
-            _this2.updateSelected(e, 'year');
-        },
-        decade: function decade(e) {
-            _this2.updateSelected(e, 'decade');
-        }
-    };
-    this.calendarViews = {
-        date: function date() {
-            _this2.setState({ calendar_view: 'date' });
-        },
-        month: function month() {
-            _this2.setState({ calendar_view: 'month' });
-        },
-        year: function year() {
-            _this2.setState({ calendar_view: 'year' });
-        },
-        decade: function decade() {
-            _this2.setState({ calendar_view: 'decade' });
-        }
+    this.switchView = function (view) {
+        _this2.setState({ calendar_view: view });
     };
 
-    this.navigateTo = function (value, unit, is_add) {
+    this.navigateTo = function (new_date) {
+        _this2.setState({ calendar_date: (0, _Date.toMoment)(new_date).format(_this2.props.date_format) });
+    };
+
+    this.updateSelectedDate = function (e) {
         var _props2 = _this2.props,
             date_format = _props2.date_format,
             max_date = _props2.max_date,
-            min_date = _props2.min_date;
-
-
-        var new_date = (0, _Date.toMoment)(_this2.state.calendar_date)[is_add ? 'add' : 'subtract'](value, unit).format(date_format);
-
-        if (unit === 'months' && _this2.isPeriodDisabled(new_date, 'month')) return;
-
-        if (unit === 'years' && _this2.isPeriodDisabled(new_date, 'years')) {
-            new_date = is_add ? max_date : min_date;
-        }
-
-        _this2.setState({ calendar_date: (0, _Date.toMoment)(new_date).format(date_format) }); // formatted date
-    };
-
-    this.updateSelectedDate = function (e, is_disabled) {
-        if (is_disabled) {
-            return;
-        }
-
-        var _props3 = _this2.props,
-            date_format = _props3.date_format,
-            max_date = _props3.max_date,
-            min_date = _props3.min_date,
-            onSelect = _props3.onSelect;
+            min_date = _props2.min_date,
+            onSelect = _props2.onSelect;
 
 
         var moment_date = (0, _Date.toMoment)(e.target.dataset.date).startOf('day');
@@ -589,6 +508,13 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
     };
 
     this.updateSelected = function (e, type) {
+        if (e) e.stopPropagation();
+
+        if (type === 'day') {
+            _this2.updateSelectedDate(e);
+            return;
+        }
+
         var view_map = {
             month: 'date',
             year: 'month',
@@ -605,9 +531,9 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
     };
 
     this.resetCalendar = function () {
-        var _props4 = _this2.props,
-            date_format = _props4.date_format,
-            start_date = _props4.start_date;
+        var _props3 = _this2.props,
+            date_format = _props3.date_format,
+            start_date = _props3.start_date;
 
 
         var default_date = (0, _Date.toMoment)(start_date).format(date_format);
@@ -619,9 +545,9 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
     };
 
     this.setToday = function () {
-        var _props5 = _this2.props,
-            date_format = _props5.date_format,
-            onSelect = _props5.onSelect;
+        var _props4 = _this2.props,
+            date_format = _props4.date_format,
+            onSelect = _props4.onSelect;
 
 
         var now = (0, _Date.toMoment)().format(date_format);
@@ -637,13 +563,13 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
     };
 
     this.isPeriodDisabled = function (date, unit) {
-        var _props6 = _this2.props,
-            max_date = _props6.max_date,
-            min_date = _props6.min_date;
+        var _props5 = _this2.props,
+            max_date = _props5.max_date,
+            min_date = _props5.min_date;
 
 
-        var start_of_period = (0, _Date.toMoment)(date).startOf(unit);
-        var end_of_period = (0, _Date.toMoment)(date).endOf(unit);
+        var start_of_period = (0, _Date.toMoment)(date).clone().startOf(unit);
+        var end_of_period = (0, _Date.toMoment)(date).clone().endOf(unit);
         return end_of_period.isBefore((0, _Date.toMoment)(min_date)) || start_of_period.isAfter((0, _Date.toMoment)(max_date));
     };
 }, _temp);
@@ -672,6 +598,55 @@ exports.default = Calendar;
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar_body.jsx":
+/*!*********************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/Calendar/calendar_body.jsx ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _panels = __webpack_require__(/*! ./panels */ "./src/javascript/app_2/App/Components/Elements/Calendar/panels/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CalendarBody = function CalendarBody(props) {
+    var calendar_body = {
+        date: _react2.default.createElement(_panels.CalendarDays, props),
+        month: _react2.default.createElement(_panels.CalendarMonths, props),
+        year: _react2.default.createElement(_panels.CalendarYears, props),
+        decade: _react2.default.createElement(_panels.CalendarDecades, props)
+    };
+
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        calendar_body[props.calendar_view]
+    );
+};
+
+CalendarBody.propTypes = {
+    calendar_view: _propTypes2.default.string
+};
+
+exports.default = CalendarBody;
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar_button.jsx":
 /*!***********************************************************************************!*\
   !*** ./src/javascript/app_2/App/Components/Elements/Calendar/calendar_button.jsx ***!
@@ -685,7 +660,6 @@ exports.default = Calendar;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = CalendarButton;
 
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
@@ -697,20 +671,18 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function CalendarButton(_ref) {
+var CalendarButton = function CalendarButton(_ref) {
     var children = _ref.children,
         className = _ref.className,
         is_hidden = _ref.is_hidden,
         label = _ref.label,
         onClick = _ref.onClick;
-
     return _react2.default.createElement(
         _react2.default.Fragment,
         null,
         !is_hidden && _react2.default.createElement(
-            'span',
+            'button',
             {
-                type: 'button',
                 className: className,
                 onClick: onClick
             },
@@ -718,7 +690,7 @@ function CalendarButton(_ref) {
             children
         )
     );
-}
+};
 
 CalendarButton.propTypes = {
     children: _propTypes2.default.oneOfType([_propTypes2.default.array, _propTypes2.default.object, _propTypes2.default.string]),
@@ -727,6 +699,8 @@ CalendarButton.propTypes = {
     label: _propTypes2.default.string,
     onClick: _propTypes2.default.func
 };
+
+exports.default = CalendarButton;
 
 /***/ }),
 
@@ -743,7 +717,6 @@ CalendarButton.propTypes = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = CalendarFooter;
 
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
@@ -753,44 +726,40 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
-var _calendar_button = __webpack_require__(/*! ./calendar_button.jsx */ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar_button.jsx");
-
-var _calendar_button2 = _interopRequireDefault(_calendar_button);
+var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function CalendarFooter(_ref) {
+var CalendarFooter = function CalendarFooter(_ref) {
     var footer = _ref.footer,
         has_today_btn = _ref.has_today_btn,
         onClick = _ref.onClick;
-
     return _react2.default.createElement(
-        'div',
-        { className: 'calendar-footer' },
-        footer && _react2.default.createElement(
-            'span',
-            { className: 'calendar-footer-extra' },
-            footer
-        ),
-        has_today_btn && _react2.default.createElement(
-            _calendar_button2.default,
-            { className: 'calendar-footer-btn' },
-            _react2.default.createElement(
-                'a',
-                { role: 'button', onClick: onClick },
-                (0, _localize.localize)('Today')
-            )
+        _react2.default.Fragment,
+        null,
+        (has_today_btn || footer) && _react2.default.createElement(
+            'div',
+            { className: 'calendar__footer' },
+            footer && _react2.default.createElement(
+                'span',
+                { className: 'calendar__text' },
+                footer
+            ),
+            has_today_btn && _react2.default.createElement(_Common.IconCalendarToday, {
+                className: 'calendar__icon calendar__icon--today',
+                onClick: onClick
+            })
         )
     );
-}
+};
 
 CalendarFooter.propTypes = {
     footer: _propTypes2.default.string,
     has_today_btn: _propTypes2.default.bool,
     onClick: _propTypes2.default.func
 };
+
+exports.default = CalendarFooter;
 
 /***/ }),
 
@@ -807,7 +776,6 @@ CalendarFooter.propTypes = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = undefined;
 
 var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 
@@ -821,20 +789,27 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
+
 var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
 
 var _calendar_button = __webpack_require__(/*! ./calendar_button.jsx */ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar_button.jsx");
 
 var _calendar_button2 = _interopRequireDefault(_calendar_button);
 
+var _constants = __webpack_require__(/*! ./constants */ "./src/javascript/app_2/App/Components/Elements/Calendar/constants.js");
+
+var _helper = __webpack_require__(/*! ./helper */ "./src/javascript/app_2/App/Components/Elements/Calendar/helper.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function CalendarHeader(_ref) {
+var CalendarHeader = function CalendarHeader(_ref) {
     var calendar_date = _ref.calendar_date,
+        calendar_view = _ref.calendar_view,
         isPeriodDisabled = _ref.isPeriodDisabled,
-        _onClick = _ref.onClick,
-        onSelect = _ref.onSelect,
-        calendar_view = _ref.calendar_view;
+        navigateTo = _ref.navigateTo,
+        switchView = _ref.switchView,
+        disabled_selector = _ref.disabled_selector;
 
     var is_date_view = calendar_view === 'date';
     var is_month_view = calendar_view === 'month';
@@ -842,79 +817,128 @@ function CalendarHeader(_ref) {
     var is_decade_view = calendar_view === 'decade';
     var moment_date = (0, _Date.toMoment)(calendar_date);
 
+    var num_of_years = 1;
+    if (is_year_view) num_of_years = 10;
+    if (is_decade_view) num_of_years = 100;
+
+    var century = (0, _helper.getCentury)(moment_date.clone());
+    var decade = (0, _helper.getDecade)(moment_date.clone());
+    var end_of_decade = (is_year_view ? decade : century).split('-')[1];
+
+    var is_prev_month_disabled = isPeriodDisabled((0, _Date.subMonths)(moment_date, 1), 'month');
+    var is_prev_year_disabled = isPeriodDisabled((0, _Date.subYears)(moment_date, num_of_years), 'month');
+    var is_next_month_disabled = isPeriodDisabled((0, _Date.addMonths)(moment_date, 1), 'month');
+    var is_next_year_disabled = isPeriodDisabled((0, _Date.addYears)(moment_date, num_of_years), 'month');
+    var is_select_year_disabled = isPeriodDisabled(moment_date.clone().year(end_of_decade), 'year') || disabled_selector.some(function (selector) {
+        return selector === 'year';
+    });
+
     return _react2.default.createElement(
         'div',
-        { className: 'calendar-header' },
-        _react2.default.createElement(_calendar_button2.default, {
-            className: (0, _classnames2.default)('calendar-prev-year-btn', {
-                hidden: isPeriodDisabled(moment_date.clone().subtract(1, 'month'), 'month')
-            }),
-            onClick: function onClick() {
-                return (is_date_view || is_month_view) && _onClick.previousYear() || is_year_view && _onClick.previousDecade() || is_decade_view && _onClick.previousCentury();
-            }
-        }),
-        _react2.default.createElement(_calendar_button2.default, {
-            className: (0, _classnames2.default)('calendar-prev-month-btn', {
-                hidden: isPeriodDisabled(moment_date.clone().subtract(1, 'month'), 'month')
-            }),
-            is_hidden: !is_date_view,
-            onClick: _onClick.previousMonth
-        }),
+        { className: 'calendar__header' },
         _react2.default.createElement(
-            'div',
-            { className: 'calendar-select' },
-            is_date_view && _react2.default.createElement(_calendar_button2.default, {
-                className: 'calendar-select-month-btn',
+            _calendar_button2.default,
+            {
+                className: (0, _classnames2.default)('calendar__nav calendar__nav--prev-year', {
+                    'calendar__nav--disabled': is_prev_year_disabled
+                }),
+                onClick: is_prev_year_disabled ? undefined : function () {
+                    return navigateTo((0, _Date.subYears)(calendar_date, num_of_years));
+                }
+            },
+            _react2.default.createElement(_Common.IconChevronDoubleLeft, null)
+        ),
+        _react2.default.createElement(
+            _calendar_button2.default,
+            {
+                className: (0, _classnames2.default)('calendar__nav calendar__nav--prev-month', {
+                    'calendar__nav--disabled': is_prev_month_disabled
+                }),
                 is_hidden: !is_date_view,
-                label: moment_date.format('MMM'),
-                onClick: onSelect.month
+                onClick: is_prev_month_disabled ? undefined : function () {
+                    return navigateTo((0, _Date.subMonths)(calendar_date, 1));
+                }
+            },
+            _react2.default.createElement(_Common.IconChevronLeft, null)
+        ),
+        _react2.default.createElement(
+            _react2.default.Fragment,
+            null,
+            is_date_view && _react2.default.createElement(_calendar_button2.default, {
+                className: 'calendar__btn calendar__btn--select',
+                is_hidden: !is_date_view,
+                label: _constants.month_headers[moment_date.format('MMM')],
+                onClick: function onClick() {
+                    return switchView('month');
+                }
             }),
-            _react2.default.createElement(
+            (is_date_view || is_month_view) && _react2.default.createElement(_calendar_button2.default, {
+                className: (0, _classnames2.default)('calendar__btn calendar__btn--select', {
+                    'calendar__btn--disabled': is_select_year_disabled
+                }),
+                label: moment_date.format('YYYY'),
+                onClick: function onClick() {
+                    return is_select_year_disabled ? undefined : switchView('year');
+                }
+            }),
+            (is_year_view || is_decade_view) && _react2.default.createElement(
                 _calendar_button2.default,
                 {
-                    className: 'calendar-select-year-btn',
-                    onClick: function onClick() {
-                        return is_date_view || is_month_view ? onSelect.year() : onSelect.decade();
+                    className: (0, _classnames2.default)('calendar__btn calendar__btn--select', {
+                        'calendar__btn--disabled': is_select_year_disabled
+                    }),
+                    onClick: is_select_year_disabled ? undefined : function () {
+                        return switchView('decade');
                     }
                 },
-                (is_date_view || is_month_view) && moment_date.year(),
-                is_year_view && moment_date.clone().subtract(1, 'years').year() + '-' + moment_date.clone().add(10, 'years').year(),
-                is_decade_view && moment_date.clone().subtract(10, 'years').year() + '-' + moment_date.clone().add(109, 'years').year()
+                is_year_view && '' + decade,
+                is_decade_view && '' + century
             )
         ),
-        _react2.default.createElement(_calendar_button2.default, {
-            className: (0, _classnames2.default)('calendar-next-month-btn', {
-                hidden: isPeriodDisabled(moment_date.clone().add(1, 'month'), 'month')
-            }),
-            is_hidden: !is_date_view,
-            onClick: _onClick.nextMonth
-        }),
-        _react2.default.createElement(_calendar_button2.default, {
-            className: (0, _classnames2.default)('calendar-next-year-btn', {
-                hidden: isPeriodDisabled(moment_date.clone().add(1, 'month'), 'month')
-            }),
-            onClick: function onClick() {
-                return (is_date_view || is_month_view) && _onClick.nextYear() || is_year_view && _onClick.nextDecade() || is_decade_view && _onClick.nextCentury();
-            }
-        })
+        _react2.default.createElement(
+            _calendar_button2.default,
+            {
+                className: (0, _classnames2.default)('calendar__nav calendar__nav--next-month', {
+                    'calendar__nav--disabled': is_next_month_disabled
+                }),
+                is_hidden: !is_date_view,
+                onClick: is_next_month_disabled ? undefined : function () {
+                    return navigateTo((0, _Date.addMonths)(calendar_date, 1));
+                }
+            },
+            _react2.default.createElement(_Common.IconChevronRight, null)
+        ),
+        _react2.default.createElement(
+            _calendar_button2.default,
+            {
+                className: (0, _classnames2.default)('calendar__nav calendar__nav--next-year', {
+                    'calendar__nav--disabled': is_next_year_disabled
+                }),
+                onClick: is_next_year_disabled ? undefined : function () {
+                    return navigateTo((0, _Date.addYears)(calendar_date, num_of_years));
+                }
+            },
+            _react2.default.createElement(_Common.IconChevronDoubleRight, null)
+        )
     );
-}
+};
 
-exports.default = CalendarHeader;
 CalendarHeader.propTypes = {
     calendar_date: _propTypes2.default.string,
     calendar_view: _propTypes2.default.string,
     isPeriodDisabled: _propTypes2.default.func,
-    onClick: _propTypes2.default.object,
-    onSelect: _propTypes2.default.object
+    navigateTo: _propTypes2.default.func,
+    switchView: _propTypes2.default.func
 };
+
+exports.default = CalendarHeader;
 
 /***/ }),
 
-/***/ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar_panel.jsx":
-/*!**********************************************************************************!*\
-  !*** ./src/javascript/app_2/App/Components/Elements/Calendar/calendar_panel.jsx ***!
-  \**********************************************************************************/
+/***/ "./src/javascript/app_2/App/Components/Elements/Calendar/constants.js":
+/*!****************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/Calendar/constants.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -924,37 +948,70 @@ CalendarHeader.propTypes = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = CalendarPanel;
+exports.week_headers_abbr = exports.week_headers = exports.month_headers = undefined;
 
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var month_headers = exports.month_headers = {
+    Jan: (0, _localize.localize)('Jan'),
+    Feb: (0, _localize.localize)('Feb'),
+    Mar: (0, _localize.localize)('Mar'),
+    Apr: (0, _localize.localize)('Apr'),
+    May: (0, _localize.localize)('May'),
+    Jun: (0, _localize.localize)('Jun'),
+    Jul: (0, _localize.localize)('Jul'),
+    Aug: (0, _localize.localize)('Aug'),
+    Sep: (0, _localize.localize)('Sep'),
+    Oct: (0, _localize.localize)('Oct'),
+    Nov: (0, _localize.localize)('Nov'),
+    Dec: (0, _localize.localize)('Dec')
+};
 
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var week_headers = exports.week_headers = {
+    Monday: (0, _localize.localize)('Monday'),
+    Tuesday: (0, _localize.localize)('Tuesday'),
+    Wednesday: (0, _localize.localize)('Wednesday'),
+    Thursday: (0, _localize.localize)('Thursday'),
+    Friday: (0, _localize.localize)('Friday'),
+    Saturday: (0, _localize.localize)('Saturday'),
+    Sunday: (0, _localize.localize)('Sunday')
+};
 
-var _react2 = _interopRequireDefault(_react);
+var week_headers_abbr = exports.week_headers_abbr = {
+    Monday: (0, _localize.localize)('M'),
+    Tuesday: (0, _localize.localize)('T'),
+    Wednesday: (0, _localize.localize)('W'),
+    Thursday: (0, _localize.localize)('T'),
+    Friday: (0, _localize.localize)('F'),
+    Saturday: (0, _localize.localize)('S'),
+    Sunday: (0, _localize.localize)('S')
+};
 
-var _panels = __webpack_require__(/*! ./panels */ "./src/javascript/app_2/App/Components/Elements/Calendar/panels/index.js");
+/***/ }),
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+/***/ "./src/javascript/app_2/App/Components/Elements/Calendar/helper.js":
+/*!*************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/Calendar/helper.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-function CalendarPanel(props) {
-    var calendar_panel = {
-        date: _react2.default.createElement(_panels.CalendarDays, props),
-        month: _react2.default.createElement(_panels.CalendarMonths, props),
-        year: _react2.default.createElement(_panels.CalendarYears, props),
-        decade: _react2.default.createElement(_panels.CalendarDecades, props)
-    };
+"use strict";
 
-    return _react2.default.createElement(
-        'div',
-        { className: 'calendar-panel' },
-        calendar_panel[props.calendar_view]
-    );
-}
 
-CalendarPanel.propTypes = {
-    calendar_view: _propTypes2.default.string
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getCentury = exports.getDecade = undefined;
+
+var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
+
+var getDecade = exports.getDecade = function getDecade(moment_date) {
+  return (0, _Date.toMoment)(moment_date).year() + '-' + (0, _Date.toMoment)(moment_date).add(9, 'years').year();
+};
+
+var getCentury = exports.getCentury = function getCentury(moment_date) {
+  return (0, _Date.toMoment)(moment_date).year() + '-' + (0, _Date.toMoment)(moment_date).add(99, 'years').year();
 };
 
 /***/ }),
@@ -1017,16 +1074,21 @@ var _types = __webpack_require__(/*! ./types */ "./src/javascript/app_2/App/Comp
 
 var _types2 = _interopRequireDefault(_types);
 
+var _constants = __webpack_require__(/*! ../constants */ "./src/javascript/app_2/App/Components/Elements/Calendar/constants.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getDays = function getDays(_ref) {
     var calendar_date = _ref.calendar_date,
         date_format = _ref.date_format,
-        max_date = _ref.max_date,
-        min_date = _ref.min_date,
+        isPeriodDisabled = _ref.isPeriodDisabled,
         start_date = _ref.start_date,
-        _onClick = _ref.onClick,
-        selected_date = _ref.selected_date;
+        selected_date = _ref.selected_date,
+        updateSelected = _ref.updateSelected;
+
+    // adjust Calendar week by 1 day so that Calendar week starts on Monday
+    // change to zero to set Calendar week to start on Sunday
+    var day_offset = 1;
 
     var dates = [];
     var days = [];
@@ -1035,42 +1097,55 @@ var getDays = function getDays(_ref) {
     var num_of_days = moment_cur_date.daysInMonth() + 1;
     var moment_month_start = moment_cur_date.clone().startOf('month');
     var moment_month_end = moment_cur_date.clone().endOf('month');
-    var first_day = moment_month_start.day();
-    var last_day = moment_month_end.day();
-    var moment_min_date = (0, _Date.toMoment)(min_date);
-    var moment_max_date = (0, _Date.toMoment)(max_date);
     var moment_selected = (0, _Date.toMoment)(selected_date);
 
-    for (var i = first_day; i > 0; i--) {
-        dates.push(moment_month_start.clone().subtract(i, 'day').format(date_format));
+    // populate previous months' dates
+    var end_of_prev_month = (0, _Date.subMonths)(moment_cur_date, 1).endOf('month').day();
+    for (var i = end_of_prev_month; i > 0; i--) {
+        dates.push((0, _Date.subDays)(moment_month_start, i).format(date_format));
     }
+    // populate current months' dates
     for (var idx = 1; idx < num_of_days; idx += 1) {
         dates.push(moment_cur_date.clone().format(date_format.replace('DD', (0, _string_util.padLeft)(idx, 2, '0'))));
     }
-    for (var _i = 1; _i <= 6 - last_day; _i++) {
-        dates.push(moment_month_end.clone().add(_i, 'day').format(date_format));
+    // populate next months' dates
+    var start_of_next_month = (0, _Date.addMonths)(moment_cur_date, 1).startOf('month').day();
+    if (start_of_next_month - day_offset > 0 || dates.length <= 28) {
+        // if start_of_next_month doesn't falls on Monday, append rest of the week
+        for (var _i = 1; _i <= 7 - start_of_next_month + day_offset; _i++) {
+            dates.push((0, _Date.addDays)(moment_month_end, _i, 'day').format(date_format));
+        }
+    } else if (!start_of_next_month) {
+        // if start_of_next_month falls on Sunday, append 1 day
+        dates.push((0, _Date.addDays)(moment_month_end, 1).format(date_format));
     }
 
     var moment_start_date = (0, _Date.toMoment)(start_date).startOf('day');
+
     dates.map(function (date) {
         var moment_date = (0, _Date.toMoment)(date).startOf('day');
         var is_active = selected_date && moment_date.isSame(moment_selected);
         var is_today = moment_date.isSame(moment_today, 'day');
-        var is_disabled = moment_date.isBefore(moment_min_date) || moment_date.isAfter(moment_max_date) ||
+        var is_disabled = isPeriodDisabled(moment_date, 'day') ||
         // for forward starting accounts, only show same day as start date and the day after
-        start_date && (moment_date.isBefore(moment_start_date) || moment_date.isAfter(moment_start_date.clone().add(1, 'day')));
+        start_date && (moment_date.isBefore(moment_start_date) || moment_date.isAfter((0, _Date.addDays)(moment_start_date, 1)));
+
+        // show 'disabled' style for dates that is not in the same calendar month,
+        // but the date should still be clickable
+        var is_other_month = moment_date.month() !== moment_cur_date.month();
 
         days.push(_react2.default.createElement(
             'span',
             {
                 key: date,
-                className: (0, _classnames2.default)('calendar-date', {
-                    active: is_active && !is_disabled,
-                    today: is_today,
-                    disabled: is_disabled
+                className: (0, _classnames2.default)('calendar__cell', {
+                    'calendar__cell--active': is_active && !is_disabled,
+                    'calendar__cell--today': is_today,
+                    'calendar__cell--disabled': is_disabled,
+                    'calendar__cell--other': is_other_month
                 }),
-                onClick: function onClick(e) {
-                    _onClick.date(e, is_disabled);
+                onClick: is_disabled ? undefined : function (e) {
+                    return updateSelected(e, 'day');
                 },
                 'data-date': date
             },
@@ -1081,8 +1156,6 @@ var getDays = function getDays(_ref) {
     return days;
 };
 
-var week_headers = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
 var CalendarDays = exports.CalendarDays = function CalendarDays(props) {
     var days = getDays(props).map(function (day) {
         return day;
@@ -1090,12 +1163,12 @@ var CalendarDays = exports.CalendarDays = function CalendarDays(props) {
 
     return _react2.default.createElement(
         'div',
-        { className: 'calendar-date-panel' },
-        week_headers.map(function (item, idx) {
+        { className: 'calendar__body calendar__body--date' },
+        Object.keys(_constants.week_headers_abbr).map(function (item, idx) {
             return _react2.default.createElement(
                 'span',
-                { key: idx, className: 'calendar-date-header' },
-                item
+                { key: idx, className: 'calendar__text calendar__text--bold' },
+                _constants.week_headers_abbr[item]
             );
         }),
         days
@@ -1139,47 +1212,54 @@ var _types = __webpack_require__(/*! ./types */ "./src/javascript/app_2/App/Comp
 
 var _types2 = _interopRequireDefault(_types);
 
+var _helper = __webpack_require__(/*! ../helper */ "./src/javascript/app_2/App/Components/Elements/Calendar/helper.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CalendarDecades = exports.CalendarDecades = function CalendarDecades(_ref) {
     var calendar_date = _ref.calendar_date,
         isPeriodDisabled = _ref.isPeriodDisabled,
-        onClick = _ref.onClick,
-        selected_date = _ref.selected_date;
+        selected_date = _ref.selected_date,
+        updateSelected = _ref.updateSelected;
 
-    var selected_year = (0, _Date.toMoment)(selected_date).year();
+    var moment_selected = (0, _Date.toMoment)(selected_date);
     var moment_date = (0, _Date.toMoment)(calendar_date);
+    var start_year = (0, _helper.getCentury)(moment_date).split('-')[0];
 
     var decades = [];
-    var min_year = moment_date.year() - 10;
+    var min_year = +start_year - 10;
     for (var i = 0; i < 12; i++) {
-        var max_year = min_year + 9;
-        var range = min_year + '-' + max_year;
-        decades.push(range);
-        min_year = max_year + 1;
+        var decade = (0, _helper.getDecade)((0, _Date.toMoment)().year(min_year));
+        decades.push(decade);
+        min_year = +decade.split('-')[1] + 1;
     }
-
     return _react2.default.createElement(
         'div',
-        { className: 'calendar-decade-panel' },
-        decades.map(function (range, idx) {
-            var _range$split = range.split('-'),
-                _range$split2 = _slicedToArray(_range$split, 2),
-                start_year = _range$split2[0],
-                end_year = _range$split2[1];
+        { className: 'calendar__body calendar__body--decade' },
+        decades.map(function (decade, idx) {
+            var _decade$split = decade.split('-'),
+                _decade$split2 = _slicedToArray(_decade$split, 2),
+                start_of_decade = _decade$split2[0],
+                end_of_decade = _decade$split2[1];
 
+            var is_active = +start_of_decade === moment_selected.year();
+            var is_disabled = isPeriodDisabled(moment_date.clone().year(start_of_decade), 'year') && isPeriodDisabled(moment_date.clone().year(end_of_decade), 'year');
+            var is_other_century = idx === 0 || idx === 11;
             return _react2.default.createElement(
                 'span',
                 {
                     key: idx,
-                    className: (0, _classnames2.default)('calendar-decade', {
-                        disabled: isPeriodDisabled(moment_date.year(start_year), 'year') && isPeriodDisabled(moment_date.year(end_year), 'year'),
-                        active: start_year === selected_year
+                    className: (0, _classnames2.default)('calendar__cell', {
+                        'calendar__cell--active': is_active,
+                        'calendar__cell--disabled': is_disabled,
+                        'calendar__cell--other': is_other_century
                     }),
-                    onClick: onClick.decade,
-                    'data-decade': range
+                    onClick: is_disabled ? undefined : function (e) {
+                        return updateSelected(e, 'decade');
+                    },
+                    'data-decade': decade
                 },
-                range
+                decade
             );
         })
     );
@@ -1214,59 +1294,45 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
 var _Date = __webpack_require__(/*! ../../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
 
 var _types = __webpack_require__(/*! ./types */ "./src/javascript/app_2/App/Components/Elements/Calendar/panels/types.js");
 
 var _types2 = _interopRequireDefault(_types);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _constants = __webpack_require__(/*! ../constants */ "./src/javascript/app_2/App/Components/Elements/Calendar/constants.js");
 
-var getMonthHeaders = function getMonthHeaders() {
-    return {
-        Jan: (0, _localize.localize)('Jan'),
-        Feb: (0, _localize.localize)('Feb'),
-        Mar: (0, _localize.localize)('Mar'),
-        Apr: (0, _localize.localize)('Apr'),
-        May: (0, _localize.localize)('May'),
-        Jun: (0, _localize.localize)('Jun'),
-        Jul: (0, _localize.localize)('Jul'),
-        Aug: (0, _localize.localize)('Aug'),
-        Sep: (0, _localize.localize)('Sep'),
-        Oct: (0, _localize.localize)('Oct'),
-        Nov: (0, _localize.localize)('Nov'),
-        Dec: (0, _localize.localize)('Dec')
-    };
-};
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CalendarMonths = exports.CalendarMonths = function CalendarMonths(_ref) {
     var calendar_date = _ref.calendar_date,
         isPeriodDisabled = _ref.isPeriodDisabled,
-        onClick = _ref.onClick,
-        selected_date = _ref.selected_date;
+        selected_date = _ref.selected_date,
+        updateSelected = _ref.updateSelected;
 
     var moment_date = (0, _Date.toMoment)(calendar_date);
-    var selected_month = (0, _Date.toMoment)(selected_date).month();
-    var month_headers = getMonthHeaders();
+    var moment_selected_date = (0, _Date.toMoment)(selected_date);
 
     return _react2.default.createElement(
         'div',
-        { className: 'calendar-month-panel' },
-        Object.keys(month_headers).map(function (month, idx) {
+        { className: 'calendar__body calendar__body--month' },
+        Object.keys(_constants.month_headers).map(function (month, idx) {
+            var is_active = month === moment_selected_date.clone().format('MMM') && moment_selected_date.isSame(moment_date, 'year');
+            var is_disabled = isPeriodDisabled(moment_date.clone().month(month), 'month');
             return _react2.default.createElement(
                 'span',
                 {
                     key: idx,
-                    className: (0, _classnames2.default)('calendar-month', {
-                        active: idx === selected_month,
-                        disabled: isPeriodDisabled(moment_date.month(month), 'month')
+                    className: (0, _classnames2.default)('calendar__cell', {
+                        'calendar__cell--active': is_active,
+                        'calendar__cell--disabled': is_disabled
                     }),
-                    onClick: onClick.month,
-                    'data-month': idx
+                    onClick: is_disabled ? undefined : function (e) {
+                        return updateSelected(e, 'month');
+                    },
+                    'data-month': month
                 },
-                month_headers[month]
+                _constants.month_headers[month]
             );
         })
     );
@@ -1293,6 +1359,8 @@ exports.CalendarYears = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -1307,34 +1375,46 @@ var _types = __webpack_require__(/*! ./types */ "./src/javascript/app_2/App/Comp
 
 var _types2 = _interopRequireDefault(_types);
 
+var _helper = __webpack_require__(/*! ../helper */ "./src/javascript/app_2/App/Components/Elements/Calendar/helper.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CalendarYears = exports.CalendarYears = function CalendarYears(_ref) {
     var calendar_date = _ref.calendar_date,
         isPeriodDisabled = _ref.isPeriodDisabled,
-        onClick = _ref.onClick,
-        selected_date = _ref.selected_date;
+        selected_date = _ref.selected_date,
+        updateSelected = _ref.updateSelected;
 
-    var selected_year = (0, _Date.toMoment)(selected_date).year();
+    var moment_selected = (0, _Date.toMoment)(selected_date);
     var moment_date = (0, _Date.toMoment)(calendar_date);
-    var current_year = moment_date.year();
+
+    var _getDecade$split = (0, _helper.getDecade)(moment_date).split('-'),
+        _getDecade$split2 = _slicedToArray(_getDecade$split, 2),
+        start_of_decade = _getDecade$split2[0],
+        end_of_decade = _getDecade$split2[1];
+
     var years = [];
-    for (var year = current_year - 1; year < current_year + 11; year++) {
+    for (var year = +start_of_decade - 1; year <= +end_of_decade + 1; year++) {
         years.push(year);
     }
     return _react2.default.createElement(
         'div',
-        { className: 'calendar-year-panel' },
+        { className: 'calendar__body calendar__body--year' },
         years.map(function (year, idx) {
+            var is_other_decade = idx === 0 || idx === 11;
+            var is_disabled = isPeriodDisabled(moment_date.clone().year(year), 'year');
             return _react2.default.createElement(
                 'span',
                 {
                     key: idx,
-                    className: (0, _classnames2.default)('calendar-year', {
-                        disabled: isPeriodDisabled(moment_date.year(year), 'year'),
-                        active: year === selected_year
+                    className: (0, _classnames2.default)('calendar__cell', {
+                        'calendar__cell--active': year === moment_selected.year(),
+                        'calendar__cell--other': is_other_decade,
+                        'calendar__cell--disabled': is_disabled
                     }),
-                    onClick: onClick.year,
+                    onClick: is_disabled ? undefined : function (e) {
+                        return updateSelected(e, 'year');
+                    },
                     'data-year': year
                 },
                 year
@@ -4581,17 +4661,21 @@ var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnam
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
+
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
 var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
 
+var _input_field = __webpack_require__(/*! ../input_field.jsx */ "./src/javascript/app_2/App/Components/Form/input_field.jsx");
+
+var _input_field2 = _interopRequireDefault(_input_field);
+
 var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
 
-var _date_picker_input = __webpack_require__(/*! ./date_picker_input.jsx */ "./src/javascript/app_2/App/Components/Form/DatePicker/date_picker_input.jsx");
-
-var _date_picker_input2 = _interopRequireDefault(_date_picker_input);
+var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
 var _Calendar = __webpack_require__(/*! ../../Elements/Calendar */ "./src/javascript/app_2/App/Components/Elements/Calendar/index.js");
 
@@ -4599,14 +4683,16 @@ var _Calendar2 = _interopRequireDefault(_Calendar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var DatePicker = function (_React$PureComponent) {
-    _inherits(DatePicker, _React$PureComponent);
+var DatePicker = function (_React$Component) {
+    _inherits(DatePicker, _React$Component);
 
     function DatePicker() {
         var _ref;
@@ -4622,7 +4708,7 @@ var DatePicker = function (_React$PureComponent) {
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DatePicker.__proto__ || Object.getPrototypeOf(DatePicker)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             value: '',
             is_datepicker_visible: false,
-            is_close_btn_visible: false
+            is_clear_btn_visible: false
         }, _this.handleVisibility = function () {
             _this.setState({ is_datepicker_visible: !_this.state.is_datepicker_visible });
         }, _this.onClickOutside = function (e) {
@@ -4634,10 +4720,10 @@ var DatePicker = function (_React$PureComponent) {
             }
         }, _this.onMouseEnter = function () {
             if (_this.state.value && (!('is_clearable' in _this.props) || _this.props.is_clearable)) {
-                _this.setState({ is_close_btn_visible: true });
+                _this.setState({ is_clear_btn_visible: true });
             }
         }, _this.onMouseLeave = function () {
-            _this.setState({ is_close_btn_visible: false });
+            _this.setState({ is_clear_btn_visible: false });
         }, _this.onSelectCalendar = function (selected_date, is_datepicker_visible) {
             var value = selected_date;
             if (!(0, _Date.isDateValid)(value)) {
@@ -4645,29 +4731,31 @@ var DatePicker = function (_React$PureComponent) {
             }
 
             if (_this.props.mode === 'duration') {
-                _this.updateDatePickerValue((0, _Date.daysFromTodayTo)(value), 'duration');
+                _this.updateDatePickerValue((0, _Date.daysFromTodayTo)(value));
             } else {
-                _this.updateDatePickerValue(value);
+                _this.updateDatePickerValue((0, _Date.formatDate)(value, 'DD MMM YYYY'));
             }
             _this.setState({ is_datepicker_visible: is_datepicker_visible });
         }, _this.onChangeInput = function (e) {
             var value = e.target.value;
-            _this.updateDatePickerValue(value, _this.props.mode);
+            _this.updateDatePickerValue(value);
         }, _this.clearDatePickerInput = function () {
-            _this.setState({ value: '' }, _this.updateStore);
+            _this.setState({ value: null }, _this.updateStore);
             _this.calendar.resetCalendar();
-        }, _this.updateDatePickerValue = function (value, mode) {
+        }, _this.updateDatePickerValue = function (value) {
+            var _this$props = _this.props,
+                date_format = _this$props.date_format,
+                mode = _this$props.mode,
+                start_date = _this$props.start_date;
+
+
             _this.setState({ value: value }, _this.updateStore);
 
             // update Calendar
-            var _this$props = _this.props,
-                date_format = _this$props.date_format,
-                start_date = _this$props.start_date;
-
-            var new_date = mode === 'duration' ? (0, _Date.toMoment)().add(value, 'days').format(date_format) : value;
+            var new_date = mode === 'duration' ? (0, _Date.addDays)((0, _Date.toMoment)(), value) : value;
             if (_this.calendar && ((0, _Date.isDateValid)(new_date) || !new_date)) {
                 if (!new_date) {
-                    var current_date = (0, _Date.toMoment)(start_date).format(date_format);
+                    var current_date = (0, _Date.formatDate)(start_date, date_format);
                     _this.calendar.setState({
                         calendar_date: current_date,
                         selected_date: current_date
@@ -4687,6 +4775,41 @@ var DatePicker = function (_React$PureComponent) {
             if (onChange) {
                 onChange({ target: { name: name, value: _this.state.value } });
             }
+        }, _this.renderInputField = function () {
+            var _this$props3 = _this.props,
+                is_read_only = _this$props3.is_read_only,
+                mode = _this$props3.mode,
+                name = _this$props3.name,
+                validation_errors = _this$props3.validation_errors;
+            var placeholder = _this.props.placeholder;
+
+            var type = void 0,
+                onChange = void 0;
+
+            switch (mode) {
+                case 'duration':
+                    onChange = _this.onChangeInput;
+                    placeholder = placeholder || (0, _localize.localize)('Select a duration');
+                    type = 'number';
+                    break;
+                default:
+                    placeholder = placeholder || (0, _localize.localize)('Select a date');
+                    type = 'text';
+            }
+
+            return _react2.default.createElement(_input_field2.default, {
+                className: 'datepicker__input',
+                'data-tip': false,
+                'data-value': _this.state.value,
+                error_messages: validation_errors,
+                is_read_only: is_read_only,
+                name: name,
+                onChange: onChange,
+                onClick: _this.handleVisibility,
+                placeholder: placeholder,
+                type: type,
+                value: _this.state.value
+            });
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -4695,10 +4818,14 @@ var DatePicker = function (_React$PureComponent) {
         value: function componentDidMount() {
             document.addEventListener('click', this.onClickOutside, true);
             var _props = this.props,
-                value = _props.value,
-                mode = _props.mode;
+                mode = _props.mode,
+                value = _props.value;
 
-            this.updateDatePickerValue(value, mode);
+            if (mode === 'duration') {
+                this.updateDatePickerValue((0, _Date.daysFromTodayTo)(value));
+            } else {
+                this.updateDatePickerValue((0, _Date.formatDate)(value, 'DD MMM YYYY'));
+            }
         }
     }, {
         key: 'componentWillUnmount',
@@ -4721,11 +4848,11 @@ var DatePicker = function (_React$PureComponent) {
                     'div',
                     { ref: function ref(node) {
                             _this2.mainNode = node;
-                        }, className: 'datepicker-container' },
+                        }, className: 'datepicker' },
                     _react2.default.createElement('input', {
                         id: this.props.name,
                         name: this.props.name,
-                        className: 'datepicker-display',
+                        className: 'datepicker__input',
                         type: 'date',
                         value: this.state.value,
                         min: this.props.min_date,
@@ -4744,145 +4871,66 @@ var DatePicker = function (_React$PureComponent) {
                     }),
                     _react2.default.createElement(
                         'label',
-                        { className: 'datepicker-native-overlay', htmlFor: this.props.name },
+                        { className: 'datepicker__native-overlay', htmlFor: this.props.name },
                         this.state.value || this.props.placeholder,
-                        _react2.default.createElement(_Common.IconArrow, { className: 'datepicker-native-overlay__arrowhead' })
+                        _react2.default.createElement(_Common.IconArrow, { className: 'datepicker__native-overlay__arrowhead' })
                     )
                 );
             }
 
             return _react2.default.createElement(
                 'div',
-                { ref: function ref(node) {
+                {
+                    id: this.props.id,
+                    ref: function ref(node) {
                         _this2.mainNode = node;
-                    }, className: 'datepicker-container' },
+                    },
+                    className: 'datepicker',
+                    onMouseEnter: this.onMouseEnter,
+                    onMouseLeave: this.onMouseLeave
+                },
+                this.renderInputField(),
+                _react2.default.createElement(_Common.IconCalendar, {
+                    className: (0, _classnames2.default)('datepicker__icon datepicker__icon--calendar', {
+                        'datepicker__icon--is-hidden': this.state.is_clear_btn_visible
+                    }),
+                    onClick: this.handleVisibility
+                }),
+                _react2.default.createElement(_Common.IconClear, {
+                    className: (0, _classnames2.default)('datepicker__icon datepicker__icon--clear', {
+                        'datepicker__icon--is-hidden': !this.state.is_clear_btn_visible
+                    }),
+                    onClick: this.state.is_clear_btn_visible ? this.clearDatePickerInput : undefined
+                }),
                 _react2.default.createElement(
                     'div',
                     {
-                        className: 'datepicker-display-wrapper',
-                        onMouseEnter: this.onMouseEnter,
-                        onMouseLeave: this.onMouseLeave
+                        className: (0, _classnames2.default)('datepicker__picker', _defineProperty({
+                            'datepicker__picker--show': this.state.is_datepicker_visible
+                        }, 'datepicker__picker--align-' + this.props.alignment, this.props.alignment))
                     },
-                    _react2.default.createElement(_date_picker_input2.default, {
-                        class_name: 'datepicker-display',
-                        mode: this.props.mode,
-                        name: this.props.name,
-                        placeholder: this.props.placeholder,
-                        onClick: this.handleVisibility,
-                        is_read_only: true,
-                        value: this.state.value
-                    }),
-                    _react2.default.createElement('span', {
-                        className: (0, _classnames2.default)('picker-calendar-icon', {
-                            show: !this.state.is_close_btn_visible
-                        }),
-                        onClick: this.handleVisibility
-                    }),
-                    _react2.default.createElement('span', {
-                        className: (0, _classnames2.default)('close-circle-icon', {
-                            show: this.state.is_close_btn_visible
-                        }),
-                        onClick: this.clearDatePickerInput
-                    })
-                ),
-                _react2.default.createElement(
-                    'div',
-                    {
-                        className: (0, _classnames2.default)('datepicker-calendar', {
-                            show: this.state.is_datepicker_visible
-                        })
-                    },
-                    _react2.default.createElement(
-                        _Calendar2.default,
-                        _extends({
-                            ref: function ref(node) {
-                                _this2.calendar = node;
-                            },
-                            onSelect: this.onSelectCalendar
-                        }, this.props),
-                        _react2.default.createElement(_date_picker_input2.default, {
-                            class_name: 'calendar-input',
-                            mode: this.props.mode,
-                            name: this.props.name,
-                            onChange: this.onChangeInput,
-                            placeholder: this.props.placeholder,
-                            is_read_only: 'is_read_only' in this.props ? this.props.is_read_only : false,
-                            value: this.state.value
-                        })
-                    )
+                    _react2.default.createElement(_Calendar2.default, _extends({
+                        ref: function ref(node) {
+                            _this2.calendar = node;
+                        },
+                        onSelect: this.onSelectCalendar
+                    }, this.props))
                 )
             );
         }
     }]);
 
     return DatePicker;
-}(_react2.default.PureComponent);
+}(_react2.default.Component);
 
 DatePicker.defaultProps = {
     date_format: _Calendar2.default.defaultProps.date_format,
     mode: 'date'
 };
 
-DatePicker.propTypes = _extends({}, _date_picker_input2.default.propTypes, _Calendar2.default.propTypes);
+DatePicker.propTypes = _extends({}, _Calendar2.default.propTypes);
 
-exports.default = DatePicker;
-
-/***/ }),
-
-/***/ "./src/javascript/app_2/App/Components/Form/DatePicker/date_picker_input.jsx":
-/*!***********************************************************************************!*\
-  !*** ./src/javascript/app_2/App/Components/Form/DatePicker/date_picker_input.jsx ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = DatePickerInput;
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function DatePickerInput(props) {
-    return _react2.default.createElement('input', {
-        id: props.id,
-        name: props.name,
-        className: props.class_name,
-        readOnly: props.is_read_only,
-        placeholder: props.placeholder || (props.mode === 'duration' ? (0, _localize.localize)('Select a duration') : (0, _localize.localize)('Select date')),
-        onChange: props.onChange,
-        onClick: props.onClick,
-        value: props.value || ''
-    });
-}
-
-DatePickerInput.propTypes = {
-    class_name: _propTypes2.default.string,
-    id: _propTypes2.default.string,
-    is_clearable: _propTypes2.default.bool,
-    is_read_only: _propTypes2.default.bool,
-    mode: _propTypes2.default.string,
-    name: _propTypes2.default.string,
-    onChange: _propTypes2.default.func,
-    onClick: _propTypes2.default.func,
-    placeholder: _propTypes2.default.string,
-    value: _propTypes2.default.oneOfType([_propTypes2.default.number, // duration
-    _propTypes2.default.string] // date
-    )
-};
+exports.default = (0, _mobxReact.observer)(DatePicker);
 
 /***/ }),
 
@@ -5797,6 +5845,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var InputField = function InputField(_ref) {
     var checked = _ref.checked,
         className = _ref.className,
+        data_tip = _ref.data_tip,
+        data_value = _ref.data_value,
         error_messages = _ref.error_messages,
         fractional_digits = _ref.fractional_digits,
         helper = _ref.helper,
@@ -5879,7 +5929,8 @@ var InputField = function InputField(_ref) {
         className: (0, _classnames2.default)({ error: has_error }),
         disabled: is_disabled,
         'data-for': 'error_tooltip_' + name,
-        'data-tip': true,
+        'data-value': data_value,
+        'data-tip': data_tip,
         id: id,
         maxLength: fractional_digits ? max_length + fractional_digits + 1 : max_length,
         name: name,
@@ -9501,6 +9552,341 @@ exports.IconBack = IconBack;
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/Assets/Common/icon_calendar.jsx":
+/*!**************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Common/icon_calendar.jsx ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconCalendar = undefined;
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconCalendar = function IconCalendar(_ref) {
+    var className = _ref.className,
+        onClick = _ref.onClick;
+    return _react2.default.createElement(
+        'svg',
+        {
+            xmlns: 'http://www.w3.org/2000/svg',
+            width: '16',
+            height: '16',
+            className: className,
+            onClick: onClick
+        },
+        _react2.default.createElement('path', { fill: '#5C5C5C', fillRule: 'evenodd', d: 'M13.875 2H12v-.438a.562.562 0 1 0-1.125 0V2h-5.75v-.438a.562.562 0 1 0-1.125 0V2H2.125C1.503 2 1 2.503 1 3.125v10.75C1 14.497 1.503 15 2.125 15h11.75c.622 0 1.125-.505 1.125-1.125V3.125C15 2.503 14.497 2 13.875 2zM2.125 3.125H4v.313a.562.562 0 1 0 1.125 0v-.313h5.75v.313a.562.562 0 1 0 1.125 0v-.313h1.875v1.75H2.125v-1.75zm11.75 10.75H2.125V6h11.75v7.875zM4.5 8h1a.5.5 0 1 1 0 1h-1a.5.5 0 1 1 0-1zm3 0h1a.5.5 0 1 1 0 1h-1a.5.5 0 1 1 0-1zm3 0h1a.5.5 0 1 1 0 1h-1a.5.5 0 1 1 0-1zm-6 3.031h1a.5.5 0 1 1 0 1h-1a.5.5 0 1 1 0-1zm3 0h1a.5.5 0 1 1 0 1h-1a.5.5 0 1 1 0-1z' })
+    );
+};
+
+IconCalendar.propTypes = {
+    className: _propTypes2.default.string,
+    onClick: _propTypes2.default.func
+};
+
+exports.IconCalendar = IconCalendar;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Assets/Common/icon_calendar_today.jsx":
+/*!********************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Common/icon_calendar_today.jsx ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconCalendarToday = undefined;
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconCalendarToday = function IconCalendarToday(_ref) {
+    var className = _ref.className,
+        onClick = _ref.onClick;
+    return _react2.default.createElement(
+        'svg',
+        {
+            xmlns: 'http://www.w3.org/2000/svg',
+            width: '16',
+            height: '16',
+            className: className,
+            onClick: onClick
+        },
+        _react2.default.createElement('path', { fill: '#000', fillOpacity: '.8', fillRule: 'evenodd', d: 'M5 3v.5a.5.5 0 0 1-1 0V3H2v2h12V3h-2v.5a.5.5 0 1 1-1 0V3H5zm0-1h6v-.5a.5.5 0 1 1 1 0V2h2a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h2v-.5a.5.5 0 0 1 1 0V2zM2 6v8h12V6H2zm8.354 5.146a.5.5 0 0 1-.708.708l-1.5-1.5a.5.5 0 0 1 0-.708l1.5-1.5a.5.5 0 0 1 .708.708L9.207 10l1.147 1.146zm-3 0a.5.5 0 0 1-.708.708l-1.5-1.5a.5.5 0 0 1 0-.708l1.5-1.5a.5.5 0 1 1 .708.708L6.207 10l1.147 1.146z' })
+    );
+};
+
+IconCalendarToday.propTypes = {
+    className: _propTypes2.default.string,
+    onClick: _propTypes2.default.func
+};
+
+exports.IconCalendarToday = IconCalendarToday;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Assets/Common/icon_chevron_double_left.jsx":
+/*!*************************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Common/icon_chevron_double_left.jsx ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconChevronDoubleLeft = undefined;
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconChevronDoubleLeft = function IconChevronDoubleLeft(_ref) {
+    var className = _ref.className;
+    return _react2.default.createElement(
+        'svg',
+        { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
+        _react2.default.createElement('path', { fill: '#5C5C5C', fillRule: 'evenodd', d: 'M4.247 8l4.587 4.128a.5.5 0 0 1-.668.744l-5-4.5a.5.5 0 0 1 0-.744l5-4.5a.5.5 0 0 1 .668.744L4.247 8zm8.587 4.128a.5.5 0 0 1-.668.744l-5-4.5a.5.5 0 0 1 0-.744l5-4.5a.5.5 0 0 1 .668.744L8.247 8l4.587 4.128z' })
+    );
+};
+
+IconChevronDoubleLeft.propTypes = {
+    className: _propTypes2.default.string
+};
+
+exports.IconChevronDoubleLeft = IconChevronDoubleLeft;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Assets/Common/icon_chevron_double_right.jsx":
+/*!**************************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Common/icon_chevron_double_right.jsx ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconChevronDoubleRight = undefined;
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconChevronDoubleRight = function IconChevronDoubleRight(_ref) {
+    var className = _ref.className;
+    return _react2.default.createElement(
+        'svg',
+        { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
+        _react2.default.createElement('path', { fill: '#5C5C5C', fillRule: 'evenodd', d: 'M7.753 8L3.166 3.872a.5.5 0 0 1 .668-.744l5 4.5a.5.5 0 0 1 0 .744l-5 4.5a.5.5 0 1 1-.668-.744L7.753 8zm4 0L7.166 3.872a.5.5 0 0 1 .668-.744l5 4.5a.5.5 0 0 1 0 .744l-5 4.5a.5.5 0 1 1-.668-.744L11.753 8z' })
+    );
+};
+
+IconChevronDoubleRight.propTypes = {
+    className: _propTypes2.default.string
+};
+
+exports.IconChevronDoubleRight = IconChevronDoubleRight;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Assets/Common/icon_chevron_left.jsx":
+/*!******************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Common/icon_chevron_left.jsx ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconChevronLeft = undefined;
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconChevronLeft = function IconChevronLeft(_ref) {
+    var className = _ref.className;
+    return _react2.default.createElement(
+        'svg',
+        { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
+        _react2.default.createElement('path', { fill: '#5C5C5C', fillRule: 'evenodd', d: 'M6.247 8l4.587 4.128a.5.5 0 0 1-.668.744l-5-4.5a.5.5 0 0 1 0-.744l5-4.5a.5.5 0 0 1 .668.744L6.247 8z' })
+    );
+};
+
+IconChevronLeft.propTypes = {
+    className: _propTypes2.default.string
+};
+
+exports.IconChevronLeft = IconChevronLeft;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Assets/Common/icon_chevron_right.jsx":
+/*!*******************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Common/icon_chevron_right.jsx ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconChevronRight = undefined;
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconChevronRight = function IconChevronRight(_ref) {
+    var className = _ref.className;
+    return _react2.default.createElement(
+        'svg',
+        { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
+        _react2.default.createElement('path', { fill: '#5C5C5C', fillRule: 'evenodd', d: 'M9.753 8L5.166 3.872a.5.5 0 0 1 .668-.744l5 4.5a.5.5 0 0 1 0 .744l-5 4.5a.5.5 0 1 1-.668-.744L9.753 8z' })
+    );
+};
+
+IconChevronRight.propTypes = {
+    className: _propTypes2.default.string
+};
+
+exports.IconChevronRight = IconChevronRight;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Assets/Common/icon_clear.jsx":
+/*!***********************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Common/icon_clear.jsx ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconClear = undefined;
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconClear = function IconClear(_ref) {
+    var className = _ref.className,
+        onClick = _ref.onClick;
+    return _react2.default.createElement(
+        'svg',
+        {
+            className: className || undefined,
+            onClick: onClick,
+            xmlns: 'http://www.w3.org/2000/svg',
+            width: '16',
+            height: '16',
+            viewBox: '0 0 12 12'
+        },
+        _react2.default.createElement('path', { d: 'M6 0a6 6 0 1 0 0 12A6 6 0 1 0 6 0zm2.406 7.815a.422.422 0 0 1-.598.596L6 6.598 4.192 8.41a.419.419 0 0 1-.597 0 .422.422 0 0 1 0-.596L5.404 6l-1.81-1.815a.422.422 0 0 1 .597-.596L6 5.402l1.808-1.814a.422.422 0 0 1 .598.596L6.596 6l1.81 1.815z', fill: '#B0B3BF', fillRule: 'evenodd' })
+    );
+};
+
+IconClear.propTypes = {
+    className: _propTypes2.default.string,
+    onClick: _propTypes2.default.func
+};
+
+exports.IconClear = IconClear;
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/Assets/Common/icon_close.jsx":
 /*!***********************************************************!*\
   !*** ./src/javascript/app_2/Assets/Common/icon_close.jsx ***!
@@ -9773,6 +10159,90 @@ Object.keys(_icon_back).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _icon_back[key];
+    }
+  });
+});
+
+var _icon_calendar_today = __webpack_require__(/*! ./icon_calendar_today.jsx */ "./src/javascript/app_2/Assets/Common/icon_calendar_today.jsx");
+
+Object.keys(_icon_calendar_today).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_calendar_today[key];
+    }
+  });
+});
+
+var _icon_calendar = __webpack_require__(/*! ./icon_calendar.jsx */ "./src/javascript/app_2/Assets/Common/icon_calendar.jsx");
+
+Object.keys(_icon_calendar).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_calendar[key];
+    }
+  });
+});
+
+var _icon_chevron_double_left = __webpack_require__(/*! ./icon_chevron_double_left.jsx */ "./src/javascript/app_2/Assets/Common/icon_chevron_double_left.jsx");
+
+Object.keys(_icon_chevron_double_left).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_chevron_double_left[key];
+    }
+  });
+});
+
+var _icon_chevron_double_right = __webpack_require__(/*! ./icon_chevron_double_right.jsx */ "./src/javascript/app_2/Assets/Common/icon_chevron_double_right.jsx");
+
+Object.keys(_icon_chevron_double_right).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_chevron_double_right[key];
+    }
+  });
+});
+
+var _icon_chevron_left = __webpack_require__(/*! ./icon_chevron_left.jsx */ "./src/javascript/app_2/Assets/Common/icon_chevron_left.jsx");
+
+Object.keys(_icon_chevron_left).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_chevron_left[key];
+    }
+  });
+});
+
+var _icon_chevron_right = __webpack_require__(/*! ./icon_chevron_right.jsx */ "./src/javascript/app_2/Assets/Common/icon_chevron_right.jsx");
+
+Object.keys(_icon_chevron_right).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_chevron_right[key];
+    }
+  });
+});
+
+var _icon_clear = __webpack_require__(/*! ./icon_clear.jsx */ "./src/javascript/app_2/Assets/Common/icon_clear.jsx");
+
+Object.keys(_icon_clear).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _icon_clear[key];
     }
   });
 });
@@ -14585,8 +15055,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -14637,17 +15105,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
       1. disable days other than today and tomorrow if start date is forward starting
 */
 
-var expiry_list = [{ text: (0, _localize.localize)('Duration'), value: 'duration' }];
-
-var now_date = void 0,
-    max_date_duration = void 0,
-    min_date_expiry = void 0,
-    min_day = void 0,
-    max_day = void 0,
-    start_date_time = void 0,
-    max_duration = void 0,
-    min_duration = void 0;
-
 var Duration = function Duration(_ref) {
     var contract_expiry_type = _ref.contract_expiry_type,
         duration = _ref.duration,
@@ -14664,44 +15121,50 @@ var Duration = function Duration(_ref) {
         sessions = _ref.sessions,
         start_date = _ref.start_date,
         start_time = _ref.start_time,
+        market_close_times = _ref.market_close_times,
         validation_errors = _ref.validation_errors;
 
-    if (duration_min_max[contract_expiry_type]) {
+    var expiry_list = [{ text: (0, _localize.localize)('Duration'), value: 'duration' }];
+
+    var moment_expiry = (0, _Date.toMoment)(expiry_date || server_time);
+    var is_24_hours_contract = false;
+    var expiry_time_sessions = sessions;
+    var max_date_duration = void 0,
+        min_date_expiry = void 0,
+        max_duration = void 0,
+        min_duration = void 0;
+
+    if (expiry_type !== 'endtime' && duration_min_max[contract_expiry_type]) {
         min_duration = (0, _duration.convertDurationLimit)(+duration_min_max[contract_expiry_type].min, duration_unit);
         max_duration = (0, _duration.convertDurationLimit)(+duration_min_max[contract_expiry_type].max, duration_unit);
-        var moment_now = (0, _Date.toMoment)(server_time);
-        var new_min_day = (0, _duration.convertDurationUnit)(duration_min_max[contract_expiry_type].min, 's', 'd');
-        var new_max_day = (0, _duration.convertDurationUnit)(duration_min_max[contract_expiry_type].max, 's', 'd');
-        if (!now_date || moment_now.date() !== now_date.date() || duration_unit === 'd' && (min_day !== new_min_day || max_day !== new_max_day)) {
-            if (duration_unit === 'd') {
-                min_day = new_min_day;
-                max_day = new_max_day;
+    } else if (expiry_type === 'endtime') {
+        var max_daily_duration = duration_min_max.daily ? duration_min_max.daily.max : 365 * 24 * 3600;
+        var moment_contract_start_date_time = (0, _Date.setTime)((0, _Date.toMoment)(start_date || server_time), (0, _Date.isTimeValid)(start_time) ? start_time : server_time.format('HH:mm'));
+        var has_intraday_duration_unit = (0, _duration.hasIntradayDurationUnit)(duration_units_list);
+
+        // When the contract start is forwarding or is not forwarding but the expiry date is as same as start date, the contract should be expired within 24 hours
+        is_24_hours_contract = (!!start_date || moment_expiry.isSame((0, _Date.toMoment)(server_time), 'day')) && has_intraday_duration_unit;
+
+        if (is_24_hours_contract) {
+            var expiry_date_time = (0, _Date.setTime)(moment_expiry.clone(), moment_contract_start_date_time.clone().add(5, 'minute').format('HH:mm'));
+            var expiry_date_market_close = (0, _Date.setTime)(expiry_date_time.clone(), market_close_times.slice(-1)[0]);
+            var is_expired_next_day = expiry_date_time.diff(moment_contract_start_date_time, 'day') === 1;
+
+            expiry_time_sessions = [{
+                open: is_expired_next_day ? expiry_date_time.clone().startOf('day') : expiry_date_time.clone(),
+                // when the expiry_date is on the next day of the start_date, the session should be close 5 min before the start_time of the contract.
+                close: is_expired_next_day ? (0, _Date.minDate)(expiry_date_time.clone().subtract(10, 'minute'), expiry_date_market_close) : expiry_date_market_close.clone()
+            }];
+
+            min_date_expiry = moment_contract_start_date_time.clone().startOf('day');
+            max_date_duration = moment_contract_start_date_time.clone().add(start_date ? 24 * 3600 : max_daily_duration, 'second');
+        } else {
+            min_date_expiry = moment_contract_start_date_time.clone().startOf('day');
+            max_date_duration = moment_contract_start_date_time.clone().add(max_daily_duration, 'second');
+
+            if (!has_intraday_duration_unit) {
+                min_date_expiry.add(1, 'day');
             }
-
-            var moment_today = moment_now.clone().startOf('day');
-
-            now_date = moment_now.clone();
-            max_date_duration = moment_today.clone().add(max_day || 365, 'd');
-            min_date_expiry = moment_today.clone();
-        }
-    }
-
-    var moment_expiry = (0, _Date.toMoment)(expiry_date);
-    var is_same_day = moment_expiry.isSame((0, _Date.toMoment)(start_date), 'day');
-    if (is_same_day) {
-        var date_time = (0, _Date.toMoment)(start_date);
-        if (start_date && (0, _Date.isTimeValid)(start_time)) {
-            var _start_time$split = start_time.split(':'),
-                _start_time$split2 = _slicedToArray(_start_time$split, 2),
-                hour = _start_time$split2[0],
-                minute = _start_time$split2[1];
-
-            date_time.hour(hour).minute(minute).second(0).add(5, 'minutes');
-        }
-        // only update start time every five minutes, since time picker shows five minute durations
-        var moment_start_date_time = (0, _Date.toMoment)(start_date_time);
-        if (!start_date_time || moment_start_date_time.isAfter(date_time) || moment_start_date_time.clone().add(5, 'minutes').isBefore(date_time) || moment_start_date_time.minutes() !== date_time.minutes() && date_time.minutes() % 5 === 0) {
-            start_date_time = date_time.unix();
         }
     }
     if (is_minimized) {
@@ -14728,7 +15191,7 @@ var Duration = function Duration(_ref) {
     }
 
     var endtime_container_class = (0, _classnames2.default)('endtime-container', {
-        'has-time': is_same_day
+        'has-time': is_24_hours_contract
     });
 
     return _react2.default.createElement(
@@ -14791,17 +15254,21 @@ var Duration = function Duration(_ref) {
                     onChange: onChange,
                     value: expiry_date,
                     is_read_only: true,
-                    is_clearable: false,
-                    is_nativepicker: is_nativepicker
+                    is_clearable: true,
+                    is_nativepicker: is_nativepicker,
+                    alignment: 'left',
+                    disabled_selector: ['year']
+                    // sessions={expiry_date_sessions} TODO: add expiry date sessions. e.g. disable days if market closes on weekend
+                    // validation_errors={validation_errors.expiry_date} TODO: add validation_errors for expiry date
                 }),
-                is_same_day && _react2.default.createElement(_time_picker2.default, {
+                is_24_hours_contract && _react2.default.createElement(_time_picker2.default, {
                     onChange: onChange,
                     is_align_right: true,
                     name: 'expiry_time',
-                    value: expiry_time,
                     placeholder: '12:00',
-                    start_date: start_date_time,
-                    sessions: sessions,
+                    sessions: expiry_time_sessions,
+                    start_date: moment_expiry.unix(),
+                    value: expiry_time || min_date_expiry.format('HH:mm'),
                     is_clearable: false,
                     is_nativepicker: is_nativepicker
                     // validation_errors={validation_errors.end_time} TODO: add validation_errors for end time
@@ -14823,6 +15290,7 @@ Duration.propTypes = {
     expiry_type: _propTypes2.default.string,
     is_minimized: _propTypes2.default.bool,
     is_nativepicker: _propTypes2.default.bool,
+    market_close_times: _propTypes2.default.array,
     onChange: _propTypes2.default.func,
     server_time: _propTypes2.default.object,
     sessions: _mobxReact.PropTypes.arrayOrObservableArray,
@@ -16450,6 +16918,10 @@ var WS = function () {
         return _socket_base2.default.send({ get_settings: 1 });
     };
 
+    var getTradingTimes = function getTradingTimes(date) {
+        return _socket_base2.default.send({ trading_times: date });
+    };
+
     var landingCompany = function landingCompany(residence) {
         return _socket_base2.default.send({ landing_company: residence });
     };
@@ -16541,6 +17013,7 @@ var WS = function () {
         getAccountStatus: getAccountStatus,
         getSelfExclusion: getSelfExclusion,
         getSettings: getSettings,
+        getTradingTimes: getTradingTimes,
         landingCompany: landingCompany,
         logout: logout,
         mt5LoginList: mt5LoginList,
@@ -18923,34 +19396,65 @@ var _contract_type2 = _interopRequireDefault(_contract_type);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var onChangeStartDate = exports.onChangeStartDate = function onChangeStartDate(store) {
-    var contract_type = store.contract_type,
-        start_date = store.start_date,
-        duration_unit = store.duration_unit,
-        expiry_time = store.expiry_time,
-        expiry_type = store.expiry_type;
-    var start_time = store.start_time,
-        expiry_date = store.expiry_date;
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+var onChangeStartDate = exports.onChangeStartDate = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(store) {
+        var contract_type, duration_unit, expiry_time, start_date, symbol, server_time, start_time, expiry_date, expiry_type, obj_contract_start_type, contract_start_type, obj_sessions, sessions, obj_start_time, obj_duration_units_list, duration_units_list, obj_duration_unit, obj_expiry_type, obj_expiry_date, obj_market_close_times, market_close_times, obj_expiry_time, obj_duration_min_max;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        contract_type = store.contract_type, duration_unit = store.duration_unit, expiry_time = store.expiry_time, start_date = store.start_date, symbol = store.symbol;
+                        server_time = store.root_store.common.server_time;
+                        start_time = store.start_time, expiry_date = store.expiry_date, expiry_type = store.expiry_type;
 
 
-    var obj_contract_start_type = _contract_type2.default.getStartType(start_date);
-    var contract_start_type = obj_contract_start_type.contract_start_type;
-    var obj_sessions = _contract_type2.default.getSessions(contract_type, start_date);
-    var sessions = obj_sessions.sessions;
-    var obj_start_time = _contract_type2.default.getStartTime(sessions, start_date, start_time);
-    start_time = obj_start_time.start_time;
+                        start_time = start_time || server_time.clone().add(6, 'minute').format('HH:mm'); // when there is not a default value for start_time, it should be set more than 5 min after server_time
 
-    var obj_duration_units_list = _contract_type2.default.getDurationUnitsList(contract_type, contract_start_type);
-    var obj_duration_unit = _contract_type2.default.getDurationUnit(duration_unit, contract_type, contract_start_type);
+                        obj_contract_start_type = _contract_type2.default.getStartType(start_date);
+                        contract_start_type = obj_contract_start_type.contract_start_type;
+                        obj_sessions = _contract_type2.default.getSessions(contract_type, start_date);
+                        sessions = obj_sessions.sessions;
+                        obj_start_time = _contract_type2.default.getStartTime(sessions, start_date, start_time);
 
-    var obj_expiry_date = _contract_type2.default.getExpiryDate(expiry_date, start_date, expiry_type);
-    expiry_date = obj_expiry_date.expiry_date;
-    var obj_expiry_time = _contract_type2.default.getExpiryTime(sessions, start_date, start_time, expiry_date, expiry_time);
+                        start_time = obj_start_time.start_time;
 
-    var obj_duration_min_max = _contract_type2.default.getDurationMinMax(contract_type, contract_start_type);
+                        obj_duration_units_list = _contract_type2.default.getDurationUnitsList(contract_type, contract_start_type);
+                        duration_units_list = obj_duration_units_list.duration_units_list;
+                        obj_duration_unit = _contract_type2.default.getDurationUnit(duration_unit, contract_type, contract_start_type);
+                        obj_expiry_type = _contract_type2.default.getExpiryType(duration_units_list, expiry_type);
 
-    return _extends({}, obj_contract_start_type, obj_duration_units_list, obj_duration_min_max, obj_duration_unit, obj_sessions, obj_start_time, obj_expiry_date, obj_expiry_time);
-};
+                        expiry_type = obj_expiry_type.expiry_type;
+                        obj_expiry_date = _contract_type2.default.getExpiryDate(duration_units_list, expiry_date, expiry_type, start_date);
+
+                        expiry_date = obj_expiry_date.expiry_date;
+
+                        _context.next = 19;
+                        return _contract_type2.default.getTradingTimes(expiry_date, symbol);
+
+                    case 19:
+                        _context.t0 = _context.sent;
+                        obj_market_close_times = {
+                            market_close_times: _context.t0
+                        };
+                        market_close_times = obj_market_close_times.market_close_times;
+                        obj_expiry_time = _contract_type2.default.getExpiryTime(expiry_date, expiry_time, expiry_type, market_close_times, sessions, start_date, start_time);
+                        obj_duration_min_max = _contract_type2.default.getDurationMinMax(contract_type, contract_start_type);
+                        return _context.abrupt('return', _extends({}, obj_contract_start_type, obj_duration_units_list, obj_duration_min_max, obj_duration_unit, obj_sessions, obj_start_time, obj_expiry_date, obj_expiry_time, obj_expiry_type, obj_market_close_times));
+
+                    case 25:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, undefined);
+    }));
+
+    return function onChangeStartDate(_x) {
+        return _ref.apply(this, arguments);
+    };
+}();
 
 /***/ }),
 
@@ -19317,6 +19821,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+var _server_time = __webpack_require__(/*! ../../../../../_common/base/server_time */ "./src/javascript/_common/base/server_time.js");
+
+var _server_time2 = _interopRequireDefault(_server_time);
+
 var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
 var _utility = __webpack_require__(/*! ../../../../../_common/utility */ "./src/javascript/_common/utility.js");
@@ -19333,12 +19841,17 @@ var _start_date = __webpack_require__(/*! ./start_date */ "./src/javascript/app_
 
 var _contract = __webpack_require__(/*! ../Constants/contract */ "./src/javascript/app_2/Stores/Modules/Trading/Constants/contract.js");
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var ContractType = function () {
     var available_contract_types = {};
     var available_categories = {};
     var contract_types = void 0;
+    var trading_times = {};
 
     var buildContractTypesConfig = function buildContractTypesConfig(symbol) {
         return _Services.WS.contractsFor(symbol).then(function (r) {
@@ -19581,15 +20094,12 @@ var ContractType = function () {
     };
 
     var buildMoment = function buildMoment(date, time) {
-        var moment_date = (0, _Date.toMoment)(date);
-        if (!time || !(0, _Date.isTimeValid)(time)) return moment_date;
+        var _ref = (0, _Date.isTimeValid)(time) ? time.split(':') : [0, 0],
+            _ref2 = _slicedToArray(_ref, 2),
+            hour = _ref2[0],
+            minute = _ref2[1];
 
-        var _time$split = time.split(':'),
-            _time$split2 = _slicedToArray(_time$split, 2),
-            hour = _time$split2[0],
-            minute = _time$split2[1];
-
-        return moment_date.hour(hour).minute(minute);
+        return (0, _Date.toMoment)(date || _server_time2.default.get()).hour(hour).minute(minute);
     };
 
     var getStartTime = function getStartTime(sessions, start_date, start_time) {
@@ -19598,32 +20108,146 @@ var ContractType = function () {
         };
     };
 
-    var getExpiryDate = function getExpiryDate(expiry_date, start_date, expiry_type) {
-        var moment_start = (0, _Date.toMoment)(start_date);
-        var moment_expiry = (0, _Date.toMoment)(expiry_date);
-        // forward starting contracts should only show today and tomorrow as expiry date
-        var is_invalid = moment_expiry.isBefore(moment_start, 'day') || start_date && moment_expiry.isAfter(moment_start.clone().add(1, 'day'));
-        return {
-            expiry_date: expiry_type === 'endtime' ? (is_invalid ? moment_start : moment_expiry).format('YYYY-MM-DD') : null
+    var getTradingTimes = function () {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(date) {
+            var underlying = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+            var trading_times_response, i, submarkets, j, symbols, k, symbol;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            if (date) {
+                                _context.next = 2;
+                                break;
+                            }
+
+                            return _context.abrupt('return', []);
+
+                        case 2:
+                            if (date in trading_times) {
+                                _context.next = 7;
+                                break;
+                            }
+
+                            _context.next = 5;
+                            return _Services.WS.getTradingTimes(date);
+
+                        case 5:
+                            trading_times_response = _context.sent;
+
+
+                            if ((0, _utility.getPropertyValue)(trading_times_response, ['trading_times', 'markets'])) {
+                                for (i = 0; i < trading_times_response.trading_times.markets.length; i++) {
+                                    submarkets = trading_times_response.trading_times.markets[i].submarkets;
+
+                                    if (submarkets) {
+                                        for (j = 0; j < submarkets.length; j++) {
+                                            symbols = submarkets[j].symbols;
+
+                                            if (symbols) {
+                                                for (k = 0; k < symbols.length; k++) {
+                                                    symbol = symbols[k];
+
+                                                    if (!trading_times[trading_times_response.echo_req.trading_times]) {
+                                                        trading_times[trading_times_response.echo_req.trading_times] = {};
+                                                    }
+                                                    trading_times[trading_times_response.echo_req.trading_times][symbol.symbol] = symbol.times.close;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        case 7:
+                            return _context.abrupt('return', underlying ? trading_times[date][underlying] : trading_times[date]);
+
+                        case 8:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        }));
+
+        return function getTradingTimes(_x2) {
+            return _ref3.apply(this, arguments);
         };
+    }();
+
+    var getExpiryType = function getExpiryType(duration_units_list, expiry_type) {
+        if (duration_units_list && duration_units_list.length === 1 && duration_units_list[0].value === 't') {
+            return { expiry_type: 'duration' };
+        }
+
+        return { expiry_type: expiry_type };
     };
 
-    // has to follow the correct order of checks:
-    // first check if end time is within available sessions
-    // then confirm that end time is after start time
-    var getExpiryTime = function getExpiryTime(sessions, start_date, start_time, expiry_date, expiry_time) {
-        var start_moment = start_date ? buildMoment(start_date, start_time) : (0, _Date.toMoment)();
-        var end_moment = buildMoment(expiry_date, expiry_time);
+    var getExpiryDate = function getExpiryDate(duration_units_list, expiry_date, expiry_type, start_date) {
+        var proper_expiry_date = null;
 
-        var end_time = expiry_time;
-        if (sessions && !(0, _start_date.isSessionAvailable)(sessions, end_moment)) {
-            end_time = getValidTime(sessions, end_moment, start_moment);
+        if (expiry_type === 'endtime') {
+            var moment_start = (0, _Date.toMoment)(start_date);
+            var moment_expiry = (0, _Date.toMoment)(expiry_date);
+
+            if (!(0, _duration.hasIntradayDurationUnit)(duration_units_list)) {
+                var is_invalid = moment_expiry.isSameOrBefore(moment_start, 'day');
+                proper_expiry_date = (is_invalid ? moment_start.clone().add(1, 'day') : moment_expiry).format('YYYY-MM-DD');
+            } else {
+                // forward starting contracts should only show today and tomorrow as expiry date
+                var _is_invalid = moment_expiry.isBefore(moment_start, 'day') || start_date && moment_expiry.isAfter(moment_start.clone().add(1, 'day'));
+                proper_expiry_date = (_is_invalid ? moment_start : moment_expiry).format('YYYY-MM-DD');
+            }
         }
-        if (end_moment.isSameOrBefore(start_moment)) {
-            var is_end_of_day = start_moment.get('hours') === 23 && start_moment.get('minute') >= 55;
-            var is_end_of_session = sessions && !(0, _start_date.isSessionAvailable)(sessions, start_moment.clone().add(5, 'minutes'));
-            end_time = start_moment.clone().add(is_end_of_day || is_end_of_session ? 0 : 5, 'minutes').format('HH:mm');
+
+        return { expiry_date: proper_expiry_date };
+    };
+
+    // It has to follow the correct order of checks:
+    // first check if end time is within available sessions
+    // then confirm that end time is at least 5 minute after start time
+    var getExpiryTime = function getExpiryTime(expiry_date, expiry_time, expiry_type, market_close_times, sessions, start_date, start_time) {
+        var end_time = null;
+
+        if (expiry_type === 'endtime') {
+            var market_close_time = '23:59:59';
+
+            if (market_close_times && market_close_times.length && market_close_times[0] !== '--') {
+                // Some of underlyings (e.g. Australian Index) have two close time during a day so we always select the further one as the end time of the contract.
+                market_close_time = market_close_times.slice(-1)[0];
+            }
+
+            // For contracts with a duration of more that 24 hours must set the expiry_time to the market's close time on the expiry date.
+            if (!start_date && _server_time2.default.get().isBefore(buildMoment(expiry_date), 'day')) {
+                end_time = market_close_time;
+            } else {
+                var start_moment = start_date ? buildMoment(start_date, start_time) : _server_time2.default.get();
+                var end_moment = buildMoment(expiry_date, expiry_time);
+
+                end_time = end_moment.format('HH:mm');
+
+                // When the contract is forwarding, and the duration is endtime, users can purchase the contract within 24 hours.
+                var expiry_sessions = [{
+                    open: start_moment.clone().add(5, 'minute'), // expiry time should be at least 5 minute after start_time
+                    close: (0, _Date.minDate)(start_moment.clone().add(24, 'hour'), buildMoment(expiry_date, market_close_time))
+                }];
+
+                if (!(0, _start_date.isSessionAvailable)(expiry_sessions, end_moment)) {
+                    end_time = getValidTime(expiry_sessions, end_moment.clone(), start_moment.clone());
+                }
+                if (end_moment.isSameOrBefore(start_moment) || end_moment.diff(start_moment, 'minute') < 5) {
+                    var is_end_of_day = start_moment.get('hours') === 23 && start_moment.get('minute') >= 55;
+                    var is_end_of_session = sessions && !(0, _start_date.isSessionAvailable)(sessions, start_moment.clone().add(5, 'minutes'));
+                    end_time = start_moment.clone().add(is_end_of_day || is_end_of_session ? 0 : 5, 'minutes').format('HH:mm');
+                }
+
+                // Set the expiry_time to 5 minute less than start_time for forwading contracts when the expiry_time is null and the expiry_date is tomorrow.
+                if (end_time === '00:00' && start_moment.isBefore(end_moment, 'day')) {
+                    end_time = start_moment.clone().subtract(5, 'minute').format('HH:mm');
+                }
+            }
         }
+
         return { expiry_time: end_time };
     };
 
@@ -19669,10 +20293,11 @@ var ContractType = function () {
         getFullContractTypes: getFullContractTypes,
         getExpiryDate: getExpiryDate,
         getExpiryTime: getExpiryTime,
+        getExpiryType: getExpiryType,
         getSessions: getSessions,
         getStartTime: getStartTime,
         getStartType: getStartType,
-
+        getTradingTimes: getTradingTimes,
         getContractCategories: function getContractCategories() {
             return { contract_types_list: available_categories };
         }
@@ -19749,7 +20374,7 @@ var getDefaultCurrency = exports.getDefaultCurrency = function getDefaultCurrenc
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.convertDurationLimit = exports.getExpiryType = exports.convertDurationUnit = exports.buildDurationConfig = undefined;
+exports.hasIntradayDurationUnit = exports.convertDurationLimit = exports.getExpiryType = exports.convertDurationUnit = exports.buildDurationConfig = undefined;
 
 var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
@@ -19835,12 +20460,13 @@ var getDurationFromString = function getDurationFromString(duration_string) {
 var getExpiryType = exports.getExpiryType = function getExpiryType(store) {
     var duration_unit = store.duration_unit,
         expiry_date = store.expiry_date,
-        expiry_type = store.expiry_type;
+        expiry_type = store.expiry_type,
+        duration_units_list = store.duration_units_list;
 
     var server_time = store.root_store.common.server_time;
 
     var duration_is_day = expiry_type === 'duration' && duration_unit === 'd';
-    var expiry_is_after_today = expiry_type === 'endtime' && (0, _Date.toMoment)(expiry_date).isAfter((0, _Date.toMoment)(server_time), 'day');
+    var expiry_is_after_today = expiry_type === 'endtime' && (0, _Date.toMoment)(expiry_date).isAfter((0, _Date.toMoment)(server_time), 'day') || !hasIntradayDurationUnit(duration_units_list);
 
     var contract_expiry_type = 'daily';
     if (!duration_is_day && !expiry_is_after_today) {
@@ -19867,6 +20493,12 @@ var convertDurationLimit = exports.convertDurationLimit = function convertDurati
     }
 
     return value;
+};
+
+var hasIntradayDurationUnit = exports.hasIntradayDurationUnit = function hasIntradayDurationUnit(duration_units_list) {
+    return duration_units_list.some(function (unit) {
+        return ['m', 'h'].indexOf(unit.value) !== -1;
+    });
 };
 
 /***/ }),
@@ -19916,21 +20548,42 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var processTradeParams = exports.processTradeParams = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(store, new_state) {
-        var snapshot;
+        var snapshot, functions, i;
         return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
                         snapshot = store.getSnapshot();
+                        functions = getMethodsList(store, new_state);
 
+                        // To make sure that every function is invoked and affects the snapshot respectively, we have to use for instead of forEach
 
-                        getMethodsList(store, new_state).forEach(function (fnc) {
-                            extendOrReplace(snapshot, fnc(snapshot));
-                        });
-
-                        return _context.abrupt('return', snapshot);
+                        i = 0;
 
                     case 3:
+                        if (!(i < functions.length)) {
+                            _context.next = 13;
+                            break;
+                        }
+
+                        _context.t0 = extendOrReplace;
+                        _context.t1 = snapshot;
+                        _context.next = 8;
+                        return functions[i](snapshot);
+
+                    case 8:
+                        _context.t2 = _context.sent;
+                        (0, _context.t0)(_context.t1, _context.t2);
+
+                    case 10:
+                        i++;
+                        _context.next = 3;
+                        break;
+
+                    case 13:
+                        return _context.abrupt('return', snapshot);
+
+                    case 14:
                     case 'end':
                         return _context.stop();
                 }
@@ -19945,12 +20598,12 @@ var processTradeParams = exports.processTradeParams = function () {
 
 var getMethodsList = function getMethodsList(store, new_state) {
     return [_contract_type2.default.getContractCategories, ContractType.onChangeContractTypeList].concat(_toConsumableArray(/\b(symbol|contract_type)\b/.test(Object.keys(new_state)) || !store.contract_type ? // symbol/contract_type changed or contract_type not set yet
-    [ContractType.onChangeContractType] : []), [Duration.onChangeExpiry, StartDate.onChangeStartDate]);
+    [ContractType.onChangeContractType] : []), [StartDate.onChangeStartDate, Duration.onChangeExpiry]);
 };
 
 // Some values need to be replaced, not extended
 var extendOrReplace = function extendOrReplace(source, new_values) {
-    var to_replace = ['contract_types_list', 'duration_units_list', 'form_components', 'trade_types'];
+    var to_replace = ['contract_types_list', 'duration_units_list', 'form_components', 'market_close_times', 'trade_types'];
 
     to_replace.forEach(function (key) {
         if (key in new_values) {
@@ -20042,10 +20695,7 @@ var createProposalRequestForContract = function createProposalRequestForContract
     var obj_expiry = {};
     if (store.expiry_type === 'endtime') {
         var expiry_date = (0, _Date.toMoment)(store.expiry_date);
-        var start_date = (0, _Date.toMoment)(store.start_date || store.root_store.common.server_time);
-        var is_same_day = expiry_date.isSame(start_date, 'day');
-        var expiry_time = is_same_day ? store.expiry_time : '23:59:59';
-        obj_expiry.date_expiry = (0, _Date.convertToUnix)(expiry_date.unix(), expiry_time);
+        obj_expiry.date_expiry = (0, _Date.convertToUnix)(expiry_date.unix(), store.expiry_time);
     }
 
     return _extends({
@@ -20101,7 +20751,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.isSessionAvailable = exports.buildForwardStartingConfig = undefined;
 
+var _server_time = __webpack_require__(/*! ../../../../../_common/base/server_time */ "./src/javascript/_common/base/server_time.js");
+
+var _server_time2 = _interopRequireDefault(_server_time);
+
 var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var buildForwardStartingConfig = exports.buildForwardStartingConfig = function buildForwardStartingConfig(contract, forward_starting_dates) {
     var forward_starting_config = [];
@@ -20138,11 +20794,11 @@ var isBeforeDate = function isBeforeDate(compare_moment, start_moment, should_on
 
 var isSessionAvailable = exports.isSessionAvailable = function isSessionAvailable() {
     var sessions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var compare_moment = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (0, _Date.toMoment)();
-    var start_moment = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : (0, _Date.toMoment)();
+    var compare_moment = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : (0, _Date.toMoment)(_server_time2.default.get());
+    var start_moment = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : (0, _Date.toMoment)(_server_time2.default.get());
     var should_only_check_hour = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-    return !isBeforeDate(compare_moment, undefined, should_only_check_hour) && !isBeforeDate(compare_moment, start_moment, should_only_check_hour) && (!sessions.length || !!sessions.find(function (session) {
-        return compare_moment.isBetween(should_only_check_hour ? session.open.clone().minute(0) : session.open, session.close, null, '[]');
+    return !isBeforeDate(compare_moment, _server_time2.default.get(), should_only_check_hour) && !isBeforeDate(compare_moment, start_moment, should_only_check_hour) && (!sessions.length || !!sessions.find(function (session) {
+        return compare_moment.isBetween(session.open, session.close, should_only_check_hour ? 'hour' : null, '[]');
     }));
 };
 
@@ -20192,7 +20848,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26, _descriptor27, _descriptor28, _descriptor29, _descriptor30, _descriptor31, _descriptor32, _descriptor33;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26, _descriptor27, _descriptor28, _descriptor29, _descriptor30, _descriptor31, _descriptor32, _descriptor33, _descriptor34;
 
 var _lodash = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
 
@@ -20316,16 +20972,24 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
 
 
     // Purchase
-    // Number(0) refers to 'now'
 
 
-    // Barrier
+    // End Date Time
+    /**
+     * An array that contains market closing time.
+     *
+     * e.g. ["04:00:00", "08:00:00"]
+     *
+     */
 
 
-    // Amount
+    // Start Time
 
 
-    // Contract Type
+    // Duration
+
+
+    // Underlying
     function TradeStore(_ref) {
         var root_store = _ref.root_store;
 
@@ -20397,17 +21061,19 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
 
         _initDefineProp(_this, 'sessions', _descriptor29, _this);
 
-        _initDefineProp(_this, 'last_digit', _descriptor30, _this);
+        _initDefineProp(_this, 'market_close_times', _descriptor30, _this);
 
-        _initDefineProp(_this, 'proposal_info', _descriptor31, _this);
+        _initDefineProp(_this, 'last_digit', _descriptor31, _this);
 
-        _initDefineProp(_this, 'purchase_info', _descriptor32, _this);
+        _initDefineProp(_this, 'proposal_info', _descriptor32, _this);
+
+        _initDefineProp(_this, 'purchase_info', _descriptor33, _this);
 
         _this.chart_id = 1;
         _this.debouncedProposal = (0, _lodash2.default)(_this.requestProposal, 500);
         _this.proposal_requests = {};
 
-        _initDefineProp(_this, 'init', _descriptor33, _this);
+        _initDefineProp(_this, 'init', _descriptor34, _this);
 
         Object.defineProperty(_this, 'is_query_string_applied', {
             enumerable: false,
@@ -20429,15 +21095,16 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
     }
 
     // Last Digit
+    // Number(0) refers to 'now'
 
 
-    // Start Time
+    // Barrier
 
 
-    // Duration
+    // Amount
 
 
-    // Underlying
+    // Contract Type
 
 
     _createClass(TradeStore, [{
@@ -20551,6 +21218,8 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                         value = 'rise_fall';
                     }
                 }
+            } else if (name === 'expiry_date') {
+                this.expiry_time = null;
             } else if (!(name in this)) {
                 throw new Error('Invalid Argument: ' + name);
             }
@@ -20602,7 +21271,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
             var _this4 = this;
 
             Object.keys((0, _utility.cloneObject)(new_state)).forEach(function (key) {
-                if (key === 'root_store' || ['validation_rules', 'validation_errors', 'currency'].indexOf(key) > -1) return;
+                if (key === 'root_store' || ['validation_rules', 'validation_errors', 'currency', 'smart_chart'].indexOf(key) > -1) return;
                 if (JSON.stringify(_this4[key]) === JSON.stringify(new_state[key])) {
                     delete new_state[key];
                 } else {
@@ -21025,7 +21694,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
 }), _descriptor21 = _applyDecoratedDescriptor(_class.prototype, 'expiry_time', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
-        return '09:40';
+        return '';
     }
 }), _descriptor22 = _applyDecoratedDescriptor(_class.prototype, 'expiry_type', [_mobx.observable], {
     enumerable: true,
@@ -21067,22 +21736,27 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
     initializer: function initializer() {
         return [];
     }
-}), _descriptor30 = _applyDecoratedDescriptor(_class.prototype, 'last_digit', [_mobx.observable], {
+}), _descriptor30 = _applyDecoratedDescriptor(_class.prototype, 'market_close_times', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return [];
+    }
+}), _descriptor31 = _applyDecoratedDescriptor(_class.prototype, 'last_digit', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 5;
     }
-}), _descriptor31 = _applyDecoratedDescriptor(_class.prototype, 'proposal_info', [_mobx.observable], {
+}), _descriptor32 = _applyDecoratedDescriptor(_class.prototype, 'proposal_info', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return {};
     }
-}), _descriptor32 = _applyDecoratedDescriptor(_class.prototype, 'purchase_info', [_mobx.observable], {
+}), _descriptor33 = _applyDecoratedDescriptor(_class.prototype, 'purchase_info', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return {};
     }
-}), _descriptor33 = _applyDecoratedDescriptor(_class.prototype, 'init', [_dec], {
+}), _descriptor34 = _applyDecoratedDescriptor(_class.prototype, 'init', [_dec], {
     enumerable: true,
     initializer: function initializer() {
         var _this9 = this;
@@ -22931,7 +23605,7 @@ exports.default = UIStore;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isDateValid = exports.isMinuteValid = exports.isHourValid = exports.isTimeValid = exports.formatDuration = exports.getDiffDuration = exports.daysFromTodayTo = exports.formatDate = exports.toGMTFormat = exports.convertToUnix = exports.toMoment = exports.epochToMoment = undefined;
+exports.minDate = exports.subYears = exports.subMonths = exports.subDays = exports.addYears = exports.addMonths = exports.addDays = exports.isDateValid = exports.isMinuteValid = exports.isHourValid = exports.isTimeValid = exports.formatDuration = exports.getDiffDuration = exports.daysFromTodayTo = exports.formatDate = exports.toGMTFormat = exports.convertToUnix = exports.setTime = exports.toMoment = exports.epochToMoment = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -22971,12 +23645,12 @@ var toMoment = exports.toMoment = function toMoment(value) {
  * @param  {String} time        24 hours format, may or may not include seconds
  * @return {moment} a new moment object of result
  */
-var setTime = function setTime(moment_obj, time) {
-  var _time$split = time.split(':'),
-      _time$split2 = _slicedToArray(_time$split, 3),
-      hour = _time$split2[0],
-      minute = _time$split2[1],
-      second = _time$split2[2];
+var setTime = exports.setTime = function setTime(moment_obj, time) {
+  var _ref = time ? time.split(':') : [0, 0, 0],
+      _ref2 = _slicedToArray(_ref, 3),
+      hour = _ref2[0],
+      minute = _ref2[1],
+      second = _ref2[2];
 
   moment_obj.hour(hour).minute(minute || 0).second(second || 0);
   return moment_obj;
@@ -22998,7 +23672,7 @@ var toGMTFormat = exports.toGMTFormat = function toGMTFormat(time) {
 
 var formatDate = exports.formatDate = function formatDate(date) {
   var date_format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'YYYY-MM-DD';
-  return (0, _moment2.default)(date || undefined, date_format).format(date_format);
+  return toMoment(date).format(date_format);
 };
 
 /**
@@ -23007,8 +23681,8 @@ var formatDate = exports.formatDate = function formatDate(date) {
  * @return {Number} an integer of the number of days
  */
 var daysFromTodayTo = exports.daysFromTodayTo = function daysFromTodayTo(date) {
-  var diff = (0, _moment2.default)(date).utc().diff((0, _moment2.default)().utc(), 'days');
-  return !date || diff < 0 ? '' : diff + 1;
+  var diff = toMoment(date).startOf('day').diff(toMoment().startOf('day'), 'days');
+  return !date || diff < 0 ? '' : diff;
 };
 
 /**
@@ -23043,7 +23717,7 @@ var formatDuration = exports.formatDuration = function formatDuration(duration) 
  * @param {String} time_str time
  */
 var isTimeValid = exports.isTimeValid = function isTimeValid(time_str) {
-  return (/^(\d{1,2}):(\d{2})(:00)?$/.test(time_str)
+  return (/^([0-9]|[0-1][0-9]|2[0-3]):([0-9]|[0-5][0-9])(:([0-9]|[0-5][0-9]))?$/.test(time_str)
   );
 };
 
@@ -23065,10 +23739,73 @@ var isMinuteValid = exports.isMinuteValid = function isMinuteValid(time_str) {
 
 /**
  * return true if the date is typeof string and a valid moment date, else return false
- * @param {String} date_str date
+ * @param {String|moment} date date
  */
-var isDateValid = exports.isDateValid = function isDateValid(date_str) {
-  return typeof date_str === 'string' && (0, _moment2.default)(date_str).isValid();
+var isDateValid = exports.isDateValid = function isDateValid(date) {
+  return (0, _moment2.default)(date, 'YYYY-MM-DD').isValid();
+};
+
+/**
+ * add the specified number of days to the given date
+ * @param {String} date        date
+ * @param {Number} num_of_days number of days to add
+ */
+var addDays = exports.addDays = function addDays(date, num_of_days) {
+  return toMoment(date).clone().add(num_of_days, 'day');
+};
+
+/**
+ * add the specified number of months to the given date
+ * @param {String} date        date
+ * @param {Number} num_of_months number of months to add
+ */
+var addMonths = exports.addMonths = function addMonths(date, num_of_months) {
+  return toMoment(date).clone().add(num_of_months, 'month');
+};
+
+/**
+ * add the specified number of years to the given date
+ * @param {String} date        date
+ * @param {Number} num_of_years number of years to add
+ */
+var addYears = exports.addYears = function addYears(date, num_of_years) {
+  return toMoment(date).clone().add(num_of_years, 'year');
+};
+
+/**
+ * subtract the specified number of days from the given date
+ * @param {String} date        date
+ * @param {Number} num_of_days number of days to subtract
+ */
+var subDays = exports.subDays = function subDays(date, num_of_days) {
+  return toMoment(date).clone().subtract(num_of_days, 'day');
+};
+
+/**
+ * subtract the specified number of months from the given date
+ * @param {String} date        date
+ * @param {Number} num_of_months number of months to subtract
+ */
+var subMonths = exports.subMonths = function subMonths(date, num_of_months) {
+  return toMoment(date).clone().subtract(num_of_months, 'month');
+};
+
+/**
+ * subtract the specified number of years from the given date
+ * @param {String} date        date
+ * @param {Number} num_of_years number of years to subtract
+ */
+var subYears = exports.subYears = function subYears(date, num_of_years) {
+  return toMoment(date).clone().subtract(num_of_years, 'year');
+};
+
+/**
+ * returns the minimum moment between the two passing parameters
+ * @param {moment|string|epoch} first datetime parameter
+ * @param {moment|string|epoch} second datetime parameter
+ */
+var minDate = exports.minDate = function minDate(date_1, date_2) {
+  return _moment2.default.min(toMoment(date_1), toMoment(date_2));
 };
 
 /***/ }),
