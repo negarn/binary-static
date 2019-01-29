@@ -1166,10 +1166,19 @@ var Login = function () {
         return loginUrl() + '&social_signup=' + brand;
     };
 
+    var initOneAll = function initOneAll() {
+        ['google', 'facebook'].forEach(function (provider) {
+            $('#button_' + provider).off('click').on('click', function (e) {
+                e.preventDefault();
+                window.location.href = socialLoginUrl(provider);
+            });
+        });
+    };
+
     return {
         redirectToLogin: redirectToLogin,
         isLoginPages: isLoginPages,
-        socialLoginUrl: socialLoginUrl
+        initOneAll: initOneAll
     };
 }();
 
@@ -17550,7 +17559,6 @@ var isBinaryApp = __webpack_require__(/*! ../../config */ "./src/javascript/conf
 
 var NewAccount = function () {
     var clients_country = void 0,
-        $google_btn = void 0,
         $login_btn = void 0,
         $verify_email = void 0;
 
@@ -17559,7 +17567,6 @@ var NewAccount = function () {
     var onLoad = function onLoad() {
         getElementById('footer').setVisibility(0); // always hide footer in this page
 
-        $google_btn = $('#google-signup');
         $login_btn = $('#login');
         $verify_email = $('#verify_email');
 
@@ -17578,14 +17585,11 @@ var NewAccount = function () {
             }
         });
 
-        $google_btn.off('click').on('click', function (e) {
-            e.preventDefault();
-            window.location.href = Login.socialLoginUrl('google');
-        });
         $login_btn.off('click').on('click', function (e) {
             e.preventDefault();
             Login.redirectToLogin();
         });
+        Login.initOneAll();
     };
 
     var verifyEmailHandler = function verifyEmailHandler(response) {
@@ -35344,6 +35348,7 @@ var Home = function () {
     var clients_country = void 0;
 
     var onLoad = function onLoad() {
+        Login.initOneAll();
         TabSelector.onLoad();
 
         BinarySocket.wait('website_status', 'authorize', 'landing_company').then(function () {
@@ -35359,17 +35364,9 @@ var Home = function () {
                 fnc_response_handler: handler,
                 fnc_additional_check: checkCountry
             });
-            socialLogin();
             if (isEuCountry()) {
                 $('.mfsa_message').slideDown(300);
             }
-        });
-    };
-
-    var socialLogin = function socialLogin() {
-        $('#google-signup').off('click').on('click', function (e) {
-            e.preventDefault();
-            window.location.href = Login.socialLoginUrl('google');
         });
     };
 
