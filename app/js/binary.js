@@ -3023,8 +3023,9 @@ var PopConfirm = function (_React$Component) {
                 _react2.default.Children.map(this.props.children, function (child) {
                     return _react2.default.cloneElement(child, {
                         onClick: _this2.handleOpen
-                    }, popconfirm_element);
-                })
+                    });
+                }),
+                popconfirm_element
             );
         }
     }]);
@@ -4973,7 +4974,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
 
@@ -4993,6 +5000,14 @@ var _ttReactCustomScrollbars = __webpack_require__(/*! tt-react-custom-scrollbar
 
 var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
 
+var _items = __webpack_require__(/*! ./items.jsx */ "./src/javascript/app_2/App/Components/Form/DropDown/items.jsx");
+
+var _items2 = _interopRequireDefault(_items);
+
+var _native_select = __webpack_require__(/*! ./native_select.jsx */ "./src/javascript/app_2/App/Components/Form/DropDown/native_select.jsx");
+
+var _native_select2 = _interopRequireDefault(_native_select);
+
 var _helpers = __webpack_require__(/*! ./helpers */ "./src/javascript/app_2/App/Components/Form/DropDown/helpers.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -5006,12 +5021,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Dropdown = function (_React$Component) {
     _inherits(Dropdown, _React$Component);
 
-    function Dropdown(props) {
+    function Dropdown() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, Dropdown);
 
-        var _this = _possibleConstructorReturn(this, (Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call(this, props));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
 
-        _this.onKeyPressed = function (event) {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call.apply(_ref, [this].concat(args))), _this), _this.list_ref = _react2.default.createRef(), _this.state = {
+            curr_index: (0, _helpers.getItemFromValue)(_this.props.list, _this.props.value).number,
+            is_list_visible: false
+        }, _this.handleSelect = function (item) {
+            if (item.value !== _this.props.value) {
+                _this.props.onChange({ target: { name: _this.props.name, value: item.value } });
+            }
+            _this.handleVisibility();
+        }, _this.setWrapperRef = function (node) {
+            return _this.wrapper_ref = node;
+        }, _this.handleClickOutside = function (event) {
+            if (_this.wrapper_ref && !_this.wrapper_ref.contains(event.target) && _this.state.is_list_visible) {
+                _this.setState({ is_list_visible: false });
+            }
+        }, _this.handleVisibility = function () {
+            _this.setState(function (state) {
+                return { is_list_visible: !state.is_list_visible };
+            });
+        }, _this.onKeyPressed = function (event) {
+            if (_this.is_single_option) return;
             if (event.keyCode === 9) {
                 // Tab is pressed
                 if (_this.state.is_list_visible) {
@@ -5046,6 +5086,20 @@ var Dropdown = function (_React$Component) {
                     if (_this.state.is_list_visible) {
                         var next_index = (0, _helpers.getNextIndex)(_this.state.curr_index, index.length);
                         _this.setState({ curr_index: next_index });
+                    } else if (!_this.props.is_alignment_left) {
+                        _this.handleVisibility();
+                    }
+                    break;
+                case 37:
+                    // Left arrow is pressed
+                    if (!_this.state.is_list_visible && _this.props.is_alignment_left) {
+                        _this.handleVisibility();
+                    }
+                    break;
+                case 39:
+                    // Right Arrow is pressed
+                    if (_this.state.is_list_visible && _this.props.is_alignment_left) {
+                        _this.handleVisibility();
                     }
                     break;
                 default:
@@ -5069,17 +5123,7 @@ var Dropdown = function (_React$Component) {
                     _this.setState({ curr_index: idx });
                 }
             }
-        };
-
-        _this.handleVisibility = _this.handleVisibility.bind(_this);
-        _this.handleSelect = _this.handleSelect.bind(_this);
-        _this.setWrapperRef = _this.setWrapperRef.bind(_this);
-        _this.handleClickOutside = _this.handleClickOutside.bind(_this);
-        _this.state = {
-            is_list_visible: false,
-            curr_index: (0, _helpers.getItemFromValue)(_this.props.list, _this.props.value).number
-        };
-        return _this;
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(Dropdown, [{
@@ -5093,67 +5137,49 @@ var Dropdown = function (_React$Component) {
             document.removeEventListener('mousedown', this.handleClickOutside);
         }
     }, {
-        key: 'handleSelect',
-        value: function handleSelect(item) {
-            if (item.value !== this.props.value) {
-                this.props.onChange({ target: { name: this.props.name, value: item.value } });
-            }
-            this.handleVisibility();
-        }
-    }, {
-        key: 'setWrapperRef',
-        value: function setWrapperRef(node) {
-            this.wrapper_ref = node;
-        }
-    }, {
-        key: 'scrollToggle',
-        value: function scrollToggle(state) {
-            this.is_open = state;
-            // Used to disable y-scroll on body - disabled in this component for now
-            // document.body.classList.toggle('no-scroll', this.is_open);
-        }
-    }, {
-        key: 'handleClickOutside',
-        value: function handleClickOutside(event) {
-            if (this.wrapper_ref && !this.wrapper_ref.contains(event.target) && this.state.is_list_visible) {
-                this.setState({ is_list_visible: false });
-                this.scrollToggle(this.state.is_list_visible);
-            }
-        }
-    }, {
-        key: 'handleVisibility',
-        value: function handleVisibility() {
-            this.setState({ is_list_visible: !this.state.is_list_visible });
-            this.scrollToggle(!this.state.is_list_visible);
-        }
-    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
 
-            // TODO: Fix list not being populated in native picker dropdown before re-enabling
-            // if (this.props.is_nativepicker) {
-            //     return (
-            //         <NativeSelect
-            //             name={this.props.name}
-            //             value={this.props.value}
-            //             list={this.props.list}
-            //             onChange={this.props.onChange}
-            //         />
-            //     );
-            // }
+            if (this.props.is_nativepicker) {
+                return _react2.default.createElement(_native_select2.default, {
+                    name: this.props.name,
+                    value: this.props.value,
+                    list: this.props.list,
+                    onChange: this.props.onChange
+                });
+            }
+
+            // we are calculating the offset for the dropdown list based on it's width here
+            var left_alignment_style = {
+                transform: 'translate3d(calc(-' + this.state.list_width + 'px - 12px), 0, 0px)'
+            };
+
+            // upon render via css transition group, we use this as a callback to set the width of the dropdown list in the state
+            var setListWidth = function setListWidth() {
+                return _this2.setState({ list_width: _this2.list_ref.current.offsetWidth });
+            };
+
+            var is_single_option = (0, _mobx.isArrayLike)(this.props.list) ? !!(this.props.list.length < 2) : !!(Object.keys(this.props.list).length < 2);
+
             return _react2.default.createElement(
                 'div',
                 {
                     ref: this.setWrapperRef,
-                    className: 'dropdown-container ' + (this.props.className ? this.props.className : '') + ' ' + (this.state.is_list_visible ? 'show' : '')
+                    className: (0, _classnames2.default)('dropdown-container', this.props.className, {
+                        'dropdown-container--left': this.props.is_alignment_left,
+                        'dropdown-container--show': this.state.is_list_visible,
+                        'dropdown-container--disabled': is_single_option
+                    })
                 },
                 _react2.default.createElement(
                     'div',
                     {
-                        className: 'dropdown-display ' + (this.state.is_list_visible ? 'clicked' : ''),
+                        className: (0, _classnames2.default)('dropdown__display', {
+                            'dropdown__display--clicked': this.state.is_list_visible
+                        }),
+                        tabIndex: is_single_option ? '-1' : '0',
                         onClick: this.handleVisibility,
-                        tabIndex: '0',
                         onKeyDown: this.onKeyPressed
                     },
                     _react2.default.createElement(
@@ -5162,29 +5188,52 @@ var Dropdown = function (_React$Component) {
                         (0, _helpers.getDisplayText)(this.props.list, this.props.value)
                     )
                 ),
-                _react2.default.createElement(_Common.IconArrow, { className: 'select-arrow' }),
+                !is_single_option && _react2.default.createElement(_Common.IconArrow, { className: (0, _classnames2.default)('select-arrow', {
+                        'select-arrow--left': this.props.is_alignment_left
+                    })
+                }),
                 _react2.default.createElement(
                     _reactTransitionGroup.CSSTransition,
                     {
                         'in': this.state.is_list_visible,
                         timeout: 100,
-                        classNames: 'dropdown-list',
+                        classNames: {
+                            enter: 'dropdown__list--enter',
+                            enterDone: 'dropdown__list--enter--done',
+                            exit: 'dropdown__list--exit'
+                        },
+                        onEntered: setListWidth,
                         unmountOnExit: true
                     },
                     _react2.default.createElement(
                         'div',
-                        { className: 'dropdown-list' },
+                        { className: (0, _classnames2.default)('dropdown__list', {
+                                'dropdown__list--left': this.props.is_alignment_left
+                            })
+                        },
                         _react2.default.createElement(
                             'div',
-                            { className: 'list-container' },
+                            {
+                                className: (0, _classnames2.default)('list', {
+                                    'list--left': this.props.is_alignment_left
+                                }),
+                                ref: this.list_ref,
+                                style: this.props.is_alignment_left ? left_alignment_style : undefined
+                            },
                             _react2.default.createElement(
                                 _ttReactCustomScrollbars.Scrollbars,
                                 {
                                     autoHeight: true,
                                     autoHide: true,
-                                    autoHeightMax: 200
+                                    autoHeightMax: 200,
+                                    renderTrackHorizontal: function renderTrackHorizontal(props) {
+                                        return _react2.default.createElement('div', _extends({}, props, { className: 'track-horizontal', style: { display: 'none' } }));
+                                    },
+                                    renderThumbHorizontal: function renderThumbHorizontal(props) {
+                                        return _react2.default.createElement('div', _extends({}, props, { className: 'thumb-horizontal', style: { display: 'none' } }));
+                                    }
                                 },
-                                (0, _mobx.isArrayLike)(this.props.list) ? _react2.default.createElement(Items, {
+                                (0, _mobx.isArrayLike)(this.props.list) ? _react2.default.createElement(_items2.default, {
                                     highlightedIdx: this.state.curr_index,
                                     items: this.props.list,
                                     name: this.props.name,
@@ -5196,14 +5245,14 @@ var Dropdown = function (_React$Component) {
                                         { key: key },
                                         _react2.default.createElement(
                                             'div',
-                                            { className: 'list-label' },
+                                            { className: 'list__label' },
                                             _react2.default.createElement(
                                                 'span',
                                                 null,
                                                 key
                                             )
                                         ),
-                                        _react2.default.createElement(Items, {
+                                        _react2.default.createElement(_items2.default, {
                                             highlightedIdx: _this2.state.curr_index,
                                             items: _this2.props.list[key],
                                             name: _this2.props.name,
@@ -5223,88 +5272,11 @@ var Dropdown = function (_React$Component) {
     return Dropdown;
 }(_react2.default.Component);
 
-var Items = function Items(_ref) {
-    var items = _ref.items,
-        name = _ref.name,
-        value = _ref.value,
-        handleSelect = _ref.handleSelect,
-        highlightedIdx = _ref.highlightedIdx;
-    return items.map(function (item, idx) {
-        return _react2.default.createElement(
-            _react2.default.Fragment,
-            { key: idx },
-            _react2.default.createElement(
-                'div',
-                {
-                    className: 'list-item ' + (value === item.value ? 'selected' : '') + ' ' + (highlightedIdx === idx ? 'highlighted' : ''),
-                    key: idx,
-                    name: name,
-                    value: item.value,
-                    onClick: handleSelect.bind(null, item)
-                },
-                _react2.default.createElement(
-                    'span',
-                    null,
-                    item.text
-                )
-            )
-        );
-    });
-};
-
-var NativeSelect = function NativeSelect(_ref2) {
-    var name = _ref2.name,
-        value = _ref2.value,
-        list = _ref2.list,
-        onChange = _ref2.onChange;
-    return _react2.default.createElement(
-        'div',
-        { className: 'select-wrapper' },
-        _react2.default.createElement(
-            'select',
-            { name: name, value: value, onChange: onChange },
-            Array.isArray(list) ? list.map(function (item, idx) {
-                return _react2.default.createElement(
-                    'option',
-                    { key: idx, value: item.value },
-                    item.text
-                );
-            }) : Object.keys(list).map(function (key) {
-                return _react2.default.createElement(
-                    _react2.default.Fragment,
-                    { key: key },
-                    _react2.default.createElement(
-                        'optgroup',
-                        { label: key },
-                        list[key].map(function (item, idx) {
-                            return _react2.default.createElement(
-                                'option',
-                                { key: idx, value: item.value },
-                                item.text
-                            );
-                        })
-                    )
-                );
-            })
-        )
-    );
-};
-
-// ToDo: Refactor Drop-down.
-// It's now too risky to refactor Dropdown for 'list' and 'value' prop types.
 Dropdown.propTypes = {
     className: _propTypes2.default.string,
+    is_alignment_left: _propTypes2.default.bool,
     is_nativepicker: _propTypes2.default.bool,
     list: _propTypes2.default.oneOfType([_propTypes2.default.array, _propTypes2.default.object]),
-    name: _propTypes2.default.string,
-    onChange: _propTypes2.default.func,
-    type: _propTypes2.default.string,
-    value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
-};
-
-// ToDo: Refactor NativeSelect
-NativeSelect.propTypes = {
-    list: _propTypes2.default.oneOfType([_propTypes2.default.object, _propTypes2.default.array]),
     name: _propTypes2.default.string,
     onChange: _propTypes2.default.func,
     value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
@@ -5417,6 +5389,150 @@ var _dropdown2 = _interopRequireDefault(_dropdown);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = _dropdown2.default;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/DropDown/items.jsx":
+/*!*********************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/DropDown/items.jsx ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Items = function Items(_ref) {
+    var items = _ref.items,
+        name = _ref.name,
+        value = _ref.value,
+        handleSelect = _ref.handleSelect,
+        highlightedIdx = _ref.highlightedIdx;
+    return items.map(function (item, idx) {
+        return _react2.default.createElement(
+            _react2.default.Fragment,
+            { key: idx },
+            _react2.default.createElement(
+                'div',
+                {
+                    className: (0, _classnames2.default)('list__item', {
+                        'list__item--selected': value === item.value,
+                        'list__item--highlighted': highlightedIdx === idx
+                    }),
+                    key: idx,
+                    name: name,
+                    value: item.value,
+                    onClick: handleSelect.bind(null, item)
+                },
+                _react2.default.createElement(
+                    'span',
+                    null,
+                    item.text
+                )
+            )
+        );
+    });
+};
+
+Items.propTypes = {
+    handleSelect: _propTypes2.default.func,
+    highlightedIdx: _propTypes2.default.number,
+    name: _propTypes2.default.string,
+    value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
+};
+
+exports.default = Items;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/DropDown/native_select.jsx":
+/*!*****************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/DropDown/native_select.jsx ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NativeSelect = function NativeSelect(_ref) {
+    var name = _ref.name,
+        list = _ref.list,
+        value = _ref.value,
+        onChange = _ref.onChange;
+    return _react2.default.createElement(
+        'div',
+        { className: 'select-wrapper' },
+        _react2.default.createElement(
+            'select',
+            { name: name, value: value, onChange: onChange },
+            Array.isArray(list) ? list.map(function (item, idx) {
+                return _react2.default.createElement(
+                    'option',
+                    { key: idx, value: item.value },
+                    item.text
+                );
+            }) : Object.keys(list).map(function (key) {
+                return _react2.default.createElement(
+                    _react2.default.Fragment,
+                    { key: key },
+                    _react2.default.createElement(
+                        'optgroup',
+                        { label: key },
+                        list[key].map(function (item, idx) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: idx, value: item.value },
+                                item.text
+                            );
+                        })
+                    )
+                );
+            })
+        )
+    );
+};
+
+NativeSelect.propTypes = {
+    list: _propTypes2.default.oneOfType([_propTypes2.default.object, _propTypes2.default.array]),
+    name: _propTypes2.default.string,
+    onChange: _propTypes2.default.func,
+    value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
+};
+
+exports.default = NativeSelect;
 
 /***/ }),
 
@@ -5674,13 +5790,20 @@ var Button = function Button(_ref) {
         id = _ref.id,
         is_disabled = _ref.is_disabled,
         onClick = _ref.onClick,
+        tabIndex = _ref.tabIndex,
         text = _ref.text,
         wrapperClassName = _ref.wrapperClassName;
 
     var classes = 'btn' + (has_effect ? ' effect' : '') + ' ' + className;
     var button = _react2.default.createElement(
         'button',
-        { id: id, className: classes, onClick: onClick || undefined, disabled: is_disabled },
+        {
+            id: id,
+            className: classes,
+            onClick: onClick || undefined,
+            disabled: is_disabled,
+            tabIndex: tabIndex || '0'
+        },
         _react2.default.createElement(
             'span',
             null,
@@ -5952,7 +6075,8 @@ var InputField = function InputField(_ref) {
             {
                 className: 'input-wrapper__button input-wrapper__button--increment',
                 is_disabled: max_is_disabled,
-                onClick: incrementValue
+                onClick: incrementValue,
+                tabIndex: '-1'
             },
             _react2.default.createElement(_icon_plus.IconPlus, { className: 'input-wrapper__icon input-wrapper__icon--plus', is_disabled: max_is_disabled })
         ),
@@ -5961,7 +6085,8 @@ var InputField = function InputField(_ref) {
             {
                 className: 'input-wrapper__button input-wrapper__button--decrement',
                 is_disabled: min_is_disabled,
-                onClick: decrementValue
+                onClick: decrementValue,
+                tabIndex: '-1'
             },
             _react2.default.createElement(_icon_minus.IconMinus, { className: 'input-wrapper__icon input-wrapper__icon--minus', is_disabled: min_is_disabled })
         ),
@@ -14813,8 +14938,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _currency_base = __webpack_require__(/*! ../../../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js");
 
-var _localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
 var _DropDown = __webpack_require__(/*! ../../../../../App/Components/Form/DropDown */ "./src/javascript/app_2/App/Components/Form/DropDown/index.js");
 
 var _DropDown2 = _interopRequireDefault(_DropDown);
@@ -14874,26 +14997,25 @@ var Amount = function Amount(_ref) {
 
     return _react2.default.createElement(
         _fieldset2.default,
-        {
-            header: (0, _localize.localize)('Invest Amount'),
-            icon: 'invest-amount'
-        },
+        null,
         _react2.default.createElement(
             'div',
             { className: amount_container_class },
             _react2.default.createElement(_DropDown2.default, {
+                is_alignment_left: true,
+                is_nativepicker: is_nativepicker,
                 list: basis_list,
-                value: basis,
                 name: 'basis',
-                onChange: onChange,
-                is_nativepicker: is_nativepicker
+                value: basis,
+                onChange: onChange
             }),
             !is_single_currency && _react2.default.createElement(_DropDown2.default, {
+                is_alignment_left: true,
+                is_nativepicker: is_nativepicker,
                 list: currencies_list,
-                value: currency,
                 name: 'currency',
-                onChange: onChange,
-                is_nativepicker: is_nativepicker
+                value: currency,
+                onChange: onChange
             }),
             _react2.default.createElement(_input_field2.default, {
                 error_messages: validation_errors.amount,
@@ -14955,8 +15077,6 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
 var _fieldset = __webpack_require__(/*! ../../../../../App/Components/Form/fieldset.jsx */ "./src/javascript/app_2/App/Components/Form/fieldset.jsx");
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
@@ -15003,10 +15123,7 @@ var Barrier = function Barrier(_ref) {
     }
     return _react2.default.createElement(
         _fieldset2.default,
-        {
-            header: barrier_count > 1 ? (0, _localize.localize)('Barriers') : (0, _localize.localize)('Barrier'),
-            icon: 'barriers'
-        },
+        null,
         _react2.default.createElement(_input_field2.default, {
             type: 'number',
             name: 'barrier_1',
@@ -15196,16 +15313,14 @@ var Duration = function Duration(_ref) {
 
     return _react2.default.createElement(
         _fieldset2.default,
-        {
-            header: (0, _localize.localize)('Trade Duration'),
-            icon: 'trade-duration'
-        },
+        null,
         _react2.default.createElement(_DropDown2.default, {
+            is_alignment_left: true,
+            is_nativepicker: is_nativepicker,
             list: expiry_list,
-            value: expiry_type,
             name: 'expiry_type',
-            onChange: onChange,
-            is_nativepicker: is_nativepicker
+            value: expiry_type,
+            onChange: onChange
         }),
         expiry_type === 'duration' ? _react2.default.createElement(
             _react2.default.Fragment,
@@ -15214,11 +15329,12 @@ var Duration = function Duration(_ref) {
                 'div',
                 { className: 'duration-container' },
                 _react2.default.createElement(_DropDown2.default, {
+                    is_alignment_left: true,
+                    is_nativepicker: is_nativepicker,
                     list: duration_units_list,
-                    value: duration_unit,
                     name: 'duration_unit',
-                    onChange: onChange,
-                    is_nativepicker: is_nativepicker
+                    value: duration_unit,
+                    onChange: onChange
                 }),
                 duration_unit === 't' ? _react2.default.createElement(_RangeSlider2.default, {
                     max_value: max_duration,
@@ -15454,16 +15570,14 @@ var StartDate = function StartDate(_ref) {
     }
     return _react2.default.createElement(
         _fieldset2.default,
-        {
-            header: (0, _localize.localize)('Start time'),
-            icon: 'start-time'
-        },
+        null,
         _react2.default.createElement(_DropDown2.default, {
+            is_alignment_left: true,
+            is_nativepicker: is_nativepicker,
+            list: start_dates_list,
             name: 'start_date',
             value: start_date,
-            list: start_dates_list,
-            onChange: onChange,
-            is_nativepicker: is_nativepicker
+            onChange: onChange
         }),
         !is_today && start_time && _react2.default.createElement(_time_picker2.default, {
             onChange: onChange,
@@ -20466,7 +20580,7 @@ var getExpiryType = exports.getExpiryType = function getExpiryType(store) {
     var server_time = store.root_store.common.server_time;
 
     var duration_is_day = expiry_type === 'duration' && duration_unit === 'd';
-    var expiry_is_after_today = expiry_type === 'endtime' && (0, _Date.toMoment)(expiry_date).isAfter((0, _Date.toMoment)(server_time), 'day') || !hasIntradayDurationUnit(duration_units_list);
+    var expiry_is_after_today = expiry_type === 'endtime' && ((0, _Date.toMoment)(expiry_date).isAfter((0, _Date.toMoment)(server_time), 'day') || !hasIntradayDurationUnit(duration_units_list));
 
     var contract_expiry_type = 'daily';
     if (!duration_is_day && !expiry_is_after_today) {
@@ -24004,6 +24118,7 @@ var currentLanguage = exports.currentLanguage = (0, _language.get)();
 
 var getAllowedLanguages = exports.getAllowedLanguages = function getAllowedLanguages() {
     var exclude_languages = ['ACH'];
+    // TODO Change language_list to const when design is ready.
     var language_list = Object.keys((0, _language.getAll)()).filter(function (key) {
         return !exclude_languages.includes(key);
     }).reduce(function (obj, key) {
@@ -24011,6 +24126,8 @@ var getAllowedLanguages = exports.getAllowedLanguages = function getAllowedLangu
         return obj;
     }, {});
 
+    // TODO Remove this one line below when design is ready.
+    language_list = { EN: 'English' };
     return language_list;
 };
 

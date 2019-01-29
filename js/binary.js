@@ -722,7 +722,6 @@ var CryptoConfig = function () {
             ETH: { name: localize('Ether'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
             ETC: { name: localize('Ether Classic'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
             LTC: { name: localize('Litecoin'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
-            DAI: { name: localize('Dai'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
             UST: { name: localize('Tether'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 }
         };
     };
@@ -13027,9 +13026,16 @@ var isIndonesia = function isIndonesia() {
     return State.getResponse('website_status.clients_country') === 'id';
 };
 
+var isExcludedFromCfd = function isExcludedFromCfd() {
+    var cfd_excluded_regex = new RegExp('^fr$');
+    var clients_country = Client.get('residence') || State.getResponse('website_status.clients_country');
+    return cfd_excluded_regex.test(clients_country);
+};
+
 module.exports = {
     isEuCountry: isEuCountry,
-    isIndonesia: isIndonesia
+    isIndonesia: isIndonesia,
+    isExcludedFromCfd: isExcludedFromCfd
 };
 
 /***/ }),
@@ -14475,7 +14481,6 @@ var AccountTransfer = function () {
         el_transfer_fee = void 0,
         el_fee_amount = void 0,
         el_fee_minimum = void 0,
-        el_transfer_info = void 0,
         el_success_form = void 0,
         client_balance = void 0,
         client_currency = void 0,
@@ -14508,7 +14513,7 @@ var AccountTransfer = function () {
             el_transfer_to.innerHTML = fragment_transfer_to.innerHTML;
             el_transfer_to.onchange = function () {
                 var to_currency = el_transfer_to.options[el_transfer_to.selectedIndex].getAttribute('data-currency');
-                el_transfer_info.setVisibility(client_currency !== to_currency);
+                el_transfer_fee.setVisibility(client_currency !== to_currency);
                 setTransferFeeAmount();
             };
         } else {
@@ -14531,7 +14536,7 @@ var AccountTransfer = function () {
             el_transfer_fee.setVisibility(1);
         } else {
             var to_currency = el_transfer_to.getAttribute('data-currency');
-            el_transfer_info.setVisibility(client_currency !== to_currency);
+            el_transfer_fee.setVisibility(client_currency !== to_currency);
         }
     };
 
@@ -14606,7 +14611,6 @@ var AccountTransfer = function () {
         });
 
         el_transfer_fee.setVisibility(0);
-        el_transfer_info.setVisibility(0);
         el_success_form.setVisibility(1);
     };
 
@@ -14625,7 +14629,6 @@ var AccountTransfer = function () {
         el_transfer_fee = getElementById('transfer_fee');
         el_fee_amount = getElementById('transfer_fee_amount');
         el_fee_minimum = getElementById('transfer_fee_minimum');
-        el_transfer_info = getElementById('transfer_info');
         el_success_form = getElementById('success_form');
         el_reset_transfer = getElementById('reset_transfer');
         el_reset_transfer.addEventListener('click', onClickReset);
@@ -14771,7 +14774,7 @@ var Cashier = function () {
                         var list = getPropertyValue(response, ['paymentagent_list', 'list']);
                         if (list && list.length) {
                             var regex_currency = new RegExp(currency);
-                            if (!/^(UST|DAI)$/.test(currency) || list.find(function (pa) {
+                            if (!/^UST$/.test(currency) || list.find(function (pa) {
                                 return regex_currency.test(pa.currencies);
                             })) {
                                 $('#payment-agent-section').setVisibility(1);
@@ -35596,6 +35599,10 @@ module.exports = Platforms;
 "use strict";
 
 
+var BinarySocket = __webpack_require__(/*! ../../app/base/socket */ "./src/javascript/app/base/socket.js");
+var isExcludedFromCfd = __webpack_require__(/*! ../../app/common/country_base */ "./src/javascript/app/common/country_base.js").isExcludedFromCfd;
+var getElementById = __webpack_require__(/*! ../../../javascript/_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
+
 var Regulation = function () {
     var onLoad = function onLoad() {
         $(function () {
@@ -35617,6 +35624,14 @@ var Regulation = function () {
                 // if EU passport rights tab is active, call relocateLinks to initialize map coordinates
                 if (!$accordion.accordion('option', 'active')) {
                     relocateLinks();
+                }
+            });
+
+            BinarySocket.wait('website_status', 'authorize').then(function () {
+                if (isExcludedFromCfd()) {
+                    var el_cfd_fillbox = getElementById('cfd_fillbox');
+                    el_cfd_fillbox.nextSibling.classList.remove('margin-left-0');
+                    el_cfd_fillbox.remove();
                 }
             });
         });
