@@ -5803,7 +5803,7 @@ var InputField = function InputField(_ref) {
             e.target.value = e.target.value.replace(unit, '').trim();
         }
 
-        if (e.target.value === value) {
+        if (e.target.value === value && type !== 'checkbox') {
             return;
         }
 
@@ -22973,15 +22973,16 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
     }, {
         key: 'changeAllowEquals',
         value: function changeAllowEquals() {
-            var _this6 = this;
+            var hasCallPutEqual = function hasCallPutEqual(contract_type_list) {
+                if (!contract_type_list) return false;
 
-            var hasCallPutEqual = function hasCallPutEqual() {
-                var up_down_contracts = (0, _utility.getPropertyValue)(_this6.contract_types_list, 'Up/Down');
-                return up_down_contracts.some(function (contract) {
+                return (0, _utility.getPropertyValue)(contract_type_list, 'Up/Down').some(function (contract) {
                     return contract.value === 'rise_fall_equal';
                 });
             };
             var hasDurationForCallPutEqual = function hasDurationForCallPutEqual(contract_type_list, duration_unit, contract_start_type) {
+                if (!contract_type_list || !duration_unit || !contract_start_type) return false;
+
                 var contract_list = Object.keys(contract_type_list || {}).reduce(function (key, list) {
                     return [].concat(_toConsumableArray(key), _toConsumableArray(contract_type_list[list].map(function (contract) {
                         return contract.value;
@@ -22993,7 +22994,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                 });
 
                 // Check whether rise fall equal is exists and has the current store duration unit
-                return hasCallPutEqual() ? contract_duration_list.filter(function (contract) {
+                return hasCallPutEqual(contract_type_list) ? contract_duration_list.filter(function (contract) {
                     return contract.rise_fall_equal;
                 })[0].rise_fall_equal.some(function (duration) {
                     return duration.value === duration_unit;
@@ -23006,7 +23007,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                 this.is_equal_checked = 0;
             }
 
-            if (/^(rise_fall|rise_fall_equal)$/.test(this.contract_type) && (check_callput_equal_duration || this.expiry_type === 'endtime') && hasCallPutEqual()) {
+            if (/^(rise_fall|rise_fall_equal)$/.test(this.contract_type) && (check_callput_equal_duration || this.expiry_type === 'endtime') && hasCallPutEqual(this.contract_types_list)) {
                 this.is_allow_equal = true;
             } else {
                 this.is_allow_equal = false;
@@ -23015,7 +23016,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
     }, {
         key: 'accountSwitcherListener',
         value: function accountSwitcherListener() {
-            var _this7 = this;
+            var _this6 = this;
 
             return new Promise(function () {
                 var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(resolve) {
@@ -23024,21 +23025,21 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                             switch (_context5.prev = _context5.next) {
                                 case 0:
                                     _context5.next = 2;
-                                    return _this7.refresh();
+                                    return _this6.refresh();
 
                                 case 2:
                                     _context5.next = 4;
-                                    return _this7.prepareTradeStore();
+                                    return _this6.prepareTradeStore();
 
                                 case 4:
-                                    return _context5.abrupt('return', resolve(_this7.debouncedProposal()));
+                                    return _context5.abrupt('return', resolve(_this6.debouncedProposal()));
 
                                 case 5:
                                 case 'end':
                                     return _context5.stop();
                             }
                         }
-                    }, _callee5, _this7);
+                    }, _callee5, _this6);
                 }));
 
                 return function (_x4) {
@@ -23050,7 +23051,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
         key: 'onMount',
         value: function () {
             var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-                var _this8 = this;
+                var _this7 = this;
 
                 return regeneratorRuntime.wrap(function _callee6$(_context6) {
                     while (1) {
@@ -23062,7 +23063,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                             case 2:
                                 this.debouncedProposal();
                                 (0, _mobx.runInAction)(function () {
-                                    _this8.is_trade_component_mounted = true;
+                                    _this7.is_trade_component_mounted = true;
                                 });
                                 this.updateQueryString();
                                 this.onSwitchAccount(this.accountSwitcherListener);
@@ -23257,7 +23258,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
 }), _descriptor34 = _applyDecoratedDescriptor(_class.prototype, 'init', [_dec], {
     enumerable: true,
     initializer: function initializer() {
-        var _this9 = this;
+        var _this8 = this;
 
         return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
             return regeneratorRuntime.wrap(function _callee7$(_context7) {
@@ -23272,7 +23273,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                             return _context7.stop();
                     }
                 }
-            }, _callee7, _this9);
+            }, _callee7, _this8);
         }));
     }
 }), _applyDecoratedDescriptor(_class.prototype, 'refresh', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'refresh'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'prepareTradeStore', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'prepareTradeStore'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onChangeAsync', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'onChangeAsync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onChange', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'onChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onHoverPurchase', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'onHoverPurchase'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onPurchase', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'onPurchase'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onClickNewTrade', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'onClickNewTrade'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateStore', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'updateStore'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'requestProposal', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'requestProposal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onProposalResponse', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'onProposalResponse'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onChartBarrierChange', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'onChartBarrierChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateQueryString', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'updateQueryString'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'changeDurationValidationRules', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'changeDurationValidationRules'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'changeAllowEquals', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'changeAllowEquals'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'accountSwitcherListener', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'accountSwitcherListener'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype)), _class));
