@@ -16870,7 +16870,7 @@ var _localize = __webpack_require__(/*! ../../../../../../_common/localize */ ".
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ContractTypeItem = function ContractTypeItem(_ref) {
+var TradeTypeInfoItem = function TradeTypeInfoItem(_ref) {
     var handleNavigationClick = _ref.handleNavigationClick,
         handleNextClick = _ref.handleNextClick,
         handlePrevClick = _ref.handlePrevClick,
@@ -16908,9 +16908,13 @@ var ContractTypeItem = function ContractTypeItem(_ref) {
             { className: 'info-content' },
             _react2.default.createElement(_trade_categories.TradeCategories, { category: item.value })
         ),
-        _react2.default.createElement(_button2.default, { className: 'info-choose', text: (0, _localize.localize)('CHOOSE'), onClick: function onClick() {
-                return onSubmitButtonClick(item);
-            } }),
+        _react2.default.createElement(
+            'div',
+            { className: 'info-choose' },
+            _react2.default.createElement(_button2.default, { text: (0, _localize.localize)('Choose'), onClick: function onClick() {
+                    return onSubmitButtonClick(item);
+                } })
+        ),
         _react2.default.createElement(
             'div',
             { className: 'info-navigation' },
@@ -16948,7 +16952,7 @@ var ContractTypeItem = function ContractTypeItem(_ref) {
     );
 };
 
-ContractTypeItem.propTypes = {
+TradeTypeInfoItem.propTypes = {
     handleNavigationClick: _propTypes2.default.func,
     handleNextClick: _propTypes2.default.func,
     handlePrevClick: _propTypes2.default.func,
@@ -16959,7 +16963,7 @@ ContractTypeItem.propTypes = {
     onSubmitButtonClick: _propTypes2.default.func
 };
 
-exports.default = ContractTypeItem;
+exports.default = TradeTypeInfoItem;
 
 /***/ }),
 
