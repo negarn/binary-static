@@ -821,6 +821,8 @@ var Elevio = function () {
             var current_language = getLanguage().toLowerCase();
             if (available_elev_languages.indexOf(current_language) !== -1) {
                 window._elev.setLanguage(current_language); // eslint-disable-line no-underscore-dangle
+            } else {
+                window._elev.setLanguage('en');
             }
             setUserInfo(elev);
             setTranslations(elev);
@@ -21717,7 +21719,8 @@ var DigitTicker = function () {
 
     // Calculate peek-box left offset.
     var calculateOffset = function calculateOffset() {
-        var left_offset = document.querySelector('.digit-' + current_spot).offsetLeft;
+        var current_spot_digit = document.querySelector('.digit-' + current_spot);
+        var left_offset = current_spot_digit ? current_spot_digit.offsetLeft : 0;
         return left_offset - style_offset_correction;
     };
 
@@ -21775,6 +21778,9 @@ var DigitTicker = function () {
         var quote = _ref.quote,
             epoch = _ref.epoch;
 
+        if (current_tick_count > total_tick_count) {
+            return;
+        }
         setElements(epoch);
         el_container.classList.remove('invisible');
         adjustBoxSizes();
@@ -24983,7 +24989,8 @@ var Purchase = function () {
     var payout_value = void 0,
         cost_value = void 0,
         profit_value = void 0,
-        status = void 0;
+        status = void 0,
+        contract_duration = void 0;
 
     var replaceElement = function replaceElement(container, child) {
         container.querySelectorAll('.row').forEach(function (item) {
@@ -25030,6 +25037,7 @@ var Purchase = function () {
         var error = details.error;
         var has_chart = !/^(digits|highlowticks)$/.test(Contract.form());
         var show_chart = !error && passthrough.duration <= 10 && passthrough.duration_unit === 't';
+        contract_duration = details.echo_req.passthrough.duration;
 
         if (error) {
             var balance = State.getResponse('balance.balance');
@@ -25207,11 +25215,15 @@ var Purchase = function () {
 
                         // force to sell the expired contract, in order to get the final status
                         if (+contract.is_settleable === 1 && !contract.is_sold) {
-                            BinarySocket.send({ sell_expired: 1 });
+                            sellExpired();
                         }
                     }
                 } });
         }
+    };
+
+    var sellExpired = function sellExpired() {
+        return BinarySocket.send({ sell_expired: 1 });
     };
 
     var makeBold = function makeBold(d) {
@@ -25276,6 +25288,11 @@ var Purchase = function () {
 
             if (CommonFunctions.isVisible(spots) && tick_d.epoch && tick_d.epoch > purchase_data.buy.start_time) {
                 var current_tick_count = spots.getElementsByClassName('row').length + 1;
+                if (contract_duration && +contract_duration < current_tick_count) {
+                    sellExpired();
+                    duration = 0;
+                    break;
+                }
 
                 var is_winning_tick = false;
                 if (tick_config.is_tick_high || tick_config.is_tick_low) {
