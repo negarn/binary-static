@@ -9724,7 +9724,7 @@ var IconCalendar = function IconCalendar(_ref) {
             className: className,
             onClick: onClick
         },
-        _react2.default.createElement('path', { fill: '#5C5C5C', fillRule: 'evenodd', d: 'M13.875 2H12v-.438a.562.562 0 1 0-1.125 0V2h-5.75v-.438a.562.562 0 1 0-1.125 0V2H2.125C1.503 2 1 2.503 1 3.125v10.75C1 14.497 1.503 15 2.125 15h11.75c.622 0 1.125-.505 1.125-1.125V3.125C15 2.503 14.497 2 13.875 2zM2.125 3.125H4v.313a.562.562 0 1 0 1.125 0v-.313h5.75v.313a.562.562 0 1 0 1.125 0v-.313h1.875v1.75H2.125v-1.75zm11.75 10.75H2.125V6h11.75v7.875zM4.5 8h1a.5.5 0 1 1 0 1h-1a.5.5 0 1 1 0-1zm3 0h1a.5.5 0 1 1 0 1h-1a.5.5 0 1 1 0-1zm3 0h1a.5.5 0 1 1 0 1h-1a.5.5 0 1 1 0-1zm-6 3.031h1a.5.5 0 1 1 0 1h-1a.5.5 0 1 1 0-1zm3 0h1a.5.5 0 1 1 0 1h-1a.5.5 0 1 1 0-1z' })
+        _react2.default.createElement('path', { fill: '#000', fillOpacity: '.8', fillRule: 'nonzero', d: 'M4 3H2v11h12V3h-2v.5a.5.5 0 1 1-1 0V3H5v.5a.5.5 0 0 1-1 0V3zm1-1h6v-.5a.5.5 0 1 1 1 0V2h2a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h2v-.5a.5.5 0 0 1 1 0V2zM2 5h12v1H2V5z' })
     );
 };
 
@@ -9821,7 +9821,7 @@ var IconChevronDoubleLeft = function IconChevronDoubleLeft(_ref) {
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
-        _react2.default.createElement('path', { fill: '#5C5C5C', fillRule: 'evenodd', d: 'M4.247 8l4.587 4.128a.5.5 0 0 1-.668.744l-5-4.5a.5.5 0 0 1 0-.744l5-4.5a.5.5 0 0 1 .668.744L4.247 8zm8.587 4.128a.5.5 0 0 1-.668.744l-5-4.5a.5.5 0 0 1 0-.744l5-4.5a.5.5 0 0 1 .668.744L8.247 8l4.587 4.128z' })
+        _react2.default.createElement('path', { fill: 'rgba(0, 0, 0, 0.8)', fillRule: 'evenodd', d: 'M4.247 8l4.587 4.128a.5.5 0 0 1-.668.744l-5-4.5a.5.5 0 0 1 0-.744l5-4.5a.5.5 0 0 1 .668.744L4.247 8zm8.587 4.128a.5.5 0 0 1-.668.744l-5-4.5a.5.5 0 0 1 0-.744l5-4.5a.5.5 0 0 1 .668.744L8.247 8l4.587 4.128z' })
     );
 };
 
@@ -9867,7 +9867,7 @@ var IconChevronDoubleRight = function IconChevronDoubleRight(_ref) {
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
-        _react2.default.createElement('path', { fill: '#5C5C5C', fillRule: 'evenodd', d: 'M7.753 8L3.166 3.872a.5.5 0 0 1 .668-.744l5 4.5a.5.5 0 0 1 0 .744l-5 4.5a.5.5 0 1 1-.668-.744L7.753 8zm4 0L7.166 3.872a.5.5 0 0 1 .668-.744l5 4.5a.5.5 0 0 1 0 .744l-5 4.5a.5.5 0 1 1-.668-.744L11.753 8z' })
+        _react2.default.createElement('path', { fill: 'rgba(0, 0, 0, 0.8)', fillRule: 'evenodd', d: 'M7.753 8L3.166 3.872a.5.5 0 0 1 .668-.744l5 4.5a.5.5 0 0 1 0 .744l-5 4.5a.5.5 0 1 1-.668-.744L7.753 8zm4 0L7.166 3.872a.5.5 0 0 1 .668-.744l5 4.5a.5.5 0 0 1 0 .744l-5 4.5a.5.5 0 1 1-.668-.744L11.753 8z' })
     );
 };
 
@@ -9913,7 +9913,7 @@ var IconChevronLeft = function IconChevronLeft(_ref) {
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
-        _react2.default.createElement('path', { fill: '#5C5C5C', fillRule: 'evenodd', d: 'M6.247 8l4.587 4.128a.5.5 0 0 1-.668.744l-5-4.5a.5.5 0 0 1 0-.744l5-4.5a.5.5 0 0 1 .668.744L6.247 8z' })
+        _react2.default.createElement('path', { fill: 'rgba(0, 0, 0, 0.8)', fillRule: 'evenodd', d: 'M6.247 8l4.587 4.128a.5.5 0 0 1-.668.744l-5-4.5a.5.5 0 0 1 0-.744l5-4.5a.5.5 0 0 1 .668.744L6.247 8z' })
     );
 };
 
@@ -9959,7 +9959,7 @@ var IconChevronRight = function IconChevronRight(_ref) {
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
-        _react2.default.createElement('path', { fill: '#5C5C5C', fillRule: 'evenodd', d: 'M9.753 8L5.166 3.872a.5.5 0 0 1 .668-.744l5 4.5a.5.5 0 0 1 0 .744l-5 4.5a.5.5 0 1 1-.668-.744L9.753 8z' })
+        _react2.default.createElement('path', { fill: 'rgba(0, 0, 0, 0.8)', fillRule: 'evenodd', d: 'M9.753 8L5.166 3.872a.5.5 0 0 1 .668-.744l5 4.5a.5.5 0 0 1 0 .744l-5 4.5a.5.5 0 1 1-.668-.744L9.753 8z' })
     );
 };
 
@@ -10059,7 +10059,12 @@ var IconClock = function IconClock(_ref) {
             className: className,
             onClick: onClick
         },
-        _react2.default.createElement('path', { fill: '#7F8397', fillRule: 'evenodd', d: 'M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16zm2.854-5.854a.5.5 0 0 1-.708.708l-2.5-2.5A.5.5 0 0 1 7.5 8V3.5a.5.5 0 0 1 1 0v4.293l2.354 2.353z' })
+        _react2.default.createElement(
+            'g',
+            { fill: 'none', fillRule: 'nonzero', stroke: '#5C5C5C' },
+            _react2.default.createElement('circle', { cx: '8', cy: '8', r: '7.5' }),
+            _react2.default.createElement('path', { strokeLinecap: 'round', strokeLinejoin: 'round', d: 'M8 3.5v5h3.5' })
+        )
     );
 };
 
