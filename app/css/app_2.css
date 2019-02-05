@@ -3015,6 +3015,10 @@ div.contracts-popup-container {
         color: #ffffff; }
       .theme-wrapper.dark div.contracts-popup-container .list-container .list-group .list-items .list-item:hover:not(.selected) {
         background: #202641; }
+      .theme-wrapper.dark div.contracts-popup-container .list-container .list-group .list-items .list-item .trade-type-info-icon g circle {
+        stroke: #7f8397; }
+      .theme-wrapper.dark div.contracts-popup-container .list-container .list-group .list-items .list-item .trade-type-info-icon g g {
+        fill: #7f8397; }
   .theme-wrapper.dark div.contracts-popup-container .category-wrapper {
     background: #2a3052; }
     .theme-wrapper.dark div.contracts-popup-container .category-wrapper .category-type path:not(.important), .theme-wrapper.dark div.contracts-popup-container .category-wrapper .category-type rect:not(.important) {

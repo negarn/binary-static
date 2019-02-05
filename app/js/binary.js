@@ -10315,10 +10315,10 @@ exports.IconPlus = IconPlus;
 
 /***/ }),
 
-/***/ "./src/javascript/app_2/Assets/Common/icon_tooltip_light.jsx":
-/*!*******************************************************************!*\
-  !*** ./src/javascript/app_2/Assets/Common/icon_tooltip_light.jsx ***!
-  \*******************************************************************/
+/***/ "./src/javascript/app_2/Assets/Common/icon_tooltip.jsx":
+/*!*************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Common/icon_tooltip.jsx ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10328,7 +10328,7 @@ exports.IconPlus = IconPlus;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.IconTooltipLight = undefined;
+exports.IconTooltip = undefined;
 
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
@@ -10340,7 +10340,7 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var IconTooltipLight = function IconTooltipLight(_ref) {
+var IconTooltip = function IconTooltip(_ref) {
     var className = _ref.className;
     return _react2.default.createElement(
         'svg',
@@ -10359,11 +10359,11 @@ var IconTooltipLight = function IconTooltipLight(_ref) {
     );
 };
 
-IconTooltipLight.propTypes = {
+IconTooltip.propTypes = {
     className: _propTypes2.default.string
 };
 
-exports.IconTooltipLight = IconTooltipLight;
+exports.IconTooltip = IconTooltip;
 
 /***/ }),
 
@@ -14404,7 +14404,7 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _icon_tooltip_light = __webpack_require__(/*! ../../../../../Assets/Common/icon_tooltip_light.jsx */ "./src/javascript/app_2/Assets/Common/icon_tooltip_light.jsx");
+var _icon_tooltip = __webpack_require__(/*! ../../../../../Assets/Common/icon_tooltip.jsx */ "./src/javascript/app_2/Assets/Common/icon_tooltip.jsx");
 
 var _Categories = __webpack_require__(/*! ../../../../../Assets/Trading/Categories */ "./src/javascript/app_2/Assets/Trading/Categories/index.js");
 
@@ -14439,7 +14439,7 @@ var ContractTypeItem = function ContractTypeItem(_ref) {
                 { id: 'info-icon', className: 'trade-type-info-icon', onClick: function onClick() {
                         return handleInfoClick(contract);
                     } },
-                _react2.default.createElement(_icon_tooltip_light.IconTooltipLight, null)
+                _react2.default.createElement(_icon_tooltip.IconTooltip, null)
             )
         );
     });
