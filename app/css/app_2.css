@@ -2885,17 +2885,17 @@ div.contracts-popup-container {
       right: calc(100% + 10px);
       top: -54px;
       z-index: 2;
-      background: #101320;
+      background: #f4f4f6;
       border-radius: 4px;
       padding: 8px;
-      -webkit-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
-              box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.5); }
+      -webkit-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
+              box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16); }
       div.contracts-popup-container .trade-type-info-popup .trade-type-info .info-header {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        padding: 8px;
-        height: 40px; }
+        line-height: 24px;
+        margin-bottom: 8px; }
         div.contracts-popup-container .trade-type-info-popup .trade-type-info .info-header .title {
           margin-left: 15px;
           font-size: 14px;
@@ -2940,10 +2940,10 @@ div.contracts-popup-container {
             border-radius: 50%;
             display: inline-block;
             margin: 0 5px;
-            background-color: rgba(0, 0, 0, 0.16);
+            background-color: #ffffff;
             cursor: pointer; }
             div.contracts-popup-container .trade-type-info-popup .trade-type-info .info-navigation__list .circle-button.active {
-              background-color: rgba(0, 0, 0, 0.04); }
+              background-color: #999cac; }
         div.contracts-popup-container .trade-type-info-popup .trade-type-info .info-navigation__icon {
           cursor: pointer; }
     div.contracts-popup-container .trade-type-info-popup-enter, div.contracts-popup-container .trade-type-info-popup-exit {
@@ -3024,9 +3024,7 @@ div.contracts-popup-container {
         color: #ffffff; }
       .theme-wrapper.dark div.contracts-popup-container .list-container .list-group .list-items .list-item:hover:not(.selected) {
         background: #202641; }
-      .theme-wrapper.dark div.contracts-popup-container .list-container .list-group .list-items .list-item .trade-type-info-icon g circle {
-        stroke: #7f8397; }
-      .theme-wrapper.dark div.contracts-popup-container .list-container .list-group .list-items .list-item .trade-type-info-icon g g {
+      .theme-wrapper.dark div.contracts-popup-container .list-container .list-group .list-items .list-item .trade-type-info-icon svg path {
         fill: #7f8397; }
   .theme-wrapper.dark div.contracts-popup-container .category-wrapper {
     background: #2a3052; }
@@ -3039,18 +3037,23 @@ div.contracts-popup-container {
 
 .theme-wrapper.dark .trade-type-info-popup .trade-type-info {
   background-color: #101320; }
+  .theme-wrapper.dark .trade-type-info-popup .trade-type-info .info-header svg path {
+    fill: #7f8397; }
   .theme-wrapper.dark .trade-type-info-popup .trade-type-info .info-header .title {
-    color: #101320; }
+    color: #7f8397; }
   .theme-wrapper.dark .trade-type-info-popup .trade-type-info .info-header span {
     cursor: pointer; }
   .theme-wrapper.dark .trade-type-info-popup .trade-type-info .info-gif {
-    background-color: #101320; }
+    background-color: #101320;
+    color: rgba(127, 131, 151, 0.3); }
   .theme-wrapper.dark .trade-type-info-popup .trade-type-info .info-content {
-    color: rgba(0, 0, 0, 0.8); }
-  .theme-wrapper.dark .trade-type-info-popup .trade-type-info .info-navigation___list .circle-button {
-    background-color: #ffffff; }
-    .theme-wrapper.dark .trade-type-info-popup .trade-type-info .info-navigation___list .circle-button.active {
-      background-color: rgba(153, 156, 172, 0.32); }
+    color: #7f8397; }
+  .theme-wrapper.dark .trade-type-info-popup .trade-type-info .info-navigation__list .circle-button {
+    background-color: rgba(127, 131, 151, 0.3); }
+    .theme-wrapper.dark .trade-type-info-popup .trade-type-info .info-navigation__list .circle-button.active {
+      background-color: #7f8397; }
+  .theme-wrapper.dark .trade-type-info-popup .trade-type-info .info-navigation__icon svg path {
+    fill: #7f8397; }
 
 .table {
   display: -webkit-box;
