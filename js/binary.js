@@ -722,7 +722,8 @@ var CryptoConfig = function () {
             ETH: { name: localize('Ether'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
             ETC: { name: localize('Ether Classic'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
             LTC: { name: localize('Litecoin'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
-            UST: { name: localize('Tether'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 }
+            UST: { name: localize('Tether'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
+            USB: { name: localize('Binary Coin'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 }
         };
     };
 
@@ -1465,6 +1466,7 @@ var BinarySocketBase = function () {
     var wrong_app_id = 0;
     var is_available = true;
     var is_disconnect_called = false;
+    var is_connected_before = false;
 
     var socket_url = getSocketURL() + '?app_id=' + getAppId() + '&l=' + getLanguage();
     var timeouts = {};
@@ -1677,6 +1679,14 @@ var BinarySocketBase = function () {
             if (typeof config.onOpen === 'function') {
                 config.onOpen(isReady());
             }
+
+            if (typeof config.onReconnect === 'function' && is_connected_before) {
+                config.onReconnect();
+            }
+
+            if (!is_connected_before) {
+                is_connected_before = true;
+            }
         };
 
         binary_socket.onmessage = function (msg) {
@@ -1753,6 +1763,12 @@ var BinarySocketBase = function () {
         },
         setOnDisconnect: function setOnDisconnect(onDisconnect) {
             config.onDisconnect = onDisconnect;
+        },
+        setOnReconnect: function setOnReconnect(onReconnect) {
+            config.onReconnect = onReconnect;
+        },
+        removeOnReconnect: function removeOnReconnect() {
+            delete config.onReconnect;
         },
         removeOnDisconnect: function removeOnDisconnect() {
             delete config.onDisconnect;
@@ -9509,6 +9525,7 @@ var BinaryLoader = function () {
     var beforeContentChange = function beforeContentChange() {
         if (active_script) {
             BinarySocket.removeOnDisconnect();
+            BinarySocket.removeOnReconnect();
             if (typeof active_script.onUnload === 'function') {
                 active_script.onUnload();
             }
@@ -9541,6 +9558,7 @@ var BinaryLoader = function () {
 
             ScrollToAnchor.init();
         });
+        BinarySocket.setOnReconnect(active_script.onReconnect);
     };
 
     var error_messages = {
@@ -11209,8 +11227,8 @@ var Page = function () {
             window.addEventListener('storage', function (evt) {
                 switch (evt.key) {
                     case 'active_loginid':
-                        // not the active tab and logged out or loginid switch
-                        if (document.hidden && (evt.newValue === '' || !window.is_logging_in)) {
+                        // reload the page when the client changes account on other pages.
+                        if (evt.newValue === '' || !window.is_logging_in) {
                             reload();
                         }
                         break;
@@ -12689,7 +12707,7 @@ var ChartSettings = function () {
         var barrier = params.is_reset_barrier ? labels.reset_barrier : barrier_style;
         var start_time = labels.getStartTime(params.is_tick_trade);
         var highest_lowest = /^tickhigh_/i.test(params.shortcode) ? labels.highest_tick : labels.lowest_tick;
-        txt_subtitle = (params.is_chart_delayed ? labels.delay : '') + (params.is_forward_starting ? labels.purchase_time : '') + (params.is_sold_before_start ? '' : start_time) + (history ? params.is_sold_before_start || params.is_tick_trade ? '' : labels.entry_spot : '') + (params.has_barrier && !params.is_sold_before_start ? barrier : '') + (history ? params.is_user_sold || params.is_tick_trade ? '' : labels.exit_spot : '') + (isReset(params.contract_type) ? labels.reset_time : '') + (is_high_low_ticks ? labels.selected_tick : '') + (is_high_low_ticks ? highest_lowest : '') + (params.show_end_time ? labels.getEndTime(params.is_tick_trade) : '') + (isCallputspread(params.contract_type) ? labels.payout_range : '');
+        txt_subtitle = (params.is_chart_delayed ? labels.delay : '') + (params.is_forward_starting ? labels.purchase_time : '') + (params.is_sold_before_start ? '' : start_time) + (params.is_tick_type ? params.is_sold_before_start || params.is_tick_trade ? '' : labels.entry_spot : '') + (params.has_barrier && !params.is_sold_before_start ? barrier : '') + (params.is_tick_type ? params.is_user_sold || params.is_tick_trade ? '' : labels.exit_spot : '') + (isReset(params.contract_type) ? labels.reset_time : '') + (is_high_low_ticks ? labels.selected_tick : '') + (is_high_low_ticks ? highest_lowest : '') + (params.show_end_time ? labels.getEndTime(params.is_tick_trade) : '') + (isCallputspread(params.contract_type) ? labels.payout_range : '');
     };
 
     var setChartOptions = function setChartOptions(params) {
@@ -17474,7 +17492,9 @@ var MBTradePage = function () {
         $('.container').css('max-width', '1200px');
         // if not loaded by pjax, balance update function calls TopUpVirtualPopup
         if (State.get('is_loaded_by_pjax')) {
-            TopUpVirtualPopup.init(State.getResponse('balance.balance'));
+            BinarySocket.wait('balance').then(function () {
+                TopUpVirtualPopup.init(State.getResponse('balance.balance'));
+            });
         }
     };
 
@@ -19322,6 +19342,7 @@ var addComma = __webpack_require__(/*! ../../../common/currency */ "./src/javasc
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var getPropertyValue = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
+var isEmptyObject = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
 
 var Highchart = function () {
     var chart = void 0,
@@ -19352,13 +19373,14 @@ var Highchart = function () {
         is_history_send = void 0,
         is_entry_tick_barrier_selected = void 0,
         is_response_id_set = void 0,
+        is_tick_type = void 0,
         prev_barriers = void 0; // For checking if barrier was updated
 
     var initOnce = function initOnce() {
         chart = options = response_id = request = min_point = max_point = '';
         lines_drawn = new Set();
 
-        is_initialized = is_chart_delayed = is_chart_subscribed = stop_streaming = is_response_id_set = is_contracts_for_send = is_history_send = is_entry_tick_barrier_selected = false;
+        is_initialized = is_chart_delayed = is_chart_subscribed = stop_streaming = is_response_id_set = is_contracts_for_send = is_history_send = is_entry_tick_barrier_selected = is_tick_type = false;
     };
 
     var initializeValues = function initializeValues() {
@@ -19478,6 +19500,7 @@ var Highchart = function () {
         return {
             is_chart_delayed: is_chart_delayed,
             is_reset_barrier: is_reset_barrier,
+            is_tick_type: is_tick_type,
             contract_type: contract.contract_type,
             is_forward_starting: purchase_time !== start_time,
             is_sold_before_start: sell_time < start_time,
@@ -19527,6 +19550,7 @@ var Highchart = function () {
             var tick = response.tick;
             var ohlc = response.ohlc;
             response_id = response[type].id;
+            is_tick_type = !isEmptyObject(history) || !isEmptyObject(tick);
             // send view popup the response ID so view popup can forget the calls if it's closed before contract ends
             if (response_id && !is_response_id_set) {
                 if (State.get('is_trading') || State.get('is_mb_trading')) {
@@ -21757,9 +21781,9 @@ var DigitTicker = function () {
     };
 
     var setElements = function setElements() {
-        el_peek = el_container.querySelector('.peek');
-        el_peek_box = el_container.querySelector('.peek-box');
-        el_mask = el_peek_box.querySelector('.peek-box > .mask');
+        el_peek = el_container ? el_container.querySelector('.peek') : null;
+        el_peek_box = el_peek ? el_container.querySelector('.peek-box') : null;
+        el_mask = el_peek_box ? el_peek_box.querySelector('.mask') : null;
     };
 
     var isBarrierMissing = function isBarrierMissing(contract_type, bar) {
@@ -21879,13 +21903,19 @@ var DigitDisplay = function () {
         tick_count = void 0,
         spot_times = void 0;
 
+    // Subscribe if contract is still ongoing/running.
     var subscribe = function subscribe(request) {
-        // Subscribe if contract is still ongoing/running.
-        if (contract.current_spot_time < contract.date_expiry) {
+        request.end = 'latest';
+
+        if (contract.exit_tick_time) {
+            request.end = +contract.exit_tick_time;
+            request.count = +contract.tick_count;
+            if (+contract.tick_count === 1) {
+                request.end += 1; // TODO: API sends the improper response when end and start are the same for 1 tick contracts. remove this block on fix
+            }
+        } else {
             request.subscribe = 1;
             request.end = 'latest';
-        } else {
-            request.end = contract.date_expiry;
         }
     };
 
@@ -21898,9 +21928,10 @@ var DigitDisplay = function () {
         $container.addClass('normal-font').html($('<h5 />', { text: contract.display_name, class: 'center-text' })).append($('<div />', { class: 'gr-8 gr-centered gr-12-m' }).append($('<div />', { class: 'gr-row', id: 'table_digits' }).append($('<strong />', { class: 'gr-3', text: localize('Tick') })).append($('<strong />', { class: 'gr-3', text: localize('Spot') })).append($('<strong />', { class: 'gr-6', text: localize('Spot Time (GMT)') })))).append($('<div />', { class: 'digit-ticker invisible', id: 'digit_ticker_container' }));
 
         DigitTicker.init('digit_ticker_container', contract.contract_type, contract.shortcode, contract.tick_count, contract.status);
+
         var request = {
             ticks_history: contract.underlying,
-            start: contract.date_start
+            start: +contract.entry_tick_time
         };
 
         subscribe(request);
@@ -21931,31 +21962,8 @@ var DigitDisplay = function () {
 
         DigitTicker.update(tick_count, {
             quote: contract.status !== 'open' ? contract.exit_tick : spot,
-            epoch: contract.status !== 'open' ? contract.exit_tick_time : contract.date_expiry
+            epoch: +contract.exit_tick_time || +contract.current_spot_time
         });
-    };
-
-    var redrawFromHistory = function redrawFromHistory(response) {
-        tick_count = 1;
-        if (!$container.is(':visible') || !response || !response.history) {
-            return;
-        }
-        $container.find('#table_digits').empty();
-        $container.find('#table_digits').append($('<strong />', { class: 'gr-3', text: localize('Tick') })).append($('<strong />', { class: 'gr-3', text: localize('Spot') })).append($('<strong />', { class: 'gr-6', text: localize('Spot Time (GMT)') }));
-
-        response.history.times.some(function (time, idx) {
-            if (+time >= +contract.entry_tick_time && time <= +contract.exit_tick_time) {
-                var spot = response.history.prices[idx];
-                var csv_spot = addComma(spot);
-
-                $container.find('#table_digits').append($('<p />', { class: 'gr-3', text: tick_count })).append($('<p />', { class: 'gr-3 gray', html: tick_count === contract.tick_count ? csv_spot.slice(0, csv_spot.length - 1) + '<strong>' + csv_spot.substr(-1) + '</strong>' : csv_spot })).append($('<p />', { class: 'gr-6 gray digit-spot-time no-underline', text: moment(+time * 1000).utc().format('YYYY-MM-DD HH:mm:ss') }));
-
-                tick_count += 1;
-            }
-            return tick_count > contract.tick_count;
-        });
-
-        showLocalTimeOnHover('.digit-spot-time');
     };
 
     var update = function update(response) {
@@ -21988,17 +21996,8 @@ var DigitDisplay = function () {
         if (proposal_open_contract.status !== 'open') {
             DigitTicker.update(proposal_open_contract.tick_count, {
                 quote: proposal_open_contract.exit_tick,
-                epoch: proposal_open_contract.exit_tick_time
+                epoch: +proposal_open_contract.exit_tick_time
             });
-
-            var request = {
-                ticks_history: contract.underlying,
-                start: contract.entry_tick_time,
-                end: contract.exit_tick_time
-            };
-
-            // force rerender the table by sending the history
-            BinarySocket.send(request, { callback: redrawFromHistory });
         }
         if (proposal_open_contract.status === 'won') {
             DigitTicker.markAsWon();
@@ -26557,7 +26556,9 @@ var TradePage = function () {
                 Header.upgradeMessageVisibility(); // To handle the upgrade buttons visibility
                 // if not loaded by pjax, balance update function calls TopUpVirtualPopup
                 if (State.get('is_loaded_by_pjax')) {
-                    TopUpVirtualPopup.init(State.getResponse('balance.balance'));
+                    BinarySocket.wait('balance').then(function () {
+                        TopUpVirtualPopup.init(State.getResponse('balance.balance'));
+                    });
                 }
             }
             Client.activateByClientType('trading_socket_container');
@@ -27684,7 +27685,20 @@ var PortfolioInit = function () {
         is_initialized = false;
     };
 
+    var onReconnect = function onReconnect() {
+        BinarySocket.wait('authorize', 'website_status').then(function () {
+            BinarySocket.send({ forget_all: ['proposal_open_contract'] });
+            SubscriptionManager.forgetAll('transaction').then(function () {
+                $('#portfolio-body').empty();
+                $('#portfolio-content').setVisibility(0);
+                is_initialized = false;
+                init();
+            });
+        });
+    };
+
     return {
+        onReconnect: onReconnect,
         updateBalance: updateBalance,
         onLoad: onLoad,
         onUnload: onUnload
@@ -28701,7 +28715,12 @@ var FinancialAssessment = function () {
             var data = { set_financial_assessment: 1 };
             showLoadingImage(getElementById('msg_form'));
             $(form_selector).find('select').each(function () {
-                financial_assessment[$(this).attr('id')] = data[$(this).attr('id')] = $(this).val() || null;
+                var $this = $(this);
+                var value = $this.val();
+                var id = $this.attr('id');
+                if (value.length) {
+                    financial_assessment[id] = data[id] = value;
+                }
             });
             BinarySocket.send(data).then(function (response) {
                 $btn_submit.removeAttr('disabled');
@@ -29609,10 +29628,10 @@ var professionalClient = function () {
         populateProfessionalClient(is_financial);
     };
 
-    var setVisible = function setVisible(selector) {
+    var setVisible = function setVisible($selector) {
         $('#loading').remove();
         $('#frm_professional').setVisibility(0);
-        $(selector).setVisibility(1);
+        $selector.setVisibility(1);
     };
 
     var populateProfessionalClient = function populateProfessionalClient(is_financial) {
@@ -29625,16 +29644,23 @@ var professionalClient = function () {
             return;
         }
 
+        var $professional = $('#professional');
+        var $processing = $('#processing');
+        var $rejected = $('#rejected');
+
+        $professional.setVisibility(0);
+        $processing.setVisibility(0);
+        $rejected.setVisibility(0);
+
         var status = State.getResponse('get_account_status.status') || [];
         if (is_in_page && status.includes('professional')) {
-            setVisible('#professional');
+            setVisible($professional);
             return;
         } else if (is_in_page && status.includes('professional_requested')) {
-            setVisible('#processing');
+            setVisible($processing);
             return;
         } else if (is_in_page && status.includes('professional_rejected')) {
-            setVisible('#rejected');
-            return;
+            setVisible($rejected);
         }
 
         var $container = $('#fs_professional');
@@ -30702,7 +30728,7 @@ var TopUpVirtualPopup = function () {
         }
         // this is only applicable to clients who have less than 1k balance and have not set popup to remain hidden
         var hide_virtual_top_up_until = should_ignore_hide ? 0 : Client.get('hide_virtual_top_up_until');
-        if (+balance >= 1000 || hide_virtual_top_up_until && moment.utc().diff(moment.unix(hide_virtual_top_up_until).utc(), 'day') < 1) {
+        if (+balance > 1000 || hide_virtual_top_up_until && moment.utc().diff(moment.unix(hide_virtual_top_up_until).utc(), 'day') < 1) {
             return false;
         }
 
@@ -32291,6 +32317,9 @@ var MetaTraderUI = function () {
                 };
                 $(this).html(typeof mapping[key] === 'function' ? mapping[key]() : info);
             });
+
+            setCounterpartyAndJurisdictionTooltip($('.acc-info div[data="login"]'), acc_type);
+
             // $container.find('.act_cashier').setVisibility(!types_info[acc_type].is_demo);
             if (current_action_ui !== 'new_account') {
                 $container.find('.has-account').setVisibility(1);
@@ -32681,6 +32710,26 @@ var MetaTraderUI = function () {
         if (MetaTraderConfig.hasAccount(acc_type) && accounts_info[acc_type].account_type === 'financial') {
             $('#financial_authenticate_msg').setVisibility(!MetaTraderConfig.isAuthenticated());
         }
+    };
+
+    var setCounterpartyAndJurisdictionTooltip = function setCounterpartyAndJurisdictionTooltip($el, acc_type) {
+        var mt_financial_company = State.getResponse('landing_company.mt_financial_company');
+        var mt_gaming_company = State.getResponse('landing_company.mt_gaming_company');
+        var account = accounts_info[acc_type];
+        var company = void 0;
+
+        if (/standard/.test(account.mt5_account_type)) {
+            company = mt_financial_company.standard;
+        } else if (/advanced/.test(account.mt5_account_type)) {
+            company = mt_financial_company.advanced;
+        } else if (account.account_type === 'gaming' || account.mt5_account_type === '' && account.account_type === 'demo') {
+            company = mt_gaming_company.standard;
+        }
+
+        $el.attr({
+            'data-balloon': localize('Counterparty') + ': ' + company.name + ', ' + localize('Jurisdiction') + ': ' + company.country,
+            'data-balloon-length': 'large'
+        });
     };
 
     return {
