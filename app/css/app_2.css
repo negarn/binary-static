@@ -5351,15 +5351,6 @@ a {
 .theme--dark .app-contents .portfolio-empty__text {
   color: rgba(127, 131, 151, 0.3) !important; }
 
-.theme--dark .app-contents .portfolio .type-wrapper {
-  background: #555975; }
-  .theme--dark .app-contents .portfolio .type-wrapper .type path:not(.important), .theme--dark .app-contents .portfolio .type-wrapper .type rect:not(.important) {
-    fill: #ffffff; }
-  .theme--dark .app-contents .portfolio .type-wrapper .type path.transparent, .theme--dark .app-contents .portfolio .type-wrapper .type rect.transparent {
-    fill: #555975; }
-  .theme--dark .app-contents .portfolio .type-wrapper .type .stroke-white {
-    stroke: #ffffff; }
-
 .settings__sidebar {
   width: 350px;
   position: fixed;
@@ -6403,6 +6394,14 @@ a {
         background: #ffffff; }
     .theme--dark footer .footer-links-left .ic-positions:after {
       background-color: #7f8397; }
+  .theme--dark .type-wrapper {
+    background: #555975; }
+    .theme--dark .type-wrapper .type path:not(.important), .theme--dark .type-wrapper .type rect:not(.important) {
+      fill: #ffffff; }
+    .theme--dark .type-wrapper .type path.transparent, .theme--dark .type-wrapper .type rect.transparent {
+      fill: #555975; }
+    .theme--dark .type-wrapper .type .stroke-white {
+      stroke: #ffffff; }
   .theme--dark .portfolio.container {
     background: #2a3052; }
   .theme--dark .portfolio-empty span, .theme--dark .statement-empty span {
