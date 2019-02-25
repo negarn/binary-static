@@ -823,7 +823,7 @@ var Elevio = function () {
             if (available_elev_languages.indexOf(current_language) !== -1) {
                 window._elev.setLanguage(current_language); // eslint-disable-line no-underscore-dangle
             } else {
-                window._elev.setLanguage('en');
+                window._elev.setLanguage('en'); // eslint-disable-line no-underscore-dangle
             }
             setUserInfo(elev);
             setTranslations(elev);
@@ -8988,6 +8988,7 @@ var ThirdPartyLinks = function () {
             return false;
         }
         return !!destination.host && !new RegExp('^.*\\.' + (getCurrentBinaryDomain() || 'binary\\.com') + '$').test(destination.host) // destination host is not binary subdomain
+        && !new RegExp('^.*\\.binary\\.bot$').test(destination.host) // destination host is not binary subdomain
         && !/www.(betonmarkets|xodds).com/.test(destination.host) // destination host is not binary old domain
         && window.location.host !== destination.host;
     };
@@ -9558,7 +9559,9 @@ var BinaryLoader = function () {
 
             ScrollToAnchor.init();
         });
-        BinarySocket.setOnReconnect(active_script.onReconnect);
+        if (active_script) {
+            BinarySocket.setOnReconnect(active_script.onReconnect);
+        }
     };
 
     var error_messages = {
@@ -14733,6 +14736,7 @@ var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var isCryptocurrency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").isCryptocurrency;
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
+var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var paramsHash = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").paramsHash;
 var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
@@ -14772,6 +14776,7 @@ var Cashier = function () {
 
     var displayTopUpButton = function displayTopUpButton() {
         BinarySocket.wait('balance').then(function (response) {
+            var el_virtual_topup_info = getElementById('virtual_topup_info');
             var balance = +response.balance.balance;
             var can_topup = balance <= 1000;
             var top_up_id = '#VRT_topup_link';
@@ -14785,6 +14790,7 @@ var Cashier = function () {
                 href = href || urlFor('/cashier/top_up_virtualws');
                 new_el.href = href;
             }
+            el_virtual_topup_info.innerText = can_topup ? localize('Your virtual account balance is currently [_1] or less. You may top up your account with an additional [_2].', [Client.get('currency') + ' 1,000.00', Client.get('currency') + ' 10,000.00']) : localize('You can top up your virtual account with an additional [_1] if your balance is [_2] or less.', [Client.get('currency') + ' 10,000.00', Client.get('currency') + ' 1,000.00']);
             $a.replaceWith($('<a/>', new_el));
             $(top_up_id).parent().setVisibility(1);
         });
@@ -18451,9 +18457,13 @@ var TradingAnalysis = function () {
      */
     var showExplanation = function showExplanation() {
         var $container = $('#tab_explanation-content');
-
         $container.find('#explanation_winning > div, #explanation_explain > div, #explanation_image, #explanation_note, #explanation_note > div, #explanation_duration > div').setVisibility(0);
         $container.find('#explanation_winning, #winning_' + form_name + ', #explanation_explain, #explain_' + form_name + ', #duration_' + Defaults.get('market')).setVisibility(1);
+        var market_duration = $container.find('#duration_' + form_name);
+        if (market_duration.length) {
+            market_duration.setVisibility(1);
+            $('#duration_' + Defaults.get('market')).setVisibility(0);
+        }
 
         if ($container.find('#note_' + form_name).length) {
             $('#explanation_note, #note_' + form_name).setVisibility(1);
@@ -18512,6 +18522,10 @@ var TradingAnalysis = function () {
             highlowticks: {
                 image1: 'high-tick.svg',
                 image2: 'low-tick.svg'
+            },
+            runs: {
+                image1: 'ups.svg',
+                image2: 'downs.svg'
             }
         };
 
@@ -20291,7 +20305,6 @@ var commonTrading = function () {
 
         var all_contracts = cloneObject(elements);
         delete all_contracts.callputequal; // don't include callputequal in contract drop-down
-
         var contracts_tree = getContractCategoryTree(all_contracts);
         var contract_to_show = /^(callputequal)$/.test(selected) ? 'risefall' : selected;
 
@@ -20380,7 +20393,9 @@ var commonTrading = function () {
         CALLSPREAD: 'top',
         PUTSPREAD: 'bottom',
         TICKHIGH: 'top',
-        TICKLOW: 'bottom'
+        TICKLOW: 'bottom',
+        RUNHIGH: 'top',
+        RUNLOW: 'bottom'
     };
 
     var contractTypeDisplayMapping = function contractTypeDisplayMapping(type) {
@@ -20401,7 +20416,7 @@ var commonTrading = function () {
     };
 
     var getContractCategoryTree = function getContractCategoryTree(elements) {
-        var tree = [['updown', ['risefall', 'higherlower']], 'touchnotouch', ['inout', ['endsinout', 'staysinout']], 'asian', ['digits', ['matchdiff', 'evenodd', 'overunder']], ['lookback', ['lookbackhigh', 'lookbacklow', 'lookbackhighlow']], 'reset', 'callputspread', 'highlowticks'];
+        var tree = [['updown', ['risefall', 'higherlower']], 'touchnotouch', ['inout', ['endsinout', 'staysinout']], 'asian', ['digits', ['matchdiff', 'evenodd', 'overunder']], ['lookback', ['lookbackhigh', 'lookbacklow', 'lookbackhighlow']], 'reset', 'callputspread', 'highlowticks', ['run', ['runs']]];
 
         if (elements) {
             tree = tree.map(function (e) {
@@ -21083,6 +21098,10 @@ var Contract = function () {
 
         if (trade_contract_forms.risefall || trade_contract_forms.higherlower) {
             trade_contract_forms.updown = localize('Up/Down');
+        }
+
+        if (trade_contract_forms.runs) {
+            trade_contract_forms.run = localize('Run');
         }
 
         if (trade_contract_forms.endsinout || trade_contract_forms.staysinout) {
@@ -23037,8 +23056,8 @@ var TradingEvents = function () {
                 // as submarket change has modified the underlying list so we need to manually
                 // fire change event for underlying
                 document.querySelectorAll('#underlying option:enabled')[0].selected = 'selected';
-                var event = new Event('change');
-                elem.dispatchEvent(event);
+                var _event = new Event('change');
+                elem.dispatchEvent(_event);
             }
         });
 
@@ -23053,35 +23072,30 @@ var TradingEvents = function () {
             Price.processPriceRequest();
         });
 
-        /*
-         * attach event to purchase buttons to buy the current contract
+        /**
+         * Handle Incoming Click or double click event.
+         * @param {EventTarget} e
          */
-        var $purchase_button = $('.purchase_button');
-        $purchase_button.on('click dblclick', function () {
-            if (isVisible(getElementById('confirmation_message_container')) || /disabled/.test(this.parentNode.classList)) {
+        var preparePurchaseParams = function preparePurchaseParams(e) {
+            if (isVisible(getElementById('confirmation_message_container')) || /disabled/.test(e.currentTarget.parentElement.classList) || !e.currentTarget.hasAttributes()) {
                 return;
             }
-            var id = this.getAttribute('data-purchase-id');
-            var ask_price = this.getAttribute('data-ask-price');
-            var params = { buy: id, price: ask_price, passthrough: {} };
 
-            Object.keys(this.attributes).forEach(function (attr) {
-                if (attr && this.attributes[attr] && this.attributes[attr].name) {
-                    if (/^data-balloon$/.test(this.attributes[attr].name)) {
-                        // Force removal of attribute for Safari
-                        this.removeAttribute(this.attributes[attr].name);
-                    } else if (!/data-balloon/.test(this.attributes[attr].name)) {
-                        // Do not send tooltip data
-                        var m = this.attributes[attr].name.match(/data-(.+)/);
-                        if (m && m[1] && m[1] !== 'purchase-id' && m[1] !== 'passthrough') {
-                            params.passthrough[m[1]] = this.attributes[attr].value;
-                        }
-                    }
+            var id = e.currentTarget.getAttribute('data-purchase-id');
+            var ask_price = e.currentTarget.getAttribute('data-ask-price');
+            var params = { buy: id, price: ask_price, passthrough: {} };
+            Array.prototype.slice.call(event.currentTarget.attributes).filter(function (attr) {
+                if (!/^data/.test(attr.name) || /^data-balloon$/.test(attr.name) || /data-balloon/.test(attr.name)) {
+                    return false;
                 }
-            }, this);
+                return true;
+            }).forEach(function (attr) {
+                params.passthrough[attr.name.substring(5)] = attr.value;
+            });
+
             if (id && ask_price) {
-                $purchase_button.parent().addClass('button-disabled');
-                $(this).text(localize('Purchase request sent'));
+                e.currentTarget.parentElement.classList.add('button-disabled');
+                e.currentTarget.innerText = localize('Purchase request sent');
                 BinarySocket.send(params).then(function (response) {
                     Purchase.display(response);
                     GTM.pushPurchaseData(response);
@@ -23089,6 +23103,16 @@ var TradingEvents = function () {
                 Price.incrFormId();
                 Price.processForgetProposals();
             }
+        };
+
+        /*
+         * attach event to purchase buttons to buy the current contract
+         */
+        var el_purchase_button = document.querySelectorAll('.purchase_button');
+
+        el_purchase_button.forEach(function (el) {
+            el.addEventListener('click', preparePurchaseParams);
+            el.addEventListener('dblclick', preparePurchaseParams);
         });
 
         /*
@@ -24949,6 +24973,8 @@ module.exports = Process;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var isCallputspread = __webpack_require__(/*! ./callputspread */ "./src/javascript/app/pages/trade/callputspread.js").isCallputspread;
 var Contract = __webpack_require__(/*! ./contract */ "./src/javascript/app/pages/trade/contract.js");
@@ -25040,6 +25066,8 @@ var Purchase = function () {
 
         if (error) {
             var balance = State.getResponse('balance.balance');
+            confirmation_error.show();
+
             if (/InsufficientBalance/.test(error.code) && TopUpVirtualPopup.shouldShow(balance, true)) {
                 hidePriceOverlay();
                 processPriceRequest();
@@ -25054,18 +25082,37 @@ var Purchase = function () {
                     authorization_error_btn_login.removeEventListener('click', loginOnClick);
                     authorization_error_btn_login.addEventListener('click', loginOnClick);
                 } else {
-                    confirmation_error.setVisibility(1);
-                    var message = error.message;
-                    if (/RestrictedCountry/.test(error.code)) {
-                        var additional_message = '';
-                        if (/FinancialBinaries/.test(error.code)) {
-                            additional_message = localize('Try our [_1]Volatility Indices[_2].', ['<a href="' + urlFor('get-started/binary-options', 'anchor=volatility-indices#range-of-markets') + '" >', '</a>']);
-                        } else if (/Random/.test(error.code)) {
-                            additional_message = localize('Try our other markets.');
+                    BinarySocket.wait('get_account_status').then(function (response) {
+                        confirmation_error.setVisibility(1);
+                        var message = error.message;
+                        if (/NoMFProfessionalClient/.test(error.code)) {
+                            var account_status = getPropertyValue(response, ['get_account_status', 'status']) || [];
+                            var has_professional_requested = account_status.includes('professional_requested');
+                            var has_professional_rejected = account_status.includes('professional_rejected');
+                            if (has_professional_requested) {
+                                message = localize('Your application to be treated as a professional client is being processed.');
+                            } else if (has_professional_rejected) {
+                                var message_text = localize('Your professional client request is [_1]not approved[_2].', ['<strong>', '</strong>']) + '<br />' + localize('Please reapply once the required criteria has been fulfilled.') + '<br /><br />' + localize('More information can be found in an email sent to you.');
+                                var button_text = localize('I want to reapply');
+
+                                message = prepareConfirmationErrorCta(message_text, button_text, true);
+                            } else {
+                                var _message_text = localize('In the EU, financial binary options are only available to professional investors.');
+                                var _button_text = localize('Apply now as a professional investor');
+
+                                message = prepareConfirmationErrorCta(_message_text, _button_text);
+                            }
+                        } else if (/RestrictedCountry/.test(error.code)) {
+                            var additional_message = '';
+                            if (/FinancialBinaries/.test(error.code)) {
+                                additional_message = localize('Try our [_1]Volatility Indices[_2].', ['<a href="' + urlFor('get-started/binary-options', 'anchor=volatility-indices#range-of-markets') + '" >', '</a>']);
+                            } else if (/Random/.test(error.code)) {
+                                additional_message = localize('Try our other markets.');
+                            }
+                            message = error.message + '. ' + additional_message;
                         }
-                        message = error.message + '. ' + additional_message;
-                    }
-                    CommonFunctions.elementInnerHtml(confirmation_error, message);
+                        CommonFunctions.elementInnerHtml(confirmation_error, message);
+                    });
                 }
             }
         } else {
@@ -25229,6 +25276,33 @@ var Purchase = function () {
         return '<strong>' + d + '</strong>';
     };
 
+    var prepareConfirmationErrorCta = function prepareConfirmationErrorCta(message_text, button_text) {
+        var has_html = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+        var row_element = createElement('div', { class: 'gr-row font-style-normal' });
+        var columnElement = function columnElement() {
+            var extra_attributes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+            return createElement('div', _extends({ class: 'gr-12 gr-padding-20' }, extra_attributes));
+        };
+        var button_element = createElement('a', { class: 'button', href: urlFor('user/settings/professional') });
+        var cta_element = columnElement();
+        var message_element = void 0;
+
+        if (has_html) {
+            message_element = columnElement();
+            message_element.innerHTML = message_text;
+        } else {
+            message_element = columnElement({ text: message_text });
+        }
+
+        button_element.appendChild(createElement('span', { text: button_text }));
+        cta_element.appendChild(button_element);
+        row_element.appendChild(message_element);
+        row_element.appendChild(cta_element);
+
+        return row_element.outerHTML;
+    };
+
     var loginOnClick = function loginOnClick(e) {
         return Header.loginOnClick(e);
     };
@@ -25372,13 +25446,14 @@ var Purchase = function () {
         if (el_epoch && el_epoch.classList) {
             el_epoch.classList.add('is-visible');
             el_epoch.setAttribute('style', 'position: absolute; right: ' + ((el_epoch.parentElement.offsetWidth - el_epoch.nextSibling.offsetWidth) / 2 + adjustment) + 'px');
+            var last_digit_quote = last_tick_quote ? last_tick_quote.slice(-1) : '';
             if (contract_status === 'won') {
                 DigitTicker.markAsWon();
-                DigitTicker.markDigitAsWon(last_tick_quote.slice(-1));
+                DigitTicker.markDigitAsWon(last_digit_quote);
             }
             if (contract_status === 'lost') {
                 DigitTicker.markAsLost();
-                DigitTicker.markDigitAsLost(last_tick_quote.slice(-1));
+                DigitTicker.markDigitAsLost(last_digit_quote);
             }
         }
     };
@@ -25930,8 +26005,7 @@ var TickDisplay = function () {
         reset_spot_plotted = void 0,
         response_id = void 0,
         contract = void 0,
-        selected_tick = void 0,
-        entry_spot_offset = void 0;
+        selected_tick = void 0;
 
     var id_render = 'tick_chart';
 
@@ -25954,11 +26028,11 @@ var TickDisplay = function () {
         display_symbol = data.display_symbol;
         contract_start_ms = parseInt(data.contract_start) * 1000;
         contract_category = data.contract_category;
-        should_set_barrier = !contract_category.match('digits');
+        should_set_barrier = !contract_category.match('digits|runs');
         display_decimals = data.display_decimals || 2;
         show_contract_result = data.show_contract_result;
         reset_spot_plotted = false;
-        entry_spot_offset = data.barrier || undefined;
+        barrier = data.barrier || undefined;
 
         if (data.id_render) {
             id_render = data.id_render;
@@ -25968,7 +26042,6 @@ var TickDisplay = function () {
             price = parseFloat(data.price);
             payout = parseFloat(data.payout);
         }
-
         setXIndicators();
         requireHighstock(function (Highstock) {
             Highcharts = Highstock;
@@ -26047,6 +26120,11 @@ var TickDisplay = function () {
                 id: 'exit_tick',
                 dashStyle: 'Dash'
             };
+        } else if (contract_category.match('runs')) {
+            ticks_needed = number_of_ticks + 1;
+            x_indicators = {
+                _0: { label: localize('Entry Spot'), id: 'entry_tick' }
+            };
         } else {
             x_indicators = {};
         }
@@ -26111,8 +26189,6 @@ var TickDisplay = function () {
                 barrier_quote = final_barrier;
             } else if (contract && contract.barrier) {
                 barrier_quote = parseFloat(contract.barrier);
-            } else if (entry_spot_offset) {
-                barrier_quote = /^[+|-]/i.test(entry_spot_offset) ? Number(Math.round(barrier_quote + parseFloat(entry_spot_offset) + 'e' + display_decimals) + 'e-' + display_decimals) : entry_spot_offset;
             }
 
             chart.yAxis[0].addPlotLine({
@@ -26261,8 +26337,12 @@ var TickDisplay = function () {
                     category = 'reset';
                 } else if (/^(tickhigh|ticklow)_/i.test(contract.shortcode)) {
                     category = 'highlowticks';
+                } else if (/^(runhigh|runlow)/i.test(contract.shortcode)) {
+                    category = 'runs';
                 }
+
                 initialize({
+                    barrier: barrier,
                     symbol: contract.underlying,
                     number_of_ticks: contract.tick_count,
                     contract_category: category,
@@ -26277,6 +26357,7 @@ var TickDisplay = function () {
                 return;
             }
         }
+
         if (data.tick) {
             spots2 = Tick.spots();
             epoches = Object.keys(spots2).sort(function (a, b) {
@@ -26287,6 +26368,9 @@ var TickDisplay = function () {
         }
 
         var has_finished = applicable_ticks && ticks_needed && applicable_ticks.length >= ticks_needed;
+        if (contract_category.match('runs')) {
+            has_finished = applicable_ticks.length && contract.exit_tick_time || false;
+        }
         var has_sold = contract && contract.exit_tick_time && applicable_ticks && applicable_ticks.find(function (_ref) {
             var epoch = _ref.epoch;
             return +epoch === +contract.exit_tick_time;
@@ -26474,6 +26558,9 @@ var TickDisplay = function () {
                 subscribe = 'true';
             } else if (!/^(tickhigh|ticklow)_/i.test(contract.shortcode) && contract.exit_tick_time && +contract.exit_tick_time < +contract.date_expiry) {
                 request.end = contract.exit_tick_time;
+            } else if (!/^(runhigh|runlow)$/i.test(contract.contract_category)) {
+                request.subscribe = 1;
+                request.end = contract.exit_tick_time || 'latest';
             } else {
                 request.end = contract.date_expiry;
             }
@@ -31949,34 +32036,9 @@ var MetaTrader = function () {
     };
 
     var getAllAccountsInfo = function getAllAccountsInfo() {
-        MetaTraderUI.init(submit);
+        MetaTraderUI.init(submit, sendTopupDemo);
         BinarySocket.send({ mt5_login_list: 1 }).then(function (response) {
-            if (response.error) {
-                MetaTraderUI.displayPageError(response.error.message || localize('Sorry, an error occurred while processing your request.'));
-                return;
-            }
-            // Ignore old accounts which are not linked to any group or has deprecated group
-            var mt5_login_list = (response.mt5_login_list || []).filter(function (obj) {
-                return obj.group && Client.getMT5AccountType(obj.group) in accounts_info;
-            });
-
-            // Update account info
-            mt5_login_list.forEach(function (obj) {
-                var acc_type = Client.getMT5AccountType(obj.group);
-                accounts_info[acc_type].info = { login: obj.login };
-                setAccountDetails(obj.login, acc_type, response);
-            });
-
-            var current_acc_type = getDefaultAccount();
-            Client.set('mt5_account', current_acc_type);
-            MetaTraderUI.showHideMAM(current_acc_type);
-
-            // Update types with no account
-            Object.keys(accounts_info).filter(function (acc_type) {
-                return !MetaTraderConfig.hasAccount(acc_type);
-            }).forEach(function (acc_type) {
-                MetaTraderUI.updateAccount(acc_type);
-            });
+            allAccountsResponseHandler(response);
         });
     };
 
@@ -32097,6 +32159,58 @@ var MetaTrader = function () {
         }
     };
 
+    var allAccountsResponseHandler = function allAccountsResponseHandler(response) {
+        if (response.error) {
+            MetaTraderUI.displayPageError(response.error.message || localize('Sorry, an error occurred while processing your request.'));
+            return;
+        }
+        // Ignore old accounts which are not linked to any group or has deprecated group
+        var mt5_login_list = (response.mt5_login_list || []).filter(function (obj) {
+            return obj.group && Client.getMT5AccountType(obj.group) in accounts_info;
+        });
+
+        // Update account info
+        mt5_login_list.forEach(function (obj) {
+            var acc_type = Client.getMT5AccountType(obj.group);
+            accounts_info[acc_type].info = { login: obj.login };
+            setAccountDetails(obj.login, acc_type, response);
+        });
+
+        var current_acc_type = getDefaultAccount();
+        Client.set('mt5_account', current_acc_type);
+        MetaTraderUI.showHideMAM(current_acc_type);
+
+        // Update types with no account
+        Object.keys(accounts_info).filter(function (acc_type) {
+            return !MetaTraderConfig.hasAccount(acc_type);
+        }).forEach(function (acc_type) {
+            MetaTraderUI.updateAccount(acc_type);
+        });
+    };
+
+    var sendTopupDemo = function sendTopupDemo() {
+        MetaTraderUI.setTopupLoading(true);
+        var acc_type = Client.get('mt5_account');
+        var login = accounts_info[acc_type].info.login;
+        var req = {
+            mt5_deposit: 1,
+            to_mt5: login
+        };
+
+        BinarySocket.send(req).then(function (response) {
+            if (response.error) {
+                MetaTraderUI.displayPageError(response.error.message);
+                MetaTraderUI.setTopupLoading(false);
+            } else {
+                MetaTraderUI.displayMainMessage(localize('[_1] has been credited into your MT5 Demo Account: [_2].', [MetaTraderConfig.getCurrency(acc_type) + ' 10,000.00', login.toString()]));
+                BinarySocket.send({ mt5_login_list: 1 }).then(function (res) {
+                    allAccountsResponseHandler(res);
+                    MetaTraderUI.setTopupLoading(false);
+                });
+            }
+        });
+    };
+
     return {
         onLoad: onLoad,
         isEligible: isEligible
@@ -32122,6 +32236,7 @@ var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/a
 var Currency = __webpack_require__(/*! ../../../common/currency */ "./src/javascript/app/common/currency.js");
 var Validation = __webpack_require__(/*! ../../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
 var getTransferFee = __webpack_require__(/*! ../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").getTransferFee;
+var getElementById = __webpack_require__(/*! ../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var urlForStatic = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js").urlForStatic;
@@ -32141,14 +32256,16 @@ var MetaTraderUI = function () {
         $main_msg = void 0,
         validations = void 0,
         submit = void 0,
+        topup_demo = void 0,
         token = void 0,
         current_action_ui = void 0;
 
     var accounts_info = MetaTraderConfig.accounts_info;
     var actions_info = MetaTraderConfig.actions_info;
 
-    var init = function init(submit_func) {
+    var init = function init(submit_func, topup_demo_func) {
         token = getHashValue('token');
+        topup_demo = topup_demo_func;
         submit = submit_func;
         $container = $('#mt_account_management');
         $mt5_account = $container.find('#mt5_account');
@@ -32408,11 +32525,11 @@ var MetaTraderUI = function () {
             var client_currency = Client.get('currency');
             var mt_currency = MetaTraderConfig.getCurrency(acc_type);
             cloneForm();
+            setDemoTopupStatus();
             _$form.find('.binary-account').text('' + localize('[_1] Account [_2]', ['Binary', Client.get('loginid')]));
             _$form.find('.binary-balance').html('' + Currency.formatMoney(client_currency, Client.get('balance')));
             _$form.find('.mt5-account').text('' + localize('[_1] Account [_2]', [accounts_info[acc_type].title, accounts_info[acc_type].info.login]));
             _$form.find('.mt5-balance').html('' + Currency.formatMoney(mt_currency, accounts_info[acc_type].info.balance));
-            _$form.find('.symbols.mt-currency').addClass(mt_currency.toLowerCase());
             _$form.find('label[for="txt_amount_deposit"]').append(' ' + client_currency);
             _$form.find('label[for="txt_amount_withdrawal"]').append(' ' + mt_currency);
 
@@ -32732,6 +32849,55 @@ var MetaTraderUI = function () {
         });
     };
 
+    var setDemoTopupStatus = function setDemoTopupStatus() {
+        var el_demo_topup_btn = getElementById('demo_topup_btn');
+        var el_loading = getElementById('demo_topup_loading');
+        var acc_type = Client.get('mt5_account');
+        var is_demo = accounts_info[acc_type].is_demo;
+        var topup_btn_text = localize('Get [_1]', MetaTraderConfig.getCurrency(acc_type) + ' 10,000.00');
+
+        el_loading.setVisibility(0);
+        el_demo_topup_btn.firstChild.innerText = topup_btn_text;
+
+        if (is_demo) {
+            var balance = +accounts_info[acc_type].info.balance;
+            var min_balance = 1000;
+
+            if (balance <= min_balance) {
+                enableDemoTopup(true, acc_type);
+            } else {
+                enableDemoTopup(false, acc_type);
+            }
+        }
+    };
+
+    var enableDemoTopup = function enableDemoTopup(is_enabled, acc_type) {
+        var el_demo_topup_btn = getElementById('demo_topup_btn');
+        var el_demo_topup_info = getElementById('demo_topup_info');
+
+        var function_to_call = is_enabled ? 'addEventListener' : 'removeEventListener';
+        el_demo_topup_btn[function_to_call]('click', topup_demo);
+
+        el_demo_topup_btn.classList.add(is_enabled ? 'button' : 'button-disabled');
+        el_demo_topup_btn.classList.remove(is_enabled ? 'button-disabled' : 'button');
+
+        el_demo_topup_info.innerText = is_enabled ? localize('Your demo account balance is currently [_1] or less. You may top up your account with an additional [_2].', [MetaTraderConfig.getCurrency(acc_type) + ' 1,000.00', MetaTraderConfig.getCurrency(acc_type) + ' 10,000.00']) : localize('You can top up your demo account with an additional [_1] if your balance is [_2] or less.', [MetaTraderConfig.getCurrency(acc_type) + ' 10,000.00', MetaTraderConfig.getCurrency(acc_type) + ' 1,000.00']);
+    };
+
+    var setTopupLoading = function setTopupLoading(is_loading) {
+        var el_demo_topup_btn = getElementById('demo_topup_btn');
+        var el_demo_topup_info = getElementById('demo_topup_info');
+        var el_loading = getElementById('demo_topup_loading');
+
+        el_demo_topup_btn.setVisibility(!is_loading);
+        el_demo_topup_info.setVisibility(!is_loading);
+        el_loading.setVisibility(is_loading);
+
+        if (!is_loading) {
+            setDemoTopupStatus();
+        }
+    };
+
     return {
         init: init,
         setAccountType: setAccountType,
@@ -32746,6 +32912,7 @@ var MetaTraderUI = function () {
         disableButton: disableButton,
         enableButton: enableButton,
         showHideMAM: showHideMAM,
+        setTopupLoading: setTopupLoading,
 
         $form: function $form() {
             return _$form;
@@ -34138,7 +34305,9 @@ var ViewPopup = function () {
                 CALLSPREAD: localize('Call Spread'),
                 PUTSPREAD: localize('Put Spread'),
                 TICKHIGH: localize('High Tick'),
-                TICKLOW: localize('Low Tick')
+                TICKLOW: localize('Low Tick'),
+                RUNHIGH: localize('Run Ups'),
+                RUNLOW: localize('Run Downs')
             };
         };
 
@@ -34462,6 +34631,7 @@ var ViewPopup = function () {
         'reset': 'reset',
         '(call|put)spread': 'callputspread',
         'tick(high|low)': 'highlowticks',
+        'run(high|low)': 'runs',
         'call|put': function callPut() {
             return +contract.entry_tick === +contract.barrier ? 'risefall' : 'higherlower';
         }
@@ -34626,8 +34796,8 @@ var ViewPopup = function () {
         }
 
         var should_show_entry_spot = !Lookback.isLookback(contract.contract_type) && !/digit/i.test(contract.contract_type);
-
-        $sections.find('#sell_details_table').append($('<table>\n            <tr id="contract_tabs"><th colspan="2" id="contract_information_tab">' + localize('Contract Information') + '</th></tr><tbody id="contract_information_content">\n            ' + createRow(localize('Contract Type'), '', 'trade_details_contract_type') + '\n            ' + createRow(localize('Transaction ID'), '', 'trade_details_ref_id') + '\n            ' + createRow(localize('Start Time'), '', 'trade_details_start_date', true) + '\n            ' + createRow(localize('Purchase Time'), '', 'trade_details_purchase_time', true) + '\n            ' + (!contract.tick_count ? createRow(localize('Remaining Time'), '', 'trade_details_live_remaining') : '') + '\n            ' + (should_show_entry_spot ? createRow(localize('Entry Spot'), '', 'trade_details_entry_spot', 0, '<span></span>') : '') + '\n            ' + createRow(barrier_text, '', 'trade_details_barrier', true) + '\n            ' + (Reset.isReset(contract.contract_type) ? createRow(localize('Reset Barrier'), '', 'trade_details_reset_barrier', true) : '') + '\n            ' + (contract.barrier_count > 1 ? createRow(low_barrier_text, '', 'trade_details_barrier_low', true) : '') + '\n            ' + createRow(Callputspread.isCallputspread(contract.contract_type) ? localize('Maximum payout') : localize('Potential Payout'), '', 'trade_details_payout') + '\n            ' + (multiplier && Lookback.isLookback(contract.contract_type) ? createRow(localize('Multiplier'), '', 'trade_details_multiplier') : '') + '\n            ' + createRow(localize('Purchase Price'), '', 'trade_details_purchase_price') + '\n            </tbody>\n            <th colspan="2" id="barrier_change" class="invisible">' + localize('Barrier Change') + '</th>\n            <tbody id="barrier_change_content" class="invisible"></tbody>\n            <tr><th colspan="2" id="trade_details_current_title">' + localize('Current') + '</th></tr>\n            ' + createRow(localize('Spot'), 'trade_details_spot_label', 'trade_details_current_spot', 0, '<span></span>') + '\n            ' + createRow(localize('Spot Time'), 'trade_details_spottime_label', 'trade_details_current_date') + '\n            ' + createRow(localize('Current Time'), '', 'trade_details_live_date') + '\n            ' + (!contract.tick_count ? createRow('', 'trade_details_end_label', 'trade_details_end_date', true) : '') + '\n            ' + createRow(localize('Indicative'), 'trade_details_indicative_label', 'trade_details_indicative_price') + '\n            ' + createRow(localize('Potential Profit/Loss'), 'trade_details_profit_loss_label', 'trade_details_profit_loss') + '\n            <tr><td colspan="2" class="last_cell" id="trade_details_message">&nbsp;</td></tr>\n            </table>\n            <div id="errMsg" class="notice-msg ' + hidden_class + '"></div>\n            <div id="trade_details_bottom"><div id="contract_sell_wrapper" class="' + hidden_class + '"></div><div id="contract_sell_message"></div><div id="contract_win_status" class="' + hidden_class + '"></div></div>'));
+        var should_show_barrier = !/runhigh|runlow/i.test(contract.contract_type);
+        $sections.find('#sell_details_table').append($('<table>\n            <tr id="contract_tabs"><th colspan="2" id="contract_information_tab">' + localize('Contract Information') + '</th></tr><tbody id="contract_information_content">\n            ' + createRow(localize('Contract Type'), '', 'trade_details_contract_type') + '\n            ' + createRow(localize('Transaction ID'), '', 'trade_details_ref_id') + '\n            ' + createRow(localize('Start Time'), '', 'trade_details_start_date', true) + '\n            ' + createRow(localize('Purchase Time'), '', 'trade_details_purchase_time', true) + '\n            ' + (!contract.tick_count ? createRow(localize('Remaining Time'), '', 'trade_details_live_remaining') : '') + '\n            ' + (should_show_entry_spot ? createRow(localize('Entry Spot'), '', 'trade_details_entry_spot', 0, '<span></span>') : '') + '\n            ' + (should_show_barrier ? createRow(barrier_text, '', 'trade_details_barrier', true) : '') + '\n            ' + (Reset.isReset(contract.contract_type) ? createRow(localize('Reset Barrier'), '', 'trade_details_reset_barrier', true) : '') + '\n            ' + (contract.barrier_count > 1 ? createRow(low_barrier_text, '', 'trade_details_barrier_low', true) : '') + '\n            ' + createRow(Callputspread.isCallputspread(contract.contract_type) ? localize('Maximum payout') : localize('Potential Payout'), '', 'trade_details_payout') + '\n            ' + (multiplier && Lookback.isLookback(contract.contract_type) ? createRow(localize('Multiplier'), '', 'trade_details_multiplier') : '') + '\n            ' + createRow(localize('Purchase Price'), '', 'trade_details_purchase_price') + '\n            </tbody>\n            <th colspan="2" id="barrier_change" class="invisible">' + localize('Barrier Change') + '</th>\n            <tbody id="barrier_change_content" class="invisible"></tbody>\n            <tr><th colspan="2" id="trade_details_current_title">' + localize('Current') + '</th></tr>\n            ' + createRow(localize('Spot'), 'trade_details_spot_label', 'trade_details_current_spot', 0, '<span></span>') + '\n            ' + createRow(localize('Spot Time'), 'trade_details_spottime_label', 'trade_details_current_date') + '\n            ' + createRow(localize('Current Time'), '', 'trade_details_live_date') + '\n            ' + (!contract.tick_count ? createRow('', 'trade_details_end_label', 'trade_details_end_date', true) : '') + '\n            ' + createRow(localize('Indicative'), 'trade_details_indicative_label', 'trade_details_indicative_price') + '\n            ' + createRow(localize('Potential Profit/Loss'), 'trade_details_profit_loss_label', 'trade_details_profit_loss') + '\n            <tr><td colspan="2" class="last_cell" id="trade_details_message">&nbsp;</td></tr>\n            </table>\n            <div id="errMsg" class="notice-msg ' + hidden_class + '"></div>\n            <div id="trade_details_bottom"><div id="contract_sell_wrapper" class="' + hidden_class + '"></div><div id="contract_sell_message"></div><div id="contract_win_status" class="' + hidden_class + '"></div></div>'));
 
         $sections.find('#sell_details_chart_wrapper').html($('<div/>', { id: contract.tick_count ? id_tick_chart : 'analysis_live_chart', class: 'live_chart_wrapper' }));
 
