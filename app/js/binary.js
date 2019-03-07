@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_toke":"api_toke","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio":"portfolio","self_exclusion":"self_exclusion","settings":"settings","statement":"statement","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"65bbc216d15848354232","account_password":"5b98c5e0011cf272df7f","api_toke":"856a16352b5b0f7b5fb2","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"8b3665b7e8bf3e4a7c08","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio":"27783daaa5e678e49540","self_exclusion":"226ac0134b0354423868","settings":"897ff546fbd9f45f9d55","statement":"abc9ff34c0540fd8fbb7","vendors~smart_chart":"4ef1863eda19bb87af24","smart_chart":"914a40831d33d765d320"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_toke":"api_toke","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"cbb3f11fff75dd57bfef","account_password":"5b98c5e0011cf272df7f","api_toke":"856a16352b5b0f7b5fb2","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"09dd0c21e65b199cae97","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"4b11346e99830481ee15","portfolio":"fdae1dad85e7457b80a9","statement":"83be0ace500a644e5479","self_exclusion":"226ac0134b0354423868","settings":"90edf5f4d945de1a9104","vendors~smart_chart":"c2ded38486a6d9befede","smart_chart":"0ed58ff43f746c8e010e"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -302,6 +302,98 @@ exports.default = function (_ref) {
 
 /***/ }),
 
+/***/ "./src/images/app_2/portfolio/ic-check.svg":
+/*!*************************************************!*\
+  !*** ./src/images/app_2/portfolio/ic-check.svg ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 16 16" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("circle", { cx: "8", cy: "8", r: "8", fill: "#4BBFAB" }), _react2.default.createElement("path", { fill: "#FFF", fillRule: "nonzero", d: "M6.5 10.8l5.65-5.65a.5.5 0 0 1 .7.7l-6 6a.5.5 0 0 1-.7 0l-3-3a.5.5 0 1 1 .7-.7l2.65 2.64z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/portfolio/ic-cross.svg":
+/*!*************************************************!*\
+  !*** ./src/images/app_2/portfolio/ic-cross.svg ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "16", height: "16", viewBox: "0 0 16 16" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("circle", { cx: "8", cy: "8", r: "8", fill: "#E31C4B", fillRule: "nonzero" }), _react2.default.createElement("path", { stroke: "#FFF", strokeLinecap: "round", d: "M10.5 5.5l-5 5m5 0l-5-5" })));
+};
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar-body.jsx":
 /*!*********************************************************************************!*\
   !*** ./src/javascript/app_2/App/Components/Elements/Calendar/calendar-body.jsx ***!
@@ -432,22 +524,32 @@ var _react2 = _interopRequireDefault(_react);
 
 var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
 
+var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CalendarFooter = function CalendarFooter(_ref) {
     var footer = _ref.footer,
         has_today_btn = _ref.has_today_btn,
+        has_range_selection = _ref.has_range_selection,
+        duration_date = _ref.duration_date,
+        is_minimum = _ref.is_minimum,
         onClick = _ref.onClick;
     return _react2.default.createElement(
         _react2.default.Fragment,
         null,
-        (has_today_btn || footer) && _react2.default.createElement(
+        (has_today_btn || footer || has_range_selection) && _react2.default.createElement(
             'div',
             { className: 'calendar__footer' },
             footer && _react2.default.createElement(
                 'span',
                 { className: 'calendar__text' },
                 footer
+            ),
+            has_range_selection && _react2.default.createElement(
+                'span',
+                { className: 'calendar__text' },
+                '' + (!is_minimum ? (0, _localize.localize)('Duration: ') : '') + duration_date
             ),
             has_today_btn && _react2.default.createElement(_Common.IconCalendarToday, {
                 className: 'calendar__icon',
@@ -458,8 +560,11 @@ var CalendarFooter = function CalendarFooter(_ref) {
 };
 
 CalendarFooter.propTypes = {
+    duration_date: _propTypes2.default.string,
     footer: _propTypes2.default.string,
+    has_range_selection: _propTypes2.default.bool,
     has_today_btn: _propTypes2.default.bool,
+    is_minimum: _propTypes2.default.bool,
     onClick: _propTypes2.default.func
 };
 
@@ -668,6 +773,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
 
+var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
 var _calendarBody = __webpack_require__(/*! ./calendar-body.jsx */ "./src/javascript/app_2/App/Components/Elements/Calendar/calendar-body.jsx");
 
 var _calendarBody2 = _interopRequireDefault(_calendarBody);
@@ -706,7 +813,9 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
         _this.state = {
             calendar_date: current_date, // calendar date reference
             selected_date: value, // selected date
-            calendar_view: 'date'
+            calendar_view: 'date',
+            hovered_date: '',
+            duration_date: ''
         };
         return _this;
     }
@@ -716,16 +825,28 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
         value: function render() {
             var _props = this.props,
                 date_format = _props.date_format,
+                duration_date = _props.duration_date,
                 footer = _props.footer,
                 has_today_btn = _props.has_today_btn,
-                start_date = _props.start_date,
+                has_range_selection = _props.has_range_selection,
                 holidays = _props.holidays,
+                start_date = _props.start_date,
                 weekends = _props.weekends;
             var _state = this.state,
                 calendar_date = _state.calendar_date,
                 calendar_view = _state.calendar_view,
                 selected_date = _state.selected_date;
 
+            var default_message = void 0,
+                is_minimum = void 0;
+
+            if (duration_date) {
+                default_message = duration_date + ' ' + (duration_date === 1 ? (0, _localize.localize)('Day') : (0, _localize.localize)('Days'));
+                is_minimum = false;
+            } else {
+                default_message = (0, _localize.localize)('Minimum duration is 1 day');
+                is_minimum = true;
+            }
 
             return _react2.default.createElement(
                 'div',
@@ -746,11 +867,18 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
                     selected_date: selected_date,
                     updateSelected: this.updateSelected,
                     holidays: holidays,
-                    weekends: weekends
+                    has_range_selection: has_range_selection,
+                    hovered_date: this.state.hovered_date,
+                    weekends: weekends,
+                    onMouseOver: this.onMouseOver,
+                    onMouseLeave: this.onMouseLeave
                 }),
                 _react2.default.createElement(_calendarFooter2.default, {
                     footer: footer,
+                    duration_date: this.state.duration_date || default_message,
+                    is_minimum: is_minimum,
                     has_today_btn: has_today_btn,
+                    has_range_selection: has_range_selection,
                     onClick: this.setToday
                 })
             );
@@ -774,6 +902,31 @@ var Calendar = (_temp = _class = function (_React$PureComponent) {
                 _this2.props.onChangeCalendarMonth(start_of_month);
             }
         });
+    };
+
+    this.onMouseOver = function (event) {
+        var target = event.currentTarget;
+
+        if (!target.classList.contains('calendar__cell--disabled') && !target.classList.contains('calendar__cell--hover')) {
+            target.className += ' calendar__cell--hover';
+            _this2.setState({
+                hovered_date: target.getAttribute('data-date'),
+                duration_date: target.getAttribute('data-duration')
+            });
+        }
+    };
+
+    this.onMouseLeave = function (event) {
+        var target = event.currentTarget;
+
+        if (target.classList.contains('calendar__cell--hover')) {
+            target.classList.remove('calendar__cell--hover');
+
+            _this2.setState({
+                hovered_date: null,
+                duration_date: null
+            });
+        }
     };
 
     this.updateSelectedDate = function (e) {
@@ -884,7 +1037,9 @@ Calendar.defaultProps = {
 
 Calendar.propTypes = {
     date_format: _propTypes2.default.string,
+    duration_date: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
     footer: _propTypes2.default.string,
+    has_range_selection: _propTypes2.default.bool,
     has_today_btn: _propTypes2.default.bool,
     holidays: _propTypes2.default.arrayOf(_propTypes2.default.shape({
         dates: _propTypes2.default.array,
@@ -990,6 +1145,8 @@ var _dateTime = __webpack_require__(/*! ../../../../../Constants/date-time */ ".
 
 var _Date = __webpack_require__(/*! ../../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
 
+var _localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
 var _types = __webpack_require__(/*! ./types */ "./src/javascript/app_2/App/Components/Elements/Calendar/panels/types.js");
 
 var _types2 = _interopRequireDefault(_types);
@@ -1003,12 +1160,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var getDays = function getDays(_ref) {
     var calendar_date = _ref.calendar_date,
         date_format = _ref.date_format,
+        has_range_selection = _ref.has_range_selection,
         holidays = _ref.holidays,
+        hovered_date = _ref.hovered_date,
         isPeriodDisabled = _ref.isPeriodDisabled,
         start_date = _ref.start_date,
         selected_date = _ref.selected_date,
         updateSelected = _ref.updateSelected,
-        weekends = _ref.weekends;
+        weekends = _ref.weekends,
+        onMouseOver = _ref.onMouseOver,
+        onMouseLeave = _ref.onMouseLeave;
 
     // adjust Calendar week by 1 day so that Calendar week starts on Monday
     // change to zero to set Calendar week to start on Sunday
@@ -1048,6 +1209,7 @@ var getDays = function getDays(_ref) {
 
     dates.map(function (date) {
         var moment_date = (0, _Date.toMoment)(date).startOf('day');
+        var moment_hovered = (0, _Date.toMoment)(hovered_date).startOf('day');
         var is_active = selected_date && moment_date.isSame(moment_selected);
         var is_today = moment_date.isSame(moment_today, 'day');
 
@@ -1066,7 +1228,9 @@ var getDays = function getDays(_ref) {
         var message = events.map(function (event) {
             return event.descrip;
         })[0] || '';
-
+        var duration_from_today = (0, _Date.daysFromTodayTo)(date);
+        var is_between = moment_date.isBetween(moment_today, moment_selected);
+        var is_between_hover = moment_date.isBetween(moment_today, moment_hovered);
         var is_before_min_or_after_max_date = isPeriodDisabled(moment_date, 'day');
         var is_disabled =
         // check if date is before min_date or after_max_date
@@ -1088,15 +1252,22 @@ var getDays = function getDays(_ref) {
             {
                 key: date,
                 className: (0, _classnames2.default)('calendar__cell', {
-                    'calendar__cell--active': is_active && !is_disabled,
+                    'calendar__cell--active': is_active,
                     'calendar__cell--today': is_today,
+                    'calendar__cell--active-duration': is_active && has_range_selection && !is_today,
+                    'calendar__cell--today-duration': is_today && has_range_selection,
                     'calendar__cell--disabled': is_disabled,
-                    'calendar__cell--other': is_other_month
+                    'calendar__cell--other': is_other_month,
+                    'calendar__cell--between-hover': is_between_hover && has_range_selection,
+                    'calendar__cell--between': is_between && has_range_selection
                 }),
                 onClick: is_disabled ? undefined : function (e) {
                     return updateSelected(e, 'day');
                 },
-                'data-date': date
+                'data-date': date,
+                'data-duration': duration_from_today + ' ' + (duration_from_today === 1 ? (0, _localize.localize)('Day') : (0, _localize.localize)('Days')),
+                onMouseOver: onMouseOver,
+                onMouseLeave: onMouseLeave
             },
             (has_events || is_closes_early) && !is_other_month && !is_before_min_or_after_max_date && _react2.default.createElement(_tooltip2.default, {
                 alignment: 'top',
@@ -1138,10 +1309,14 @@ CalendarDays.defaultProps = {
 
 CalendarDays.propTypes = _extends({}, _types2.default, {
     date_format: _propTypes2.default.string,
+    has_range_selection: _propTypes2.default.bool,
     holidays: _propTypes2.default.arrayOf(_propTypes2.default.shape({
         dates: _propTypes2.default.array,
         descrip: _propTypes2.default.string
     })),
+    hovered_date: _propTypes2.default.string,
+    onMouseLeave: _propTypes2.default.func,
+    onMouseOver: _propTypes2.default.func,
     start_date: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
     weekends: _propTypes2.default.arrayOf(_propTypes2.default.number)
 });
@@ -1527,7 +1702,7 @@ var DrawerHeader = exports.DrawerHeader = function DrawerHeader(_ref) {
     var alignment = _ref.alignment,
         closeBtn = _ref.closeBtn;
 
-    var drawer_header_class = (0, _classnames2.default)('drawer-header', alignment);
+    var drawer_header_class = (0, _classnames2.default)('drawer__header', alignment);
     return _react2.default.createElement(
         _react2.default.Fragment,
         null,
@@ -1536,15 +1711,15 @@ var DrawerHeader = exports.DrawerHeader = function DrawerHeader(_ref) {
             { className: drawer_header_class },
             _react2.default.createElement(
                 'div',
-                { className: 'icons btn-close', onClick: closeBtn },
-                _react2.default.createElement(_Common.IconClose, null)
+                { className: 'drawer__icons drawer__icons-btn-close', onClick: closeBtn },
+                _react2.default.createElement(_Common.IconClose, { className: 'drawer__icons-icon-close' })
             ),
             _react2.default.createElement(
                 'div',
-                { className: 'notifications-header' },
+                { className: 'drawer__notifications' },
                 _react2.default.createElement(
                     'h4',
-                    null,
+                    { className: 'drawer__notifications-header' },
                     (0, _localize.localize)('all notifications')
                 )
             )
@@ -1553,13 +1728,13 @@ var DrawerHeader = exports.DrawerHeader = function DrawerHeader(_ref) {
             { className: drawer_header_class },
             _react2.default.createElement(
                 'div',
-                { className: 'icons btn-close', onClick: closeBtn },
-                _react2.default.createElement(_Common.IconClose, null)
+                { className: 'drawer__icons drawer__icons-btn-close', onClick: closeBtn },
+                _react2.default.createElement(_Common.IconClose, { className: 'drawer__icons-icon-close' })
             ),
             _react2.default.createElement(
                 'div',
-                { className: 'icons brand-logo' },
-                _react2.default.createElement('div', { className: 'img' })
+                { className: 'drawer__icons drawer__brand-logo' },
+                _react2.default.createElement('div', { className: 'drawer__image' })
             )
         )
     );
@@ -1643,22 +1818,22 @@ var DrawerItem = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'drawer-item', onClick: this.drawerItemClicked },
+                { className: 'drawer__item', onClick: this.drawerItemClicked },
                 custom_action ? _react2.default.createElement(
                     'a',
-                    { href: 'javascript:;', onClick: custom_action },
+                    { href: 'javascript:;', className: 'drawer__item-link', onClick: custom_action },
                     _react2.default.createElement(
                         'span',
-                        null,
+                        { className: 'drawer__item-link-text' },
                         icon,
                         text
                     )
                 ) : _react2.default.createElement(
                     _Routes.BinaryLink,
-                    { to: link_to },
+                    { className: 'drawer__item-link', to: link_to },
                     _react2.default.createElement(
                         'span',
-                        null,
+                        { className: 'drawer__item-link-text' },
                         icon,
                         text
                     )
@@ -1767,18 +1942,18 @@ var DrawerItems = function (_React$Component) {
             var list_is_collapsed = {
                 visibility: is_collapsed ? 'visible' : 'hidden'
             };
-            var parent_item_class = (0, _classnames2.default)('parent-item', {
-                'show': is_collapsed
+            var parent_item_class = (0, _classnames2.default)('drawer__parent-item', {
+                'drawer__parent-item--show': is_collapsed
             });
-            var drawer_items_class = (0, _classnames2.default)('drawer-items', {
-                'show': is_collapsed
+            var drawer_items_class = (0, _classnames2.default)('drawer__items', {
+                'drawer__items--show': is_collapsed
             });
             return _react2.default.createElement(
                 _react2.default.Fragment,
                 null,
                 _react2.default.createElement(
                     'div',
-                    { className: 'drawer-item', onClick: this.collapseItems },
+                    { className: 'drawer__item', onClick: this.collapseItems },
                     _react2.default.createElement(
                         'span',
                         { className: parent_item_class },
@@ -1909,6 +2084,8 @@ var _drawerHeader = __webpack_require__(/*! ./drawer-header.jsx */ "./src/javasc
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -1961,17 +2138,21 @@ var Drawer = function (_React$Component) {
                 children = _props.children;
 
 
-            var drawer_bg_class = (0, _classnames2.default)('drawer-bg', {
-                'show': is_this_drawer_on
+            var drawer_bg_class = (0, _classnames2.default)('drawer__bg', {
+                'drawer--show': is_this_drawer_on
             });
-            var drawer_class = (0, _classnames2.default)('drawer', alignment);
+            var drawer_class = (0, _classnames2.default)('drawer', _defineProperty({}, 'drawer--' + alignment, alignment));
 
             return _react2.default.createElement(
                 _reactTransitionGroup.CSSTransition,
                 {
                     'in': is_this_drawer_on,
                     timeout: 150,
-                    classNames: 'drawer-container',
+                    classNames: {
+                        enter: 'drawer__container--enter',
+                        enterDone: 'drawer__container--enter-done',
+                        exit: 'drawer__container--exit'
+                    },
                     unmountOnExit: true
                 },
                 _react2.default.createElement(
@@ -2206,7 +2387,7 @@ var ToggleDrawer = function (_React$Component) {
                 children = _props.children;
 
 
-            var toggle_class = (0, _classnames2.default)('navbar-icons', icon_class);
+            var toggle_class = (0, _classnames2.default)('header__navbar-icons', 'header__navbar-icons--' + icon_class);
 
             return _react2.default.createElement(
                 _react2.default.Fragment,
@@ -2345,8 +2526,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _iconError = __webpack_require__(/*! ../../../../Assets/Common/icon-error.jsx */ "./src/javascript/app_2/Assets/Common/icon-error.jsx");
 
-var _iconError2 = _interopRequireDefault(_iconError);
-
 var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
 var _localize2 = __webpack_require__(/*! ../localize.jsx */ "./src/javascript/app_2/App/Components/Elements/localize.jsx");
@@ -2370,11 +2549,11 @@ var ErrorComponent = function ErrorComponent(_ref) {
     }
     return _react2.default.createElement(
         'div',
-        { className: 'error-container' },
-        _react2.default.createElement(_iconError2.default, { type: type }),
+        { className: 'error__container' },
+        _react2.default.createElement(_iconError.IconError, { type: type }),
         _react2.default.createElement(
             'p',
-            null,
+            { className: 'error__message' },
             msg || (0, _localize.localize)('Sorry, an error occured while processing your request.')
         )
     );
@@ -2431,6 +2610,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
@@ -2438,6 +2621,10 @@ var _react2 = _interopRequireDefault(_react);
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _button = __webpack_require__(/*! ../../Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
+
+var _button2 = _interopRequireDefault(_button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2470,30 +2657,18 @@ var FullPageModal = function FullPageModal(_ref) {
                 _react2.default.createElement(
                     'div',
                     { className: 'full-page-modal__footer' },
-                    _react2.default.createElement(
-                        'div',
-                        {
-                            className: 'full-page-modal__button btn flat effect primary',
-                            onClick: onCancel
-                        },
-                        _react2.default.createElement(
-                            'span',
-                            { className: 'full-page-modal__button-text' },
-                            cancel_button_text
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        {
-                            className: 'full-page-modal__button btn flat effect primary',
-                            onClick: onConfirm
-                        },
-                        _react2.default.createElement(
-                            'span',
-                            { className: 'full-page-modal__button-text' },
-                            confirm_button_text
-                        )
-                    )
+                    _react2.default.createElement(_button2.default, {
+                        className: (0, _classnames2.default)('full-page-modal__button', 'btn--secondary btn--secondary--orange'),
+                        has_effect: true,
+                        text: cancel_button_text,
+                        onClick: onCancel
+                    }),
+                    _react2.default.createElement(_button2.default, {
+                        className: (0, _classnames2.default)('full-page-modal__button', 'btn--primary btn--primary--orange'),
+                        has_effect: true,
+                        text: confirm_button_text,
+                        onClick: onConfirm
+                    })
                 )
             )
         );
@@ -2543,26 +2718,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var EmptyNotification = function EmptyNotification() {
     return _react2.default.createElement(
         'div',
-        { className: 'no-notifications-container' },
+        { className: 'drawer__no-notifications-container' },
         _react2.default.createElement(
             'div',
-            { className: 'notification-message' },
+            { className: 'drawer__no-notifications' },
             _react2.default.createElement(
                 'div',
-                { className: 'bell-icon' },
-                _react2.default.createElement(_NavBar.IconBell, null)
+                { className: 'drawer__bell' },
+                _react2.default.createElement(_NavBar.IconBell, { className: 'drawer__bell-icon' })
             ),
             _react2.default.createElement(
                 'div',
                 null,
                 _react2.default.createElement(
                     'h4',
-                    null,
+                    { className: 'drawer__no-notifications-header' },
                     (0, _localize.localize)('No Notifications')
                 ),
                 _react2.default.createElement(
                     'span',
-                    { className: 'no-notifications-message' },
+                    { className: 'drawer__no-notifications-message' },
                     (0, _localize.localize)('You have yet to receive any notifications')
                 )
             )
@@ -2759,7 +2934,7 @@ var PopConfirmElement = function PopConfirmElement(_ref) {
             _react2.default.createElement(
                 'div',
                 {
-                    className: 'popconfirm__button btn flat effect',
+                    className: 'popconfirm__button btn btn--flat effect',
                     onClick: onClose
                 },
                 _react2.default.createElement(
@@ -2771,7 +2946,7 @@ var PopConfirmElement = function PopConfirmElement(_ref) {
             _react2.default.createElement(
                 'div',
                 {
-                    className: 'popconfirm__button btn flat effect',
+                    className: 'popconfirm__button btn btn--flat effect',
                     onClick: onConfirm
                 },
                 _react2.default.createElement(
@@ -2918,6 +3093,259 @@ exports.PopConfirm = PopConfirm;
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/index.js":
+/*!**********************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/index.js ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _positionsProgressSlider = __webpack_require__(/*! ./positions-progress-slider.jsx */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/positions-progress-slider.jsx");
+
+var _positionsProgressSlider2 = _interopRequireDefault(_positionsProgressSlider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _positionsProgressSlider2.default;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/positions-progress-slider.jsx":
+/*!*******************************************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/positions-progress-slider.jsx ***!
+  \*******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _positionsProgressTicks = __webpack_require__(/*! ./positions-progress-ticks.jsx */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/positions-progress-ticks.jsx");
+
+var _positionsProgressTicks2 = _interopRequireDefault(_positionsProgressTicks);
+
+var _remainingTime = __webpack_require__(/*! ../../../../Containers/remaining-time.jsx */ "./src/javascript/app_2/App/Containers/remaining-time.jsx");
+
+var _remainingTime2 = _interopRequireDefault(_remainingTime);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ProgressSlider = function ProgressSlider(_ref) {
+    var className = _ref.className,
+        has_result = _ref.has_result,
+        ticks_count = _ref.ticks_count,
+        current_tick = _ref.current_tick,
+        percentage = _ref.percentage,
+        remaining_time = _ref.remaining_time;
+
+    if (!percentage && !ticks_count || has_result || !remaining_time) return _react2.default.createElement('div', { className: 'progress-slider--completed' });
+    return _react2.default.createElement(
+        'div',
+        { className: (0, _classnames2.default)('progress-slider', className) },
+        ticks_count < -1 ? _react2.default.createElement(_positionsProgressTicks2.default, {
+            current_tick: current_tick,
+            ticks_count: ticks_count
+        }) : _react2.default.createElement(
+            _react2.default.Fragment,
+            null,
+            _react2.default.createElement(
+                'span',
+                { className: 'positions-drawer-card__remaining-time' },
+                _react2.default.createElement(_remainingTime2.default, { end_time: remaining_time })
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'progress-slider__track' },
+                _react2.default.createElement('div', {
+                    className: (0, _classnames2.default)('progress-slider__line', {
+                        'progress-slider__line--green': percentage >= 50,
+                        'progress-slider__line--orange': percentage < 50 && percentage >= 20,
+                        'progress-slider__line--red': percentage < 20
+                    }),
+                    style: { width: percentage + '%' }
+                })
+            )
+        )
+    );
+};
+// Keypress events do not trigger on Safari due to the way it handles input type='range' elements, using focus on the input element also doesn't work for Safari.
+
+ProgressSlider.propTypes = {
+    className: _propTypes2.default.string,
+    current_tick: _propTypes2.default.number,
+    has_result: _propTypes2.default.bool,
+    percentage: _propTypes2.default.number,
+    remaining_time: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    ticks_count: _propTypes2.default.number
+};
+
+exports.default = ProgressSlider;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/positions-progress-ticks.jsx":
+/*!******************************************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/positions-progress-ticks.jsx ***!
+  \******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var ProgressTicks = function ProgressTicks(_ref) {
+    var current_tick = _ref.current_tick,
+        ticks_count = _ref.ticks_count;
+
+    var arr_ticks = [].concat(_toConsumableArray(Array(ticks_count).keys()));
+    return (
+        // TODO: Update and show once design for ticks progress bar is finalized
+        _react2.default.createElement(
+            'div',
+            { style: { display: 'none' } },
+            _react2.default.createElement(
+                'span',
+                { className: 'progress-slider__ticks-caption' },
+                (0, _localize.localize)('Tick [_1]', current_tick)
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'progress-slider__track--ticks' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'progress-slider__ticks' },
+                    arr_ticks.map(function (idx) {
+                        return _react2.default.createElement('span', {
+                            key: idx,
+                            className: (0, _classnames2.default)('ticks__step', {
+                                'ticks__step--active': idx + 1 === parseInt(current_tick),
+                                'ticks__step--marked': idx + 1 < parseInt(current_tick)
+                            })
+                        });
+                    })
+                )
+            )
+        )
+    );
+};
+
+ProgressTicks.propTypes = {
+    current_tick: _propTypes2.default.number,
+    ticks_count: _propTypes2.default.number
+};
+
+exports.default = ProgressTicks;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/helpers/duration-percentage.js":
+/*!*****************************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/helpers/duration-percentage.js ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getTimePercentage = undefined;
+
+var _moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+
+var _moment2 = _interopRequireDefault(_moment);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// TODO: Refactor and simplify, handle tick duration
+var getTimePercentage = exports.getTimePercentage = function getTimePercentage(start_time, purchase_time, expiry_time) {
+    var duration_from_purchase = _moment2.default.duration(_moment2.default.unix(expiry_time).diff(_moment2.default.unix(purchase_time)));
+    var duration_from_now = _moment2.default.duration(_moment2.default.unix(expiry_time).diff(start_time));
+    var percentage = duration_from_now.asMilliseconds() / duration_from_purchase.asMilliseconds() * 100;
+
+    if (percentage < 0.5) percentage = 1;
+
+    return Math.round(percentage);
+};
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/helpers/index.js":
+/*!***************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/helpers/index.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _durationPercentage = __webpack_require__(/*! ./duration-percentage */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/helpers/duration-percentage.js");
+
+Object.keys(_durationPercentage).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _durationPercentage[key];
+    }
+  });
+});
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/index.js":
 /*!*******************************************************************************!*\
   !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/index.js ***!
@@ -2940,6 +3368,264 @@ var _positionsDrawer2 = _interopRequireDefault(_positionsDrawer);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = _positionsDrawer2.default;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/positions-drawer-card.jsx":
+/*!************************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/positions-drawer-card.jsx ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactTransitionGroup = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/index.js");
+
+var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
+var _contractTypeCell = __webpack_require__(/*! ../../../../Modules/Portfolio/Components/contract-type-cell.jsx */ "./src/javascript/app_2/Modules/Portfolio/Components/contract-type-cell.jsx");
+
+var _contractTypeCell2 = _interopRequireDefault(_contractTypeCell);
+
+var _ProgressSlider = __webpack_require__(/*! ./ProgressSlider */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/index.js");
+
+var _ProgressSlider2 = _interopRequireDefault(_ProgressSlider);
+
+var _resultDetails = __webpack_require__(/*! ./result-details.jsx */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/result-details.jsx");
+
+var _resultDetails2 = _interopRequireDefault(_resultDetails);
+
+var _resultOverlay = __webpack_require__(/*! ./result-overlay.jsx */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/result-overlay.jsx");
+
+var _resultOverlay2 = _interopRequireDefault(_resultOverlay);
+
+var _helpers = __webpack_require__(/*! ./helpers */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/helpers/index.js");
+
+var _money = __webpack_require__(/*! ../money.jsx */ "./src/javascript/app_2/App/Components/Elements/money.jsx");
+
+var _money2 = _interopRequireDefault(_money);
+
+var _binaryLink = __webpack_require__(/*! ../../Routes/binary-link.jsx */ "./src/javascript/app_2/App/Components/Routes/binary-link.jsx");
+
+var _binaryLink2 = _interopRequireDefault(_binaryLink);
+
+var _helpers2 = __webpack_require__(/*! ../../Routes/helpers */ "./src/javascript/app_2/App/Components/Routes/helpers.js");
+
+var _button = __webpack_require__(/*! ../../Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
+
+var _button2 = _interopRequireDefault(_button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// TODO: Break into smaller components once design is finalized
+var PositionsDrawerCard = function PositionsDrawerCard(_ref) {
+    var active_position = _ref.active_position,
+        barrier = _ref.barrier,
+        className = _ref.className,
+        currency = _ref.currency,
+        duration = _ref.duration,
+        duration_unit = _ref.duration_unit,
+        entry_spot = _ref.entry_spot,
+        expiry_time = _ref.expiry_time,
+        id = _ref.id,
+        id_sell = _ref.id_sell,
+        indicative = _ref.indicative,
+        is_valid_to_sell = _ref.is_valid_to_sell,
+        profit_loss = _ref.profit_loss,
+        purchase = _ref.purchase,
+        purchase_time = _ref.purchase_time,
+        onClickSell = _ref.onClickSell,
+        onClickRemove = _ref.onClickRemove,
+        result = _ref.result,
+        sell_time = _ref.sell_time,
+        server_time = _ref.server_time,
+        status = _ref.status,
+        tick_count = _ref.tick_count,
+        type = _ref.type,
+        underlying_code = _ref.underlying_code,
+        underlying_name = _ref.underlying_name;
+
+    var percentage = (0, _helpers.getTimePercentage)(server_time, purchase_time, expiry_time);
+    return _react2.default.createElement(
+        'div',
+        { className: (0, _classnames2.default)('positions-drawer-card__wrapper', className) },
+        _react2.default.createElement(_resultOverlay2.default, {
+            id: id,
+            onClickRemove: onClickRemove,
+            result: result
+        }),
+        _react2.default.createElement(
+            _binaryLink2.default,
+            {
+                className: (0, _classnames2.default)('positions-drawer-card', {
+                    'positions-drawer-card--active': parseInt(active_position) === id,
+                    'positions-drawer-card--green': percentage >= 50 && !result,
+                    'positions-drawer-card--orange': percentage < 50 && percentage >= 20 && !result,
+                    'positions-drawer-card--red': percentage < 20 && !result
+                }),
+                to: (0, _helpers2.getContractPath)(id)
+            },
+            _react2.default.createElement(
+                _react2.default.Fragment,
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: (0, _classnames2.default)('positions-drawer-card__grid', 'positions-drawer-card__grid-underlying-trade')
+                    },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'positions-drawer-card__underlying-name' },
+                        _react2.default.createElement('div', {
+                            className: (0, _classnames2.default)('icons-underlying', 'icons-underlying__ic-' + (underlying_code || 'unknown'))
+                        }),
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'positions-drawer-card__symbol' },
+                            underlying_name
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'positions-drawer-card__type' },
+                        _react2.default.createElement(_contractTypeCell2.default, { type: type })
+                    )
+                ),
+                _react2.default.createElement(_ProgressSlider2.default, {
+                    remaining_time: expiry_time,
+                    percentage: percentage,
+                    ticks_count: tick_count,
+                    has_result: !!result
+                }),
+                _react2.default.createElement(
+                    'div',
+                    { className: (0, _classnames2.default)('positions-drawer-card__grid', 'positions-drawer-card__grid-profit-payout')
+                    },
+                    _react2.default.createElement(
+                        'div',
+                        { className: (0, _classnames2.default)('positions-drawer-card__profit-loss', 'positions-drawer-card__profit-loss-label')
+                        },
+                        (0, _localize.localize)('Potential P/L:')
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: (0, _classnames2.default)('positions-drawer-card__indicative', 'positions-drawer-card__indicative-label')
+                        },
+                        (0, _localize.localize)('Potential Payout:')
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: (0, _classnames2.default)('positions-drawer-card__profit-loss', {
+                                'positions-drawer-card__profit-loss--negative': profit_loss < 0,
+                                'positions-drawer-card__profit-loss--positive': profit_loss > 0
+                            })
+                        },
+                        _react2.default.createElement(_money2.default, { amount: Math.abs(profit_loss), currency: currency })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'positions-drawer-card__indicative positions-drawer-card__indicative--' + status },
+                        _react2.default.createElement(_money2.default, { amount: indicative, currency: currency })
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'positions-drawer-card__purchase-price' },
+                    _react2.default.createElement(
+                        'span',
+                        { className: 'positions-drawer-card__purchase-label' },
+                        (0, _localize.localize)('Purchase price')
+                    ),
+                    _react2.default.createElement(_money2.default, { amount: purchase, currency: currency })
+                )
+            )
+        ),
+        _react2.default.createElement(
+            _reactTransitionGroup.CSSTransition,
+            {
+                'in': !!is_valid_to_sell,
+                timeout: 250,
+                classNames: {
+                    enter: 'positions-drawer-card__sell-button--enter',
+                    enterDone: 'positions-drawer-card__sell-button--enter-done',
+                    exit: 'positions-drawer-card__sell-button--exit'
+                },
+                unmountOnExit: true
+            },
+            _react2.default.createElement(
+                'div',
+                { className: 'positions-drawer-card__sell-button' },
+                _react2.default.createElement(_button2.default, {
+                    className: 'btn--primary btn--primary--orange',
+                    is_disabled: !is_valid_to_sell,
+                    text: (0, _localize.localize)('Sell contract'),
+                    onClick: function onClick() {
+                        return onClickSell(id);
+                    }
+                })
+            )
+        ),
+        _react2.default.createElement(_resultDetails2.default, {
+            barrier: barrier,
+            contract_end_time: sell_time,
+            contract_start_time: purchase_time,
+            duration: duration,
+            duration_unit: duration_unit,
+            entry_spot: entry_spot,
+            tick_count: tick_count,
+            has_result: !!result,
+            id_sell: id_sell
+        })
+    );
+};
+
+PositionsDrawerCard.propTypes = {
+    active_position: _propTypes2.default.string,
+    barrier: _propTypes2.default.number,
+    className: _propTypes2.default.string,
+    currency: _propTypes2.default.string,
+    duration: _propTypes2.default.number,
+    duration_unit: _propTypes2.default.string,
+    entry_spot: _propTypes2.default.number,
+    exit_spot: _propTypes2.default.number,
+    expiry_time: _propTypes2.default.PropTypes.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    id: _propTypes2.default.number,
+    id_sell: _propTypes2.default.number,
+    indicative: _propTypes2.default.number,
+    is_valid_to_sell: _propTypes2.default.PropTypes.oneOfType([_propTypes2.default.number, _propTypes2.default.bool]),
+    onClickRemove: _propTypes2.default.func,
+    onClickSell: _propTypes2.default.func,
+    profit_loss: _propTypes2.default.number,
+    purchase: _propTypes2.default.number,
+    purchase_time: _propTypes2.default.PropTypes.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    result: _propTypes2.default.string,
+    sell_time: _propTypes2.default.PropTypes.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    server_time: _propTypes2.default.object,
+    status: _propTypes2.default.string,
+    tick_count: _propTypes2.default.number,
+    type: _propTypes2.default.string,
+    underlying_code: _propTypes2.default.string,
+    underlying_name: _propTypes2.default.string
+};
+
+exports.default = PositionsDrawerCard;
 
 /***/ }),
 
@@ -2975,6 +3661,8 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactTransitionGroup = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/index.js");
+
 var _ttReactCustomScrollbars = __webpack_require__(/*! tt-react-custom-scrollbars */ "./node_modules/tt-react-custom-scrollbars/lib/index.js");
 
 var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
@@ -2987,9 +3675,9 @@ var _emptyPortfolioMessage2 = _interopRequireDefault(_emptyPortfolioMessage);
 
 var _connect = __webpack_require__(/*! ../../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
 
-var _positions_drawer_card = __webpack_require__(/*! ./positions_drawer_card.jsx */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/positions_drawer_card.jsx");
+var _positionsDrawerCard = __webpack_require__(/*! ./positions-drawer-card.jsx */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/positions-drawer-card.jsx");
 
-var _positions_drawer_card2 = _interopRequireDefault(_positions_drawer_card);
+var _positionsDrawerCard2 = _interopRequireDefault(_positionsDrawerCard);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3022,12 +3710,16 @@ var PositionsDrawer = function (_React$Component) {
         key: 'render',
         value: function render() {
             var _props = this.props,
+                active_contract_id = _props.active_contract_id,
                 active_positions = _props.active_positions,
                 error = _props.error,
                 currency = _props.currency,
                 is_empty = _props.is_empty,
                 is_positions_drawer_on = _props.is_positions_drawer_on,
-                toggleDrawer = _props.toggleDrawer;
+                onClickSell = _props.onClickSell,
+                onClickRemove = _props.onClickRemove,
+                toggleDrawer = _props.toggleDrawer,
+                server_time = _props.server_time;
 
 
             var body_content = void 0;
@@ -3041,11 +3733,30 @@ var PositionsDrawer = function (_React$Component) {
             } else if (is_empty) {
                 body_content = _react2.default.createElement(_emptyPortfolioMessage2.default, null);
             } else {
-                body_content = active_positions.map(function (portfolio_position) {
-                    return _react2.default.createElement(_positions_drawer_card2.default, _extends({
-                        key: portfolio_position.id,
-                        currency: currency
-                    }, portfolio_position));
+                // Show only 4 most recent open contracts
+                body_content = active_positions.slice(0, 4).map(function (portfolio_position) {
+                    return _react2.default.createElement(
+                        _reactTransitionGroup.CSSTransition,
+                        {
+                            key: portfolio_position.id,
+                            'in': !!portfolio_position.underlying_code,
+                            timeout: 150,
+                            classNames: {
+                                enter: 'positions-drawer-card__wrapper--enter',
+                                enterDone: 'positions-drawer-card__wrapper--enter-done',
+                                exit: 'positions-drawer-card__wrapper--exit'
+                            },
+                            unmountOnExit: true
+                        },
+                        _react2.default.createElement(_positionsDrawerCard2.default, _extends({
+                            active_position: active_contract_id,
+                            onClickSell: onClickSell,
+                            onClickRemove: onClickRemove,
+                            server_time: server_time,
+                            key: portfolio_position.id,
+                            currency: currency
+                        }, portfolio_position))
+                    );
                 });
             }
 
@@ -3080,6 +3791,19 @@ var PositionsDrawer = function (_React$Component) {
                         },
                         body_content
                     )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'positions-drawer__footer' },
+                    _react2.default.createElement(
+                        'a',
+                        { className: 'btn btn--link btn--alternate', href: 'javascript:;' },
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'btn__text' },
+                            (0, _localize.localize)('Go to Reports')
+                        )
+                    )
                 )
             );
         }
@@ -3089,6 +3813,7 @@ var PositionsDrawer = function (_React$Component) {
 }(_react2.default.Component);
 
 PositionsDrawer.propTypes = {
+    active_contract_id: _propTypes2.default.string,
     active_positions: _mobxReact.PropTypes.arrayOrObservableArray,
     children: _propTypes2.default.any,
     currency: _propTypes2.default.string,
@@ -3096,23 +3821,31 @@ PositionsDrawer.propTypes = {
     is_empty: _propTypes2.default.bool,
     is_loading: _propTypes2.default.bool,
     is_positions_drawer_on: _propTypes2.default.bool,
+    onClickRemove: _propTypes2.default.func,
+    onClickSell: _propTypes2.default.func,
     onMount: _propTypes2.default.func,
     onUnmount: _propTypes2.default.func,
+    server_time: _propTypes2.default.object,
     toggleDrawer: _propTypes2.default.func
 };
 
 exports.default = (0, _connect.connect)(function (_ref) {
-    var modules = _ref.modules,
+    var common = _ref.common,
+        modules = _ref.modules,
         client = _ref.client,
         ui = _ref.ui;
     return {
+        server_time: common.server_time,
+        currency: client.currency,
+        active_contract_id: modules.contract.contract_id,
         active_positions: modules.portfolio.active_positions,
-        is_loading: modules.portfolio.is_loading,
         error: modules.portfolio.error,
         is_empty: modules.portfolio.is_empty,
+        is_loading: modules.portfolio.is_loading,
+        onClickSell: modules.portfolio.onClickSell,
+        onClickRemove: modules.portfolio.removePositionById,
         onMount: modules.portfolio.onMount,
         onUnmount: modules.portfolio.onUnmount,
-        currency: client.currency,
         is_positions_drawer_on: ui.is_positions_drawer_on,
         toggleDrawer: ui.togglePositionsDrawer
     };
@@ -3120,10 +3853,10 @@ exports.default = (0, _connect.connect)(function (_ref) {
 
 /***/ }),
 
-/***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/positions_drawer_card.jsx":
-/*!************************************************************************************************!*\
-  !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/positions_drawer_card.jsx ***!
-  \************************************************************************************************/
+/***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/result-details.jsx":
+/*!*****************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/result-details.jsx ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3134,6 +3867,12 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
@@ -3142,78 +3881,311 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _contractTypeCell = __webpack_require__(/*! ../../../../Modules/Portfolio/Components/contract-type-cell.jsx */ "./src/javascript/app_2/Modules/Portfolio/Components/contract-type-cell.jsx");
+var _reactTransitionGroup = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/index.js");
 
-var _contractTypeCell2 = _interopRequireDefault(_contractTypeCell);
+var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
 
-var _money = __webpack_require__(/*! ../money.jsx */ "./src/javascript/app_2/App/Components/Elements/money.jsx");
+var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
-var _money2 = _interopRequireDefault(_money);
-
-var _binaryLink = __webpack_require__(/*! ../../Routes/binary-link.jsx */ "./src/javascript/app_2/App/Components/Routes/binary-link.jsx");
-
-var _binaryLink2 = _interopRequireDefault(_binaryLink);
-
-var _helpers = __webpack_require__(/*! ../../Routes/helpers */ "./src/javascript/app_2/App/Components/Routes/helpers.js");
-
-var _remainingTime = __webpack_require__(/*! ../../../Containers/remaining-time.jsx */ "./src/javascript/app_2/App/Containers/remaining-time.jsx");
-
-var _remainingTime2 = _interopRequireDefault(_remainingTime);
+var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PositionsDrawerCard = function PositionsDrawerCard(_ref) {
-    var currency = _ref.currency,
-        expiry_time = _ref.expiry_time,
-        id = _ref.id,
-        indicative = _ref.indicative,
-        status = _ref.status,
-        type = _ref.type,
-        underlying = _ref.underlying;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ResultDetails = function (_React$PureComponent) {
+    _inherits(ResultDetails, _React$PureComponent);
+
+    function ResultDetails() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, ResultDetails);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ResultDetails.__proto__ || Object.getPrototypeOf(ResultDetails)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            is_open: false
+        }, _this.toggleDetails = function () {
+            _this.setState({ is_open: !_this.state.is_open });
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(ResultDetails, [{
+        key: 'render',
+        value: function render() {
+            var _props = this.props,
+                barrier = _props.barrier,
+                contract_end_time = _props.contract_end_time,
+                contract_start_time = _props.contract_start_time,
+                duration = _props.duration,
+                duration_unit = _props.duration_unit,
+                entry_spot = _props.entry_spot,
+                has_result = _props.has_result,
+                id_sell = _props.id_sell,
+                tick_count = _props.tick_count;
+
+            if (!has_result) return null;
+            return _react2.default.createElement(
+                _react2.default.Fragment,
+                null,
+                _react2.default.createElement('div', { className: 'result-details__separator' }),
+                _react2.default.createElement(
+                    _reactTransitionGroup.CSSTransition,
+                    {
+                        'in': this.state.is_open,
+                        timeout: 250,
+                        classNames: {
+                            enter: 'result-details__wrapper--enter',
+                            enterDone: 'result-details__wrapper--enter-done',
+                            exit: 'result-details__wrapper--exit'
+                        },
+                        unmountOnExit: true
+                    },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'result-details__wrapper' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'result-details__grid' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'result-details__item' },
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__label' },
+                                    (0, _localize.localize)('Reference ID')
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__value' },
+                                    id_sell
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'result-details__item' },
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__label' },
+                                    (0, _localize.localize)('Duration')
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__value' },
+                                    tick_count ? tick_count + ' ' + (0, _localize.localize)('ticks') : duration + ' ' + duration_unit
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'result-details__grid' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'result-details__item' },
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__label' },
+                                    (0, _localize.localize)('Barrier')
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__value' },
+                                    barrier.toFixed(2)
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'result-details__item' },
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__label' },
+                                    (0, _localize.localize)('Entry spot')
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__value' },
+                                    entry_spot.toFixed(2)
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'result-details__grid' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'result-details__item' },
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__label' },
+                                    (0, _localize.localize)('Start time')
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__value' },
+                                    (0, _Date.toGMTFormat)((0, _Date.epochToMoment)(contract_start_time))
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'result-details__item' },
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__label' },
+                                    (0, _localize.localize)('End time')
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'result-details__value' },
+                                    (0, _Date.toGMTFormat)((0, _Date.epochToMoment)(contract_end_time))
+                                )
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    {
+                        className: (0, _classnames2.default)('result-details__toggle', {
+                            'result-details__toggle--is-open': this.state.is_open
+                        }),
+                        onClick: this.toggleDetails
+                    },
+                    _react2.default.createElement(_Common.IconArrow, null)
+                )
+            );
+        }
+    }]);
+
+    return ResultDetails;
+}(_react2.default.PureComponent);
+
+ResultDetails.propTypes = {
+    barrier: _propTypes2.default.number,
+    contract_end_time: _propTypes2.default.PropTypes.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    contract_start_time: _propTypes2.default.PropTypes.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    duration: _propTypes2.default.number,
+    duration_unit: _propTypes2.default.string,
+    entry_spot: _propTypes2.default.number,
+    has_result: _propTypes2.default.bool,
+    id_sell: _propTypes2.default.number,
+    tick_count: _propTypes2.default.number
+};
+
+exports.default = ResultDetails;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/result-overlay.jsx":
+/*!*****************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/result-overlay.jsx ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactTransitionGroup = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/index.js");
+
+var _icCheck = __webpack_require__(/*! ../../../../../../images/app_2/portfolio/ic-check.svg */ "./src/images/app_2/portfolio/ic-check.svg");
+
+var _icCheck2 = _interopRequireDefault(_icCheck);
+
+var _icCross = __webpack_require__(/*! ../../../../../../images/app_2/portfolio/ic-cross.svg */ "./src/images/app_2/portfolio/ic-cross.svg");
+
+var _icCross2 = _interopRequireDefault(_icCross);
+
+var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ResultOverlay = function ResultOverlay(_ref) {
+    var id = _ref.id,
+        onClickRemove = _ref.onClickRemove,
+        result = _ref.result;
     return _react2.default.createElement(
-        _binaryLink2.default,
-        {
-            className: 'positions-drawer-card',
-            to: (0, _helpers.getContractPath)(id)
-        },
+        _react2.default.Fragment,
+        null,
         _react2.default.createElement(
-            _react2.default.Fragment,
-            null,
+            _reactTransitionGroup.CSSTransition,
+            {
+                'in': !!result,
+                timeout: 250,
+                classNames: {
+                    enter: 'positions-drawer-card__result--enter',
+                    enterDone: 'positions-drawer-card__result--enter-done',
+                    exit: 'positions-drawer-card__result--exit'
+                },
+                unmountOnExit: true
+            },
             _react2.default.createElement(
                 'div',
-                { className: 'positions-drawer-card__type' },
-                _react2.default.createElement(_contractTypeCell2.default, { type: type })
-            ),
-            _react2.default.createElement(
-                'div',
-                { className: 'positions-drawer-card__indicative positions-drawer-card__indicative--' + status },
-                _react2.default.createElement(_money2.default, { amount: indicative, currency: currency })
-            ),
-            _react2.default.createElement(
-                'span',
-                { className: 'positions-drawer-card__symbol' },
-                underlying
-            ),
-            _react2.default.createElement(
-                'span',
-                { className: 'positions-drawer-card__remaining-time' },
-                _react2.default.createElement(_remainingTime2.default, { end_time: expiry_time })
+                { className: (0, _classnames2.default)('positions-drawer-card__result', {
+                        'positions-drawer-card__result--won': result === 'won',
+                        'positions-drawer-card__result--lost': result === 'lost'
+                    })
+                },
+                _react2.default.createElement('span', {
+                    className: 'result__close-btn',
+                    onClick: function onClick() {
+                        return onClickRemove(id);
+                    }
+                }),
+                _react2.default.createElement(
+                    'span',
+                    { className: (0, _classnames2.default)('result__caption', {
+                            'result__caption--won': result === 'won',
+                            'result__caption--lost': result === 'lost'
+                        })
+                    },
+                    result === 'won' ? _react2.default.createElement(
+                        _react2.default.Fragment,
+                        null,
+                        (0, _localize.localize)('won'),
+                        _react2.default.createElement(_icCheck2.default, { className: 'result__icon' })
+                    ) : _react2.default.createElement(
+                        _react2.default.Fragment,
+                        null,
+                        (0, _localize.localize)('lost'),
+                        _react2.default.createElement(_icCross2.default, { className: 'result__icon' })
+                    )
+                )
             )
         )
     );
 };
 
-PositionsDrawerCard.propTypes = {
-    currency: _propTypes2.default.string,
-    expiry_time: _propTypes2.default.PropTypes.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+ResultOverlay.propTypes = {
     id: _propTypes2.default.number,
-    indicative: _propTypes2.default.number,
-    status: _propTypes2.default.string,
-    type: _propTypes2.default.string,
-    underlying: _propTypes2.default.string
+    onClickRemove: _propTypes2.default.func,
+    result: _propTypes2.default.string
 };
 
-exports.default = PositionsDrawerCard;
+exports.default = ResultOverlay;
 
 /***/ }),
 
@@ -3435,7 +4407,7 @@ var SettingsDialog = function (_React$PureComponent) {
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SettingsDialog.__proto__ || Object.getPrototypeOf(SettingsDialog)).call.apply(_ref, [this].concat(args))), _this), _this.setWrapperRef = function (node) {
             _this.wrapper_ref = node;
         }, _this.handleClickOutside = function (event) {
-            var footer_settings_btn = !event.target.classList.contains('ic-settings', 'ic-settings active');
+            var footer_settings_btn = !event.target.classList.contains('ic-settings', 'ic-settings ic-settings--active');
             if (_this.wrapper_ref && !_this.wrapper_ref.contains(event.target) && _this.props.is_open && footer_settings_btn) {
                 _this.props.toggleDialog();
             }
@@ -4254,7 +5226,7 @@ var Money = function Money(_ref) {
         _react2.default.Fragment,
         null,
         sign,
-        _react2.default.createElement('span', { className: (0, _classnames2.default)(className, 'symbols', currency.toLowerCase()) }),
+        _react2.default.createElement('span', { className: (0, _classnames2.default)(className, 'symbols', 'symbols--' + currency.toLowerCase()) }),
         final_amount
     );
 };
@@ -4416,8 +5388,8 @@ var Tooltip = function (_React$Component) {
                         onMouseLeave: this.onMouseLeave
                     }),
                     _react2.default.createElement(_iconInfoBlue.IconInfoBlue, {
-                        className: (0, _classnames2.default)(classNameIcon + '-balloon-icon', 'tooltip-balloon-icon', {
-                            'tooltip-balloon-icon--show': this.state.show_tooltip_balloon_icon
+                        className: (0, _classnames2.default)(classNameIcon + '-balloon-icon', 'tooltip__balloon-icon', {
+                            'tooltip__balloon-icon--show': this.state.show_tooltip_balloon_icon
                         })
                     })
                 ),
@@ -4542,9 +5514,9 @@ var _reactTransitionGroup = __webpack_require__(/*! react-transition-group */ ".
 
 var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
 
-var _inputField = __webpack_require__(/*! ../input-field.jsx */ "./src/javascript/app_2/App/Components/Form/input-field.jsx");
+var _InputField = __webpack_require__(/*! ../InputField */ "./src/javascript/app_2/App/Components/Form/InputField/index.js");
 
-var _inputField2 = _interopRequireDefault(_inputField);
+var _InputField2 = _interopRequireDefault(_InputField);
 
 var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
 
@@ -4604,7 +5576,9 @@ var DatePicker = function (_React$Component) {
             }
         }, _this.onMouseLeave = function () {
             _this.setState({ is_clear_btn_visible: false });
-        }, _this.onSelectCalendar = function (selected_date, is_datepicker_visible) {
+        }, _this.onSelectCalendar = function (selected_date) {
+            var is_datepicker_visible = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
             var value = selected_date;
             if (!(0, _Date.isDateValid)(value)) {
                 value = '';
@@ -4689,7 +5663,7 @@ var DatePicker = function (_React$Component) {
                     value = (0, _Date.formatDate)(_this.props.value, 'DD MMM YYYY');
             }
 
-            return _react2.default.createElement(_inputField2.default, {
+            return _react2.default.createElement(_InputField2.default, {
                 className: 'datepicker__input-field',
                 classNameInput: 'datepicker__input trade-container__input',
                 'data-tip': false,
@@ -4777,7 +5751,7 @@ var DatePicker = function (_React$Component) {
                 }, _callee, this);
             }));
 
-            function onChangeCalendarMonth(_x) {
+            function onChangeCalendarMonth(_x2) {
                 return _ref2.apply(this, arguments);
             }
 
@@ -4875,8 +5849,10 @@ var DatePicker = function (_React$Component) {
                             onChangeCalendarMonth: this.props.disable_trading_events ? this.onChangeCalendarMonth.bind(this) : undefined,
                             holidays: this.state.holidays,
                             weekends: this.state.weekends,
+                            duration_date: this.state.value,
                             date_format: this.props.date_format,
                             has_today_btn: this.props.has_today_btn,
+                            has_range_selection: this.props.has_range_selection,
                             footer: this.props.footer,
                             max_date: this.props.max_date,
                             min_date: this.props.min_date,
@@ -5229,29 +6205,31 @@ var Dropdown = function (_React$Component) {
                 {
                     ref: this.setWrapperRef,
                     className: (0, _classnames2.default)('dropdown-container', this.props.className, {
-                        'dropdown-container--left': this.props.is_alignment_left,
-                        'dropdown-container--show': this.state.is_list_visible,
-                        'dropdown-container--disabled': is_single_option
+                        'dropdown--left': this.props.is_alignment_left,
+                        'dropdown--show': this.state.is_list_visible,
+                        'dropdown--disabled': is_single_option
                     })
                 },
                 _react2.default.createElement(
                     'div',
                     {
-                        className: (0, _classnames2.default)('dropdown__display', {
-                            'dropdown__display--clicked': this.state.is_list_visible
+                        className: (0, _classnames2.default)('dropdown__display', this.props.classNameDisplay, {
+                            'dropdown__display--clicked': this.state.is_list_visible,
+                            'dropdown__display--has-symbol': this.props.has_symbol
                         }),
                         tabIndex: is_single_option ? '-1' : '0',
                         onClick: this.handleVisibility,
                         onKeyDown: this.onKeyPressed
                     },
-                    _react2.default.createElement(
+                    this.props.has_symbol && _react2.default.createElement('span', { name: this.props.name, value: this.props.value, className: 'symbols dropdown__display-symbol symbols--' + (this.props.value || '').toLowerCase() }),
+                    !this.props.has_symbol && _react2.default.createElement(
                         'span',
-                        { name: this.props.name, value: this.props.value },
+                        { name: this.props.name, value: this.props.value, className: 'dropdown__display-text' },
                         (0, _helpers.getDisplayText)(this.props.list, this.props.value)
                     )
                 ),
-                !is_single_option && _react2.default.createElement(_Common.IconArrow, { className: (0, _classnames2.default)('select-arrow', {
-                        'select-arrow--left': this.props.is_alignment_left
+                !is_single_option && _react2.default.createElement(_Common.IconArrow, { className: (0, _classnames2.default)('dropdown__select-arrow', {
+                        'dropdown__select-arrow--left': this.props.is_alignment_left
                     })
                 }),
                 _react2.default.createElement(
@@ -5260,9 +6238,9 @@ var Dropdown = function (_React$Component) {
                         'in': this.state.is_list_visible,
                         timeout: 100,
                         classNames: {
-                            enter: 'dropdown__list--enter',
-                            enterDone: 'dropdown__list--enter--done',
-                            exit: 'dropdown__list--exit'
+                            enter: 'dropdown__list--enter ' + (this.props.is_alignment_left ? 'dropdown__list--left--enter' : ''),
+                            enterDone: 'dropdown__list--enter-done ' + (this.props.is_alignment_left ? 'dropdown__list--left--enter-done' : ''),
+                            exit: 'dropdown__list--exit ' + (this.props.is_alignment_left ? 'dropdown__list--left--exit' : '')
                         },
                         onEntered: setListWidth,
                         unmountOnExit: true
@@ -5296,11 +6274,11 @@ var Dropdown = function (_React$Component) {
                                     }
                                 },
                                 (0, _mobx.isArrayLike)(this.props.list) ? _react2.default.createElement(_items2.default, {
-                                    highlightedIdx: this.state.curr_index,
+                                    handleSelect: this.handleSelect,
+                                    has_symbol: this.props.has_symbol,
                                     items: this.props.list,
                                     name: this.props.name,
-                                    value: this.props.value,
-                                    handleSelect: this.handleSelect
+                                    value: this.props.value
                                 }) : Object.keys(this.props.list).map(function (key) {
                                     return _react2.default.createElement(
                                         _react2.default.Fragment,
@@ -5308,18 +6286,14 @@ var Dropdown = function (_React$Component) {
                                         _react2.default.createElement(
                                             'div',
                                             { className: 'list__label' },
-                                            _react2.default.createElement(
-                                                'span',
-                                                null,
-                                                key
-                                            )
+                                            key
                                         ),
                                         _react2.default.createElement(_items2.default, {
-                                            highlightedIdx: _this2.state.curr_index,
+                                            handleSelect: _this2.handleSelect,
+                                            has_symbol: _this2.props.has_symbol,
                                             items: _this2.props.list[key],
                                             name: _this2.props.name,
-                                            value: _this2.props.value,
-                                            handleSelect: _this2.handleSelect
+                                            value: _this2.props.value
                                         })
                                     );
                                 })
@@ -5336,6 +6310,8 @@ var Dropdown = function (_React$Component) {
 
 Dropdown.propTypes = {
     className: _propTypes2.default.string,
+    classNameDisplay: _propTypes2.default.string,
+    has_symbol: _propTypes2.default.bool,
     is_alignment_left: _propTypes2.default.bool,
     is_nativepicker: _propTypes2.default.bool,
     list: _propTypes2.default.oneOfType([_propTypes2.default.array, _propTypes2.default.object]),
@@ -5480,14 +6456,20 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _tooltip = __webpack_require__(/*! ../../Elements/tooltip.jsx */ "./src/javascript/app_2/App/Components/Elements/tooltip.jsx");
+
+var _tooltip2 = _interopRequireDefault(_tooltip);
+
+var _currency_base = __webpack_require__(/*! ../../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Items = function Items(_ref) {
-    var items = _ref.items,
+    var handleSelect = _ref.handleSelect,
+        has_symbol = _ref.has_symbol,
+        items = _ref.items,
         name = _ref.name,
-        value = _ref.value,
-        handleSelect = _ref.handleSelect,
-        highlightedIdx = _ref.highlightedIdx;
+        value = _ref.value;
     return items.map(function (item, idx) {
         return _react2.default.createElement(
             _react2.default.Fragment,
@@ -5496,17 +6478,26 @@ var Items = function Items(_ref) {
                 'div',
                 {
                     className: (0, _classnames2.default)('list__item', {
-                        'list__item--selected': value === item.value,
-                        'list__item--highlighted': highlightedIdx === idx
+                        'list__item--selected': value === item.value
                     }),
                     key: idx,
                     name: name,
                     value: item.value,
                     onClick: handleSelect.bind(null, item)
                 },
-                _react2.default.createElement(
+                !!has_symbol && item.has_tooltip && _react2.default.createElement(
+                    _tooltip2.default,
+                    { alignment: 'top', className: 'list__item-tooltip', message: (0, _currency_base.getCurrencyName)(item.value) },
+                    _react2.default.createElement(
+                        'i',
+                        null,
+                        _react2.default.createElement('span', { className: 'symbols list__item-tooltip-symbols symbols--' + (item.text || '').toLowerCase() })
+                    )
+                ),
+                !!has_symbol && !item.has_tooltip && _react2.default.createElement('span', { className: 'list__item-text symbols symbols--' + (item.text || '').toLowerCase() }),
+                !has_symbol && _react2.default.createElement(
                     'span',
-                    null,
+                    { className: 'list__item-text' },
                     item.text
                 )
             )
@@ -5516,7 +6507,7 @@ var Items = function Items(_ref) {
 
 Items.propTypes = {
     handleSelect: _propTypes2.default.func,
-    highlightedIdx: _propTypes2.default.number,
+    has_symbol: _propTypes2.default.bool,
     name: _propTypes2.default.string,
     value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
 };
@@ -5595,6 +6586,504 @@ NativeSelect.propTypes = {
 };
 
 exports.default = NativeSelect;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/InputField/increment-buttons.jsx":
+/*!***********************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/InputField/increment-buttons.jsx ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _button = __webpack_require__(/*! ../button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
+
+var _button2 = _interopRequireDefault(_button);
+
+var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IncrementButtons = function IncrementButtons(_ref) {
+    var decrementValue = _ref.decrementValue,
+        incrementValue = _ref.incrementValue,
+        max_is_disabled = _ref.max_is_disabled,
+        min_is_disabled = _ref.min_is_disabled;
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        _react2.default.createElement(
+            _button2.default,
+            {
+                className: 'input-wrapper__button input-wrapper__button--increment',
+                is_disabled: max_is_disabled,
+                onClick: incrementValue,
+                tabIndex: '-1'
+            },
+            _react2.default.createElement(_Common.IconPlus, { className: 'input-wrapper__icon input-wrapper__icon--plus', is_disabled: max_is_disabled })
+        ),
+        _react2.default.createElement(
+            _button2.default,
+            {
+                className: 'input-wrapper__button input-wrapper__button--decrement',
+                is_disabled: min_is_disabled,
+                onClick: decrementValue,
+                tabIndex: '-1'
+            },
+            _react2.default.createElement(_Common.IconMinus, { className: 'input-wrapper__icon input-wrapper__icon--minus', is_disabled: min_is_disabled })
+        )
+    );
+};
+
+IncrementButtons.propTypes = {
+    decrementValue: _propTypes2.default.func,
+    incrementValue: _propTypes2.default.func,
+    max_is_disabled: _propTypes2.default.bool,
+    min_is_disabled: _propTypes2.default.bool
+};
+
+exports.default = IncrementButtons;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/InputField/index.js":
+/*!**********************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/InputField/index.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _inputField = __webpack_require__(/*! ./input-field.jsx */ "./src/javascript/app_2/App/Components/Form/InputField/input-field.jsx");
+
+var _inputField2 = _interopRequireDefault(_inputField);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _inputField2.default;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/InputField/input-field.jsx":
+/*!*****************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/InputField/input-field.jsx ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _currency_base = __webpack_require__(/*! ../../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js");
+
+var _incrementButtons = __webpack_require__(/*! ./increment-buttons.jsx */ "./src/javascript/app_2/App/Components/Form/InputField/increment-buttons.jsx");
+
+var _incrementButtons2 = _interopRequireDefault(_incrementButtons);
+
+var _input = __webpack_require__(/*! ./input.jsx */ "./src/javascript/app_2/App/Components/Form/InputField/input.jsx");
+
+var _input2 = _interopRequireDefault(_input);
+
+var _tooltip = __webpack_require__(/*! ../../Elements/tooltip.jsx */ "./src/javascript/app_2/App/Components/Elements/tooltip.jsx");
+
+var _tooltip2 = _interopRequireDefault(_tooltip);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InputField = function InputField(_ref) {
+    var checked = _ref.checked,
+        className = _ref.className,
+        classNameInlinePrefix = _ref.classNameInlinePrefix,
+        classNameInput = _ref.classNameInput,
+        classNamePrefix = _ref.classNamePrefix,
+        currency = _ref.currency,
+        data_tip = _ref.data_tip,
+        data_value = _ref.data_value,
+        error_messages = _ref.error_messages,
+        fractional_digits = _ref.fractional_digits,
+        helper = _ref.helper,
+        id = _ref.id,
+        inline_prefix = _ref.inline_prefix,
+        is_autocomplete_disabled = _ref.is_autocomplete_disabled,
+        is_disabled = _ref.is_disabled,
+        is_float = _ref.is_float,
+        is_incrementable = _ref.is_incrementable,
+        is_negative_disabled = _ref.is_negative_disabled,
+        _ref$is_read_only = _ref.is_read_only,
+        is_read_only = _ref$is_read_only === undefined ? false : _ref$is_read_only,
+        _ref$is_signed = _ref.is_signed,
+        is_signed = _ref$is_signed === undefined ? false : _ref$is_signed,
+        _ref$is_unit_at_right = _ref.is_unit_at_right,
+        is_unit_at_right = _ref$is_unit_at_right === undefined ? false : _ref$is_unit_at_right,
+        label = _ref.label,
+        max_length = _ref.max_length,
+        max_value = _ref.max_value,
+        min_value = _ref.min_value,
+        name = _ref.name,
+        onChange = _ref.onChange,
+        onClick = _ref.onClick,
+        placeholder = _ref.placeholder,
+        prefix = _ref.prefix,
+        required = _ref.required,
+        type = _ref.type,
+        unit = _ref.unit,
+        value = _ref.value;
+
+    var has_error = error_messages && !!error_messages.length;
+    var has_valid_length = true;
+    var max_is_disabled = max_value && +value >= +max_value;
+    var min_is_disabled = min_value && +value <= +min_value;
+
+    var changeValue = function changeValue(e) {
+        if (unit) {
+            e.target.value = e.target.value.replace(unit, '').trim();
+        }
+
+        if (e.target.value === value && type !== 'checkbox') {
+            return;
+        }
+
+        if (type === 'number' || type === 'tel') {
+            var is_empty = !e.target.value || e.target.value === '' || e.target.value === '  ';
+            var signed_regex = is_signed ? '^([+\-\.0-9])' : '^';
+
+            var is_number = new RegExp(signed_regex + '(\\d*)?' + (is_float ? '(\\.\\d+)?' : '') + '$').test(e.target.value);
+
+            var is_not_completed_number = is_float && new RegExp(signed_regex + '(\\.|\\d+\\.)?$').test(e.target.value);
+            // This regex check whether there is any zero at the end of fractional part or not.
+            var has_zero_at_end = new RegExp(signed_regex + '(\\d+)?\\.(\\d+)?[0]+$').test(e.target.value);
+
+            var is_scientific_notation = /e/.test('' + +e.target.value);
+
+            if (max_length && fractional_digits) {
+                has_valid_length = new RegExp(signed_regex + '(\\d{0,' + max_length + '})(\\.\\d{0,' + fractional_digits + '})?$').test(e.target.value);
+            }
+
+            if ((is_number || is_empty) && has_valid_length) {
+                e.target.value = is_empty || is_signed || has_zero_at_end || is_scientific_notation || type === 'tel' ? e.target.value : +e.target.value;
+            } else if (!is_not_completed_number) {
+                e.target.value = value;
+                return;
+            }
+        }
+
+        onChange(e);
+    };
+
+    var getDecimals = function getDecimals(val) {
+        var array_value = typeof val === 'string' ? val.split('.') : val.toString().split('.');
+        return array_value && array_value.length > 1 ? array_value[1].length : 0;
+    };
+
+    var incrementValue = function incrementValue() {
+        if (max_is_disabled) return;
+        var increment_value = void 0;
+
+        var decimal_places = value ? getDecimals(value) : 0;
+        var is_crypto = !!currency && (0, _currency_base.isCryptocurrency)(currency);
+
+        if (is_crypto || !currency && is_float) {
+            var new_value = parseFloat(+value) + parseFloat(1 * Math.pow(10, 0 - decimal_places));
+            increment_value = parseFloat(new_value).toFixed(decimal_places);
+        } else {
+            increment_value = parseFloat(+value + 1).toFixed(decimal_places);
+        }
+        onChange({ target: { value: increment_value, name: name } });
+    };
+
+    var calculateDecrementedValue = function calculateDecrementedValue() {
+        var decrement_value = void 0;
+
+        var decimal_places = value ? getDecimals(value) : 0;
+        var is_crypto = !!currency && (0, _currency_base.isCryptocurrency)(currency);
+
+        if (is_crypto || !currency && is_float) {
+            var new_value = parseFloat(+value) - parseFloat(1 * Math.pow(10, 0 - decimal_places));
+            decrement_value = parseFloat(new_value).toFixed(decimal_places);
+        } else {
+            decrement_value = parseFloat(+value - 1).toFixed(decimal_places);
+        }
+        return decrement_value;
+    };
+
+    var decrementValue = function decrementValue() {
+        if (!value || min_is_disabled) return;
+        var decrement_value = calculateDecrementedValue();
+        if (is_negative_disabled && decrement_value < 0) return;
+        onChange({ target: { value: decrement_value, name: name } });
+    };
+
+    var onKeyPressed = function onKeyPressed(e) {
+        if (e.keyCode === 38) incrementValue(); // up-arrow pressed
+        if (e.keyCode === 40) decrementValue(); // down-arrow pressed
+    };
+
+    var display_value = value;
+
+    if (unit) {
+        display_value = is_unit_at_right ? value + ' ' + unit : unit + ' ' + value;
+    }
+
+    var is_increment_input = is_incrementable && (type === 'number' || type === 'tel');
+
+    var input = _react2.default.createElement(_input2.default, {
+        changeValue: changeValue,
+        checked: checked,
+        className: (0, _classnames2.default)(is_increment_input ? 'input-wrapper__input' : '', inline_prefix ? 'input--has-inline-prefix' : '', 'input', { 'input--error': has_error }, classNameInput),
+        classNameInlinePrefix: classNameInlinePrefix,
+        data_tip: data_tip,
+        data_value: data_value,
+        display_value: display_value,
+        fractional_digits: fractional_digits,
+        has_error: has_error,
+        id: id,
+        inline_prefix: inline_prefix,
+        is_autocomplete_disabled: is_autocomplete_disabled,
+        is_disabled: is_disabled,
+        is_incrementable: is_increment_input,
+        is_read_only: is_read_only,
+        max_length: max_length,
+        name: name,
+        onClick: onClick,
+        onKeyPressed: onKeyPressed,
+        placeholder: placeholder,
+        required: required,
+        type: type
+    });
+
+    var increment_buttons = _react2.default.createElement(
+        'div',
+        { className: 'input-wrapper' },
+        _react2.default.createElement(_incrementButtons2.default, {
+            max_is_disabled: max_is_disabled,
+            incrementValue: incrementValue,
+            min_is_disabled: min_is_disabled || is_negative_disabled && calculateDecrementedValue() < 0,
+            decrementValue: decrementValue
+        })
+    );
+
+    var input_tooltip = _react2.default.createElement(
+        _tooltip2.default,
+        { className: (0, _classnames2.default)('', { 'with-label': label }), alignment: 'left', message: has_error ? error_messages[0] : null },
+        !!label && _react2.default.createElement(
+            'label',
+            { htmlFor: name, className: 'input-field__label' },
+            label
+        ),
+        !!helper && _react2.default.createElement(
+            'span',
+            { className: 'input-field__helper' },
+            helper
+        ),
+        is_increment_input && increment_buttons,
+        input
+    );
+
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        !!prefix && _react2.default.createElement(
+            'div',
+            { className: classNamePrefix },
+            _react2.default.createElement('span', { className: (0, _classnames2.default)(classNamePrefix + '--symbol', 'symbols', 'symbols--' + prefix.toLowerCase()) })
+        ),
+        _react2.default.createElement(
+            'div',
+            {
+                className: 'input-field ' + className
+            },
+            input_tooltip
+        )
+    );
+};
+
+// ToDo: Refactor input_field
+// supports more than two different types of 'value' as a prop.
+// Quick Solution - Pass two different props to input field.
+InputField.propTypes = {
+    checked: _propTypes2.default.number,
+    className: _propTypes2.default.string,
+    classNameInlinePrefix: _propTypes2.default.string,
+    classNameInput: _propTypes2.default.string,
+    classNamePrefix: _propTypes2.default.string,
+    currency: _propTypes2.default.string,
+    error_messages: _mobxReact.PropTypes.arrayOrObservableArray,
+    fractional_digits: _propTypes2.default.number,
+    helper: _propTypes2.default.string,
+    id: _propTypes2.default.string,
+    inline_prefix: _propTypes2.default.string,
+    is_autocomplete_disabled: _propTypes2.default.bool,
+    is_disabled: _propTypes2.default.string,
+    is_float: _propTypes2.default.bool,
+    is_incrementable: _propTypes2.default.bool,
+    is_negative_disabled: _propTypes2.default.bool,
+    is_read_only: _propTypes2.default.bool,
+    is_signed: _propTypes2.default.bool,
+    is_unit_at_right: _propTypes2.default.bool,
+    label: _propTypes2.default.string,
+    max_length: _propTypes2.default.number,
+    name: _propTypes2.default.string,
+    onChange: _propTypes2.default.func,
+    onClick: _propTypes2.default.func,
+    placeholder: _propTypes2.default.string,
+    prefix: _propTypes2.default.string,
+    required: _propTypes2.default.bool,
+    type: _propTypes2.default.string,
+    unit: _propTypes2.default.string,
+    value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
+};
+
+exports.default = (0, _mobxReact.observer)(InputField);
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/InputField/input.jsx":
+/*!***********************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/InputField/input.jsx ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Input = function Input(_ref) {
+    var changeValue = _ref.changeValue,
+        checked = _ref.checked,
+        className = _ref.className,
+        classNameInlinePrefix = _ref.classNameInlinePrefix,
+        data_value = _ref.data_value,
+        data_tip = _ref.data_tip,
+        display_value = _ref.display_value,
+        fractional_digits = _ref.fractional_digits,
+        id = _ref.id,
+        inline_prefix = _ref.inline_prefix,
+        is_autocomplete_disabled = _ref.is_autocomplete_disabled,
+        is_disabled = _ref.is_disabled,
+        is_incrementable = _ref.is_incrementable,
+        is_read_only = _ref.is_read_only,
+        max_length = _ref.max_length,
+        name = _ref.name,
+        onClick = _ref.onClick,
+        onKeyPressed = _ref.onKeyPressed,
+        placeholder = _ref.placeholder,
+        required = _ref.required,
+        type = _ref.type;
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        !!inline_prefix && _react2.default.createElement(
+            'div',
+            { className: classNameInlinePrefix },
+            _react2.default.createElement('span', { className: (0, _classnames2.default)(classNameInlinePrefix ? classNameInlinePrefix + '--symbol' : '', 'symbols', 'symbols--' + inline_prefix.toLowerCase()) })
+        ),
+        _react2.default.createElement('input', {
+            autoComplete: is_autocomplete_disabled ? 'off' : undefined,
+            checked: checked ? 'checked' : '',
+            className: (0, _classnames2.default)(className),
+            'data-for': 'error_tooltip_' + name,
+            'data-tip': data_tip,
+            'data-value': data_value,
+            disabled: is_disabled,
+            id: id,
+            maxLength: fractional_digits ? max_length + fractional_digits + 1 : max_length,
+            name: name,
+            onChange: changeValue,
+            onClick: onClick,
+            onKeyDown: is_incrementable ? onKeyPressed : undefined,
+            placeholder: placeholder || undefined,
+            readOnly: is_read_only,
+            required: required || undefined,
+            type: type === 'number' ? 'text' : type,
+            value: display_value || ''
+        })
+    );
+};
+
+Input.propTypes = {
+    changeValue: _propTypes2.default.func,
+    checked: _propTypes2.default.number,
+    className: _propTypes2.default.string,
+    classNameInlinePrefix: _propTypes2.default.string,
+    data_tip: _propTypes2.default.string,
+    data_value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    display_value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    fractional_digits: _propTypes2.default.number,
+    id: _propTypes2.default.string,
+    inline_prefix: _propTypes2.default.string,
+    is_autocomplete_disabled: _propTypes2.default.bool,
+    is_disabled: _propTypes2.default.string,
+    is_incrementable: _propTypes2.default.bool,
+    is_read_only: _propTypes2.default.bool,
+    max_length: _propTypes2.default.number,
+    name: _propTypes2.default.string,
+    onClick: _propTypes2.default.func,
+    onKeyPressed: _propTypes2.default.func,
+    placeholder: _propTypes2.default.string,
+    required: _propTypes2.default.bool,
+    type: _propTypes2.default.string,
+    value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
+};
+
+exports.default = Input;
 
 /***/ }),
 
@@ -5852,13 +7341,15 @@ var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var Dialog = function Dialog(_ref) {
     var preClass = _ref.preClass,
-        value = _ref.value,
-        start_time = _ref.start_time,
+        selected_time = _ref.selected_time,
         end_time = _ref.end_time,
+        start_time = _ref.start_time,
         onChange = _ref.onChange,
         className = _ref.className;
 
@@ -5866,10 +7357,10 @@ var Dialog = function Dialog(_ref) {
     var end_time_moment = end_time ? (0, _Date.toMoment)(end_time) : (0, _Date.toMoment)().hour('23').minute('59').seconds('59').milliseconds('999');
     var to_compare_moment = (0, _Date.toMoment)();
 
-    var _value$split = value.split(':'),
-        _value$split2 = _slicedToArray(_value$split, 2),
-        hour = _value$split2[0],
-        minute = _value$split2[1];
+    var _selected_time$split = selected_time.split(':'),
+        _selected_time$split2 = _slicedToArray(_selected_time$split, 2),
+        hour = _selected_time$split2[0],
+        minute = _selected_time$split2[1];
 
     var hours = [].concat(_toConsumableArray(Array(24).keys())).map(function (a) {
         return ('0' + a).slice(-2);
@@ -5895,16 +7386,16 @@ var Dialog = function Dialog(_ref) {
 
     return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(preClass + '-dialog', '' + className) },
+        { className: (0, _classnames2.default)(preClass + '__dialog', '' + className) },
         _react2.default.createElement(
             'div',
-            { className: preClass + '-selector' },
+            { className: preClass + '__selector' },
             _react2.default.createElement(
                 'div',
-                { className: preClass + '-hours' },
+                { className: preClass + '__selector--hours' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'list-title center-text' },
+                    { className: (0, _classnames2.default)(preClass + '__selector-list-title', 'center-text') },
                     _react2.default.createElement(
                         'strong',
                         null,
@@ -5913,17 +7404,20 @@ var Dialog = function Dialog(_ref) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'list-container' },
+                    null,
                     hours.map(function (h, key) {
-                        to_compare_moment.hour(h).minute(minute);
-                        var is_enabled = to_compare_moment.isBetween(start_time_moment, end_time_moment);
+                        to_compare_moment.hour(h);
+                        var start_time_reset_minute = start_time_moment.clone().minute(0);
+                        var is_hour_enabled = to_compare_moment.isBetween(start_time_reset_minute, end_time_moment);
+                        var is_minute_enabled = to_compare_moment.isBetween(start_time_moment, end_time_moment, 'minute');
+                        var is_enabled = is_hour_enabled && is_minute_enabled;
                         return _react2.default.createElement(
                             'div',
                             {
-                                className: (0, _classnames2.default)('list-item', { 'selected': hour === h }, { 'disabled': !is_enabled }),
+                                className: (0, _classnames2.default)(preClass + '__selector-list-item', _defineProperty({}, preClass + '__selector-list-item--selected', hour === h), _defineProperty({}, preClass + '__selector-list-item--disabled', !is_enabled)),
                                 key: key,
                                 onClick: function onClick() {
-                                    selectOption('h', h, value, is_enabled);
+                                    selectOption('h', h, selected_time, is_enabled);
                                 }
                             },
                             h
@@ -5933,10 +7427,10 @@ var Dialog = function Dialog(_ref) {
             ),
             _react2.default.createElement(
                 'div',
-                { className: preClass + '-minutes' },
+                { className: preClass + '__selector--minutes' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'list-title center-text' },
+                    { className: (0, _classnames2.default)(preClass + '__selector-list-title', 'center-text') },
                     _react2.default.createElement(
                         'strong',
                         null,
@@ -5945,17 +7439,17 @@ var Dialog = function Dialog(_ref) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'list-container' },
+                    null,
                     minutes.map(function (mm, key) {
                         to_compare_moment.hour(hour).minute(mm);
                         var is_enabled = to_compare_moment.isBetween(start_time_moment, end_time_moment, 'minute');
                         return _react2.default.createElement(
                             'div',
                             {
-                                className: (0, _classnames2.default)('list-item', { 'selected': minute === mm }, { 'disabled': !is_enabled }),
+                                className: (0, _classnames2.default)(preClass + '__selector-list-item', _defineProperty({}, preClass + '__selector-list-item--selected', minute === mm), _defineProperty({}, preClass + '__selector-list-item--disabled', !is_enabled)),
                                 key: key,
                                 onClick: function onClick() {
-                                    selectOption('m', mm, value, is_enabled);
+                                    selectOption('m', mm, selected_time, is_enabled);
                                 }
                             },
                             mm
@@ -5972,8 +7466,8 @@ Dialog.propTypes = {
     end_time: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string, _propTypes2.default.object]),
     onChange: _propTypes2.default.func,
     preClass: _propTypes2.default.string,
-    start_time: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string, _propTypes2.default.object]),
-    value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string, _propTypes2.default.object])
+    selected_time: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string, _propTypes2.default.object]),
+    start_time: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string, _propTypes2.default.object])
 };
 
 exports.default = Dialog;
@@ -6043,13 +7537,15 @@ var _dialog = __webpack_require__(/*! ./dialog.jsx */ "./src/javascript/app_2/Ap
 
 var _dialog2 = _interopRequireDefault(_dialog);
 
-var _inputField = __webpack_require__(/*! ../input-field.jsx */ "./src/javascript/app_2/App/Components/Form/input-field.jsx");
+var _InputField = __webpack_require__(/*! ../InputField */ "./src/javascript/app_2/App/Components/Form/InputField/index.js");
 
-var _inputField2 = _interopRequireDefault(_inputField);
+var _InputField2 = _interopRequireDefault(_InputField);
 
 var _iconClock = __webpack_require__(/*! ../../../../Assets/Common/icon-clock.jsx */ "./src/javascript/app_2/Assets/Common/icon-clock.jsx");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -6077,9 +7573,9 @@ var TimePicker = function (_React$Component) {
             });
         }, _this.handleChange = function (arg) {
             // To handle nativepicker;
-            var value = (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' ? arg.target.value : arg;
+            var value = (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' ? arg.target.selected_time : arg;
 
-            if (value !== _this.props.value) {
+            if (value !== _this.props.selected_time) {
                 _this.props.onChange({ target: { name: _this.props.name, value: value } });
             }
         }, _this.saveRef = function (node) {
@@ -6113,24 +7609,24 @@ var TimePicker = function (_React$Component) {
         value: function render() {
             var prefix_class = 'time-picker';
             var _props = this.props,
-                value = _props.value,
+                selected_time = _props.selected_time,
                 name = _props.name,
                 is_nativepicker = _props.is_nativepicker,
                 placeholder = _props.placeholder,
-                start_time = _props.start_time,
                 end_time = _props.end_time,
+                start_time = _props.start_time,
                 validation_errors = _props.validation_errors;
 
             return _react2.default.createElement(
                 'div',
                 {
                     ref: this.saveRef,
-                    className: (0, _classnames2.default)(prefix_class, { 'padding': this.props.padding })
+                    className: (0, _classnames2.default)(prefix_class, _defineProperty({}, prefix_class + '--padding', this.props.padding))
                 },
                 is_nativepicker ? _react2.default.createElement('input', {
                     type: 'time',
                     id: prefix_class + '-input',
-                    value: value,
+                    value: selected_time,
                     onChange: this.handleChange,
                     name: name,
                     min: start_time,
@@ -6138,37 +7634,37 @@ var TimePicker = function (_React$Component) {
                 }) : _react2.default.createElement(
                     _react2.default.Fragment,
                     null,
-                    _react2.default.createElement(_iconClock.IconClock, { className: 'time-picker-icon' }),
-                    _react2.default.createElement(_inputField2.default, {
+                    _react2.default.createElement(_InputField2.default, {
                         error_messages: validation_errors,
                         type: 'text',
                         is_read_only: true,
                         id: prefix_class + '-input',
                         className: (0, _classnames2.default)(prefix_class + '-input'),
-                        value: value,
+                        value: selected_time,
                         onClick: this.toggleDropDown,
                         name: name,
                         placeholder: placeholder
                     }),
+                    _react2.default.createElement(_iconClock.IconClock, { className: prefix_class + '__icon' }),
                     _react2.default.createElement(
                         _reactTransitionGroup.CSSTransition,
                         {
                             'in': this.state.is_open,
                             classNames: {
-                                enter: 'time-picker-dialog-enter',
-                                enterDone: 'time-picker-dialog-enter-done',
-                                exit: 'time-picker-dialog-exit'
+                                enter: 'time-picker__dialog--enter',
+                                enterDone: 'time-picker__dialog--enter-done',
+                                exit: 'time-picker__dialog--exit'
                             },
                             timeout: 100,
                             unmountOnExit: true
                         },
                         _react2.default.createElement(_dialog2.default, {
+                            end_time: end_time,
+                            start_time: start_time,
                             className: 'from-left',
                             onChange: this.handleChange,
                             preClass: prefix_class,
-                            start_time: start_time,
-                            end_time: end_time,
-                            value: value
+                            selected_time: selected_time
                         })
                     )
                 )
@@ -6187,8 +7683,8 @@ TimePicker.propTypes = {
     onChange: _propTypes2.default.func,
     padding: _propTypes2.default.string,
     placeholder: _propTypes2.default.string,
-    start_time: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string, _propTypes2.default.object]),
-    value: _propTypes2.default.string
+    selected_time: _propTypes2.default.string,
+    start_time: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string, _propTypes2.default.object])
 };
 
 exports.default = (0, _mobxReact.observer)(TimePicker);
@@ -6321,7 +7817,7 @@ var Button = function Button(_ref) {
         },
         _react2.default.createElement(
             'span',
-            { className: classNameSpan || undefined },
+            { className: (0, _classnames2.default)('btn__text', classNameSpan) },
             text
         ),
         children
@@ -6418,258 +7914,6 @@ Fieldset.propTypes = {
 };
 
 exports.default = Fieldset;
-
-/***/ }),
-
-/***/ "./src/javascript/app_2/App/Components/Form/input-field.jsx":
-/*!******************************************************************!*\
-  !*** ./src/javascript/app_2/App/Components/Form/input-field.jsx ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _iconMinus = __webpack_require__(/*! ../../../Assets/Common/icon-minus.jsx */ "./src/javascript/app_2/Assets/Common/icon-minus.jsx");
-
-var _iconPlus = __webpack_require__(/*! ../../../Assets/Common/icon-plus.jsx */ "./src/javascript/app_2/Assets/Common/icon-plus.jsx");
-
-var _button = __webpack_require__(/*! ./button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
-
-var _button2 = _interopRequireDefault(_button);
-
-var _tooltip = __webpack_require__(/*! ../Elements/tooltip.jsx */ "./src/javascript/app_2/App/Components/Elements/tooltip.jsx");
-
-var _tooltip2 = _interopRequireDefault(_tooltip);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var InputField = function InputField(_ref) {
-    var checked = _ref.checked,
-        className = _ref.className,
-        classNameInput = _ref.classNameInput,
-        classNamePrefix = _ref.classNamePrefix,
-        data_tip = _ref.data_tip,
-        data_value = _ref.data_value,
-        error_messages = _ref.error_messages,
-        fractional_digits = _ref.fractional_digits,
-        helper = _ref.helper,
-        id = _ref.id,
-        is_autocomplete_disabled = _ref.is_autocomplete_disabled,
-        is_disabled = _ref.is_disabled,
-        is_float = _ref.is_float,
-        is_incrementable = _ref.is_incrementable,
-        _ref$is_read_only = _ref.is_read_only,
-        is_read_only = _ref$is_read_only === undefined ? false : _ref$is_read_only,
-        _ref$is_signed = _ref.is_signed,
-        is_signed = _ref$is_signed === undefined ? false : _ref$is_signed,
-        _ref$is_unit_at_right = _ref.is_unit_at_right,
-        is_unit_at_right = _ref$is_unit_at_right === undefined ? false : _ref$is_unit_at_right,
-        label = _ref.label,
-        max_length = _ref.max_length,
-        max_value = _ref.max_value,
-        min_value = _ref.min_value,
-        name = _ref.name,
-        onChange = _ref.onChange,
-        onClick = _ref.onClick,
-        placeholder = _ref.placeholder,
-        prefix = _ref.prefix,
-        required = _ref.required,
-        type = _ref.type,
-        unit = _ref.unit,
-        value = _ref.value;
-
-    var has_error = error_messages && error_messages.length;
-    var has_valid_length = true;
-    var max_is_disabled = max_value && +value >= +max_value;
-    var min_is_disabled = min_value && +value <= +min_value;
-
-    var changeValue = function changeValue(e) {
-        if (unit) {
-            e.target.value = e.target.value.replace(unit, '').trim();
-        }
-
-        if (e.target.value === value && type !== 'checkbox') {
-            return;
-        }
-
-        if (type === 'number') {
-            var is_empty = !e.target.value || e.target.value === '' || e.target.value === '  ';
-            var signed_regex = is_signed ? '[+\-\.0-9]$' : '^';
-
-            var is_number = new RegExp(signed_regex + '(\\d*)?' + (is_float ? '(\\.\\d+)?' : '') + '$').test(e.target.value);
-
-            var is_not_completed_number = is_float && new RegExp(signed_regex + '(\\.|\\d+\\.)?$').test(e.target.value);
-
-            // This regex check whether there is any zero at the end of fractional part or not.
-            var has_zero_at_end = new RegExp(signed_regex + '(\\d+)?\\.(\\d+)?[0]+$').test(e.target.value);
-
-            var is_scientific_notation = /e/.test('' + +e.target.value);
-
-            if (max_length && fractional_digits) {
-                has_valid_length = new RegExp(signed_regex + '(\\d{0,' + max_length + '})(\\.\\d{0,' + fractional_digits + '})?$').test(e.target.value);
-            }
-
-            if ((is_number || is_empty) && has_valid_length) {
-                e.target.value = is_empty || is_signed || has_zero_at_end || is_scientific_notation ? e.target.value : +e.target.value;
-            } else if (!is_not_completed_number) {
-                e.target.value = value;
-                return;
-            }
-        }
-
-        onChange(e);
-    };
-
-    var incrementValue = function incrementValue() {
-        if (max_is_disabled) return;
-
-        var increment_value = +value + 1;
-        onChange({ target: { value: increment_value, name: name } });
-    };
-
-    var decrementValue = function decrementValue() {
-        if (!value || min_is_disabled) return;
-
-        var decrement_value = +value - 1;
-        onChange({ target: { value: decrement_value, name: name } });
-    };
-
-    var onKeyPressed = function onKeyPressed(e) {
-        if (e.keyCode === 38) incrementValue(); // up-arrow pressed
-        if (e.keyCode === 40) decrementValue(); // down-arrow pressed
-    };
-
-    var display_value = value;
-
-    if (unit) {
-        display_value = is_unit_at_right ? value + ' ' + unit : unit + ' ' + value;
-    }
-
-    var input = _react2.default.createElement('input', {
-        checked: checked ? 'checked' : '',
-        className: (0, _classnames2.default)('input', { error: has_error }, classNameInput),
-        disabled: is_disabled,
-        'data-for': 'error_tooltip_' + name,
-        'data-value': data_value,
-        'data-tip': data_tip,
-        id: id,
-        maxLength: fractional_digits ? max_length + fractional_digits + 1 : max_length,
-        name: name,
-        onKeyDown: is_incrementable ? onKeyPressed : undefined,
-        onChange: changeValue,
-        onClick: onClick,
-        placeholder: placeholder || undefined,
-        readOnly: is_read_only,
-        required: required || undefined,
-        type: type === 'number' ? 'text' : type,
-        value: display_value || '',
-        autoComplete: is_autocomplete_disabled ? 'off' : undefined
-    });
-
-    var input_increment = _react2.default.createElement(
-        'div',
-        { className: 'input-wrapper' },
-        _react2.default.createElement(
-            _button2.default,
-            {
-                className: 'input-wrapper__button input-wrapper__button--increment',
-                is_disabled: max_is_disabled,
-                onClick: incrementValue,
-                tabIndex: '-1'
-            },
-            _react2.default.createElement(_iconPlus.IconPlus, { className: 'input-wrapper__icon input-wrapper__icon--plus', is_disabled: max_is_disabled })
-        ),
-        _react2.default.createElement(
-            _button2.default,
-            {
-                className: 'input-wrapper__button input-wrapper__button--decrement',
-                is_disabled: min_is_disabled,
-                onClick: decrementValue,
-                tabIndex: '-1'
-            },
-            _react2.default.createElement(_iconMinus.IconMinus, { className: 'input-wrapper__icon input-wrapper__icon--minus', is_disabled: min_is_disabled })
-        ),
-        input
-    );
-
-    return _react2.default.createElement(
-        'div',
-        {
-            className: 'input-field ' + (className || '')
-        },
-        _react2.default.createElement(
-            _tooltip2.default,
-            { className: (0, _classnames2.default)('', { 'with-label': label }), alignment: 'left', message: has_error ? error_messages[0] : null },
-            !!label && _react2.default.createElement(
-                'label',
-                { htmlFor: name, className: 'input-label' },
-                label
-            ),
-            !!prefix && _react2.default.createElement('span', { className: (0, _classnames2.default)(classNamePrefix, 'symbols', prefix.toLowerCase()) }),
-            !!helper && _react2.default.createElement(
-                'span',
-                { className: 'input-helper' },
-                helper
-            ),
-            is_incrementable && type === 'number' ? input_increment : input
-        )
-    );
-};
-
-// ToDo: Refactor input_field
-// supports more than two different types of 'value' as a prop.
-// Quick Solution - Pass two different props to input field.
-// implicit import here { IconMinus, IconPlus } from 'Assets/Common' breaks compilation
-InputField.propTypes = {
-    checked: _propTypes2.default.number,
-    className: _propTypes2.default.string,
-    classNameInput: _propTypes2.default.string,
-    classNamePrefix: _propTypes2.default.string,
-    error_messages: _mobxReact.PropTypes.arrayOrObservableArray,
-    fractional_digits: _propTypes2.default.number,
-    helper: _propTypes2.default.string,
-    id: _propTypes2.default.string,
-    is_autocomplete_disabled: _propTypes2.default.bool,
-    is_disabled: _propTypes2.default.string,
-    is_float: _propTypes2.default.bool,
-    is_incrementable: _propTypes2.default.bool,
-    is_read_only: _propTypes2.default.bool,
-    is_signed: _propTypes2.default.bool,
-    is_unit_at_right: _propTypes2.default.bool,
-    label: _propTypes2.default.string,
-    max_length: _propTypes2.default.number,
-    name: _propTypes2.default.string,
-    onChange: _propTypes2.default.func,
-    onClick: _propTypes2.default.func,
-    placeholder: _propTypes2.default.string,
-    prefix: _propTypes2.default.string,
-    required: _propTypes2.default.bool,
-    type: _propTypes2.default.string,
-    unit: _propTypes2.default.string,
-    value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
-};
-
-exports.default = (0, _mobxReact.observer)(InputField);
 
 /***/ }),
 
@@ -6855,11 +8099,16 @@ var NetworkStatus = function NetworkStatus(_ref) {
     var status = _ref.status;
     return _react2.default.createElement(
         'div',
-        { className: 'network-status-wrapper' },
+        { className: 'network-status__wrapper' },
         _react2.default.createElement(
             _tooltip2.default,
             { alignment: 'top', message: (0, _localize.localize)('Network status: [_1]', [status.tooltip || (0, _localize.localize)('Connecting to server')]) },
-            _react2.default.createElement('div', { className: (0, _classnames2.default)('network-status-circle', status.class) })
+            _react2.default.createElement('div', { className: (0, _classnames2.default)('network-status__circle', {
+                    'network-status__circle--offline': status.class === 'offline',
+                    'network-status__circle--online': status.class === 'online',
+                    'network-status__circle--blinker': status.class === 'blinker'
+                })
+            })
         )
     );
 };
@@ -6963,8 +8212,8 @@ var ToggleFullScreen = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var full_screen_icon_class = (0, _classnames2.default)('ic-fullscreen', {
-                'active': this.state.is_full_screen
+            var full_screen_icon_class = (0, _classnames2.default)('ic-fullscreen', 'footer__link', {
+                'ic-fullscreen--active': this.state.is_full_screen
             });
             return _react2.default.createElement(
                 'a',
@@ -6973,7 +8222,7 @@ var ToggleFullScreen = function (_React$Component) {
                     className: full_screen_icon_class,
                     onClick: this.toggleFullScreen
                 },
-                _react2.default.createElement(_Footer.IconMaximize, { className: 'footer-icon' })
+                _react2.default.createElement(_Footer.IconMaximize, { className: 'footer__icon' })
             );
         }
     }]);
@@ -7020,8 +8269,8 @@ var TogglePositions = function TogglePositions(_ref) {
     var is_positions_drawer_on = _ref.is_positions_drawer_on,
         togglePositionsDrawer = _ref.togglePositionsDrawer;
 
-    var toggle_positions_class = (0, _classnames2.default)('ic-positions', {
-        'active': is_positions_drawer_on
+    var toggle_positions_class = (0, _classnames2.default)('ic-positions', 'footer__link', {
+        'ic-positions--active': is_positions_drawer_on
     });
     return _react2.default.createElement(
         'a',
@@ -7030,7 +8279,7 @@ var TogglePositions = function TogglePositions(_ref) {
             className: toggle_positions_class,
             onClick: togglePositionsDrawer
         },
-        _react2.default.createElement(_Footer.IconPositions, null)
+        _react2.default.createElement(_Footer.IconPositions, { className: 'footer__icon ic-positions__icon' })
     );
 };
 
@@ -7085,8 +8334,8 @@ var ToggleSettings = function ToggleSettings(_ref) {
         is_settings_visible = _ref.is_settings_visible,
         toggleSettings = _ref.toggleSettings;
 
-    var toggle_settings_class = (0, _classnames2.default)('ic-settings', {
-        'active': is_settings_visible
+    var toggle_settings_class = (0, _classnames2.default)('ic-settings', 'footer__link', {
+        'ic-settings--active': is_settings_visible
     });
     return _react2.default.createElement(
         _react2.default.Fragment,
@@ -7098,7 +8347,7 @@ var ToggleSettings = function ToggleSettings(_ref) {
                 onClick: toggleSettings,
                 className: toggle_settings_class
             },
-            _react2.default.createElement(_Footer.IconSettings, { className: 'footer-icon' })
+            _react2.default.createElement(_Footer.IconSettings, { className: 'footer__icon ic-settings__icon' })
         ),
         _react2.default.createElement(
             _reactTransitionGroup.CSSTransition,
@@ -7166,6 +8415,8 @@ var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javasc
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 // todo fix absolute path
 
 var AccountInfo = function AccountInfo(_ref) {
@@ -7195,17 +8446,18 @@ var AccountInfo = function AccountInfo(_ref) {
                     className: 'acc-info__id',
                     title: loginid
                 },
-                loginid
+                loginid,
+                '\xA0'
             ),
             typeof balance !== 'undefined' && _react2.default.createElement(
                 'p',
                 { className: 'acc-info__balance' },
                 _react2.default.createElement('span', {
-                    className: (0, _classnames2.default)('symbols', (currency || '').toLowerCase())
+                    className: (0, _classnames2.default)('symbols', _defineProperty({}, 'symbols--' + (currency || '').toLowerCase(), currency))
                 }),
                 balance
             ),
-            _react2.default.createElement(_Common.IconArrow, { className: 'acc-info__select-arrow' })
+            _react2.default.createElement(_Common.IconArrow, { className: 'acc-info__select-arrow', is_bold: true })
         ),
         _react2.default.createElement(
             _reactTransitionGroup.CSSTransition,
@@ -7287,7 +8539,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var DepositButton = function DepositButton(_ref) {
     var className = _ref.className;
     return _react2.default.createElement(_button2.default, {
-        className: (0, _classnames2.default)(className, 'primary orange'),
+        className: (0, _classnames2.default)(className, 'btn--primary btn--primary--orange'),
         has_effect: true,
         text: (0, _localize.localize)('Deposit')
         // TODO: Redirect to Deposit page in Cashier
@@ -7468,7 +8720,7 @@ var InstallPWAButton = function InstallPWAButton(_ref) {
     };
 
     return _react2.default.createElement(_button2.default, {
-        className: (0, _classnames2.default)(className, 'primary orange'),
+        className: (0, _classnames2.default)(className, 'btn--primary btn--primary--orange'),
         has_effect: true,
         text: (0, _localize.localize)('Install'),
         onClick: showPrompt
@@ -7525,7 +8777,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var LoginButton = function LoginButton(_ref) {
     var className = _ref.className;
     return _react2.default.createElement(_button2.default, {
-        className: (0, _classnames2.default)(className, 'secondary orange'),
+        className: (0, _classnames2.default)(className, 'btn--secondary btn--secondary--orange'),
         has_effect: true,
         text: (0, _localize.localize)('Log in'),
         onClick: _login.redirectToLogin
@@ -7578,19 +8830,19 @@ var MenuLinks = function MenuLinks(_ref) {
         null,
         _react2.default.createElement(
             'div',
-            { className: 'navbar-icons binary-logo' },
+            { className: 'header__navbar-icons header__navbar-icons--binary-logo' },
             _react2.default.createElement(_symbol2.default, { width: '30px', height: '30px' })
         ),
         !!items.length && _react2.default.createElement(
             'div',
-            { className: 'menu-links' },
+            { className: 'header__menu-links' },
             items.map(function (item, idx) {
                 return _react2.default.createElement(
                     _Routes.BinaryLink,
-                    { key: idx, to: item.link_to },
+                    { key: idx, to: item.link_to, className: 'header__menu-link', active_class: 'header__menu-link--active' },
                     _react2.default.createElement(
                         'span',
-                        { title: item.text },
+                        { title: item.text, className: 'header__menu-link-text' },
                         item.icon,
                         item.text
                     )
@@ -7649,7 +8901,7 @@ var ToggleMenuDrawer = function ToggleMenuDrawer() {
         {
             alignment: 'left',
             icon: _react2.default.createElement(_NavBar.IconHamburger, null),
-            icon_class: 'menu-toggle'
+            icon_class: 'header__menu-toggle'
         },
         _react2.default.createElement(_menuDrawer2.default, null)
     );
@@ -7742,7 +8994,7 @@ var UpgradeButton = function UpgradeButton(_ref) {
         onClick = _ref.onClick;
     return _react2.default.createElement(_button2.default, {
         id: 'acc-balance-btn',
-        className: (0, _classnames2.default)(className, 'primary orange'),
+        className: (0, _classnames2.default)(className, 'btn--primary btn--primary--orange'),
         has_effect: true,
         text: (0, _localize.localize)('Upgrade'),
         onClick: onClick
@@ -7798,9 +9050,10 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 // when binary link is imported into components present in routes config
 // or into their descendants
 var BinaryLink = function BinaryLink(_ref) {
-    var to = _ref.to,
+    var active_class = _ref.active_class,
+        to = _ref.to,
         children = _ref.children,
-        props = _objectWithoutProperties(_ref, ['to', 'children']);
+        props = _objectWithoutProperties(_ref, ['active_class', 'to', 'children']);
 
     var path = (0, _helpers.normalizePath)(to);
     var route = (0, _helpers.findRouteByPath)(path, (0, _routesConfig2.default)());
@@ -7811,7 +9064,7 @@ var BinaryLink = function BinaryLink(_ref) {
 
     return to ? _react2.default.createElement(
         _reactRouterDom.NavLink,
-        _extends({ to: path, activeClassName: 'active', exact: route.exact }, props),
+        _extends({ to: path, activeClassName: active_class || 'active', exact: route.exact }, props),
         children
     ) : _react2.default.createElement(
         'a',
@@ -7821,6 +9074,7 @@ var BinaryLink = function BinaryLink(_ref) {
 };
 
 BinaryLink.propTypes = {
+    active_class: _propTypes2.default.string,
     children: _propTypes2.default.object,
     to: _propTypes2.default.string
 };
@@ -7920,7 +9174,7 @@ var ButtonLink = function ButtonLink(_ref) {
     return _react2.default.createElement(
         _reactRouterDom.Link,
         {
-            className: (0, _classnames2.default)('btn is-link', className, 'effect'),
+            className: (0, _classnames2.default)('btn btn--link', className, 'effect'),
             to: to
         },
         children
@@ -8170,12 +9424,12 @@ var _Constants = __webpack_require__(/*! ../../Constants */ "./src/javascript/ap
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var header_links = [{
-    icon: _react2.default.createElement(_NavBar.IconTrade, { className: 'ic-header__trade' }),
+    icon: _react2.default.createElement(_NavBar.IconTrade, { className: 'header__icon' }),
     text: (0, _localize.localize)('Trade'),
     link_to: _Constants.routes.trade
 }, {
     // TODO: Combine portfolio and statement into reports page
-    icon: _react2.default.createElement(_NavBar.IconStatement, { className: 'ic-header__statement' }),
+    icon: _react2.default.createElement(_NavBar.IconStatement, { className: 'header__icon' }),
     text: (0, _localize.localize)('Reports'),
     link_to: _Constants.routes.statement
 }];
@@ -8220,13 +9474,13 @@ var ContractDetails = (0, _react.lazy)(function () {
 // import Statement       from 'Modules/Statement';
 
 var Portfolio = (0, _react.lazy)(function () {
-    return __webpack_require__.e(/*! import() | portfolio */ "portfolio").then(__webpack_require__.t.bind(null, /*! ../../Modules/Portfolio */ "./src/javascript/app_2/Modules/Portfolio/index.js", 7));
+    return Promise.all(/*! import() | portfolio */[__webpack_require__.e("portfolio~statement"), __webpack_require__.e("portfolio")]).then(__webpack_require__.t.bind(null, /*! ../../Modules/Portfolio */ "./src/javascript/app_2/Modules/Portfolio/index.js", 7));
 });
 var Settings = (0, _react.lazy)(function () {
     return __webpack_require__.e(/*! import() | settings */ "settings").then(__webpack_require__.t.bind(null, /*! ../../Modules/settings/settings.jsx */ "./src/javascript/app_2/Modules/settings/settings.jsx", 7));
 });
 var Statement = (0, _react.lazy)(function () {
-    return __webpack_require__.e(/*! import() | statement */ "statement").then(__webpack_require__.t.bind(null, /*! ../../Modules/Statement */ "./src/javascript/app_2/Modules/Statement/index.js", 7));
+    return Promise.all(/*! import() | statement */[__webpack_require__.e("portfolio~statement"), __webpack_require__.e("statement")]).then(__webpack_require__.t.bind(null, /*! ../../Modules/Statement */ "./src/javascript/app_2/Modules/Statement/index.js", 7));
 });
 
 // Settings Routes
@@ -8319,6 +9573,8 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var _react2 = _interopRequireDefault(_react);
 
 var _localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
+var _utility = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js");
 
 var _AccountsCurrency = __webpack_require__(/*! ../../../Assets/Header/AccountsCurrency */ "./src/javascript/app_2/Assets/Header/AccountsCurrency/index.js");
 
@@ -8421,15 +9677,21 @@ var AccountSwitcher = function (_React$Component) {
             if (!this.props.is_logged_in) return false;
             // TODO: Once we allow other real accounts (apart from CR), assign correct title and group accounts into list with correct account title/types
             // e.g - Real, Financial, Gaming, Investment
+            var real_accounts = this.props.account_list.filter(function (acc) {
+                return !acc.is_virtual;
+            });
+            var vrt_account = this.props.account_list.find(function (acc) {
+                return acc.is_virtual;
+            });
 
-            var main_account_title = (0, _localize.localize)('Real account');
+            var main_account_title = real_accounts.length > 1 ? (0, _localize.localize)('Real accounts') : (0, _localize.localize)('Real account');
 
             return _react2.default.createElement(
                 'div',
                 { className: 'acc-switcher__list', ref: this.setWrapperRef },
 
                 // Make sure this block is not rendered if there are no real accounts
-                !!(this.props.account_list.length > 0 && !this.props.account_list[0].is_virtual) && _react2.default.createElement(
+                !!(this.props.account_list.length && real_accounts.length) && _react2.default.createElement(
                     'div',
                     { className: 'acc-switcher__list-group' },
                     _react2.default.createElement(
@@ -8437,15 +9699,14 @@ var AccountSwitcher = function (_React$Component) {
                         { className: 'acc-switcher__list-title' },
                         main_account_title
                     ),
-                    this.props.account_list.filter(function (accounts) {
-                        return !accounts.is_virtual;
-                    }).map(function (account) {
-                        return _react2.default.createElement(
-                            _react2.default.Fragment,
-                            { key: account.loginid },
-                            _react2.default.createElement(
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'acc-switcher__accounts' },
+                        real_accounts.map(function (account) {
+                            return _react2.default.createElement(
                                 'div',
                                 {
+                                    key: account.loginid,
                                     className: (0, _classnames2.default)('acc-switcher__account', {
                                         'acc-switcher__account--selected': account.loginid === _this2.props.account_loginid
                                     }),
@@ -8459,11 +9720,10 @@ var AccountSwitcher = function (_React$Component) {
                                         type: account.icon
                                     }),
                                     account.loginid
-                                ),
-                                _react2.default.createElement('span', { className: 'acc-switcher__radio' })
-                            )
-                        );
-                    }),
+                                )
+                            );
+                        })
+                    ),
                     // TODO: Add link to account opening page for upgrade or multi account page for new account.
                     // Update text below for handling types of account to create :- e.g - Investment
                     !!(this.props.is_upgrade_enabled && this.props.upgrade_info.can_open_multi) && _react2.default.createElement(
@@ -8476,7 +9736,7 @@ var AccountSwitcher = function (_React$Component) {
                         )
                     )
                 ),
-                _react2.default.createElement(
+                !(0, _utility.isEmptyObject)(vrt_account) && _react2.default.createElement(
                     'div',
                     { className: 'acc-switcher__list--virtual' },
                     _react2.default.createElement(
@@ -8486,18 +9746,21 @@ var AccountSwitcher = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         'div',
-                        {
-                            className: (0, _classnames2.default)('acc-switcher__account', {
-                                'acc-switcher__account--selected': this.props.virtual_loginid === this.props.account_loginid
-                            }),
-                            onClick: this.doSwitch.bind(this, this.props.virtual_loginid)
-                        },
+                        { className: 'acc-switcher__accounts' },
                         _react2.default.createElement(
-                            'span',
-                            { className: (0, _classnames2.default)('acc-switcher__id', 'acc-switcher__id--virtual') },
-                            this.props.virtual_loginid
-                        ),
-                        _react2.default.createElement('span', { className: 'acc-switcher__radio' })
+                            'div',
+                            {
+                                className: (0, _classnames2.default)('acc-switcher__account', {
+                                    'acc-switcher__account--selected': this.props.virtual_loginid === this.props.account_loginid
+                                }),
+                                onClick: this.doSwitch.bind(this, this.props.virtual_loginid)
+                            },
+                            _react2.default.createElement(
+                                'span',
+                                { className: (0, _classnames2.default)('acc-switcher__id', 'acc-switcher__id--virtual') },
+                                this.props.virtual_loginid
+                            )
+                        )
                     )
                 ),
                 !!(this.props.is_upgrade_enabled && this.props.is_virtual) && _react2.default.createElement(
@@ -8517,7 +9780,7 @@ var AccountSwitcher = function (_React$Component) {
                         { className: 'acc-switcher__logout-text' },
                         (0, _localize.localize)('Log out')
                     ),
-                    _react2.default.createElement(_Drawer.IconLogout, { className: 'acc-switcher__logout-icon drawer-icon' })
+                    _react2.default.createElement(_Drawer.IconLogout, { className: 'acc-switcher__logout-icon drawer__icon' })
                 )
             );
         }
@@ -8769,7 +10032,7 @@ var MenuDrawer = function MenuDrawer(_ref) {
         togglePurchaseLock = _ref.togglePurchaseLock;
     return _react2.default.createElement(
         'div',
-        { className: 'drawer-items-container' },
+        { className: 'drawer__items-container' },
         _react2.default.createElement(
             'div',
             { className: 'list-items-container' },
@@ -8778,20 +10041,20 @@ var MenuDrawer = function MenuDrawer(_ref) {
                 null,
                 _react2.default.createElement(_Drawer.DrawerItem, {
                     text: (0, _localize.localize)('Trade'),
-                    icon: _react2.default.createElement(_NavBar.IconTrade, { className: 'drawer-icon' }),
+                    icon: _react2.default.createElement(_NavBar.IconTrade, { className: 'drawer__icon' }),
                     link_to: _routes2.default.trade
                 }),
                 _react2.default.createElement(_Drawer.DrawerItem, {
                     text: (0, _localize.localize)('Portfolio'),
-                    icon: _react2.default.createElement(_NavBar.IconPortfolio, { className: 'drawer-icon' }),
+                    icon: _react2.default.createElement(_NavBar.IconPortfolio, { className: 'drawer__icon' }),
                     link_to: _routes2.default.portfolio
                 }),
                 _react2.default.createElement(_Drawer.DrawerItem, {
                     text: (0, _localize.localize)('Statement'),
-                    icon: _react2.default.createElement(_NavBar.IconStatement, { className: 'drawer-icon' }),
+                    icon: _react2.default.createElement(_NavBar.IconStatement, { className: 'drawer__icon' }),
                     link_to: _routes2.default.statement
                 }),
-                _react2.default.createElement('hr', null),
+                _react2.default.createElement('hr', { className: 'hr' }),
                 _react2.default.createElement(_Drawer.DrawerToggle, {
                     text: (0, _localize.localize)('Dark Mode'),
                     toggle: toggleDarkMode,
@@ -8806,9 +10069,9 @@ var MenuDrawer = function MenuDrawer(_ref) {
         ),
         !!(is_logged_in && is_mobile) && _react2.default.createElement(
             'div',
-            { className: 'drawer-footer' },
+            { className: 'drawer__footer' },
             _react2.default.createElement(_Drawer.DrawerItem, {
-                icon: _react2.default.createElement(_Drawer2.IconLogout, { className: 'drawer-icon' }),
+                icon: _react2.default.createElement(_Drawer2.IconLogout, { className: 'drawer__icon' }),
                 text: (0, _localize.localize)('Logout'),
                 custom_action: function custom_action() {
                     if (is_positions_drawer_on) {
@@ -8972,7 +10235,7 @@ var Footer = function Footer(_ref) {
         null,
         _react2.default.createElement(
             'div',
-            { className: 'footer-links footer-links-left' },
+            { className: 'footer__links footer__links--left' },
             is_logged_in && _react2.default.createElement(_Footer.TogglePositions, {
                 is_positions_drawer_on: is_positions_drawer_on,
                 togglePositionsDrawer: togglePositionsDrawer
@@ -8982,7 +10245,7 @@ var Footer = function Footer(_ref) {
         _react2.default.createElement(_serverTime2.default, null),
         _react2.default.createElement(
             'div',
-            { className: 'footer-links' },
+            { className: 'footer__links' },
             _react2.default.createElement(_Footer.ToggleFullScreen, null),
             _react2.default.createElement(_Footer.ToggleSettings, {
                 is_language_visible: is_language_dialog_visible,
@@ -9089,16 +10352,16 @@ var Header = function Header(_ref) {
         { className: 'header' },
         _react2.default.createElement(
             'div',
-            { className: 'menu-items' },
+            { className: 'header__menu-items' },
             _react2.default.createElement(
                 'div',
-                { className: 'menu-left' },
+                { className: 'header__menu-left' },
                 is_mobile && _react2.default.createElement(_Header.ToggleMenuDrawer, null),
                 _react2.default.createElement(_Header.MenuLinks, { items: _headerLinks2.default })
             ),
             _react2.default.createElement(
                 'div',
-                { className: 'menu-right' },
+                { className: 'header__menu-right' },
                 _react2.default.createElement(
                     'div',
                     { className: 'acc-info__container' },
@@ -9132,7 +10395,7 @@ var Header = function Header(_ref) {
 Header.propTypes = {
     balance: _propTypes2.default.string,
     can_upgrade: _propTypes2.default.bool,
-    can_upgrade_to: _propTypes2.default.bool,
+    can_upgrade_to: _propTypes2.default.string,
     currency: _propTypes2.default.string,
     hideInstallButton: _propTypes2.default.func,
     is_acc_switcher_on: _propTypes2.default.bool,
@@ -9955,11 +11218,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var IconArrow = function IconArrow(_ref) {
     var className = _ref.className,
-        classNamePath = _ref.classNamePath;
-    return _react2.default.createElement(
+        classNamePath = _ref.classNamePath,
+        _ref$is_bold = _ref.is_bold,
+        is_bold = _ref$is_bold === undefined ? false : _ref$is_bold;
+    return is_bold ? _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', xmlns: 'http://www.w3.org/2000/svg' },
-        _react2.default.createElement('path', { className: (0, _classnames2.default)(classNamePath, 'color1-fill'), d: 'M13.164 5.13a.5.5 0 1 1 .672.74l-5.5 5a.5.5 0 0 1-.672 0l-5.5-5a.5.5 0 0 1 .672-.74L8 9.824l5.164-4.694z', fill: 'rgba(0, 0, 0, 0.8)', fillRule: 'nonzero' })
+        _react2.default.createElement('path', {
+            className: (0, _classnames2.default)(classNamePath, 'color1-fill'),
+            fill: '#000',
+            fillOpacity: '.8',
+            fillRule: 'evenodd',
+            d: 'M8 9.586l5.293-5.293a1 1 0 0 1 1.414 1.414l-6 6a1 1 0 0 1-1.414 0l-6-6a1 1 0 0 1 1.414-1.414L8 9.586z'
+        })
+    ) : _react2.default.createElement(
+        'svg',
+        { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', xmlns: 'http://www.w3.org/2000/svg' },
+        _react2.default.createElement('path', {
+            className: (0, _classnames2.default)(classNamePath, 'color1-fill'),
+            fill: 'rgba(0, 0, 0, 0.8)',
+            fillRule: 'nonzero',
+            d: 'M13.164 5.13a.5.5 0 1 1 .672.74l-5.5 5a.5.5 0 0 1-.672 0l-5.5-5a.5.5 0 0 1 .672-.74L8 9.824l5.164-4.694z'
+        })
     );
 };
 
@@ -10917,6 +12197,57 @@ exports.IconExclamation = IconExclamation;
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/Assets/Common/icon-flag.jsx":
+/*!**********************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Common/icon-flag.jsx ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconFlag = undefined;
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconFlag = function IconFlag(_ref) {
+    var className = _ref.className;
+    return _react2.default.createElement(
+        'svg',
+        { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', width: '24', height: '24', viewBox: '0 0 24 24' },
+        _react2.default.createElement(
+            'g',
+            { fillRule: 'nonzero', fill: 'none' },
+            _react2.default.createElement('path', { d: 'M-6-4h32v32H-6z' }),
+            _react2.default.createElement('path', { className: 'color1-fill', d: 'M2 2h18a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2v5a1 1 0 0 1-2 0V1a1 1 0 1 1 2 0v1zm6 2v4h4V4H8zm4 4v4h4V8h-4zm4-4v4h4V4h-4zm0 8v4h4v-4h-4zm-8 0v4h4v-4H8zM4 8v4h4V8H4z', fill: '#7F8397' })
+        )
+    );
+};
+
+IconFlag.propTypes = {
+    className: _propTypes2.default.string
+};
+
+exports.IconFlag = IconFlag;
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/Assets/Common/icon-info-blue.jsx":
 /*!***************************************************************!*\
   !*** ./src/javascript/app_2/Assets/Common/icon-info-blue.jsx ***!
@@ -11513,6 +12844,18 @@ Object.keys(_iconClose).forEach(function (key) {
   });
 });
 
+var _iconError = __webpack_require__(/*! ./icon-error.jsx */ "./src/javascript/app_2/Assets/Common/icon-error.jsx");
+
+Object.keys(_iconError).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _iconError[key];
+    }
+  });
+});
+
 var _iconExclamation = __webpack_require__(/*! ./icon-exclamation.jsx */ "./src/javascript/app_2/Assets/Common/icon-exclamation.jsx");
 
 Object.keys(_iconExclamation).forEach(function (key) {
@@ -11545,6 +12888,18 @@ Object.keys(_iconInfoOutline).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _iconInfoOutline[key];
+    }
+  });
+});
+
+var _iconFlag = __webpack_require__(/*! ./icon-flag.jsx */ "./src/javascript/app_2/Assets/Common/icon-flag.jsx");
+
+Object.keys(_iconFlag).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _iconFlag[key];
     }
   });
 });
@@ -11664,7 +13019,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var IconEntrySpot = function IconEntrySpot() {
     return _react2.default.createElement(
         'svg',
-        { xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16', viewBox: '0 0 16 16' },
+        { className: 'chart-spot__icon', xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16', viewBox: '0 0 16 16' },
         _react2.default.createElement(
             'g',
             { fill: 'none', fillRule: 'evenodd' },
@@ -11712,7 +13067,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var IconFlag = function IconFlag() {
     return _react2.default.createElement(
         'svg',
-        { xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16', viewBox: '0 0 16 16' },
+        { className: 'chart-spot__icon', xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16', viewBox: '0 0 16 16' },
         _react2.default.createElement(
             'g',
             { fill: 'none', fillRule: 'evenodd' },
@@ -12225,14 +13580,13 @@ var IconLogout = function IconLogout(_ref) {
     return _react2.default.createElement(
         'svg',
         { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 16 16' },
-        _react2.default.createElement(
-            'g',
-            { className: 'color1-fill', fill: '#2A3052', fillRule: 'nonzero' },
-            _react2.default.createElement('path', { d: 'M8.4 13.8c0 .8-.4 1.4-.9 1.4H2c-.5 0-1-.6-1-1.4V2.4C1 1.6 1.5 1 2 1h5.6c.5 0 .9.6.9 1.4 0 .2.1.4.4.4.2 0 .3-.2.3-.4C9.1 1.2 8.4.2 7.5.2H2C.9.2.2 1.2.2 2.4v11.4C.2 15 1 16 2 16h5.6c1 0 1.6-1 1.6-2.2 0-.2-.1-.4-.3-.4-.3 0-.4.2-.4.4z' }),
-            _react2.default.createElement('path', { d: 'M4.8 8.5h10.4c.2 0 .4-.2.4-.4s-.2-.4-.4-.4H4.8c-.2 0-.3.2-.3.4s.1.4.3.4z' }),
-            _react2.default.createElement('path', { d: 'M11.3 4.4l3.8 4h.6v-.6l-4-4a.4.4 0 0 0-.4 0c-.2.2-.2.4 0 .6z' }),
-            _react2.default.createElement('path', { d: 'M11.8 12.4l3.9-4v-.6a.4.4 0 0 0-.6 0l-3.8 4c-.2.2-.2.4 0 .6.1.2.3.2.5 0z' })
-        )
+        _react2.default.createElement('path', {
+            className: 'color1-fill',
+            fill: '#000',
+            fillOpacity: '.8',
+            fillRule: 'evenodd',
+            d: 'M14.293 8.5H8.5a.5.5 0 0 1 0-1h5.793l-1.647-1.646a.5.5 0 1 1 .708-.708l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 1 1-.708-.708L14.293 8.5zM11 10.962a.5.5 0 0 1 1 0v1.692C12 13.4 11.38 14 10.625 14h-5.25C4.619 14 4 13.401 4 12.654V3.346C4 2.6 4.62 2 5.375 2h5.25C11.381 2 12 2.599 12 3.346v1.692a.5.5 0 0 1-1 0V3.346C11 3.16 10.836 3 10.625 3h-5.25C5.165 3 5 3.159 5 3.346v9.308c0 .187.164.346.375.346h5.25c.21 0 .375-.159.375-.346v-1.692z'
+        })
     );
 };
 
@@ -14376,7 +15730,7 @@ exports.default = (0, _mobxReact.observer)(DigitDisplay);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.InfoBoxGeneral = exports.InfoBoxExpired = exports.InfoBoxDigit = undefined;
+exports.InfoBoxLongcode = exports.InfoBoxGeneral = exports.InfoBoxExpired = exports.InfoBoxDigit = undefined;
 
 var _infoBoxDigit = __webpack_require__(/*! ./info-box-digit.jsx */ "./src/javascript/app_2/Modules/Contract/Components/InfoBox/info-box-digit.jsx");
 
@@ -14390,11 +15744,16 @@ var _infoBoxGeneral = __webpack_require__(/*! ./info-box-general.jsx */ "./src/j
 
 var _infoBoxGeneral2 = _interopRequireDefault(_infoBoxGeneral);
 
+var _infoBoxLongcode = __webpack_require__(/*! ./info-box-longcode.jsx */ "./src/javascript/app_2/Modules/Contract/Components/InfoBox/info-box-longcode.jsx");
+
+var _infoBoxLongcode2 = _interopRequireDefault(_infoBoxLongcode);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.InfoBoxDigit = _infoBoxDigit2.default;
 exports.InfoBoxExpired = _infoBoxExpired2.default;
 exports.InfoBoxGeneral = _infoBoxGeneral2.default;
+exports.InfoBoxLongcode = _infoBoxLongcode2.default;
 
 /***/ }),
 
@@ -14709,6 +16068,56 @@ exports.default = (0, _mobxReact.observer)(InfoBoxGeneral);
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/Modules/Contract/Components/InfoBox/info-box-longcode.jsx":
+/*!****************************************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/Contract/Components/InfoBox/info-box-longcode.jsx ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InfoBoxLongcode = function InfoBoxLongcode(_ref) {
+    var contract_info = _ref.contract_info;
+    return _react2.default.createElement(
+        'div',
+        { className: 'info-box-longcode' },
+        _react2.default.createElement(_Common.IconFlag, { className: 'info-box-longcode-icon' }),
+        _react2.default.createElement(
+            'span',
+            { className: 'info-box-longcode-text' },
+            contract_info.longcode
+        )
+    );
+};
+
+InfoBoxLongcode.propTypes = {
+    longcode: _propTypes2.default.string
+};
+
+exports.default = (0, _mobxReact.observer)(InfoBoxLongcode);
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/Modules/Contract/Components/Sell/sell-button.jsx":
 /*!*******************************************************************************!*\
   !*** ./src/javascript/app_2/Modules/Contract/Components/Sell/sell-button.jsx ***!
@@ -14758,7 +16167,7 @@ var SellButton = function SellButton(_ref) {
         null,
         _react2.default.createElement(_tooltip2.default, { alignment: 'left', icon: 'question', message: sell_message }),
         _react2.default.createElement(_button2.default, {
-            className: 'secondary green',
+            className: 'btn--secondary btn--secondary--green',
             is_disabled: !is_valid_to_sell || is_sell_requested,
             text: (0, _localize.localize)('Sell'),
             onClick: onClickSell
@@ -15024,13 +16433,13 @@ var ContractDetails = function (_React$Component) {
                         _react2.default.createElement(
                             _reactRouterDom.Link,
                             {
-                                className: 'btn secondary orange',
+                                className: 'btn btn--link btn--secondary btn--secondary--orange',
                                 to: _routes2.default.trade,
                                 onClick: this.props.onClickNewTrade
                             },
                             _react2.default.createElement(
                                 'span',
-                                null,
+                                { className: 'btn__text' },
                                 (0, _localize.localize)('Start a new trade')
                             )
                         )
@@ -15195,12 +16604,11 @@ var InfoBox = function InfoBox(_ref) {
         'ended': is_ended
     });
 
-    var Contents = is_ended ? _InfoBox.InfoBoxExpired : _InfoBox.InfoBoxGeneral;
+    var Contents = _InfoBox.InfoBoxLongcode;
     if (is_digit && is_trade_page) {
         // we don't display digit info in Statement/Portfolio because of API shortages
         Contents = _InfoBox.InfoBoxDigit;
     }
-
     return (
         // TODO: Resolve issue with undefined contract_info showing upon unmounting transition
         // <CSSTransition
@@ -15372,6 +16780,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
 
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
@@ -15389,10 +16801,10 @@ var MarkerLine = function MarkerLine(_ref) {
         line_style = _ref.line_style;
     return _react2.default.createElement(
         'div',
-        { className: line_style },
+        { className: (0, _classnames2.default)('chart-marker-line__wrapper', 'chart-marker-line--' + line_style) },
         _react2.default.createElement(
             'div',
-            null,
+            { className: 'chart-marker-line__label' },
             label
         )
     );
@@ -15445,15 +16857,15 @@ var MarkerSpot = function MarkerSpot(_ref) {
         status = _ref.status;
     return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)('chart-spot', align, status) },
+        { className: (0, _classnames2.default)('chart-spot', 'chart-spot--' + align, 'chart-spot--' + status) },
         _react2.default.createElement(
             'div',
-            { className: 'content' },
+            { className: 'chart-spot__content' },
             icon,
             (0, _currency_base.addComma)(spot_value)
         ),
-        _react2.default.createElement('div', { className: 'arrow' }),
-        _react2.default.createElement('div', { className: 'spot' })
+        _react2.default.createElement('div', { className: 'chart-spot__arrow' }),
+        _react2.default.createElement('div', { className: 'chart-spot__spot' })
     );
 };
 
@@ -15560,7 +16972,7 @@ var FullScreenDialog = function FullScreenDialog(props) {
                     className: 'icons btn-close fullscreen-dialog__close-btn',
                     onClick: props.onClose
                 },
-                _react2.default.createElement(_Common.IconClose, { className: 'ic-close' })
+                _react2.default.createElement(_Common.IconClose, { className: 'fullscreen-dialog__close-btn-icon' })
             )
         ),
         _react2.default.createElement('div', { className: 'fullscreen-dialog__header-shadow-cover' }),
@@ -15570,7 +16982,7 @@ var FullScreenDialog = function FullScreenDialog(props) {
             { className: 'fullscreen-dialog__content' },
             _react2.default.createElement(
                 'div',
-                { className: '' + (wrapperClassName || 'fullscreen-dialog__contracts-modal-list') },
+                { className: 'fullscreen-dialog__' + (wrapperClassName || 'contracts-modal-list') },
                 children
             )
         )
@@ -16270,7 +17682,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var TradingDatePicker = function TradingDatePicker(_ref) {
     var duration_min_max = _ref.duration_min_max,
         duration_units_list = _ref.duration_units_list,
-        validation_errors = _ref.validation_errors,
         expiry_date = _ref.expiry_date,
         expiry_type = _ref.expiry_type,
         is_24_hours_contract = _ref.is_24_hours_contract,
@@ -16280,13 +17691,14 @@ var TradingDatePicker = function TradingDatePicker(_ref) {
         server_time = _ref.server_time,
         start_time = _ref.start_time,
         start_date = _ref.start_date,
-        symbol = _ref.symbol;
+        symbol = _ref.symbol,
+        validation_errors = _ref.validation_errors;
 
     var max_date_duration = void 0,
         min_date_expiry = void 0,
         has_today_btn = void 0,
         is_read_only = void 0;
-    var moment_contract_start_date_time = (0, _Date.setTime)((0, _Date.toMoment)(start_date || server_time), (0, _Date.isTimeValid)(start_time) ? start_time : server_time.format('HH:mm'));
+    var moment_contract_start_date_time = (0, _Date.setTime)((0, _Date.toMoment)(start_date || server_time), (0, _Date.isTimeValid)(start_time) ? start_time : server_time.format('HH:mm:ss'));
 
     var max_daily_duration = duration_min_max.daily ? duration_min_max.daily.max : 365 * 24 * 3600;
 
@@ -16312,6 +17724,7 @@ var TradingDatePicker = function TradingDatePicker(_ref) {
         disable_trading_events: true,
         error_messages: validation_errors.duration || [],
         has_today_btn: has_today_btn,
+        has_range_selection: mode === 'duration',
         is_nativepicker: false,
         is_read_only: is_read_only,
         label: duration_units_list.length === 1 ? duration_units_list[0].text : null,
@@ -16399,7 +17812,7 @@ var ErrorBalance = function ErrorBalance() {
             (0, _localize.localize)('You have an insufficient amount of balance.')
         ),
         _react2.default.createElement(_button2.default, {
-            className: 'purchase-container__error-login-btn secondary orange',
+            className: 'purchase-container__error-login-btn btn--secondary btn--secondary--orange',
             classNameSpan: 'purchase-container__error-login-btn-span',
             has_effect: true,
             text: (0, _localize.localize)('Deposit')
@@ -16496,7 +17909,7 @@ var ErrorLogin = function ErrorLogin() {
             (0, _localize.localize)('Please log in to purchase the contract')
         ),
         _react2.default.createElement(_button2.default, {
-            className: 'purchase-container__error-login-btn secondary orange',
+            className: 'purchase-container__error-login-btn btn--secondary btn--secondary--orange',
             classNameSpan: 'purchase-container__error-login-btn-span',
             has_effect: true,
             text: (0, _localize.localize)('log in'),
@@ -16713,6 +18126,8 @@ var _Date = __webpack_require__(/*! ../../../../../../Utils/Date */ "./src/javas
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var PurchaseResult = function PurchaseResult(_ref) {
     var currency = _ref.currency,
         purchase_info = _ref.purchase_info;
@@ -16740,7 +18155,7 @@ var PurchaseResult = function PurchaseResult(_ref) {
             _react2.default.createElement(
                 'span',
                 null,
-                _react2.default.createElement('i', { className: (0, _classnames2.default)('purchase-container__error-result-currency', 'symbols', currency.toLowerCase()) }),
+                _react2.default.createElement('i', { className: (0, _classnames2.default)('purchase-container__error-result-currency', 'symbols', _defineProperty({}, 'symbols--' + (currency || '').toLowerCase(), currency)) }),
                 purchase_info.buy_price
             )
         ),
@@ -16756,7 +18171,7 @@ var PurchaseResult = function PurchaseResult(_ref) {
             _react2.default.createElement(
                 'span',
                 null,
-                _react2.default.createElement('i', { className: (0, _classnames2.default)('purchase-container__error-result-currency', 'symbols', currency.toLowerCase()) }),
+                _react2.default.createElement('i', { className: (0, _classnames2.default)('purchase-container__error-result-currency', 'symbols', _defineProperty({}, 'symbols--' + (currency || '').toLowerCase(), currency)) }),
                 purchase_info.payout
             )
         ),
@@ -16893,7 +18308,7 @@ var PurchaseLock = function PurchaseLock(_ref) {
             (0, _localize.localize)('Purchase Locked')
         ),
         _react2.default.createElement(_button2.default, {
-            className: 'purchase-container__lock-button flat secondary orange',
+            className: 'purchase-container__lock-button btn--secondary btn--secondary--orange',
             has_effect: true,
             onClick: onClick,
             text: (0, _localize.localize)('Unlock')
@@ -16986,7 +18401,7 @@ var ContractInfo = function ContractInfo(_ref) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    null,
+                    { className: 'trade-container__price-info-value' },
                     _react2.default.createElement(_money2.default, { amount: proposal_info.obj_contract_basis.value, className: 'trade-container__price-info-currency', currency: currency })
                 ),
                 _react2.default.createElement(
@@ -17069,35 +18484,33 @@ var _TimePicker = __webpack_require__(/*! ../../../../../App/Components/Form/Tim
 
 var _TimePicker2 = _interopRequireDefault(_TimePicker);
 
+var _endTime = __webpack_require__(/*! ../../../../../Stores/Modules/Trading/Helpers/end-time */ "./src/javascript/app_2/Stores/Modules/Trading/Helpers/end-time.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TradingTimePicker = function TradingTimePicker(_ref) {
     var expiry_date = _ref.expiry_date,
         expiry_time = _ref.expiry_time,
         market_close_times = _ref.market_close_times,
+        market_open_times = _ref.market_open_times,
         onChange = _ref.onChange,
-        server_time = _ref.server_time,
-        start_date = _ref.start_date,
-        start_time = _ref.start_time;
+        server_time = _ref.server_time;
 
-    var moment_expiry = (0, _Date.toMoment)(expiry_date || server_time);
-    var moment_contract_start_date_time = (0, _Date.setTime)((0, _Date.toMoment)(start_date || server_time), (0, _Date.isTimeValid)(start_time) ? start_time : server_time.format('HH:mm'));
-    var expiry_date_time = (0, _Date.setTime)(moment_expiry.clone(), moment_contract_start_date_time.clone().add(5, 'minute').format('HH:mm'));
-    var expiry_date_market_close = (0, _Date.setTime)(expiry_date_time.clone(), market_close_times.slice(-1)[0]);
-    var is_expired_next_day = expiry_date_time.diff(moment_contract_start_date_time, 'day') === 1;
-    var min_date_expiry = moment_contract_start_date_time.clone().startOf('day');
-    var expiry_time_sessions = [{
-        open: is_expired_next_day ? expiry_date_time.clone().startOf('day') : expiry_date_time.clone(),
-        close: is_expired_next_day ? (0, _Date.minDate)(expiry_date_time.clone().subtract(10, 'minute'), expiry_date_market_close) : expiry_date_market_close.clone()
-    }];
+    var moment_expiry_date = (0, _Date.toMoment)(expiry_date);
+    var market_open_datetime = (0, _Date.setTime)(moment_expiry_date.clone(), market_open_times[0]);
+    var market_close_datetime = (0, _Date.setTime)(moment_expiry_date.clone(), market_close_times.slice(-1)[0]);
+    var expiry_datetime = (0, _Date.setTime)(moment_expiry_date.clone(), expiry_time);
+    var server_datetime = (0, _Date.toMoment)(server_time);
 
+    var boundaries = (0, _endTime.getBoundaries)(server_datetime.clone(), market_open_datetime.clone(), market_close_datetime);
+    var selected_time = (0, _endTime.getSelectedTime)(server_datetime.clone(), expiry_datetime, market_open_datetime);
     return _react2.default.createElement(_TimePicker2.default, {
-        end_time: expiry_time_sessions[0].close,
+        end_time: boundaries.end,
         onChange: onChange,
         name: 'expiry_time',
         placeholder: '12:00',
-        start_time: expiry_time_sessions[0].open,
-        value: expiry_time || min_date_expiry.format('HH:mm')
+        start_time: boundaries.start,
+        selected_time: selected_time
     });
 };
 
@@ -17107,9 +18520,7 @@ TradingTimePicker.propTypes = {
     market_close_times: _propTypes2.default.array,
     name: _propTypes2.default.string,
     onChange: _propTypes2.default.func,
-    server_time: _propTypes2.default.object,
-    start_date: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
-    start_time: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string, _propTypes2.default.object])
+    server_time: _propTypes2.default.object
 };
 
 exports.default = (0, _connect.connect)(function (_ref2) {
@@ -17117,13 +18528,12 @@ exports.default = (0, _connect.connect)(function (_ref2) {
         common = _ref2.common;
     return {
         duration_units_list: modules.trade.duration_units_list,
-        expiry_date: modules.trade.expiry_date,
         expiry_time: modules.trade.expiry_time,
+        expiry_date: modules.trade.expiry_date,
         market_close_times: modules.trade.market_close_times,
+        market_open_times: modules.trade.market_open_times,
         onChange: modules.trade.onChange,
-        server_time: common.server_time,
-        start_date: modules.trade.start_date,
-        start_time: modules.trade.start_time
+        server_time: common.server_time
     };
 })(TradingTimePicker);
 
@@ -17167,9 +18577,9 @@ var _buttonToggleMenu = __webpack_require__(/*! ../../../../../../App/Components
 
 var _buttonToggleMenu2 = _interopRequireDefault(_buttonToggleMenu);
 
-var _inputField = __webpack_require__(/*! ../../../../../../App/Components/Form/input-field.jsx */ "./src/javascript/app_2/App/Components/Form/input-field.jsx");
+var _InputField = __webpack_require__(/*! ../../../../../../App/Components/Form/InputField */ "./src/javascript/app_2/App/Components/Form/InputField/index.js");
 
-var _inputField2 = _interopRequireDefault(_inputField);
+var _InputField2 = _interopRequireDefault(_InputField);
 
 var _RangeSlider = __webpack_require__(/*! ../../../../../../App/Components/Form/RangeSlider */ "./src/javascript/app_2/App/Components/Form/RangeSlider/index.js");
 
@@ -17206,12 +18616,11 @@ var AdvancedDuration = function AdvancedDuration(_ref) {
         shared_input_props = _ref.shared_input_props,
         start_date = _ref.start_date;
 
-    var moment_expiry = (0, _Date.toMoment)(expiry_date || server_time);
     var is_24_hours_contract = false;
 
     if (expiry_type === 'endtime') {
         var has_intraday_duration_unit = (0, _duration.hasIntradayDurationUnit)(duration_units_list);
-        is_24_hours_contract = (!!start_date || moment_expiry.isSame((0, _Date.toMoment)(server_time), 'day')) && has_intraday_duration_unit;
+        is_24_hours_contract = (!!start_date || (0, _Date.toMoment)(expiry_date || server_time).isSame((0, _Date.toMoment)(server_time), 'day')) && has_intraday_duration_unit;
     }
 
     var endtime_container_class = (0, _classnames2.default)('endtime-container', {
@@ -17261,7 +18670,7 @@ var AdvancedDuration = function AdvancedDuration(_ref) {
                     name: 'duration',
                     is_24_hours_contract: is_24_hours_contract
                 }),
-                advanced_duration_unit !== 't' && advanced_duration_unit !== 'd' && _react2.default.createElement(_inputField2.default, _extends({
+                advanced_duration_unit !== 't' && advanced_duration_unit !== 'd' && _react2.default.createElement(_InputField2.default, _extends({
                     classNameInput: 'trade-container__input',
                     label: duration_units_list.length === 1 ? duration_units_list[0].text : null,
                     name: 'duration',
@@ -17297,7 +18706,6 @@ AdvancedDuration.propTypes = {
     expiry_list: _propTypes2.default.array,
     expiry_type: _propTypes2.default.string,
     getDurationFromUnit: _propTypes2.default.func,
-    is_nativepicker: _propTypes2.default.bool,
     number_input_props: _propTypes2.default.object,
     onChange: _propTypes2.default.func,
     onChangeUiStore: _propTypes2.default.func,
@@ -17526,7 +18934,7 @@ DurationWrapper.propTypes = {
     getDurationFromUnit: _propTypes2.default.func,
     is_advanced_duration: _propTypes2.default.bool,
     is_minimized: _propTypes2.default.bool,
-    market_close_times: _propTypes2.default.array,
+    market_open_times: _propTypes2.default.array,
     onChange: _propTypes2.default.func,
     onChangeMultiple: _propTypes2.default.func,
     onChangeUiStore: _propTypes2.default.func,
@@ -17619,7 +19027,8 @@ var Duration = function Duration(_ref) {
         simple_duration_unit = _ref.simple_duration_unit,
         server_time = _ref.server_time,
         start_date = _ref.start_date,
-        validation_errors = _ref.validation_errors;
+        validation_errors = _ref.validation_errors,
+        market_open_times = _ref.market_open_times;
 
     var expiry_list = [{ text: (0, _localize.localize)('Duration'), value: 'duration' }];
 
@@ -17641,8 +19050,7 @@ var Duration = function Duration(_ref) {
         }) || {}).text;
         return _react2.default.createElement(
             'div',
-            { className: 'fieldset-minimized duration' },
-            _react2.default.createElement('span', { className: 'icon trade-duration' }),
+            { className: 'fieldset-minimized fieldset-minimized__duration' },
             expiry_type === 'duration' ? duration + ' ' + duration_unit_text : moment_expiry.format('ddd - DD MMM, YYYY') + '\n' + expiry_time
         );
     }
@@ -17747,6 +19155,7 @@ var Duration = function Duration(_ref) {
                 expiry_list: expiry_list,
                 expiry_type: expiry_type,
                 getDurationFromUnit: getDurationFromUnit,
+                market_open_times: market_open_times,
                 number_input_props: props.number_input,
                 onChange: onChange,
                 onChangeUiStore: onChangeUiStore,
@@ -17788,6 +19197,7 @@ Duration.propTypes = {
     hasDurationUnit: _propTypes2.default.func,
     is_advanced_duration: _propTypes2.default.bool,
     is_minimized: _propTypes2.default.bool,
+    market_open_times: _propTypes2.default.array,
     onChange: _propTypes2.default.func,
     onChangeUiStore: _propTypes2.default.func,
     server_time: _propTypes2.default.object,
@@ -17855,9 +19265,9 @@ var _buttonToggleMenu = __webpack_require__(/*! ../../../../../../App/Components
 
 var _buttonToggleMenu2 = _interopRequireDefault(_buttonToggleMenu);
 
-var _inputField = __webpack_require__(/*! ../../../../../../App/Components/Form/input-field.jsx */ "./src/javascript/app_2/App/Components/Form/input-field.jsx");
+var _InputField = __webpack_require__(/*! ../../../../../../App/Components/Form/InputField */ "./src/javascript/app_2/App/Components/Form/InputField/index.js");
 
-var _inputField2 = _interopRequireDefault(_inputField);
+var _InputField2 = _interopRequireDefault(_InputField);
 
 var _RangeSlider = __webpack_require__(/*! ../../../../../../App/Components/Form/RangeSlider */ "./src/javascript/app_2/App/Components/Form/RangeSlider/index.js");
 
@@ -17909,7 +19319,7 @@ var SimpleDuration = function SimpleDuration(_ref) {
             mode: 'duration',
             name: 'duration'
         }),
-        simple_duration_unit !== 't' && simple_duration_unit !== 'd' && _react2.default.createElement(_inputField2.default, _extends({
+        simple_duration_unit !== 't' && simple_duration_unit !== 'd' && _react2.default.createElement(_InputField2.default, _extends({
             classNameInput: 'trade-container__input',
             name: 'duration',
             label: has_label ? duration_units_list[0].text : null,
@@ -17960,9 +19370,9 @@ var _tooltip = __webpack_require__(/*! ../../../../../App/Components/Elements/to
 
 var _tooltip2 = _interopRequireDefault(_tooltip);
 
-var _inputField = __webpack_require__(/*! ../../../../../App/Components/Form/input-field.jsx */ "./src/javascript/app_2/App/Components/Form/input-field.jsx");
+var _InputField = __webpack_require__(/*! ../../../../../App/Components/Form/InputField */ "./src/javascript/app_2/App/Components/Form/InputField/index.js");
 
-var _inputField2 = _interopRequireDefault(_inputField);
+var _InputField2 = _interopRequireDefault(_InputField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17973,7 +19383,7 @@ var AllowEquals = function AllowEquals(_ref) {
     return !!is_allow_equal && _react2.default.createElement(
         'div',
         { className: 'allow-equals' },
-        _react2.default.createElement(_inputField2.default, {
+        _react2.default.createElement(_InputField2.default, {
             className: 'allow-equals__input-field',
             classNameInput: 'allow-equals__input trade-container__input',
             id: 'allow_equals',
@@ -18038,6 +19448,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _currency_base = __webpack_require__(/*! ../../../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js");
 
+var _buttonToggleMenu = __webpack_require__(/*! ../../../../../App/Components/Form/button-toggle-menu.jsx */ "./src/javascript/app_2/App/Components/Form/button-toggle-menu.jsx");
+
+var _buttonToggleMenu2 = _interopRequireDefault(_buttonToggleMenu);
+
 var _DropDown = __webpack_require__(/*! ../../../../../App/Components/Form/DropDown */ "./src/javascript/app_2/App/Components/Form/DropDown/index.js");
 
 var _DropDown2 = _interopRequireDefault(_DropDown);
@@ -18046,15 +19460,17 @@ var _fieldset = __webpack_require__(/*! ../../../../../App/Components/Form/field
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
-var _inputField = __webpack_require__(/*! ../../../../../App/Components/Form/input-field.jsx */ "./src/javascript/app_2/App/Components/Form/input-field.jsx");
+var _InputField = __webpack_require__(/*! ../../../../../App/Components/Form/InputField */ "./src/javascript/app_2/App/Components/Form/InputField/index.js");
 
-var _inputField2 = _interopRequireDefault(_inputField);
+var _InputField2 = _interopRequireDefault(_InputField);
 
 var _allowEquals = __webpack_require__(/*! ./allow-equals.jsx */ "./src/javascript/app_2/Modules/Trading/Components/Form/TradeParams/allow-equals.jsx");
 
 var _allowEquals2 = _interopRequireDefault(_allowEquals);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var Amount = function Amount(_ref) {
     var amount = _ref.amount,
@@ -18073,8 +19489,7 @@ var Amount = function Amount(_ref) {
     if (is_minimized) {
         return _react2.default.createElement(
             'div',
-            { className: 'fieldset-minimized amount' },
-            _react2.default.createElement('span', { className: 'icon invest-amount' }),
+            { className: 'fieldset-minimized fieldset-minimized__amount' },
             _react2.default.createElement(
                 'span',
                 { className: 'fieldset-minimized__basis' },
@@ -18086,7 +19501,7 @@ var Amount = function Amount(_ref) {
             _react2.default.createElement(
                 'i',
                 null,
-                _react2.default.createElement('span', { className: 'symbols ' + (currency || '').toLowerCase() })
+                _react2.default.createElement('span', { className: (0, _classnames2.default)('fieldset-minimized__currency', 'symbols', _defineProperty({}, 'symbols--' + (currency || '').toLowerCase(), currency)) })
             ),
             (0, _currency_base.addComma)(amount, 2)
         );
@@ -18099,36 +19514,42 @@ var Amount = function Amount(_ref) {
         _react2.default.createElement(
             'div',
             { className: amount_container_class },
-            _react2.default.createElement(_DropDown2.default, {
-                is_alignment_left: true,
-                is_nativepicker: is_nativepicker,
-                list: basis_list,
+            _react2.default.createElement(_buttonToggleMenu2.default, {
+                buttons_arr: basis_list,
+                className: 'dropdown--no-margin',
                 name: 'basis',
-                value: basis,
                 onChange: onChange,
-                className: 'no-margin'
+                value: basis
             }),
             !is_single_currency && _react2.default.createElement(_DropDown2.default, {
+                className: (0, _classnames2.default)('no-margin', { 'trade-container__currency-options': !is_single_currency }),
+                classNameDisplay: 'trade-container__currency-options--display',
+                has_symbol: true,
                 is_alignment_left: true,
-                is_nativepicker: is_nativepicker,
+                is_nativepicker: false,
                 list: currencies_list,
                 name: 'currency',
                 value: currency,
                 onChange: onChange
             }),
-            _react2.default.createElement(_inputField2.default, {
+            _react2.default.createElement(_InputField2.default, {
+                className: (0, _classnames2.default)('trade-container__amount', { 'trade-container__amount--has-currency-options': !is_single_currency }),
+                classNameInlinePrefix: 'trade-container__currency',
                 classNameInput: 'trade-container__input',
-                classNamePrefix: 'trade-container__currency',
+                currency: currency,
                 error_messages: validation_errors.amount,
                 fractional_digits: (0, _currency_base.getDecimalPlaces)(currency),
+                id: 'amount',
+                inline_prefix: is_single_currency ? currency : null,
                 is_autocomplete_disabled: true,
                 is_float: true,
+                is_incrementable: true,
                 is_nativepicker: is_nativepicker,
+                is_negative_disabled: true,
                 max_length: 10,
                 name: 'amount',
                 onChange: onChange,
-                prefix: is_single_currency ? currency : null,
-                type: 'number',
+                type: 'tel',
                 value: amount
             })
         ),
@@ -18189,9 +19610,9 @@ var _fieldset = __webpack_require__(/*! ../../../../../App/Components/Form/field
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
 
-var _inputField = __webpack_require__(/*! ../../../../../App/Components/Form/input-field.jsx */ "./src/javascript/app_2/App/Components/Form/input-field.jsx");
+var _InputField = __webpack_require__(/*! ../../../../../App/Components/Form/InputField */ "./src/javascript/app_2/App/Components/Form/InputField/index.js");
 
-var _inputField2 = _interopRequireDefault(_inputField);
+var _InputField2 = _interopRequireDefault(_InputField);
 
 var _localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
@@ -18211,8 +19632,7 @@ var Barrier = function Barrier(_ref) {
         if (barrier_count !== 2) {
             return _react2.default.createElement(
                 'div',
-                { className: 'fieldset-minimized barrier1' },
-                _react2.default.createElement('span', { className: 'icon barriers' }),
+                { className: 'fieldset-minimized fieldset-minimized__barrier1' },
                 barrier_1
             );
         }
@@ -18221,14 +19641,12 @@ var Barrier = function Barrier(_ref) {
             null,
             _react2.default.createElement(
                 'div',
-                { className: 'fieldset-minimized barrier1' },
-                _react2.default.createElement('span', { className: 'icon barriers' }),
+                { className: 'fieldset-minimized fieldset-minimized__barrier1' },
                 barrier_1
             ),
             _react2.default.createElement(
                 'div',
-                { className: 'fieldset-minimized barrier2' },
-                _react2.default.createElement('span', { className: 'icon barriers' }),
+                { className: 'fieldset-minimized fieldset-minimized__barrier2' },
                 barrier_2
             )
         );
@@ -18245,7 +19663,7 @@ var Barrier = function Barrier(_ref) {
         _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(_inputField2.default, {
+            _react2.default.createElement(_InputField2.default, {
                 type: 'number',
                 name: 'barrier_1',
                 value: barrier_1,
@@ -18259,7 +19677,7 @@ var Barrier = function Barrier(_ref) {
             barrier_count === 2 && _react2.default.createElement(
                 _react2.default.Fragment,
                 null,
-                _react2.default.createElement(_inputField2.default, {
+                _react2.default.createElement(_InputField2.default, {
                     type: 'number',
                     name: 'barrier_2',
                     value: barrier_2,
@@ -18337,7 +19755,6 @@ var LastDigit = function LastDigit(_ref) {
         return _react2.default.createElement(
             'div',
             { className: 'fieldset-minimized' },
-            _react2.default.createElement('span', { className: 'icon digits' }),
             (0, _localize.localize)('Last Digit') + ': ' + last_digit
         );
     }
@@ -18708,8 +20125,8 @@ var ScreenLarge = function ScreenLarge(_ref) {
         is_trade_enabled = _ref.is_trade_enabled;
     return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)('sidebar-items', {
-                'sidebar-items__slideout': is_contract_visible
+        { className: (0, _classnames2.default)('sidebar__items', {
+                'sidebar__items--slideout': is_contract_visible
             })
         },
         !is_trade_enabled && !is_contract_visible ? _react2.default.createElement(_uiLoader2.default, null) : _react2.default.createElement(
@@ -18951,7 +20368,7 @@ var Purchase = function Purchase(_ref) {
             {
                 is_disabled: is_disabled,
                 id: 'purchase_' + type,
-                className: 'primary btn-purchase',
+                className: 'btn--primary btn-purchase',
                 has_effect: true,
                 onClick: function onClick() {
                     onClickPurchase(info.id, info.stake, type);
@@ -19403,7 +20820,8 @@ var Trade = function (_React$Component) {
         key: 'render',
         value: function render() {
             var contract_id = (0, _utility.getPropertyValue)(this.props.purchase_info, ['buy', 'contract_id']);
-            var form_wrapper_class = this.props.is_mobile ? 'mobile-wrapper' : 'sidebar-container desktop-only';
+            var form_wrapper_class = this.props.is_mobile ? 'mobile-wrapper' : 'sidebar__container desktop-only';
+            var should_show_last_digit_stats = ['match_diff', 'even_odd', 'over_under'].includes(this.props.contract_type);
 
             return _react2.default.createElement(
                 'div',
@@ -19422,7 +20840,8 @@ var Trade = function (_React$Component) {
                             chart_type: this.props.chart_type,
                             granularity: this.props.granularity,
                             updateChartType: this.props.updateChartType,
-                            updateGranularity: this.props.updateGranularity
+                            updateGranularity: this.props.updateGranularity,
+                            should_show_last_digit_stats: should_show_last_digit_stats
                         })
                     ),
                     _react2.default.createElement(_test2.default, null)
@@ -19442,12 +20861,16 @@ var Trade = function (_React$Component) {
                         {
                             'in': !!contract_id,
                             timeout: 400,
-                            classNames: 'contract-wrapper',
+                            classNames: {
+                                enter: 'contract--enter',
+                                enterDone: 'contract--enter-done',
+                                exit: 'contract--exit'
+                            },
                             unmountOnExit: true
                         },
                         _react2.default.createElement(
                             'div',
-                            { className: 'contract-wrapper' },
+                            { className: 'contract__wrapper' },
                             _react2.default.createElement(_contractDetails2.default, {
                                 contract_id: contract_id,
                                 onClickNewTrade: this.props.onClickNewTrade
@@ -19464,6 +20887,7 @@ var Trade = function (_React$Component) {
 
 Trade.propTypes = {
     chart_id: _propTypes2.default.number,
+    contract_type: _propTypes2.default.string,
     is_contract_mode: _propTypes2.default.bool,
     is_mobile: _propTypes2.default.bool,
     is_trade_enabled: _propTypes2.default.bool,
@@ -19485,6 +20909,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
         updateChartType: modules.smart_chart.updateChartType,
         updateGranularity: modules.smart_chart.updateGranularity,
         chart_id: modules.trade.chart_id,
+        contract_type: modules.trade.contract_type,
         is_trade_enabled: modules.trade.is_trade_enabled,
         onClickNewTrade: modules.trade.onClickNewTrade,
         onMount: modules.trade.onMount,
@@ -20946,6 +22371,62 @@ exports.default = ContractStore;
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/Stores/Modules/Portfolio/Helpers/details.js":
+/*!**************************************************************************!*\
+  !*** ./src/javascript/app_2/Stores/Modules/Portfolio/Helpers/details.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getDurationUnitText = exports.getDurationUnitValue = undefined;
+
+var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
+var getDurationUnitValue = exports.getDurationUnitValue = function getDurationUnitValue(obj_duration) {
+    var duration_ms = obj_duration.asMilliseconds() / 1000;
+
+    if (duration_ms >= 86400000) {
+        return Math.floor(duration_ms / (1000 * 60 * 60 * 24));
+    } else if (duration_ms >= 3600000 && duration_ms < 86400000) {
+        return Math.floor(duration_ms / (1000 * 60 * 60));
+    } else if (duration_ms >= 60000 && duration_ms < 3600000) {
+        return Math.floor(duration_ms / (1000 * 60));
+    } else if (duration_ms >= 1000 && duration_ms < 60000) {
+        return Math.floor(duration_ms / 1000);
+    }
+    return Math.floor(duration_ms / 1000);
+};
+
+var getDurationUnitText = exports.getDurationUnitText = function getDurationUnitText(obj_duration) {
+    var unit_map = {
+        s: { name: (0, _localize.localize)('seconds') },
+        m: { name: (0, _localize.localize)('minutes') },
+        h: { name: (0, _localize.localize)('hours') },
+        d: { name: (0, _localize.localize)('days') }
+    };
+    var duration_ms = obj_duration.asMilliseconds() / 1000;
+    if (duration_ms) {
+        if (duration_ms >= 86400000) {
+            return unit_map.d.name;
+        } else if (duration_ms >= 3600000 && duration_ms < 86400000) {
+            return unit_map.h.name;
+        } else if (duration_ms >= 60000 && duration_ms < 3600000) {
+            return unit_map.m.name;
+        } else if (duration_ms >= 1000 && duration_ms < 60000) {
+            return unit_map.s.name;
+        }
+    }
+    return unit_map.s.name;
+};
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/Stores/Modules/Portfolio/Helpers/format-response.js":
 /*!**********************************************************************************!*\
   !*** ./src/javascript/app_2/Stores/Modules/Portfolio/Helpers/format-response.js ***!
@@ -20964,14 +22445,14 @@ var formatPortfolioPosition = exports.formatPortfolioPosition = function formatP
     var payout = parseFloat(portfolio_pos.payout);
 
     return {
-        reference: +portfolio_pos.transaction_id,
-        type: portfolio_pos.contract_type,
         details: portfolio_pos.longcode.replace(/\n/g, '<br />'),
-        payout: payout,
-        purchase: purchase,
         expiry_time: portfolio_pos.expiry_time,
         id: portfolio_pos.contract_id,
-        indicative: 0
+        indicative: 0,
+        payout: payout,
+        purchase: purchase,
+        reference: +portfolio_pos.transaction_id,
+        type: portfolio_pos.contract_type
     };
 };
 
@@ -20994,13 +22475,19 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
 
 var _Services = __webpack_require__(/*! ../../../Services */ "./src/javascript/app_2/Services/index.js");
 
+var _Date = __webpack_require__(/*! ../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
+
 var _formatResponse = __webpack_require__(/*! ./Helpers/format-response */ "./src/javascript/app_2/Stores/Modules/Portfolio/Helpers/format-response.js");
+
+var _details = __webpack_require__(/*! ./Helpers/details */ "./src/javascript/app_2/Stores/Modules/Portfolio/Helpers/details.js");
+
+var _logic = __webpack_require__(/*! ../Contract/Helpers/logic */ "./src/javascript/app_2/Stores/Modules/Contract/Helpers/logic.js");
 
 var _baseStore = __webpack_require__(/*! ../../base-store */ "./src/javascript/app_2/Stores/base-store.js");
 
@@ -21057,7 +22544,7 @@ function _initializerWarningHelper(descriptor, context) {
     throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, (_class = function (_BaseStore) {
+var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(PortfolioStore, _BaseStore);
 
     function PortfolioStore() {
@@ -21071,13 +22558,13 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PortfolioStore.__proto__ || Object.getPrototypeOf(PortfolioStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'data', _descriptor, _this), _initDefineProp(_this, 'is_loading', _descriptor2, _this), _initDefineProp(_this, 'error', _descriptor3, _this), _initDefineProp(_this, 'initializePortfolio', _descriptor4, _this), _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PortfolioStore.__proto__ || Object.getPrototypeOf(PortfolioStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'positions', _descriptor, _this), _initDefineProp(_this, 'is_loading', _descriptor2, _this), _initDefineProp(_this, 'error', _descriptor3, _this), _initDefineProp(_this, 'initializePortfolio', _descriptor4, _this), _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(PortfolioStore, [{
         key: 'clearTable',
         value: function clearTable() {
-            this.data = [];
+            this.positions = [];
             this.is_loading = false;
             this.error = '';
         }
@@ -21091,7 +22578,7 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             }
             this.error = '';
             if (response.portfolio.contracts) {
-                this.data = response.portfolio.contracts.map(function (pos) {
+                this.positions = response.portfolio.contracts.map(function (pos) {
                     return (0, _formatResponse.formatPortfolioPosition)(pos);
                 }).sort(function (pos1, pos2) {
                     return pos2.reference - pos1.reference;
@@ -21123,7 +22610,11 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
                 // subscribe to new contract:
                 _Services.WS.subscribeProposalOpenContract(contract_id, this.proposalOpenContractHandler, false);
             } else if (act === 'sell') {
-                this.removePositionById(contract_id);
+                // TODO: Refactor with contract-store and use common helpers to handle contract result
+                _Services.WS.proposalOpenContract(contract_id).then((0, _mobx.action)(function (proposal_response) {
+                    // populate result details box for specified positions card
+                    _this2.populateResultDetails(proposal_response);
+                }));
             }
         }
     }, {
@@ -21132,7 +22623,7 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             if ('error' in response) return;
 
             var proposal = response.proposal_open_contract;
-            var portfolio_position = this.data.find(function (position) {
+            var portfolio_position = this.positions.find(function (position) {
                 return +position.id === +proposal.contract_id;
             });
 
@@ -21140,9 +22631,17 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
 
             var prev_indicative = portfolio_position.indicative;
             var new_indicative = +proposal.bid_price;
+            var profit_loss = +proposal.profit;
 
+            portfolio_position.purchase_time = proposal.is_forward_starting === 1 ? proposal.date_start : proposal.purchase_time;
+
+            portfolio_position.bid_price = proposal.bid_price;
             portfolio_position.indicative = new_indicative;
-            portfolio_position.underlying = proposal.display_name;
+            portfolio_position.underlying_code = proposal.underlying;
+            portfolio_position.underlying_name = proposal.display_name;
+            portfolio_position.profit_loss = profit_loss;
+            portfolio_position.tick_count = proposal.tick_count;
+            portfolio_position.is_valid_to_sell = (0, _logic.isValidToSell)(proposal);
 
             if (!proposal.is_valid_to_sell) {
                 portfolio_position.status = 'no-resale';
@@ -21155,34 +22654,95 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             }
         }
     }, {
+        key: 'onClickSell',
+        value: function onClickSell(contract_id) {
+            var i = this.positions.findIndex(function (pos) {
+                return +pos.id === +contract_id;
+            });
+            var bid_price = this.positions[i].bid_price;
+            if (contract_id && bid_price) {
+                _Services.WS.sell(contract_id, bid_price).then(this.handleSell);
+            }
+        }
+    }, {
+        key: 'handleSell',
+        value: function handleSell(response) {
+            var _this3 = this;
+
+            var is_contract_mode = this.root_store.modules.smart_chart.is_contract_mode;
+            // TODO: Refactor with ContractStore for re-drawing of chart markers and barriers
+            // Toast messages are temporary UI for prompting user of sold contracts
+            if (!is_contract_mode && response.error) {
+                // If unable to sell due to error, give error via toast message if not in contract mode
+                this.root_store.ui.addToastMessage({
+                    message: response.error.message,
+                    type: 'error'
+                });
+                // Check if still in contract_mode
+            } else if (is_contract_mode && !response.error) {
+                _Services.WS.forget('proposal_open_contract', this.root_store.modules.contract.updateProposal, { contract_id: response.sell.contract_id });
+                _Services.WS.proposalOpenContract(response.sell.contract_id).then((0, _mobx.action)(function (proposal_response) {
+                    // update contract store proposal after sell
+                    _this3.root_store.modules.contract.updateProposal(proposal_response);
+                    _this3.populateResultDetails(proposal_response);
+                }));
+                // update contract store sell info after sell
+                this.root_store.modules.contract.sell_info = {
+                    sell_price: response.sell.sold_for,
+                    transaction_id: response.sell.transaction_id
+                };
+            }
+        }
+    }, {
+        key: 'populateResultDetails',
+        value: function populateResultDetails(response) {
+            var contract_response = response.proposal_open_contract;
+            var i = this.positions.findIndex(function (pos) {
+                return +pos.id === +contract_response.contract_id;
+            });
+            var sell_time = (0, _logic.isUserSold)(contract_response) ? +contract_response.date_expiry : (0, _logic.getEndSpotTime)(contract_response);
+            var duration_diff = (0, _Date.getDiffDuration)((0, _Date.epochToMoment)(this.positions[i].purchase_time || this.positions[i].date_start), (0, _Date.epochToMoment)(this.positions[i].expiry_time));
+            var duration = this.positions[i].tick_count ? this.positions[i].tick_count : (0, _details.getDurationUnitValue)(duration_diff);
+
+            this.positions[i].id_sell = +contract_response.transaction_ids.sell;
+            this.positions[i].barrier = +contract_response.barrier;
+            this.positions[i].duration = duration;
+            this.positions[i].duration_unit = (0, _details.getDurationUnitText)(duration_diff);
+            this.positions[i].entry_spot = +contract_response.entry_spot;
+            this.positions[i].sell_time = sell_time;
+            this.positions[i].result = (0, _logic.getDisplayStatus)(contract_response);
+        }
+    }, {
         key: 'pushNewPosition',
         value: function pushNewPosition(new_pos) {
-            this.data.unshift((0, _formatResponse.formatPortfolioPosition)(new_pos));
+            this.positions.unshift((0, _formatResponse.formatPortfolioPosition)(new_pos));
         }
     }, {
         key: 'removePositionById',
         value: function removePositionById(contract_id) {
-            var i = this.data.findIndex(function (pos) {
+            var i = this.positions.findIndex(function (pos) {
                 return +pos.id === +contract_id;
             });
-            this.data.splice(i, 1);
+            // check if position to be removed is out of range from the maximum amount rendered in drawer
+            if (this.positions.length > 4) i += 1;
+            this.positions.splice(i, 1);
         }
     }, {
         key: 'accountSwitcherListener',
         value: function accountSwitcherListener() {
-            var _this3 = this;
+            var _this4 = this;
 
             return new Promise(function (resolve) {
-                if (_this3.data.length === 0) {
-                    resolve(_this3.initializePortfolio());
-                }
+                _this4.clearTable();
+                _Services.WS.forgetAll('proposal_open_contract', 'transaction');
+                return resolve(_this4.initializePortfolio());
             });
         }
     }, {
         key: 'onMount',
         value: function onMount() {
-            this.onSwitchAccount(this.accountSwitcherListener);
-            if (this.data.length === 0) {
+            this.onSwitchAccount(this.accountSwitcherListener.bind(null));
+            if (this.positions.length === 0) {
                 this.initializePortfolio();
             }
         }
@@ -21203,7 +22763,7 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             var payout = 0;
             var purchase = 0;
 
-            this.data.forEach(function (portfolio_pos) {
+            this.positions.forEach(function (portfolio_pos) {
                 indicative += +portfolio_pos.indicative;
                 payout += +portfolio_pos.payout;
                 purchase += +portfolio_pos.purchase;
@@ -21217,12 +22777,7 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
     }, {
         key: 'active_positions',
         get: function get() {
-            var _this4 = this;
-
-            return this.data.filter(function (portfolio_pos) {
-                var server_epoch = _this4.root_store.common.server_time.unix();
-                return portfolio_pos.expiry_time > server_epoch;
-            });
+            return this.positions;
         }
     }, {
         key: 'is_empty',
@@ -21232,7 +22787,7 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
     }]);
 
     return PortfolioStore;
-}(_baseStore2.default), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'data', [_mobx.observable], {
+}(_baseStore2.default), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'positions', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return [];
@@ -21261,7 +22816,7 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             _Services.WS.subscribeTransaction(_this5.transactionHandler, false);
         };
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'clearTable', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'clearTable'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'portfolioHandler', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'portfolioHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transactionHandler', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'transactionHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'proposalOpenContractHandler', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'proposalOpenContractHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pushNewPosition', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'pushNewPosition'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removePositionById', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'removePositionById'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'accountSwitcherListener', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'accountSwitcherListener'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totals', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totals'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'active_positions', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'active_positions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'clearTable', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'clearTable'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'portfolioHandler', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'portfolioHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'transactionHandler', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'transactionHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'proposalOpenContractHandler', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'proposalOpenContractHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onClickSell', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'onClickSell'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleSell', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'handleSell'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pushNewPosition', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'pushNewPosition'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removePositionById', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'removePositionById'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'accountSwitcherListener', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'accountSwitcherListener'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totals', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totals'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'active_positions', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'active_positions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype)), _class));
 exports.default = PortfolioStore;
 
 /***/ }),
@@ -22515,7 +24070,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var onChangeStartDate = exports.onChangeStartDate = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(store) {
-        var contract_type, duration_unit, expiry_time, start_date, symbol, server_time, start_time, expiry_date, expiry_type, obj_contract_start_type, contract_start_type, obj_sessions, sessions, obj_start_time, obj_duration_units_list, duration_units_list, obj_duration_unit, obj_expiry_type, obj_expiry_date, obj_market_close_times, market_close_times, obj_expiry_time, obj_duration_min_max;
+        var contract_type, duration_unit, expiry_time, start_date, symbol, server_time, start_time, expiry_date, expiry_type, obj_contract_start_type, contract_start_type, obj_sessions, sessions, obj_start_time, obj_duration_units_list, duration_units_list, obj_duration_unit, obj_expiry_type, obj_expiry_date, trading_times, obj_market_open_times, obj_market_close_times, market_close_times, obj_expiry_time, obj_duration_min_max;
         return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
@@ -22549,16 +24104,15 @@ var onChangeStartDate = exports.onChangeStartDate = function () {
                         return _contractType2.default.getTradingTimes(expiry_date, symbol);
 
                     case 19:
-                        _context.t0 = _context.sent;
-                        obj_market_close_times = {
-                            market_close_times: _context.t0
-                        };
+                        trading_times = _context.sent;
+                        obj_market_open_times = { market_open_times: trading_times.open };
+                        obj_market_close_times = { market_close_times: trading_times.close };
                         market_close_times = obj_market_close_times.market_close_times;
                         obj_expiry_time = _contractType2.default.getExpiryTime(expiry_date, expiry_time, expiry_type, market_close_times, sessions, start_date, start_time);
                         obj_duration_min_max = _contractType2.default.getDurationMinMax(contract_type, contract_start_type);
-                        return _context.abrupt('return', _extends({}, obj_contract_start_type, obj_duration_units_list, obj_duration_min_max, obj_duration_unit, obj_sessions, obj_start_time, obj_expiry_date, obj_expiry_time, obj_expiry_type, obj_market_close_times));
+                        return _context.abrupt('return', _extends({}, obj_contract_start_type, obj_duration_units_list, obj_duration_min_max, obj_duration_unit, obj_sessions, obj_start_time, obj_expiry_date, obj_expiry_time, obj_expiry_type, obj_market_open_times, obj_market_close_times));
 
-                    case 25:
+                    case 26:
                     case 'end':
                         return _context.stop();
                 }
@@ -22653,16 +24207,16 @@ var getLocalizedBasis = exports.getLocalizedBasis = function getLocalizedBasis()
  */
 var getContractTypesConfig = exports.getContractTypesConfig = function getContractTypesConfig() {
     return {
-        rise_fall: { title: (0, _localize.localize)('Rise/Fall'), trade_types: ['CALL', 'PUT'], basis: ['payout', 'stake'], components: ['start_date'], barrier_count: 0 },
-        rise_fall_equal: { title: (0, _localize.localize)('Rise/Fall'), trade_types: ['CALLE', 'PUTE'], basis: ['payout', 'stake'], components: ['start_date'], barrier_count: 0 },
-        high_low: { title: (0, _localize.localize)('Higher/Lower'), trade_types: ['CALL', 'PUT'], basis: ['payout', 'stake'], components: ['barrier'], barrier_count: 1 },
-        touch: { title: (0, _localize.localize)('Touch/No Touch'), trade_types: ['ONETOUCH', 'NOTOUCH'], basis: ['payout', 'stake'], components: ['barrier'] },
-        end: { title: (0, _localize.localize)('Ends Between/Ends Outside'), trade_types: ['EXPIRYMISS', 'EXPIRYRANGE'], basis: ['payout', 'stake'], components: ['barrier'] },
-        stay: { title: (0, _localize.localize)('Stays Between/Goes Outside'), trade_types: ['RANGE', 'UPORDOWN'], basis: ['payout', 'stake'], components: ['barrier'] },
-        asian: { title: (0, _localize.localize)('Asians'), trade_types: ['ASIANU', 'ASIAND'], basis: ['payout', 'stake'], components: [] },
-        match_diff: { title: (0, _localize.localize)('Matches/Differs'), trade_types: ['DIGITMATCH', 'DIGITDIFF'], basis: ['payout', 'stake'], components: ['last_digit'] },
-        even_odd: { title: (0, _localize.localize)('Even/Odd'), trade_types: ['DIGITODD', 'DIGITEVEN'], basis: ['payout', 'stake'], components: [] },
-        over_under: { title: (0, _localize.localize)('Over/Under'), trade_types: ['DIGITOVER', 'DIGITUNDER'], basis: ['payout', 'stake'], components: ['last_digit'] },
+        rise_fall: { title: (0, _localize.localize)('Rise/Fall'), trade_types: ['CALL', 'PUT'], basis: ['stake', 'payout'], components: ['start_date'], barrier_count: 0 },
+        rise_fall_equal: { title: (0, _localize.localize)('Rise/Fall'), trade_types: ['CALLE', 'PUTE'], basis: ['stake', 'payout'], components: ['start_date'], barrier_count: 0 },
+        high_low: { title: (0, _localize.localize)('Higher/Lower'), trade_types: ['CALL', 'PUT'], basis: ['stake', 'payout'], components: ['barrier'], barrier_count: 1 },
+        touch: { title: (0, _localize.localize)('Touch/No Touch'), trade_types: ['ONETOUCH', 'NOTOUCH'], basis: ['stake', 'payout'], components: ['barrier'] },
+        end: { title: (0, _localize.localize)('Ends Between/Ends Outside'), trade_types: ['EXPIRYMISS', 'EXPIRYRANGE'], basis: ['stake', 'payout'], components: ['barrier'] },
+        stay: { title: (0, _localize.localize)('Stays Between/Goes Outside'), trade_types: ['RANGE', 'UPORDOWN'], basis: ['stake', 'payout'], components: ['barrier'] },
+        asian: { title: (0, _localize.localize)('Asians'), trade_types: ['ASIANU', 'ASIAND'], basis: ['stake', 'payout'], components: [] },
+        match_diff: { title: (0, _localize.localize)('Matches/Differs'), trade_types: ['DIGITMATCH', 'DIGITDIFF'], basis: ['stake', 'payout'], components: ['last_digit'] },
+        even_odd: { title: (0, _localize.localize)('Even/Odd'), trade_types: ['DIGITODD', 'DIGITEVEN'], basis: ['stake', 'payout'], components: [] },
+        over_under: { title: (0, _localize.localize)('Over/Under'), trade_types: ['DIGITOVER', 'DIGITUNDER'], basis: ['stake', 'payout'], components: ['last_digit'] },
         lb_call: { title: (0, _localize.localize)('Close-Low'), trade_types: ['LBFLOATCALL'], basis: ['multiplier'], components: [] },
         lb_put: { title: (0, _localize.localize)('High-Close'), trade_types: ['LBFLOATPUT'], basis: ['multiplier'], components: [] },
         lb_high_low: { title: (0, _localize.localize)('High-Low'), trade_types: ['LBHIGHLOW'], basis: ['multiplier'], components: [] }
@@ -23266,7 +24820,10 @@ var ContractType = function () {
                                                     if (!trading_times[trading_times_response.echo_req.trading_times]) {
                                                         trading_times[trading_times_response.echo_req.trading_times] = {};
                                                     }
-                                                    trading_times[trading_times_response.echo_req.trading_times][symbol.symbol] = symbol.times.close;
+                                                    trading_times[trading_times_response.echo_req.trading_times][symbol.symbol] = {
+                                                        'open': symbol.times.open,
+                                                        'close': symbol.times.close
+                                                    };
                                                 }
                                             }
                                         }
@@ -23453,7 +25010,8 @@ var buildCurrenciesList = exports.buildCurrenciesList = function buildCurrencies
     var crypto = [];
 
     payout_currencies.forEach(function (cur) {
-        ((0, _currency_base.isCryptocurrency)(cur) ? crypto : fiat).push({ text: cur, value: cur });
+        var isCrypto = (0, _currency_base.isCryptocurrency)(cur);
+        (isCrypto ? crypto : fiat).push({ text: cur, value: cur, has_tooltip: isCrypto });
     });
 
     return _ref = {}, _defineProperty(_ref, (0, _localize.localize)('Fiat'), fiat), _defineProperty(_ref, (0, _localize.localize)('Crypto'), crypto), _ref;
@@ -23614,6 +25172,42 @@ var hasIntradayDurationUnit = exports.hasIntradayDurationUnit = function hasIntr
     return duration_units_list.some(function (unit) {
         return ['m', 'h'].indexOf(unit.value) !== -1;
     });
+};
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Stores/Modules/Trading/Helpers/end-time.js":
+/*!*************************************************************************!*\
+  !*** ./src/javascript/app_2/Stores/Modules/Trading/Helpers/end-time.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var getClosestTime = function getClosestTime(time, interval) {
+    return time.minute(Math.round(time.minute() / interval) * interval);
+};
+
+var getSelectedTime = exports.getSelectedTime = function getSelectedTime(server_time, selected_time, market_open_time) {
+    var value = selected_time.isBefore(market_open_time) ? market_open_time.isBefore(server_time) ? server_time : market_open_time : selected_time;
+
+    value = getClosestTime(value, 5);
+    return value.format('HH:mm');
+};
+
+var getBoundaries = exports.getBoundaries = function getBoundaries(server_time, market_open_time, market_close_time) {
+    var boundaries = {
+        start: server_time.isBefore(market_open_time) ? market_open_time : server_time,
+        end: market_close_time
+    };
+
+    boundaries.start = getClosestTime(boundaries.start, 5);
+    return boundaries;
 };
 
 /***/ }),
@@ -23963,7 +25557,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26, _descriptor27, _descriptor28, _descriptor29, _descriptor30, _descriptor31, _descriptor32, _descriptor33, _descriptor34;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26, _descriptor27, _descriptor28, _descriptor29, _descriptor30, _descriptor31, _descriptor32, _descriptor33, _descriptor34, _descriptor35, _descriptor36;
 
 var _lodash = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
 
@@ -24090,7 +25684,6 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
 
     // Purchase
 
-
     // End Date Time
     /**
      * An array that contains market closing time.
@@ -24098,12 +25691,10 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
      * e.g. ["04:00:00", "08:00:00"]
      *
      */
+    // Number(0) refers to 'now'
 
 
-    // Start Time
-
-
-    // Duration
+    // Barrier
 
 
     // Underlying
@@ -24151,47 +25742,51 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
 
         _initDefineProp(_this, 'basis_list', _descriptor15, _this);
 
-        _initDefineProp(_this, 'duration', _descriptor16, _this);
+        _initDefineProp(_this, 'currency', _descriptor16, _this);
 
-        _initDefineProp(_this, 'duration_unit', _descriptor17, _this);
+        _initDefineProp(_this, 'duration', _descriptor17, _this);
 
-        _initDefineProp(_this, 'duration_units_list', _descriptor18, _this);
+        _initDefineProp(_this, 'duration_unit', _descriptor18, _this);
 
-        _initDefineProp(_this, 'duration_min_max', _descriptor19, _this);
+        _initDefineProp(_this, 'duration_units_list', _descriptor19, _this);
 
-        _initDefineProp(_this, 'expiry_date', _descriptor20, _this);
+        _initDefineProp(_this, 'duration_min_max', _descriptor20, _this);
 
-        _initDefineProp(_this, 'expiry_time', _descriptor21, _this);
+        _initDefineProp(_this, 'expiry_date', _descriptor21, _this);
 
-        _initDefineProp(_this, 'expiry_type', _descriptor22, _this);
+        _initDefineProp(_this, 'expiry_time', _descriptor22, _this);
 
-        _initDefineProp(_this, 'barrier_1', _descriptor23, _this);
+        _initDefineProp(_this, 'expiry_type', _descriptor23, _this);
 
-        _initDefineProp(_this, 'barrier_2', _descriptor24, _this);
+        _initDefineProp(_this, 'barrier_1', _descriptor24, _this);
 
-        _initDefineProp(_this, 'barrier_count', _descriptor25, _this);
+        _initDefineProp(_this, 'barrier_2', _descriptor25, _this);
 
-        _initDefineProp(_this, 'start_date', _descriptor26, _this);
+        _initDefineProp(_this, 'barrier_count', _descriptor26, _this);
 
-        _initDefineProp(_this, 'start_dates_list', _descriptor27, _this);
+        _initDefineProp(_this, 'start_date', _descriptor27, _this);
 
-        _initDefineProp(_this, 'start_time', _descriptor28, _this);
+        _initDefineProp(_this, 'start_dates_list', _descriptor28, _this);
 
-        _initDefineProp(_this, 'sessions', _descriptor29, _this);
+        _initDefineProp(_this, 'start_time', _descriptor29, _this);
 
-        _initDefineProp(_this, 'market_close_times', _descriptor30, _this);
+        _initDefineProp(_this, 'sessions', _descriptor30, _this);
 
-        _initDefineProp(_this, 'last_digit', _descriptor31, _this);
+        _initDefineProp(_this, 'market_open_times', _descriptor31, _this);
 
-        _initDefineProp(_this, 'proposal_info', _descriptor32, _this);
+        _initDefineProp(_this, 'market_close_times', _descriptor32, _this);
 
-        _initDefineProp(_this, 'purchase_info', _descriptor33, _this);
+        _initDefineProp(_this, 'last_digit', _descriptor33, _this);
+
+        _initDefineProp(_this, 'proposal_info', _descriptor34, _this);
+
+        _initDefineProp(_this, 'purchase_info', _descriptor35, _this);
 
         _this.chart_id = 1;
         _this.debouncedProposal = (0, _lodash2.default)(_this.requestProposal, 500);
         _this.proposal_requests = {};
 
-        _initDefineProp(_this, 'init', _descriptor34, _this);
+        _initDefineProp(_this, 'init', _descriptor36, _this);
 
         Object.defineProperty(_this, 'is_query_string_applied', {
             enumerable: false,
@@ -24213,10 +25808,12 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
     }
 
     // Last Digit
-    // Number(0) refers to 'now'
 
 
-    // Barrier
+    // Start Time
+
+
+    // Duration
 
 
     // Amount
@@ -24245,10 +25842,11 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                                 query_string_values = this.updateQueryString();
 
                                 this.smart_chart = this.root_store.modules.smart_chart;
-                                _context2.next = 4;
+                                this.currency = this.root_store.client.currency;
+                                _context2.next = 5;
                                 return _Services.WS.activeSymbols();
 
-                            case 4:
+                            case 5:
                                 active_symbols = _context2.sent;
 
                                 if (!active_symbols.active_symbols || active_symbols.active_symbols.length === 0) {
@@ -24272,16 +25870,16 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                                 }
 
                                 if (this.symbol) {
-                                    _context2.next = 11;
+                                    _context2.next = 12;
                                     break;
                                 }
 
-                                _context2.next = 11;
+                                _context2.next = 12;
                                 return this.processNewValuesAsync(_extends({
                                     symbol: (0, _symbol2.pickDefaultSymbol)(active_symbols.active_symbols)
                                 }, query_string_values));
 
-                            case 11:
+                            case 12:
 
                                 if (this.symbol) {
                                     _contractType2.default.buildContractTypesConfig(query_string_values.symbol || this.symbol).then((0, _mobx.action)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -24301,7 +25899,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                                     }))));
                                 }
 
-                            case 12:
+                            case 13:
                             case 'end':
                                 return _context2.stop();
                         }
@@ -24438,7 +26036,8 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
             var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
                 var obj_new_values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 var is_changed_by_user = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-                var new_state, is_barrier_changed, snapshot, query_string_values;
+                var obj_old_values = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+                var prev_currency, new_state, is_barrier_changed, snapshot, query_string_values;
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
@@ -24446,9 +26045,13 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                                 // Sets the default value to Amount when Currency has changed from Fiat to Crypto and vice versa.
                                 // The source of default values is the website_status response.
                                 _Services.WS.forgetAll('proposal');
+                                if (is_changed_by_user && /\bcurrency\b/.test(Object.keys(obj_new_values))) {
+                                    prev_currency = obj_old_values && !(0, _utility.isEmptyObject)(obj_old_values) && obj_old_values.currency ? obj_old_values.currency : this.currency;
 
-                                if (is_changed_by_user && /\bcurrency\b/.test(Object.keys(obj_new_values)) && (0, _currency_base.isCryptocurrency)(obj_new_values.currency) !== (0, _currency_base.isCryptocurrency)(this.currency)) {
-                                    obj_new_values.amount = obj_new_values.amount || (0, _currency_base.getMinPayout)(obj_new_values.currency);
+                                    if ((0, _currency_base.isCryptocurrency)(obj_new_values.currency) !== (0, _currency_base.isCryptocurrency)(prev_currency)) {
+                                        obj_new_values.amount = is_changed_by_user && obj_new_values.amount ? obj_new_values.amount : (0, _currency_base.getMinPayout)(obj_new_values.currency);
+                                    }
+                                    this.currency = obj_new_values.currency;
                                 }
 
                                 new_state = this.updateStore((0, _utility.cloneObject)(obj_new_values));
@@ -24663,16 +26266,20 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                             switch (_context4.prev = _context4.next) {
                                 case 0:
                                     _context4.next = 2;
-                                    return _this7.refresh();
+                                    return _this7.processNewValuesAsync({ currency: _this7.root_store.client.currency }, { currency: _this7.currency });
 
                                 case 2:
                                     _context4.next = 4;
-                                    return _this7.prepareTradeStore();
+                                    return _this7.refresh();
 
                                 case 4:
+                                    _context4.next = 6;
+                                    return _this7.prepareTradeStore();
+
+                                case 6:
                                     return _context4.abrupt('return', resolve(_this7.debouncedProposal()));
 
-                                case 5:
+                                case 7:
                                 case 'end':
                                     return _context4.stop();
                             }
@@ -24680,7 +26287,7 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
                     }, _callee4, _this7);
                 }));
 
-                return function (_x3) {
+                return function (_x4) {
                     return _ref6.apply(this, arguments);
                 };
             }());
@@ -24803,97 +26410,107 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
     initializer: function initializer() {
         return [];
     }
-}), _descriptor16 = _applyDecoratedDescriptor(_class.prototype, 'duration', [_mobx.observable], {
+}), _descriptor16 = _applyDecoratedDescriptor(_class.prototype, 'currency', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return '';
+    }
+}), _descriptor17 = _applyDecoratedDescriptor(_class.prototype, 'duration', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 5;
     }
-}), _descriptor17 = _applyDecoratedDescriptor(_class.prototype, 'duration_unit', [_mobx.observable], {
+}), _descriptor18 = _applyDecoratedDescriptor(_class.prototype, 'duration_unit', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '';
     }
-}), _descriptor18 = _applyDecoratedDescriptor(_class.prototype, 'duration_units_list', [_mobx.observable], {
+}), _descriptor19 = _applyDecoratedDescriptor(_class.prototype, 'duration_units_list', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return [];
     }
-}), _descriptor19 = _applyDecoratedDescriptor(_class.prototype, 'duration_min_max', [_mobx.observable], {
+}), _descriptor20 = _applyDecoratedDescriptor(_class.prototype, 'duration_min_max', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return {};
     }
-}), _descriptor20 = _applyDecoratedDescriptor(_class.prototype, 'expiry_date', [_mobx.observable], {
+}), _descriptor21 = _applyDecoratedDescriptor(_class.prototype, 'expiry_date', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '';
     }
-}), _descriptor21 = _applyDecoratedDescriptor(_class.prototype, 'expiry_time', [_mobx.observable], {
+}), _descriptor22 = _applyDecoratedDescriptor(_class.prototype, 'expiry_time', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '';
     }
-}), _descriptor22 = _applyDecoratedDescriptor(_class.prototype, 'expiry_type', [_mobx.observable], {
+}), _descriptor23 = _applyDecoratedDescriptor(_class.prototype, 'expiry_type', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 'duration';
     }
-}), _descriptor23 = _applyDecoratedDescriptor(_class.prototype, 'barrier_1', [_mobx.observable], {
+}), _descriptor24 = _applyDecoratedDescriptor(_class.prototype, 'barrier_1', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '';
     }
-}), _descriptor24 = _applyDecoratedDescriptor(_class.prototype, 'barrier_2', [_mobx.observable], {
+}), _descriptor25 = _applyDecoratedDescriptor(_class.prototype, 'barrier_2', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '';
     }
-}), _descriptor25 = _applyDecoratedDescriptor(_class.prototype, 'barrier_count', [_mobx.observable], {
+}), _descriptor26 = _applyDecoratedDescriptor(_class.prototype, 'barrier_count', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 0;
     }
-}), _descriptor26 = _applyDecoratedDescriptor(_class.prototype, 'start_date', [_mobx.observable], {
+}), _descriptor27 = _applyDecoratedDescriptor(_class.prototype, 'start_date', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return Number(0);
     }
-}), _descriptor27 = _applyDecoratedDescriptor(_class.prototype, 'start_dates_list', [_mobx.observable], {
+}), _descriptor28 = _applyDecoratedDescriptor(_class.prototype, 'start_dates_list', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return [];
     }
-}), _descriptor28 = _applyDecoratedDescriptor(_class.prototype, 'start_time', [_mobx.observable], {
+}), _descriptor29 = _applyDecoratedDescriptor(_class.prototype, 'start_time', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return null;
     }
-}), _descriptor29 = _applyDecoratedDescriptor(_class.prototype, 'sessions', [_mobx.observable], {
+}), _descriptor30 = _applyDecoratedDescriptor(_class.prototype, 'sessions', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return [];
     }
-}), _descriptor30 = _applyDecoratedDescriptor(_class.prototype, 'market_close_times', [_mobx.observable], {
+}), _descriptor31 = _applyDecoratedDescriptor(_class.prototype, 'market_open_times', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return [];
     }
-}), _descriptor31 = _applyDecoratedDescriptor(_class.prototype, 'last_digit', [_mobx.observable], {
+}), _descriptor32 = _applyDecoratedDescriptor(_class.prototype, 'market_close_times', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return [];
+    }
+}), _descriptor33 = _applyDecoratedDescriptor(_class.prototype, 'last_digit', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 5;
     }
-}), _descriptor32 = _applyDecoratedDescriptor(_class.prototype, 'proposal_info', [_mobx.observable], {
+}), _descriptor34 = _applyDecoratedDescriptor(_class.prototype, 'proposal_info', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return {};
     }
-}), _descriptor33 = _applyDecoratedDescriptor(_class.prototype, 'purchase_info', [_mobx.observable], {
+}), _descriptor35 = _applyDecoratedDescriptor(_class.prototype, 'purchase_info', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return {};
     }
-}), _descriptor34 = _applyDecoratedDescriptor(_class.prototype, 'init', [_dec], {
+}), _descriptor36 = _applyDecoratedDescriptor(_class.prototype, 'init', [_dec], {
     enumerable: true,
     initializer: function initializer() {
         var _this9 = this;
@@ -25982,10 +27599,8 @@ var ClientStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 
         get: function get() {
             var _this7 = this;
 
-            return this.all_loginids.filter(function (loginid) {
+            return this.all_loginids.find(function (loginid) {
                 return !!_this7.accounts[loginid].is_virtual;
-            }).reduce(function (loginid) {
-                return loginid;
             });
         }
     }, {
@@ -27405,7 +29020,8 @@ var URLHelper = function () {
          */
         value: function getQueryParams(url) {
             var query_string = url ? new URL(url).search : window.location.search;
-            var query_params = new URLSearchParams(query_string.slice(1));
+            var query_encoded = encodeURIComponent(query_string);
+            var query_params = new URLSearchParams(query_encoded);
 
             return query_params;
         }

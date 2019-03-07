@@ -1,5 +1,5 @@
 {
-  "404.js": "/app/js/404-65bbc216d15848354232.js",
+  "404.js": "/app/js/404-cbb3f11fff75dd57bfef.js",
   "account_password.js": "/app/js/account_password-5b98c5e0011cf272df7f.js",
   "api_toke.js": "/app/js/api_toke-856a16352b5b0f7b5fb2.js",
   "authorized_application.js": "/app/js/authorized_application-41eb62c13df5f986ea68.js",
@@ -8,17 +8,18 @@
   "binary_common.js": "/app/js/binary_common.min.js",
   "binary_common.js.map": "/app/js/binary_common.min.js.map",
   "cashier_password.js": "/app/js/cashier_password-90e23ba1132672b3e187.js",
-  "contract.js": "/app/js/contract-8b3665b7e8bf3e4a7c08.js",
+  "contract.js": "/app/js/contract-09dd0c21e65b199cae97.js",
   "financial_assessment.js": "/app/js/financial_assessment-182a107203c81d1cc33a.js",
   "limits.js": "/app/js/limits-6122a66075b7120f5152.js",
   "login_history.js": "/app/js/login_history-92742ccaa1efb1ab65b8.js",
   "personal_details.js": "/app/js/personal_details-716845b634031dd9cf95.js",
-  "portfolio.js": "/app/js/portfolio-27783daaa5e678e49540.js",
+  "portfolio.js": "/app/js/portfolio-fdae1dad85e7457b80a9.js",
+  "portfolio~statement.js": "/app/js/portfolio~statement-4b11346e99830481ee15.js",
   "react_mobx.js": "/app/js/react_mobx.min.js",
   "self_exclusion.js": "/app/js/self_exclusion-226ac0134b0354423868.js",
-  "settings.js": "/app/js/settings-897ff546fbd9f45f9d55.js",
-  "smart_chart.js": "/app/js/smart_chart-914a40831d33d765d320.js",
-  "statement.js": "/app/js/statement-abc9ff34c0540fd8fbb7.js",
+  "settings.js": "/app/js/settings-90edf5f4d945de1a9104.js",
+  "smart_chart.js": "/app/js/smart_chart-0ed58ff43f746c8e010e.js",
+  "statement.js": "/app/js/statement-83be0ace500a644e5479.js",
   "vendor.js": "/app/js/vendor.min.js",
-  "vendors~smart_chart.js": "/app/js/vendors~smart_chart-4ef1863eda19bb87af24.js"
+  "vendors~smart_chart.js": "/app/js/vendors~smart_chart-c2ded38486a6d9befede.js"
 }
