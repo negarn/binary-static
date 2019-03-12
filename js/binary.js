@@ -497,7 +497,8 @@ var ClientBase = function () {
         var can_open_multi = false;
         var type = void 0,
             can_upgrade_to = void 0;
-        if ((upgradeable_landing_companies || []).length) {
+        if ((upgradeable_landing_companies || []).length && !/^(py|ae)$/i.test(get('residence'))) {
+            // TODO: remove py and ae exceptions when API block is implemented
             var current_landing_company = get('landing_company_shortcode');
 
             can_open_multi = upgradeable_landing_companies.indexOf(current_landing_company) !== -1;
@@ -10735,12 +10736,19 @@ var Header = function () {
     };
 
     var displayAccountStatus = function displayAccountStatus() {
-        BinarySocket.wait('authorize').then(function () {
+        BinarySocket.wait('authorize', 'landing_company').then(function () {
             var get_account_status = void 0,
                 status = void 0;
+            var is_costarica = Client.get('landing_company_shortcode') === 'costarica';
+            var necessary_withdrawal_fields = is_costarica ? State.getResponse('landing_company.financial_company.requirements.withdrawal') : [];
+            var necessary_signup_fields = is_costarica ? State.getResponse('landing_company.financial_company.requirements.signup').map(function (field) {
+                return field === 'residence' ? 'country' : field;
+            }) : [];
 
             var hasMissingRequiredField = function hasMissingRequiredField() {
-                var required_fields = ['account_opening_reason', 'address_line_1', 'address_city', 'phone', 'tax_identification_number', 'tax_residence'].concat(_toConsumableArray(Client.get('residence') === 'gb' ? ['address_postcode'] : []));
+                // eslint-disable-next-line no-nested-ternary
+                var required_fields = is_costarica ? [].concat(_toConsumableArray(necessary_signup_fields), _toConsumableArray(necessary_withdrawal_fields)) : Client.isAccountOfType('financial') ? ['account_opening_reason', 'address_line_1', 'address_city', 'phone', 'tax_identification_number', 'tax_residence'].concat(_toConsumableArray(Client.get('residence') === 'gb' ? ['address_postcode'] : [])) : [];
+
                 var get_settings = State.getResponse('get_settings');
                 return required_fields.some(function (field) {
                     return !get_settings[field];
@@ -10839,7 +10847,7 @@ var Header = function () {
                     return hasStatus('mt5_withdrawal_locked');
                 },
                 required_fields: function required_fields() {
-                    return Client.isAccountOfType('financial') && hasMissingRequiredField();
+                    return hasMissingRequiredField();
                 },
                 residence: function residence() {
                     return !Client.get('residence');
@@ -24989,6 +24997,7 @@ var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"
 var isCallputspread = __webpack_require__(/*! ./callputspread */ "./src/javascript/app/pages/trade/callputspread.js").isCallputspread;
 var Contract = __webpack_require__(/*! ./contract */ "./src/javascript/app/pages/trade/contract.js");
 var hidePriceOverlay = __webpack_require__(/*! ./common */ "./src/javascript/app/pages/trade/common.js").hidePriceOverlay;
+var countDecimalPlaces = __webpack_require__(/*! ./common_independent */ "./src/javascript/app/pages/trade/common_independent.js").countDecimalPlaces;
 var getLookBackFormula = __webpack_require__(/*! ./lookback */ "./src/javascript/app/pages/trade/lookback.js").getFormula;
 var isLookback = __webpack_require__(/*! ./lookback */ "./src/javascript/app/pages/trade/lookback.js").isLookback;
 var processPriceRequest = __webpack_require__(/*! ./price */ "./src/javascript/app/pages/trade/price.js").processPriceRequest;
@@ -25002,6 +25011,7 @@ var Header = __webpack_require__(/*! ../../base/header */ "./src/javascript/app/
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var formatMoney = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
 var TopUpVirtualPopup = __webpack_require__(/*! ../../pages/user/account/top_up_virtual/pop_up */ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js");
+var addComma = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
 var CommonFunctions = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var localizeKeepPlaceholders = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localizeKeepPlaceholders;
@@ -25039,7 +25049,7 @@ var Purchase = function () {
                 var prev_quote_el = this_quote_el.parentElement.parentElement.previousSibling.querySelector('.quote');
                 var prev_quote = prev_quote_el.innerText;
                 DigitTicker.countUp(prev_quote, parseFloat(this_quote_el.innerText.replace(/,+/, '')), 700, this_quote_el, function (content) {
-                    return '<div class=\'quote\'>' + content.replace(/\d$/, makeBold) + '</div>';
+                    return '<div class=\'quote\'>' + addComma(content, countDecimalPlaces(content)).replace(/\d$/, makeBold) + '</div>';
                 });
             }
         } else {
@@ -25405,7 +25415,8 @@ var Purchase = function () {
                 if (!tick_config.is_digit) {
                     fragment.appendChild(el2);
                 }
-                var tick = tick_config.is_tick_high || tick_config.is_tick_low ? tick_d.quote : '<div class=\'quote\'>' + tick_d.quote.replace(/\d$/, makeBold) + '</div>';
+                var tick_with_comma = addComma(tick_d.quote, countDecimalPlaces(tick_d.quote));
+                var tick = tick_config.is_tick_high || tick_config.is_tick_low ? tick_with_comma : '<div class=\'quote\'>' + tick_with_comma.replace(/\d$/, makeBold) + '</div>';
                 var el3 = createElement('div', { class: 'col' });
                 CommonFunctions.elementInnerHtml(el3, tick);
 
@@ -25790,6 +25801,7 @@ module.exports = Symbols;
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var countDecimalPlaces = __webpack_require__(/*! ./common_independent */ "./src/javascript/app/pages/trade/common_independent.js").countDecimalPlaces;
 var displayPriceMovement = __webpack_require__(/*! ./common_independent */ "./src/javascript/app/pages/trade/common_independent.js").displayPriceMovement;
+var addComma = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
 var elementTextContent = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementTextContent;
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var isVisible = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").isVisible;
@@ -25843,21 +25855,26 @@ var Tick = function () {
     var display = function display() {
         $('#spot').fadeIn(200);
         var message = '';
+        var message_number = '';
         if (error_message) {
             message = error_message;
+            message_number = error_message;
         } else {
-            message = _quote;
+            var decimal_places = parseInt(countDecimalPlaces(Tick.quote()));
+            message = addComma(_quote, decimal_places);
+            message_number = _quote;
         }
 
         var spot_element = getElementById('spot');
-        if (parseFloat(message) !== +message) {
+        if (parseFloat(message_number) !== +message_number) {
             spot_element.className = 'error';
         } else {
             spot_element.classList.remove('error');
-            displayPriceMovement(spot_element, elementTextContent(spot_element), message);
+            displayPriceMovement(spot_element, spot_element.getAttribute('data-value'), message_number);
             displayIndicativeBarrier();
         }
 
+        spot_element.setAttribute('data-value', message_number);
         elementTextContent(spot_element, message);
     };
 
@@ -26213,17 +26230,18 @@ var TickDisplay = function () {
                 width: 2,
                 zIndex: 2
             });
-            calculated_barrier = barrier_quote;
+            calculated_barrier = addComma(barrier_quote, parseInt(display_decimals));
             should_set_barrier = false;
         }
 
         if (barrier_type === 'asian') {
+            var decimal_places = parseInt(display_decimals) + 1;
             var total = 0;
             for (var i = 0; i < applicable_ticks.length; i++) {
                 total += parseFloat(applicable_ticks[i].quote);
             }
             // round calculated barrier
-            var calc_barrier = (total / applicable_ticks.length).toFixed(parseInt(display_decimals) + 1);
+            var calc_barrier = (total / applicable_ticks.length).toFixed(decimal_places);
 
             chart.yAxis[0].removePlotLine('tick-barrier');
             chart.yAxis[0].addPlotLine({
@@ -26237,7 +26255,7 @@ var TickDisplay = function () {
                 width: 2,
                 zIndex: 2
             });
-            calculated_barrier = calc_barrier;
+            calculated_barrier = addComma(calc_barrier, decimal_places);
         }
 
         if (barrier_type === 'highlowticks') {
@@ -26491,7 +26509,7 @@ var TickDisplay = function () {
                 dashStyle: 'dot'
             });
 
-            CommonFunctions.elementInnerHtml(CommonFunctions.getElementById('contract_purchase_barrier'), localize('Reset Barrier') + ': ' + reset_barrier);
+            CommonFunctions.elementInnerHtml(CommonFunctions.getElementById('contract_purchase_barrier'), localize('Reset Barrier') + ': ' + addComma(reset_barrier, parseInt(display_decimals)));
             reset_spot_plotted = true;
             HighchartUI.updateLabels(chart, {
                 contract_type: contract_category,
@@ -29657,7 +29675,7 @@ var PersonalDetails = function () {
 
     var showFormMessage = function showFormMessage(localized_text, is_success) {
         var $ul = $('<ul/>', { class: 'checked' }).append($('<li/>', { text: localized_text }));
-        $('#formMessage').attr('class', is_success ? 'success-msg' : 'errorfield').html(is_success ? $ul : localized_text).css('display', 'block').delay(5000).fadeOut(1000);
+        $('#formMessage').attr('class', is_success ? 'success-msg' : 'errorfield').html(is_success ? $ul : localized_text).css('display', 'block').delay(15000).fadeOut(1000);
     };
 
     var populateResidence = function populateResidence(response) {
@@ -29671,7 +29689,7 @@ var PersonalDetails = function () {
                     $options_with_disabled.append(CommonFunctions.makeOption({
                         text: res.text,
                         value: res.value,
-                        is_disabled: res.disabled
+                        is_disabled: res.disabled || /^(py|ae)$/i.test(res.value) // TODO: remove py and ae exceptions when API block is implemented
                     }));
                 });
                 if (residence) {
@@ -30304,7 +30322,7 @@ var SelfExclusion = function () {
 
     var showFormMessage = function showFormMessage(localized_text, is_success) {
         var $ul = $('<ul/>', { class: 'checked' }).append($('<li/>', { text: localized_text }));
-        $('#msg_form').attr('class', is_success ? 'success-msg' : error_class).html(is_success ? $ul : localized_text).css('display', 'block').delay(5000).fadeOut(1000);
+        $('#msg_form').attr('class', is_success ? 'success-msg' : error_class).html(is_success ? $ul : localized_text).css('display', 'block').delay(10000).fadeOut(1000);
     };
 
     return {
@@ -33369,7 +33387,7 @@ var VirtualAccOpening = function () {
                 $options_with_disabled.append(makeOption({
                     text: res.text,
                     value: res.value,
-                    is_disabled: res.disabled
+                    is_disabled: res.disabled || /^(py|ae)$/i.test(res.value) // TODO: remove py and ae exceptions when API block is implemented
                 }));
             });
             $residence.html($options_with_disabled.html());
@@ -35794,6 +35812,7 @@ module.exports = Home;
 "use strict";
 
 
+var BinaryPjax = __webpack_require__(/*! ../../app/base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var urlParam = __webpack_require__(/*! ../../_common/url */ "./src/javascript/_common/url.js").param;
 var urlFor = __webpack_require__(/*! ../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 
@@ -35826,7 +35845,14 @@ var JobDetails = function () {
         $sidebar.setVisibility(0);
         $('#title').find('h1').setVisibility(0);
         $('#image').find('img').setVisibility(0);
-        // show section
+
+        if ($sidebar_dept.length && window.location.hash === '') {
+            BinaryPjax.load(urlFor('open-positions/job-details') + '?dept=' + dept + $sidebar_dept.find('a')[0].hash);
+        } else if ($sidebar_dept.length === 0 || $sidebar_dept.find('a[href="' + window.location.hash + '"]').length === 0) {
+            BinaryPjax.load(urlFor('404'));
+        }
+
+        // show sections
         $(dept_class).setVisibility(1);
         $sidebar_dept.setVisibility(1).find('a[href="' + window.location.hash + '"]').parent('li').addClass('selected');
         showSelectedDiv();

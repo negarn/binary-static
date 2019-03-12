@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_toke":"api_toke","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"cbb3f11fff75dd57bfef","account_password":"5b98c5e0011cf272df7f","api_toke":"856a16352b5b0f7b5fb2","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"09dd0c21e65b199cae97","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"4b11346e99830481ee15","portfolio":"fdae1dad85e7457b80a9","statement":"83be0ace500a644e5479","self_exclusion":"226ac0134b0354423868","settings":"90edf5f4d945de1a9104","vendors~smart_chart":"c2ded38486a6d9befede","smart_chart":"0ed58ff43f746c8e010e"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_toke":"api_toke","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"cbb3f11fff75dd57bfef","account_password":"5b98c5e0011cf272df7f","api_toke":"856a16352b5b0f7b5fb2","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"98f4708777954391cdf3","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"4b11346e99830481ee15","portfolio":"fdae1dad85e7457b80a9","statement":"83be0ace500a644e5479","self_exclusion":"226ac0134b0354423868","settings":"90edf5f4d945de1a9104","vendors~smart_chart":"829a309c1e85fb2f6d22","smart_chart":"055a519715c79b34e33c"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -4058,7 +4058,7 @@ var ResultDetails = function (_React$PureComponent) {
                         }),
                         onClick: this.toggleDetails
                     },
-                    _react2.default.createElement(_Common.IconArrow, null)
+                    _react2.default.createElement(_Common.IconArrow, { className: 'result-details__select-arrow' })
                 )
             );
         }
@@ -11674,13 +11674,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var IconClock = function IconClock(_ref) {
     var className = _ref.className,
-        onClick = _ref.onClick;
+        onClick = _ref.onClick,
+        _ref$height = _ref.height,
+        height = _ref$height === undefined ? '16' : _ref$height,
+        _ref$width = _ref.width,
+        width = _ref$width === undefined ? '16' : _ref$width;
     return _react2.default.createElement(
         'svg',
         {
             xmlns: 'http://www.w3.org/2000/svg',
-            width: '16',
-            height: '16',
+            viewBox: '0 0 16 16',
+            width: width,
+            height: height,
             className: className,
             onClick: onClick
         },
@@ -11695,7 +11700,9 @@ var IconClock = function IconClock(_ref) {
 
 IconClock.propTypes = {
     className: _propTypes2.default.string,
-    onClick: _propTypes2.default.func
+    height: _propTypes2.default.string,
+    onClick: _propTypes2.default.func,
+    width: _propTypes2.default.string
 };
 
 exports.IconClock = IconClock;
@@ -12987,54 +12994,6 @@ Object.keys(_iconWarning).forEach(function (key) {
     }
   });
 });
-
-/***/ }),
-
-/***/ "./src/javascript/app_2/Assets/Contract/icon-entry-spot.jsx":
-/*!******************************************************************!*\
-  !*** ./src/javascript/app_2/Assets/Contract/icon-entry-spot.jsx ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var IconEntrySpot = function IconEntrySpot() {
-    return _react2.default.createElement(
-        'svg',
-        { className: 'chart-spot__icon', xmlns: 'http://www.w3.org/2000/svg', width: '16', height: '16', viewBox: '0 0 16 16' },
-        _react2.default.createElement(
-            'g',
-            { fill: 'none', fillRule: 'evenodd' },
-            _react2.default.createElement('path', { d: 'M0 0h16v16H0z' }),
-            _react2.default.createElement('path', { fill: '#fff', fillRule: 'nonzero', d: 'M9.033 7.912c-1.107 1.014-2.214 2.03-3.33 3.037L5.701 8.84H0V6.88h5.7c.001-.979.002-1.822.005-2.107 1.099.982 2.178 1.987 3.27 2.977.044.047.151.108.058.16z' }),
-            _react2.default.createElement('path', { fill: '#fff', fillRule: 'nonzero', d: 'M7.66 3.005c2.9 0 5.258 2.244 5.258 5 0 2.757-2.357 5-5.258 5a5.329 5.329 0 0 1-4.178-2h-2.46c1.184 2.361 3.71 4 6.638 4 4.059 0 7.361-3.14 7.361-7s-3.302-7-7.36-7c-2.929 0-5.455 1.64-6.64 4h2.46a5.33 5.33 0 0 1 4.18-2z' })
-        )
-    );
-};
-
-IconEntrySpot.propTypes = {
-    color: _propTypes2.default.string
-};
-
-exports.default = (0, _mobxReact.observer)(IconEntrySpot);
 
 /***/ }),
 
@@ -15183,7 +15142,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var IconPriceMove = function IconPriceMove(_ref) {
     var type = _ref.type,
-        className = _ref.className;
+        className = _ref.className,
+        classNamePath = _ref.classNamePath;
 
     var IconType = void 0;
     if (type) {
@@ -15192,18 +15152,18 @@ var IconPriceMove = function IconPriceMove(_ref) {
                 IconType = _react2.default.createElement(
                     'g',
                     { fill: 'none', fillRule: 'evenodd' },
-                    _react2.default.createElement('path', { fill: '#2BC8A5', fillRule: 'nonzero', d: 'M8 4l6 8H2z' })
+                    _react2.default.createElement('path', { className: classNamePath || undefined, fill: '#2BC8A5', fillRule: 'nonzero', d: 'M8 4l6 8H2z' })
                 );
                 break;
             case 'loss':
                 IconType = _react2.default.createElement(
                     'g',
                     { fill: 'none', fillRule: 'evenodd' },
-                    _react2.default.createElement('path', { fill: '#E31C4B', fillRule: 'nonzero', d: 'M8 12l6-8H2z' })
+                    _react2.default.createElement('path', { className: classNamePath || undefined, fill: '#E31C4B', fillRule: 'nonzero', d: 'M8 12l6-8H2z' })
                 );
                 break;
             default:
-                IconType = _react2.default.createElement('path', { fill: '#B0B3BF', fillRule: 'evenodd', d: 'M7 10.4L7.4 9 8 7.9l1-1c.4-.5.6-1 .6-1.5 0-.6-.1-1-.4-1.3-.2-.3-.6-.4-1.2-.4-.5 0-.9.1-1.2.4-.3.3-.4.6-.4 1H5c0-.7.3-1.4.9-1.9.5-.5 1.2-.7 2.1-.7 1 0 1.7.3 2.2.8.5.5.8 1.1.8 2 0 .9-.4 1.7-1.2 2.6l-.8.8c-.4.4-.5 1-.5 1.7H7zm0 2.3c0-.2 0-.4.2-.5l.6-.3c.3 0 .5.1.6.3.2.1.2.3.2.5 0 .3 0 .4-.2.6l-.6.2c-.2 0-.4 0-.6-.2a.8.8 0 0 1-.2-.6z' });
+                IconType = _react2.default.createElement('path', { className: classNamePath || undefined, fill: '#B0B3BF', fillRule: 'evenodd', d: 'M7 10.4L7.4 9 8 7.9l1-1c.4-.5.6-1 .6-1.5 0-.6-.1-1-.4-1.3-.2-.3-.6-.4-1.2-.4-.5 0-.9.1-1.2.4-.3.3-.4.6-.4 1H5c0-.7.3-1.4.9-1.9.5-.5 1.2-.7 2.1-.7 1 0 1.7.3 2.2.8.5.5.8 1.1.8 2 0 .9-.4 1.7-1.2 2.6l-.8.8c-.4.4-.5 1-.5 1.7H7zm0 2.3c0-.2 0-.4.2-.5l.6-.3c.3 0 .5.1.6.3.2.1.2.3.2.5 0 .3 0 .4-.2.6l-.6.2c-.2 0-.4 0-.6-.2a.8.8 0 0 1-.2-.6z' });
                 break;
         }
     }
@@ -15653,70 +15613,6 @@ exports.default = (0, _mobxReact.observer)(DetailsHeader);
 
 /***/ }),
 
-/***/ "./src/javascript/app_2/Modules/Contract/Components/InfoBox/digit-display.jsx":
-/*!************************************************************************************!*\
-  !*** ./src/javascript/app_2/Modules/Contract/Components/InfoBox/digit-display.jsx ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DigitDisplay = function DigitDisplay(_ref) {
-    var _ref$digit_info = _ref.digit_info,
-        digit_info = _ref$digit_info === undefined ? {} : _ref$digit_info,
-        digit_number = _ref.digit_number;
-
-    var digit_class = (0, _classnames2.default)('digit-value', digit_info.is_win ? 'win' : 'loss', { last: digit_info.is_last });
-
-    return _react2.default.createElement(
-        'div',
-        { className: 'digit-info' },
-        _react2.default.createElement(
-            'div',
-            { className: digit_class },
-            digit_info.digit
-        ),
-        _react2.default.createElement(
-            'div',
-            { className: 'tick-number' },
-            (0, _localize.localize)('Tick [_1]', [digit_number])
-        )
-    );
-};
-
-DigitDisplay.propTypes = {
-    digit_info: _propTypes2.default.object,
-    digit_number: _propTypes2.default.number
-};
-
-exports.default = (0, _mobxReact.observer)(DigitDisplay);
-
-/***/ }),
-
 /***/ "./src/javascript/app_2/Modules/Contract/Components/InfoBox/index.js":
 /*!***************************************************************************!*\
   !*** ./src/javascript/app_2/Modules/Contract/Components/InfoBox/index.js ***!
@@ -15730,11 +15626,7 @@ exports.default = (0, _mobxReact.observer)(DigitDisplay);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.InfoBoxLongcode = exports.InfoBoxGeneral = exports.InfoBoxExpired = exports.InfoBoxDigit = undefined;
-
-var _infoBoxDigit = __webpack_require__(/*! ./info-box-digit.jsx */ "./src/javascript/app_2/Modules/Contract/Components/InfoBox/info-box-digit.jsx");
-
-var _infoBoxDigit2 = _interopRequireDefault(_infoBoxDigit);
+exports.InfoBoxLongcode = exports.InfoBoxGeneral = exports.InfoBoxExpired = undefined;
 
 var _infoBoxExpired = __webpack_require__(/*! ./info-box-expired.jsx */ "./src/javascript/app_2/Modules/Contract/Components/InfoBox/info-box-expired.jsx");
 
@@ -15750,97 +15642,9 @@ var _infoBoxLongcode2 = _interopRequireDefault(_infoBoxLongcode);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.InfoBoxDigit = _infoBoxDigit2.default;
 exports.InfoBoxExpired = _infoBoxExpired2.default;
 exports.InfoBoxGeneral = _infoBoxGeneral2.default;
 exports.InfoBoxLongcode = _infoBoxLongcode2.default;
-
-/***/ }),
-
-/***/ "./src/javascript/app_2/Modules/Contract/Components/InfoBox/info-box-digit.jsx":
-/*!*************************************************************************************!*\
-  !*** ./src/javascript/app_2/Modules/Contract/Components/InfoBox/info-box-digit.jsx ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
-var _digitDisplay = __webpack_require__(/*! ./digit-display.jsx */ "./src/javascript/app_2/Modules/Contract/Components/InfoBox/digit-display.jsx");
-
-var _digitDisplay2 = _interopRequireDefault(_digitDisplay);
-
-var _infoBoxExpired = __webpack_require__(/*! ./info-box-expired.jsx */ "./src/javascript/app_2/Modules/Contract/Components/InfoBox/info-box-expired.jsx");
-
-var _infoBoxExpired2 = _interopRequireDefault(_infoBoxExpired);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var InfoBoxDigit = function InfoBoxDigit(_ref) {
-    var contract_info = _ref.contract_info,
-        digits_info = _ref.digits_info,
-        is_ended = _ref.is_ended;
-
-    var digits_array = Object.keys(digits_info).sort().map(function (spot_time) {
-        return digits_info[spot_time];
-    });
-    var count = +contract_info.tick_count;
-    var latest_digit = digits_array.slice(-1)[0] || {};
-    var display_array = [].concat(_toConsumableArray(Array(count).keys())).map(function (i) {
-        // manually put the last one at the end because some ticks are missing from responses
-        var last_item = i + 1 === count && latest_digit.is_last ? latest_digit : {};
-        return digits_array[i] && !digits_array[i].is_last ? digits_array[i] : last_item;
-    });
-
-    return _react2.default.createElement(
-        'div',
-        { className: 'digits' },
-        _react2.default.createElement(
-            'div',
-            { className: 'digit-title' },
-            (0, _localize.localize)('Last Digit')
-        ),
-        _react2.default.createElement(
-            'div',
-            { className: 'digit-list' },
-            display_array.map(function (info, idx) {
-                return _react2.default.createElement(_digitDisplay2.default, { digit_info: info, digit_number: idx + 1, key: idx });
-            })
-        ),
-        _react2.default.createElement(_infoBoxExpired2.default, {
-            contract_info: contract_info,
-            has_flag: is_ended,
-            has_percentage: is_ended
-        })
-    );
-};
-
-InfoBoxDigit.propTypes = {
-    contract_info: _propTypes2.default.object,
-    digits_info: _propTypes2.default.object,
-    is_ended: _propTypes2.default.bool
-};
-
-exports.default = (0, _mobxReact.observer)(InfoBoxDigit);
 
 /***/ }),
 
@@ -16115,6 +15919,542 @@ InfoBoxLongcode.propTypes = {
 };
 
 exports.default = (0, _mobxReact.observer)(InfoBoxLongcode);
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/digit-display.jsx":
+/*!************************************************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/digit-display.jsx ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _digit = __webpack_require__(/*! ./digit.jsx */ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/digit.jsx");
+
+var _digit2 = _interopRequireDefault(_digit);
+
+var _digitSpot = __webpack_require__(/*! ./digit-spot.jsx */ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/digit-spot.jsx");
+
+var _digitSpot2 = _interopRequireDefault(_digitSpot);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DigitDisplay = function DigitDisplay(_ref) {
+    var barrier = _ref.barrier,
+        is_lost = _ref.is_lost,
+        is_trade_page = _ref.is_trade_page,
+        is_won = _ref.is_won,
+        latest_digit = _ref.latest_digit,
+        value = _ref.value;
+    var digit = latest_digit.digit,
+        spot = latest_digit.spot;
+
+    var is_latest = value === digit;
+    var is_selected = value === barrier;
+
+    return _react2.default.createElement(
+        'div',
+        {
+            className: (0, _classnames2.default)('digits__digit', {
+                'digits__digit--win': is_won && is_latest,
+                'digits__digit--loss': is_lost && is_latest
+            })
+        },
+        is_latest && spot && _react2.default.createElement(_digitSpot2.default, {
+            current_spot: spot,
+            is_lost: is_lost,
+            is_won: is_won
+        }),
+        _react2.default.createElement(_digit2.default, {
+            is_latest: is_latest,
+            is_lost: is_lost,
+            is_trade_page: is_trade_page,
+            is_selected: is_selected,
+            is_won: is_won,
+            value: value
+        })
+    );
+};
+
+DigitDisplay.propTypes = {
+    barrier: _propTypes2.default.number,
+    is_lost: _propTypes2.default.bool,
+    is_trade_page: _propTypes2.default.bool,
+    is_won: _propTypes2.default.bool,
+    latest_digit: _propTypes2.default.object,
+    value: _propTypes2.default.number
+};
+
+exports.default = (0, _mobxReact.observer)(DigitDisplay);
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/digit-spot.jsx":
+/*!*********************************************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/digit-spot.jsx ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DigitSpot = function DigitSpot(_ref) {
+    var current_spot = _ref.current_spot,
+        is_lost = _ref.is_lost,
+        is_won = _ref.is_won;
+    return _react2.default.createElement(
+        'div',
+        { className: 'digits__digit-spot' },
+        _react2.default.createElement(
+            'span',
+            { className: 'digits__digit-spot-value' },
+            current_spot.slice(0, -1)
+        ),
+        _react2.default.createElement(
+            'span',
+            {
+                className: (0, _classnames2.default)('digits__digit-spot-last', {
+                    'digits__digit-spot-last--win': is_won,
+                    'digits__digit-spot-last--loss': is_lost
+                })
+            },
+            current_spot.slice(-1)
+        )
+    );
+};
+
+DigitSpot.propTypes = {
+    current_spot: _propTypes2.default.string,
+    is_lost: _propTypes2.default.bool,
+    is_won: _propTypes2.default.bool
+};
+
+exports.default = DigitSpot;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/digit.jsx":
+/*!****************************************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/digit.jsx ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Digit = function Digit(_ref) {
+    var is_latest = _ref.is_latest,
+        is_lost = _ref.is_lost,
+        is_selected = _ref.is_selected,
+        is_trade_page = _ref.is_trade_page,
+        is_won = _ref.is_won,
+        value = _ref.value;
+    return _react2.default.createElement(
+        'span',
+        {
+            className: (0, _classnames2.default)('digits__digit-value', {
+                'digits__digit-value--latest': is_latest,
+                'digits__digit-value--selected': is_selected,
+                'digits__digit-value--blink': is_won && is_latest && is_trade_page,
+                'digits__digit-value--win': is_won && is_latest,
+                'digits__digit-value--loss': is_lost && is_latest
+            })
+        },
+        value
+    );
+};
+
+Digit.propTypes = {
+    is_latest: _propTypes2.default.bool,
+    is_lost: _propTypes2.default.bool,
+    is_selected: _propTypes2.default.bool,
+    is_trade_page: _propTypes2.default.bool,
+    is_won: _propTypes2.default.bool,
+    value: _propTypes2.default.number
+};
+
+exports.default = Digit;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/index.js":
+/*!***************************************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/index.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.LastDigitPrediction = undefined;
+
+var _lastDigitPrediction = __webpack_require__(/*! ./last-digit-prediction.jsx */ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/last-digit-prediction.jsx");
+
+var _lastDigitPrediction2 = _interopRequireDefault(_lastDigitPrediction);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.LastDigitPrediction = _lastDigitPrediction2.default;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/last-digit-particles.jsx":
+/*!*******************************************************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/last-digit-particles.jsx ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LastDigitParticles = function LastDigitParticles(_ref) {
+    var is_won = _ref.is_won,
+        position = _ref.position;
+    return _react2.default.createElement(
+        'div',
+        {
+            className: (0, _classnames2.default)('digits__particles', {
+                'digits__particles--explode': is_won
+            }),
+            style: { marginLeft: position }
+        },
+        _react2.default.createElement('span', { className: 'digits__particles-particle' }),
+        _react2.default.createElement('span', { className: 'digits__particles-particle' }),
+        _react2.default.createElement('span', { className: 'digits__particles-particle' }),
+        _react2.default.createElement('span', { className: 'digits__particles-particle' }),
+        _react2.default.createElement('span', { className: 'digits__particles-particle' }),
+        _react2.default.createElement('span', { className: 'digits__particles-particle' }),
+        _react2.default.createElement('span', { className: 'digits__particles-particle' }),
+        _react2.default.createElement('span', { className: 'digits__particles-particle' })
+    );
+};
+
+LastDigitParticles.propTypes = {
+    is_won: _propTypes2.default.bool,
+    position: _propTypes2.default.number
+};
+
+exports.default = LastDigitParticles;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/last-digit-pointer.jsx":
+/*!*****************************************************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/last-digit-pointer.jsx ***!
+  \*****************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _iconPriceMove = __webpack_require__(/*! ../../../../Assets/Trading/icon-price-move.jsx */ "./src/javascript/app_2/Assets/Trading/icon-price-move.jsx");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LastDigitPointer = function LastDigitPointer(_ref) {
+    var is_lost = _ref.is_lost,
+        is_won = _ref.is_won,
+        position = _ref.position;
+    return _react2.default.createElement(
+        'span',
+        {
+            className: 'digits__pointer',
+            style: { marginLeft: position }
+        },
+        _react2.default.createElement(_iconPriceMove.IconPriceMove, {
+            className: (0, _classnames2.default)('digits__icon', {
+                'digits__icon--win': is_won,
+                'digits__icon--loss': is_lost
+            }),
+            classNamePath: 'digits__icon-color',
+            type: 'profit'
+        })
+    );
+};
+
+LastDigitPointer.propTypes = {
+    is_lost: _propTypes2.default.bool,
+    is_won: _propTypes2.default.bool,
+    position: _propTypes2.default.number
+};
+
+exports.default = LastDigitPointer;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/last-digit-prediction.jsx":
+/*!********************************************************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/last-digit-prediction.jsx ***!
+  \********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _digitDisplay = __webpack_require__(/*! ./digit-display.jsx */ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/digit-display.jsx");
+
+var _digitDisplay2 = _interopRequireDefault(_digitDisplay);
+
+var _lastDigitParticles = __webpack_require__(/*! ./last-digit-particles.jsx */ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/last-digit-particles.jsx");
+
+var _lastDigitParticles2 = _interopRequireDefault(_lastDigitParticles);
+
+var _lastDigitPointer = __webpack_require__(/*! ./last-digit-pointer.jsx */ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/last-digit-pointer.jsx");
+
+var _lastDigitPointer2 = _interopRequireDefault(_lastDigitPointer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var display_array = Array.from(Array(10).keys()); // digits array [0 - 9]
+
+var LastDigitPrediction = function (_React$Component) {
+    _inherits(LastDigitPrediction, _React$Component);
+
+    function LastDigitPrediction() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, LastDigitPrediction);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = LastDigitPrediction.__proto__ || Object.getPrototypeOf(LastDigitPrediction)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _this.getBarrier = function (num) {
+            var _this$props = _this.props,
+                barrier = _this$props.barrier,
+                contract_type = _this$props.contract_type;
+
+
+            var barrier_map = {
+                DIGITMATCH: function DIGITMATCH(val) {
+                    return val === barrier;
+                },
+                DIGITDIFF: function DIGITDIFF(val) {
+                    return val !== barrier;
+                },
+                DIGITOVER: function DIGITOVER(val) {
+                    return val > barrier;
+                },
+                DIGITUNDER: function DIGITUNDER(val) {
+                    return val < barrier;
+                },
+                DIGITODD: function DIGITODD(val) {
+                    return val % 2;
+                },
+                DIGITEVEN: function DIGITEVEN(val) {
+                    return !(val % 2);
+                }
+            };
+
+            return barrier_map[contract_type](num) ? num : null;
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(LastDigitPrediction, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            this.node.querySelectorAll('.digits__digit').forEach(function (el, idx) {
+                // get offsetLeft of each Digits
+                _this2.setState(_defineProperty({}, idx, el.offsetLeft));
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var _props = this.props,
+                digits_info = _props.digits_info,
+                is_ended = _props.is_ended,
+                is_trade_page = _props.is_trade_page,
+                status = _props.status;
+
+            var digits_array = Object.keys(digits_info).sort().map(function (spot_time) {
+                return digits_info[spot_time];
+            });
+            var latest_digit = digits_array.slice(-1)[0] || {};
+
+            // 'won' or 'lost' status exists after contract expiry
+            var is_won = is_ended && status === 'won';
+            // need to explicitly have is_lost condition here
+            // because negating is_won would always be true,
+            // but we only need is_lost condition only once we have the 'won' or 'lost' status
+            var is_lost = is_ended && status === 'lost';
+
+            var position = this.state[latest_digit.digit];
+
+            return _react2.default.createElement(
+                'div',
+                {
+                    ref: function ref(node) {
+                        return _this3.node = node;
+                    },
+                    className: 'digits'
+                },
+                display_array.map(function (idx) {
+                    return _react2.default.createElement(_digitDisplay2.default, {
+                        barrier: _this3.getBarrier(idx),
+                        is_lost: is_lost,
+                        is_trade_page: is_trade_page,
+                        is_won: is_won,
+                        key: idx,
+                        latest_digit: latest_digit,
+                        value: idx
+                    });
+                }),
+                latest_digit.digit >= 0 && _react2.default.createElement(_lastDigitPointer2.default, {
+                    is_lost: is_lost,
+                    is_won: is_won,
+                    position: position
+                }),
+                _react2.default.createElement(_lastDigitParticles2.default, {
+                    is_won: is_won,
+                    position: position
+                })
+            );
+        }
+    }]);
+
+    return LastDigitPrediction;
+}(_react2.default.Component);
+
+LastDigitPrediction.propTypes = {
+    barrier: _propTypes2.default.number,
+    contract_type: _propTypes2.default.string,
+    digits_info: _propTypes2.default.object,
+    is_ended: _propTypes2.default.bool,
+    status: _propTypes2.default.string
+};
+
+exports.default = (0, _mobxReact.observer)(LastDigitPrediction);
 
 /***/ }),
 
@@ -16551,6 +16891,80 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/Modules/Contract/Containers/digits.jsx":
+/*!*********************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/Contract/Containers/digits.jsx ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
+
+var _digits = __webpack_require__(/*! ../../../Stores/Modules/Contract/Helpers/digits */ "./src/javascript/app_2/Stores/Modules/Contract/Helpers/digits.js");
+
+var _logic = __webpack_require__(/*! ../../../Stores/Modules/Contract/Helpers/logic */ "./src/javascript/app_2/Stores/Modules/Contract/Helpers/logic.js");
+
+var _LastDigitPrediction = __webpack_require__(/*! ../Components/LastDigitPrediction */ "./src/javascript/app_2/Modules/Contract/Components/LastDigitPrediction/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Digits = function Digits(_ref) {
+    var contract_info = _ref.contract_info,
+        digits_info = _ref.digits_info,
+        display_status = _ref.display_status,
+        is_trade_page = _ref.is_trade_page;
+    var barrier = contract_info.barrier,
+        contract_type = contract_info.contract_type;
+
+    var is_digit = (0, _digits.isDigitContract)(contract_type);
+    var is_ended = (0, _logic.isEnded)(contract_info);
+
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        contract_type && is_digit && _react2.default.createElement(_LastDigitPrediction.LastDigitPrediction, {
+            barrier: +barrier,
+            contract_type: contract_type,
+            digits_info: digits_info,
+            is_ended: is_ended,
+            is_trade_page: is_trade_page,
+            status: display_status
+        })
+    );
+};
+
+Digits.propTypes = {
+    contract_info: _propTypes2.default.object,
+    digits_info: _propTypes2.default.object,
+    display_status: _propTypes2.default.string
+};
+
+exports.default = (0, _connect.connect)(function (_ref2) {
+    var modules = _ref2.modules;
+    return {
+        contract_info: modules.contract.contract_info,
+        digits_info: modules.contract.digits_info,
+        display_status: modules.contract.display_status
+    };
+})(Digits);
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/Modules/Contract/Containers/info-box.jsx":
 /*!***********************************************************************!*\
   !*** ./src/javascript/app_2/Modules/Contract/Containers/info-box.jsx ***!
@@ -16579,8 +16993,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
 
-var _digits = __webpack_require__(/*! ../../../Stores/Modules/Contract/Helpers/digits */ "./src/javascript/app_2/Stores/Modules/Contract/Helpers/digits.js");
-
 var _logic = __webpack_require__(/*! ../../../Stores/Modules/Contract/Helpers/logic */ "./src/javascript/app_2/Stores/Modules/Contract/Helpers/logic.js");
 
 var _contractError = __webpack_require__(/*! ../Components/contract-error.jsx */ "./src/javascript/app_2/Modules/Contract/Components/contract-error.jsx");
@@ -16591,24 +17003,18 @@ var _InfoBox = __webpack_require__(/*! ../Components/InfoBox */ "./src/javascrip
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import { CSSTransition }   from 'react-transition-group';
 var InfoBox = function InfoBox(_ref) {
     var contract_info = _ref.contract_info,
-        digits_info = _ref.digits_info,
-        is_trade_page = _ref.is_trade_page,
         removeError = _ref.removeError,
         sell_info = _ref.sell_info;
 
-    var is_digit = (0, _digits.isDigitContract)(contract_info.contract_type);
     var is_ended = (0, _logic.isEnded)(contract_info);
     var box_class = (0, _classnames2.default)('info-box', {
         'ended': is_ended
     });
 
     var Contents = _InfoBox.InfoBoxLongcode;
-    if (is_digit && is_trade_page) {
-        // we don't display digit info in Statement/Portfolio because of API shortages
-        Contents = _InfoBox.InfoBoxDigit;
-    }
     return (
         // TODO: Resolve issue with undefined contract_info showing upon unmounting transition
         // <CSSTransition
@@ -16625,7 +17031,6 @@ var InfoBox = function InfoBox(_ref) {
                 { className: box_class },
                 _react2.default.createElement(Contents, {
                     contract_info: contract_info,
-                    digits_info: digits_info,
                     is_ended: is_ended,
                     sell_info: sell_info
                 })
@@ -16639,14 +17044,10 @@ var InfoBox = function InfoBox(_ref) {
 
     );
 };
-// import { CSSTransition }   from 'react-transition-group';
-
 
 InfoBox.propTypes = {
     contract_info: _propTypes2.default.object,
-    digits_info: _propTypes2.default.object,
     // is_contract_mode: PropTypes.bool,
-    is_trade_page: _propTypes2.default.bool,
     removeError: _propTypes2.default.func,
     sell_info: _propTypes2.default.object
 };
@@ -16655,7 +17056,6 @@ exports.default = (0, _connect.connect)(function (_ref2) {
     var modules = _ref2.modules;
     return {
         contract_info: modules.contract.contract_info,
-        digits_info: modules.contract.digits_info,
         removeError: modules.contract.removeSellError,
         sell_info: modules.contract.sell_info
         // is_contract_mode: modules.smart_chart.is_contract_mode,
@@ -16818,6 +17218,142 @@ exports.default = (0, _mobxReact.observer)(MarkerLine);
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/Modules/SmartChart/Components/Markers/marker-spot-label.jsx":
+/*!******************************************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/SmartChart/Components/Markers/marker-spot-label.jsx ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _currency_base = __webpack_require__(/*! ../../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js");
+
+var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
+
+var _iconClock = __webpack_require__(/*! ../../../../Assets/Common/icon-clock.jsx */ "./src/javascript/app_2/Assets/Common/icon-clock.jsx");
+
+var _markerSpot = __webpack_require__(/*! ./marker-spot.jsx */ "./src/javascript/app_2/Modules/SmartChart/Components/Markers/marker-spot.jsx");
+
+var _markerSpot2 = _interopRequireDefault(_markerSpot);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MarkerSpotLabel = function (_React$Component) {
+    _inherits(MarkerSpotLabel, _React$Component);
+
+    function MarkerSpotLabel(props) {
+        _classCallCheck(this, MarkerSpotLabel);
+
+        var _this = _possibleConstructorReturn(this, (MarkerSpotLabel.__proto__ || Object.getPrototypeOf(MarkerSpotLabel)).call(this, props));
+
+        _this.handleHoverToggle = function () {
+            _this.setState(function (state) {
+                return { show_label: !state.show_label };
+            });
+        };
+
+        _this.state = {
+            show_label: !_this.props.has_hover_toggle
+        };
+        return _this;
+    }
+
+    _createClass(MarkerSpotLabel, [{
+        key: 'render',
+        value: function render() {
+            var marker_spot = _react2.default.createElement(_markerSpot2.default, {
+                className: this.props.spot_className,
+                spot_count: this.props.spot_count,
+                status: this.props.status
+            });
+
+            if (this.props.has_hover_toggle) {
+                marker_spot = _react2.default.createElement(
+                    'div',
+                    { className: 'marker-hover-container', onMouseEnter: this.handleHoverToggle, onMouseLeave: this.handleHoverToggle },
+                    marker_spot
+                );
+            }
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'chart-spot-label' },
+                this.state.show_label && _react2.default.createElement(
+                    'div',
+                    { className: 'chart-spot-label__info-container' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'chart-spot-label__time-value-container chart-spot-label__time-value-container--' + this.props.align_label },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'chart-spot-label__time-container' },
+                            _react2.default.createElement(_iconClock.IconClock, { height: '10', width: '10', className: 'chart-spot-label__time-icon' }),
+                            _react2.default.createElement(
+                                'p',
+                                { className: 'chart-spot-label__time' },
+                                (0, _Date.toMoment)(+this.props.spot_epoch).format('HH:mm:ss')
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'chart-spot-label__value-container' },
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                (0, _currency_base.addComma)(this.props.spot_value)
+                            )
+                        )
+                    )
+                ),
+                marker_spot
+            );
+        }
+    }]);
+
+    return MarkerSpotLabel;
+}(_react2.default.Component);
+
+MarkerSpotLabel.defaultProps = {
+    align_label: 'top'
+};
+
+MarkerSpotLabel.propTypes = {
+    align_label: _propTypes2.default.oneOf(['top', 'bottom']),
+    has_hover_toggle: _propTypes2.default.bool,
+    spot_className: _propTypes2.default.string,
+    spot_count: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    spot_epoch: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    spot_value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    status: _propTypes2.default.oneOf(['won', 'lost'])
+};
+exports.default = (0, _mobxReact.observer)(MarkerSpotLabel);
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/Modules/SmartChart/Components/Markers/marker-spot.jsx":
 /*!************************************************************************************!*\
   !*** ./src/javascript/app_2/Modules/SmartChart/Components/Markers/marker-spot.jsx ***!
@@ -16846,35 +17382,30 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _currency_base = __webpack_require__(/*! ../../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MarkerSpot = function MarkerSpot(_ref) {
-    var align = _ref.align,
-        icon = _ref.icon,
-        spot_value = _ref.spot_value,
+    var className = _ref.className,
+        spot_count = _ref.spot_count,
         status = _ref.status;
     return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)('chart-spot', 'chart-spot--' + align, 'chart-spot--' + status) },
-        _react2.default.createElement(
-            'div',
-            { className: 'chart-spot__content' },
-            icon,
-            (0, _currency_base.addComma)(spot_value)
-        ),
-        _react2.default.createElement('div', { className: 'chart-spot__arrow' }),
-        _react2.default.createElement('div', { className: 'chart-spot__spot' })
+        {
+            className: (0, _classnames2.default)('chart-spot', className, {
+                'chart-spot__spot--won': status === 'won',
+                'chart-spot__spot--lost': status === 'lost'
+            })
+        },
+        spot_count
     );
 };
 
 MarkerSpot.propTypes = {
-    align: _propTypes2.default.oneOf(['left', 'right']),
-    icon: _propTypes2.default.object,
-    spot_value: _propTypes2.default.string,
+    className: _propTypes2.default.string,
+    spot_count: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
     status: _propTypes2.default.oneOf(['won', 'lost'])
 };
+
 exports.default = (0, _mobxReact.observer)(MarkerSpot);
 
 /***/ }),
@@ -20781,6 +21312,10 @@ var _contractDetails = __webpack_require__(/*! ../../Contract/Containers/contrac
 
 var _contractDetails2 = _interopRequireDefault(_contractDetails);
 
+var _digits = __webpack_require__(/*! ../../Contract/Containers/digits.jsx */ "./src/javascript/app_2/Modules/Contract/Containers/digits.jsx");
+
+var _digits2 = _interopRequireDefault(_digits);
+
 var _infoBox = __webpack_require__(/*! ../../Contract/Containers/info-box.jsx */ "./src/javascript/app_2/Modules/Contract/Containers/info-box.jsx");
 
 var _infoBox2 = _interopRequireDefault(_infoBox);
@@ -20821,7 +21356,7 @@ var Trade = function (_React$Component) {
         value: function render() {
             var contract_id = (0, _utility.getPropertyValue)(this.props.purchase_info, ['buy', 'contract_id']);
             var form_wrapper_class = this.props.is_mobile ? 'mobile-wrapper' : 'sidebar__container desktop-only';
-            var should_show_last_digit_stats = ['match_diff', 'even_odd', 'over_under'].includes(this.props.contract_type);
+            var should_show_last_digit_stats = ['match_diff', 'even_odd', 'over_under'].includes(this.props.contract_type) && !this.props.is_contract_mode;
 
             return _react2.default.createElement(
                 'div',
@@ -20834,6 +21369,7 @@ var Trade = function (_React$Component) {
                         { fallback: _react2.default.createElement(_uiLoader2.default, null) },
                         _react2.default.createElement(SmartChart, {
                             chart_id: this.props.chart_id,
+                            Digits: _react2.default.createElement(_digits2.default, { is_trade_page: true }),
                             InfoBox: _react2.default.createElement(_infoBox2.default, { is_trade_page: true }),
                             onSymbolChange: this.props.onSymbolChange,
                             symbol: this.props.symbol,
@@ -21738,7 +22274,9 @@ function createMarkerSpotExit(contract_info, ContractStore) {
 
     return createMarkerConfig(_markers.MARKER_TYPES_CONFIG.SPOT_EXIT.type, ContractStore.end_spot_time, ContractStore.end_spot, {
         spot_value: '' + ContractStore.end_spot,
-        status: '' + (contract_info.profit > 0 ? 'won' : 'lost')
+        spot_epoch: ContractStore.end_spot_time,
+        status: '' + (contract_info.profit > 0 ? 'won' : 'lost'),
+        spot_count: contract_info.tick_count
     });
 }
 
@@ -21889,51 +22427,28 @@ var getDigitInfo = exports.getDigitInfo = function getDigitInfo(digits_info, con
     var start_time = +contract_info.entry_tick_time;
     if (!start_time) return {}; // filter out the responses before contract start
 
-    var entry = start_time in digits_info ? {} : createDigitInfo(contract_info, contract_info.entry_tick, start_time);
+    var entry = start_time in digits_info ? {} : createDigitInfo(contract_info.entry_tick, start_time);
 
     var spot_time = +contract_info.current_spot_time;
     var exit_time = +contract_info.exit_tick_time;
     var is_after_expiry = exit_time && spot_time > exit_time;
 
     var current = spot_time in digits_info || is_after_expiry ? {} : // filter out duplicated responses and those after contract expiry
-    createDigitInfo(contract_info, contract_info.current_spot, spot_time);
+    createDigitInfo(contract_info.current_spot, spot_time);
 
-    return _extends({}, entry, current);
+    var is_expired = contract_info.is_expired;
+    var exit = exit_time in digits_info || !is_expired ? {} : createDigitInfo(contract_info.exit_tick, exit_time);
+
+    return _extends({}, entry, current, exit);
 };
 
-var createDigitInfo = function createDigitInfo(contract_info, spot, spot_time) {
+var createDigitInfo = function createDigitInfo(spot, spot_time) {
     var digit = +("" + spot).slice(-1);
 
     return _defineProperty({}, +spot_time, {
         digit: digit,
-        is_win: isWin(contract_info, digit),
-        is_last: spot_time === +contract_info.exit_tick_time
+        spot: spot
     });
-};
-
-var isWin = function isWin(contract_info, current) {
-    return (win_checker[contract_info.contract_type] || function () {})(+contract_info.barrier, current);
-};
-
-var win_checker = {
-    DIGITMATCH: function DIGITMATCH(barrier, current) {
-        return current === barrier;
-    },
-    DIGITDIFF: function DIGITDIFF(barrier, current) {
-        return current !== barrier;
-    },
-    DIGITODD: function DIGITODD(barrier, current) {
-        return current % 2;
-    },
-    DIGITEVEN: function DIGITEVEN(barrier, current) {
-        return !(current % 2);
-    },
-    DIGITOVER: function DIGITOVER(barrier, current) {
-        return current > barrier;
-    },
-    DIGITUNDER: function DIGITUNDER(barrier, current) {
-        return current < barrier;
-    }
 };
 
 /***/ }),
@@ -22898,23 +23413,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MARKER_TYPES_CONFIG = undefined;
 
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
 var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
-var _iconEntrySpot = __webpack_require__(/*! ../../../../Assets/Contract/icon-entry-spot.jsx */ "./src/javascript/app_2/Assets/Contract/icon-entry-spot.jsx");
-
-var _iconEntrySpot2 = _interopRequireDefault(_iconEntrySpot);
-
-var _iconFlag = __webpack_require__(/*! ../../../../Assets/Contract/icon-flag.jsx */ "./src/javascript/app_2/Assets/Contract/icon-flag.jsx");
-
-var _iconFlag2 = _interopRequireDefault(_iconFlag);
 
 var _markerLine = __webpack_require__(/*! ../../../../Modules/SmartChart/Components/Markers/marker-line.jsx */ "./src/javascript/app_2/Modules/SmartChart/Components/Markers/marker-line.jsx");
 
 var _markerLine2 = _interopRequireDefault(_markerLine);
+
+var _markerSpotLabel = __webpack_require__(/*! ../../../../Modules/SmartChart/Components/Markers/marker-spot-label.jsx */ "./src/javascript/app_2/Modules/SmartChart/Components/Markers/marker-spot-label.jsx");
+
+var _markerSpotLabel2 = _interopRequireDefault(_markerSpotLabel);
 
 var _markerSpot = __webpack_require__(/*! ../../../../Modules/SmartChart/Components/Markers/marker-spot.jsx */ "./src/javascript/app_2/Modules/SmartChart/Components/Markers/marker-spot.jsx");
 
@@ -22940,6 +23447,11 @@ var MARKER_CONTENT_TYPES = {
         className: 'chart-marker-line'
     },
     SPOT: {
+        ContentComponent: _markerSpotLabel2.default,
+        xPositioner: MARKER_X_POSITIONER.EPOCH,
+        yPositioner: MARKER_Y_POSITIONER.VALUE
+    },
+    SPOT_ENTRY: {
         ContentComponent: _markerSpot2.default,
         xPositioner: MARKER_X_POSITIONER.EPOCH,
         yPositioner: MARKER_Y_POSITIONER.VALUE
@@ -22947,11 +23459,36 @@ var MARKER_CONTENT_TYPES = {
 };
 
 var MARKER_TYPES_CONFIG = exports.MARKER_TYPES_CONFIG = {
-    LINE_END: { type: 'LINE_END', marker_config: MARKER_CONTENT_TYPES.LINE, content_config: { line_style: 'dash', label: (0, _localize.localize)('End Time') } },
-    LINE_PURCHASE: { type: 'LINE_PURCHASE', marker_config: MARKER_CONTENT_TYPES.LINE, content_config: { line_style: 'solid', label: (0, _localize.localize)('Purchase Time') } },
-    LINE_START: { type: 'LINE_START', marker_config: MARKER_CONTENT_TYPES.LINE, content_config: { line_style: 'solid', label: (0, _localize.localize)('Start Time') } },
-    SPOT_ENTRY: { type: 'SPOT_ENTRY', marker_config: MARKER_CONTENT_TYPES.SPOT, content_config: { align: 'left', icon: _react2.default.createElement(_iconEntrySpot2.default, null) } },
-    SPOT_EXIT: { type: 'SPOT_EXIT', marker_config: MARKER_CONTENT_TYPES.SPOT, content_config: { align: 'right', icon: _react2.default.createElement(_iconFlag2.default, null) } }
+    LINE_END: {
+        type: 'LINE_END',
+        marker_config: MARKER_CONTENT_TYPES.LINE,
+        content_config: { line_style: 'dash', label: (0, _localize.localize)('End Time') }
+    },
+    LINE_PURCHASE: {
+        type: 'LINE_PURCHASE',
+        marker_config: MARKER_CONTENT_TYPES.LINE,
+        content_config: { line_style: 'solid', label: (0, _localize.localize)('Purchase Time') }
+    },
+    LINE_START: {
+        type: 'LINE_START',
+        marker_config: MARKER_CONTENT_TYPES.LINE,
+        content_config: { line_style: 'solid', label: (0, _localize.localize)('Start Time') }
+    },
+    SPOT_ENTRY: {
+        type: 'SPOT_ENTRY',
+        marker_config: MARKER_CONTENT_TYPES.SPOT_ENTRY,
+        content_config: { className: 'chart-spot__entry' }
+    },
+    SPOT_EXIT: {
+        type: 'SPOT_EXIT',
+        marker_config: MARKER_CONTENT_TYPES.SPOT,
+        content_config: { spot_className: 'chart-spot__spot' }
+    },
+    SPOT_MIDDLE: {
+        type: 'SPOT_MIDDLE',
+        marker_config: MARKER_CONTENT_TYPES.SPOT,
+        content_config: { spot_className: 'chart-spot__spot' }
+    }
 };
 
 /***/ }),
@@ -22986,7 +23523,9 @@ var barriersToString = exports.barriersToString = function barriersToString(is_r
         barriers_list[_key - 1] = arguments[_key];
     }
 
-    return barriers_list.map(function (barrier) {
+    return barriers_list.filter(function (barrier) {
+        return barrier !== undefined && barrier !== null;
+    }).map(function (barrier) {
         return '' + (is_relative && !/^[+-]/.test(barrier) ? '+' : '') + barrier;
     });
 };
@@ -28162,7 +28701,13 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
 
         window.addEventListener('resize', _this.handleResize);
         (0, _mobx.autorun)(function () {
-            return document.body.classList[_this.is_dark_mode_on ? 'add' : 'remove']('theme--dark');
+            if (_this.is_dark_mode_on) {
+                document.body.classList.remove('theme--light');
+                document.body.classList.add('theme--dark');
+            } else {
+                document.body.classList.remove('theme--dark');
+                document.body.classList.add('theme--light');
+            }
         });
         return _this;
     }
