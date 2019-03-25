@@ -9,8 +9,8 @@ import Button            from 'App/Components/Form/button.jsx';
 import Fieldset          from 'App/Components/Form/fieldset.jsx';
 import { IconTradeType } from 'Assets/Trading/Types';
 import { connect }       from 'Stores/connect';
+import Tooltip           from '../../../App/Components/Elements/tooltip.jsx';
 import ContractInfo      from '../Components/Form/Purchase/contract-info.jsx';
-import MessageBox        from '../Components/Form/Purchase/MessageBox';
 import PurchaseLock      from '../Components/Form/Purchase/PurchaseLock';
 
 const Purchase = ({
@@ -33,7 +33,10 @@ const Purchase = ({
     Object.keys(trade_types).map((type, idx) => {
         const info        = proposal_info[type] || {};
         const is_disabled = !is_purchase_enabled || !is_trade_enabled || !info.id || !is_client_allowed_to_visit;
-        const is_purchase_error = (!isEmptyObject(purchase_info) && purchase_info.echo_req.buy === info.id);
+        const is_purchase_error = (
+            info.has_error &&
+            !info.has_error_details
+        );
         const is_high_low = /high_low/.test(contract_type.toLowerCase());
 
         const purchase_button = (
@@ -72,13 +75,6 @@ const Purchase = ({
                 onMouseEnter={() => { onHoverPurchase(true, type); }}
                 onMouseLeave={() => { onHoverPurchase(false); }}
             >
-                {is_purchase_error &&
-                <MessageBox
-                    purchase_info={purchase_info}
-                    onClick={resetPurchase}
-                    currency={currency}
-                />
-                }
                 {(is_purchase_locked && idx === 0) &&
                 <PurchaseLock onClick={togglePurchaseLock} />
                 }
@@ -93,6 +89,7 @@ const Purchase = ({
                         is_visible={!is_contract_mode}
                     />
                     <div className='btn-purchase__shadow-wrapper'>
+                        <Tooltip message={info.message} alignment='left' has_error={is_purchase_error} />
                         {
                             is_purchase_confirm_on ?
                                 <PopConfirm
