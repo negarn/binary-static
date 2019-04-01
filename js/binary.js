@@ -15329,7 +15329,7 @@ var DepositWithdraw = function () {
             });
         }
         var $el = $('#' + msg_id);
-        var err_msg = template($el.html(), [details ? details_fields.concat(',') : localize('details')]);
+        var err_msg = template($el.html(), [details_fields ? details_fields.join(', ') : localize('details')]);
         $el.html(err_msg);
         showMessage(msg_id);
     };
