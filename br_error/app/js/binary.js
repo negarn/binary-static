@@ -12321,7 +12321,9 @@ var ServicesErrorModal = function ServicesErrorModal(_ref) {
 };
 
 ServicesErrorModal.propTypes = {
-    services_error: _propTypes2.default.object
+    is_services_error_visible: _propTypes2.default.bool,
+    services_error: _propTypes2.default.object,
+    toggleServicesErrorModal: _propTypes2.default.func
 };
 
 exports.default = (0, _connect.connect)(function (_ref2) {
