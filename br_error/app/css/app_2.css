@@ -505,7 +505,7 @@ html {
   .tooltip__balloon-icon {
     position: absolute;
     top: 0;
-    left: -525px;
+    left: -319px;
     z-index: 999;
     opacity: 0;
     -webkit-transition: opacity 0.3s;
@@ -557,7 +557,7 @@ html {
       bottom: 100%;
       left: 50%;
       position: absolute;
-      z-index: 10;
+      z-index: 1;
       -webkit-transform: translate(-50%, 1em);
               transform: translate(-50%, 1em);
       -webkit-transform-origin: top;
@@ -579,7 +579,9 @@ html {
       width: -webkit-max-content;
       width: -moz-max-content;
       width: max-content;
-      max-width: 280px; }
+      max-width: 280px;
+      -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.24);
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.24); }
     .tooltip[data-tooltip]:after {
       border: solid transparent;
       content: '';

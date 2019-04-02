@@ -7312,7 +7312,12 @@ var InputField = function InputField(_ref) {
 
     var input_tooltip = _react2.default.createElement(
         _tooltip2.default,
-        { className: (0, _classnames2.default)('', { 'tooltip--with-label': label }), alignment: 'left', message: has_error ? error_messages[0] : null, has_error: has_error },
+        {
+            className: (0, _classnames2.default)('', { 'tooltip--with-label': label }),
+            alignment: 'left',
+            message: has_error ? error_messages[0] : null,
+            has_error: has_error
+        },
         !!label && _react2.default.createElement(
             'label',
             { htmlFor: name, className: 'input-field__label' },
