@@ -12399,6 +12399,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ServicesErrorModal = function ServicesErrorModal(_ref) {
     var is_services_error_visible = _ref.is_services_error_visible,
+        resetPurchase = _ref.resetPurchase,
         services_error = _ref.services_error,
         toggleServicesErrorModal = _ref.toggleServicesErrorModal;
     var code = services_error.code,
@@ -12412,7 +12413,12 @@ var ServicesErrorModal = function ServicesErrorModal(_ref) {
         {
             title: _constants.title[services_error.type],
             confirm_button_text: (0, _localize.localize)('OK'),
-            onConfirm: toggleServicesErrorModal.bind(undefined, false)
+            onConfirm: function onConfirm() {
+                toggleServicesErrorModal(false);
+                if (services_error.type === 'buy') {
+                    resetPurchase();
+                }
+            }
             // TODO: handle onCancel
             // cancel_button_text={cancel_button_text}
             // onCancel={onCancel}
@@ -12424,17 +12430,20 @@ var ServicesErrorModal = function ServicesErrorModal(_ref) {
 
 ServicesErrorModal.propTypes = {
     is_services_error_visible: _propTypes2.default.bool,
+    resetPurchase: _propTypes2.default.func,
     services_error: _propTypes2.default.object,
     toggleServicesErrorModal: _propTypes2.default.func
 };
 
 exports.default = (0, _connect.connect)(function (_ref2) {
     var common = _ref2.common,
+        modules = _ref2.modules,
         ui = _ref2.ui;
     return {
         services_error: common.services_error,
         is_services_error_visible: ui.is_services_error_visible,
-        toggleServicesErrorModal: ui.toggleServicesErrorModal
+        toggleServicesErrorModal: ui.toggleServicesErrorModal,
+        resetPurchase: modules.trade.requestProposal
     };
 })(ServicesErrorModal);
 
@@ -23025,7 +23034,6 @@ Purchase.propTypes = {
     onHoverPurchase: _propTypes2.default.func,
     proposal_info: _propTypes2.default.object,
     purchase_info: _propTypes2.default.object,
-    resetPurchase: _propTypes2.default.func,
     togglePurchaseLock: _propTypes2.default.func,
     trade_types: _propTypes2.default.object,
     validation_errors: _propTypes2.default.object
@@ -23045,7 +23053,6 @@ exports.default = (0, _connect.connect)(function (_ref2) {
         is_trade_enabled: modules.trade.is_trade_enabled,
         onClickPurchase: modules.trade.onPurchase,
         onHoverPurchase: modules.trade.onHoverPurchase,
-        resetPurchase: modules.trade.requestProposal,
         proposal_info: modules.trade.proposal_info,
         purchase_info: modules.trade.purchase_info,
         trade_types: modules.trade.trade_types,
