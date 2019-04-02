@@ -5429,9 +5429,9 @@ html {
     margin-bottom: 22.8571428571px;
     max-width: 448px; }
     .theme--light .full-page-modal__content {
-      color: rgba(0, 0, 0, 0.8); }
+      color: #000000; }
     .theme--dark .full-page-modal__content {
-      color: #7f8397; }
+      color: #ffffff; }
   .full-page-modal__footer {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -7711,24 +7711,6 @@ html {
     .theme--dark .block-ui__loading-spinner-path {
       -webkit-animation: dash 1.5s ease-in-out infinite, colorOrange 6s ease-in-out infinite;
               animation: dash 1.5s ease-in-out infinite, colorOrange 6s ease-in-out infinite; }
-  .theme--dark .full-page-modal {
-    background-color: rgba(31, 36, 61, 0.8);
-    /* postcss-bem-linter: ignore */ }
-    .theme--dark .full-page-modal__dialog {
-      background-color: #191c31;
-      -webkit-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
-              box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16); }
-    .theme--dark .full-page-modal__content, .theme--dark .full-page-modal__header {
-      color: #7f8397; }
-    .theme--dark .full-page-modal .btn--secondary--orange {
-      background-color: #191c31;
-      /* postcss-bem-linter: ignore */
-      /* postcss-bem-linter: ignore */ }
-      .theme--dark .full-page-modal .btn--secondary--orange:hover:not([disabled]) {
-        background: #202641;
-        border: none; }
-      .theme--dark .full-page-modal .btn--secondary--orange .btn__text {
-        color: #ffffff; }
   .theme--dark .toast__body {
     background-color: #dbeefd;
     color: white; }

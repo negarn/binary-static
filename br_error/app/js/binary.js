@@ -12146,6 +12146,108 @@ exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/App/Containers/MarketUnavailableModal/index.js":
+/*!*****************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Containers/MarketUnavailableModal/index.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _marketUnavailable = __webpack_require__(/*! ./market-unavailable.jsx */ "./src/javascript/app_2/App/Containers/MarketUnavailableModal/market-unavailable.jsx");
+
+var _marketUnavailable2 = _interopRequireDefault(_marketUnavailable);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _marketUnavailable2.default;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Containers/MarketUnavailableModal/market-unavailable.jsx":
+/*!*******************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Containers/MarketUnavailableModal/market-unavailable.jsx ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
+var _url = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js");
+
+var _url2 = _interopRequireDefault(_url);
+
+var _fullPageModal = __webpack_require__(/*! ../../Components/Elements/FullPageModal/full-page-modal.jsx */ "./src/javascript/app_2/App/Components/Elements/FullPageModal/full-page-modal.jsx");
+
+var _fullPageModal2 = _interopRequireDefault(_fullPageModal);
+
+var _localize2 = __webpack_require__(/*! ../../Components/Elements/localize.jsx */ "./src/javascript/app_2/App/Components/Elements/localize.jsx");
+
+var _localize3 = _interopRequireDefault(_localize2);
+
+var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MarketUnavailableModal = function MarketUnavailableModal(_ref) {
+    var is_visible = _ref.is_visible,
+        setHasOnlyForwardingContracts = _ref.setHasOnlyForwardingContracts;
+    return _react2.default.createElement(
+        _fullPageModal2.default,
+        {
+            cancel_button_text: (0, _localize.localize)('Go to SmartTrader'),
+            confirm_button_text: (0, _localize.localize)('No, Stay on BinaryNex'),
+            is_visible: is_visible,
+            onCancel: function onCancel() {
+                return window.open(_url2.default.websiteUrl()) && setHasOnlyForwardingContracts(false);
+            },
+            onConfirm: function onConfirm() {
+                return setHasOnlyForwardingContracts(false);
+            },
+            title: (0, _localize.localize)('Market is unavailable')
+        },
+        _react2.default.createElement(_localize3.default, { str: 'Sorry, but this market is not supported yet on BinaryNex. Do you want to trade this market on SmartTrader?' })
+    );
+};
+
+MarketUnavailableModal.propTypes = {
+    is_visible: _propTypes2.default.bool,
+    setHasOnlyForwardingContracts: _propTypes2.default.func
+};
+
+var market_unavailable = (0, _connect.connect)(function (_ref2) {
+    var ui = _ref2.ui;
+    return {
+        is_visible: ui.has_only_forward_starting_contracts,
+        setHasOnlyForwardingContracts: ui.setHasOnlyForwardingContracts
+    };
+})(MarketUnavailableModal);
+exports.default = market_unavailable;
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/App/Containers/Routes/routes.jsx":
 /*!***************************************************************!*\
   !*** ./src/javascript/app_2/App/Containers/Routes/routes.jsx ***!
@@ -13277,6 +13379,10 @@ var _DenialOfServiceModal = __webpack_require__(/*! ./Containers/DenialOfService
 
 var _DenialOfServiceModal2 = _interopRequireDefault(_DenialOfServiceModal);
 
+var _MarketUnavailableModal = __webpack_require__(/*! ./Containers/MarketUnavailableModal */ "./src/javascript/app_2/App/Containers/MarketUnavailableModal/index.js");
+
+var _MarketUnavailableModal2 = _interopRequireDefault(_MarketUnavailableModal);
+
 var _ServicesErrorModal = __webpack_require__(/*! ./Containers/ServicesErrorModal */ "./src/javascript/app_2/App/Containers/ServicesErrorModal/index.js");
 
 var _ServicesErrorModal2 = _interopRequireDefault(_ServicesErrorModal);
@@ -13310,6 +13416,7 @@ var App = function App(_ref) {
                         _react2.default.createElement(_toastMessage2.default, { position: _ToastMessage.POSITIONS.TOP_RIGHT })
                     ),
                     _react2.default.createElement(_DenialOfServiceModal2.default, null),
+                    _react2.default.createElement(_MarketUnavailableModal2.default, null),
                     _react2.default.createElement(_ServicesErrorModal2.default, null)
                 ),
                 _react2.default.createElement(
@@ -23218,19 +23325,7 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _url = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js");
-
-var _url2 = _interopRequireDefault(_url);
-
 var _utility = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js");
-
-var _fullPageModal = __webpack_require__(/*! ../../../App/Components/Elements/FullPageModal/full-page-modal.jsx */ "./src/javascript/app_2/App/Components/Elements/FullPageModal/full-page-modal.jsx");
-
-var _fullPageModal2 = _interopRequireDefault(_fullPageModal);
-
-var _localize = __webpack_require__(/*! ../../../App/Components/Elements/localize.jsx */ "./src/javascript/app_2/App/Components/Elements/localize.jsx");
-
-var _localize2 = _interopRequireDefault(_localize);
 
 var _uiLoader = __webpack_require__(/*! ../../../App/Components/Elements/ui-loader.jsx */ "./src/javascript/app_2/App/Components/Elements/ui-loader.jsx");
 
@@ -23253,8 +23348,6 @@ var _digits2 = _interopRequireDefault(_digits);
 var _infoBox = __webpack_require__(/*! ../../Contract/Containers/info-box.jsx */ "./src/javascript/app_2/Modules/Contract/Containers/info-box.jsx");
 
 var _infoBox2 = _interopRequireDefault(_infoBox);
-
-var _localize3 = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23290,8 +23383,6 @@ var Trade = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
-
             var contract_id = (0, _utility.getPropertyValue)(this.props.purchase_info, ['buy', 'contract_id']);
             var form_wrapper_class = this.props.is_mobile ? 'mobile-wrapper' : 'sidebar__container desktop-only';
             var should_show_last_digit_stats = ['match_diff', 'even_odd', 'over_under'].includes(this.props.contract_type) && !this.props.is_contract_mode;
@@ -23335,22 +23426,6 @@ var Trade = function (_React$Component) {
                         is_contract_visible: !!contract_id || this.props.is_contract_mode,
                         is_trade_enabled: this.props.is_trade_enabled
                     })
-                ),
-                _react2.default.createElement(
-                    _fullPageModal2.default,
-                    {
-                        confirm_button_text: (0, _localize3.localize)('No, Stay on BinaryNex'),
-                        cancel_button_text: (0, _localize3.localize)('Go to SmartTrader'),
-                        is_visible: this.props.has_only_forward_starting_contracts,
-                        onConfirm: function onConfirm() {
-                            return _this2.props.setHasOnlyForwardingContracts(false);
-                        },
-                        onCancel: function onCancel() {
-                            return window.open(_url2.default.websiteUrl()) && _this2.props.setHasOnlyForwardingContracts(false);
-                        },
-                        title: (0, _localize3.localize)('Market is unavailable')
-                    },
-                    _react2.default.createElement(_localize2.default, { str: 'Sorry, but this market is not supported yet on BinaryNex. Do you want to trade this market on SmartTrader?' })
                 )
             );
         }
@@ -23364,7 +23439,6 @@ Trade.propTypes = {
     chart_zoom: _propTypes2.default.number,
     contract_type: _propTypes2.default.string,
     end_epoch: _propTypes2.default.number,
-    has_only_forward_starting_contracts: _propTypes2.default.bool,
     is_contract_mode: _propTypes2.default.bool,
     is_mobile: _propTypes2.default.bool,
     is_trade_enabled: _propTypes2.default.bool,
@@ -23375,7 +23449,6 @@ Trade.propTypes = {
     purchase_info: _propTypes2.default.object,
     scroll_to_epoch: _propTypes2.default.number,
     scroll_to_offset: _propTypes2.default.number,
-    setHasOnlyForwardingContracts: _propTypes2.default.func,
     start_epoch: _propTypes2.default.number,
     symbol: _propTypes2.default.string
 };
@@ -23403,9 +23476,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
         onUnmount: modules.trade.onUnmount,
         purchase_info: modules.trade.purchase_info,
         symbol: modules.trade.symbol,
-        has_only_forward_starting_contracts: ui.has_only_forward_starting_contracts,
-        is_mobile: ui.is_mobile,
-        setHasOnlyForwardingContracts: ui.setHasOnlyForwardingContracts
+        is_mobile: ui.is_mobile
     };
 })(Trade);
 
