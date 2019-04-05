@@ -11019,73 +11019,6 @@ module.exports = Header;
 
 /***/ }),
 
-/***/ "./src/javascript/app/base/interview_popup.js":
-/*!****************************************************!*\
-  !*** ./src/javascript/app/base/interview_popup.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Cookies = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
-var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
-var Client = __webpack_require__(/*! ../base/client */ "./src/javascript/app/base/client.js");
-var isEuCountry = __webpack_require__(/*! ../common/country_base */ "./src/javascript/app/common/country_base.js").isEuCountry;
-var RealityCheckData = __webpack_require__(/*! ../pages/user/reality_check/reality_check.data */ "./src/javascript/app/pages/user/reality_check/reality_check.data.js");
-
-var InterviewPopup = function () {
-    var onLoad = function onLoad() {
-        BinarySocket.wait('authorize', 'website_status', 'get_account_status').then(function () {
-            var is_interview_consent = Cookies.get('InterviewConsent');
-            var $interview_popup = $('#interview_popup_container');
-            var $interview_no_thanks = $('#interview_no_thanks');
-            var $interview_ask_later = $('#interview_ask_later');
-            var $interview_interested = $('#interview_interested');
-
-            if (Client.isLoggedIn() && isEuCountry() && !is_interview_consent && !(RealityCheckData.get('keep_open') === false || RealityCheckData.get('keep_open') === 1)) {
-                setTimeout(function () {
-                    $interview_popup.removeClass('invisible');
-                }, 2000);
-                $interview_no_thanks.one('click', function () {
-                    Cookies.set('InterviewConsent', 1);
-                    $interview_popup.addClass('invisible');
-                });
-                $interview_ask_later.one('click', function () {
-                    var interval_time = 1 / 12;
-                    Cookies.set('InterviewConsent', 1, {
-                        expires: interval_time
-                    });
-                    $interview_popup.addClass('invisible');
-                });
-                $interview_interested.one('click', function () {
-                    BinarySocket.wait('get_settings').then(function (response) {
-                        var get_settings = response.get_settings || {};
-                        var url = 'https://docs.google.com/forms/d/e/1FAIpQLSccg8p-GjoBufjAnMJJUZHJ_1YqlS_GyQyy5vQdgGm4VKmnMg/viewform?usp=pp_url';
-                        var pre_name = '&entry.909179306=' + get_settings.first_name + '%20' + get_settings.last_name;
-                        var pre_email = '&entry.81172074=' + get_settings.email;
-                        var pre_country = '&entry.141529718=' + get_settings.country;
-                        var pre_phone = '&entry.1442583433=' + get_settings.phone;
-                        var encode_uri = ('' + url + pre_name + pre_email + pre_country + pre_phone).replace(/\+/g, '%2B');
-                        $interview_popup.addClass('invisible');
-                        Cookies.set('InterviewConsent', 1);
-                        window.open(encode_uri, '_blank');
-                    });
-                });
-            }
-        });
-    };
-
-    return {
-        onLoad: onLoad
-    };
-}();
-
-module.exports = InterviewPopup;
-
-/***/ }),
-
 /***/ "./src/javascript/app/base/logged_in.js":
 /*!**********************************************!*\
   !*** ./src/javascript/app/base/logged_in.js ***!
@@ -11353,7 +11286,6 @@ var Client = __webpack_require__(/*! ./client */ "./src/javascript/app/base/clie
 var Contents = __webpack_require__(/*! ./contents */ "./src/javascript/app/base/contents.js");
 var Header = __webpack_require__(/*! ./header */ "./src/javascript/app/base/header.js");
 var Footer = __webpack_require__(/*! ./footer */ "./src/javascript/app/base/footer.js");
-var InterviewPopup = __webpack_require__(/*! ./interview_popup */ "./src/javascript/app/base/interview_popup.js");
 var Menu = __webpack_require__(/*! ./menu */ "./src/javascript/app/base/menu.js");
 var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
 var TrafficSource = __webpack_require__(/*! ../common/traffic_source */ "./src/javascript/app/common/traffic_source.js");
@@ -11431,7 +11363,8 @@ var Page = function () {
                 Language.setCookie(Language.urlLang());
 
                 if (!ClientBase.get('is_virtual')) {
-                    InterviewPopup.onLoad();
+                    // TODO: uncomment below to enable interview popup dialog
+                    // InterviewPopup.onLoad();
                 }
             }
             Header.onLoad();
@@ -34090,7 +34023,6 @@ var RealityCheckData = __webpack_require__(/*! ./reality_check.data */ "./src/ja
 var showLocalTimeOnHover = __webpack_require__(/*! ../../../base/clock */ "./src/javascript/app/base/clock.js").showLocalTimeOnHover;
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
 var FormManager = __webpack_require__(/*! ../../../common/form_manager */ "./src/javascript/app/common/form_manager.js");
-var InterviewPopup = __webpack_require__(/*! ../../../base/interview_popup */ "./src/javascript/app/base/interview_popup.js");
 var urlFor = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 __webpack_require__(/*! ../../../../_common/lib/polyfills/array.includes */ "./src/javascript/_common/lib/polyfills/array.includes.js");
 __webpack_require__(/*! ../../../../_common/lib/polyfills/string.includes */ "./src/javascript/_common/lib/polyfills/string.includes.js");
@@ -34187,7 +34119,8 @@ var RealityCheckUI = function () {
     var closePopUp = function closePopUp() {
         $('#reality_check').remove();
         startSummaryTimer();
-        InterviewPopup.onLoad();
+        // TODO: uncomment below to enable interview popup dialog
+        // InterviewPopup.onLoad();
     };
 
     var startSummaryTimer = function startSummaryTimer() {
