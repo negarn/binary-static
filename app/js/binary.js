@@ -10157,6 +10157,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
+var _url = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js");
+
 var _button = __webpack_require__(/*! ../../Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
 
 var _button2 = _interopRequireDefault(_button);
@@ -10168,9 +10170,10 @@ var DepositButton = function DepositButton(_ref) {
     return _react2.default.createElement(_button2.default, {
         className: (0, _classnames2.default)(className, 'btn--primary btn--primary--orange'),
         has_effect: true,
-        text: (0, _localize.localize)('Deposit')
-        // TODO: Redirect to Deposit page in Cashier
-        // onClick={redirectToCashierDeposit}
+        text: (0, _localize.localize)('Deposit'),
+        onClick: function onClick() {
+            window.open((0, _url.urlFor)('cashier', undefined, undefined, true), '_blank');
+        }
     });
 };
 
@@ -11267,6 +11270,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
+var _url = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js");
+
 var _utility = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js");
 
 var _AccountsCurrency = __webpack_require__(/*! ../../../Assets/Header/AccountsCurrency */ "./src/javascript/app_2/Assets/Header/AccountsCurrency/index.js");
@@ -11423,8 +11428,13 @@ var AccountSwitcher = function (_React$Component) {
                         'div',
                         { className: 'acc-switcher__new-account' },
                         _react2.default.createElement(
-                            'span',
-                            { className: 'acc-switcher__new-account-title' },
+                            'a',
+                            {
+                                className: 'acc-switcher__new-account-link',
+                                href: (0, _url.urlFor)('user/accounts', undefined, undefined, true),
+                                rel: 'noopener noreferrer',
+                                target: '_blank'
+                            },
                             (0, _localize.localize)('Add new account')
                         )
                     )

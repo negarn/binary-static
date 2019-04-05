@@ -3399,7 +3399,7 @@ html {
       -ms-flex-pack: center;
           justify-content: center;
   margin: 0.8em 0 1.6em; }
-  .acc-switcher__new-account-title {
+  .acc-switcher__new-account-link {
     font-size: 1.2em;
     color: rgba(0, 0, 0, 0.4);
     font-weight: 400;
@@ -3409,25 +3409,30 @@ html {
     padding: 6.6666666667px 13.3333333333px;
     width: 100%;
     border-radius: 4px;
-    cursor: pointer; }
-    .theme--light .acc-switcher__new-account-title {
+    cursor: pointer;
+    text-decoration: none; }
+    .theme--light .acc-switcher__new-account-link {
       color: rgba(0, 0, 0, 0.4);
       border: 1px dashed rgba(0, 0, 0, 0.4); }
-      .theme--light .acc-switcher__new-account-title:before {
+      .theme--light .acc-switcher__new-account-link:before {
         content: '\002B';
         color: rgba(0, 0, 0, 0.4);
         float: left; }
-      .theme--light .acc-switcher__new-account-title:hover {
+      .theme--light .acc-switcher__new-account-link:hover {
         background: rgba(0, 0, 0, 0.04); }
-    .theme--dark .acc-switcher__new-account-title {
+      .theme--light .acc-switcher__new-account-link:visited, .theme--light .acc-switcher__new-account-link:active {
+        color: rgba(0, 0, 0, 0.4); }
+    .theme--dark .acc-switcher__new-account-link {
       color: #7f8397;
       border: 1px dashed #7f8397; }
-      .theme--dark .acc-switcher__new-account-title:before {
+      .theme--dark .acc-switcher__new-account-link:before {
         content: '\002B';
         color: #7f8397;
         float: left; }
-      .theme--dark .acc-switcher__new-account-title:hover {
+      .theme--dark .acc-switcher__new-account-link:hover {
         background: #202641; }
+      .theme--dark .acc-switcher__new-account-link:visited, .theme--dark .acc-switcher__new-account-link:active {
+        color: #7f8397; }
 
 .acc-switcher__list {
   height: 100%;
