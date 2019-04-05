@@ -12025,6 +12025,8 @@ var _reactRouter = __webpack_require__(/*! react-router */ "./node_modules/react
 
 var _currency_base = __webpack_require__(/*! ../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js");
 
+var _url = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js");
+
 var _Header = __webpack_require__(/*! ../../Components/Layout/Header */ "./src/javascript/app_2/App/Components/Layout/Header/index.js");
 
 var _headerLinks = __webpack_require__(/*! ../../Constants/header-links */ "./src/javascript/app_2/App/Constants/header-links.js");
@@ -12094,7 +12096,12 @@ var Header = function Header(_ref) {
                             is_dialog_on: is_acc_switcher_on,
                             toggleDialog: toggleAccountsDialog
                         }),
-                        !!(can_upgrade_to && is_virtual) && _react2.default.createElement(_Header.UpgradeButton, { className: 'acc-info__button' }),
+                        !!(can_upgrade_to && is_virtual) && _react2.default.createElement(_Header.UpgradeButton, {
+                            className: 'acc-info__button',
+                            onClick: function onClick() {
+                                window.open((0, _url.urlFor)('user/accounts', undefined, undefined, true));
+                            }
+                        }),
                         !is_virtual && _react2.default.createElement(_Header.DepositButton, { className: 'acc-info__button' })
                     ) : _react2.default.createElement(
                         _react2.default.Fragment,
