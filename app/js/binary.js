@@ -11582,8 +11582,6 @@ var _localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/j
 
 var _url = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js");
 
-var _url2 = _interopRequireDefault(_url);
-
 var _fullPageModal = __webpack_require__(/*! ../../Components/Elements/FullPageModal/full-page-modal.jsx */ "./src/javascript/app_2/App/Components/Elements/FullPageModal/full-page-modal.jsx");
 
 var _fullPageModal2 = _interopRequireDefault(_fullPageModal);
@@ -11621,7 +11619,7 @@ var _onConfirm = function () {
 }();
 
 var onCancel = function onCancel() {
-    window.location.href = _url2.default.urlFor('trading');
+    window.open((0, _url.urlFor)('trading', undefined, undefined, true));
 };
 
 var DenialOfServiceModal = function DenialOfServiceModal(_ref2) {
