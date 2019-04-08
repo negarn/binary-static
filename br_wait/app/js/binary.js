@@ -11030,6 +11030,10 @@ var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_module
 
 var _login = __webpack_require__(/*! ../../../../_common/base/login */ "./src/javascript/_common/base/login.js");
 
+var _socket_base = __webpack_require__(/*! ../../../../_common/base/socket_base */ "./src/javascript/_common/base/socket_base.js");
+
+var _socket_base2 = _interopRequireDefault(_socket_base);
+
 var _routes = __webpack_require__(/*! ../../../Constants/routes */ "./src/javascript/app_2/Constants/routes.js");
 
 var _routes2 = _interopRequireDefault(_routes);
@@ -11065,7 +11069,9 @@ var RouteWithSubRoutes = function RouteWithSubRoutes(route) {
 
         var title = route.title ? route.title + ' | ' : '';
         document.title = '' + title + _appConfig.default_title;
-        _gtm2.default.pushDataLayer({ event: 'page_load' });
+        _socket_base2.default.wait('website_status').then(function () {
+            _gtm2.default.pushDataLayer({ event: 'page_load' });
+        });
         return result;
     };
 
