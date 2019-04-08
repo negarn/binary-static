@@ -11626,15 +11626,15 @@ var DenialOfServiceModal = function DenialOfServiceModal(_ref2) {
         _fullPageModal2.default,
         {
             title: (0, _localize.localize)('Whoops!'),
-            confirm_button_text: (0, _localize.localize)('Continue with my virtual account'),
-            cancel_button_text: (0, _localize.localize)('Visit main website'),
+            confirm_button_text: (0, _localize.localize)('Continue with virtual account'),
+            cancel_button_text: (0, _localize.localize)('Back to main website'),
             onConfirm: function onConfirm() {
                 return _onConfirm(client);
             },
             onCancel: onCancel,
             is_visible: is_visible
         },
-        _react2.default.createElement(_localize3.default, { str: 'You are not allowed to access this feature with your real money account at the moment.' })
+        _react2.default.createElement(_localize3.default, { str: 'You cannot use your real money account with BinaryNex at this time.' })
     );
 };
 
@@ -30629,7 +30629,7 @@ var ClientStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 
         key: 'is_client_allowed_to_visit',
         get: function get() {
             return !!(!this.is_logged_in || this.is_virtual
-            // TODO: uncomment below line to enable app_2 for costarica
+            // TODO: [only_virtual] uncomment below line to enable app_2 for costarica
             // || this.accounts[this.loginid].landing_company_shortcode === 'costarica'
             );
         }

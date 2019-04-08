@@ -11122,7 +11122,7 @@ var LoggedInHandler = function () {
                 if (param === 'loginid') {
                     if (!Client.get('loginid') && !account.is_disabled) {
                         if (is_app_2 && account.is_virtual) {
-                            // TODO: remove this to stop logging clients into virtual for app_2
+                            // TODO: [only_virtual] remove this to stop logging clients into virtual for app_2
                             Client.set(param, account[param]);
                         } else if (!is_app_2 && !account.is_virtual) {
                             Client.set(param, account[param]);
