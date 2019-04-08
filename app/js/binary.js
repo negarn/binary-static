@@ -11384,6 +11384,24 @@ var AccountSwitcher = function (_React$Component) {
 
             var main_account_title = real_accounts.length > 1 ? (0, _localize.localize)('Real accounts') : (0, _localize.localize)('Real account');
 
+            var UpgradeButton = function UpgradeButton(_ref3) {
+                var text = _ref3.text;
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'acc-switcher__new-account' },
+                    _react2.default.createElement(
+                        'a',
+                        {
+                            className: 'acc-switcher__new-account-link',
+                            href: (0, _url.urlFor)('user/accounts', undefined, undefined, true),
+                            rel: 'noopener noreferrer',
+                            target: '_blank'
+                        },
+                        text
+                    )
+                );
+            };
+
             return _react2.default.createElement(
                 'div',
                 { className: 'acc-switcher__list', ref: this.setWrapperRef },
@@ -11424,20 +11442,7 @@ var AccountSwitcher = function (_React$Component) {
                     ),
                     // TODO: Add link to account opening page for upgrade or multi account page for new account.
                     // Update text below for handling types of account to create :- e.g - Investment
-                    !!(this.props.is_upgrade_enabled && this.props.upgrade_info.can_open_multi) && _react2.default.createElement(
-                        'div',
-                        { className: 'acc-switcher__new-account' },
-                        _react2.default.createElement(
-                            'a',
-                            {
-                                className: 'acc-switcher__new-account-link',
-                                href: (0, _url.urlFor)('user/accounts', undefined, undefined, true),
-                                rel: 'noopener noreferrer',
-                                target: '_blank'
-                            },
-                            (0, _localize.localize)('Add new account')
-                        )
-                    )
+                    !!(this.props.is_upgrade_enabled && this.props.upgrade_info.can_open_multi) && _react2.default.createElement(UpgradeButton, { text: (0, _localize.localize)('Add new account') })
                 ),
                 !(0, _utility.isEmptyObject)(vrt_account) && _react2.default.createElement(
                     'div',
@@ -11466,15 +11471,7 @@ var AccountSwitcher = function (_React$Component) {
                         )
                     )
                 ),
-                !!(this.props.is_upgrade_enabled && this.props.is_virtual) && _react2.default.createElement(
-                    'div',
-                    { className: 'acc-switcher__new-account' },
-                    _react2.default.createElement(
-                        'span',
-                        { className: 'acc-switcher__new-account-title' },
-                        (0, _localize.localize)('Upgrade to Real Account')
-                    )
-                ),
+                !!(this.props.is_upgrade_enabled && this.props.is_virtual) && _react2.default.createElement(UpgradeButton, { text: (0, _localize.localize)('Upgrade to Real Account') }),
                 _react2.default.createElement(
                     'div',
                     { className: 'acc-switcher__logout', onClick: this.handleLogout },
@@ -11507,9 +11504,9 @@ AccountSwitcher.propTypes = {
     virtual_loginid: _propTypes2.default.string
 };
 
-var account_switcher = (0, _connect.connect)(function (_ref3) {
-    var client = _ref3.client,
-        ui = _ref3.ui;
+var account_switcher = (0, _connect.connect)(function (_ref4) {
+    var client = _ref4.client,
+        ui = _ref4.ui;
     return {
         account_list: client.account_list,
         account_loginid: client.loginid,
