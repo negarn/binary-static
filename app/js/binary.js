@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_toke":"api_toke","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"9678f971aecc8fd8a2ee","account_password":"5b98c5e0011cf272df7f","api_toke":"856a16352b5b0f7b5fb2","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"0c0beb7e16c2db7d4354","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"89c32cd4391ea5a712d9","portfolio":"90c69f17efacf0441d50","statement":"83be0ace500a644e5479","self_exclusion":"226ac0134b0354423868","settings":"90edf5f4d945de1a9104","vendors~smart_chart":"04460e87dda1d6ec37fc","smart_chart":"88116283be894294b9e5"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_toke":"api_toke","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"9678f971aecc8fd8a2ee","account_password":"5b98c5e0011cf272df7f","api_toke":"856a16352b5b0f7b5fb2","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"0c0beb7e16c2db7d4354","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"89c32cd4391ea5a712d9","portfolio":"dc77da97485e64abb294","statement":"83be0ace500a644e5479","self_exclusion":"226ac0134b0354423868","settings":"90edf5f4d945de1a9104","vendors~smart_chart":"04460e87dda1d6ec37fc","smart_chart":"88116283be894294b9e5"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -532,98 +532,6 @@ exports.default = function (_ref) {
 
 /***/ }),
 
-/***/ "./src/images/app_2/settings/confirmation-disabled.svg":
-/*!*************************************************************!*\
-  !*** ./src/images/app_2/settings/confirmation-disabled.svg ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }return target;
-};
-
-function _objectWithoutProperties(obj, keys) {
-  var target = {};for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
-  }return target;
-}
-
-exports.default = function (_ref) {
-  var _ref$styles = _ref.styles,
-      styles = _ref$styles === undefined ? {} : _ref$styles,
-      props = _objectWithoutProperties(_ref, ["styles"]);
-
-  return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("defs", null, _react2.default.createElement("linearGradient", { x1: "50%", y1: "126.02%", x2: "50%", y2: "32.91%", id: "a" }, _react2.default.createElement("stop", { stopColor: "#FFF", stopOpacity: "0", offset: "0%" }), _react2.default.createElement("stop", { stopColor: "#999CAC", stopOpacity: ".16", offset: "100%" }))), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("path", { fill: "#FAFAFA", d: "M0 0h160v120H0z" }), _react2.default.createElement("path", { fill: "url(#a)", d: "M82.24 29.8H65.58L58 52.48 54.97 17l-4.55 35.48h-6.06L36.8 82.72l-3.03-22.68-28.19-7.56L2.5 31.5 0 31.1v77.98h82.24z" }), _react2.default.createElement("path", { d: "M83 32c-.14.14-.34-1.45-.54-1.45H66.32l-7.41 22.3c-.27.79-1.43.64-1.48-.2L55 20.93l-3.65 31.76a.76.76 0 0 1-.75.69h-5.43L37.7 83.15c-.14.87-1.39.84-1.5-.02l-3-22.61L5.1 53.08a.76.76 0 0 1-.16-.37L2.08 32.56 0 32.84v-1.75l2.27-.43a.76.76 0 0 1 1.14.54l3.01 21.1 28.08 7.44a.76.76 0 0 1 .16.37l2.37 17.8 6.75-25.43a.76.76 0 0 1 .75-.63h5.38l4.49-35.16c.09-.93 1.45-.91 1.5.02L58.7 48.7l6.36-19.15a.76.76 0 0 1 .72-.52h16.38L83 32z", fill: "#999CAC", fillRule: "nonzero" }), _react2.default.createElement("rect", { fill: "#EBEBEB", fillRule: "nonzero", x: "51", y: "14", width: "105", height: "92", rx: "2" }), _react2.default.createElement("path", { d: "M56 21h32v3H56v-3zm0 43h32v3H56v-3z", fill: "#D6D6D6" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "56", y: "28", width: "96", height: "28", rx: "2" }), _react2.default.createElement("path", { d: "M58 28h46l10 14.21L104 56H58a2 2 0 0 1-2-2V30a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M121 36h23v3h-23v-3zm0 9h23v3h-23v-3z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M64 37h10v10H64V37zm13 4h27v3H77v-3z", fill: "#74CDBE" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "56", y: "71", width: "96", height: "28", rx: "2" }), _react2.default.createElement("path", { d: "M58 71h46l10 14.21L104 99H58a2 2 0 0 1-2-2V73a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M121 79h23v3h-23v-3zm0 9h23v3h-23v-3z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M64 80h10v10H64V80zm13 4h27v3H77v-3z", fill: "#74CDBE" })));
-};
-
-/***/ }),
-
-/***/ "./src/images/app_2/settings/confirmation-enabled.svg":
-/*!************************************************************!*\
-  !*** ./src/images/app_2/settings/confirmation-enabled.svg ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }return target;
-};
-
-function _objectWithoutProperties(obj, keys) {
-  var target = {};for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
-  }return target;
-}
-
-exports.default = function (_ref) {
-  var _ref$styles = _ref.styles,
-      styles = _ref$styles === undefined ? {} : _ref$styles,
-      props = _objectWithoutProperties(_ref, ["styles"]);
-
-  return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("defs", null, _react2.default.createElement("linearGradient", { x1: "50%", y1: "126.02%", x2: "50%", y2: "32.91%", id: "a" }, _react2.default.createElement("stop", { stopColor: "#FFF", stopOpacity: "0", offset: "0%" }), _react2.default.createElement("stop", { stopColor: "#999CAC", stopOpacity: ".16", offset: "100%" }))), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("rect", { fill: "#FAFAFA", width: "160", height: "120", rx: "4" }), _react2.default.createElement("path", { fill: "url(#a)", d: "M82.24 29.8H65.58L58 52.48 54.97 17l-4.55 35.48h-6.06L36.8 82.72l-3.03-22.68-28.19-7.56L2.5 31.5 0 31.1v77.98h82.24z" }), _react2.default.createElement("path", { d: "M83 32c-.14.14-.34-1.45-.54-1.45H66.32l-7.41 22.3c-.27.79-1.43.64-1.48-.2L55 20.93l-3.65 31.76a.76.76 0 0 1-.75.69h-5.43L37.7 83.15c-.14.87-1.39.84-1.5-.02l-3-22.61L5.1 53.08a.76.76 0 0 1-.16-.37L2.08 32.56 0 32.84v-1.75l2.27-.43a.76.76 0 0 1 1.14.54l3.01 21.1 28.08 7.44a.76.76 0 0 1 .16.37l2.37 17.8 6.75-25.43a.76.76 0 0 1 .75-.63h5.38l4.49-35.16c.09-.93 1.45-.91 1.5.02L58.7 48.7l6.36-19.15a.76.76 0 0 1 .72-.52h16.38L83 32z", fill: "#999CAC", fillRule: "nonzero" }), _react2.default.createElement("rect", { fill: "#EBEBEB", fillRule: "nonzero", x: "51", y: "14", width: "105", height: "92", rx: "2" }), _react2.default.createElement("path", { d: "M56 21h32v3H56v-3zm0 43h32v3H56v-3z", fill: "#D6D6D6" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "56", y: "28", width: "96", height: "28", rx: "2" }), _react2.default.createElement("path", { d: "M58 28h46l10 14.21L104 56H58a2 2 0 0 1-2-2V30a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M121 36h23v3h-23v-3zm0 9h23v3h-23v-3z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M64 37h10v10H64V37zm13 4h27v3H77v-3z", fill: "#74CDBE" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "56", y: "71", width: "96", height: "28", rx: "2" }), _react2.default.createElement("path", { d: "M58 71h46l10 14.21L104 99H58a2 2 0 0 1-2-2V73a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M121 79h23v3h-23v-3zm0 9h23v3h-23v-3z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M64 80h10v10H64V80zm13 4h27v3H77v-3z", fill: "#74CDBE" }), _react2.default.createElement("path", { fill: "#000", fillRule: "nonzero", opacity: ".5", d: "M0 0h160v120H0z" }), _react2.default.createElement("rect", { fill: "#EBEBEB", fillRule: "nonzero", x: "16", y: "33", width: "129", height: "55", rx: "2" }), _react2.default.createElement("path", { d: "M26 42h110v5H26v-5zm0 8h51v5H26v-5z", fill: "#D6D6D6" }), _react2.default.createElement("rect", { fill: "#F93", x: "87", y: "63", width: "50", height: "17", rx: "2" }), _react2.default.createElement("path", { d: "M92.68 72v2h-1.17v-5.69h2.22c.42 0 .8.08 1.12.24a1.73 1.73 0 0 1 1.01 1.64c0 .56-.19 1-.57 1.32-.38.32-.9.49-1.58.49h-1.03zm0-.95h1.05c.3 0 .54-.08.7-.22.17-.15.25-.36.25-.63 0-.28-.08-.5-.25-.67a.92.92 0 0 0-.68-.27h-1.07v1.79zm8.3-2.74v3.75c0 .62-.2 1.11-.6 1.47-.38.37-.91.55-1.59.55-.66 0-1.19-.18-1.58-.53a1.89 1.89 0 0 1-.6-1.45v-3.79h1.18v3.76c0 .37.09.64.26.81.18.17.43.26.74.26.66 0 1-.35 1-1.04V68.3h1.18zm3.06 3.6h-.93V74h-1.18v-5.69h2.12c.67 0 1.19.15 1.55.45.37.3.55.72.55 1.27 0 .39-.09.71-.25.97-.17.26-.43.47-.77.62l1.23 2.32V74h-1.25l-1.07-2.08zm-.93-.94h.94c.3 0 .52-.08.68-.23a.8.8 0 0 0 .25-.62.86.86 0 0 0-.23-.63c-.15-.15-.39-.23-.7-.23h-.94v1.7zm8.4 1.13c-.05.62-.28 1.1-.68 1.45-.41.35-.95.53-1.61.53-.73 0-1.3-.25-1.72-.74a3.02 3.02 0 0 1-.63-2.02v-.35c0-.54.1-1.03.29-1.44.19-.42.46-.74.82-.96a2.31 2.31 0 0 1 1.25-.34c.66 0 1.19.18 1.59.53.4.35.63.85.7 1.48h-1.18c-.03-.37-.13-.63-.3-.8-.18-.16-.45-.25-.81-.25-.39 0-.68.14-.88.42-.19.28-.29.72-.3 1.3v.44c0 .61.1 1.06.28 1.34.19.29.48.43.88.43.37 0 .64-.08.82-.25.17-.16.28-.42.3-.77h1.17zm5.4 1.9h-1.18v-2.44h-2.29V74h-1.17v-5.69h1.18v2.3h2.28v-2.3h1.17V74zm4.3-1.17h-2.06l-.39 1.17h-1.24l2.11-5.69h1.09l2.13 5.69h-1.25l-.4-1.17zm-1.74-.95h1.42l-.71-2.13-.71 2.13zm6.86.63a.6.6 0 0 0-.24-.51 3.12 3.12 0 0 0-.84-.38 5.98 5.98 0 0 1-.96-.39c-.65-.35-.97-.82-.97-1.4 0-.31.08-.59.26-.83.17-.24.42-.43.74-.56a2.8 2.8 0 0 1 1.1-.2c.4 0 .76.07 1.08.22a1.63 1.63 0 0 1 1 1.54h-1.17a.77.77 0 0 0-.24-.61c-.17-.15-.4-.22-.7-.22-.28 0-.5.06-.66.18a.57.57 0 0 0-.24.48c0 .18.1.34.28.46.18.13.46.25.82.36.67.2 1.15.44 1.46.74.3.3.45.67.45 1.11 0 .5-.18.88-.56 1.16-.37.28-.87.42-1.5.42a2.9 2.9 0 0 1-1.2-.24 1.9 1.9 0 0 1-.82-.66 1.69 1.69 0 0 1-.28-.97h1.18c0 .63.37.94 1.12.94.28 0 .5-.05.65-.17a.55.55 0 0 0 .24-.47zm5.39-.98h-2.25v1.53h2.64V74h-3.81v-5.69h3.8v.95h-2.63v1.36h2.25v.91z", fill: "#FFF", fillRule: "nonzero" }), _react2.default.createElement("path", { d: "M52.97 72.1c-.04.62-.27 1.1-.67 1.45-.41.35-.95.53-1.62.53-.73 0-1.3-.25-1.72-.74a3.02 3.02 0 0 1-.62-2.02v-.35c0-.54.1-1.03.29-1.44.19-.42.46-.74.82-.96a2.31 2.31 0 0 1 1.25-.34c.66 0 1.18.18 1.59.53.4.35.63.85.69 1.48h-1.17c-.03-.36-.13-.63-.3-.8-.18-.16-.45-.24-.81-.24-.39 0-.68.13-.88.41-.2.28-.29.72-.3 1.3v.44c0 .61.1 1.06.28 1.35.19.28.48.42.88.42.37 0 .64-.08.82-.25.17-.16.28-.42.3-.77h1.17zm3.98.73H54.9L54.5 74h-1.24l2.12-5.69h1.08L58.6 74h-1.24l-.4-1.17zm-1.74-.95h1.43l-.72-2.13-.7 2.13zM63.75 74h-1.17l-2.28-3.74V74h-1.17v-5.69h1.17l2.28 3.75v-3.75h1.17V74zm5.49-1.9c-.05.62-.27 1.1-.68 1.45-.4.35-.94.53-1.61.53-.73 0-1.3-.25-1.72-.74a3.02 3.02 0 0 1-.63-2.02v-.35c0-.54.1-1.03.3-1.44.18-.42.46-.74.82-.96a2.31 2.31 0 0 1 1.24-.34c.66 0 1.19.18 1.6.53.4.35.62.85.69 1.48h-1.18c-.02-.36-.13-.63-.3-.8-.18-.16-.45-.24-.8-.24-.4 0-.69.13-.88.41-.2.28-.3.72-.3 1.3v.44c0 .61.1 1.06.28 1.35.19.28.48.42.88.42.36 0 .63-.08.8-.25.19-.16.29-.42.32-.77h1.17zm4.19-.56h-2.25v1.52h2.64V74h-3.81v-5.69h3.8v.95h-2.63v1.36h2.25v.91zm2.25 1.52h2.49V74H74.5v-5.69h1.17v4.75z", fill: "#F93", fillRule: "nonzero" })));
-};
-
-/***/ }),
-
 /***/ "./src/images/app_2/settings/dark/OHLC-disabled.svg":
 /*!**********************************************************!*\
   !*** ./src/images/app_2/settings/dark/OHLC-disabled.svg ***!
@@ -762,98 +670,6 @@ exports.default = function (_ref) {
 
 /***/ }),
 
-/***/ "./src/images/app_2/settings/dark/confirmation-disabled.svg":
-/*!******************************************************************!*\
-  !*** ./src/images/app_2/settings/dark/confirmation-disabled.svg ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }return target;
-};
-
-function _objectWithoutProperties(obj, keys) {
-  var target = {};for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
-  }return target;
-}
-
-exports.default = function (_ref) {
-  var _ref$styles = _ref.styles,
-      styles = _ref$styles === undefined ? {} : _ref$styles,
-      props = _objectWithoutProperties(_ref, ["styles"]);
-
-  return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("defs", null, _react2.default.createElement("linearGradient", { x1: "50%", y1: "147.77%", x2: "50%", y2: "10.76%", id: "a" }, _react2.default.createElement("stop", { stopColor: "#101320", stopOpacity: "0", offset: "0%" }), _react2.default.createElement("stop", { stopColor: "#FFF", stopOpacity: ".16", offset: "100%" }))), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("path", { fill: "#101320", d: "M0 0h160v120H0z" }), _react2.default.createElement("path", { fill: "url(#a)", d: "M82.24 29.8H65.58L58 52.48 54.97 17l-4.55 35.48h-6.06L36.8 82.72l-3.03-22.68-28.19-7.56L2.5 31.5 0 31.1v77.98h82.24z" }), _react2.default.createElement("path", { d: "M83 32c-.14.14-.34-1.45-.54-1.45H66.32l-7.41 22.3c-.27.79-1.43.64-1.48-.2L55 20.93l-3.65 31.76a.76.76 0 0 1-.75.69h-5.43L37.7 83.15c-.14.87-1.39.84-1.5-.02l-3-22.61L5.1 53.08a.76.76 0 0 1-.16-.37L2.08 32.56 0 32.84v-1.75l2.27-.43a.76.76 0 0 1 1.14.54l3.01 21.1 28.08 7.44a.76.76 0 0 1 .16.37l2.37 17.8 6.75-25.43a.76.76 0 0 1 .75-.63h5.38l4.49-35.16c.09-.93 1.45-.91 1.5.02L58.7 48.7l6.36-19.15a.76.76 0 0 1 .72-.52h16.38L83 32z", fill: "#FFF", fillRule: "nonzero" }), _react2.default.createElement("rect", { fill: "#191C31", fillRule: "nonzero", x: "51", y: "14", width: "105", height: "92", rx: "2" }), _react2.default.createElement("path", { d: "M56 21h32v3H56v-3zm0 43h32v3H56v-3z", fill: "#303346" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "56", y: "28", width: "96", height: "28", rx: "2" }), _react2.default.createElement("path", { d: "M58 28h46l10 14.21L104 56H58a2 2 0 0 1-2-2V30a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M121 36h23v3h-23v-3zm0 9h23v3h-23v-3z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M64 37h10v10H64V37zm13 4h27v3H77v-3z", fill: "#74CDBE" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "56", y: "71", width: "96", height: "28", rx: "2" }), _react2.default.createElement("path", { d: "M58 71h46l10 14.21L104 99H58a2 2 0 0 1-2-2V73a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M121 79h23v3h-23v-3zm0 9h23v3h-23v-3z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M64 80h10v10H64V80zm13 4h27v3H77v-3z", fill: "#74CDBE" })));
-};
-
-/***/ }),
-
-/***/ "./src/images/app_2/settings/dark/confirmation-enabled.svg":
-/*!*****************************************************************!*\
-  !*** ./src/images/app_2/settings/dark/confirmation-enabled.svg ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }return target;
-};
-
-function _objectWithoutProperties(obj, keys) {
-  var target = {};for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
-  }return target;
-}
-
-exports.default = function (_ref) {
-  var _ref$styles = _ref.styles,
-      styles = _ref$styles === undefined ? {} : _ref$styles,
-      props = _objectWithoutProperties(_ref, ["styles"]);
-
-  return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("defs", null, _react2.default.createElement("linearGradient", { x1: "50%", y1: "147.77%", x2: "50%", y2: "10.76%", id: "a" }, _react2.default.createElement("stop", { stopColor: "#101320", stopOpacity: "0", offset: "0%" }), _react2.default.createElement("stop", { stopColor: "#FFF", stopOpacity: ".16", offset: "100%" }))), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("path", { fill: "#101320", d: "M0 0h160v120H0z" }), _react2.default.createElement("path", { fill: "url(#a)", d: "M82.24 29.8H65.58L58 52.48 54.97 17l-4.55 35.48h-6.06L36.8 82.72l-3.03-22.68-28.19-7.56L2.5 31.5 0 31.1v77.98h82.24z" }), _react2.default.createElement("path", { d: "M83 32c-.14.14-.34-1.45-.54-1.45H66.32l-7.41 22.3c-.27.79-1.43.64-1.48-.2L55 20.93l-3.65 31.76a.76.76 0 0 1-.75.69h-5.43L37.7 83.15c-.14.87-1.39.84-1.5-.02l-3-22.61L5.1 53.08a.76.76 0 0 1-.16-.37L2.08 32.56 0 32.84v-1.75l2.27-.43a.76.76 0 0 1 1.14.54l3.01 21.1 28.08 7.44a.76.76 0 0 1 .16.37l2.37 17.8 6.75-25.43a.76.76 0 0 1 .75-.63h5.38l4.49-35.16c.09-.93 1.45-.91 1.5.02L58.7 48.7l6.36-19.15a.76.76 0 0 1 .72-.52h16.38L83 32z", fill: "#FFF", fillRule: "nonzero" }), _react2.default.createElement("rect", { fill: "#191C31", fillRule: "nonzero", x: "51", y: "14", width: "105", height: "92", rx: "2" }), _react2.default.createElement("path", { d: "M56 21h32v3H56v-3zm0 43h32v3H56v-3z", fill: "#303346" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "56", y: "28", width: "96", height: "28", rx: "2" }), _react2.default.createElement("path", { d: "M58 28h46l10 14.21L104 56H58a2 2 0 0 1-2-2V30a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M121 36h23v3h-23v-3zm0 9h23v3h-23v-3z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M64 37h10v10H64V37zm13 4h27v3H77v-3z", fill: "#74CDBE" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "56", y: "71", width: "96", height: "28", rx: "2" }), _react2.default.createElement("path", { d: "M58 71h46l10 14.21L104 99H58a2 2 0 0 1-2-2V73a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M121 79h23v3h-23v-3zm0 9h23v3h-23v-3z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M64 80h10v10H64V80zm13 4h27v3H77v-3z", fill: "#74CDBE" }), _react2.default.createElement("path", { fill: "#101320", fillRule: "nonzero", opacity: ".73", d: "M0 0h160v120H0z" }), _react2.default.createElement("rect", { fill: "#202641", fillRule: "nonzero", x: "16", y: "33", width: "129", height: "55", rx: "2" }), _react2.default.createElement("path", { d: "M26 42h110v5H26v-5zm0 8h51v5H26v-5z", fill: "#303346" }), _react2.default.createElement("rect", { fill: "#F93", x: "87", y: "63", width: "50", height: "17", rx: "2" }), _react2.default.createElement("path", { d: "M92.68 72v2h-1.17v-5.69h2.22c.42 0 .8.08 1.12.24a1.73 1.73 0 0 1 1.01 1.64c0 .56-.19 1-.57 1.32-.38.32-.9.49-1.58.49h-1.03zm0-.95h1.05c.3 0 .54-.08.7-.22.17-.15.25-.36.25-.63 0-.28-.08-.5-.25-.67a.92.92 0 0 0-.68-.27h-1.07v1.79zm8.3-2.74v3.75c0 .62-.2 1.11-.6 1.47-.38.37-.91.55-1.59.55-.66 0-1.19-.18-1.58-.53a1.89 1.89 0 0 1-.6-1.45v-3.79h1.18v3.76c0 .37.09.64.26.81.18.17.43.26.74.26.66 0 1-.35 1-1.04V68.3h1.18zm3.06 3.6h-.93V74h-1.18v-5.69h2.12c.67 0 1.19.15 1.55.45.37.3.55.72.55 1.27 0 .39-.09.71-.25.97-.17.26-.43.47-.77.62l1.23 2.32V74h-1.25l-1.07-2.08zm-.93-.94h.94c.3 0 .52-.08.68-.23a.8.8 0 0 0 .25-.62.86.86 0 0 0-.23-.63c-.15-.15-.39-.23-.7-.23h-.94v1.7zm8.4 1.13c-.05.62-.28 1.1-.68 1.45-.41.35-.95.53-1.61.53-.73 0-1.3-.25-1.72-.74a3.02 3.02 0 0 1-.63-2.02v-.35c0-.54.1-1.03.29-1.44.19-.42.46-.74.82-.96a2.31 2.31 0 0 1 1.25-.34c.66 0 1.19.18 1.59.53.4.35.63.85.7 1.48h-1.18c-.03-.37-.13-.63-.3-.8-.18-.16-.45-.25-.81-.25-.39 0-.68.14-.88.42-.19.28-.29.72-.3 1.3v.44c0 .61.1 1.06.28 1.34.19.29.48.43.88.43.37 0 .64-.08.82-.25.17-.16.28-.42.3-.77h1.17zm5.4 1.9h-1.18v-2.44h-2.29V74h-1.17v-5.69h1.18v2.3h2.28v-2.3h1.17V74zm4.3-1.17h-2.06l-.39 1.17h-1.24l2.11-5.69h1.09l2.13 5.69h-1.25l-.4-1.17zm-1.74-.95h1.42l-.71-2.13-.71 2.13zm6.86.63a.6.6 0 0 0-.24-.51 3.12 3.12 0 0 0-.84-.38 5.98 5.98 0 0 1-.96-.39c-.65-.35-.97-.82-.97-1.4 0-.31.08-.59.26-.83.17-.24.42-.43.74-.56a2.8 2.8 0 0 1 1.1-.2c.4 0 .76.07 1.08.22a1.63 1.63 0 0 1 1 1.54h-1.17a.77.77 0 0 0-.24-.61c-.17-.15-.4-.22-.7-.22-.28 0-.5.06-.66.18a.57.57 0 0 0-.24.48c0 .18.1.34.28.46.18.13.46.25.82.36.67.2 1.15.44 1.46.74.3.3.45.67.45 1.11 0 .5-.18.88-.56 1.16-.37.28-.87.42-1.5.42a2.9 2.9 0 0 1-1.2-.24 1.9 1.9 0 0 1-.82-.66 1.69 1.69 0 0 1-.28-.97h1.18c0 .63.37.94 1.12.94.28 0 .5-.05.65-.17a.55.55 0 0 0 .24-.47zm5.39-.98h-2.25v1.53h2.64V74h-3.81v-5.69h3.8v.95h-2.63v1.36h2.25v.91z", fill: "#FFF", fillRule: "nonzero" }), _react2.default.createElement("path", { d: "M52.97 72.1c-.04.62-.27 1.1-.67 1.45-.41.35-.95.53-1.62.53-.73 0-1.3-.25-1.72-.74a3.02 3.02 0 0 1-.62-2.02v-.35c0-.54.1-1.03.29-1.44.19-.42.46-.74.82-.96a2.31 2.31 0 0 1 1.25-.34c.66 0 1.18.18 1.59.53.4.35.63.85.69 1.48h-1.17c-.03-.36-.13-.63-.3-.8-.18-.16-.45-.24-.81-.24-.39 0-.68.13-.88.41-.2.28-.29.72-.3 1.3v.44c0 .61.1 1.06.28 1.35.19.28.48.42.88.42.37 0 .64-.08.82-.25.17-.16.28-.42.3-.77h1.17zm3.98.73H54.9L54.5 74h-1.24l2.12-5.69h1.08L58.6 74h-1.24l-.4-1.17zm-1.74-.95h1.43l-.72-2.13-.7 2.13zM63.75 74h-1.17l-2.28-3.74V74h-1.17v-5.69h1.17l2.28 3.75v-3.75h1.17V74zm5.49-1.9c-.05.62-.27 1.1-.68 1.45-.4.35-.94.53-1.61.53-.73 0-1.3-.25-1.72-.74a3.02 3.02 0 0 1-.63-2.02v-.35c0-.54.1-1.03.3-1.44.18-.42.46-.74.82-.96a2.31 2.31 0 0 1 1.24-.34c.66 0 1.19.18 1.6.53.4.35.62.85.69 1.48h-1.18c-.02-.36-.13-.63-.3-.8-.18-.16-.45-.24-.8-.24-.4 0-.69.13-.88.41-.2.28-.3.72-.3 1.3v.44c0 .61.1 1.06.28 1.35.19.28.48.42.88.42.36 0 .63-.08.8-.25.19-.16.29-.42.32-.77h1.17zm4.19-.56h-2.25v1.52h2.64V74h-3.81v-5.69h3.8v.95h-2.63v1.36h2.25v.91zm2.25 1.52h2.49V74H74.5v-5.69h1.17v4.75z", fill: "#F93", fillRule: "nonzero" })));
-};
-
-/***/ }),
-
 /***/ "./src/images/app_2/settings/dark/interval-disabled.svg":
 /*!**************************************************************!*\
   !*** ./src/images/app_2/settings/dark/interval-disabled.svg ***!
@@ -988,98 +804,6 @@ exports.default = function (_ref) {
       props = _objectWithoutProperties(_ref, ["styles"]);
 
   return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("defs", null, _react2.default.createElement("linearGradient", { x1: "50%", y1: "97.16%", x2: "50%", y2: "3.83%", id: "a" }, _react2.default.createElement("stop", { stopColor: "#101320", stopOpacity: "0", offset: "0%" }), _react2.default.createElement("stop", { stopColor: "#FFF", stopOpacity: ".16", offset: "100%" }))), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("path", { fill: "#101320", fillRule: "nonzero", d: "M0 0h160v120H0z" }), _react2.default.createElement("path", { fill: "url(#a)", d: "M0 28.06l1.35 3.76 4.04 7.53 2.7 3.77 4.04-3.77h2.7l2.7-3.76 1.35 3.76 1.35-3.76 1.34 3.76h2.7l1.35 15.06 2.7-3.76 4.04-3.77 1.35 3.77h5.4l3.04 25.76 2.34-25.76 1.35 3.76 1.35-3.76 6.74-7.53 1.35-11.3 4.05-3.76 8.09 3.76 2.7 3.77h2.69l1.35-3.77 1.35 3.77 1.34-3.77 1.35-3.76 4.05-7.53 2.7-3.76h2.7L88.98 13l2.7 3.77h2.7l2.69 3.76 1.35 18.82 1.34-3.76 6.75-3.77h2.7l1.34 11.3 1.35-11.3 1.35 3.77H130V120H0z" }), _react2.default.createElement("path", { d: "M8.43 43.19a.5.5 0 0 1-.74-.08l-2.74-3.78-4.04-7.45-.05-.14L0 27.6a.5.5 0 1 1 .98-.2l.83 4.06L5.8 38.8l2.37 3.27 3.63-3.35a.5.5 0 0 1 .33-.13h2.45l2.54-3.52a.5.5 0 0 1 .88.12l.88 2.43.88-2.43a.5.5 0 0 1 .94 0l1.22 3.4h2.35a.5.5 0 0 1 .5.46L26 52.63l1.98-2.73 4.04-3.72a.5.5 0 0 1 .81.2l1.23 3.4h5.04a.5.5 0 0 1 .5.43l2.48 21L44 50.22c.04-.54.78-.63.96-.13l.88 2.43.88-2.43.1-.16 6.63-7.34 1.33-11.02a.5.5 0 0 1 .16-.31L59 27.54a.5.5 0 0 1 .54-.09l8.1 3.73a.5.5 0 0 1 .19.16l2.55 3.52h2.09l1.23-3.4a.5.5 0 0 1 .94 0l.88 2.43.87-2.42 1.38-3.8 4.08-7.5 2.7-3.74a.5.5 0 0 1 .4-.2h2.35l1.23-3.4a.5.5 0 0 1 .87-.12l2.55 3.52h2.44a.5.5 0 0 1 .4.2l2.7 3.73a.5.5 0 0 1 .1.26l1.18 16.3.54-1.53a.5.5 0 0 1 .23-.26l6.74-3.73a.5.5 0 0 1 .25-.06h2.7a.5.5 0 0 1 .49.44l.85 7.06.85-7.06c.07-.53.79-.6.97-.11l1.23 3.4H130a.5.5 0 0 1 0 1h-16.74a.5.5 0 0 1-.47-.34l-.64-1.75-1.1 9.1c-.06.58-.91.58-.98 0l-1.3-10.74h-2.12l-6.47 3.57-1.28 3.55c-.19.5-.93.4-.97-.13l-1.34-18.5-2.46-3.4h-2.44a.5.5 0 0 1-.41-.21l-2.14-2.96-1.03 2.84a.5.5 0 0 1-.47.33H85.2l-2.51 3.46-4.02 7.39-2.7 7.45a.5.5 0 0 1-.93 0l-.88-2.42-.88 2.42a.5.5 0 0 1-.47.33h-2.7a.5.5 0 0 1-.4-.2l-2.62-3.62-7.67-3.54-3.66 3.38-1.33 11a.5.5 0 0 1-.13.27l-6.67 7.38-1.32 3.64a.5.5 0 0 1-.94 0l-.58-1.62-2.15 23.5c-.05.6-.92.6-.99 0l-3-25.28h-4.94a.5.5 0 0 1-.47-.33l-1.1-3.02-3.42 3.15-2.7 3.72a.5.5 0 0 1-.9-.25l-1.3-14.45h-2.25a.5.5 0 0 1-.47-.33l-.87-2.43-.88 2.43a.5.5 0 0 1-.94 0l-1.03-2.84-2.14 2.96a.5.5 0 0 1-.4.21h-2.5l-3.91 3.6z", fill: "#FFF", fillRule: "nonzero" }), _react2.default.createElement("path", { d: "M144.6 34.75l4.82-5.75H160v12h-10.59l-4.8-5.75h-1.11v-.5h1.1zm-11.7 0h.6v.5h-.5v.05a1.5 1.5 0 1 1-.1-.55zm2.6.5v-.5h2v.5h-2zm4 0v-.5h2v.5h-2z", fill: "#F93", fillRule: "nonzero" }), _react2.default.createElement("path", { fill: "#101320", d: "M0 3h24v114H0z" }), _react2.default.createElement("path", { fill: "#191C31", fillRule: "nonzero", d: "M23 3h1v114h-1z" }), _react2.default.createElement("path", { d: "M14.29 13.94l.64.63a.25.25 0 0 1-.36.36l-5.5-5.5a.25.25 0 1 1 .36-.36l.63.64a2.99 2.99 0 0 1 1.69-.7v-.76a.25.25 0 1 1 .5 0v.76a3 3 0 0 1 2.74 2.74h.76a.25.25 0 1 1 0 .5h-.76a2.99 2.99 0 0 1-.7 1.69zm-.35-.36a2.5 2.5 0 0 0-3.52-3.52l.35.36a2 2 0 0 1 2.81 2.8l.36.36zm-.72-.71a1.5 1.5 0 0 0-2.09-2.1l2.1 2.1zm-1.47 2.12a3 3 0 0 1-2.74-2.74h-.76a.25.25 0 1 1 0-.5h.76a3 3 0 0 1 .2-.83.25.25 0 1 1 .46.17 2.5 2.5 0 0 0 3.27 3.23.25.25 0 1 1 .19.46 2.98 2.98 0 0 1-.88.21v.76a.25.25 0 1 1-.5 0v-.76zm-1.69-3.48a.25.25 0 1 1 .49.12 1.5 1.5 0 0 0 1.76 1.84.25.25 0 0 1 .1.49 2 2 0 0 1-2.35-2.46zm-.03 16.46a.75.75 0 1 1 1.43.01l.86.65a.75.75 0 0 1 .77-.05l1.48-1.5a.75.75 0 1 1 .36.35l-1.5 1.51a.75.75 0 1 1-1.4.1l-.87-.66a.75.75 0 0 1-.83 0l-.86.65a.75.75 0 1 1-.3-.4l.86-.66zm5.22-.97a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zm-2.5 2.5a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zm-2-1.5a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zm-2 1.5a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zM13.4 61h-2.8l-1.12 2.36a.25.25 0 0 1-.46-.22L10.05 61h-.8a.25.25 0 1 1 0-.5h1.04l1.07-2.23a1 1 0 1 1 1.28 0l1.07 2.23h1.04a.25.25 0 1 1 0 .5h-.8l1.03 2.14a.25.25 0 0 1-.46.22L13.4 61zm-.24-.5l-.97-2.02a1 1 0 0 1-.38 0l-.97 2.02h2.32zM12 58a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm.85-13h2.9a.25.25 0 1 1 0 .5h-2.9l1.08 1.07a.25.25 0 1 1-.36.36l-1.5-1.5a.25.25 0 0 1 0-.36l1.5-1.5a.25.25 0 1 1 .36.36L12.85 45zm-1.7-2h-2.9a.25.25 0 1 1 0-.5h2.9l-1.08-1.07a.25.25 0 1 1 .36-.36l1.5 1.5a.25.25 0 0 1 0 .36l-1.5 1.5a.25.25 0 1 1-.36-.36L11.15 43zm1.1 64.75h2.25v.5h-2.25v2.25h-.5v-2.25H9.5v-.5h2.25v-2.25h.5v2.25zm-2.75-16h5v.5h-5v-.5zM14.04 74L13 72.96v.79c0 .14.11.25.25.25h.8zm-1.54-1.5h-3v7h5v-5h-1.25a.75.75 0 0 1-.75-.75V72.5zm-3-.5h3.25L15 74.25v5.25a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5zm2.25 5.15v-2.4a.25.25 0 1 1 .5 0v2.4l.57-.58a.25.25 0 1 1 .36.36l-1 1a.25.25 0 0 1-.36 0l-1-1a.25.25 0 1 1 .36-.36l.57.58z", fill: "#7F8397", fillRule: "nonzero" })));
-};
-
-/***/ }),
-
-/***/ "./src/images/app_2/settings/dark/lock-disabled.svg":
-/*!**********************************************************!*\
-  !*** ./src/images/app_2/settings/dark/lock-disabled.svg ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }return target;
-};
-
-function _objectWithoutProperties(obj, keys) {
-  var target = {};for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
-  }return target;
-}
-
-exports.default = function (_ref) {
-  var _ref$styles = _ref.styles,
-      styles = _ref$styles === undefined ? {} : _ref$styles,
-      props = _objectWithoutProperties(_ref, ["styles"]);
-
-  return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("path", { fill: "#101320", fillRule: "nonzero", d: "M0 0h160v120H0z" }), _react2.default.createElement("rect", { fill: "#191C31", fillRule: "nonzero", x: "20", y: "7", width: "120", height: "105", rx: "2.29" }), _react2.default.createElement("path", { d: "M25.71 14.99H62.3v3.42H25.7V15zm0 49.08H62.3v3.42H25.7v-3.42z", fill: "#303346" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "25.71", y: "22.98", width: "109.71", height: "31.96", rx: "2.29" }), _react2.default.createElement("path", { d: "M27.71 22.98h52.86L92 39.2 80.57 54.93H27.71a2 2 0 0 1-2-2V24.99a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M100 32.1h26.29v3.43H100v-3.42zm0 10.28h26.29v3.42H100v-3.42z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M34.86 33.25h11.43v11.41H34.86V33.25zm14.85 4.57h30.86v3.42H49.71V37.8z", fill: "#74CDBE" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "25.71", y: "72.05", width: "109.71", height: "31.96", rx: "2.29" }), _react2.default.createElement("path", { d: "M27.71 72.05h52.86L92 88.27l-11.43 15.74H27.71a2 2 0 0 1-2-2V74.05a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M100 81.19h26.29v3.42H100v-3.42zm0 10.27h26.29v3.42H100v-3.42z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M34.86 82.33h11.43v11.41H34.86V82.33zm14.85 4.56h30.86v3.42H49.71V86.9z", fill: "#74CDBE" })));
-};
-
-/***/ }),
-
-/***/ "./src/images/app_2/settings/dark/lock-enabled.svg":
-/*!*********************************************************!*\
-  !*** ./src/images/app_2/settings/dark/lock-enabled.svg ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }return target;
-};
-
-function _objectWithoutProperties(obj, keys) {
-  var target = {};for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
-  }return target;
-}
-
-exports.default = function (_ref) {
-  var _ref$styles = _ref.styles,
-      styles = _ref$styles === undefined ? {} : _ref$styles,
-      props = _objectWithoutProperties(_ref, ["styles"]);
-
-  return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("path", { fill: "#101320", fillRule: "nonzero", d: "M0 0h160v120H0z" }), _react2.default.createElement("rect", { fill: "#191C31", fillRule: "nonzero", x: "20", y: "7", width: "120", height: "105", rx: "2.29" }), _react2.default.createElement("path", { d: "M25.71 14.99H62.3v3.42H25.7V15zm0 49.08H62.3v3.42H25.7v-3.42z", fill: "#303346" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "25.71", y: "22.98", width: "109.71", height: "31.96", rx: "2.29" }), _react2.default.createElement("path", { d: "M27.71 22.98h52.86L92 39.2 80.57 54.93H27.71a2 2 0 0 1-2-2V24.99a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M100 32.1h26.29v3.43H100v-3.42zm0 10.28h26.29v3.42H100v-3.42z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M34.86 33.25h11.43v11.41H34.86V33.25zm14.85 4.57h30.86v3.42H49.71V37.8z", fill: "#74CDBE" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "25.71", y: "72.05", width: "109.71", height: "31.96", rx: "2.29" }), _react2.default.createElement("path", { d: "M27.71 72.05h52.86L92 88.27l-11.43 15.74H27.71a2 2 0 0 1-2-2V74.05a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M100 81.19h26.29v3.42H100v-3.42zm0 10.27h26.29v3.42H100v-3.42z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M34.86 82.33h11.43v11.41H34.86V82.33zm14.85 4.56h30.86v3.42H49.71V86.9z", fill: "#74CDBE" }), _react2.default.createElement("path", { fill: "#101320", fillRule: "nonzero", opacity: ".73", d: "M0 0h160v120H0z" }), _react2.default.createElement("path", { d: "M95 57H65a3 3 0 0 0-3 3v18a3 3 0 0 0 3 3h30a3 3 0 0 0 3-3V60a3 3 0 0 0-3-3zm-27-3h24v-3a12 12 0 0 0-24 0v3zm27 0a6 6 0 0 1 6 6v18a6 6 0 0 1-6 6H65a6 6 0 0 1-6-6V60a6 6 0 0 1 6-6v-3a15 15 0 0 1 30 0v3zM80.3 73.5a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-3a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM78.5 74h3v7h-3v-7z", fill: "#FFF", fillRule: "nonzero" })));
 };
 
 /***/ }),
@@ -1310,98 +1034,6 @@ exports.default = function (_ref) {
       props = _objectWithoutProperties(_ref, ["styles"]);
 
   return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("defs", null, _react2.default.createElement("linearGradient", { x1: "50%", y1: "126.02%", x2: "50%", y2: "32.91%", id: "a" }, _react2.default.createElement("stop", { stopColor: "#FFF", stopOpacity: "0", offset: "0%" }), _react2.default.createElement("stop", { stopColor: "#999CAC", stopOpacity: ".16", offset: "100%" }))), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("path", { fill: "#FAFAFA", fillRule: "nonzero", d: "M0 0h160v120H0z" }), _react2.default.createElement("path", { fill: "url(#a)", d: "M0 28.06l1.35 3.76 4.04 7.53 2.7 3.77 4.04-3.77h2.7l2.7-3.76 1.35 3.76 1.35-3.76 1.34 3.76h2.7l1.35 15.06 2.7-3.76 4.04-3.77 1.35 3.77h5.4l3.04 25.76 2.34-25.76 1.35 3.76 1.35-3.76 6.74-7.53 1.35-11.3 4.05-3.76 8.09 3.76 2.7 3.77h2.69l1.35-3.77 1.35 3.77 1.34-3.77 1.35-3.76 4.05-7.53 2.7-3.76h2.7L88.98 13l2.7 3.77h2.7l2.69 3.76 1.35 18.82 1.34-3.76 6.75-3.77h2.7l1.34 11.3 1.35-11.3 1.35 3.77H130V120H0z" }), _react2.default.createElement("path", { d: "M8.43 43.19a.5.5 0 0 1-.74-.08l-2.74-3.78-4.04-7.45-.05-.14L0 27.6a.5.5 0 1 1 .98-.2l.83 4.06L5.8 38.8l2.37 3.27 3.63-3.35a.5.5 0 0 1 .33-.13h2.45l2.54-3.52a.5.5 0 0 1 .88.12l.88 2.43.88-2.43a.5.5 0 0 1 .94 0l1.22 3.4h2.35a.5.5 0 0 1 .5.46L26 52.63l1.98-2.73 4.04-3.72a.5.5 0 0 1 .81.2l1.23 3.4h5.04a.5.5 0 0 1 .5.43l2.48 21L44 50.22c.04-.54.78-.63.96-.13l.88 2.43.88-2.43.1-.16 6.63-7.34 1.33-11.02a.5.5 0 0 1 .16-.31L59 27.54a.5.5 0 0 1 .54-.09l8.1 3.73a.5.5 0 0 1 .19.16l2.55 3.52h2.09l1.23-3.4a.5.5 0 0 1 .94 0l.87 2.43.88-2.42 1.38-3.8 4.08-7.5 2.7-3.74a.5.5 0 0 1 .4-.2h2.35l1.23-3.4a.5.5 0 0 1 .87-.12l2.55 3.52h2.44a.5.5 0 0 1 .4.2l2.7 3.73a.5.5 0 0 1 .1.26l1.18 16.3.54-1.53a.5.5 0 0 1 .23-.26l6.74-3.73a.5.5 0 0 1 .25-.06h2.7a.5.5 0 0 1 .49.44l.85 7.06.85-7.06c.07-.53.79-.6.97-.11l1.23 3.4H130a.5.5 0 0 1 0 1h-16.74a.5.5 0 0 1-.47-.34l-.63-1.75-1.1 9.1c-.07.58-.92.58-1 0l-1.29-10.74h-2.12l-6.47 3.57-1.28 3.55c-.18.5-.93.4-.97-.13l-1.34-18.5-2.46-3.4h-2.44a.5.5 0 0 1-.41-.21l-2.14-2.96-1.03 2.84a.5.5 0 0 1-.47.33H85.2l-2.51 3.46-4.02 7.39-2.7 7.45a.5.5 0 0 1-.93 0l-.88-2.42-.88 2.42a.5.5 0 0 1-.47.33h-2.7a.5.5 0 0 1-.4-.2l-2.62-3.62-7.67-3.54-3.67 3.38-1.32 11a.5.5 0 0 1-.13.27l-6.67 7.38-1.32 3.64a.5.5 0 0 1-.94 0l-.58-1.62-2.15 23.5c-.05.6-.92.6-.99 0l-3-25.28h-4.94a.5.5 0 0 1-.47-.33l-1.1-3.02-3.42 3.15-2.7 3.72a.5.5 0 0 1-.9-.25l-1.3-14.45h-2.25a.5.5 0 0 1-.47-.33l-.87-2.43-.88 2.43a.5.5 0 0 1-.94 0l-1.03-2.84-2.14 2.96a.5.5 0 0 1-.4.21h-2.51l-3.9 3.6z", fill: "#999CAC", fillRule: "nonzero" }), _react2.default.createElement("path", { d: "M144.61 34.75l4.8-5.75H160v12h-10.59l-4.8-5.75h-1.11v-.5h1.11zm-11.71 0h.6v.5h-.5v.05a1.5 1.5 0 1 1-.1-.55zm2.6.5v-.5h2v.5h-2zm4 0v-.5h2v.5h-2z", fill: "#F93", fillRule: "nonzero" }), _react2.default.createElement("path", { fill: "#FAFAFA", d: "M0 3h24v114H0z" }), _react2.default.createElement("path", { fill: "#F4F4F6", fillRule: "nonzero", d: "M23 3h1v114h-1z" }), _react2.default.createElement("path", { d: "M14.29 13.94l.64.63a.25.25 0 0 1-.36.36l-5.5-5.5a.25.25 0 1 1 .36-.36l.63.64a2.99 2.99 0 0 1 1.69-.7v-.76a.25.25 0 1 1 .5 0v.76a3 3 0 0 1 2.74 2.74h.76a.25.25 0 1 1 0 .5h-.76a2.99 2.99 0 0 1-.7 1.69zm-.35-.36a2.5 2.5 0 0 0-3.52-3.52l.35.36a2 2 0 0 1 2.81 2.8l.36.36zm-.72-.71a1.5 1.5 0 0 0-2.09-2.1l2.1 2.1zm-1.47 2.12a3 3 0 0 1-2.74-2.74h-.76a.25.25 0 1 1 0-.5h.76c.02-.29.09-.57.2-.83a.25.25 0 1 1 .46.17 2.5 2.5 0 0 0 3.27 3.23.25.25 0 1 1 .19.46 2.98 2.98 0 0 1-.88.21v.76a.25.25 0 1 1-.5 0v-.76zm-1.69-3.48a.25.25 0 1 1 .49.12 1.5 1.5 0 0 0 1.76 1.84.25.25 0 0 1 .1.49 2 2 0 0 1-2.35-2.46zm-.03 16.46a.75.75 0 1 1 1.43.01l.86.65a.75.75 0 0 1 .77-.05l1.48-1.5a.75.75 0 1 1 .36.35l-1.5 1.51a.75.75 0 1 1-1.4.1l-.87-.66a.75.75 0 0 1-.83 0l-.86.65a.75.75 0 1 1-.3-.4l.86-.66zm5.22-.97a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zm-2.5 2.5a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zm-2-1.5a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zm-2 1.5a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zM13.4 61h-2.8l-1.12 2.36a.25.25 0 0 1-.46-.22L10.05 61h-.8a.25.25 0 1 1 0-.5h1.04l1.07-2.23a1 1 0 1 1 1.28 0l1.07 2.23h1.04a.25.25 0 1 1 0 .5h-.8l1.03 2.14a.25.25 0 0 1-.46.22L13.4 61zm-.24-.5l-.97-2.02a1 1 0 0 1-.38 0l-.97 2.02h2.32zm-.3-15.5h2.9a.25.25 0 1 1 0 .5h-2.9l1.07 1.07a.25.25 0 1 1-.36.36l-1.5-1.5a.25.25 0 0 1 0-.36l1.5-1.5a.25.25 0 1 1 .36.36L12.85 45zm-1.71-2h-2.9a.25.25 0 1 1 0-.5h2.9l-1.08-1.07a.25.25 0 1 1 .36-.36l1.5 1.5a.25.25 0 0 1 0 .36l-1.5 1.5a.25.25 0 1 1-.36-.36L11.15 43zm1.1 64.75h2.25v.5h-2.25v2.25h-.5v-2.25H9.5v-.5h2.25v-2.25h.5v2.25zm-2.75-16h5v.5h-5v-.5zM14.04 74L13 72.96v.79c0 .14.11.25.25.25h.8zm-1.54-1.5h-3v7h5v-5h-1.25a.75.75 0 0 1-.75-.75V72.5zm-3-.5h3.25L15 74.25v5.25a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5zm2.25 5.15v-2.4a.25.25 0 1 1 .5 0v2.4l.57-.58a.25.25 0 1 1 .36.36l-1 1a.25.25 0 0 1-.36 0l-1-1a.25.25 0 1 1 .36-.36l.57.58z", fill: "#000", fillRule: "nonzero" })));
-};
-
-/***/ }),
-
-/***/ "./src/images/app_2/settings/lock-disabled.svg":
-/*!*****************************************************!*\
-  !*** ./src/images/app_2/settings/lock-disabled.svg ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }return target;
-};
-
-function _objectWithoutProperties(obj, keys) {
-  var target = {};for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
-  }return target;
-}
-
-exports.default = function (_ref) {
-  var _ref$styles = _ref.styles,
-      styles = _ref$styles === undefined ? {} : _ref$styles,
-      props = _objectWithoutProperties(_ref, ["styles"]);
-
-  return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("path", { fill: "#FAFAFA", fillRule: "nonzero", d: "M0 0h160v120H0z" }), _react2.default.createElement("rect", { fill: "#EBEBEB", fillRule: "nonzero", x: "20", y: "7", width: "120", height: "105", rx: "2.29" }), _react2.default.createElement("path", { d: "M25.71 14.99H62.3v3.42H25.7V15zm0 49.08H62.3v3.42H25.7v-3.42z", fill: "#D6D6D6" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "25.71", y: "22.98", width: "109.71", height: "31.96", rx: "2.29" }), _react2.default.createElement("path", { d: "M27.71 22.98h52.86L92 39.2 80.57 54.93H27.71a2 2 0 0 1-2-2V24.99a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M100 32.1h26.29v3.43H100v-3.42zm0 10.28h26.29v3.42H100v-3.42z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M34.86 33.25h11.43v11.41H34.86V33.25zm14.85 4.57h30.86v3.42H49.71V37.8z", fill: "#74CDBE" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "25.71", y: "72.05", width: "109.71", height: "31.96", rx: "2.29" }), _react2.default.createElement("path", { d: "M27.71 72.05h52.86L92 88.27l-11.43 15.74H27.71a2 2 0 0 1-2-2V74.05a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M100 81.19h26.29v3.42H100v-3.42zm0 10.27h26.29v3.42H100v-3.42z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M34.86 82.33h11.43v11.41H34.86V82.33zm14.85 4.56h30.86v3.42H49.71V86.9z", fill: "#74CDBE" })));
-};
-
-/***/ }),
-
-/***/ "./src/images/app_2/settings/lock-enabled.svg":
-/*!****************************************************!*\
-  !*** ./src/images/app_2/settings/lock-enabled.svg ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }return target;
-};
-
-function _objectWithoutProperties(obj, keys) {
-  var target = {};for (var i in obj) {
-    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
-  }return target;
-}
-
-exports.default = function (_ref) {
-  var _ref$styles = _ref.styles,
-      styles = _ref$styles === undefined ? {} : _ref$styles,
-      props = _objectWithoutProperties(_ref, ["styles"]);
-
-  return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("rect", { fill: "#FAFAFA", fillRule: "nonzero", width: "160", height: "120", rx: "4" }), _react2.default.createElement("rect", { fill: "#EBEBEB", fillRule: "nonzero", x: "20", y: "7", width: "120", height: "105", rx: "2.29" }), _react2.default.createElement("path", { d: "M25.71 14.99H62.3v3.42H25.7V15zm0 49.08H62.3v3.42H25.7v-3.42z", fill: "#D6D6D6" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "25.71", y: "22.98", width: "109.71", height: "31.96", rx: "2.29" }), _react2.default.createElement("path", { d: "M27.71 22.98h52.86L92 39.2 80.57 54.93H27.71a2 2 0 0 1-2-2V24.99a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M100 32.1h26.29v3.43H100v-3.42zm0 10.28h26.29v3.42H100v-3.42z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M34.86 33.25h11.43v11.41H34.86V33.25zm14.85 4.57h30.86v3.42H49.71V37.8z", fill: "#74CDBE" }), _react2.default.createElement("rect", { fill: "#34A39A", x: "25.71", y: "72.05", width: "109.71", height: "31.96", rx: "2.29" }), _react2.default.createElement("path", { d: "M27.71 72.05h52.86L92 88.27l-11.43 15.74H27.71a2 2 0 0 1-2-2V74.05a2 2 0 0 1 2-2z", fill: "#4BBFAB" }), _react2.default.createElement("path", { d: "M100 81.19h26.29v3.42H100v-3.42zm0 10.27h26.29v3.42H100v-3.42z", fill: "#62B8B1" }), _react2.default.createElement("path", { d: "M34.86 82.33h11.43v11.41H34.86V82.33zm14.85 4.56h30.86v3.42H49.71V86.9z", fill: "#74CDBE" }), _react2.default.createElement("rect", { fill: "#000", fillRule: "nonzero", opacity: ".5", width: "160", height: "120", rx: "4" }), _react2.default.createElement("path", { d: "M95 57H65a3 3 0 0 0-3 3v18a3 3 0 0 0 3 3h30a3 3 0 0 0 3-3V60a3 3 0 0 0-3-3zm-27-3h24v-3a12 12 0 0 0-24 0v3zm27 0a6 6 0 0 1 6 6v18a6 6 0 0 1-6 6H65a6 6 0 0 1-6-6V60a6 6 0 0 1 6-6v-3a15 15 0 0 1 30 0v3zM80.3 73.5a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-3a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM78.5 74h3v7h-3v-7z", fill: "#FFF", fillRule: "nonzero" })));
 };
 
 /***/ }),
@@ -4044,270 +3676,6 @@ exports.Notifications = Notifications;
 
 /***/ }),
 
-/***/ "./src/javascript/app_2/App/Components/Elements/PopConfirm/index.js":
-/*!**************************************************************************!*\
-  !*** ./src/javascript/app_2/App/Components/Elements/PopConfirm/index.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _popconfirm = __webpack_require__(/*! ./popconfirm.jsx */ "./src/javascript/app_2/App/Components/Elements/PopConfirm/popconfirm.jsx");
-
-Object.keys(_popconfirm).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _popconfirm[key];
-    }
-  });
-});
-
-var _popconfirmElement = __webpack_require__(/*! ./popconfirm-element.jsx */ "./src/javascript/app_2/App/Components/Elements/PopConfirm/popconfirm-element.jsx");
-
-Object.keys(_popconfirmElement).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _popconfirmElement[key];
-    }
-  });
-});
-
-/***/ }),
-
-/***/ "./src/javascript/app_2/App/Components/Elements/PopConfirm/popconfirm-element.jsx":
-/*!****************************************************************************************!*\
-  !*** ./src/javascript/app_2/App/Components/Elements/PopConfirm/popconfirm-element.jsx ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.PopConfirmElement = undefined;
-
-var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var PopConfirmElement = function PopConfirmElement(_ref) {
-    var _classNames;
-
-    var alignment = _ref.alignment,
-        cancel_text = _ref.cancel_text,
-        confirm_text = _ref.confirm_text,
-        is_visible = _ref.is_visible,
-        message = _ref.message,
-        onClose = _ref.onClose,
-        onConfirm = _ref.onConfirm,
-        wrapperRef = _ref.wrapperRef;
-
-    var popconfirm_class = (0, _classnames2.default)('popconfirm', 'popconfirm--' + alignment, (_classNames = {}, _defineProperty(_classNames, 'popconfirm--' + alignment + '--open', is_visible), _defineProperty(_classNames, 'popconfirm--open', is_visible), _classNames));
-    return _react2.default.createElement(
-        'div',
-        { ref: wrapperRef, className: popconfirm_class },
-        _react2.default.createElement(
-            'div',
-            { className: 'popconfirm__title' },
-            _react2.default.createElement(_Common.IconExclamation, { className: 'popconfirm__icon_exclamation' }),
-            _react2.default.createElement(
-                'h4',
-                { className: 'popconfirm__header' },
-                message
-            )
-        ),
-        _react2.default.createElement(
-            'div',
-            { className: 'popconfirm__button-wrapper' },
-            _react2.default.createElement(
-                'div',
-                {
-                    className: 'popconfirm__button btn btn--flat effect',
-                    onClick: onClose
-                },
-                _react2.default.createElement(
-                    'span',
-                    { className: 'popconfirm__button-text' },
-                    cancel_text
-                )
-            ),
-            _react2.default.createElement(
-                'div',
-                {
-                    className: 'popconfirm__button btn btn--flat effect',
-                    onClick: onConfirm
-                },
-                _react2.default.createElement(
-                    'span',
-                    { className: 'popconfirm__button-text' },
-                    confirm_text
-                )
-            )
-        )
-    );
-};
-
-PopConfirmElement.propTypes = {
-    alignment: _propTypes2.default.string,
-    cancel_text: _propTypes2.default.string,
-    confirm_text: _propTypes2.default.string,
-    is_visible: _propTypes2.default.bool,
-    message: _propTypes2.default.string,
-    onClose: _propTypes2.default.func,
-    onConfirm: _propTypes2.default.func,
-    wrapperRef: _propTypes2.default.func
-};
-
-exports.PopConfirmElement = PopConfirmElement;
-
-/***/ }),
-
-/***/ "./src/javascript/app_2/App/Components/Elements/PopConfirm/popconfirm.jsx":
-/*!********************************************************************************!*\
-  !*** ./src/javascript/app_2/App/Components/Elements/PopConfirm/popconfirm.jsx ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.PopConfirm = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _popconfirmElement = __webpack_require__(/*! ./popconfirm-element.jsx */ "./src/javascript/app_2/App/Components/Elements/PopConfirm/popconfirm-element.jsx");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var PopConfirm = function (_React$PureComponent) {
-    _inherits(PopConfirm, _React$PureComponent);
-
-    function PopConfirm() {
-        var _ref;
-
-        var _temp, _this, _ret;
-
-        _classCallCheck(this, PopConfirm);
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PopConfirm.__proto__ || Object.getPrototypeOf(PopConfirm)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-            is_open: false
-        }, _this.setWrapperRef = function (node) {
-            _this.wrapper_ref = node;
-        }, _this.handleClickOutside = function (event) {
-            if (_this.wrapper_ref && !_this.wrapper_ref.contains(event.target) && _this.state.is_open) {
-                _this.setState({ is_open: false });
-            }
-        }, _this.handleClose = function () {
-            _this.setState({ is_open: false });
-        }, _this.handleOpen = function (event) {
-            if (!_this.wrapper_ref.contains(event.target)) {
-                _this.setState({ is_open: true });
-            }
-        }, _temp), _possibleConstructorReturn(_this, _ret);
-    }
-
-    _createClass(PopConfirm, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            document.addEventListener('mousedown', this.handleClickOutside);
-        }
-    }, {
-        key: 'componentWillUnmount',
-        value: function componentWillUnmount() {
-            document.removeEventListener('mousedown', this.handleClickOutside);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            var popconfirm_element = _react2.default.createElement(_popconfirmElement.PopConfirmElement, {
-                wrapperRef: this.setWrapperRef,
-                alignment: this.props.alignment,
-                cancel_text: this.props.cancel_text,
-                confirm_text: this.props.confirm_text,
-                is_visible: this.state.is_open,
-                message: this.props.message,
-                onConfirm: this.props.children.props.onClick,
-                onClose: this.handleClose
-            });
-            return _react2.default.createElement(
-                _react2.default.Fragment,
-                null,
-                _react2.default.Children.map(this.props.children, function (child) {
-                    return _react2.default.cloneElement(child, {
-                        onClick: _this2.handleOpen
-                    });
-                }),
-                popconfirm_element
-            );
-        }
-    }]);
-
-    return PopConfirm;
-}(_react2.default.PureComponent);
-
-PopConfirm.propTypes = {
-    alignment: _propTypes2.default.string,
-    cancel_text: _propTypes2.default.string,
-    children: _propTypes2.default.object,
-    confirm_text: _propTypes2.default.string,
-    message: _propTypes2.default.string
-};
-
-exports.PopConfirm = PopConfirm;
-
-/***/ }),
-
 /***/ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/index.js":
 /*!**********************************************************************************************!*\
   !*** ./src/javascript/app_2/App/Components/Elements/PositionsDrawer/ProgressSlider/index.js ***!
@@ -4540,7 +3908,7 @@ var ContractTypeCell = function ContractTypeCell(_ref) {
         _react2.default.createElement(
             'span',
             { className: 'contract-type__type-label' },
-            (0, _contract.getContractTypeDisplay)()[type] || ''
+            (0, _contract.getContractTypeDisplay)(type) || ''
         )
     );
 };
@@ -5538,10 +4906,48 @@ var _Language = __webpack_require__(/*! ../../../../Utils/Language */ "./src/jav
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var LanguageDialog = function LanguageDialog(_ref) {
-    var hide = _ref.hide,
-        is_visible = _ref.is_visible,
-        is_settings_on = _ref.is_settings_on;
+var isCurrentLanguage = function isCurrentLanguage(lang) {
+    return lang === _Language.currentLanguage;
+};
+
+var NonClickableLink = function NonClickableLink(_ref) {
+    var children = _ref.children,
+        lang = _ref.lang;
+    return _react2.default.createElement(
+        'div',
+        { className: (0, _classnames2.default)('settings-dialog__language-link', {
+                'settings-dialog__language-link--active': isCurrentLanguage(lang)
+            })
+        },
+        children
+    );
+};
+
+var LanguageLink = function LanguageLink(_ref2) {
+    var lang = _ref2.lang;
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        _react2.default.createElement(_Common.IconCountryFlag, {
+            className: 'settings-dialog__language-link-flag settings-dialog__language-flag',
+            type: lang.replace(/(\s|_)/, '-').toLowerCase()
+        }),
+        _react2.default.createElement(
+            'span',
+            {
+                className: (0, _classnames2.default)('settings-dialog__language-name', {
+                    'settings-dialog__language-name--active': isCurrentLanguage(lang)
+                })
+            },
+            (0, _Language.getAllowedLanguages)()[lang]
+        )
+    );
+};
+
+var LanguageDialog = function LanguageDialog(_ref3) {
+    var hide = _ref3.hide,
+        is_visible = _ref3.is_visible,
+        is_settings_on = _ref3.is_settings_on;
 
     var language_dialog_class = (0, _classnames2.default)('settings-dialog__language-dialog-container', {
         'settings-dialog__language-dialog-container--show': is_visible && is_settings_on
@@ -5563,28 +4969,20 @@ var LanguageDialog = function LanguageDialog(_ref) {
             'div',
             { className: 'settings-dialog__language-container' },
             Object.keys((0, _Language.getAllowedLanguages)()).map(function (key) {
-                return _react2.default.createElement(
+                return isCurrentLanguage(key) ? _react2.default.createElement(
+                    NonClickableLink,
+                    { lang: key, key: key },
+                    _react2.default.createElement(LanguageLink, { lang: key })
+                ) : _react2.default.createElement(
                     'a',
                     {
                         key: key,
+                        href: (0, _Language.getURL)(key),
                         className: (0, _classnames2.default)('settings-dialog__language-link', {
-                            'settings-dialog__language-link--active': key === _Language.currentLanguage
-                        }),
-                        href: (0, _Language.getURL)(key)
+                            'settings-dialog__language-link--active': isCurrentLanguage(key)
+                        })
                     },
-                    _react2.default.createElement(_Common.IconCountryFlag, {
-                        className: 'settings-dialog__language-link-flag settings-dialog__language-flag',
-                        type: key.replace(/(\s|_)/, '-').toLowerCase()
-                    }),
-                    _react2.default.createElement(
-                        'span',
-                        {
-                            className: (0, _classnames2.default)('settings-dialog__language-name', {
-                                'settings-dialog__language-name--active': key === _Language.currentLanguage
-                            })
-                        },
-                        (0, _Language.getAllowedLanguages)()[key]
-                    )
+                    _react2.default.createElement(LanguageLink, { lang: key, key: key })
                 );
             })
         )
@@ -5595,6 +4993,15 @@ LanguageDialog.propTypes = {
     hide: _propTypes2.default.func,
     is_settings_on: _propTypes2.default.bool,
     is_visible: _propTypes2.default.bool
+};
+
+LanguageLink.propTypes = {
+    lang: _propTypes2.default.string
+};
+
+NonClickableLink.propTypes = {
+    children: _propTypes2.default.oneOfType([_propTypes2.default.arrayOf(_propTypes2.default.node), _propTypes2.default.node]).isRequired,
+    lang: _propTypes2.default.string
 };
 
 exports.default = LanguageDialog;
@@ -5684,10 +5091,11 @@ var SettingsDialog = function (_React$PureComponent) {
                 icon: _Settings.IconCharts,
                 label: (0, _localize.localize)('Charts'),
                 value: _SettingsDialog.ChartSettings
-            }, {
-                icon: _Settings.IconPurchase,
-                label: (0, _localize.localize)('Purchase'),
-                value: _SettingsDialog.PurchaseSettings
+                // uncomment below lines to bring back purchase lock and purchase confirmation
+                // }, {
+                //     icon : IconPurchase,
+                //     label: localize('Purchase'),
+                //     value: PurchaseSettings,
             }];
         };
 
@@ -11030,6 +10438,10 @@ var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_module
 
 var _login = __webpack_require__(/*! ../../../../_common/base/login */ "./src/javascript/_common/base/login.js");
 
+var _socket_base = __webpack_require__(/*! ../../../../_common/base/socket_base */ "./src/javascript/_common/base/socket_base.js");
+
+var _socket_base2 = _interopRequireDefault(_socket_base);
+
 var _routes = __webpack_require__(/*! ../../../Constants/routes */ "./src/javascript/app_2/Constants/routes.js");
 
 var _routes2 = _interopRequireDefault(_routes);
@@ -11065,7 +10477,9 @@ var RouteWithSubRoutes = function RouteWithSubRoutes(route) {
 
         var title = route.title ? route.title + ' | ' : '';
         document.title = '' + title + _appConfig.default_title;
-        _gtm2.default.pushDataLayer({ event: 'page_load' });
+        _socket_base2.default.wait('website_status').then(function () {
+            _gtm2.default.pushDataLayer({ event: 'page_load' });
+        });
         return result;
     };
 
@@ -11724,10 +11138,8 @@ var MenuDrawer = function MenuDrawer(_ref) {
         is_logged_in = _ref.is_logged_in,
         is_mobile = _ref.is_mobile,
         is_positions_drawer_on = _ref.is_positions_drawer_on,
-        is_purchase_locked = _ref.is_purchase_locked,
         toggleDarkMode = _ref.toggleDarkMode,
-        togglePositionsDrawer = _ref.togglePositionsDrawer,
-        togglePurchaseLock = _ref.togglePurchaseLock;
+        togglePositionsDrawer = _ref.togglePositionsDrawer;
     return _react2.default.createElement(
         'div',
         { className: 'drawer__items-container' },
@@ -11757,11 +11169,6 @@ var MenuDrawer = function MenuDrawer(_ref) {
                     text: (0, _localize.localize)('Dark Mode'),
                     toggle: toggleDarkMode,
                     to_toggle: is_dark_mode
-                }),
-                _react2.default.createElement(_Drawer.DrawerToggle, {
-                    text: (0, _localize.localize)('Purchase Lock'),
-                    toggle: togglePurchaseLock,
-                    to_toggle: is_purchase_locked
                 })
             )
         ),
@@ -11787,12 +11194,12 @@ MenuDrawer.propTypes = {
     is_logged_in: _propTypes2.default.bool,
     is_mobile: _propTypes2.default.bool,
     is_positions_drawer_on: _propTypes2.default.bool,
-    is_purchase_confirmed: _propTypes2.default.bool,
-    is_purchase_locked: _propTypes2.default.bool,
+    // is_purchase_confirmed     : PropTypes.bool,
+    // is_purchase_locked        : PropTypes.bool,
     toggleDarkMode: _propTypes2.default.func,
-    togglePositionsDrawer: _propTypes2.default.func,
-    togglePurchaseConfirmation: _propTypes2.default.func,
-    togglePurchaseLock: _propTypes2.default.func
+    togglePositionsDrawer: _propTypes2.default.func
+    // togglePurchaseConfirmation: PropTypes.func,
+    // togglePurchaseLock        : PropTypes.func,
 };
 
 exports.default = (0, _connect.connect)(function (_ref2) {
@@ -11803,12 +11210,12 @@ exports.default = (0, _connect.connect)(function (_ref2) {
         is_dark_mode: ui.is_dark_mode_on,
         is_mobile: ui.is_mobile,
         is_positions_drawer_on: ui.is_positions_drawer_on,
-        is_purchase_confirmed: ui.is_purchase_confirm_on,
-        is_purchase_locked: ui.is_purchase_lock_on,
+        // is_purchase_confirmed     : ui.is_purchase_confirm_on,
+        // is_purchase_locked        : ui.is_purchase_lock_on,
         toggleDarkMode: ui.toggleDarkMode,
-        togglePositionsDrawer: ui.togglePositionsDrawer,
-        togglePurchaseConfirmation: ui.togglePurchaseConfirmation,
-        togglePurchaseLock: ui.togglePurchaseLock
+        togglePositionsDrawer: ui.togglePositionsDrawer
+        // togglePurchaseConfirmation: ui.togglePurchaseConfirmation,
+        // togglePurchaseLock        : ui.togglePurchaseLock,
     };
 })(MenuDrawer);
 
@@ -12792,154 +12199,93 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+// import PropTypes                     from 'prop-types';
+// import React                         from 'react';
+// import { localize }                  from '_common/localize';
+// import MediaItem, {
+//     MediaDescription,
+//     MediaHeading,
+//     MediaIcon,
+// }                                    from 'App/Components/Elements/Media';
+// import Localize                      from 'App/Components/Elements/localize.jsx';
+// import Checkbox                      from 'App/Components/Form/Checkbox';
+// import ConfirmationDisabledLightIcon from 'Images/app_2/settings/confirmation-disabled.svg';
+// import ConfirmationEnabledLightIcon  from 'Images/app_2/settings/confirmation-enabled.svg';
+// import ConfirmationDisabledDarkIcon  from 'Images/app_2/settings/dark/confirmation-disabled.svg';
+// import ConfirmationEnabledDarkIcon   from 'Images/app_2/settings/dark/confirmation-enabled.svg';
+// import LockDisabledDarkIcon          from 'Images/app_2/settings/dark/lock-disabled.svg';
+// import LockEnabledDarkIcon           from 'Images/app_2/settings/dark/lock-enabled.svg';
+// import LockDisabledLightIcon         from 'Images/app_2/settings/lock-disabled.svg';
+// import LockEnabledLightIcon          from 'Images/app_2/settings/lock-enabled.svg';
+// import { connect }                   from 'Stores/connect';
+//
+// const PurchaseSettings = ({
+//     is_dark_mode,
+//     is_purchase_confirmed,
+//     is_purchase_locked,
+//     togglePurchaseConfirmation,
+//     togglePurchaseLock,
+// }) => (
+//     <div className='settings-dialog__purchase'>
+//         <MediaItem>
+//             <MediaHeading>
+//                 <Localize str='Purchase confirmation' />
+//             </MediaHeading>
+//             <MediaDescription>
+//                 <MediaIcon
+//                     disabled={is_dark_mode ? ConfirmationDisabledDarkIcon : ConfirmationDisabledLightIcon }
+//                     enabled={is_dark_mode ? ConfirmationEnabledDarkIcon : ConfirmationEnabledLightIcon }
+//                     is_enabled={is_purchase_confirmed}
+//                 />
+//                 <div className='media__form'>
+//                     <Checkbox
+//                         value={is_purchase_confirmed}
+//                         label={localize('Require confirmation before purchasing a contract')}
+//                         onClick={togglePurchaseConfirmation}
+//                     />
+//                 </div>
+//             </MediaDescription>
+//         </MediaItem>
+//         <MediaItem>
+//             <MediaHeading>
+//                 <Localize str='Purchase lock' />
+//             </MediaHeading>
+//             <MediaDescription>
+//                 <MediaIcon
+//                     disabled={is_dark_mode ? LockDisabledDarkIcon : LockDisabledLightIcon}
+//                     enabled={is_dark_mode ? LockEnabledDarkIcon : LockEnabledLightIcon}
+//                     is_enabled={is_purchase_locked}
+//                 />
+//                 <div className='media__form'>
+//                     <Checkbox
+//                         value={is_purchase_locked}
+//                         label={localize('Lock contract purchase buttons')}
+//                         onClick={togglePurchaseLock}
+//                     />
+//                 </div>
+//             </MediaDescription>
+//         </MediaItem>
+//     </div>
+// );
+//
+// PurchaseSettings.propTypes = {
+//     is_dark_mode              : PropTypes.bool,
+//     is_purchase_confirmed     : PropTypes.bool,
+//     is_purchase_locked        : PropTypes.bool,
+//     togglePurchaseConfirmation: PropTypes.func,
+//     togglePurchaseLock        : PropTypes.func,
+// };
+//
+// export default connect(({ ui }) => (
+//     {
+//         is_dark_mode              : ui.is_dark_mode_on,
+//         is_purchase_confirmed     : ui.is_purchase_confirm_on,
+//         is_purchase_locked        : ui.is_purchase_lock_on,
+//         togglePurchaseConfirmation: ui.togglePurchaseConfirmation,
+//         togglePurchaseLock        : ui.togglePurchaseLock,
+//     }
+// ))(PurchaseSettings);
 
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
-var _Media = __webpack_require__(/*! ../../Components/Elements/Media */ "./src/javascript/app_2/App/Components/Elements/Media/index.js");
-
-var _Media2 = _interopRequireDefault(_Media);
-
-var _localize2 = __webpack_require__(/*! ../../Components/Elements/localize.jsx */ "./src/javascript/app_2/App/Components/Elements/localize.jsx");
-
-var _localize3 = _interopRequireDefault(_localize2);
-
-var _Checkbox = __webpack_require__(/*! ../../Components/Form/Checkbox */ "./src/javascript/app_2/App/Components/Form/Checkbox/index.js");
-
-var _Checkbox2 = _interopRequireDefault(_Checkbox);
-
-var _confirmationDisabled = __webpack_require__(/*! ../../../../../images/app_2/settings/confirmation-disabled.svg */ "./src/images/app_2/settings/confirmation-disabled.svg");
-
-var _confirmationDisabled2 = _interopRequireDefault(_confirmationDisabled);
-
-var _confirmationEnabled = __webpack_require__(/*! ../../../../../images/app_2/settings/confirmation-enabled.svg */ "./src/images/app_2/settings/confirmation-enabled.svg");
-
-var _confirmationEnabled2 = _interopRequireDefault(_confirmationEnabled);
-
-var _confirmationDisabled3 = __webpack_require__(/*! ../../../../../images/app_2/settings/dark/confirmation-disabled.svg */ "./src/images/app_2/settings/dark/confirmation-disabled.svg");
-
-var _confirmationDisabled4 = _interopRequireDefault(_confirmationDisabled3);
-
-var _confirmationEnabled3 = __webpack_require__(/*! ../../../../../images/app_2/settings/dark/confirmation-enabled.svg */ "./src/images/app_2/settings/dark/confirmation-enabled.svg");
-
-var _confirmationEnabled4 = _interopRequireDefault(_confirmationEnabled3);
-
-var _lockDisabled = __webpack_require__(/*! ../../../../../images/app_2/settings/dark/lock-disabled.svg */ "./src/images/app_2/settings/dark/lock-disabled.svg");
-
-var _lockDisabled2 = _interopRequireDefault(_lockDisabled);
-
-var _lockEnabled = __webpack_require__(/*! ../../../../../images/app_2/settings/dark/lock-enabled.svg */ "./src/images/app_2/settings/dark/lock-enabled.svg");
-
-var _lockEnabled2 = _interopRequireDefault(_lockEnabled);
-
-var _lockDisabled3 = __webpack_require__(/*! ../../../../../images/app_2/settings/lock-disabled.svg */ "./src/images/app_2/settings/lock-disabled.svg");
-
-var _lockDisabled4 = _interopRequireDefault(_lockDisabled3);
-
-var _lockEnabled3 = __webpack_require__(/*! ../../../../../images/app_2/settings/lock-enabled.svg */ "./src/images/app_2/settings/lock-enabled.svg");
-
-var _lockEnabled4 = _interopRequireDefault(_lockEnabled3);
-
-var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PurchaseSettings = function PurchaseSettings(_ref) {
-    var is_dark_mode = _ref.is_dark_mode,
-        is_purchase_confirmed = _ref.is_purchase_confirmed,
-        is_purchase_locked = _ref.is_purchase_locked,
-        togglePurchaseConfirmation = _ref.togglePurchaseConfirmation,
-        togglePurchaseLock = _ref.togglePurchaseLock;
-    return _react2.default.createElement(
-        'div',
-        { className: 'settings-dialog__purchase' },
-        _react2.default.createElement(
-            _Media2.default,
-            null,
-            _react2.default.createElement(
-                _Media.MediaHeading,
-                null,
-                _react2.default.createElement(_localize3.default, { str: 'Purchase confirmation' })
-            ),
-            _react2.default.createElement(
-                _Media.MediaDescription,
-                null,
-                _react2.default.createElement(_Media.MediaIcon, {
-                    disabled: is_dark_mode ? _confirmationDisabled4.default : _confirmationDisabled2.default,
-                    enabled: is_dark_mode ? _confirmationEnabled4.default : _confirmationEnabled2.default,
-                    is_enabled: is_purchase_confirmed
-                }),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'media__form' },
-                    _react2.default.createElement(_Checkbox2.default, {
-                        value: is_purchase_confirmed,
-                        label: (0, _localize.localize)('Require confirmation before purchasing a contract'),
-                        onClick: togglePurchaseConfirmation
-                    })
-                )
-            )
-        ),
-        _react2.default.createElement(
-            _Media2.default,
-            null,
-            _react2.default.createElement(
-                _Media.MediaHeading,
-                null,
-                _react2.default.createElement(_localize3.default, { str: 'Purchase lock' })
-            ),
-            _react2.default.createElement(
-                _Media.MediaDescription,
-                null,
-                _react2.default.createElement(_Media.MediaIcon, {
-                    disabled: is_dark_mode ? _lockDisabled2.default : _lockDisabled4.default,
-                    enabled: is_dark_mode ? _lockEnabled2.default : _lockEnabled4.default,
-                    is_enabled: is_purchase_locked
-                }),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'media__form' },
-                    _react2.default.createElement(_Checkbox2.default, {
-                        value: is_purchase_locked,
-                        label: (0, _localize.localize)('Lock contract purchase buttons'),
-                        onClick: togglePurchaseLock
-                    })
-                )
-            )
-        )
-    );
-};
-
-PurchaseSettings.propTypes = {
-    is_dark_mode: _propTypes2.default.bool,
-    is_purchase_confirmed: _propTypes2.default.bool,
-    is_purchase_locked: _propTypes2.default.bool,
-    togglePurchaseConfirmation: _propTypes2.default.func,
-    togglePurchaseLock: _propTypes2.default.func
-};
-
-exports.default = (0, _connect.connect)(function (_ref2) {
-    var ui = _ref2.ui;
-    return {
-        is_dark_mode: ui.is_dark_mode_on,
-        is_purchase_confirmed: ui.is_purchase_confirm_on,
-        is_purchase_locked: ui.is_purchase_lock_on,
-        togglePurchaseConfirmation: ui.togglePurchaseConfirmation,
-        togglePurchaseLock: ui.togglePurchaseLock
-    };
-})(PurchaseSettings);
 
 /***/ }),
 
@@ -17344,17 +16690,17 @@ var TradeCategories = function TradeCategories(_ref) {
                     _react2.default.createElement(
                         'p',
                         null,
-                        (0, _localize.localize)('If you select "Higher", you win the payout if the exit spot is strictly higher than the entry spot.')
+                        (0, _localize.localize)('If you select "Rise", you win the payout if the exit spot is strictly higher than the entry spot.')
                     ),
                     _react2.default.createElement(
                         'p',
                         null,
-                        (0, _localize.localize)('If you select "Lower", you win the payout if the exit spot is strictly lower than the entry spot.')
+                        (0, _localize.localize)('If you select "Fall", you win the payout if the exit spot is strictly lower than the entry spot.')
                     ),
                     _react2.default.createElement(
                         'p',
                         null,
-                        (0, _localize.localize)('If you select "Allow equals", you win the payout if exit spot is higher than or equal to entry spot for "Higher". Similarly, you win the payout if exit spot is lower than or equal to entry spot for "Lower".')
+                        (0, _localize.localize)('If you select "Allow equals", you win the payout if exit spot is higher than or equal to entry spot for "Rise". Similarly, you win the payout if exit spot is lower than or equal to entry spot for "Fall".')
                     )
                 );
                 break;
@@ -17365,17 +16711,17 @@ var TradeCategories = function TradeCategories(_ref) {
                     _react2.default.createElement(
                         'p',
                         null,
-                        (0, _localize.localize)('If you select "Higher", you win the payout if the exit spot is strictly higher than the entry spot.')
+                        (0, _localize.localize)('If you select "Rise", you win the payout if the exit spot is strictly higher than the entry spot.')
                     ),
                     _react2.default.createElement(
                         'p',
                         null,
-                        (0, _localize.localize)('If you select "Lower", you win the payout if the exit spot is strictly lower than the entry spot.')
+                        (0, _localize.localize)('If you select "Fall", you win the payout if the exit spot is strictly lower than the entry spot.')
                     ),
                     _react2.default.createElement(
                         'p',
                         null,
-                        (0, _localize.localize)('If you select "Allow equals", you win the payout if exit spot is higher than or equal to entry spot for "Higher". Similarly, you win the payout if exit spot is lower than or equal to entry spot for "Lower".')
+                        (0, _localize.localize)('If you select "Allow equals", you win the payout if exit spot is higher than or equal to entry spot for "Rise". Similarly, you win the payout if exit spot is lower than or equal to entry spot for "Fall".')
                     )
                 );
                 break;
@@ -17492,12 +16838,12 @@ var TradeCategories = function TradeCategories(_ref) {
                     _react2.default.createElement(
                         'p',
                         null,
-                        (0, _localize.localize)('If you select "Touches", you win the payout if the market touches the barrier at any time during the contract period.')
+                        (0, _localize.localize)('If you select "Touch", you win the payout if the market touches the barrier at any time during the contract period.')
                     ),
                     _react2.default.createElement(
                         'p',
                         null,
-                        (0, _localize.localize)('If you select "Does Not Touch", you win the payout if the market never touches the barrier at any time during the contract period.')
+                        (0, _localize.localize)('If you select "No Touch", you win the payout if the market never touches the barrier at any time during the contract period.')
                     )
                 );
                 break;
@@ -17531,7 +16877,7 @@ var TradeCategories = function TradeCategories(_ref) {
                 TradeTypeTemplate = _react2.default.createElement(
                     'p',
                     null,
-                    'not found'
+                    (0, _localize.localize)('Description not found.')
                 );
                 break;
         }
@@ -17893,58 +17239,6 @@ Object.keys(_iconTradeTypes).forEach(function (key) {
 
 /***/ }),
 
-/***/ "./src/javascript/app_2/Assets/Trading/icon-lock.jsx":
-/*!***********************************************************!*\
-  !*** ./src/javascript/app_2/Assets/Trading/icon-lock.jsx ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.IconLock = undefined;
-
-var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var IconLock = function IconLock(_ref) {
-    var className = _ref.className;
-    return _react2.default.createElement(
-        'svg',
-        { className: (0, _classnames2.default)('inline-icon', className), xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 16 16' },
-        _react2.default.createElement(
-            'g',
-            { fill: 'none', fillRule: 'evenodd', transform: 'translate(3 1)' },
-            _react2.default.createElement('rect', { className: 'color1-stroke', width: '9', height: '7', x: '.5', y: '6.5', stroke: 'none', rx: '1' }),
-            _react2.default.createElement('circle', { className: 'color1-fill', cx: '5', cy: '10', r: '1', fill: 'none' }),
-            _react2.default.createElement('path', { className: 'color1-stroke', stroke: 'none', d: 'M5 .5C7 .5 8.5 2.1 8.5 4v2.5h-7V4C1.5 2 3.1.5 5 .5z' })
-        )
-    );
-};
-
-IconLock.propTypes = {
-    className: _propTypes2.default.string
-};
-
-exports.IconLock = IconLock;
-
-/***/ }),
-
 /***/ "./src/javascript/app_2/Assets/Trading/icon-price-move.jsx":
 /*!*****************************************************************!*\
   !*** ./src/javascript/app_2/Assets/Trading/icon-price-move.jsx ***!
@@ -18030,35 +17324,110 @@ exports.IconPriceMove = IconPriceMove;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getContractTypeDisplay = undefined;
+exports.getContractTypePosition = exports.getContractTypeDisplay = undefined;
 
 var _localize = __webpack_require__(/*! ../../_common/localize */ "./src/javascript/_common/localize.js");
 
-var getContractTypeDisplay = exports.getContractTypeDisplay = function getContractTypeDisplay() {
+var getContractConfig = function getContractConfig(is_high_low) {
     return {
-        ASIANU: (0, _localize.localize)('Asian Up'),
-        ASIAND: (0, _localize.localize)('Asian Down'),
-        CALL: (0, _localize.localize)('Higher'),
-        CALLE: (0, _localize.localize)('Higher or equal'),
-        PUT: (0, _localize.localize)('Lower'),
-        PUTE: (0, _localize.localize)('Lower or equal'),
-        DIGITMATCH: (0, _localize.localize)('Digit Matches'),
-        DIGITDIFF: (0, _localize.localize)('Digit Differs'),
-        DIGITODD: (0, _localize.localize)('Digit Odd'),
-        DIGITEVEN: (0, _localize.localize)('Digit Even'),
-        DIGITOVER: (0, _localize.localize)('Digit Over'),
-        DIGITUNDER: (0, _localize.localize)('Digit Under'),
-        EXPIRYMISS: (0, _localize.localize)('Ends Outside'),
-        EXPIRYRANGE: (0, _localize.localize)('Ends Between'),
-        EXPIRYRANGEE: (0, _localize.localize)('Ends Between'),
-        LBFLOATCALL: (0, _localize.localize)('Close-Low'),
-        LBFLOATPUT: (0, _localize.localize)('High-Close'),
-        LBHIGHLOW: (0, _localize.localize)('High-Low'),
-        RANGE: (0, _localize.localize)('Stays Between'),
-        UPORDOWN: (0, _localize.localize)('Goes Outside'),
-        ONETOUCH: (0, _localize.localize)('Touches'),
-        NOTOUCH: (0, _localize.localize)('Does Not Touch')
+        ASIANU: {
+            name: (0, _localize.localize)('Asian Up'),
+            position: 'top'
+        },
+        ASIAND: {
+            name: (0, _localize.localize)('Asian Down'),
+            position: 'bottom'
+        },
+        CALL: {
+            name: is_high_low ? (0, _localize.localize)('Higher') : (0, _localize.localize)('Rise'),
+            position: 'top'
+        },
+        PUT: {
+            name: is_high_low ? (0, _localize.localize)('Lower') : (0, _localize.localize)('Fall'),
+            position: 'bottom'
+        },
+        CALLE: {
+            name: (0, _localize.localize)('Rise'),
+            position: 'top'
+        },
+        PUTE: {
+            name: (0, _localize.localize)('Fall'),
+            position: 'bottom'
+        },
+        DIGITMATCH: {
+            name: (0, _localize.localize)('Matches'),
+            position: 'top'
+        },
+        DIGITDIFF: {
+            name: (0, _localize.localize)('Differs'),
+            position: 'bottom'
+        },
+        DIGITEVEN: {
+            name: (0, _localize.localize)('Even'),
+            position: 'top'
+        },
+        DIGITODD: {
+            name: (0, _localize.localize)('Odd'),
+            position: 'bottom'
+        },
+        DIGITOVER: {
+            name: (0, _localize.localize)('Over'),
+            position: 'top'
+        },
+        DIGITUNDER: {
+            name: (0, _localize.localize)('Under'),
+            position: 'bottom'
+        },
+        EXPIRYMISS: {
+            name: (0, _localize.localize)('Ends Outside'),
+            position: 'top'
+        },
+        EXPIRYRANGE: {
+            name: (0, _localize.localize)('Ends Between'),
+            position: 'bottom'
+        },
+        EXPIRYRANGEE: {
+            name: (0, _localize.localize)('Ends Between'),
+            position: 'top'
+        },
+        LBFLOATCALL: {
+            name: (0, _localize.localize)('Close-Low'),
+            position: 'top'
+        },
+        LBFLOATPUT: {
+            name: (0, _localize.localize)('High-Close'),
+            position: 'bottom'
+        },
+        LBHIGHLOW: {
+            name: (0, _localize.localize)('High-Low'),
+            position: 'top'
+        },
+        RANGE: {
+            name: (0, _localize.localize)('Stays Between'),
+            position: 'top'
+        },
+        UPORDOWN: {
+            name: (0, _localize.localize)('Goes Outside'),
+            position: 'bottom'
+        },
+        ONETOUCH: {
+            name: (0, _localize.localize)('Touch'),
+            position: 'top'
+        },
+        NOTOUCH: {
+            name: (0, _localize.localize)('No Touch'),
+            position: 'bottom'
+        }
     };
+};
+
+var getContractTypeDisplay = exports.getContractTypeDisplay = function getContractTypeDisplay(type) {
+    var is_high_low = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    return getContractConfig(is_high_low)[type].name;
+};
+var getContractTypePosition = exports.getContractTypePosition = function getContractTypePosition(type) {
+    var is_high_low = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    return getContractConfig(is_high_low)[type].position;
 };
 
 /***/ }),
@@ -20222,6 +19591,10 @@ var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnam
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
@@ -20234,6 +19607,8 @@ var _button2 = _interopRequireDefault(_button);
 
 var _Types = __webpack_require__(/*! ../../../../Assets/Trading/Types */ "./src/javascript/app_2/Assets/Trading/Types/index.js");
 
+var _contract = __webpack_require__(/*! ../../../../Constants/contract */ "./src/javascript/app_2/Constants/contract.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PurchaseButton = function PurchaseButton(_ref) {
@@ -20243,7 +19618,6 @@ var PurchaseButton = function PurchaseButton(_ref) {
         is_high_low = _ref.is_high_low,
         is_loading = _ref.is_loading,
         onClickPurchase = _ref.onClickPurchase,
-        trade_types = _ref.trade_types,
         type = _ref.type;
     return _react2.default.createElement(
         _button2.default,
@@ -20267,7 +19641,7 @@ var PurchaseButton = function PurchaseButton(_ref) {
                     { className: 'btn-purchase__icon_wrapper' },
                     _react2.default.createElement(_Types.IconTradeType, {
                         className: 'btn-purchase__icon',
-                        type: !is_loading && is_high_low ? type.toLowerCase() + '_barrier' : type.toLowerCase()
+                        type: !is_loading ? is_high_low ? type.toLowerCase() + '_barrier' : type.toLowerCase() : ''
                     })
                 ),
                 _react2.default.createElement(
@@ -20276,7 +19650,7 @@ var PurchaseButton = function PurchaseButton(_ref) {
                     _react2.default.createElement(
                         'span',
                         { className: 'btn-purchase__text' },
-                        !is_loading && (0, _localize.localize)('[_1]', trade_types[type])
+                        !is_loading && (0, _localize.localize)('[_1]', (0, _contract.getContractTypeDisplay)(type, is_high_low))
                     )
                 )
             ),
@@ -20298,7 +19672,156 @@ var PurchaseButton = function PurchaseButton(_ref) {
     );
 };
 
+PurchaseButton.propTypes = {
+    currency: _propTypes2.default.string,
+    info: _propTypes2.default.object,
+    is_contract_mode: _propTypes2.default.bool,
+    is_disabled: _propTypes2.default.bool,
+    is_high_low: _propTypes2.default.bool,
+    is_loading: _propTypes2.default.bool,
+    onClickPurchase: _propTypes2.default.func,
+    type: _propTypes2.default.string
+};
+
 exports.default = PurchaseButton;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Modules/Trading/Components/Elements/purchase-fieldset.jsx":
+/*!****************************************************************************************!*\
+  !*** ./src/javascript/app_2/Modules/Trading/Components/Elements/purchase-fieldset.jsx ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _tooltip = __webpack_require__(/*! ../../../../App/Components/Elements/tooltip.jsx */ "./src/javascript/app_2/App/Components/Elements/tooltip.jsx");
+
+var _tooltip2 = _interopRequireDefault(_tooltip);
+
+var _fieldset = __webpack_require__(/*! ../../../../App/Components/Form/fieldset.jsx */ "./src/javascript/app_2/App/Components/Form/fieldset.jsx");
+
+var _fieldset2 = _interopRequireDefault(_fieldset);
+
+var _contractInfo = __webpack_require__(/*! ../Form/Purchase/contract-info.jsx */ "./src/javascript/app_2/Modules/Trading/Components/Form/Purchase/contract-info.jsx");
+
+var _contractInfo2 = _interopRequireDefault(_contractInfo);
+
+var _purchaseButton = __webpack_require__(/*! ./purchase-button.jsx */ "./src/javascript/app_2/Modules/Trading/Components/Elements/purchase-button.jsx");
+
+var _purchaseButton2 = _interopRequireDefault(_purchaseButton);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import { localize }   from '_common/localize';
+// import { PopConfirm } from 'App/Components/Elements/PopConfirm';
+var PurchaseFieldset = function PurchaseFieldset(_ref) {
+    var basis = _ref.basis,
+        currency = _ref.currency,
+        info = _ref.info,
+        is_contract_mode = _ref.is_contract_mode,
+        is_disabled = _ref.is_disabled,
+        is_high_low = _ref.is_high_low,
+        is_loading = _ref.is_loading,
+        is_proposal_error = _ref.is_proposal_error,
+        onClickPurchase = _ref.onClickPurchase,
+        onHoverPurchase = _ref.onHoverPurchase,
+        type = _ref.type;
+
+    var purchase_button = _react2.default.createElement(_purchaseButton2.default, {
+        currency: currency,
+        info: info,
+        is_contract_mode: is_contract_mode,
+        is_disabled: is_disabled,
+        is_high_low: is_high_low,
+        is_loading: is_loading,
+        onClickPurchase: onClickPurchase,
+        type: type
+    });
+    return _react2.default.createElement(
+        _fieldset2.default,
+        {
+            className: 'trade-container__fieldset purchase-container__option'
+        },
+        _react2.default.createElement(
+            _react2.default.Fragment,
+            null,
+            _react2.default.createElement(_contractInfo2.default, {
+                basis: basis,
+                currency: currency,
+                proposal_info: info,
+                has_increased: info.has_increased,
+                is_loading: is_loading,
+                is_visible: !is_contract_mode
+            }),
+            _react2.default.createElement(
+                'div',
+                {
+                    className: (0, _classnames2.default)('btn-purchase__shadow-wrapper', { 'btn-purchase__shadow-wrapper--disabled': is_proposal_error || is_disabled }),
+                    onMouseEnter: function onMouseEnter() {
+                        onHoverPurchase(true, type);
+                    },
+                    onMouseLeave: function onMouseLeave() {
+                        onHoverPurchase(false);
+                    }
+                },
+                is_proposal_error && _react2.default.createElement(_tooltip2.default, { message: info.message, alignment: 'left', className: 'tooltip--error-secondary' }),
+
+                // is_purchase_confirm_on ?
+                //     <PopConfirm
+                //         alignment='left'
+                //         cancel_text={localize('Cancel')}
+                //         confirm_text={localize('Purchase')}
+                //         message={localize('Are you sure you want to purchase this contract?')}
+                //     >
+                //         {purchase_button}
+                //     </PopConfirm>
+                //     :
+                purchase_button
+            )
+        )
+    );
+};
+// import PurchaseLock   from 'Modules/Trading/Components/Form/Purchase/PurchaseLock';
+
+
+PurchaseFieldset.propTypes = {
+    basis: _propTypes2.default.string,
+    currency: _propTypes2.default.string,
+    // index            : PropTypes.number,
+    info: _propTypes2.default.object,
+    is_contract_mode: _propTypes2.default.bool,
+    is_disabled: _propTypes2.default.bool,
+    is_high_low: _propTypes2.default.bool,
+    is_loading: _propTypes2.default.bool,
+    is_proposal_error: _propTypes2.default.bool,
+    // is_purchase_confirm_on: PropTypes.bool,
+    // is_purchase_locked    : PropTypes.bool,
+    onClickPurchase: _propTypes2.default.func,
+    onHoverPurchase: _propTypes2.default.func,
+    // togglePurchaseLock    : PropTypes.func,
+    type: _propTypes2.default.string
+};
+
+exports.default = PurchaseFieldset;
 
 /***/ }),
 
@@ -20401,6 +19924,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
 
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
@@ -20419,14 +19946,18 @@ var ContractTypeItem = function ContractTypeItem(_ref) {
     var contracts = _ref.contracts,
         name = _ref.name,
         value = _ref.value,
+        is_equal = _ref.is_equal,
         handleInfoClick = _ref.handleInfoClick,
         handleSelect = _ref.handleSelect;
     return contracts.map(function (contract, idx) {
-        return contract.value !== 'rise_fall_equal' && _react2.default.createElement(
+        return _react2.default.createElement(
             'div',
             {
                 key: idx,
-                className: 'contract-type-item ' + (value === contract.value ? 'contract-type-item--selected' : ''),
+                className: (0, _classnames2.default)('contract-type-item', {
+                    'contract-type-item--selected': value === contract.value,
+                    'contract-type-item--invisible': contract.value === 'rise_fall' && is_equal || contract.value === 'rise_fall_equal' && !is_equal
+                }),
                 name: name,
                 value: contract.value,
                 onClick: function onClick(e) {
@@ -20454,6 +19985,7 @@ ContractTypeItem.propTypes = {
     contracts: _mobxReact.PropTypes.arrayOrObservableArray,
     handleInfoClick: _propTypes2.default.func,
     handleSelect: _propTypes2.default.func,
+    is_equal: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
     name: _propTypes2.default.string,
     value: _propTypes2.default.string
 };
@@ -20495,6 +20027,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ContractTypeList = function ContractTypeList(_ref) {
     var handleInfoClick = _ref.handleInfoClick,
         handleSelect = _ref.handleSelect,
+        is_equal = _ref.is_equal,
         list = _ref.list,
         name = _ref.name,
         value = _ref.value;
@@ -20524,7 +20057,8 @@ var ContractTypeList = function ContractTypeList(_ref) {
                             name: name,
                             value: value,
                             handleSelect: handleSelect,
-                            handleInfoClick: handleInfoClick
+                            handleInfoClick: handleInfoClick,
+                            is_equal: is_equal
                         })
                     )
                 )
@@ -20536,6 +20070,7 @@ var ContractTypeList = function ContractTypeList(_ref) {
 ContractTypeList.propTypes = {
     handleInfoClick: _propTypes2.default.func,
     handleSelect: _propTypes2.default.func,
+    is_equal: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
     list: _mobxReact.PropTypes.objectOrObservableObject,
     name: _propTypes2.default.string,
     value: _propTypes2.default.string
@@ -20786,7 +20321,8 @@ var ContractTypeWidget = function (_React$PureComponent) {
                         name: this.props.name,
                         value: this.props.value,
                         handleSelect: this.handleSelect,
-                        handleInfoClick: this.handleInfoClick
+                        handleInfoClick: this.handleInfoClick,
+                        is_equal: this.props.is_equal
                     })
                 ),
                 _react2.default.createElement(
@@ -20817,6 +20353,7 @@ var ContractTypeWidget = function (_React$PureComponent) {
 
 ContractTypeWidget.propTypes = {
     is_mobile: _propTypes2.default.bool,
+    is_equal: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
     list: _propTypes2.default.object,
     name: _propTypes2.default.string,
     onChange: _propTypes2.default.func,
@@ -20986,100 +20523,6 @@ exports.default = (0, _connect.connect)(function (_ref2) {
         validation_errors: modules.trade.validation_errors
     };
 })(TradingDatePicker);
-
-/***/ }),
-
-/***/ "./src/javascript/app_2/Modules/Trading/Components/Form/Purchase/PurchaseLock/index.js":
-/*!*********************************************************************************************!*\
-  !*** ./src/javascript/app_2/Modules/Trading/Components/Form/Purchase/PurchaseLock/index.js ***!
-  \*********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _purchaseLock = __webpack_require__(/*! ./purchase-lock.jsx */ "./src/javascript/app_2/Modules/Trading/Components/Form/Purchase/PurchaseLock/purchase-lock.jsx");
-
-var _purchaseLock2 = _interopRequireDefault(_purchaseLock);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = _purchaseLock2.default;
-
-/***/ }),
-
-/***/ "./src/javascript/app_2/Modules/Trading/Components/Form/Purchase/PurchaseLock/purchase-lock.jsx":
-/*!******************************************************************************************************!*\
-  !*** ./src/javascript/app_2/Modules/Trading/Components/Form/Purchase/PurchaseLock/purchase-lock.jsx ***!
-  \******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _localize = __webpack_require__(/*! ../../../../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
-var _button = __webpack_require__(/*! ../../../../../../App/Components/Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
-
-var _button2 = _interopRequireDefault(_button);
-
-var _iconLock = __webpack_require__(/*! ../../../../../../Assets/Trading/icon-lock.jsx */ "./src/javascript/app_2/Assets/Trading/icon-lock.jsx");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PurchaseLock = function PurchaseLock(_ref) {
-    var onClick = _ref.onClick;
-    return _react2.default.createElement(
-        'div',
-        { className: 'purchase-container__lock' },
-        _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(_iconLock.IconLock, { className: 'purchase-container__lock-icon' })
-        ),
-        _react2.default.createElement(
-            'h4',
-            { className: 'purchase-container__lock-header' },
-            (0, _localize.localize)('Purchase Locked')
-        ),
-        _react2.default.createElement(_button2.default, {
-            className: 'purchase-container__lock-button btn--secondary btn--secondary--orange',
-            has_effect: true,
-            onClick: onClick,
-            text: (0, _localize.localize)('Unlock')
-        }),
-        _react2.default.createElement(
-            'span',
-            { className: 'purchase-container__lock-message' },
-            (0, _localize.localize)('You can lock/unlock the purchase button from the Settings menu')
-        )
-    );
-};
-
-PurchaseLock.propTypes = {
-    onClick: _propTypes2.default.func
-};
-
-exports.default = PurchaseLock;
 
 /***/ }),
 
@@ -23046,19 +22489,22 @@ var Contract = function Contract(_ref) {
     var contract_type = _ref.contract_type,
         contract_types_list = _ref.contract_types_list,
         onChange = _ref.onChange,
-        is_mobile = _ref.is_mobile;
+        is_mobile = _ref.is_mobile,
+        is_equal = _ref.is_equal;
     return _react2.default.createElement(_contractTypeWidget2.default, {
         name: 'contract_type',
         list: contract_types_list,
         value: contract_type,
         onChange: onChange,
-        is_mobile: is_mobile
+        is_mobile: is_mobile,
+        is_equal: is_equal
     });
 };
 
 Contract.propTypes = {
     contract_type: _propTypes2.default.string,
     contract_types_list: _propTypes2.default.object,
+    is_equal: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
     is_mobile: _propTypes2.default.bool,
     onChange: _propTypes2.default.func
 };
@@ -23070,7 +22516,8 @@ exports.default = (0, _connect.connect)(function (_ref2) {
         contract_type: modules.trade.contract_type,
         contract_types_list: modules.trade.contract_types_list,
         onChange: modules.trade.onChange,
-        is_mobile: ui.is_mobile
+        is_mobile: ui.is_mobile,
+        is_equal: modules.trade.is_equal
     };
 })(Contract);
 
@@ -23090,10 +22537,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
@@ -23102,31 +22545,13 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js");
+var _purchaseFieldset = __webpack_require__(/*! ../Components/Elements/purchase-fieldset.jsx */ "./src/javascript/app_2/Modules/Trading/Components/Elements/purchase-fieldset.jsx");
 
-var _PopConfirm = __webpack_require__(/*! ../../../App/Components/Elements/PopConfirm */ "./src/javascript/app_2/App/Components/Elements/PopConfirm/index.js");
+var _purchaseFieldset2 = _interopRequireDefault(_purchaseFieldset);
 
-var _tooltip = __webpack_require__(/*! ../../../App/Components/Elements/tooltip.jsx */ "./src/javascript/app_2/App/Components/Elements/tooltip.jsx");
-
-var _tooltip2 = _interopRequireDefault(_tooltip);
-
-var _fieldset = __webpack_require__(/*! ../../../App/Components/Form/fieldset.jsx */ "./src/javascript/app_2/App/Components/Form/fieldset.jsx");
-
-var _fieldset2 = _interopRequireDefault(_fieldset);
+var _contract = __webpack_require__(/*! ../../../Constants/contract */ "./src/javascript/app_2/Constants/contract.js");
 
 var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
-
-var _contractInfo = __webpack_require__(/*! ../Components/Form/Purchase/contract-info.jsx */ "./src/javascript/app_2/Modules/Trading/Components/Form/Purchase/contract-info.jsx");
-
-var _contractInfo2 = _interopRequireDefault(_contractInfo);
-
-var _PurchaseLock = __webpack_require__(/*! ../Components/Form/Purchase/PurchaseLock */ "./src/javascript/app_2/Modules/Trading/Components/Form/Purchase/PurchaseLock/index.js");
-
-var _PurchaseLock2 = _interopRequireDefault(_PurchaseLock);
-
-var _purchaseButton = __webpack_require__(/*! ../Components/Elements/purchase-button.jsx */ "./src/javascript/app_2/Modules/Trading/Components/Elements/purchase-button.jsx");
-
-var _purchaseButton2 = _interopRequireDefault(_purchaseButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23136,17 +22561,16 @@ var Purchase = function Purchase(_ref) {
         currency = _ref.currency,
         is_contract_mode = _ref.is_contract_mode,
         is_client_allowed_to_visit = _ref.is_client_allowed_to_visit,
-        is_purchase_confirm_on = _ref.is_purchase_confirm_on,
         is_purchase_enabled = _ref.is_purchase_enabled,
-        is_purchase_locked = _ref.is_purchase_locked,
         is_trade_enabled = _ref.is_trade_enabled,
         onClickPurchase = _ref.onClickPurchase,
         onHoverPurchase = _ref.onHoverPurchase,
-        togglePurchaseLock = _ref.togglePurchaseLock,
         proposal_info = _ref.proposal_info,
         trade_types = _ref.trade_types,
         validation_errors = _ref.validation_errors;
-    return Object.keys(trade_types).map(function (type, idx) {
+
+    var components = [];
+    Object.keys(trade_types).map(function (type, index) {
         var info = proposal_info[type] || {};
         var is_disabled = !is_purchase_enabled || !is_trade_enabled || !info.id || !is_client_allowed_to_visit;
         var is_high_low = /high_low/.test(contract_type.toLowerCase());
@@ -23154,65 +22578,37 @@ var Purchase = function Purchase(_ref) {
             return e.length;
         });
         var is_loading = !is_validation_error && !info.has_error && !info.id;
+        var is_proposal_error = info.has_error && !info.has_error_details;
 
-        var purchase_button = _react2.default.createElement(_purchaseButton2.default, {
+        var purchase_fieldset = _react2.default.createElement(_purchaseFieldset2.default, {
+            basis: basis,
             currency: currency,
-            info: info,
+            info: info
+            // key={index}
+            , index: index,
             is_contract_mode: is_contract_mode,
             is_disabled: is_disabled,
             is_high_low: is_high_low,
-            is_loading: is_loading,
+            is_loading: is_loading
+            // is_purchase_confirm_on={is_purchase_confirm_on}
+            , is_proposal_error: is_proposal_error
+            // is_purchase_locked={is_purchase_locked}
+            // togglePurchaseLock={togglePurchaseLock}
+            , onHoverPurchase: onHoverPurchase,
             onClickPurchase: onClickPurchase,
-            trade_types: trade_types,
             type: type
         });
-
-        var is_proposal_error = info.has_error && !info.has_error_details;
-
-        return _react2.default.createElement(
-            _fieldset2.default,
-            {
-                className: 'trade-container__fieldset purchase-container__option',
-                key: idx
-            },
-            is_purchase_locked && idx === 0 && _react2.default.createElement(_PurchaseLock2.default, { onClick: togglePurchaseLock }),
-            _react2.default.createElement(
-                _react2.default.Fragment,
-                null,
-                _react2.default.createElement(_contractInfo2.default, {
-                    basis: basis,
-                    currency: currency,
-                    proposal_info: info,
-                    has_increased: info.has_increased,
-                    is_loading: is_loading,
-                    is_visible: !is_contract_mode
-                }),
-                _react2.default.createElement(
-                    'div',
-                    {
-                        className: (0, _classnames2.default)('btn-purchase__shadow-wrapper', { 'btn-purchase__shadow-wrapper--disabled': is_proposal_error || is_disabled }),
-                        onMouseEnter: function onMouseEnter() {
-                            onHoverPurchase(true, type);
-                        },
-                        onMouseLeave: function onMouseLeave() {
-                            onHoverPurchase(false);
-                        }
-                    },
-                    is_proposal_error && _react2.default.createElement(_tooltip2.default, { message: info.message, alignment: 'left', className: 'tooltip--error-secondary' }),
-                    is_purchase_confirm_on ? _react2.default.createElement(
-                        _PopConfirm.PopConfirm,
-                        {
-                            alignment: 'left',
-                            cancel_text: (0, _localize.localize)('Cancel'),
-                            confirm_text: (0, _localize.localize)('Purchase'),
-                            message: (0, _localize.localize)('Are you sure you want to purchase this contract?')
-                        },
-                        purchase_button
-                    ) : purchase_button
-                )
-            )
-        );
+        var contract_type_position = (0, _contract.getContractTypePosition)(type);
+        if (contract_type_position === 'top') {
+            components.unshift(purchase_fieldset);
+        } else if (contract_type_position === 'bottom') {
+            components.push(purchase_fieldset);
+        } else {
+            components.push(purchase_fieldset);
+        }
     });
+
+    return components;
 };
 
 Purchase.propTypes = {
@@ -23220,7 +22616,7 @@ Purchase.propTypes = {
     currency: _propTypes2.default.string,
     is_client_allowed_to_visit: _propTypes2.default.bool,
     is_contract_mode: _propTypes2.default.bool,
-    is_purchase_confirm_on: _propTypes2.default.bool,
+    // is_purchase_confirm_on    : PropTypes.bool,
     is_purchase_enabled: _propTypes2.default.bool,
     is_purchase_locked: _propTypes2.default.bool,
     is_trade_enabled: _propTypes2.default.bool,
@@ -23228,15 +22624,14 @@ Purchase.propTypes = {
     onHoverPurchase: _propTypes2.default.func,
     proposal_info: _propTypes2.default.object,
     purchase_info: _propTypes2.default.object,
-    togglePurchaseLock: _propTypes2.default.func,
+    // togglePurchaseLock        : PropTypes.func,
     trade_types: _propTypes2.default.object,
     validation_errors: _propTypes2.default.object
 };
 
 exports.default = (0, _connect.connect)(function (_ref2) {
     var client = _ref2.client,
-        modules = _ref2.modules,
-        ui = _ref2.ui;
+        modules = _ref2.modules;
     return {
         currency: client.currency,
         is_client_allowed_to_visit: client.is_client_allowed_to_visit,
@@ -23250,10 +22645,10 @@ exports.default = (0, _connect.connect)(function (_ref2) {
         proposal_info: modules.trade.proposal_info,
         purchase_info: modules.trade.purchase_info,
         trade_types: modules.trade.trade_types,
-        validation_errors: modules.trade.validation_errors,
-        is_purchase_confirm_on: ui.is_purchase_confirm_on,
-        is_purchase_locked: ui.is_purchase_lock_on,
-        togglePurchaseLock: ui.togglePurchaseLock
+        validation_errors: modules.trade.validation_errors
+        // is_purchase_confirm_on    : ui.is_purchase_confirm_on,
+        // is_purchase_locked        : ui.is_purchase_lock_on,
+        // togglePurchaseLock        : ui.togglePurchaseLock,
     };
 })(Purchase);
 
@@ -24666,7 +24061,7 @@ var getDetailsInfo = exports.getDetailsInfo = function getDetailsInfo(contract_i
     var txt_start_time = date_start && (0, _Date.toGMTFormat)(+date_start * 1000);
     var txt_entry_spot = entry_spot && !is_sold_before_start ? (0, _currency_base.addComma)(entry_spot) : '-';
 
-    return _ref = {}, _defineProperty(_ref, details_props.contract_type, (0, _contract.getContractTypeDisplay)()[contract_type]), _defineProperty(_ref, details_props.start_time, txt_start_time), _defineProperty(_ref, details_props.entry_spot, txt_entry_spot), _defineProperty(_ref, details_props.purchase_price, _react2.default.createElement(_money2.default, { amount: buy_price, currency: currency })), _ref;
+    return _ref = {}, _defineProperty(_ref, details_props.contract_type, (0, _contract.getContractTypeDisplay)(contract_type)), _defineProperty(_ref, details_props.start_time, txt_start_time), _defineProperty(_ref, details_props.entry_spot, txt_entry_spot), _defineProperty(_ref, details_props.purchase_price, _react2.default.createElement(_money2.default, { amount: buy_price, currency: currency })), _ref;
 };
 
 var formatMoney = exports.formatMoney = function formatMoney(currency, amount) {
@@ -27213,7 +26608,7 @@ var getContractTypesConfig = exports.getContractTypesConfig = function getContra
 var getContractCategoriesConfig = exports.getContractCategoriesConfig = function getContractCategoriesConfig() {
     var _ref;
 
-    return _ref = {}, _defineProperty(_ref, (0, _localize.localize)('Up/Down'), ['rise_fall', 'high_low', 'rise_fall_equal']), _defineProperty(_ref, (0, _localize.localize)('Touch/No Touch'), ['touch']), _defineProperty(_ref, (0, _localize.localize)('In/Out'), ['end', 'stay']), _defineProperty(_ref, (0, _localize.localize)('Asians'), ['asian']), _defineProperty(_ref, (0, _localize.localize)('Digits'), ['match_diff', 'even_odd', 'over_under']), _ref;
+    return _ref = {}, _defineProperty(_ref, (0, _localize.localize)('Up/Down'), ['rise_fall', 'rise_fall_equal', 'high_low']), _defineProperty(_ref, (0, _localize.localize)('Touch/No Touch'), ['touch']), _defineProperty(_ref, (0, _localize.localize)('In/Out'), ['end', 'stay']), _defineProperty(_ref, (0, _localize.localize)('Asians'), ['asian']), _defineProperty(_ref, (0, _localize.localize)('Digits'), ['match_diff', 'even_odd', 'over_under']), _ref;
 };
 
 /***/ }),
@@ -30322,7 +29717,8 @@ var ClientStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 
                         return landing_company !== _this2.accounts[_this2.loginid].landing_company_shortcode && upgradeable_landing_companies.indexOf(landing_company) !== -1;
                     });
                 };
-                can_upgrade_to = canUpgrade('costarica', 'iom', 'malta', 'maltainvest');
+                // TODO [->svg]
+                can_upgrade_to = canUpgrade('costarica', 'svg', 'iom', 'malta', 'maltainvest');
                 if (can_upgrade_to) {
                     type = can_upgrade_to === 'maltainvest' ? 'financial' : 'real';
                 }
@@ -30631,7 +30027,8 @@ var ClientStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 
             return !!(!this.is_logged_in || this.is_virtual
             // TODO: [only_virtual] uncomment below line to enable app_2 for costarica
             // || this.accounts[this.loginid].landing_company_shortcode === 'costarica'
-            );
+            // || this.accounts[this.loginid].landing_company_shortcode === 'svg'
+            ); // TODO [->svg]
         }
     }, {
         key: 'account_list',
@@ -31151,7 +30548,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _dec26, _dec27, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26, _descriptor27, _descriptor28;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26;
 
 var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
 
@@ -31214,14 +30611,16 @@ function _initializerWarningHelper(descriptor, context) {
 
 var store_name = 'ui_store';
 
-var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, _dec16 = _mobx.action.bound, _dec17 = _mobx.action.bound, _dec18 = _mobx.action.bound, _dec19 = _mobx.action.bound, _dec20 = _mobx.action.bound, _dec21 = _mobx.action.bound, _dec22 = _mobx.action.bound, _dec23 = _mobx.action.bound, _dec24 = _mobx.action.bound, _dec25 = _mobx.action.bound, _dec26 = _mobx.action.bound, _dec27 = _mobx.action.bound, (_class = function (_BaseStore) {
+var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, _dec16 = _mobx.action.bound, _dec17 = _mobx.action.bound, _dec18 = _mobx.action.bound, _dec19 = _mobx.action.bound, _dec20 = _mobx.action.bound, _dec21 = _mobx.action.bound, _dec22 = _mobx.action.bound, _dec23 = _mobx.action.bound, _dec24 = _mobx.action.bound, _dec25 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(UIStore, _BaseStore);
+
+    // @observable is_purchase_lock_on       = false;
 
     // SmartCharts Controls
     function UIStore() {
         _classCallCheck(this, UIStore);
 
-        var local_storage_properties = ['advanced_duration_unit', 'is_advanced_duration', 'advanced_expiry_type', 'simple_duration_unit', 'duration_t', 'duration_s', 'duration_m', 'duration_h', 'duration_d', 'is_chart_asset_info_visible', 'is_chart_countdown_visible', 'is_chart_layout_default', 'is_dark_mode_on', 'is_positions_drawer_on', 'is_purchase_confirm_on', 'is_purchase_lock_on'];
+        var local_storage_properties = ['advanced_duration_unit', 'is_advanced_duration', 'advanced_expiry_type', 'simple_duration_unit', 'duration_t', 'duration_s', 'duration_m', 'duration_h', 'duration_d', 'is_chart_asset_info_visible', 'is_chart_countdown_visible', 'is_chart_layout_default', 'is_dark_mode_on', 'is_positions_drawer_on'];
 
         var _this = _possibleConstructorReturn(this, (UIStore.__proto__ || Object.getPrototypeOf(UIStore)).call(this, { local_storage_properties: local_storage_properties, store_name: store_name }));
 
@@ -31241,45 +30640,41 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
 
         _initDefineProp(_this, 'has_only_forward_starting_contracts', _descriptor8, _this);
 
-        _initDefineProp(_this, 'is_purchase_confirm_on', _descriptor9, _this);
+        _initDefineProp(_this, 'is_services_error_visible', _descriptor9, _this);
 
-        _initDefineProp(_this, 'is_services_error_visible', _descriptor10, _this);
+        _initDefineProp(_this, 'is_chart_asset_info_visible', _descriptor10, _this);
 
-        _initDefineProp(_this, 'is_purchase_lock_on', _descriptor11, _this);
+        _initDefineProp(_this, 'is_chart_countdown_visible', _descriptor11, _this);
 
-        _initDefineProp(_this, 'is_chart_asset_info_visible', _descriptor12, _this);
+        _initDefineProp(_this, 'is_chart_layout_default', _descriptor12, _this);
 
-        _initDefineProp(_this, 'is_chart_countdown_visible', _descriptor13, _this);
+        _initDefineProp(_this, 'is_install_button_visible', _descriptor13, _this);
 
-        _initDefineProp(_this, 'is_chart_layout_default', _descriptor14, _this);
+        _initDefineProp(_this, 'pwa_prompt_event', _descriptor14, _this);
 
-        _initDefineProp(_this, 'is_install_button_visible', _descriptor15, _this);
+        _initDefineProp(_this, 'screen_width', _descriptor15, _this);
 
-        _initDefineProp(_this, 'pwa_prompt_event', _descriptor16, _this);
+        _initDefineProp(_this, 'toast_messages', _descriptor16, _this);
 
-        _initDefineProp(_this, 'screen_width', _descriptor17, _this);
+        _initDefineProp(_this, 'is_advanced_duration', _descriptor17, _this);
 
-        _initDefineProp(_this, 'toast_messages', _descriptor18, _this);
+        _initDefineProp(_this, 'advanced_duration_unit', _descriptor18, _this);
 
-        _initDefineProp(_this, 'is_advanced_duration', _descriptor19, _this);
+        _initDefineProp(_this, 'advanced_expiry_type', _descriptor19, _this);
 
-        _initDefineProp(_this, 'advanced_duration_unit', _descriptor20, _this);
+        _initDefineProp(_this, 'simple_duration_unit', _descriptor20, _this);
 
-        _initDefineProp(_this, 'advanced_expiry_type', _descriptor21, _this);
+        _initDefineProp(_this, 'duration_t', _descriptor21, _this);
 
-        _initDefineProp(_this, 'simple_duration_unit', _descriptor22, _this);
+        _initDefineProp(_this, 'duration_s', _descriptor22, _this);
 
-        _initDefineProp(_this, 'duration_t', _descriptor23, _this);
+        _initDefineProp(_this, 'duration_m', _descriptor23, _this);
 
-        _initDefineProp(_this, 'duration_s', _descriptor24, _this);
+        _initDefineProp(_this, 'duration_h', _descriptor24, _this);
 
-        _initDefineProp(_this, 'duration_m', _descriptor25, _this);
+        _initDefineProp(_this, 'duration_d', _descriptor25, _this);
 
-        _initDefineProp(_this, 'duration_h', _descriptor26, _this);
-
-        _initDefineProp(_this, 'duration_d', _descriptor27, _this);
-
-        _initDefineProp(_this, 'is_blurred', _descriptor28, _this);
+        _initDefineProp(_this, 'is_blurred', _descriptor26, _this);
 
         _this.getDurationFromUnit = function (unit) {
             return _this['duration_' + unit];
@@ -31302,6 +30697,7 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
 
 
     // Purchase Controls
+    // @observable is_purchase_confirm_on    = false;
 
 
     _createClass(UIStore, [{
@@ -31353,16 +30749,17 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
         value: function toggleChartCountdown() {
             this.is_chart_countdown_visible = !this.is_chart_countdown_visible;
         }
-    }, {
-        key: 'togglePurchaseLock',
-        value: function togglePurchaseLock() {
-            this.is_purchase_lock_on = !this.is_purchase_lock_on;
-        }
-    }, {
-        key: 'togglePurchaseConfirmation',
-        value: function togglePurchaseConfirmation() {
-            this.is_purchase_confirm_on = !this.is_purchase_confirm_on;
-        }
+
+        // @action.bound
+        // togglePurchaseLock() {
+        //     this.is_purchase_lock_on = !this.is_purchase_lock_on;
+        // }
+
+        // @action.bound
+        // togglePurchaseConfirmation() {
+        //     this.is_purchase_confirm_on = !this.is_purchase_confirm_on;
+        // }
+
     }, {
         key: 'toggleDarkMode',
         value: function toggleDarkMode() {
@@ -31512,107 +30909,97 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
     initializer: function initializer() {
         return false;
     }
-}), _descriptor9 = _applyDecoratedDescriptor(_class.prototype, 'is_purchase_confirm_on', [_mobx.observable], {
+}), _descriptor9 = _applyDecoratedDescriptor(_class.prototype, 'is_services_error_visible', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _descriptor10 = _applyDecoratedDescriptor(_class.prototype, 'is_services_error_visible', [_mobx.observable], {
-    enumerable: true,
-    initializer: function initializer() {
-        return false;
-    }
-}), _descriptor11 = _applyDecoratedDescriptor(_class.prototype, 'is_purchase_lock_on', [_mobx.observable], {
-    enumerable: true,
-    initializer: function initializer() {
-        return false;
-    }
-}), _descriptor12 = _applyDecoratedDescriptor(_class.prototype, 'is_chart_asset_info_visible', [_mobx.observable], {
+}), _descriptor10 = _applyDecoratedDescriptor(_class.prototype, 'is_chart_asset_info_visible', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return true;
     }
-}), _descriptor13 = _applyDecoratedDescriptor(_class.prototype, 'is_chart_countdown_visible', [_mobx.observable], {
+}), _descriptor11 = _applyDecoratedDescriptor(_class.prototype, 'is_chart_countdown_visible', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'is_chart_layout_default', [_mobx.observable], {
+}), _descriptor12 = _applyDecoratedDescriptor(_class.prototype, 'is_chart_layout_default', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return true;
     }
-}), _descriptor15 = _applyDecoratedDescriptor(_class.prototype, 'is_install_button_visible', [_mobx.observable], {
+}), _descriptor13 = _applyDecoratedDescriptor(_class.prototype, 'is_install_button_visible', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _descriptor16 = _applyDecoratedDescriptor(_class.prototype, 'pwa_prompt_event', [_mobx.observable], {
+}), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'pwa_prompt_event', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return null;
     }
-}), _descriptor17 = _applyDecoratedDescriptor(_class.prototype, 'screen_width', [_mobx.observable], {
+}), _descriptor15 = _applyDecoratedDescriptor(_class.prototype, 'screen_width', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return window.innerWidth;
     }
-}), _descriptor18 = _applyDecoratedDescriptor(_class.prototype, 'toast_messages', [_mobx.observable], {
+}), _descriptor16 = _applyDecoratedDescriptor(_class.prototype, 'toast_messages', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return [];
     }
-}), _descriptor19 = _applyDecoratedDescriptor(_class.prototype, 'is_advanced_duration', [_mobx.observable], {
+}), _descriptor17 = _applyDecoratedDescriptor(_class.prototype, 'is_advanced_duration', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _descriptor20 = _applyDecoratedDescriptor(_class.prototype, 'advanced_duration_unit', [_mobx.observable], {
+}), _descriptor18 = _applyDecoratedDescriptor(_class.prototype, 'advanced_duration_unit', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 't';
     }
-}), _descriptor21 = _applyDecoratedDescriptor(_class.prototype, 'advanced_expiry_type', [_mobx.observable], {
+}), _descriptor19 = _applyDecoratedDescriptor(_class.prototype, 'advanced_expiry_type', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 'duration';
     }
-}), _descriptor22 = _applyDecoratedDescriptor(_class.prototype, 'simple_duration_unit', [_mobx.observable], {
+}), _descriptor20 = _applyDecoratedDescriptor(_class.prototype, 'simple_duration_unit', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 't';
     }
-}), _descriptor23 = _applyDecoratedDescriptor(_class.prototype, 'duration_t', [_mobx.observable], {
+}), _descriptor21 = _applyDecoratedDescriptor(_class.prototype, 'duration_t', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 5;
     }
-}), _descriptor24 = _applyDecoratedDescriptor(_class.prototype, 'duration_s', [_mobx.observable], {
+}), _descriptor22 = _applyDecoratedDescriptor(_class.prototype, 'duration_s', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 15;
     }
-}), _descriptor25 = _applyDecoratedDescriptor(_class.prototype, 'duration_m', [_mobx.observable], {
+}), _descriptor23 = _applyDecoratedDescriptor(_class.prototype, 'duration_m', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 3;
     }
-}), _descriptor26 = _applyDecoratedDescriptor(_class.prototype, 'duration_h', [_mobx.observable], {
+}), _descriptor24 = _applyDecoratedDescriptor(_class.prototype, 'duration_h', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 1;
     }
-}), _descriptor27 = _applyDecoratedDescriptor(_class.prototype, 'duration_d', [_mobx.observable], {
+}), _descriptor25 = _applyDecoratedDescriptor(_class.prototype, 'duration_d', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 1;
     }
-}), _descriptor28 = _applyDecoratedDescriptor(_class.prototype, 'is_blurred', [_mobx.observable], {
+}), _descriptor26 = _applyDecoratedDescriptor(_class.prototype, 'is_blurred', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'onChangeUiStore', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'onChangeUiStore'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleResize', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'handleResize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_mobile', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_mobile'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_tablet', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_tablet'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showBlur', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'showBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideBlur', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'hideBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleAccountsDialog', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleAccountsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartLayout', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartAssetInfo', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartAssetInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartCountdown', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartCountdown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePurchaseLock', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePurchaseLock'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePurchaseConfirmation', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePurchaseConfirmation'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleDarkMode', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleDarkMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleSettingsDialog', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleSettingsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showLanguageDialog', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'showLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideLanguageDialog', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'hideLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'openPositionsDrawer', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'openPositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePositionsDrawer', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleServicesErrorModal', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleServicesErrorModal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showMainDrawer', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'showMainDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showNotificationsDrawer', [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, 'showNotificationsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideDrawers', [_dec20], Object.getOwnPropertyDescriptor(_class.prototype, 'hideDrawers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showInstallButton', [_dec21], Object.getOwnPropertyDescriptor(_class.prototype, 'showInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideInstallButton', [_dec22], Object.getOwnPropertyDescriptor(_class.prototype, 'hideInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setPWAPromptEvent', [_dec23], Object.getOwnPropertyDescriptor(_class.prototype, 'setPWAPromptEvent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addToastMessage', [_dec24], Object.getOwnPropertyDescriptor(_class.prototype, 'addToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeToastMessage', [_dec25], Object.getOwnPropertyDescriptor(_class.prototype, 'removeToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeAllToastMessages', [_dec26], Object.getOwnPropertyDescriptor(_class.prototype, 'removeAllToastMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setHasOnlyForwardingContracts', [_dec27], Object.getOwnPropertyDescriptor(_class.prototype, 'setHasOnlyForwardingContracts'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'onChangeUiStore', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'onChangeUiStore'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleResize', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'handleResize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_mobile', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_mobile'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_tablet', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_tablet'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showBlur', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'showBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideBlur', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'hideBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleAccountsDialog', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleAccountsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartLayout', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartAssetInfo', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartAssetInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartCountdown', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartCountdown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleDarkMode', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleDarkMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleSettingsDialog', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleSettingsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showLanguageDialog', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'showLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideLanguageDialog', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'hideLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'openPositionsDrawer', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'openPositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePositionsDrawer', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleServicesErrorModal', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleServicesErrorModal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showMainDrawer', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'showMainDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showNotificationsDrawer', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'showNotificationsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideDrawers', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'hideDrawers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showInstallButton', [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, 'showInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideInstallButton', [_dec20], Object.getOwnPropertyDescriptor(_class.prototype, 'hideInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setPWAPromptEvent', [_dec21], Object.getOwnPropertyDescriptor(_class.prototype, 'setPWAPromptEvent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addToastMessage', [_dec22], Object.getOwnPropertyDescriptor(_class.prototype, 'addToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeToastMessage', [_dec23], Object.getOwnPropertyDescriptor(_class.prototype, 'removeToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeAllToastMessages', [_dec24], Object.getOwnPropertyDescriptor(_class.prototype, 'removeAllToastMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setHasOnlyForwardingContracts', [_dec25], Object.getOwnPropertyDescriptor(_class.prototype, 'setHasOnlyForwardingContracts'), _class.prototype)), _class));
 exports.default = UIStore;
 
 /***/ }),
@@ -32798,7 +32185,7 @@ var GTM = function () {
             settings: {
                 theme: root_store.ui.is_dark_mode_on ? 'dark' : 'light',
                 positions_drawer: root_store.ui.is_positions_drawer_on ? 'open' : 'closed',
-                purchase_confirm: root_store.ui.is_purchase_confirm_on ? 'enabled' : 'disabled',
+                // purchase_confirm: root_store.ui.is_purchase_confirm_on ? 'enabled' : 'disabled',
                 chart: {
                     toolbar_position: root_store.ui.is_chart_layout_default ? 'bottom' : 'left',
                     chart_asset_info: root_store.ui.is_chart_asset_info_visible ? 'visible' : 'hidden',

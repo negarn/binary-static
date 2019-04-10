@@ -514,7 +514,8 @@ var ClientBase = function () {
                 });
             };
 
-            can_upgrade_to = canUpgrade('costarica', 'iom', 'malta', 'maltainvest');
+            // TODO [->svg]
+            can_upgrade_to = canUpgrade('costarica', 'svg', 'iom', 'malta', 'maltainvest');
             if (can_upgrade_to) {
                 type = can_upgrade_to === 'maltainvest' ? 'financial' : 'real';
             }
@@ -595,7 +596,7 @@ var ClientBase = function () {
         return is_from_crypto ? !is_to_crypto : is_to_crypto;
     };
 
-    var hasCostaricaAccount = function hasCostaricaAccount() {
+    var hasSvgAccount = function hasSvgAccount() {
         return !!getAllLoginids().find(function (loginid) {
             return (/^CR/.test(loginid)
             );
@@ -643,7 +644,7 @@ var ClientBase = function () {
         getLandingCompanyValue: getLandingCompanyValue,
         getRiskAssessment: getRiskAssessment,
         canTransferFunds: canTransferFunds,
-        hasCostaricaAccount: hasCostaricaAccount,
+        hasSvgAccount: hasSvgAccount,
         canChangeCurrency: canChangeCurrency
     };
 }();
@@ -1016,7 +1017,8 @@ var GTM = function () {
             data.event = login_event;
             BinarySocket.wait('mt5_login_list').then(function (response) {
                 (response.mt5_login_list || []).forEach(function (obj) {
-                    var acc_type = (ClientBase.getMT5AccountType(obj.group) || '').replace('real_vanuatu', 'financial').replace('vanuatu_', '').replace('costarica', 'gaming'); // i.e. financial_cent, demo_cent, demo_gaming, real_gaming
+                    var acc_type = (ClientBase.getMT5AccountType(obj.group) || '').replace('real_vanuatu', 'financial').replace('vanuatu_', '').replace(/costarica|svg/, 'gaming'); // i.e. financial_cent, demo_cent, demo_gaming, real_gaming
+                    // TODO [->svg]
                     if (acc_type) {
                         data['mt5_' + acc_type + '_id'] = obj.login;
                     }
@@ -9633,7 +9635,6 @@ var BinaryLoader = function () {
 
     var afterContentChange = function afterContentChange(e) {
         Page.onLoad();
-        GTM.pushDataLayer({ event: 'page_load' });
 
         var this_page = e.detail.getAttribute('data-page');
         if (Object.prototype.hasOwnProperty.call(pages_config, this_page)) {
@@ -9645,6 +9646,8 @@ var BinaryLoader = function () {
         ContentVisibility.init();
 
         BinarySocket.wait('authorize', 'website_status', 'landing_company').then(function () {
+            GTM.pushDataLayer({ event: 'page_load' }); // we need website_status.clients_country
+
             // first time load.
             var last_image = $('#content img').last();
             if (last_image) {
@@ -10308,8 +10311,9 @@ var Client = function () {
 
         var upgrade_link = void 0;
         if (upgrade_info.can_upgrade_to) {
+            // TODO [->svg]
             var upgrade_link_map = {
-                realws: ['costarica', 'iom', 'malta'],
+                realws: ['costarica', 'svg', 'iom', 'malta'],
                 maltainvestws: ['maltainvest']
             };
             upgrade_link = Object.keys(upgrade_link_map).find(function (link) {
@@ -10854,15 +10858,16 @@ var Header = function () {
         BinarySocket.wait('authorize', 'landing_company').then(function () {
             var get_account_status = void 0,
                 status = void 0;
-            var is_costarica = Client.get('landing_company_shortcode') === 'costarica';
-            var necessary_withdrawal_fields = is_costarica ? State.getResponse('landing_company.financial_company.requirements.withdrawal') : [];
-            var necessary_signup_fields = is_costarica ? State.getResponse('landing_company.financial_company.requirements.signup').map(function (field) {
+            // TODO [->svg]
+            var is_svg = Client.get('landing_company_shortcode') === 'costarica' || Client.get('landing_company_shortcode') === 'svg';
+            var necessary_withdrawal_fields = is_svg ? State.getResponse('landing_company.financial_company.requirements.withdrawal') : [];
+            var necessary_signup_fields = is_svg ? State.getResponse('landing_company.financial_company.requirements.signup').map(function (field) {
                 return field === 'residence' ? 'country' : field;
             }) : [];
 
             var hasMissingRequiredField = function hasMissingRequiredField() {
                 // eslint-disable-next-line no-nested-ternary
-                var required_fields = is_costarica ? [].concat(_toConsumableArray(necessary_signup_fields), _toConsumableArray(necessary_withdrawal_fields)) : Client.isAccountOfType('financial') ? ['account_opening_reason', 'address_line_1', 'address_city', 'phone', 'tax_identification_number', 'tax_residence'].concat(_toConsumableArray(Client.get('residence') === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? ['address_postcode'] : [])) : [];
+                var required_fields = is_svg ? [].concat(_toConsumableArray(necessary_signup_fields), _toConsumableArray(necessary_withdrawal_fields)) : Client.isAccountOfType('financial') ? ['account_opening_reason', 'address_line_1', 'address_city', 'phone', 'tax_identification_number', 'tax_residence'].concat(_toConsumableArray(Client.get('residence') === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? ['address_postcode'] : [])) : [];
 
                 var get_settings = State.getResponse('get_settings');
                 return required_fields.some(function (field) {
@@ -10880,7 +10885,7 @@ var Header = function () {
                 }) < 0 ? Boolean(false) : Boolean(true);
             };
 
-            var has_no_tnc_limit = Client.get('landing_company_shortcode') === 'costarica';
+            var has_no_tnc_limit = is_svg;
 
             var messages = {
                 authenticate: function authenticate() {
@@ -13011,14 +13016,14 @@ var updateTabDisplay = __webpack_require__(/*! ../../_common/tab_selector */ "./
             e.g. 'mt5fin:vanuatu' will match if clients mt5 financial company shortcode is 'vanuatu'
 
     Examples:
-        Show only for logged in clients with costarica landing company:
-            data-show='costarica'
+        Show only for logged in clients with svg landing company:
+            data-show='svg'
 
-        Show for costarica and malta:
-            data-show='costarica, malta'
+        Show for svg and malta:
+            data-show='svg, malta'
 
-        Hide for costarica:
-            data-show='-costarica'
+        Hide for svg:
+            data-show='-svg'
 
         Hide for malta and maltainvest:
             data-show='-malta, -maltainvest'
@@ -13031,9 +13036,9 @@ var updateTabDisplay = __webpack_require__(/*! ../../_common/tab_selector */ "./
 
     Prohibited values:
         Cannot mix includes and excludes:
-            data-show='costarica, -malta' -> throws error
+            data-show='svg, -malta' -> throws error
         Shortcodes are case sensitive:
-            data-show='Costarica'         -> throws error
+            data-show='SVG'         -> throws error
 */
 
 var visible_classname = 'data-show-visible';
@@ -29160,8 +29165,9 @@ var FinancialAssessment = function () {
             event.preventDefault();
             submitForm();
         });
+        // TODO [->svg]
         BinarySocket.wait('landing_company').then(function () {
-            if (/^(costarica|maltainvest)$/.test(Client.get('landing_company_shortcode'))) {
+            if (/^(costarica|svg|maltainvest)$/.test(Client.get('landing_company_shortcode'))) {
                 getElementById('risk_disclaimer').setVisibility(1);
             }
         });
@@ -29533,7 +29539,8 @@ var LimitsInit = function () {
                 elementTextContent(el_withdraw_limit, localize('Your [_1] day withdrawal limit is currently [_2] [_3] (or equivalent in other currency).', [limits.num_of_days, currency, days_limit]));
                 elementTextContent(el_withdrawn, localize('You have already withdrawn the equivalent of [_1] [_2] in aggregate over the last [_3] days.', [currency, limits.withdrawal_for_x_days_monetary, limits.num_of_days]));
                 elementTextContent(el_withdraw_limit_agg, localize('Therefore your current immediate maximum withdrawal (subject to your account having sufficient funds) is [_1] [_2] (or equivalent in other currency).', [currency, remainder]));
-            } else if (Client.get('landing_company_shortcode' === 'costarica')) {
+            } else if (Client.get('landing_company_shortcode' === 'costarica') || Client.get('landing_company_shortcode' === 'svg')) {
+                // TODO [->svg]
                 elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1] [_2].', [currency, days_limit]));
                 elementTextContent(el_withdrawn, localize('You have already withdrawn [_1] [_2].', [currency, limits.withdrawal_since_inception_monetary]));
                 elementTextContent(el_withdraw_limit_agg, localize('Therefore your current immediate maximum withdrawal (subject to your account having sufficient funds) is [_1] [_2].', [currency, remainder]));
@@ -30173,7 +30180,8 @@ var PersonalDetails = function () {
             var account_status = State.getResponse('get_account_status').status;
             get_settings_data = State.getResponse('get_settings');
             is_fully_authenticated = checkStatus(account_status, 'authenticated');
-            has_changeable_fields = Client.get('landing_company_shortcode') === 'costarica' && !is_fully_authenticated;
+            // TODO [->svg]
+            has_changeable_fields = (Client.get('landing_company_shortcode') === 'costarica' || Client.get('landing_company_shortcode') === 'svg') && !is_fully_authenticated;
 
             if (!residence) {
                 displayResidenceList();
@@ -33809,7 +33817,8 @@ var RealAccOpening = function () {
             if (AccountOpening.redirectAccount()) return;
 
             BinarySocket.wait('landing_company').then(function () {
-                if (State.getResponse('authorize.upgradeable_landing_companies').indexOf('costarica') !== -1) {
+                // TODO [->svg]
+                if (State.getResponse('authorize.upgradeable_landing_companies').indexOf('svg') !== -1 || State.getResponse('authorize.upgradeable_landing_companies').indexOf('costarica') !== -1) {
                     getElementById('risk_disclaimer').setVisibility(1);
                 }
 
@@ -34541,7 +34550,8 @@ var SetCurrency = function () {
             var landing_company = State.getResponse('landing_company');
             var currencies = State.getResponse('payout_currencies');
 
-            if (Client.get('landing_company_shortcode') === 'costarica') {
+            // TODO [->svg]
+            if (Client.get('landing_company_shortcode') === 'costarica' || Client.get('landing_company_shortcode') === 'svg') {
                 currencies = getCurrencies(landing_company);
             }
             var $fiat_currencies = $('<div/>');
