@@ -14,7 +14,6 @@
         <meta charset="utf-8" />
         <meta name="google-site-verification" content="Myh35QddfEArh0686LcO2zMjrgv0C7L4FCBU0k0oZvU" />
         <script type="text/javascript">
-            var redirectTimeOut;
             function getCookieItem(sKey) {
                 'use strict';
                 if (!sKey) { return null; }
@@ -53,7 +52,7 @@
                 return /(www|staging)\.binary\.com/i.test(window.location.hostname);
             }
             function pushEvent() {
-                if(isGtmApplicable()) {
+                if(true) {
                     dataLayer.push({
                         'event': 'page_load',
                         'eventCallback': function() {
