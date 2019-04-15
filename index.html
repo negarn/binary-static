@@ -59,6 +59,8 @@
                             redirect();
                         }
                     });
+                } else {
+                    redirect();
                 }
             }
 
@@ -86,7 +88,6 @@
                                 lang = getLanguage(response.website_status.clients_country);
                             }
                             ws.close();
-                            redirect();
                             pushEvent(); // we need website_status.clients_country
                         }
                     };

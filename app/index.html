@@ -52,13 +52,15 @@
                 return /www\.binary\.com/i.test(window.location.hostname);
             }
             function pushEvent() {
-                if(isGtmApplicable()) {
+                if(true) {
                     dataLayer.push({
                         'event': 'page_load',
                         'eventCallback': function() {
                             redirect();
                         }
                     });
+                } else {
+                    redirect();
                 }
             }
 
@@ -83,7 +85,6 @@
                             lang = getLanguage(response.website_status.clients_country);
                         }
                         ws.close();
-                        redirect();
                         pushEvent(); // we need website_status.clients_country
                     }
                 };
