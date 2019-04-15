@@ -11079,7 +11079,7 @@ var LoggedInHandler = function () {
                 redirect_url = sessionStorage.getItem('redirect_url');
                 sessionStorage.removeItem('redirect_url');
 
-                var is_app_2 = redirect_url.includes('/app/');
+                var is_app_2 = (typeof redirect_url === 'string' || redirect_url instanceof String) && redirect_url.includes('/app/');
                 storeClientAccounts(account_list, is_app_2);
             } else {
                 Client.doLogout({ logout: 1 });
@@ -23500,7 +23500,7 @@ var TradingEvents = function () {
             var ask_price = e.currentTarget.getAttribute('data-ask-price');
             var params = { buy: id, price: ask_price, passthrough: {} };
             Array.prototype.slice.call(e.currentTarget.attributes).filter(function (attr) {
-                if (!/^data/.test(attr.name) || /^data-balloon$/.test(attr.name) || /data-balloon/.test(attr.name)) {
+                if (!/^data/.test(attr.name) || /^data-balloon$/.test(attr.name) || /data-balloon/.test(attr.name) || /^data-passthrough$/.test(attr.name)) {
                     return false;
                 }
                 return true;
@@ -25318,6 +25318,7 @@ var Process = function () {
     var onExpiryTypeChange = function onExpiryTypeChange(value) {
         var $expiry_type = $('#expiry_type');
         var validated_value = value && $expiry_type.find('option[value=' + value + ']').length ? value : 'duration';
+        var is_edge = window.navigator.userAgent.indexOf('Edge') !== -1;
         $expiry_type.val(validated_value);
 
         var make_price_request = 0;
@@ -25328,6 +25329,9 @@ var Process = function () {
                 make_price_request = Durations.selectEndDate(moment(Defaults.get('expiry_date'))) ? -1 : 1;
             }
             Defaults.remove('duration_units', 'duration_amount');
+            if (is_edge) {
+                document.getSelection().empty(); // microsoft edge 18 automatically start selecting text when select expiry time after changing expiry type to end time
+            }
         } else {
             StartDates.enable();
             Durations.display();
