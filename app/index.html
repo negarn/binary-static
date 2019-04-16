@@ -49,10 +49,10 @@
                 window.location.href = (/\/app\//.test(window.location.pathname) ? '' : 'app/') + (lang || 'en').toLowerCase() + '/trade' + window.location.search;
             }
             function isGtmApplicable() {
-                return /www\.binary\.com/i.test(window.location.hostname);
+                return /(www|staging)\.binary\.(com|me)/i.test(window.location.hostname);
             }
             function pushEvent() {
-                if(true) {
+                if(isGtmApplicable()) {
                     dataLayer.push({
                         'event': 'page_load',
                         'eventCallback': function() {
@@ -69,9 +69,6 @@
             }
             var lang = getCookieItem('language');
             if(lang) {
-                if (/^id$/i.test(lang)) {
-                    lang = 'en';
-                }
                 redirect();
             } else {
                 var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1');
