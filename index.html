@@ -37,7 +37,7 @@
                     'zh_cn': 'cn',
                 };
                 var conLang = 'en';
-                if(country) {
+                if (country) {
                     Object.keys(langs).map(function(l) {
                         if((new RegExp(langs[l], 'i')).test(country)) conLang = l;
                     });
@@ -50,19 +50,28 @@
                 var is_logged_in = client_info && client_info['token'];
                 window.location.href = (lang || 'en').toLowerCase() + '/' + (is_logged_in ? 'trading' : 'home') + '.html' + window.location.search;
             }
+            function isDelayedRedirect() {
+                if (isGtmApplicable() && !redirectTimeOut) {
+                    redirectTimeOut = setTimeout(redirect, 3000);
+                } else {
+                    clearTimeout(redirectTimeOut);
+                    redirect();
+                }
+            }
             function isGtmApplicable() {
-                return /(www|staging)\.binary\.(com|me)/i.test(window.location.hostname);
+                // return /(www|staging)\.binary\.(com|me)/i.test(window.location.hostname);
+                return true;
             }
             function pushEvent() {
-                if (true) {
+                if (isGtmApplicable()) {
                     dataLayer.push({
                         'event': 'page_load',
                         'eventCallback': function() {
-                            redirect();
+                            isDelayedRedirect();
                         }
                     });
                 } else {
-                    redirect();
+                    isDelayedRedirect();
                 }
             }
 
@@ -84,16 +93,7 @@
                             lang = getLanguage(response.website_status.clients_country);
                         }
                         ws.close();
-                        // we need website_status.clients_country for page_load event of GTM
-                        if (!!window.google_tag_manager) {
-                            // Google Tag Manager has already been loaded
-                            pushEvent();
-                        } else {
-                            window.addEventListener('gtm_loaded', function() {
-                                // Google Tag Manager has been loaded
-                                pushEvent();
-                            });
-                        }
+                        pushEvent(); // we need website_status.clients_country
                     }
                 };
             }
@@ -106,7 +106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script data-cfasync="false">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'//www.googletagmanager.com/gtm.js?id='+i+dl;j.addEventListener('load',function(){var _ge=new CustomEvent('gtm_loaded',{bubbles:true});d.dispatchEvent(_ge);});f.parentNode.insertBefore(j,f);
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-MZWFF7');</script>
 <!-- End Google Tag Manager -->
     </body>
