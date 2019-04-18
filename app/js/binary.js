@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_toke":"api_toke","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"5189d05e3eada5e2fb30","account_password":"5b98c5e0011cf272df7f","api_toke":"856a16352b5b0f7b5fb2","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"c32b2b5dbf9407003f81","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"89c32cd4391ea5a712d9","portfolio":"aab793ab7fcad630040c","statement":"64dc835a679e2e68c64f","self_exclusion":"226ac0134b0354423868","settings":"90edf5f4d945de1a9104","vendors~smart_chart":"cb46f50490637cf4e2ac","smart_chart":"88116283be894294b9e5"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_token":"api_token","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"5189d05e3eada5e2fb30","account_password":"5b98c5e0011cf272df7f","api_token":"1bcb0c881a41de9bfd6e","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"3cb8eb3c646183fd430a","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"89c32cd4391ea5a712d9","portfolio":"aab793ab7fcad630040c","statement":"64dc835a679e2e68c64f","self_exclusion":"226ac0134b0354423868","settings":"90edf5f4d945de1a9104","vendors~smart_chart":"013ca5ddbeb1ffbc57a1","smart_chart":"756fb58b2565226a920f"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -3258,6 +3258,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -3270,71 +3272,173 @@ var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-type
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _reactPose = __webpack_require__(/*! react-pose */ "./node_modules/react-pose/dist/react-pose.es.js");
+
+var _reactPose2 = _interopRequireDefault(_reactPose);
+
 var _button = __webpack_require__(/*! ../../Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
 
 var _button2 = _interopRequireDefault(_button);
 
+var _connect = __webpack_require__(/*! ../../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var FullPageModal = function FullPageModal(_ref) {
-    var cancel_button_text = _ref.cancel_button_text,
-        children = _ref.children,
-        confirm_button_text = _ref.confirm_button_text,
-        onConfirm = _ref.onConfirm,
-        onCancel = _ref.onCancel,
-        is_visible = _ref.is_visible,
-        title = _ref.title;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    if (is_visible) {
-        return _react2.default.createElement(
-            'div',
-            { className: 'full-page-modal' },
-            _react2.default.createElement(
-                'div',
-                { className: 'full-page-modal__dialog' },
-                _react2.default.createElement(
-                    'h1',
-                    { className: 'full-page-modal__header' },
-                    title
-                ),
-                _react2.default.createElement(
-                    'p',
-                    { className: 'full-page-modal__content' },
-                    children
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'full-page-modal__footer' },
-                    onCancel && _react2.default.createElement(_button2.default, {
-                        className: (0, _classnames2.default)('full-page-modal__button', 'btn--secondary btn--secondary--orange'),
-                        has_effect: true,
-                        text: cancel_button_text,
-                        onClick: onCancel
-                    }),
-                    _react2.default.createElement(_button2.default, {
-                        className: (0, _classnames2.default)('full-page-modal__button', 'btn--primary btn--primary--orange'),
-                        has_effect: true,
-                        text: confirm_button_text,
-                        onClick: onConfirm
-                    })
-                )
-            )
-        );
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ModalWrapper = _reactPose2.default.div({
+    enter: {
+        y: 0,
+        opacity: 1,
+        delay: 300,
+        transition: {
+            default: { duration: 250 }
+        }
+    },
+    exit: {
+        y: 50,
+        opacity: 0,
+        transition: { duration: 250 }
+    }
+});
+
+var ModalBackground = _reactPose2.default.div({
+    enter: { opacity: 1 },
+    exit: { opacity: 0 }
+});
+
+var FullPageModal = function (_React$Component) {
+    _inherits(FullPageModal, _React$Component);
+
+    function FullPageModal() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, FullPageModal);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = FullPageModal.__proto__ || Object.getPrototypeOf(FullPageModal)).call.apply(_ref, [this].concat(args))), _this), _this.handleCancel = function () {
+            if (_this.props.is_closed_on_cancel) {
+                _this.props.hideAppBlur();
+            }
+            _this.props.onCancel();
+        }, _this.handleConfirm = function () {
+            if (_this.props.is_closed_on_confirm) {
+                _this.props.hideAppBlur();
+            }
+            _this.props.onConfirm();
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
-    return _react2.default.createElement(_react2.default.Fragment, null);
+    _createClass(FullPageModal, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            if (this.props.is_visible) {
+                this.props.showAppBlur();
+            }
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            if (this.props.is_visible) {
+                this.props.showAppBlur();
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _props = this.props,
+                cancel_button_text = _props.cancel_button_text,
+                children = _props.children,
+                confirm_button_text = _props.confirm_button_text,
+                onCancel = _props.onCancel,
+                is_visible = _props.is_visible,
+                title = _props.title;
+
+            return _react2.default.createElement(
+                _reactPose.PoseGroup,
+                null,
+                is_visible && [_react2.default.createElement(ModalBackground, {
+                    className: 'full-page-modal__background',
+                    key: 'full-page-modal__background'
+                }), _react2.default.createElement(
+                    ModalWrapper,
+                    {
+                        className: 'full-page-modal__wrapper',
+                        key: 'full-page-modal__wrapper'
+                    },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'full-page-modal__dialog' },
+                        _react2.default.createElement(
+                            'h1',
+                            { className: 'full-page-modal__header' },
+                            title
+                        ),
+                        _react2.default.createElement(
+                            'p',
+                            { className: 'full-page-modal__content' },
+                            children
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'full-page-modal__footer' },
+                            onCancel && _react2.default.createElement(_button2.default, {
+                                className: (0, _classnames2.default)('full-page-modal__button', 'btn--secondary', 'btn--secondary--orange'),
+                                has_effect: true,
+                                text: cancel_button_text,
+                                onClick: this.handleCancel
+                            }),
+                            _react2.default.createElement(_button2.default, {
+                                className: (0, _classnames2.default)('full-page-modal__button', 'btn--primary', 'btn--primary--orange'),
+                                has_effect: true,
+                                text: confirm_button_text,
+                                onClick: this.handleConfirm
+                            })
+                        )
+                    )
+                )]
+            );
+        }
+    }]);
+
+    return FullPageModal;
+}(_react2.default.Component);
+
+FullPageModal.defaultProps = {
+    is_closed_on_cancel: true,
+    is_closed_on_confirm: true
 };
 
 FullPageModal.propTypes = {
     cancel_button_text: _propTypes2.default.string,
     confirm_button_text: _propTypes2.default.string,
+    hideAppBlur: _propTypes2.default.func,
+    is_closed_on_cancel: _propTypes2.default.bool,
+    is_closed_on_confirm: _propTypes2.default.bool,
     is_visible: _propTypes2.default.bool,
     onCancel: _propTypes2.default.func,
     onConfirm: _propTypes2.default.func,
+    showAppBlur: _propTypes2.default.func,
     title: _propTypes2.default.string
 };
 
-exports.default = FullPageModal;
+var full_page_modal = (0, _connect.connect)(function (_ref2) {
+    var ui = _ref2.ui;
+    return {
+        hideAppBlur: ui.hideAppBlur,
+        showAppBlur: ui.showAppBlur
+    };
+})(FullPageModal);
+exports.default = full_page_modal;
 
 /***/ }),
 
@@ -4414,8 +4518,8 @@ var PositionsDrawer = function (_React$Component) {
         key: 'render',
         value: function render() {
             var _props = this.props,
+                all_positions = _props.all_positions,
                 active_contract_id = _props.active_contract_id,
-                active_positions = _props.active_positions,
                 error = _props.error,
                 currency = _props.currency,
                 is_contract_mode = _props.is_contract_mode,
@@ -4440,7 +4544,7 @@ var PositionsDrawer = function (_React$Component) {
                 body_content = _react2.default.createElement(_emptyPortfolioMessage2.default, null);
             } else {
                 // Show only 4 most recent open contracts
-                body_content = active_positions.slice(0, 4).map(function (portfolio_position) {
+                body_content = all_positions.slice(0, 4).map(function (portfolio_position) {
                     return _react2.default.createElement(
                         _reactTransitionGroup.CSSTransition,
                         {
@@ -4512,7 +4616,7 @@ var PositionsDrawer = function (_React$Component) {
 
 PositionsDrawer.propTypes = {
     active_contract_id: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
-    active_positions: _mobxReact.PropTypes.arrayOrObservableArray,
+    all_positions: _mobxReact.PropTypes.arrayOrObservableArray,
     children: _propTypes2.default.any,
     currency: _propTypes2.default.string,
     error: _propTypes2.default.string,
@@ -4538,7 +4642,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
         server_time: common.server_time,
         currency: client.currency,
         active_contract_id: modules.contract.contract_id,
-        active_positions: modules.portfolio.active_positions,
+        all_positions: modules.portfolio.all_positions,
         error: modules.portfolio.error,
         is_contract_mode: modules.smart_chart.is_contract_mode,
         is_empty: modules.portfolio.is_empty,
@@ -5086,8 +5190,8 @@ var SettingsDialog = function (_React$PureComponent) {
         var _this = _possibleConstructorReturn(this, (SettingsDialog.__proto__ || Object.getPrototypeOf(SettingsDialog)).call(this, props));
 
         _this.handleClickOutside = function (event) {
-            var footer_settings_btn = !event.target.classList.contains('ic-settings', 'ic-settings ic-settings--active');
-            if (_this.wrapper_ref && !_this.wrapper_ref.contains(event.target) && _this.props.is_open && footer_settings_btn) {
+            if (_this.wrapper_ref && !_this.wrapper_ref.contains(event.target) && _this.props.is_open) {
+                _this.props.hideFullBlur();
                 _this.props.toggleDialog();
             }
         };
@@ -5129,7 +5233,7 @@ var SettingsDialog = function (_React$PureComponent) {
         value: function componentDidMount() {
             document.addEventListener('mousedown', this.handleClickOutside);
             this.el.classList.add('settings-dialog');
-            this.props.showBlur();
+            this.props.showFullBlur();
             this.state.modal_root.appendChild(this.el);
         }
     }, {
@@ -5137,11 +5241,8 @@ var SettingsDialog = function (_React$PureComponent) {
         value: function componentWillUnmount() {
             document.removeEventListener('mousedown', this.handleClickOutside);
             this.state.modal_root.removeChild(this.el);
-            this.props.hideBlur();
+            this.props.hideFullBlur();
         }
-
-        // TODO - Simplify this
-
     }, {
         key: 'render',
         value: function render() {
@@ -5182,11 +5283,11 @@ var SettingsDialog = function (_React$PureComponent) {
 }(_react2.default.PureComponent);
 
 SettingsDialog.propTypes = {
-    hideBlur: _propTypes2.default.func,
+    hideFullBlur: _propTypes2.default.func,
     is_dark_mode: _propTypes2.default.bool,
     is_language_dialog_visible: _propTypes2.default.bool,
     is_open: _propTypes2.default.bool,
-    showBlur: _propTypes2.default.func,
+    showFullBlur: _propTypes2.default.func,
     toggleDialog: _propTypes2.default.func
 };
 
@@ -5779,6 +5880,12 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _url = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js");
+
+var _PageError = __webpack_require__(/*! ../../../Modules/PageError */ "./src/javascript/app_2/Modules/PageError/index.js");
+
+var _PageError2 = _interopRequireDefault(_PageError);
+
 var _localize = __webpack_require__(/*! ./localize.jsx */ "./src/javascript/app_2/App/Components/Elements/localize.jsx");
 
 var _localize2 = _interopRequireDefault(_localize);
@@ -5786,36 +5893,39 @@ var _localize2 = _interopRequireDefault(_localize);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var LoginPrompt = function LoginPrompt(_ref) {
-    var IconComponent = _ref.IconComponent,
-        onLogin = _ref.onLogin,
-        onSignup = _ref.onSignup;
-    return _react2.default.createElement(
-        'div',
-        { className: 'login-prompt' },
-        _react2.default.createElement(
-            'div',
-            { className: 'login-prompt__icon' },
-            IconComponent && // TODO: needs a general icon in case not specified in route
-            _react2.default.createElement(IconComponent, { className: 'login-prompt__icon-svg disabled' })
-        ),
-        _react2.default.createElement(
-            'div',
-            { className: 'login-prompt__message' },
-            _react2.default.createElement(_localize2.default, {
-                str: 'Please [_1]log in[_2] or [_3]sign up[_2] to view this page.',
-                replacers: {
-                    '1_2': _react2.default.createElement('a', { href: 'javascript:;', onClick: onLogin }),
-                    '3_2': _react2.default.createElement('a', { href: 'javascript:;', onClick: onSignup })
-                }
-            })
-        )
-    );
+    var onLogin = _ref.onLogin,
+        onSignup = _ref.onSignup,
+        page_title = _ref.page_title;
+    return _react2.default.createElement(_PageError2.default, {
+        header: _react2.default.createElement(_localize2.default, {
+            str: '[_1] page is only[_2]available for existing clients.',
+            replacers: {
+                '1': page_title || 'This',
+                '2': _react2.default.createElement('br', { key: 0 })
+            }
+        }),
+        messages: [_react2.default.createElement(_localize2.default, {
+            key: 0,
+            str: 'If you have an active account, please [_1]Log in[_2] for full access. Otherwise, please [_3]Sign up[_4] to start trading.',
+            replacers: {
+                '1_2': _react2.default.createElement('a', { className: 'link', href: 'javascript:;', onClick: onLogin }),
+                '3_4': _react2.default.createElement('a', { className: 'link', href: 'javascript:;', onClick: onSignup })
+            }
+        })]
+    });
 };
 
 LoginPrompt.propTypes = {
-    IconComponent: _propTypes2.default.func,
     onLogin: _propTypes2.default.func,
-    onSignup: _propTypes2.default.func
+    onSignup: _propTypes2.default.func,
+    page_title: _propTypes2.default.string
+};
+
+// TODO - Remove this default setting once sign-up has been integrated to app 2
+LoginPrompt.defaultProps = {
+    onSignup: function onSignup() {
+        window.open((0, _url.urlFor)('new-account', undefined, undefined, true));
+    }
 };
 
 exports.default = LoginPrompt;
@@ -6128,6 +6238,321 @@ UILoader.propTypes = {
 };
 
 exports.default = UILoader;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/button-highlight-wrapper.jsx":
+/*!************************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/button-highlight-wrapper.jsx ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _buttonHighlight = __webpack_require__(/*! ./button-highlight.jsx */ "./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/button-highlight.jsx");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var HighlightWrapper = function (_React$PureComponent) {
+    _inherits(HighlightWrapper, _React$PureComponent);
+
+    function HighlightWrapper() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, HighlightWrapper);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = HighlightWrapper.__proto__ || Object.getPrototypeOf(HighlightWrapper)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            left: 0,
+            width: 0
+        }, _this.onClick = function (e, buttonClick) {
+            if (!e.target) return;
+            _this.updateHighlightPosition(e.target.closest('button'));
+            if (typeof buttonClick === 'function') {
+                buttonClick();
+            }
+        }, _this.resetHighlight = function () {
+            _this.setState({
+                left: 0,
+                width: 0
+            });
+        }, _this.updateHighlightPosition = function (el) {
+            if (!el) return;
+            var left = el.offsetLeft,
+                width = el.offsetWidth;
+
+            if (_this.state.width !== width) {
+                _this.setState({ width: width });
+            }
+            if (_this.state.left !== left) {
+                _this.setState({ left: left });
+            }
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(HighlightWrapper, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var active_button_el = [].concat(_toConsumableArray(this.node.getElementsByClassName('button-menu__button--active')))[0];
+            if (!this.node) return;
+            this.updateHighlightPosition(active_button_el);
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            var active_button_el = [].concat(_toConsumableArray(this.node.getElementsByClassName('button-menu__button--active')))[0];
+            if (active_button_el) {
+                this.updateHighlightPosition(active_button_el);
+            } else if (this.state.left !== 0 || this.state.width !== 0) {
+                this.resetHighlight(); // clear highlight when active element doesn't exist
+            }
+        }
+    }, {
+        key: 'componentWillUnMount',
+        value: function componentWillUnMount() {
+            window.removeEventListener('resize', this.updateHighlightPosition);
+            this.resetHighlight();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _props = this.props,
+                className = _props.className,
+                other_props = _objectWithoutProperties(_props, ['className']);
+
+            var props = _extends({
+                className: (0, _classnames2.default)('button-menu__wrapper', className)
+            }, other_props);
+
+            return _react2.default.createElement(
+                'div',
+                _extends({ ref: function ref(node) {
+                        return _this2.node = node;
+                    } }, props),
+                _react2.default.Children.map(this.props.children, function (child) {
+                    return _react2.default.cloneElement(child, {
+                        onClick: function onClick(e) {
+                            return _this2.onClick(e, child.props.onClick);
+                        }
+                    });
+                }),
+                _react2.default.createElement(_buttonHighlight.Highlight, { left: this.state.left, width: this.state.width })
+            );
+        }
+    }]);
+
+    return HighlightWrapper;
+}(_react2.default.PureComponent);
+
+HighlightWrapper.propTypes = {
+    children: _propTypes2.default.array,
+    className: _propTypes2.default.string,
+    timeout: _propTypes2.default.number
+};
+
+exports.default = HighlightWrapper;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/button-highlight.jsx":
+/*!****************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/button-highlight.jsx ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Highlight = undefined;
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Highlight = function Highlight(_ref) {
+    var left = _ref.left,
+        width = _ref.width;
+
+    var border_radius_size = '4px';
+    var highlight_style = {
+        width: width,
+        transform: 'translate3d(' + left + 'px, 0, 0)',
+        'borderTopLeftRadius': left === 0 ? border_radius_size : 0,
+        'borderTopRightRadius': left === 0 ? 0 : border_radius_size,
+        'borderBottomLeftRadius': left === 0 ? border_radius_size : 0,
+        'borderBottomRightRadius': left === 0 ? 0 : border_radius_size
+    };
+
+    return _react2.default.createElement('span', { style: highlight_style, className: 'button-menu--highlight' });
+};
+
+Highlight.propTypes = {
+    left: _propTypes2.default.number,
+    width: _propTypes2.default.number
+};
+
+exports.Highlight = Highlight;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/button-toggle-menu.jsx":
+/*!******************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/button-toggle-menu.jsx ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _button = __webpack_require__(/*! ../button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
+
+var _button2 = _interopRequireDefault(_button);
+
+var _buttonHighlightWrapper = __webpack_require__(/*! ./button-highlight-wrapper.jsx */ "./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/button-highlight-wrapper.jsx");
+
+var _buttonHighlightWrapper2 = _interopRequireDefault(_buttonHighlightWrapper);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ButtonToggleMenu = function ButtonToggleMenu(_ref) {
+    var buttons_arr = _ref.buttons_arr,
+        is_animated = _ref.is_animated,
+        name = _ref.name,
+        onChange = _ref.onChange,
+        value = _ref.value;
+
+    var changeValue = function changeValue(selected_value) {
+        if (value === selected_value) return;
+        onChange({ target: { value: selected_value, name: name } });
+    };
+    var menu = buttons_arr.map(function (val, idx) {
+        var className = (0, _classnames2.default)('button-menu__button', {
+            'button-menu__button--active': val.value === value
+        });
+        return _react2.default.createElement(_button2.default, {
+            key: idx,
+            text: '' + val.text.charAt(0).toUpperCase() + val.text.slice(1),
+            onClick: function onClick() {
+                return changeValue(val.value);
+            },
+            className: className
+        });
+    });
+    return _react2.default.createElement(
+        'div',
+        { className: 'button-menu' },
+        is_animated ? _react2.default.createElement(
+            _buttonHighlightWrapper2.default,
+            null,
+            menu
+        ) : _react2.default.createElement(
+            _react2.default.Fragment,
+            null,
+            menu
+        )
+    );
+};
+
+ButtonToggleMenu.propTypes = {
+    buttons_arr: _propTypes2.default.array,
+    is_animated: _propTypes2.default.bool,
+    name: _propTypes2.default.string,
+    onChange: _propTypes2.default.func,
+    value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
+};
+
+exports.default = ButtonToggleMenu;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/index.js":
+/*!****************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/index.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _buttonToggleMenu = __webpack_require__(/*! ./button-toggle-menu.jsx */ "./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/button-toggle-menu.jsx");
+
+var _buttonToggleMenu2 = _interopRequireDefault(_buttonToggleMenu);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _buttonToggleMenu2.default;
 
 /***/ }),
 
@@ -7478,6 +7903,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -7508,224 +7935,249 @@ var _tooltip2 = _interopRequireDefault(_tooltip);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var InputField = function InputField(_ref) {
-    var checked = _ref.checked,
-        className = _ref.className,
-        classNameInlinePrefix = _ref.classNameInlinePrefix,
-        classNameInput = _ref.classNameInput,
-        classNamePrefix = _ref.classNamePrefix,
-        currency = _ref.currency,
-        data_tip = _ref.data_tip,
-        data_value = _ref.data_value,
-        error_messages = _ref.error_messages,
-        fractional_digits = _ref.fractional_digits,
-        helper = _ref.helper,
-        id = _ref.id,
-        inline_prefix = _ref.inline_prefix,
-        is_autocomplete_disabled = _ref.is_autocomplete_disabled,
-        is_disabled = _ref.is_disabled,
-        is_float = _ref.is_float,
-        is_incrementable = _ref.is_incrementable,
-        is_negative_disabled = _ref.is_negative_disabled,
-        _ref$is_read_only = _ref.is_read_only,
-        is_read_only = _ref$is_read_only === undefined ? false : _ref$is_read_only,
-        _ref$is_signed = _ref.is_signed,
-        is_signed = _ref$is_signed === undefined ? false : _ref$is_signed,
-        _ref$is_unit_at_right = _ref.is_unit_at_right,
-        is_unit_at_right = _ref$is_unit_at_right === undefined ? false : _ref$is_unit_at_right,
-        label = _ref.label,
-        max_length = _ref.max_length,
-        max_value = _ref.max_value,
-        min_value = _ref.min_value,
-        name = _ref.name,
-        onChange = _ref.onChange,
-        onClick = _ref.onClick,
-        placeholder = _ref.placeholder,
-        prefix = _ref.prefix,
-        required = _ref.required,
-        type = _ref.type,
-        unit = _ref.unit,
-        value = _ref.value;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    var has_error = error_messages && !!error_messages.length;
-    var has_valid_length = true;
-    var max_is_disabled = max_value && +value >= +max_value;
-    var min_is_disabled = min_value && +value <= +min_value;
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-    var changeValue = function changeValue(e, callback) {
-        if (unit) {
-            e.target.value = e.target.value.replace(unit, '').trim();
-        }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-        if (e.target.value === value && type !== 'checkbox') {
-            return;
-        }
+var InputField = function (_React$Component) {
+    _inherits(InputField, _React$Component);
 
-        if (type === 'number' || type === 'tel') {
-            var is_empty = !e.target.value || e.target.value === '' || e.target.value === '  ';
-            var signed_regex = is_signed ? '^([+\-\.0-9])' : '^';
+    function InputField() {
+        _classCallCheck(this, InputField);
 
-            var is_number = new RegExp(signed_regex + '(\\d*)?' + (is_float ? '(\\.\\d+)?' : '') + '$').test(e.target.value);
-
-            var is_not_completed_number = is_float && new RegExp(signed_regex + '(\\.|\\d+\\.)?$').test(e.target.value);
-            // This regex check whether there is any zero at the end of fractional part or not.
-            var has_zero_at_end = new RegExp(signed_regex + '(\\d+)?\\.(\\d+)?[0]+$').test(e.target.value);
-
-            var is_scientific_notation = /e/.test('' + +e.target.value);
-
-            if (max_length && fractional_digits) {
-                has_valid_length = new RegExp(signed_regex + '(\\d{0,' + max_length + '})(\\.\\d{0,' + fractional_digits + '})?$').test(e.target.value);
-            }
-
-            if ((is_number || is_empty) && has_valid_length) {
-                e.target.value = is_empty || is_signed || has_zero_at_end || is_scientific_notation || type === 'tel' ? e.target.value : +e.target.value;
-            } else if (!is_not_completed_number) {
-                e.target.value = value;
-                return;
-            }
-        }
-
-        onChange(e);
-        if (callback) {
-            callback(e);
-        }
-    };
-
-    var getDecimals = function getDecimals(val) {
-        var array_value = typeof val === 'string' ? val.split('.') : val.toString().split('.');
-        return array_value && array_value.length > 1 ? array_value[1].length : 0;
-    };
-
-    var incrementValue = function incrementValue() {
-        if (max_is_disabled) return;
-        var increment_value = void 0;
-
-        var decimal_places = value ? getDecimals(value) : 0;
-        var is_crypto = !!currency && (0, _currency_base.isCryptocurrency)(currency);
-
-        if (is_crypto || !currency && is_float) {
-            var new_value = parseFloat(+value) + parseFloat(1 * Math.pow(10, 0 - decimal_places));
-            increment_value = parseFloat(new_value).toFixed(decimal_places);
-        } else {
-            increment_value = parseFloat(+value + 1).toFixed(decimal_places);
-        }
-        onChange({ target: { value: increment_value, name: name } });
-    };
-
-    var calculateDecrementedValue = function calculateDecrementedValue() {
-        var decrement_value = void 0;
-
-        var decimal_places = value ? getDecimals(value) : 0;
-        var is_crypto = !!currency && (0, _currency_base.isCryptocurrency)(currency);
-
-        if (is_crypto || !currency && is_float) {
-            var new_value = parseFloat(+value) - parseFloat(1 * Math.pow(10, 0 - decimal_places));
-            decrement_value = parseFloat(new_value).toFixed(decimal_places);
-        } else {
-            decrement_value = parseFloat(+value - 1).toFixed(decimal_places);
-        }
-        return decrement_value;
-    };
-
-    var decrementValue = function decrementValue() {
-        if (!value || min_is_disabled) return;
-        var decrement_value = calculateDecrementedValue();
-        if (is_negative_disabled && decrement_value < 0) return;
-        onChange({ target: { value: decrement_value, name: name } });
-    };
-
-    var onKeyPressed = function onKeyPressed(e) {
-        if (e.keyCode === 38) incrementValue(); // up-arrow pressed
-        if (e.keyCode === 40) decrementValue(); // down-arrow pressed
-    };
-
-    var display_value = value;
-
-    if (unit) {
-        display_value = is_unit_at_right ? value + ' ' + unit : unit + ' ' + value;
+        return _possibleConstructorReturn(this, (InputField.__proto__ || Object.getPrototypeOf(InputField)).apply(this, arguments));
     }
 
-    var is_increment_input = is_incrementable && (type === 'number' || type === 'tel');
+    _createClass(InputField, [{
+        key: 'render',
+        value: function render() {
+            var _props = this.props,
+                checked = _props.checked,
+                className = _props.className,
+                classNameInlinePrefix = _props.classNameInlinePrefix,
+                classNameInput = _props.classNameInput,
+                classNamePrefix = _props.classNamePrefix,
+                currency = _props.currency,
+                data_tip = _props.data_tip,
+                data_value = _props.data_value,
+                error_messages = _props.error_messages,
+                fractional_digits = _props.fractional_digits,
+                helper = _props.helper,
+                id = _props.id,
+                inline_prefix = _props.inline_prefix,
+                is_autocomplete_disabled = _props.is_autocomplete_disabled,
+                is_disabled = _props.is_disabled,
+                is_float = _props.is_float,
+                is_incrementable = _props.is_incrementable,
+                is_negative_disabled = _props.is_negative_disabled,
+                _props$is_read_only = _props.is_read_only,
+                is_read_only = _props$is_read_only === undefined ? false : _props$is_read_only,
+                _props$is_signed = _props.is_signed,
+                is_signed = _props$is_signed === undefined ? false : _props$is_signed,
+                _props$is_unit_at_rig = _props.is_unit_at_right,
+                is_unit_at_right = _props$is_unit_at_rig === undefined ? false : _props$is_unit_at_rig,
+                label = _props.label,
+                max_length = _props.max_length,
+                max_value = _props.max_value,
+                min_value = _props.min_value,
+                name = _props.name,
+                onChange = _props.onChange,
+                onClick = _props.onClick,
+                placeholder = _props.placeholder,
+                prefix = _props.prefix,
+                required = _props.required,
+                type = _props.type,
+                unit = _props.unit,
+                value = _props.value;
 
-    var input = _react2.default.createElement(_input2.default, {
-        changeValue: changeValue,
-        checked: checked,
-        className: (0, _classnames2.default)(is_increment_input ? 'input-wrapper__input' : '', inline_prefix ? 'input--has-inline-prefix' : '', 'input', { 'input--error': has_error }, classNameInput),
-        classNameInlinePrefix: classNameInlinePrefix,
-        data_tip: data_tip,
-        data_value: data_value,
-        display_value: display_value,
-        fractional_digits: fractional_digits,
-        has_error: has_error,
-        id: id,
-        inline_prefix: inline_prefix,
-        is_autocomplete_disabled: is_autocomplete_disabled,
-        is_disabled: is_disabled,
-        is_incrementable: is_increment_input,
-        is_read_only: is_read_only,
-        max_length: max_length,
-        name: name,
-        onClick: onClick,
-        onKeyPressed: onKeyPressed,
-        placeholder: placeholder,
-        required: required,
-        type: type
-    });
 
-    var increment_buttons = _react2.default.createElement(_incrementButtons2.default, {
-        max_is_disabled: max_is_disabled,
-        incrementValue: incrementValue,
-        min_is_disabled: min_is_disabled || is_negative_disabled && calculateDecrementedValue() < 0,
-        decrementValue: decrementValue
-    });
+            var has_error = error_messages && !!error_messages.length;
+            var has_valid_length = true;
+            var max_is_disabled = max_value && +value >= +max_value;
+            var min_is_disabled = min_value && +value <= +min_value;
 
-    var input_tooltip = _react2.default.createElement(
-        _tooltip2.default,
-        {
-            className: (0, _classnames2.default)('', { 'tooltip--with-label': label }),
-            alignment: 'left',
-            message: has_error ? error_messages[0] : null,
-            has_error: has_error
-        },
-        !!label && _react2.default.createElement(
-            'label',
-            { htmlFor: name, className: 'input-field__label' },
-            label
-        ),
-        !!helper && _react2.default.createElement(
-            'span',
-            { className: 'input-field__helper' },
-            helper
-        ),
-        is_increment_input ? _react2.default.createElement(
-            'div',
-            { className: 'input-wrapper' },
-            increment_buttons,
-            input
-        ) : input
-    );
+            var changeValue = function changeValue(e, callback) {
+                if (unit) {
+                    e.target.value = e.target.value.replace(unit, '').trim();
+                }
 
-    return _react2.default.createElement(
-        _react2.default.Fragment,
-        null,
-        !!prefix && _react2.default.createElement(
-            'div',
-            { className: classNamePrefix },
-            _react2.default.createElement('span', { className: (0, _classnames2.default)(classNamePrefix + '--symbol', 'symbols', 'symbols--' + prefix.toLowerCase()) })
-        ),
-        _react2.default.createElement(
-            'div',
-            {
-                className: (0, _classnames2.default)('input-field', className)
-            },
-            input_tooltip
-        )
-    );
-};
+                if (e.target.value === value && type !== 'checkbox') {
+                    return;
+                }
+
+                if (type === 'number' || type === 'tel') {
+                    var is_empty = !e.target.value || e.target.value === '' || e.target.value === '  ';
+                    var signed_regex = is_signed ? '^([+-.0-9])' : '^';
+
+                    var is_number = new RegExp(signed_regex + '(\\d*)?' + (is_float ? '(\\.\\d+)?' : '') + '$').test(e.target.value);
+
+                    var is_not_completed_number = is_float && new RegExp(signed_regex + '(\\.|\\d+\\.)?$').test(e.target.value);
+                    // This regex check whether there is any zero at the end of fractional part or not.
+                    var has_zero_at_end = new RegExp(signed_regex + '(\\d+)?\\.(\\d+)?[0]+$').test(e.target.value);
+
+                    var is_scientific_notation = /e/.test('' + +e.target.value);
+
+                    if (max_length && fractional_digits) {
+                        has_valid_length = new RegExp(signed_regex + '(\\d{0,' + max_length + '})(\\.\\d{0,' + fractional_digits + '})?$').test(e.target.value);
+                    }
+
+                    if ((is_number || is_empty) && has_valid_length) {
+                        e.target.value = is_empty || is_signed || has_zero_at_end || is_scientific_notation || type === 'tel' ? e.target.value : +e.target.value;
+                    } else if (!is_not_completed_number) {
+                        e.target.value = value;
+                        return;
+                    }
+                }
+
+                onChange(e);
+                if (callback) {
+                    callback(e);
+                }
+            };
+
+            var getDecimals = function getDecimals(val) {
+                var array_value = typeof val === 'string' ? val.split('.') : val.toString().split('.');
+                return array_value && array_value.length > 1 ? array_value[1].length : 0;
+            };
+
+            var incrementValue = function incrementValue() {
+                if (max_is_disabled) return;
+                var increment_value = void 0;
+
+                var decimal_places = value ? getDecimals(value) : 0;
+                var is_crypto = !!currency && (0, _currency_base.isCryptocurrency)(currency);
+
+                if (is_crypto || !currency && is_float) {
+                    var new_value = parseFloat(+value) + parseFloat(1 * Math.pow(10, 0 - decimal_places));
+                    increment_value = parseFloat(new_value).toFixed(decimal_places);
+                } else {
+                    increment_value = parseFloat(+value + 1).toFixed(decimal_places);
+                }
+                onChange({ target: { value: increment_value, name: name } });
+            };
+
+            var calculateDecrementedValue = function calculateDecrementedValue() {
+                var decrement_value = void 0;
+
+                var decimal_places = value ? getDecimals(value) : 0;
+                var is_crypto = !!currency && (0, _currency_base.isCryptocurrency)(currency);
+
+                if (is_crypto || !currency && is_float) {
+                    var new_value = parseFloat(+value) - parseFloat(1 * Math.pow(10, 0 - decimal_places));
+                    decrement_value = parseFloat(new_value).toFixed(decimal_places);
+                } else {
+                    decrement_value = parseFloat(+value - 1).toFixed(decimal_places);
+                }
+                return decrement_value;
+            };
+
+            var decrementValue = function decrementValue() {
+                if (!value || min_is_disabled) return;
+                var decrement_value = calculateDecrementedValue();
+                if (is_negative_disabled && decrement_value < 0) return;
+                onChange({ target: { value: decrement_value, name: name } });
+            };
+
+            var onKeyPressed = function onKeyPressed(e) {
+                if (e.keyCode === 38) incrementValue(); // up-arrow pressed
+                if (e.keyCode === 40) decrementValue(); // down-arrow pressed
+            };
+
+            var display_value = value;
+
+            if (unit) {
+                display_value = is_unit_at_right ? value + ' ' + unit : unit + ' ' + value;
+            }
+
+            var is_increment_input = is_incrementable && (type === 'number' || type === 'tel');
+
+            var input = _react2.default.createElement(_input2.default, {
+                changeValue: changeValue,
+                checked: checked,
+                className: (0, _classnames2.default)(is_increment_input ? 'input-wrapper__input' : '', inline_prefix ? 'input--has-inline-prefix' : '', 'input', { 'input--error': has_error }, classNameInput),
+                classNameInlinePrefix: classNameInlinePrefix,
+                data_tip: data_tip,
+                data_value: data_value,
+                display_value: display_value,
+                fractional_digits: fractional_digits,
+                has_error: has_error,
+                id: id,
+                inline_prefix: inline_prefix,
+                is_autocomplete_disabled: is_autocomplete_disabled,
+                is_disabled: is_disabled,
+                is_incrementable: is_increment_input,
+                is_read_only: is_read_only,
+                max_length: max_length,
+                name: name,
+                onClick: onClick,
+                onKeyPressed: onKeyPressed,
+                placeholder: placeholder,
+                required: required,
+                type: type
+            });
+
+            var increment_buttons = _react2.default.createElement(_incrementButtons2.default, {
+                max_is_disabled: max_is_disabled,
+                incrementValue: incrementValue,
+                min_is_disabled: min_is_disabled || is_negative_disabled && calculateDecrementedValue() < 0,
+                decrementValue: decrementValue
+            });
+
+            var input_tooltip = _react2.default.createElement(
+                _tooltip2.default,
+                {
+                    className: (0, _classnames2.default)('', { 'tooltip--with-label': label }),
+                    alignment: 'left',
+                    message: has_error ? error_messages[0] : null,
+                    has_error: has_error
+                },
+                !!label && _react2.default.createElement(
+                    'label',
+                    { htmlFor: name, className: 'input-field__label' },
+                    label
+                ),
+                !!helper && _react2.default.createElement(
+                    'span',
+                    { className: 'input-field__helper' },
+                    helper
+                ),
+                is_increment_input ? _react2.default.createElement(
+                    'div',
+                    { className: 'input-wrapper' },
+                    increment_buttons,
+                    input
+                ) : input
+            );
+
+            return _react2.default.createElement(
+                _react2.default.Fragment,
+                null,
+                !!prefix && _react2.default.createElement(
+                    'div',
+                    { className: classNamePrefix },
+                    _react2.default.createElement('span', { className: (0, _classnames2.default)(classNamePrefix + '--symbol', 'symbols', 'symbols--' + prefix.toLowerCase()) })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    {
+                        className: (0, _classnames2.default)('input-field', className)
+                    },
+                    input_tooltip
+                )
+            );
+        }
+    }]);
+
+    return InputField;
+}(_react2.default.Component);
 
 // ToDo: Refactor input_field
 // supports more than two different types of 'value' as a prop.
 // Quick Solution - Pass two different props to input field.
+
+
 InputField.propTypes = {
     checked: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
     className: _propTypes2.default.string,
@@ -8745,79 +9197,6 @@ exports.default = (0, _mobxReact.observer)(TimePicker);
 
 /***/ }),
 
-/***/ "./src/javascript/app_2/App/Components/Form/button-toggle-menu.jsx":
-/*!*************************************************************************!*\
-  !*** ./src/javascript/app_2/App/Components/Form/button-toggle-menu.jsx ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _button = __webpack_require__(/*! ./button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
-
-var _button2 = _interopRequireDefault(_button);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ButtonToggleMenu = function ButtonToggleMenu(_ref) {
-    var buttons_arr = _ref.buttons_arr,
-        name = _ref.name,
-        onChange = _ref.onChange,
-        value = _ref.value;
-
-    var changeValue = function changeValue(selected_value) {
-        if (value === selected_value) return;
-        onChange({ target: { value: selected_value, name: name } });
-    };
-    var menu = buttons_arr.map(function (val, idx) {
-        var className = (0, _classnames2.default)('button-menu__button', {
-            'button-menu__button--active': val.value === value
-        });
-        return _react2.default.createElement(_button2.default, {
-            key: idx,
-            text: '' + val.text.charAt(0).toUpperCase() + val.text.slice(1),
-            onClick: function onClick() {
-                return changeValue(val.value);
-            },
-            className: className
-        });
-    });
-    return _react2.default.createElement(
-        'div',
-        { className: 'button-menu' },
-        menu
-    );
-};
-
-ButtonToggleMenu.propTypes = {
-    buttons_arr: _propTypes2.default.array,
-    name: _propTypes2.default.string,
-    onChange: _propTypes2.default.func,
-    value: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string])
-};
-
-exports.default = ButtonToggleMenu;
-
-/***/ }),
-
 /***/ "./src/javascript/app_2/App/Components/Form/button.jsx":
 /*!*************************************************************!*\
   !*** ./src/javascript/app_2/App/Components/Form/button.jsx ***!
@@ -9329,18 +9708,21 @@ var _Footer = __webpack_require__(/*! ../../../../Assets/Footer */ "./src/javasc
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TogglePositions = function TogglePositions(_ref) {
-    var is_positions_drawer_on = _ref.is_positions_drawer_on,
+    var positions_count = _ref.positions_count,
+        is_positions_drawer_on = _ref.is_positions_drawer_on,
         togglePositionsDrawer = _ref.togglePositionsDrawer;
 
     var toggle_positions_class = (0, _classnames2.default)('ic-positions', 'footer__link', {
-        'ic-positions--active': is_positions_drawer_on
+        'ic-positions--active': is_positions_drawer_on,
+        'ic-positions--has-count': positions_count > 0
     });
     return _react2.default.createElement(
         'a',
         {
             href: 'javascript:;',
             className: toggle_positions_class,
-            onClick: togglePositionsDrawer
+            onClick: togglePositionsDrawer,
+            'data-count': positions_count
         },
         _react2.default.createElement(_Common.Icon, { icon: _Footer.IconPositions, className: 'footer__icon ic-positions__icon' })
     );
@@ -9348,6 +9730,7 @@ var TogglePositions = function TogglePositions(_ref) {
 
 TogglePositions.propTypes = {
     is_positions_drawer_on: _propTypes2.default.bool,
+    positions_count: _propTypes2.default.number,
     togglePositionsDrawer: _propTypes2.default.func
 };
 
@@ -9393,11 +9776,11 @@ var _Footer = __webpack_require__(/*! ../../../../Assets/Footer */ "./src/javasc
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ToggleSettings = function ToggleSettings(_ref) {
-    var hideBlur = _ref.hideBlur,
+    var hideFullBlur = _ref.hideFullBlur,
         is_dark_mode = _ref.is_dark_mode,
         is_language_visible = _ref.is_language_visible,
         is_settings_visible = _ref.is_settings_visible,
-        showBlur = _ref.showBlur,
+        showFullBlur = _ref.showFullBlur,
         toggleSettings = _ref.toggleSettings;
 
     var toggle_settings_class = (0, _classnames2.default)('ic-settings', 'footer__link', {
@@ -9419,11 +9802,11 @@ var ToggleSettings = function ToggleSettings(_ref) {
             _reactTransitionGroup.CSSTransition,
             {
                 'in': is_settings_visible,
-                timeout: 100,
+                timeout: 250,
                 classNames: {
-                    enter: 'settings-dialog--enter',
-                    enterDone: 'settings-dialog--enter-done',
-                    exit: 'settings-dialog--exit'
+                    enter: 'settings-dialog__container--enter',
+                    enterDone: 'settings-dialog__container--enter-done',
+                    exit: 'settings-dialog__container--exit'
                 },
                 unmountOnExit: true
             },
@@ -9432,19 +9815,19 @@ var ToggleSettings = function ToggleSettings(_ref) {
                 is_language_dialog_visible: is_language_visible,
                 toggleDialog: toggleSettings,
                 is_dark_mode: is_dark_mode,
-                showBlur: showBlur,
-                hideBlur: hideBlur
+                showFullBlur: showFullBlur,
+                hideFullBlur: hideFullBlur
             })
         )
     );
 };
 
 ToggleSettings.propTypes = {
-    hideBlur: _propTypes2.default.func,
+    hideFullBlur: _propTypes2.default.func,
     is_dark_mode: _propTypes2.default.bool,
     is_language_visible: _propTypes2.default.bool,
     is_settings_visible: _propTypes2.default.bool,
-    showBlur: _propTypes2.default.func,
+    showFullBlur: _propTypes2.default.func,
     toggleSettings: _propTypes2.default.func
 };
 
@@ -10516,7 +10899,7 @@ var RouteWithSubRoutes = function RouteWithSubRoutes(route) {
             }
             result = _react2.default.createElement(_reactRouterDom.Redirect, { to: to });
         } else {
-            result = route.is_authenticated && !route.is_logged_in ? _react2.default.createElement(_loginPrompt2.default, { IconComponent: route.icon_component, onLogin: _login.redirectToLogin }) : _react2.default.createElement(route.component, _extends({}, props, { routes: route.routes }));
+            result = route.is_authenticated && !route.is_logged_in ? _react2.default.createElement(_loginPrompt2.default, { onLogin: _login.redirectToLogin, page_title: route.title }) : _react2.default.createElement(route.component, _extends({}, props, { routes: route.routes }));
         }
 
         var title = route.title ? route.title + ' | ' : '';
@@ -10642,7 +11025,7 @@ var AccountPassword = (0, _react.lazy)(function () {
     return __webpack_require__.e(/*! import() | account_password */ "account_password").then(__webpack_require__.t.bind(null, /*! ../../Modules/settings/sections/account-password.jsx */ "./src/javascript/app_2/Modules/settings/sections/account-password.jsx", 7));
 });
 var ApiToken = (0, _react.lazy)(function () {
-    return __webpack_require__.e(/*! import() | api_toke */ "api_toke").then(__webpack_require__.t.bind(null, /*! ../../Modules/settings/sections/api-token.jsx */ "./src/javascript/app_2/Modules/settings/sections/api-token.jsx", 7));
+    return __webpack_require__.e(/*! import() | api_token */ "api_token").then(__webpack_require__.t.bind(null, /*! ../../Modules/settings/sections/api-token.jsx */ "./src/javascript/app_2/Modules/settings/sections/api-token.jsx", 7));
 });
 var AuthorizedApplications = (0, _react.lazy)(function () {
     return __webpack_require__.e(/*! import() | authorized_application */ "authorized_application").then(__webpack_require__.t.bind(null, /*! ../../Modules/settings/sections/authorized-applications.jsx */ "./src/javascript/app_2/Modules/settings/sections/authorized-applications.jsx", 7));
@@ -11093,6 +11476,7 @@ var DenialOfServiceModal = function DenialOfServiceModal(_ref2) {
                 return _onConfirm(client);
             },
             onCancel: onCancel,
+            is_closed_on_cancel: false,
             is_visible: is_visible
         },
         _react2.default.createElement(_localize3.default, { str: 'You cannot use your real money account with BinaryNex at this time.' })
@@ -11308,7 +11692,8 @@ var AppContents = function AppContents(_ref) {
     var children = _ref.children,
         is_contract_mode = _ref.is_contract_mode,
         is_positions_drawer_on = _ref.is_positions_drawer_on,
-        is_blurred = _ref.is_blurred;
+        is_app_blurred = _ref.is_app_blurred,
+        is_fully_blurred = _ref.is_fully_blurred;
     return _react2.default.createElement(
         'div',
         {
@@ -11316,7 +11701,7 @@ var AppContents = function AppContents(_ref) {
             className: (0, _classnames2.default)('app-contents', {
                 'app-contents--show-positions-drawer': is_positions_drawer_on,
                 'app-contents--contract-mode': is_contract_mode,
-                'app-contents--is-blurred': is_blurred
+                'app-contents--is-blurred': is_fully_blurred || is_app_blurred
             })
         },
         _react2.default.createElement(
@@ -11341,7 +11726,8 @@ exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_
     return {
         is_positions_drawer_on: ui.is_positions_drawer_on,
         is_contract_mode: modules.smart_chart.is_contract_mode,
-        is_blurred: ui.is_blurred
+        is_app_blurred: ui.is_app_blurred,
+        is_fully_blurred: ui.is_fully_blurred
     };
 })(AppContents));
 
@@ -11360,6 +11746,12 @@ exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
 
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
@@ -11380,24 +11772,30 @@ var _Footer = __webpack_require__(/*! ../../Components/Layout/Footer */ "./src/j
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Footer = function Footer(_ref) {
-    var hideBlur = _ref.hideBlur,
+    var active_positions = _ref.active_positions,
+        hideFullBlur = _ref.hideFullBlur,
+        is_fully_blurred = _ref.is_fully_blurred,
         is_dark_mode = _ref.is_dark_mode,
         is_language_dialog_visible = _ref.is_language_dialog_visible,
         is_logged_in = _ref.is_logged_in,
         is_positions_drawer_on = _ref.is_positions_drawer_on,
         is_settings_dialog_on = _ref.is_settings_dialog_on,
-        showBlur = _ref.showBlur,
+        showFullBlur = _ref.showFullBlur,
         togglePositionsDrawer = _ref.togglePositionsDrawer,
         toggleSettingsDialog = _ref.toggleSettingsDialog;
     return _react2.default.createElement(
-        _react2.default.Fragment,
-        null,
+        'footer',
+        { className: (0, _classnames2.default)('footer', {
+                'footer--is-blurred': is_fully_blurred
+            })
+        },
         _react2.default.createElement(
             'div',
             { className: 'footer__links footer__links--left' },
             is_logged_in && _react2.default.createElement(_Footer.TogglePositions, {
                 is_positions_drawer_on: is_positions_drawer_on,
-                togglePositionsDrawer: togglePositionsDrawer
+                togglePositionsDrawer: togglePositionsDrawer,
+                positions_count: active_positions.length || 0
             })
         ),
         _react2.default.createElement(_Footer.NetworkStatus, null),
@@ -11410,8 +11808,8 @@ var Footer = function Footer(_ref) {
                 is_language_visible: is_language_dialog_visible,
                 is_settings_visible: is_settings_dialog_on,
                 toggleSettings: toggleSettingsDialog,
-                showBlur: showBlur,
-                hideBlur: hideBlur
+                showFullBlur: showFullBlur,
+                hideFullBlur: hideFullBlur
             }),
             _react2.default.createElement(_Footer.ToggleFullScreen, null)
         )
@@ -11419,7 +11817,9 @@ var Footer = function Footer(_ref) {
 };
 
 Footer.propTypes = {
+    active_positions: _mobxReact.PropTypes.arrayOrObservableArray,
     is_dark_mode: _propTypes2.default.bool,
+    is_fully_blurred: _propTypes2.default.bool,
     is_language_dialog_visible: _propTypes2.default.bool,
     is_logged_in: _propTypes2.default.bool,
     is_positions_drawer_on: _propTypes2.default.bool,
@@ -11430,15 +11830,18 @@ Footer.propTypes = {
 
 exports.default = (0, _connect.connect)(function (_ref2) {
     var client = _ref2.client,
+        modules = _ref2.modules,
         ui = _ref2.ui;
     return {
-        hideBlur: ui.hideBlur,
+        active_positions: modules.portfolio.active_positions,
+        hideFullBlur: ui.hideFullBlur,
+        is_fully_blurred: ui.is_fully_blurred,
         is_dark_mode: ui.is_dark_mode_on,
         is_logged_in: client.is_logged_in,
         is_language_dialog_visible: ui.is_language_dialog_on,
         is_positions_drawer_on: ui.is_positions_drawer_on,
         is_settings_dialog_on: ui.is_settings_dialog_on,
-        showBlur: ui.showBlur,
+        showFullBlur: ui.showFullBlur,
         togglePositionsDrawer: ui.togglePositionsDrawer,
         toggleSettingsDialog: ui.toggleSettingsDialog
     };
@@ -11459,6 +11862,10 @@ exports.default = (0, _connect.connect)(function (_ref2) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
@@ -11490,6 +11897,7 @@ var Header = function Header(_ref) {
         can_upgrade_to = _ref.can_upgrade_to,
         currency = _ref.currency,
         is_acc_switcher_on = _ref.is_acc_switcher_on,
+        is_fully_blurred = _ref.is_fully_blurred,
         is_logged_in = _ref.is_logged_in,
         is_mobile = _ref.is_mobile,
         is_virtual = _ref.is_virtual,
@@ -11511,7 +11919,10 @@ var Header = function Header(_ref) {
 
     return _react2.default.createElement(
         'header',
-        { className: 'header' },
+        { className: (0, _classnames2.default)('header', {
+                'header--is-blurred': is_fully_blurred
+            })
+        },
         _react2.default.createElement(
             'div',
             { className: 'header__menu-items' },
@@ -11570,6 +11981,7 @@ Header.propTypes = {
     hideInstallButton: _propTypes2.default.func,
     is_acc_switcher_on: _propTypes2.default.bool,
     is_dark_mode: _propTypes2.default.bool,
+    is_fully_blurred: _propTypes2.default.bool,
     is_install_button_visible: _propTypes2.default.bool,
     is_logged_in: _propTypes2.default.bool,
     is_mobile: _propTypes2.default.bool,
@@ -11597,6 +12009,7 @@ exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_
         loginid: client.loginid,
         hideInstallButton: ui.hideInstallButton,
         is_acc_switcher_on: ui.is_accounts_switcher_on,
+        is_fully_blurred: ui.is_fully_blurred,
         is_dark_mode: ui.is_dark_mode_on,
         is_install_button_visible: ui.is_install_button_visible,
         is_mobile: ui.is_mobile,
@@ -12869,10 +13282,6 @@ var _errorBoundary = __webpack_require__(/*! ./Components/Elements/Errors/error-
 
 var _errorBoundary2 = _interopRequireDefault(_errorBoundary);
 
-var _PositionsDrawer = __webpack_require__(/*! ./Components/Elements/PositionsDrawer */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/index.js");
-
-var _PositionsDrawer2 = _interopRequireDefault(_PositionsDrawer);
-
 var _ToastMessage = __webpack_require__(/*! ./Components/Elements/ToastMessage */ "./src/javascript/app_2/App/Components/Elements/ToastMessage/index.js");
 
 var _toastMessage = __webpack_require__(/*! ./Containers/toast-message.jsx */ "./src/javascript/app_2/App/Containers/toast-message.jsx");
@@ -12913,6 +13322,9 @@ var _Wip2 = _interopRequireDefault(_Wip);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Check if device is touch capable
+var isTouchDevice = 'ontouchstart' in document.documentElement;
+
 var App = function App(_ref) {
     var root_store = _ref.root_store;
     return _react2.default.createElement(
@@ -12921,14 +13333,10 @@ var App = function App(_ref) {
         _react2.default.createElement(
             _connect.MobxProvider,
             { store: root_store },
-            root_store.ui.is_mobile || root_store.ui.is_tablet ? _react2.default.createElement(_Wip2.default, null) : _react2.default.createElement(
+            root_store.ui.is_mobile || root_store.ui.is_tablet && isTouchDevice ? _react2.default.createElement(_Wip2.default, null) : _react2.default.createElement(
                 _react2.default.Fragment,
                 null,
-                _react2.default.createElement(
-                    'div',
-                    { className: 'header' },
-                    _react2.default.createElement(_header2.default, null)
-                ),
+                _react2.default.createElement(_header2.default, null),
                 _react2.default.createElement(
                     _errorBoundary2.default,
                     null,
@@ -12936,18 +13344,13 @@ var App = function App(_ref) {
                         _appContents2.default,
                         null,
                         _react2.default.createElement(_routes2.default, null),
-                        _react2.default.createElement(_PositionsDrawer2.default, null),
                         _react2.default.createElement(_toastMessage2.default, { position: _ToastMessage.POSITIONS.TOP_RIGHT })
                     ),
                     _react2.default.createElement(_DenialOfServiceModal2.default, null),
                     _react2.default.createElement(_MarketUnavailableModal2.default, null),
                     _react2.default.createElement(_ServicesErrorModal2.default, null)
                 ),
-                _react2.default.createElement(
-                    'footer',
-                    { className: 'footer' },
-                    _react2.default.createElement(_footer2.default, null)
-                )
+                _react2.default.createElement(_footer2.default, null)
             )
         )
     );
@@ -19852,7 +20255,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js");
 
-var _Routes = __webpack_require__(/*! ../../App/Components/Routes */ "./src/javascript/app_2/App/Components/Routes/index.js");
+var _buttonLink = __webpack_require__(/*! ../../App/Components/Routes/button-link.jsx */ "./src/javascript/app_2/App/Components/Routes/button-link.jsx");
+
+var _buttonLink2 = _interopRequireDefault(_buttonLink);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19899,8 +20304,8 @@ var PageError = function PageError(_ref) {
                     )
                 )
             ),
-            _react2.default.createElement(
-                _Routes.ButtonLink,
+            redirect_label && _react2.default.createElement(
+                _buttonLink2.default,
                 {
                     className: 'page-error__btn btn--primary btn--primary--orange',
                     to: redirect_url,
@@ -19919,7 +20324,7 @@ var PageError = function PageError(_ref) {
 PageError.propTypes = {
     buttonOnClick: _propTypes2.default.func,
     error_code: _propTypes2.default.number,
-    header: _propTypes2.default.string,
+    header: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.node]),
     messages: _propTypes2.default.array,
     redirect_label: _propTypes2.default.string,
     redirect_url: _propTypes2.default.string
@@ -19991,7 +20396,7 @@ var EmptyPortfolioMessage = function EmptyPortfolioMessage() {
                 _react2.default.createElement(
                     'span',
                     { className: 'portfolio-empty__text' },
-                    (0, _localize.localize)('No running contract')
+                    (0, _localize.localize)('No running positions')
                 )
             )
         )
@@ -20568,6 +20973,11 @@ var PurchaseButton = function PurchaseButton(_ref) {
         is_loading = _ref.is_loading,
         onClickPurchase = _ref.onClickPurchase,
         type = _ref.type;
+
+    var getIconType = function getIconType() {
+        if (is_loading) return '';
+        return is_high_low ? type.toLowerCase() + '_barrier' : type.toLowerCase();
+    };
     return _react2.default.createElement(
         _button2.default,
         {
@@ -20590,7 +21000,7 @@ var PurchaseButton = function PurchaseButton(_ref) {
                     { className: 'btn-purchase__icon_wrapper' },
                     _react2.default.createElement(_Types.IconTradeType, {
                         className: 'btn-purchase__icon',
-                        type: !is_loading ? is_high_low ? type.toLowerCase() + '_barrier' : type.toLowerCase() : ''
+                        type: getIconType()
                     })
                 ),
                 _react2.default.createElement(
@@ -20613,7 +21023,7 @@ var PurchaseButton = function PurchaseButton(_ref) {
                     _react2.default.createElement(
                         'span',
                         { className: 'btn-purchase__text' },
-                        is_loading && is_disabled ? '' : info.returns
+                        is_loading || is_disabled ? '' : info.returns
                     )
                 )
             )
@@ -20650,6 +21060,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -20680,77 +21092,131 @@ var _purchaseButton2 = _interopRequireDefault(_purchaseButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 // import { localize }   from '_common/localize';
 // import { PopConfirm } from 'App/Components/Elements/PopConfirm';
-var PurchaseFieldset = function PurchaseFieldset(_ref) {
-    var basis = _ref.basis,
-        currency = _ref.currency,
-        info = _ref.info,
-        is_contract_mode = _ref.is_contract_mode,
-        is_disabled = _ref.is_disabled,
-        is_high_low = _ref.is_high_low,
-        is_loading = _ref.is_loading,
-        is_proposal_error = _ref.is_proposal_error,
-        onClickPurchase = _ref.onClickPurchase,
-        onHoverPurchase = _ref.onHoverPurchase,
-        type = _ref.type;
 
-    var purchase_button = _react2.default.createElement(_purchaseButton2.default, {
-        currency: currency,
-        info: info,
-        is_contract_mode: is_contract_mode,
-        is_disabled: is_disabled,
-        is_high_low: is_high_low,
-        is_loading: is_loading,
-        onClickPurchase: onClickPurchase,
-        type: type
-    });
-    return _react2.default.createElement(
-        _fieldset2.default,
-        {
-            className: 'trade-container__fieldset purchase-container__option'
-        },
-        _react2.default.createElement(
-            _react2.default.Fragment,
-            null,
-            _react2.default.createElement(_contractInfo2.default, {
-                basis: basis,
-                currency: currency,
-                proposal_info: info,
-                has_increased: info.has_increased,
-                is_loading: is_loading,
-                is_visible: !is_contract_mode
-            }),
-            _react2.default.createElement(
-                'div',
-                {
-                    className: (0, _classnames2.default)('btn-purchase__shadow-wrapper', { 'btn-purchase__shadow-wrapper--disabled': is_proposal_error || is_disabled }),
-                    onMouseEnter: function onMouseEnter() {
-                        onHoverPurchase(true, type);
-                    },
-                    onMouseLeave: function onMouseLeave() {
-                        onHoverPurchase(false);
-                    }
-                },
-                is_proposal_error && _react2.default.createElement(_tooltip2.default, { message: info.message, alignment: 'left', className: 'tooltip--error-secondary' }),
-
-                // is_purchase_confirm_on ?
-                //     <PopConfirm
-                //         alignment='left'
-                //         cancel_text={localize('Cancel')}
-                //         confirm_text={localize('Purchase')}
-                //         message={localize('Are you sure you want to purchase this contract?')}
-                //     >
-                //         {purchase_button}
-                //     </PopConfirm>
-                //     :
-                purchase_button
-            )
-        )
-    );
-};
 // import PurchaseLock   from 'Modules/Trading/Components/Form/Purchase/PurchaseLock';
 
+
+var PurchaseFieldset = function (_React$PureComponent) {
+    _inherits(PurchaseFieldset, _React$PureComponent);
+
+    function PurchaseFieldset() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, PurchaseFieldset);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PurchaseFieldset.__proto__ || Object.getPrototypeOf(PurchaseFieldset)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            show_tooltip: false
+        }, _this.onMouseEnter = function () {
+            _this.setState({ show_tooltip: true });
+        }, _this.onMouseLeave = function () {
+            _this.setState({ show_tooltip: false });
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(PurchaseFieldset, [{
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _props = this.props,
+                basis = _props.basis,
+                currency = _props.currency,
+                info = _props.info,
+                is_contract_mode = _props.is_contract_mode,
+                is_disabled = _props.is_disabled,
+                is_high_low = _props.is_high_low,
+                is_loading = _props.is_loading,
+                is_proposal_error = _props.is_proposal_error,
+                onClickPurchase = _props.onClickPurchase,
+                onHoverPurchase = _props.onHoverPurchase,
+                type = _props.type;
+
+
+            var purchase_button = _react2.default.createElement(_purchaseButton2.default, {
+                currency: currency,
+                info: info,
+                is_contract_mode: is_contract_mode,
+                is_disabled: is_disabled,
+                is_high_low: is_high_low,
+                is_loading: is_loading,
+                onClickPurchase: onClickPurchase,
+                type: type
+            });
+
+            return _react2.default.createElement(
+                _fieldset2.default,
+                {
+                    className: 'trade-container__fieldset purchase-container__option'
+                },
+                _react2.default.createElement(
+                    _react2.default.Fragment,
+                    null,
+                    _react2.default.createElement(_contractInfo2.default, {
+                        basis: basis,
+                        currency: currency,
+                        proposal_info: info,
+                        has_increased: info.has_increased,
+                        is_loading: is_loading,
+                        is_visible: !is_contract_mode
+                    }),
+                    _react2.default.createElement(
+                        'div',
+                        {
+                            className: (0, _classnames2.default)('btn-purchase__shadow-wrapper', {
+                                'btn-purchase__shadow-wrapper--disabled': is_proposal_error || is_disabled
+                            }),
+                            onMouseEnter: function onMouseEnter() {
+                                if (!is_disabled) {
+                                    onHoverPurchase(true, type);
+                                }
+                                _this2.onMouseEnter();
+                            },
+                            onMouseLeave: function onMouseLeave() {
+                                if (!is_disabled) {
+                                    onHoverPurchase(false);
+                                }
+                                _this2.onMouseLeave();
+                            }
+                        },
+                        _react2.default.createElement('div', { className: 'btn-purchase__box-shadow' }),
+                        is_proposal_error && this.state.show_tooltip && _react2.default.createElement(_tooltip2.default, {
+                            alignment: 'left',
+                            className: 'tooltip--error-secondary',
+                            message: info.message
+                        }),
+
+                        // is_purchase_confirm_on ?
+                        //     <PopConfirm
+                        //         alignment='left'
+                        //         cancel_text={localize('Cancel')}
+                        //         confirm_text={localize('Purchase')}
+                        //         message={localize('Are you sure you want to purchase this contract?')}
+                        //     >
+                        //         {purchase_button}
+                        //     </PopConfirm>
+                        //     :
+                        purchase_button
+                    )
+                )
+            );
+        }
+    }]);
+
+    return PurchaseFieldset;
+}(_react2.default.PureComponent);
 
 PurchaseFieldset.propTypes = {
     basis: _propTypes2.default.string,
@@ -21725,9 +22191,9 @@ var _DropDown = __webpack_require__(/*! ../../../../../../App/Components/Form/Dr
 
 var _DropDown2 = _interopRequireDefault(_DropDown);
 
-var _buttonToggleMenu = __webpack_require__(/*! ../../../../../../App/Components/Form/button-toggle-menu.jsx */ "./src/javascript/app_2/App/Components/Form/button-toggle-menu.jsx");
+var _ButtonToggleMenu = __webpack_require__(/*! ../../../../../../App/Components/Form/ButtonToggleMenu */ "./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/index.js");
 
-var _buttonToggleMenu2 = _interopRequireDefault(_buttonToggleMenu);
+var _ButtonToggleMenu2 = _interopRequireDefault(_ButtonToggleMenu);
 
 var _InputField = __webpack_require__(/*! ../../../../../../App/Components/Form/InputField */ "./src/javascript/app_2/App/Components/Form/InputField/index.js");
 
@@ -21792,9 +22258,10 @@ var AdvancedDuration = function AdvancedDuration(_ref) {
     return _react2.default.createElement(
         _react.Fragment,
         null,
-        expiry_list.length > 1 && _react2.default.createElement(_buttonToggleMenu2.default, {
+        expiry_list.length > 1 && _react2.default.createElement(_ButtonToggleMenu2.default, {
             buttons_arr: expiry_list,
             name: 'advanced_expiry_type',
+            is_animated: true,
             onChange: changeExpiry,
             value: advanced_expiry_type
         }),
@@ -21957,6 +22424,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
 
+var _connect = __webpack_require__(/*! ../../../../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
+
 var _duration = __webpack_require__(/*! ./duration.jsx */ "./src/javascript/app_2/Modules/Trading/Components/Form/TradeParams/Duration/duration.jsx");
 
 var _duration2 = _interopRequireDefault(_duration);
@@ -22008,7 +22477,7 @@ var DurationWrapper = function (_React$Component) {
             this.props.onChangeUiStore({ name: (this.props.is_advanced_duration ? 'advanced' : 'simple') + '_duration_unit', value: new_duration_unit });
             this.props.onChangeMultiple({
                 duration_unit: new_duration_unit,
-                duration: new_duration_value
+                duration: +new_duration_value
             });
         }
     }, {
@@ -22089,7 +22558,6 @@ DurationWrapper.propTypes = {
     onChange: _propTypes2.default.func,
     onChangeMultiple: _propTypes2.default.func,
     onChangeUiStore: _propTypes2.default.func,
-    server_time: _propTypes2.default.object,
     sessions: _mobxReact.PropTypes.arrayOrObservableArray,
     simple_duration_unit: _propTypes2.default.string,
     start_date: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
@@ -22098,7 +22566,32 @@ DurationWrapper.propTypes = {
     validation_errors: _propTypes2.default.object
 };
 
-exports.default = (0, _mobxReact.observer)(DurationWrapper);
+exports.default = (0, _connect.connect)(function (_ref2) {
+    var modules = _ref2.modules,
+        ui = _ref2.ui;
+    return {
+        advanced_duration_unit: ui.advanced_duration_unit,
+        advanced_expiry_type: ui.advanced_expiry_type,
+        contract_expiry_type: modules.trade.contract_expiry_type,
+        duration: modules.trade.duration,
+        duration_unit: modules.trade.duration_unit,
+        duration_units_list: modules.trade.duration_units_list,
+        duration_min_max: modules.trade.duration_min_max,
+        duration_t: ui.duration_t,
+        expiry_date: modules.trade.expiry_date,
+        expiry_time: modules.trade.expiry_time,
+        expiry_type: modules.trade.expiry_type,
+        getDurationFromUnit: ui.getDurationFromUnit,
+        is_advanced_duration: ui.is_advanced_duration,
+        onChange: modules.trade.onChange,
+        onChangeUiStore: ui.onChangeUiStore,
+        onChangeMultiple: modules.trade.onChangeMultiple,
+        simple_duration_unit: ui.simple_duration_unit,
+        start_date: modules.trade.start_date,
+        validation_errors: modules.trade.validation_errors,
+        market_open_times: modules.trade.market_open_times
+    };
+})(DurationWrapper);
 
 /***/ }),
 
@@ -22117,6 +22610,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
 
@@ -22287,7 +22784,10 @@ var Duration = function Duration(_ref) {
 
     return _react2.default.createElement(
         _fieldset2.default,
-        { className: 'trade-container__fieldset' },
+        { className: (0, _classnames2.default)('trade-container__fieldset', {
+                'trade-container__fieldset--advanced': is_advanced_duration
+            })
+        },
         !has_toggle && _react2.default.createElement(_RangeSlider2.default, _extends({
             name: 'duration',
             value: duration_t
@@ -22411,9 +22911,9 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _buttonToggleMenu = __webpack_require__(/*! ../../../../../../App/Components/Form/button-toggle-menu.jsx */ "./src/javascript/app_2/App/Components/Form/button-toggle-menu.jsx");
+var _ButtonToggleMenu = __webpack_require__(/*! ../../../../../../App/Components/Form/ButtonToggleMenu */ "./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/index.js");
 
-var _buttonToggleMenu2 = _interopRequireDefault(_buttonToggleMenu);
+var _ButtonToggleMenu2 = _interopRequireDefault(_ButtonToggleMenu);
 
 var _InputField = __webpack_require__(/*! ../../../../../../App/Components/Form/InputField */ "./src/javascript/app_2/App/Components/Form/InputField/index.js");
 
@@ -22453,8 +22953,9 @@ var SimpleDuration = function SimpleDuration(_ref) {
     return _react2.default.createElement(
         _react.Fragment,
         null,
-        duration_units_list.length > 1 && _react2.default.createElement(_buttonToggleMenu2.default, {
+        duration_units_list.length > 1 && _react2.default.createElement(_ButtonToggleMenu2.default, {
             buttons_arr: filterMinutesAndTicks(duration_units_list),
+            is_animated: true,
             name: 'simple_duration_unit',
             onChange: changeDurationUnit,
             value: simple_duration_unit
@@ -22622,9 +23123,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _currency_base = __webpack_require__(/*! ../../../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js");
 
-var _buttonToggleMenu = __webpack_require__(/*! ../../../../../App/Components/Form/button-toggle-menu.jsx */ "./src/javascript/app_2/App/Components/Form/button-toggle-menu.jsx");
+var _ButtonToggleMenu = __webpack_require__(/*! ../../../../../App/Components/Form/ButtonToggleMenu */ "./src/javascript/app_2/App/Components/Form/ButtonToggleMenu/index.js");
 
-var _buttonToggleMenu2 = _interopRequireDefault(_buttonToggleMenu);
+var _ButtonToggleMenu2 = _interopRequireDefault(_ButtonToggleMenu);
 
 var _DropDown = __webpack_require__(/*! ../../../../../App/Components/Form/DropDown */ "./src/javascript/app_2/App/Components/Form/DropDown/index.js");
 
@@ -22637,6 +23138,8 @@ var _fieldset2 = _interopRequireDefault(_fieldset);
 var _InputField = __webpack_require__(/*! ../../../../../App/Components/Form/InputField */ "./src/javascript/app_2/App/Components/Form/InputField/index.js");
 
 var _InputField2 = _interopRequireDefault(_InputField);
+
+var _connect = __webpack_require__(/*! ../../../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
 
 var _allowEquals = __webpack_require__(/*! ./allow-equals.jsx */ "./src/javascript/app_2/Modules/Trading/Components/Form/TradeParams/allow-equals.jsx");
 
@@ -22709,9 +23212,10 @@ var Amount = function Amount(_ref) {
     return _react2.default.createElement(
         _fieldset2.default,
         { className: 'trade-container__fieldset' },
-        _react2.default.createElement(_buttonToggleMenu2.default, {
+        _react2.default.createElement(_ButtonToggleMenu2.default, {
             buttons_arr: basis_list,
             className: 'dropdown--no-margin',
+            is_animated: true,
             name: 'basis',
             onChange: onChange,
             value: basis
@@ -22763,7 +23267,26 @@ Amount.propTypes = {
     validation_errors: _propTypes2.default.object
 };
 
-exports.default = (0, _mobxReact.observer)(Amount);
+exports.default = (0, _connect.connect)(function (_ref2) {
+    var modules = _ref2.modules,
+        client = _ref2.client;
+    return {
+        amount: modules.trade.amount,
+        basis: modules.trade.basis,
+        basis_list: modules.trade.basis_list,
+        contract_start_type: modules.trade.contract_start_type,
+        contract_type: modules.trade.contract_type,
+        contract_types_list: modules.trade.contract_types_list,
+        currencies_list: client.currencies_list,
+        currency: modules.trade.currency,
+        duration_unit: modules.trade.duration_unit,
+        expiry_type: modules.trade.expiry_type,
+        is_equal: modules.trade.is_equal,
+        is_single_currency: client.is_single_currency,
+        onChange: modules.trade.onChange,
+        validation_errors: modules.trade.validation_errors
+    };
+})(Amount);
 
 /***/ }),
 
@@ -22785,8 +23308,6 @@ var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnam
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
-
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
@@ -22807,6 +23328,8 @@ var _InputField = __webpack_require__(/*! ../../../../../App/Components/Form/Inp
 
 var _InputField2 = _interopRequireDefault(_InputField);
 
+var _connect = __webpack_require__(/*! ../../../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
+
 var _localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -22822,14 +23345,11 @@ var Barrier = function Barrier(_ref) {
     var barrier_title = barrier_count === 1 ? (0, _localize.localize)('Barrier') : (0, _localize.localize)('Barriers');
 
     if (is_minimized) {
-        if (barrier_count !== 2) {
-            return _react2.default.createElement(
-                'div',
-                { className: 'fieldset-minimized fieldset-minimized__barrier1' },
-                barrier_1
-            );
-        }
-        return _react2.default.createElement(
+        return barrier_count !== 2 ? _react2.default.createElement(
+            'div',
+            { className: 'fieldset-minimized fieldset-minimized__barrier1' },
+            barrier_1
+        ) : _react2.default.createElement(
             _react2.default.Fragment,
             null,
             _react2.default.createElement(
@@ -22897,7 +23417,16 @@ Barrier.propTypes = {
     validation_errors: _propTypes2.default.object
 };
 
-exports.default = (0, _mobxReact.observer)(Barrier);
+exports.default = (0, _connect.connect)(function (_ref2) {
+    var modules = _ref2.modules;
+    return {
+        barrier_1: modules.trade.barrier_1,
+        barrier_2: modules.trade.barrier_2,
+        barrier_count: modules.trade.barrier_count,
+        onChange: modules.trade.onChange,
+        validation_errors: modules.trade.validation_errors
+    };
+})(Barrier);
 
 /***/ }),
 
@@ -22914,8 +23443,6 @@ exports.default = (0, _mobxReact.observer)(Barrier);
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
 
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
@@ -22934,6 +23461,8 @@ var _numberSelector2 = _interopRequireDefault(_numberSelector);
 var _fieldset = __webpack_require__(/*! ../../../../../App/Components/Form/fieldset.jsx */ "./src/javascript/app_2/App/Components/Form/fieldset.jsx");
 
 var _fieldset2 = _interopRequireDefault(_fieldset);
+
+var _connect = __webpack_require__(/*! ../../../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22976,7 +23505,13 @@ LastDigit.propTypes = {
     onChange: _propTypes2.default.func
 };
 
-exports.default = (0, _mobxReact.observer)(LastDigit);
+exports.default = (0, _connect.connect)(function (_ref2) {
+    var modules = _ref2.modules;
+    return {
+        last_digit: modules.trade.last_digit,
+        onChange: modules.trade.onChange
+    };
+})(LastDigit);
 
 /***/ }),
 
@@ -23544,9 +24079,9 @@ var Purchase = function Purchase(_ref) {
         var purchase_fieldset = _react2.default.createElement(_purchaseFieldset2.default, {
             basis: basis,
             currency: currency,
-            info: info
-            // key={index}
-            , index: index,
+            info: info,
+            key: index,
+            index: index,
             is_contract_mode: is_contract_mode,
             is_disabled: is_disabled,
             is_high_low: is_high_low,
@@ -23761,8 +24296,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _mobxReact = __webpack_require__(/*! mobx-react */ "./node_modules/mobx-react/index.module.js");
@@ -23800,9 +24333,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import { form_components }            from 'Stores/Modules/Trading/Constants/ui';
-// import { getComponentProperties }     from 'Utils/React/component';
-
 
 var TradeParams = function (_React$Component) {
     _inherits(TradeParams, _React$Component);
@@ -23821,95 +24351,16 @@ var TradeParams = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var is_minimized = this.props.is_minimized;
 
             return _react2.default.createElement(
                 _react2.default.Fragment,
                 null,
-                this.isVisible('duration') && _react2.default.createElement(_Duration2.default, _extends({
-                    key: 'duration'
-                }, this.duration_props)),
-                this.isVisible('barrier') && _react2.default.createElement(_barrier2.default, _extends({
-                    key: 'barrier'
-                }, this.barrier_props)),
-                this.isVisible('last_digit') && _react2.default.createElement(_lastDigit2.default, _extends({
-                    key: 'last_digit'
-                }, this.last_digit_props)),
-                this.isVisible('amount') && _react2.default.createElement(_amount2.default, _extends({
-                    key: 'amount'
-                }, this.amount_props))
+                this.isVisible('duration') && _react2.default.createElement(_Duration2.default, { key: 'duration', is_minimized: is_minimized }),
+                this.isVisible('barrier') && _react2.default.createElement(_barrier2.default, { key: 'barrier', is_minimized: is_minimized }),
+                this.isVisible('last_digit') && _react2.default.createElement(_lastDigit2.default, { key: 'last_digit', is_minimized: is_minimized }),
+                this.isVisible('amount') && _react2.default.createElement(_amount2.default, { key: 'amount', is_minimized: is_minimized })
             );
-        }
-    }, {
-        key: 'amount_props',
-        get: function get() {
-            return {
-                amount: this.props.amount,
-                basis: this.props.basis,
-                basis_list: this.props.basis_list,
-                contract_start_type: this.props.contract_start_type,
-                contract_type: this.props.contract_type,
-                contract_types_list: this.props.contract_types_list,
-                currencies_list: this.props.currencies_list,
-                currency: this.props.currency,
-                duration_unit: this.props.duration_unit,
-                expiry_type: this.props.expiry_type,
-                is_equal: this.props.is_equal,
-                is_minimized: this.props.is_minimized,
-                is_nativepicker: this.props.is_nativepicker,
-                is_single_currency: this.props.is_single_currency,
-                onChange: this.props.onChange,
-                validation_errors: this.props.validation_errors
-            };
-        }
-    }, {
-        key: 'barrier_props',
-        get: function get() {
-            return {
-                barrier_1: this.props.barrier_1,
-                barrier_2: this.props.barrier_2,
-                barrier_count: this.props.barrier_count,
-                is_minimized: this.props.is_minimized,
-                onChange: this.props.onChange,
-                validation_errors: this.props.validation_errors
-            };
-        }
-    }, {
-        key: 'duration_props',
-        get: function get() {
-            return {
-                advanced_duration_unit: this.props.advanced_duration_unit,
-                advanced_expiry_type: this.props.advanced_expiry_type,
-                contract_expiry_type: this.props.contract_expiry_type,
-                duration: this.props.duration,
-                duration_unit: this.props.duration_unit,
-                duration_units_list: this.props.duration_units_list,
-                duration_min_max: this.props.duration_min_max,
-                duration_t: this.props.duration_t,
-                expiry_date: this.props.expiry_date,
-                expiry_time: this.props.expiry_time,
-                expiry_type: this.props.expiry_type,
-                getDurationFromUnit: this.props.getDurationFromUnit,
-                // hasDurationUnit       : this.props.hasDurationUnit,
-                is_advanced_duration: this.props.is_advanced_duration,
-                is_minimized: this.props.is_minimized,
-                onChange: this.props.onChange,
-                onChangeUiStore: this.props.onChangeUiStore,
-                onChangeMultiple: this.props.onChangeMultiple,
-                simple_duration_unit: this.props.simple_duration_unit,
-                server_time: this.props.server_time,
-                start_date: this.props.start_date,
-                validation_errors: this.props.validation_errors,
-                market_open_times: this.props.market_open_times
-            };
-        }
-    }, {
-        key: 'last_digit_props',
-        get: function get() {
-            return {
-                is_minimized: this.props.is_minimized,
-                last_digit: this.props.last_digit,
-                onChange: this.props.onChange
-            };
         }
     }]);
 
@@ -23917,76 +24368,14 @@ var TradeParams = function (_React$Component) {
 }(_react2.default.Component);
 
 TradeParams.propTypes = {
-    client_store: _propTypes2.default.object,
     form_components: _mobxReact.PropTypes.arrayOrObservableArray,
-    is_minimized: _propTypes2.default.bool,
-    is_nativepicker: _propTypes2.default.bool,
-    server_time: _propTypes2.default.object,
-    trade_store: _propTypes2.default.object
+    is_minimized: _propTypes2.default.bool
 };
 
 exports.default = (0, _connect.connect)(function (_ref) {
-    var client = _ref.client,
-        common = _ref.common,
-        modules = _ref.modules,
-        ui = _ref.ui;
+    var modules = _ref.modules;
     return {
-        client_store: client,
-        form_components: modules.trade.form_components,
-        trade_store: modules.trade,
-        ui_store: ui,
-        // Amount component props
-        amount: modules.trade.amount,
-        basis: modules.trade.basis,
-        basis_list: modules.trade.basis_list,
-        contract_start_type: modules.trade.contract_start_type,
-        contract_type: modules.trade.contract_type,
-        contract_types_list: modules.trade.contract_types_list,
-        currencies_list: client.currencies_list,
-        currency: modules.trade.currency,
-        duration_unit: modules.trade.duration_unit,
-        expiry_type: modules.trade.expiry_type,
-        is_equal: modules.trade.is_equal,
-        // is_minimized          : modules.trade.,
-        // is_nativepicker       :,
-        is_single_currency: client.is_single_currency,
-        onChange: modules.trade.onChange,
-        validation_errors: modules.trade.validation_errors,
-        // Barrier component props
-        barrier_1: modules.trade.barrier_1,
-        barrier_2: modules.trade.barrier_2,
-        barrier_count: modules.trade.barrier_count,
-        // is_minimized          :,
-        // onChange              : modules.trade.onChange,
-        // validation_errors     : modules.trade.validation_errors,
-        // Duration component props
-        advanced_duration_unit: ui.advanced_duration_unit,
-        advanced_expiry_type: ui.advanced_expiry_type,
-        contract_expiry_type: modules.trade.contract_expiry_type,
-        duration: modules.trade.duration,
-        // duration_unit         : modules.trade.duration_unit,
-        duration_units_list: modules.trade.duration_units_list,
-        duration_min_max: modules.trade.duration_min_max,
-        duration_t: ui.duration_t,
-        expiry_date: modules.trade.expiry_date,
-        expiry_time: modules.trade.expiry_time,
-        // expiry_type           : modules.trade.expiry_type,
-        getDurationFromUnit: ui.getDurationFromUnit,
-        // hasDurationUnit       : ,
-        is_advanced_duration: ui.is_advanced_duration,
-        // is_minimized          :,
-        // onChange              : modules.trade.onChange,
-        onChangeUiStore: ui.onChangeUiStore,
-        onChangeMultiple: modules.trade.onChangeMultiple,
-        simple_duration_unit: ui.simple_duration_unit,
-        server_time: common.server_time,
-        start_date: modules.trade.start_date,
-        // validation_errors     : modules.trade.validation_errors,
-        market_open_times: modules.trade.market_open_times,
-        // LastDigit component props
-        // is_minimized          :,
-        last_digit: modules.trade.last_digit
-        // onChange              : modules.trade.onChange,
+        form_components: modules.trade.form_components
     };
 })(TradeParams);
 
@@ -24023,6 +24412,10 @@ var _uiLoader = __webpack_require__(/*! ../../../App/Components/Elements/ui-load
 var _uiLoader2 = _interopRequireDefault(_uiLoader);
 
 var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
+
+var _PositionsDrawer = __webpack_require__(/*! ../../../App/Components/Elements/PositionsDrawer */ "./src/javascript/app_2/App/Components/Elements/PositionsDrawer/index.js");
+
+var _PositionsDrawer2 = _interopRequireDefault(_PositionsDrawer);
 
 var _test = __webpack_require__(/*! ./test.jsx */ "./src/javascript/app_2/Modules/Trading/Containers/test.jsx");
 
@@ -24074,12 +24467,15 @@ var Trade = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var contract_id = (0, _utility.getPropertyValue)(this.props.purchase_info, ['buy', 'contract_id']);
             var form_wrapper_class = this.props.is_mobile ? 'mobile-wrapper' : 'sidebar__container desktop-only';
             var should_show_last_digit_stats = ['match_diff', 'even_odd', 'over_under'].includes(this.props.contract_type) && !this.props.is_contract_mode;
             return _react2.default.createElement(
                 'div',
                 { id: 'trade_container', className: 'trade-container' },
+                _react2.default.createElement(_PositionsDrawer2.default, null),
                 _react2.default.createElement(
                     'div',
                     { className: 'chart-container' },
@@ -24095,8 +24491,6 @@ var Trade = function (_React$Component) {
                             should_show_last_digit_stats: should_show_last_digit_stats,
                             scroll_to_epoch: this.props.scroll_to_epoch,
                             scroll_to_offset: this.props.scroll_to_offset,
-                            start_epoch: this.props.start_epoch,
-                            end_epoch: this.props.end_epoch,
                             chart_zoom: this.props.chart_zoom
                         })
                     ),
@@ -24105,7 +24499,12 @@ var Trade = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     {
-                        className: form_wrapper_class
+                        className: form_wrapper_class,
+                        onClick: this.props.is_contract_mode ? function (e) {
+                            _this2.props.onCloseContract();
+                            _this2.props.onClickNewTrade(e);
+                        } : null,
+                        style: { cursor: this.props.is_contract_mode ? 'pointer' : 'initial' }
                     },
                     _react2.default.createElement(_formLayout2.default, {
                         is_mobile: this.props.is_mobile,
@@ -24124,18 +24523,17 @@ Trade.propTypes = {
     chart_id: _propTypes2.default.number,
     chart_zoom: _propTypes2.default.number,
     contract_type: _propTypes2.default.string,
-    end_epoch: _propTypes2.default.number,
     is_contract_mode: _propTypes2.default.bool,
     is_mobile: _propTypes2.default.bool,
     is_trade_enabled: _propTypes2.default.bool,
     onClickNewTrade: _propTypes2.default.func,
+    onCloseContract: _propTypes2.default.func,
     onMount: _propTypes2.default.func,
     onSymbolChange: _propTypes2.default.func,
     onUnmount: _propTypes2.default.func,
     purchase_info: _propTypes2.default.object,
     scroll_to_epoch: _propTypes2.default.number,
     scroll_to_offset: _propTypes2.default.number,
-    start_epoch: _propTypes2.default.number,
     symbol: _propTypes2.default.string
 };
 
@@ -24143,8 +24541,7 @@ exports.default = (0, _connect.connect)(function (_ref) {
     var modules = _ref.modules,
         ui = _ref.ui;
     return {
-        start_epoch: modules.contract.chart_config.start_epoch,
-        end_epoch: modules.contract.chart_config.end_epoch,
+        onCloseContract: modules.contract.onCloseContract,
         scroll_to_epoch: modules.smart_chart.scroll_to_left_epoch,
         scroll_to_offset: modules.smart_chart.scroll_to_left_epoch_offset,
         chart_zoom: modules.smart_chart.zoom,
@@ -24880,7 +25277,7 @@ var createChartBarrier = exports.createChartBarrier = function createChartBarrie
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.createMarkerSpotMiddle = exports.createMarkerSpotExit = exports.createMarkerSpotEntry = exports.createMarkerStartTime = exports.createMarkerPurchaseTime = exports.createMarkerExpiry = undefined;
+exports.createMarkerSpotMiddle = exports.createMarkerSpotExit = exports.createMarkerSpotEntry = exports.createMarkerStartTime = exports.createMarkerPurchaseTime = exports.createMarkerEndTime = exports.getSpotCount = undefined;
 
 var _extend = __webpack_require__(/*! extend */ "./node_modules/extend/index.js");
 
@@ -24904,16 +25301,16 @@ var createMarkerConfig = function createMarkerConfig(marker_type, x, y, content_
     });
 };
 
-var getSpotCount = function getSpotCount(contract_info, spot_count) {
+var getSpotCount = exports.getSpotCount = function getSpotCount(contract_info, spot_count) {
     return (0, _digits.isDigitContract)(contract_info.contract_type) ? spot_count + 1 : spot_count;
 };
 
 // -------------------- Lines --------------------
-var createMarkerExpiry = exports.createMarkerExpiry = function createMarkerExpiry(contract_info) {
-    var end_spot_time = (0, _logic.getEndSpotTime)(contract_info);
-    if (contract_info.status === 'open' || !end_spot_time) return false;
+var createMarkerEndTime = exports.createMarkerEndTime = function createMarkerEndTime(contract_info) {
+    var end_time = (0, _logic.getEndTime)(contract_info);
+    if (!end_time) return false;
 
-    return createMarkerConfig(_markers.MARKER_TYPES_CONFIG.LINE_END.type, +end_spot_time);
+    return createMarkerConfig(_markers.MARKER_TYPES_CONFIG.LINE_END.type, +end_time);
 };
 
 var createMarkerPurchaseTime = exports.createMarkerPurchaseTime = function createMarkerPurchaseTime(contract_info) {
@@ -24962,7 +25359,7 @@ var createMarkerSpotExit = exports.createMarkerSpotExit = function createMarkerS
     return createMarkerConfig(_markers.MARKER_TYPES_CONFIG.SPOT_EXIT.type, +contract_info.exit_tick_time, +contract_info.exit_tick, {
         spot_value: '' + contract_info.exit_tick,
         spot_epoch: '' + contract_info.exit_tick_time,
-        status: '' + (contract_info.profit > 0 ? 'won' : 'lost'),
+        status: '' + (+contract_info.profit > 0 ? 'won' : 'lost'),
         align_label: align_label,
         spot_count: spot_count
     });
@@ -25022,7 +25419,7 @@ var createChartMarkers = exports.createChartMarkers = function createChartMarker
 
 var marker_spots = (_marker_spots = {}, _defineProperty(_marker_spots, _markers.MARKER_TYPES_CONFIG.SPOT_ENTRY.type, _chartMarkerHelpers.createMarkerSpotEntry), _defineProperty(_marker_spots, _markers.MARKER_TYPES_CONFIG.SPOT_EXIT.type, _chartMarkerHelpers.createMarkerSpotExit), _marker_spots);
 
-var marker_lines = (_marker_lines = {}, _defineProperty(_marker_lines, _markers.MARKER_TYPES_CONFIG.LINE_START.type, _chartMarkerHelpers.createMarkerStartTime), _defineProperty(_marker_lines, _markers.MARKER_TYPES_CONFIG.LINE_END.type, _chartMarkerHelpers.createMarkerExpiry), _defineProperty(_marker_lines, _markers.MARKER_TYPES_CONFIG.LINE_PURCHASE.type, _chartMarkerHelpers.createMarkerPurchaseTime), _marker_lines);
+var marker_lines = (_marker_lines = {}, _defineProperty(_marker_lines, _markers.MARKER_TYPES_CONFIG.LINE_START.type, _chartMarkerHelpers.createMarkerStartTime), _defineProperty(_marker_lines, _markers.MARKER_TYPES_CONFIG.LINE_END.type, _chartMarkerHelpers.createMarkerEndTime), _defineProperty(_marker_lines, _markers.MARKER_TYPES_CONFIG.LINE_PURCHASE.type, _chartMarkerHelpers.createMarkerPurchaseTime), _marker_lines);
 
 var addMarker = function addMarker(marker_obj, SmartChartStore, contract_info) {
     Object.keys(marker_obj).forEach(createMarker);
@@ -25055,7 +25452,7 @@ var addTickMarker = function addTickMarker(SmartChartStore, contract_info) {
     tick_stream.forEach(function (tick, idx) {
         var is_entry_spot = idx === 0 && +tick.epoch !== contract_info.exit_tick_time;
         var is_middle_spot = idx > 0 && +tick.epoch !== +contract_info.exit_tick_time;
-        var is_exit_spot = +tick.epoch === +contract_info.exit_tick_time;
+        var is_exit_spot = +tick.epoch === +contract_info.exit_tick_time || (0, _chartMarkerHelpers.getSpotCount)(contract_info, idx) === contract_info.tick_count;
 
         var marker_config = void 0;
         if (is_entry_spot) marker_config = (0, _chartMarkerHelpers.createMarkerSpotEntry)(contract_info);
@@ -25248,16 +25645,6 @@ var createDigitInfo = function createDigitInfo(spot, spot_time) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var getChartConfig = exports.getChartConfig = function getChartConfig(contract_info) {
-    var start_epoch = contract_info.date_start;
-    var end_epoch = getEndSpotTime(contract_info) || contract_info.date_expiry;
-
-    return {
-        end_epoch: end_epoch,
-        start_epoch: start_epoch
-    };
-};
-
 var hour_to_granularity_map = [[1, 0], [2, 120], [6, 600], [24, 900], [5 * 24, 3600], [30 * 24, 14400]];
 var calculateGranularity = exports.calculateGranularity = function calculateGranularity(duration) {
     return (hour_to_granularity_map.find(function (m) {
@@ -25314,6 +25701,20 @@ var isValidToSell = exports.isValidToSell = function isValidToSell(contract_info
     return !isEnded(contract_info) && !isUserSold(contract_info) && +contract_info.is_valid_to_sell === 1;
 };
 
+var getEndTime = exports.getEndTime = function getEndTime(contract_info) {
+    var exit_tick_time = contract_info.exit_tick_time,
+        date_expiry = contract_info.date_expiry,
+        sell_time = contract_info.sell_time,
+        is_tick_contract = contract_info.tick_count,
+        is_sold = contract_info.is_sold;
+
+
+    if (is_tick_contract) return exit_tick_time;
+    if (!is_sold) return undefined;
+
+    return sell_time < date_expiry ? exit_tick_time : date_expiry;
+};
+
 /***/ }),
 
 /***/ "./src/javascript/app_2/Stores/Modules/Contract/contract-store.js":
@@ -25333,7 +25734,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
 
 var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
 
@@ -25422,7 +25823,7 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContractStore.__proto__ || Object.getPrototypeOf(ContractStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'contract_id', _descriptor, _this), _initDefineProp(_this, 'contract_info', _descriptor2, _this), _initDefineProp(_this, 'digits_info', _descriptor3, _this), _initDefineProp(_this, 'sell_info', _descriptor4, _this), _initDefineProp(_this, 'chart_config', _descriptor5, _this), _initDefineProp(_this, 'has_error', _descriptor6, _this), _initDefineProp(_this, 'error_message', _descriptor7, _this), _initDefineProp(_this, 'is_sell_requested', _descriptor8, _this), _this.is_left_epoch_set = false, _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContractStore.__proto__ || Object.getPrototypeOf(ContractStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'contract_id', _descriptor, _this), _initDefineProp(_this, 'contract_info', _descriptor2, _this), _initDefineProp(_this, 'digits_info', _descriptor3, _this), _initDefineProp(_this, 'sell_info', _descriptor4, _this), _initDefineProp(_this, 'has_error', _descriptor5, _this), _initDefineProp(_this, 'error_message', _descriptor6, _this), _initDefineProp(_this, 'is_sell_requested', _descriptor7, _this), _this.is_left_epoch_set = false, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     // ---- Normal properties ---
@@ -25437,16 +25838,13 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
         // -------------------
         value: function drawChart(SmartChartStore, contract_info) {
             this.forget_id = contract_info.id;
-            if ((0, _logic.isEnded)(contract_info) || !!(0, _logic.getEndSpotTime)(contract_info)) {
-                this.chart_config = (0, _logic.getChartConfig)(contract_info);
-            } else {
-                delete this.chart_config.end_epoch;
-                delete this.chart_config.start_epoch;
+            var end_time = (0, _logic.getEndTime)(contract_info);
 
-                if (!this.is_left_epoch_set && contract_info.tick_count) {
-                    this.is_left_epoch_set = true;
-                    SmartChartStore.setTickChartView(contract_info.purchase_time);
-                }
+            if (end_time) {
+                SmartChartStore.setRange(contract_info.date_start, end_time);
+            } else if (!this.is_left_epoch_set && contract_info.tick_count) {
+                this.is_left_epoch_set = true;
+                SmartChartStore.setTickChartView(contract_info.purchase_time);
             }
 
             (0, _chartBarriers.createChartBarrier)(SmartChartStore, contract_info);
@@ -25458,6 +25856,7 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
         key: 'onMount',
         value: function onMount(contract_id, has_left_epoch) {
             if (contract_id === +this.contract_id) return;
+            if (this.root_store.modules.smart_chart.is_contract_mode) this.onCloseContract();
             this.onSwitchAccount(this.accountSwitcherListener.bind(null));
             this.has_error = false;
             this.error_message = '';
@@ -25485,7 +25884,6 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
         key: 'onCloseContract',
         value: function onCloseContract() {
             this.forgetProposalOpenContract();
-            this.chart_config = {};
             this.contract_id = null;
             this.contract_info = {};
             this.digits_info = {};
@@ -25666,22 +26064,17 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
     initializer: function initializer() {
         return _mobx.observable.object({});
     }
-}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'chart_config', [_mobx.observable], {
-    enumerable: true,
-    initializer: function initializer() {
-        return _mobx.observable.object({});
-    }
-}), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'has_error', [_mobx.observable], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'has_error', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _descriptor7 = _applyDecoratedDescriptor(_class.prototype, 'error_message', [_mobx.observable], {
+}), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'error_message', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return '';
     }
-}), _descriptor8 = _applyDecoratedDescriptor(_class.prototype, 'is_sell_requested', [_mobx.observable], {
+}), _descriptor7 = _applyDecoratedDescriptor(_class.prototype, 'is_sell_requested', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
@@ -26109,12 +26502,19 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
     }, {
         key: 'active_positions',
         get: function get() {
+            return this.positions.filter(function (portfolio_pos) {
+                return !portfolio_pos.result;
+            });
+        }
+    }, {
+        key: 'all_positions',
+        get: function get() {
             return this.positions;
         }
     }, {
         key: 'is_empty',
         get: function get() {
-            return !this.is_loading && this.active_positions.length === 0;
+            return !this.is_loading && this.all_positions.length === 0;
         }
     }]);
 
@@ -26175,7 +26575,7 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             _this5.positions[i].is_loading = false;
         };
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'pushNewPosition', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'pushNewPosition'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removePositionById', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'removePositionById'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'accountSwitcherListener', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'accountSwitcherListener'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totals', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totals'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'active_positions', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'active_positions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'pushNewPosition', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'pushNewPosition'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removePositionById', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'removePositionById'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'accountSwitcherListener', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'accountSwitcherListener'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totals', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totals'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'active_positions', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'active_positions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'all_positions', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'all_positions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype)), _class));
 exports.default = PortfolioStore;
 
 /***/ }),
@@ -26666,7 +27066,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16;
 
 var _extend2 = __webpack_require__(/*! extend */ "./node_modules/extend/index.js");
 
@@ -26747,7 +27147,7 @@ function _initializerWarningHelper(descriptor, context) {
 
 var store_name = 'smart_chart_store';
 
-var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, _dec16 = _mobx.action.bound, _dec17 = _mobx.action.bound, _dec18 = _mobx.action.bound, _dec19 = _mobx.action.bound, (_class = function (_BaseStore) {
+var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, _dec16 = _mobx.action.bound, _dec17 = _mobx.action.bound, _dec18 = _mobx.action.bound, _dec19 = _mobx.action.bound, _dec20 = _mobx.action.bound, _dec21 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(SmartChartStore, _BaseStore);
 
     function SmartChartStore(_ref) {
@@ -26769,27 +27169,29 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
 
         _initDefineProp(_this, 'is_title_enabled', _descriptor5, _this);
 
-        _initDefineProp(_this, 'scroll_to_left_epoch', _descriptor6, _this);
+        _initDefineProp(_this, 'range', _descriptor6, _this);
 
-        _initDefineProp(_this, 'scroll_to_left_epoch_offset', _descriptor7, _this);
+        _initDefineProp(_this, 'scroll_to_left_epoch', _descriptor7, _this);
 
-        _initDefineProp(_this, 'zoom', _descriptor8, _this);
+        _initDefineProp(_this, 'scroll_to_left_epoch_offset', _descriptor8, _this);
 
-        _initDefineProp(_this, 'should_import_layout', _descriptor9, _this);
+        _initDefineProp(_this, 'zoom', _descriptor9, _this);
 
-        _initDefineProp(_this, 'should_export_layout', _descriptor10, _this);
+        _initDefineProp(_this, 'should_import_layout', _descriptor10, _this);
 
-        _initDefineProp(_this, 'should_clear_chart', _descriptor11, _this);
+        _initDefineProp(_this, 'should_export_layout', _descriptor11, _this);
 
-        _initDefineProp(_this, 'trade_chart_layout', _descriptor12, _this);
+        _initDefineProp(_this, 'should_clear_chart', _descriptor12, _this);
+
+        _initDefineProp(_this, 'trade_chart_layout', _descriptor13, _this);
 
         _this.trade_chart_symbol = null;
 
-        _initDefineProp(_this, 'onMount', _descriptor13, _this);
+        _initDefineProp(_this, 'onMount', _descriptor14, _this);
 
-        _initDefineProp(_this, 'onUnmount', _descriptor14, _this);
+        _initDefineProp(_this, 'onUnmount', _descriptor15, _this);
 
-        _initDefineProp(_this, 'createBarriers', _descriptor15, _this);
+        _initDefineProp(_this, 'createBarriers', _descriptor16, _this);
 
         _this.wsSubscribe = function (request_object, callback) {
             if (request_object.subscribe !== 1) return;
@@ -26835,6 +27237,7 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
         value: function cleanupContractChartView() {
             this.removeBarriers();
             this.removeMarkers();
+            this.removeRange();
             this.resetScrollZoom();
             this.setContractMode(false);
         }
@@ -26860,6 +27263,21 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
             this.updateEpochScrollToOffset(1);
             this.updateChartZoom(100);
             this.updateEpochScrollToValue(scroll_to_left_epoch);
+        }
+
+        // --------- All Contracts ---------
+
+    }, {
+        key: 'setRange',
+        value: function setRange(start, end) {
+            this.range.start_epoch = start;
+            this.range.end_epoch = end;
+        }
+    }, {
+        key: 'removeRange',
+        value: function removeRange() {
+            this.range.start_epoch = null;
+            this.range.end_epoch = null;
         }
 
         // ---------- Barriers ----------
@@ -26993,40 +27411,48 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
     initializer: function initializer() {
         return true;
     }
-}), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'scroll_to_left_epoch', [_mobx.observable], {
+}), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'range', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return _mobx.observable.object({
+            start_epoch: null,
+            end_epoch: null
+        });
+    }
+}), _descriptor7 = _applyDecoratedDescriptor(_class.prototype, 'scroll_to_left_epoch', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return null;
     }
-}), _descriptor7 = _applyDecoratedDescriptor(_class.prototype, 'scroll_to_left_epoch_offset', [_mobx.observable], {
+}), _descriptor8 = _applyDecoratedDescriptor(_class.prototype, 'scroll_to_left_epoch_offset', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return 0;
     }
-}), _descriptor8 = _applyDecoratedDescriptor(_class.prototype, 'zoom', [_mobx.observable], {
+}), _descriptor9 = _applyDecoratedDescriptor(_class.prototype, 'zoom', [_mobx.observable], {
     enumerable: true,
     initializer: null
-}), _descriptor9 = _applyDecoratedDescriptor(_class.prototype, 'should_import_layout', [_mobx.observable], {
+}), _descriptor10 = _applyDecoratedDescriptor(_class.prototype, 'should_import_layout', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _descriptor10 = _applyDecoratedDescriptor(_class.prototype, 'should_export_layout', [_mobx.observable], {
+}), _descriptor11 = _applyDecoratedDescriptor(_class.prototype, 'should_export_layout', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _descriptor11 = _applyDecoratedDescriptor(_class.prototype, 'should_clear_chart', [_mobx.observable], {
+}), _descriptor12 = _applyDecoratedDescriptor(_class.prototype, 'should_clear_chart', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _descriptor12 = _applyDecoratedDescriptor(_class.prototype, 'trade_chart_layout', [_mobx.observable], {
+}), _descriptor13 = _applyDecoratedDescriptor(_class.prototype, 'trade_chart_layout', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return _mobx.observable.object({});
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'updateEpochScrollToValue', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'updateEpochScrollToValue'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateEpochScrollToOffset', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'updateEpochScrollToOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateChartZoom', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'updateChartZoom'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'cleanupContractChartView', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'cleanupContractChartView'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'resetScrollZoom', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'resetScrollZoom'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setContractMode', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'setContractMode'), _class.prototype), _descriptor13 = _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec7], {
+}), _applyDecoratedDescriptor(_class.prototype, 'updateEpochScrollToValue', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'updateEpochScrollToValue'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateEpochScrollToOffset', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'updateEpochScrollToOffset'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateChartZoom', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'updateChartZoom'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'cleanupContractChartView', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'cleanupContractChartView'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'resetScrollZoom', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'resetScrollZoom'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setContractMode', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'setContractMode'), _class.prototype), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec7], {
     enumerable: true,
     initializer: function initializer() {
         var _this4 = this;
@@ -27037,7 +27463,7 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
             }
         };
     }
-}), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec8], {
+}), _descriptor15 = _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec8], {
     enumerable: true,
     initializer: function initializer() {
         var _this5 = this;
@@ -27048,7 +27474,7 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
             _this5.removeMarkers();
         };
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'setTickChartView', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'setTickChartView'), _class.prototype), _descriptor15 = _applyDecoratedDescriptor(_class.prototype, 'createBarriers', [_dec10], {
+}), _applyDecoratedDescriptor(_class.prototype, 'setTickChartView', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'setTickChartView'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setRange', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'setRange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeRange', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'removeRange'), _class.prototype), _descriptor16 = _applyDecoratedDescriptor(_class.prototype, 'createBarriers', [_dec12], {
     enumerable: true,
     initializer: function initializer() {
         var _this6 = this;
@@ -27066,7 +27492,7 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
             }
         };
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'updateBarriers', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'updateBarriers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateBarrierShade', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'updateBarrierShade'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateBarrierColor', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'updateBarrierColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeBarriers', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'removeBarriers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'saveAndClearTradeChartLayout', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'saveAndClearTradeChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'applySavedTradeChartLayout', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'applySavedTradeChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'exportLayout', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'exportLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'barriers_array', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'barriers_array'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'createMarker', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'createMarker'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeMarkers', [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, 'removeMarkers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'markers_array', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'markers_array'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'settings', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'settings'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'updateBarriers', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'updateBarriers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateBarrierShade', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'updateBarrierShade'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateBarrierColor', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'updateBarrierColor'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeBarriers', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'removeBarriers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'saveAndClearTradeChartLayout', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'saveAndClearTradeChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'applySavedTradeChartLayout', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'applySavedTradeChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'exportLayout', [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, 'exportLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'barriers_array', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'barriers_array'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'createMarker', [_dec20], Object.getOwnPropertyDescriptor(_class.prototype, 'createMarker'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeMarkers', [_dec21], Object.getOwnPropertyDescriptor(_class.prototype, 'removeMarkers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'markers_array', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'markers_array'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'settings', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'settings'), _class.prototype)), _class));
 exports.default = SmartChartStore;
 
 /***/ }),
@@ -30440,14 +30866,25 @@ var BaseStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = 
          * Sets validation error messages for an observable property of the store
          *
          * @param {String} propertyName - The observable property's name
-         * @param {String} messages - An array of strings that contains validation error messages for the particular property.
+         * @param [{String}] messages - An array of strings that contains validation error messages for the particular property.
          *
          */
 
     }, {
         key: 'setValidationErrorMessages',
         value: function setValidationErrorMessages(propertyName, messages) {
-            this.validation_errors[propertyName] = messages;
+            var _this4 = this;
+
+            var is_different = function is_different() {
+                return !!_this4.validation_errors[propertyName].filter(function (x) {
+                    return !messages.includes(x);
+                }).concat(messages.filter(function (x) {
+                    return !_this4.validation_errors[propertyName].includes(x);
+                })).length;
+            };
+            if (!this.validation_errors[propertyName] || is_different()) {
+                this.validation_errors[propertyName] = messages;
+            }
         }
 
         /**
@@ -30460,12 +30897,12 @@ var BaseStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = 
     }, {
         key: 'setValidationRules',
         value: function setValidationRules() {
-            var _this4 = this;
+            var _this5 = this;
 
             var rules = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
             Object.keys(rules).forEach(function (key) {
-                _this4.addRule(key, rules[key]);
+                _this5.addRule(key, rules[key]);
             });
         }
 
@@ -30480,12 +30917,12 @@ var BaseStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = 
     }, {
         key: 'addRule',
         value: function addRule(property, rules) {
-            var _this5 = this;
+            var _this6 = this;
 
             this.validation_rules[property] = rules;
 
             (0, _mobx.intercept)(this, property, function (change) {
-                _this5.validateProperty(property, change.newValue);
+                _this6.validateProperty(property, change.newValue);
                 return change;
             });
         }
@@ -30501,7 +30938,7 @@ var BaseStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = 
     }, {
         key: 'validateProperty',
         value: function validateProperty(property, value) {
-            var _this6 = this;
+            var _this7 = this;
 
             var trigger = this.validation_rules[property].trigger;
             var inputs = _defineProperty({}, property, value !== undefined ? value : this[property]);
@@ -30517,7 +30954,7 @@ var BaseStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = 
             validator.isPassed();
 
             Object.keys(inputs).forEach(function (key) {
-                _this6.setValidationErrorMessages(key, validator.errors.get(key));
+                _this7.setValidationErrorMessages(key, validator.errors.get(key));
             });
         }
 
@@ -30529,20 +30966,29 @@ var BaseStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = 
     }, {
         key: 'validateAllProperties',
         value: function validateAllProperties() {
-            var _this7 = this;
+            var _this8 = this;
 
-            this.validation_errors = {};
-            Object.keys(this.validation_rules).forEach(function (p) {
-                _this7.validateProperty(p, _this7[p]);
+            var validation_rules = Object.keys(this.validation_rules);
+            var validation_errors = Object.keys(this.validation_errors);
+
+            validation_rules.forEach(function (p) {
+                _this8.validateProperty(p, _this8[p]);
+            });
+
+            // Remove keys that are present in error, but not in rules:
+            validation_errors.forEach(function (error) {
+                if (!validation_rules.includes(error)) {
+                    delete _this8.validation_errors[error];
+                }
             });
         }
     }, {
         key: 'onSwitchAccount',
         value: function onSwitchAccount(listener) {
-            var _this8 = this;
+            var _this9 = this;
 
             this.switchAccountDisposer = (0, _mobx.when)(function () {
-                return _this8.root_store.client.switch_broadcast;
+                return _this9.root_store.client.switch_broadcast;
             }, _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
                 var result;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -30550,7 +30996,7 @@ var BaseStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = 
                         switch (_context.prev = _context.next) {
                             case 0:
                                 _context.prev = 0;
-                                result = _this8.switch_account_listener();
+                                result = _this9.switch_account_listener();
 
                                 if (!(result && result.then && typeof result.then === 'function')) {
                                     _context.next = 6;
@@ -30558,8 +31004,8 @@ var BaseStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = 
                                 }
 
                                 result.then(function () {
-                                    _this8.root_store.client.switchEndSignal();
-                                    _this8.onSwitchAccount(_this8.switch_account_listener);
+                                    _this9.root_store.client.switchEndSignal();
+                                    _this9.onSwitchAccount(_this9.switch_account_listener);
                                 });
                                 _context.next = 7;
                                 break;
@@ -30586,7 +31032,7 @@ var BaseStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = 
                                 return _context.stop();
                         }
                     }
-                }, _callee, _this8, [[0, 9]]);
+                }, _callee, _this9, [[0, 9]]);
             })));
             this.switch_account_listener = listener;
         }
@@ -30849,6 +31295,8 @@ var ClientStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 
         key: 'switchEndSignal',
         value: function switchEndSignal() {
             this.switch_broadcast = false;
+            // TODO: Remove once app enables Real accounts
+            if (this.is_virtual) this.root_store.ui.is_app_blurred = false;
         }
 
         /**
@@ -31627,7 +32075,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _dec26, _dec27, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16, _descriptor17, _descriptor18, _descriptor19, _descriptor20, _descriptor21, _descriptor22, _descriptor23, _descriptor24, _descriptor25, _descriptor26, _descriptor27;
 
 var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
 
@@ -31690,12 +32138,14 @@ function _initializerWarningHelper(descriptor, context) {
 
 var store_name = 'ui_store';
 
-var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, _dec16 = _mobx.action.bound, _dec17 = _mobx.action.bound, _dec18 = _mobx.action.bound, _dec19 = _mobx.action.bound, _dec20 = _mobx.action.bound, _dec21 = _mobx.action.bound, _dec22 = _mobx.action.bound, _dec23 = _mobx.action.bound, _dec24 = _mobx.action.bound, _dec25 = _mobx.action.bound, (_class = function (_BaseStore) {
+var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, _dec16 = _mobx.action.bound, _dec17 = _mobx.action.bound, _dec18 = _mobx.action.bound, _dec19 = _mobx.action.bound, _dec20 = _mobx.action.bound, _dec21 = _mobx.action.bound, _dec22 = _mobx.action.bound, _dec23 = _mobx.action.bound, _dec24 = _mobx.action.bound, _dec25 = _mobx.action.bound, _dec26 = _mobx.action.bound, _dec27 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(UIStore, _BaseStore);
 
-    // @observable is_purchase_lock_on       = false;
+    // PWA event and config
 
-    // SmartCharts Controls
+
+    // Purchase Controls
+    // @observable is_purchase_confirm_on    = false;
     function UIStore() {
         _classCallCheck(this, UIStore);
 
@@ -31753,7 +32203,9 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
 
         _initDefineProp(_this, 'duration_d', _descriptor25, _this);
 
-        _initDefineProp(_this, 'is_blurred', _descriptor26, _this);
+        _initDefineProp(_this, 'is_fully_blurred', _descriptor26, _this);
+
+        _initDefineProp(_this, 'is_app_blurred', _descriptor27, _this);
 
         _this.getDurationFromUnit = function (unit) {
             return _this['duration_' + unit];
@@ -31771,12 +32223,9 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
         });
         return _this;
     }
+    // @observable is_purchase_lock_on       = false;
 
-    // PWA event and config
-
-
-    // Purchase Controls
-    // @observable is_purchase_confirm_on    = false;
+    // SmartCharts Controls
 
 
     _createClass(UIStore, [{
@@ -31799,14 +32248,24 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
             }
         }
     }, {
-        key: 'showBlur',
-        value: function showBlur() {
-            this.is_blurred = true;
+        key: 'showAppBlur',
+        value: function showAppBlur() {
+            this.is_app_blurred = true;
         }
     }, {
-        key: 'hideBlur',
-        value: function hideBlur() {
-            this.is_blurred = false;
+        key: 'hideAppBlur',
+        value: function hideAppBlur() {
+            this.is_app_blurred = false;
+        }
+    }, {
+        key: 'showFullBlur',
+        value: function showFullBlur() {
+            this.is_fully_blurred = true;
+        }
+    }, {
+        key: 'hideFullBlur',
+        value: function hideFullBlur() {
+            this.is_fully_blurred = false;
         }
     }, {
         key: 'toggleAccountsDialog',
@@ -32074,12 +32533,17 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
     initializer: function initializer() {
         return 1;
     }
-}), _descriptor26 = _applyDecoratedDescriptor(_class.prototype, 'is_blurred', [_mobx.observable], {
+}), _descriptor26 = _applyDecoratedDescriptor(_class.prototype, 'is_fully_blurred', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return false;
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'onChangeUiStore', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'onChangeUiStore'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleResize', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'handleResize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_mobile', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_mobile'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_tablet', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_tablet'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showBlur', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'showBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideBlur', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'hideBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleAccountsDialog', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleAccountsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartLayout', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartAssetInfo', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartAssetInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartCountdown', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartCountdown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleDarkMode', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleDarkMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleSettingsDialog', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleSettingsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showLanguageDialog', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'showLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideLanguageDialog', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'hideLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'openPositionsDrawer', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'openPositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePositionsDrawer', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleServicesErrorModal', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleServicesErrorModal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showMainDrawer', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'showMainDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showNotificationsDrawer', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'showNotificationsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideDrawers', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'hideDrawers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showInstallButton', [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, 'showInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideInstallButton', [_dec20], Object.getOwnPropertyDescriptor(_class.prototype, 'hideInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setPWAPromptEvent', [_dec21], Object.getOwnPropertyDescriptor(_class.prototype, 'setPWAPromptEvent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addToastMessage', [_dec22], Object.getOwnPropertyDescriptor(_class.prototype, 'addToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeToastMessage', [_dec23], Object.getOwnPropertyDescriptor(_class.prototype, 'removeToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeAllToastMessages', [_dec24], Object.getOwnPropertyDescriptor(_class.prototype, 'removeAllToastMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setHasOnlyForwardingContracts', [_dec25], Object.getOwnPropertyDescriptor(_class.prototype, 'setHasOnlyForwardingContracts'), _class.prototype)), _class));
+}), _descriptor27 = _applyDecoratedDescriptor(_class.prototype, 'is_app_blurred', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return false;
+    }
+}), _applyDecoratedDescriptor(_class.prototype, 'onChangeUiStore', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'onChangeUiStore'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleResize', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'handleResize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_mobile', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_mobile'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_tablet', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_tablet'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showAppBlur', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'showAppBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideAppBlur', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'hideAppBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showFullBlur', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'showFullBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideFullBlur', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'hideFullBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleAccountsDialog', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleAccountsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartLayout', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartAssetInfo', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartAssetInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartCountdown', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartCountdown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleDarkMode', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleDarkMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleSettingsDialog', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleSettingsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showLanguageDialog', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'showLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideLanguageDialog', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'hideLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'openPositionsDrawer', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'openPositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePositionsDrawer', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleServicesErrorModal', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleServicesErrorModal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showMainDrawer', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'showMainDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showNotificationsDrawer', [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, 'showNotificationsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideDrawers', [_dec20], Object.getOwnPropertyDescriptor(_class.prototype, 'hideDrawers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showInstallButton', [_dec21], Object.getOwnPropertyDescriptor(_class.prototype, 'showInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideInstallButton', [_dec22], Object.getOwnPropertyDescriptor(_class.prototype, 'hideInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setPWAPromptEvent', [_dec23], Object.getOwnPropertyDescriptor(_class.prototype, 'setPWAPromptEvent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addToastMessage', [_dec24], Object.getOwnPropertyDescriptor(_class.prototype, 'addToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeToastMessage', [_dec25], Object.getOwnPropertyDescriptor(_class.prototype, 'removeToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeAllToastMessages', [_dec26], Object.getOwnPropertyDescriptor(_class.prototype, 'removeAllToastMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setHasOnlyForwardingContracts', [_dec27], Object.getOwnPropertyDescriptor(_class.prototype, 'setHasOnlyForwardingContracts'), _class.prototype)), _class));
 exports.default = UIStore;
 
 /***/ }),
@@ -33410,7 +33874,7 @@ var getAppId = function getAppId() {
         app_id = binary_desktop_app_id;
     } else if (/staging\.binary\.com/i.test(window.location.hostname)) {
         window.localStorage.removeItem('config.default_app_id');
-        app_id = is_new_app ? 16298 : 1098;
+        app_id = is_new_app ? 16303 : 1098;
     } else if (user_app_id.length) {
         window.localStorage.setItem('config.default_app_id', user_app_id); // it's being used in endpoint chrome extension - please do not remove
         app_id = user_app_id;
@@ -33418,7 +33882,7 @@ var getAppId = function getAppId() {
         app_id = 1159;
     } else {
         window.localStorage.removeItem('config.default_app_id');
-        app_id = is_new_app ? 16299 : domain_app_ids[getCurrentBinaryDomain()] || 1;
+        app_id = is_new_app ? 15265 : domain_app_ids[getCurrentBinaryDomain()] || 1;
     }
     return app_id;
 };

@@ -39,7 +39,7 @@
                 var conLang = 'en';
                 if (country) {
                     Object.keys(langs).map(function(l) {
-                        if((new RegExp(langs[l], 'i')).test(country)) conLang = l;
+                        if ((new RegExp(langs[l], 'i')).test(country)) conLang = l;
                     });
                 }
                 return conLang;
@@ -52,15 +52,14 @@
             }
             function isDelayedRedirect() {
                 if (isGtmApplicable() && !redirectTimeOut) {
-                    redirectTimeOut = setTimeout(redirect, 3000);
+                    redirectTimeOut = setTimeout(redirect, 5000);
                 } else {
                     clearTimeout(redirectTimeOut);
                     redirect();
                 }
             }
             function isGtmApplicable() {
-                // return /(www|staging)\.binary\.(com|me)/i.test(window.location.hostname);
-                return true;
+                return /(www|staging)\.binary\.(com|me)/i.test(window.location.hostname);
             }
             function pushEvent() {
                 if (isGtmApplicable()) {
