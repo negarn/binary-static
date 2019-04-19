@@ -4175,6 +4175,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -4225,188 +4227,224 @@ var _button2 = _interopRequireDefault(_button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PositionsDrawerCard = function PositionsDrawerCard(_ref) {
-    var active_position = _ref.active_position,
-        className = _ref.className,
-        contract_info = _ref.contract_info,
-        currency = _ref.currency,
-        current_tick = _ref.current_tick,
-        duration = _ref.duration,
-        duration_unit = _ref.duration_unit,
-        exit_spot = _ref.exit_spot,
-        indicative = _ref.indicative,
-        id = _ref.id,
-        is_loading = _ref.is_loading,
-        is_sell_requested = _ref.is_sell_requested,
-        is_valid_to_sell = _ref.is_valid_to_sell,
-        profit_loss = _ref.profit_loss,
-        onClickSell = _ref.onClickSell,
-        onClickRemove = _ref.onClickRemove,
-        openContract = _ref.openContract,
-        result = _ref.result,
-        sell_time = _ref.sell_time,
-        server_time = _ref.server_time,
-        status = _ref.status,
-        type = _ref.type;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    var percentage = (0, _helpers.getTimePercentage)(server_time, contract_info.purchase_time, contract_info.date_expiry);
-    return _react2.default.createElement(
-        'div',
-        { className: (0, _classnames2.default)('positions-drawer-card__wrapper', {
-                'positions-drawer-card__wrapper--active': parseInt(active_position) === id
-            }, className)
-        },
-        _react2.default.createElement(_resultOverlay2.default, {
-            contract_id: id,
-            onClickRemove: onClickRemove,
-            onClick: openContract,
-            result: result
-        }),
-        _react2.default.createElement(
-            _contractLink2.default,
-            {
-                className: (0, _classnames2.default)('positions-drawer-card', {
-                    'positions-drawer-card--active': parseInt(active_position) === id,
-                    'positions-drawer-card--green': profit_loss > 0 && !result,
-                    'positions-drawer-card--red': profit_loss < 0 && !result
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PositionsDrawerCard = function (_React$PureComponent) {
+    _inherits(PositionsDrawerCard, _React$PureComponent);
+
+    function PositionsDrawerCard() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, PositionsDrawerCard);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PositionsDrawerCard.__proto__ || Object.getPrototypeOf(PositionsDrawerCard)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            is_shade_on: false
+        }, _this.handleShade = function (shade) {
+            _this.setState({ is_shade_on: shade });
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(PositionsDrawerCard, [{
+        key: 'render',
+        value: function render() {
+            var _props = this.props,
+                active_position = _props.active_position,
+                className = _props.className,
+                contract_info = _props.contract_info,
+                currency = _props.currency,
+                current_tick = _props.current_tick,
+                duration = _props.duration,
+                duration_unit = _props.duration_unit,
+                exit_spot = _props.exit_spot,
+                indicative = _props.indicative,
+                id = _props.id,
+                is_loading = _props.is_loading,
+                is_sell_requested = _props.is_sell_requested,
+                is_valid_to_sell = _props.is_valid_to_sell,
+                profit_loss = _props.profit_loss,
+                onClickSell = _props.onClickSell,
+                onClickRemove = _props.onClickRemove,
+                openContract = _props.openContract,
+                result = _props.result,
+                sell_time = _props.sell_time,
+                server_time = _props.server_time,
+                status = _props.status,
+                type = _props.type;
+
+            var percentage = (0, _helpers.getTimePercentage)(server_time, contract_info.purchase_time, contract_info.date_expiry);
+            return _react2.default.createElement(
+                'div',
+                { className: (0, _classnames2.default)('positions-drawer-card__wrapper', {
+                        'positions-drawer-card__wrapper--active': parseInt(active_position) === id
+                    }, className)
+                },
+                _react2.default.createElement(_resultOverlay2.default, {
+                    contract_id: id,
+                    onClickRemove: onClickRemove,
+                    onClick: openContract,
+                    result: result,
+                    is_shade_visible: this.state.is_shade_on
                 }),
-                contract_id: id
-            },
-            _react2.default.createElement(
-                _react2.default.Fragment,
-                null,
                 _react2.default.createElement(
-                    'div',
-                    { className: (0, _classnames2.default)('positions-drawer-card__grid', 'positions-drawer-card__grid-underlying-trade')
+                    _contractLink2.default,
+                    {
+                        className: (0, _classnames2.default)('positions-drawer-card', {
+                            'positions-drawer-card--active': parseInt(active_position) === id,
+                            'positions-drawer-card--green': profit_loss > 0 && !result,
+                            'positions-drawer-card--red': profit_loss < 0 && !result
+                        }),
+                        contract_id: id
                     },
                     _react2.default.createElement(
-                        'div',
-                        { className: 'positions-drawer-card__underlying-name' },
-                        _react2.default.createElement('div', {
-                            className: (0, _classnames2.default)('icons-underlying', 'icons-underlying__ic-' + (contract_info.underlying || 'unknown'))
+                        _react2.default.Fragment,
+                        null,
+                        _react2.default.createElement(
+                            'div',
+                            { className: (0, _classnames2.default)('positions-drawer-card__grid', 'positions-drawer-card__grid-underlying-trade')
+                            },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'positions-drawer-card__underlying-name' },
+                                _react2.default.createElement('div', {
+                                    className: (0, _classnames2.default)('icons-underlying', 'icons-underlying__ic-' + (contract_info.underlying || 'unknown'))
+                                }),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'positions-drawer-card__symbol' },
+                                    contract_info.display_name
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'positions-drawer-card__type' },
+                                _react2.default.createElement(_contractTypeCell2.default, { type: type })
+                            )
+                        ),
+                        _react2.default.createElement(_ProgressSlider2.default, {
+                            is_loading: is_loading,
+                            remaining_time: contract_info.date_expiry,
+                            percentage: percentage,
+                            current_tick: current_tick,
+                            ticks_count: contract_info.tick_count,
+                            has_result: !!result
                         }),
                         _react2.default.createElement(
-                            'span',
-                            { className: 'positions-drawer-card__symbol' },
-                            contract_info.display_name
+                            'div',
+                            { className: (0, _classnames2.default)('positions-drawer-card__grid', 'positions-drawer-card__grid-profit-payout')
+                            },
+                            _react2.default.createElement(
+                                'div',
+                                { className: (0, _classnames2.default)('positions-drawer-card__profit-loss', 'positions-drawer-card__profit-loss-label')
+                                },
+                                result ? (0, _localize.localize)('P/L:') : (0, _localize.localize)('Potential P/L:')
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: (0, _classnames2.default)('positions-drawer-card__indicative', 'positions-drawer-card__indicative-label')
+                                },
+                                !result ? (0, _localize.localize)('Indicative Price:') : (0, _localize.localize)('Payout:')
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: (0, _classnames2.default)('positions-drawer-card__profit-loss', {
+                                        'positions-drawer-card__profit-loss--minus': status !== 'complete' && profit_loss < 0,
+                                        'positions-drawer-card__profit-loss--plus': status !== 'complete' && profit_loss > 0,
+                                        'positions-drawer-card__profit-loss--negative': status === 'complete' && profit_loss < 0,
+                                        'positions-drawer-card__profit-loss--positive': status === 'complete' && profit_loss > 0
+                                    })
+                                },
+                                _react2.default.createElement(_money2.default, { amount: Math.abs(profit_loss), currency: currency }),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: (0, _classnames2.default)('positions-drawer-card__indicative--movement', {
+                                            'positions-drawer-card__indicative--movement-complete': status === 'complete'
+                                        })
+                                    },
+                                    _react2.default.createElement(_iconPriceMove.IconPriceMove, {
+                                        type: status !== 'complete' ? status : null
+                                    })
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'positions-drawer-card__indicative' },
+                                _react2.default.createElement(_money2.default, { amount: indicative, currency: currency }),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: (0, _classnames2.default)('positions-drawer-card__indicative--movement', {
+                                            'positions-drawer-card__indicative--movement-complete': status === 'complete'
+                                        })
+                                    },
+                                    _react2.default.createElement(_iconPriceMove.IconPriceMove, {
+                                        type: status !== 'complete' ? status : null
+                                    })
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'positions-drawer-card__purchase-price' },
+                            _react2.default.createElement(
+                                'span',
+                                { className: 'positions-drawer-card__purchase-label' },
+                                (0, _localize.localize)('Purchase price')
+                            ),
+                            _react2.default.createElement(_money2.default, { amount: contract_info.buy_price, currency: currency })
                         )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'positions-drawer-card__type' },
-                        _react2.default.createElement(_contractTypeCell2.default, { type: type })
                     )
                 ),
-                _react2.default.createElement(_ProgressSlider2.default, {
-                    is_loading: is_loading,
-                    remaining_time: contract_info.date_expiry,
-                    percentage: percentage,
-                    current_tick: current_tick,
-                    ticks_count: contract_info.tick_count,
-                    has_result: !!result
-                }),
                 _react2.default.createElement(
-                    'div',
-                    { className: (0, _classnames2.default)('positions-drawer-card__grid', 'positions-drawer-card__grid-profit-payout')
+                    _reactTransitionGroup.CSSTransition,
+                    {
+                        'in': !!is_valid_to_sell,
+                        timeout: 250,
+                        classNames: {
+                            enter: 'positions-drawer-card__sell-button--enter',
+                            enterDone: 'positions-drawer-card__sell-button--enter-done',
+                            exit: 'positions-drawer-card__sell-button--exit'
+                        },
+                        unmountOnExit: true
                     },
                     _react2.default.createElement(
                         'div',
-                        { className: (0, _classnames2.default)('positions-drawer-card__profit-loss', 'positions-drawer-card__profit-loss-label')
-                        },
-                        result ? (0, _localize.localize)('P/L:') : (0, _localize.localize)('Potential P/L:')
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: (0, _classnames2.default)('positions-drawer-card__indicative', 'positions-drawer-card__indicative-label')
-                        },
-                        !result ? (0, _localize.localize)('Indicative Price:') : (0, _localize.localize)('Payout:')
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: (0, _classnames2.default)('positions-drawer-card__profit-loss', {
-                                'positions-drawer-card__profit-loss--minus': status !== 'complete' && profit_loss < 0,
-                                'positions-drawer-card__profit-loss--plus': status !== 'complete' && profit_loss > 0,
-                                'positions-drawer-card__profit-loss--negative': status === 'complete' && profit_loss < 0,
-                                'positions-drawer-card__profit-loss--positive': status === 'complete' && profit_loss > 0
-                            })
-                        },
-                        _react2.default.createElement(_money2.default, { amount: Math.abs(profit_loss), currency: currency }),
-                        _react2.default.createElement(
-                            'div',
-                            { className: (0, _classnames2.default)('positions-drawer-card__indicative--movement', {
-                                    'positions-drawer-card__indicative--movement-complete': status === 'complete'
-                                })
-                            },
-                            _react2.default.createElement(_iconPriceMove.IconPriceMove, {
-                                type: status !== 'complete' ? status : null
-                            })
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'positions-drawer-card__indicative' },
-                        _react2.default.createElement(_money2.default, { amount: indicative, currency: currency }),
-                        _react2.default.createElement(
-                            'div',
-                            { className: (0, _classnames2.default)('positions-drawer-card__indicative--movement', {
-                                    'positions-drawer-card__indicative--movement-complete': status === 'complete'
-                                })
-                            },
-                            _react2.default.createElement(_iconPriceMove.IconPriceMove, {
-                                type: status !== 'complete' ? status : null
-                            })
-                        )
+                        { className: 'positions-drawer-card__sell-button' },
+                        _react2.default.createElement(_button2.default, {
+                            className: (0, _classnames2.default)('btn--primary', 'btn--primary--green', 'btn--sell', {
+                                'btn--loading': is_sell_requested
+                            }),
+                            is_disabled: !is_valid_to_sell || is_sell_requested,
+                            text: (0, _localize.localize)('Sell contract'),
+                            onClick: function onClick() {
+                                return onClickSell(id);
+                            }
+                        })
                     )
                 ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'positions-drawer-card__purchase-price' },
-                    _react2.default.createElement(
-                        'span',
-                        { className: 'positions-drawer-card__purchase-label' },
-                        (0, _localize.localize)('Purchase price')
-                    ),
-                    _react2.default.createElement(_money2.default, { amount: contract_info.buy_price, currency: currency })
-                )
-            )
-        ),
-        _react2.default.createElement(
-            _reactTransitionGroup.CSSTransition,
-            {
-                'in': !!is_valid_to_sell,
-                timeout: 250,
-                classNames: {
-                    enter: 'positions-drawer-card__sell-button--enter',
-                    enterDone: 'positions-drawer-card__sell-button--enter-done',
-                    exit: 'positions-drawer-card__sell-button--exit'
-                },
-                unmountOnExit: true
-            },
-            _react2.default.createElement(
-                'div',
-                { className: 'positions-drawer-card__sell-button' },
-                _react2.default.createElement(_button2.default, {
-                    className: (0, _classnames2.default)('btn--primary', 'btn--primary--green', 'btn--sell', {
-                        'btn--loading': is_sell_requested
-                    }),
-                    is_disabled: !is_valid_to_sell || is_sell_requested,
-                    text: (0, _localize.localize)('Sell contract'),
-                    onClick: function onClick() {
-                        return onClickSell(id);
-                    }
+                _react2.default.createElement(_resultDetails2.default, {
+                    contract_info: contract_info,
+                    contract_end_time: sell_time,
+                    is_shade_visible: this.handleShade,
+                    duration: duration,
+                    duration_unit: duration_unit,
+                    exit_spot: exit_spot,
+                    has_result: !!result
                 })
-            )
-        ),
-        _react2.default.createElement(_resultDetails2.default, {
-            contract_info: contract_info,
-            contract_end_time: sell_time,
-            duration: duration,
-            duration_unit: duration_unit,
-            exit_spot: exit_spot,
-            has_result: !!result
-        })
-    );
-};
+            );
+        }
+    }]);
+
+    return PositionsDrawerCard;
+}(_react2.default.PureComponent);
 
 PositionsDrawerCard.propTypes = {
     active_position: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
@@ -4776,7 +4814,9 @@ var ResultDetails = function (_React$PureComponent) {
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ResultDetails.__proto__ || Object.getPrototypeOf(ResultDetails)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             is_open: false
         }, _this.toggleDetails = function () {
-            _this.setState({ is_open: !_this.state.is_open });
+            _this.setState({ is_open: !_this.state.is_open }, _this.handleShade);
+        }, _this.handleShade = function () {
+            _this.props.is_shade_visible(_this.state.is_open);
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -4924,7 +4964,8 @@ var ResultOverlay = function ResultOverlay(_ref) {
     var contract_id = _ref.contract_id,
         _onClick = _ref.onClick,
         onClickRemove = _ref.onClickRemove,
-        result = _ref.result;
+        result = _ref.result,
+        is_shade_visible = _ref.is_shade_visible;
     return _react2.default.createElement(
         _react2.default.Fragment,
         null,
@@ -4944,7 +4985,8 @@ var ResultOverlay = function ResultOverlay(_ref) {
                 'div',
                 { className: (0, _classnames2.default)('positions-drawer-card__result', {
                         'positions-drawer-card__result--won': result === 'won',
-                        'positions-drawer-card__result--lost': result === 'lost'
+                        'positions-drawer-card__result--lost': result === 'lost',
+                        'positions-drawer-card__result--shade-hidden': is_shade_visible === true
                     })
                 },
                 _react2.default.createElement('span', {
@@ -4983,6 +5025,7 @@ var ResultOverlay = function ResultOverlay(_ref) {
 
 ResultOverlay.propTypes = {
     contract_id: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    is_shade_visible: _propTypes2.default.bool,
     onClick: _propTypes2.default.func,
     onClickRemove: _propTypes2.default.func,
     result: _propTypes2.default.string
