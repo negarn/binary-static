@@ -35212,6 +35212,7 @@ var ViewPopup = function () {
         getElementById('sell_details_chart_wrapper').setVisibility(!show);
         getElementById('sell_details_audit').setVisibility(show);
         ViewPopupUI.repositionConfirmation();
+        $('#sell_content_wrapper').scrollTop(0);
     };
 
     var setAuditButtonsVisibility = function setAuditButtonsVisibility() {
@@ -35310,6 +35311,7 @@ var ViewPopup = function () {
                 } else if (audit_data.flag === 'highlight_time') {
                     color = secondary_classes;
                 }
+
                 createAuditRow(table, audit_data.epoch, audit_data.tick, audit_data.name, color);
             });
             resolve();
@@ -35319,7 +35321,7 @@ var ViewPopup = function () {
     var createAuditTable = function createAuditTable(title) {
         var div = Utility.createElement('div', { class: 'audit-table' });
         var fieldset = Utility.createElement('fieldset', { class: 'align-start' });
-        var table = Utility.createElement('table', { class: 'gr-10 gr-centered gr-12-p gr-12-m' });
+        var table = Utility.createElement('table', { class: 'gr-12 gr-centered gr-12-p gr-12-m' });
         fieldset.appendChild(Utility.createElement('legend', { text: title }));
         fieldset.appendChild(table);
         div.appendChild(fieldset);
@@ -35338,9 +35340,9 @@ var ViewPopup = function () {
     var createAuditHeader = function createAuditHeader(table) {
         var tr = Utility.createElement('tr', { class: 'gr-row' });
 
-        tr.appendChild(Utility.createElement('td', { class: 'gr-3' }));
-        tr.appendChild(Utility.createElement('td', { class: 'gr-4 no-margin secondary-color', text: localize('Spot') }));
-        tr.appendChild(Utility.createElement('td', { class: 'gr-5 no-margin secondary-color', text: localize('Spot Time (GMT)') }));
+        tr.appendChild(Utility.createElement('td', { class: 'gr-4' }));
+        tr.appendChild(Utility.createElement('td', { class: 'gr-3 no-margin secondary-color', text: localize('Spot') }));
+        tr.appendChild(Utility.createElement('td', { class: 'gr-4 no-margin secondary-color', text: localize('Spot Time (GMT)') }));
 
         table.insertBefore(tr, table.childNodes[0]);
     };
@@ -35353,9 +35355,9 @@ var ViewPopup = function () {
         }
 
         var tr = Utility.createElement('tr', { class: 'gr-row' });
-        var td_remark = Utility.createElement('td', { class: 'gr-3 remark', text: remark || '' });
-        var td_tick = Utility.createElement('td', { class: 'gr-4', text: tick && !isNaN(tick) ? addComma(tick) : tick || '' });
-        var td_date = Utility.createElement('td', { class: 'gr-5 audit-dates', 'data-value': date, 'data-balloon-pos': 'down', text: date && !isNaN(date) ? moment.unix(date).utc().format('YYYY-MM-DD HH:mm:ss') : date || '' });
+        var td_remark = Utility.createElement('td', { class: 'gr-4 remark', text: remark || '' });
+        var td_tick = Utility.createElement('td', { class: 'gr-3 spot-value', text: tick && !isNaN(tick) ? addComma(tick) : tick || '' });
+        var td_date = Utility.createElement('td', { class: 'gr-4 audit-dates', 'data-value': date, 'data-balloon-pos': 'down', text: date && !isNaN(date) ? moment.unix(date).utc().format('YYYY-MM-DD HH:mm:ss') : date || '' });
 
         tr.appendChild(td_remark);
         tr.appendChild(td_tick);
@@ -35372,30 +35374,47 @@ var ViewPopup = function () {
     };
 
     var populateAuditTable = function populateAuditTable(show_audit_table) {
-        var contract_starts = createAuditTable(localize('Contract Starts'));
-        parseAuditResponse(contract_starts.table, contract.audit_details.contract_start).then(function () {
-            if (contract.audit_details.contract_start) {
-                createAuditHeader(contract_starts.table);
-                appendAuditLink('trade_details_entry_spot');
-            } else {
-                contract_starts.div.remove();
-            }
-            // don't show exit tick information if missing or manual sold
-            if (contract.audit_details.contract_end && contract.status !== 'sold') {
-                var contract_ends = createAuditTable(localize('Contract Ends'));
-                parseAuditResponse(contract_ends.table, contract.audit_details.contract_end).then(function () {
-                    if (contract.audit_details.contract_end) {
-                        createAuditHeader(contract_ends.table);
-                        appendAuditLink('trade_details_current_spot');
-                    } else {
-                        contract_ends.div.remove();
-                    }
+        if (!contract.tick_count) {
+            var contract_starts = createAuditTable(localize('Contract Starts'));
+            parseAuditResponse(contract_starts.table, contract.audit_details.contract_start).then(function () {
+                if (contract.audit_details.contract_start) {
+                    createAuditHeader(contract_starts.table);
+                    appendAuditLink('trade_details_entry_spot');
+                } else {
+                    contract_starts.div.remove();
+                }
+                // don't show exit tick information if missing or manual sold
+                if (contract.audit_details.contract_end && contract.status !== 'sold') {
+                    var contract_ends = createAuditTable(localize('Contract Ends'));
+                    parseAuditResponse(contract_ends.table, contract.audit_details.contract_end).then(function () {
+                        if (contract.audit_details.contract_end) {
+                            createAuditHeader(contract_ends.table);
+                            appendAuditLink('trade_details_current_spot');
+                        } else {
+                            contract_ends.div.remove();
+                        }
+                        onAuditTableComplete(show_audit_table);
+                    });
+                } else {
                     onAuditTableComplete(show_audit_table);
-                });
-            } else {
-                onAuditTableComplete(show_audit_table);
-            }
-        });
+                }
+            });
+        } else {
+            var contract_details = createAuditTable(localize('Contract Details'));
+            parseAuditResponse(contract_details.table, contract.audit_details.all_ticks).then(function () {
+                if (contract.audit_details.all_ticks) {
+                    createAuditHeader(contract_details.table);
+                    appendAuditLink('trade_details_entry_spot');
+                    appendAuditLink('trade_details_current_spot');
+                } else {
+                    contract_details.div.remove();
+                }
+
+                if (contract.status !== 'open') {
+                    onAuditTableComplete(show_audit_table);
+                }
+            });
+        }
     };
 
     var onAuditTableComplete = function onAuditTableComplete(show_audit_table) {
