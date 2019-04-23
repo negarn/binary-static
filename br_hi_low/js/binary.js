@@ -25640,6 +25640,7 @@ var Purchase = function () {
                 display_decimals: decimal_points,
                 price: passthrough['ask-price'],
                 payout: receipt.payout,
+                shortcode: receipt.shortcode,
                 show_contract_result: 1,
                 width: $('#confirmation_message').width(),
                 id_render: 'trade_tick_chart'
@@ -26429,6 +26430,13 @@ var TickDisplay = function () {
             price = parseFloat(data.price);
             payout = parseFloat(data.payout);
         }
+
+        selected_tick = '';
+        if (/^(tickhigh|ticklow)_/i.test(data.shortcode)) {
+            var arr_shortcode = data.shortcode.split('_');
+            selected_tick = arr_shortcode[arr_shortcode.length - 1];
+        }
+
         setXIndicators();
         requireHighstock(function (Highstock) {
             Highcharts = Highstock;
@@ -26501,11 +26509,6 @@ var TickDisplay = function () {
             ticks_needed = number_of_ticks;
             x_indicators = {
                 _0: { label: localize('Entry Spot'), id: 'start_tick' }
-            };
-            x_indicators['_' + exit_tick_index] = {
-                label: localize('Exit Spot'),
-                id: 'exit_tick',
-                dashStyle: 'Dash'
             };
         } else if (contract_category.match('runs')) {
             ticks_needed = number_of_ticks + 1;
@@ -26713,6 +26716,7 @@ var TickDisplay = function () {
                     display_symbol: contract.display_name,
                     contract_start: contract.date_start,
                     display_decimals: chart_display_decimals,
+                    shortcode: contract.shortcode,
                     show_contract_result: 0
                 }, data);
                 spots_list = {};
@@ -26878,13 +26882,6 @@ var TickDisplay = function () {
 
     var updateContract = function updateContract(proposal_open_contract) {
         contract = proposal_open_contract;
-
-        if (/^(tickhigh|ticklow)_/i.test(contract.shortcode)) {
-            var arr_shortcode = contract.shortcode.split('_');
-            selected_tick = arr_shortcode[arr_shortcode.length - 1];
-        } else {
-            selected_tick = '';
-        }
     };
 
     var updateChart = function updateChart(data, proposal_open_contract) {
