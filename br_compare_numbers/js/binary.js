@@ -26368,6 +26368,7 @@ var ChartSettings = __webpack_require__(/*! ../../common/chart_settings */ "./sr
 var addComma = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
 var CommonFunctions = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var TickDisplay = function () {
     var number_of_ticks = void 0,
@@ -26389,7 +26390,6 @@ var TickDisplay = function () {
         counter = void 0,
         spots_list = void 0,
         tick_init = void 0,
-        subscribe = void 0,
         reset_spot_plotted = void 0,
         response_id = void 0,
         contract = void 0,
@@ -26677,7 +26677,7 @@ var TickDisplay = function () {
             return;
         }
 
-        if (subscribe && data.tick && document.getElementById('sell_content_wrapper')) {
+        if (getPropertyValue(data, ['tick', 'id']) && document.getElementById('sell_content_wrapper')) {
             response_id = data.tick.id;
             ViewPopupUI.storeSubscriptionID(response_id);
         }
@@ -26889,7 +26889,6 @@ var TickDisplay = function () {
     };
 
     var updateChart = function updateChart(data, proposal_open_contract) {
-        subscribe = 'false';
         if (proposal_open_contract) {
             updateContract(proposal_open_contract);
         }
@@ -26901,23 +26900,12 @@ var TickDisplay = function () {
                 id_render = data.id_render;
             }
 
-            var request = {
-                ticks_history: contract.underlying,
+            var request = _extends({
+                end: contract.exit_tick_time || 'latest',
                 start: contract.date_start,
-                end: 'latest'
-            };
-            if (contract.current_spot_time < contract.date_expiry) {
-                request.subscribe = 1;
-                subscribe = 'true';
-            } else if (/^(runhigh|runlow)$/i.test(contract.shortcode)) {
-                request.end = contract.date_expiry;
-            } else if (contract.exit_tick_time) {
-                request.end = contract.exit_tick_time;
-            } else {
-                request.end = 'latest';
-                request.subscribe = 1;
-                subscribe = 'true';
-            }
+                ticks_history: contract.underlying
+            }, !contract.exit_tick_time && { subscribe: 1 });
+
             if (data.request_ticks) {
                 // we shouldn't send this multiple times on every update
                 tick_init = '';
