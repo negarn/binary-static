@@ -9645,8 +9645,8 @@ var BinaryLoader = function () {
         ContentVisibility.init();
 
         BinarySocket.wait('authorize', 'website_status', 'landing_company').then(function () {
-            var url_params = Url.paramsHash().referrer;
-            GTM.pushDataLayer(_extends({ event: 'page_load' }, url_params && { referrer: url_params })); // we need website_status.clients_country
+            var utm_source = Url.paramsHash().utm_source;
+            GTM.pushDataLayer(_extends({ event: 'page_load' }, utm_source && { utm_source: utm_source })); // we need website_status.clients_country
 
             // first time load.
             var last_image = $('#content img').last();

@@ -10959,8 +10959,8 @@ var RouteWithSubRoutes = function RouteWithSubRoutes(route) {
         var title = route.title ? route.title + ' | ' : '';
         document.title = '' + title + _appConfig.default_title;
         _socket_base2.default.wait('website_status').then(function () {
-            var url_params = _url2.default.paramsHash().referrer;
-            _gtm2.default.pushDataLayer(_extends({ event: 'page_load' }, url_params && { referrer: url_params }));
+            var utm_source = _url2.default.paramsHash().utm_source;
+            _gtm2.default.pushDataLayer(_extends({ event: 'page_load' }, utm_source && { utm_source: utm_source }));
         });
         return result;
     };
