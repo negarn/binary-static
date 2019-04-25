@@ -26666,6 +26666,10 @@ var TickDisplay = function () {
         applicable_ticks = [];
     };
 
+    var getDecimalPlaces = function getDecimalPlaces(number) {
+        return number.toString().split('.')[1].length || 2;
+    };
+
     var dispatch = function dispatch(data) {
         var tick_chart = CommonFunctions.getElementById(id_render);
 
@@ -26686,11 +26690,11 @@ var TickDisplay = function () {
             if (data.tick) {
                 Tick.details(data);
                 if (!chart_display_decimals) {
-                    chart_display_decimals = data.tick.quote.split('.')[1].length || 2;
+                    chart_display_decimals = getDecimalPlaces(data.tick.quote);
                 }
             } else if (data.history) {
                 if (!chart_display_decimals) {
-                    chart_display_decimals = data.history.prices[0].split('.')[1].length || 2;
+                    chart_display_decimals = getDecimalPlaces(data.history.prices[0]);
                 }
             }
             if (!tick_init && contract) {
