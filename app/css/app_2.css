@@ -1974,6 +1974,8 @@ html {
             justify-content: center;
     -webkit-transition: background 0.25s linear, opacity 0.25s linear;
     transition: background 0.25s linear, opacity 0.25s linear; }
+    .positions-drawer-card__result--shade-hidden {
+      visibility: hidden; }
     .positions-drawer-card__result:hover {
       background: 0 !important; }
       .positions-drawer-card__result:hover .result__caption {
@@ -2182,12 +2184,6 @@ html {
       .positions-drawer-card__profit-loss--positive:before {
         content: '+';
         color: inherit; }
-    .positions-drawer-card__profit-loss--plus:before {
-      content: '+';
-      color: inherit; }
-    .positions-drawer-card__profit-loss--minus:before {
-      content: '-';
-      color: inherit; }
   .positions-drawer-card__underlying-name {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -2375,7 +2371,8 @@ html {
   position: absolute;
   top: 2px;
   right: 8px;
-  cursor: pointer; }
+  cursor: pointer;
+  visibility: visible; }
   .result__close-btn:after {
     content: '\0000D7';
     font-size: 24px;
@@ -3250,11 +3247,15 @@ html {
     cursor: pointer; }
   .theme--light .input::-webkit-input-placeholder {
     border-color: rgba(0, 0, 0, 0.8); }
+  .theme--light .input::-moz-placeholder {
+    border-color: rgba(0, 0, 0, 0.8); }
   .theme--light .input::-ms-input-placeholder {
     border-color: rgba(0, 0, 0, 0.8); }
   .theme--light .input::placeholder {
     border-color: rgba(0, 0, 0, 0.8); }
   .theme--dark .input::-webkit-input-placeholder {
+    border-color: #7f8397; }
+  .theme--dark .input::-moz-placeholder {
     border-color: #7f8397; }
   .theme--dark .input::-ms-input-placeholder {
     border-color: #7f8397; }
@@ -7355,7 +7356,9 @@ html {
   /* postcss-bem-linter: ignore */ }
   .chart-spot-label__time-container svg {
     /* postcss-bem-linter: ignore */ }
-    .chart-spot-label__time-container svg g {
+    .theme--light .chart-spot-label__time-container svg g {
+      stroke: rgba(0, 0, 0, 0.8); }
+    .theme--dark .chart-spot-label__time-container svg g {
       stroke: #ffffff; }
 
 .chart-spot-label__time {
@@ -7404,17 +7407,36 @@ html {
 
 /** @define chart-marker-line */
 .chart-marker-line {
-  height: 100%;
+  height: 94.5%;
   margin-bottom: 0.8em;
   z-index: 0 !important; }
   .chart-marker-line__wrapper {
-    border-left-width: 1px;
+    border-left-width: 2px;
     padding-left: 0.5em;
     height: 100%; }
-  .chart-marker-line__label {
+    .theme--light .chart-marker-line__wrapper {
+      border-color: #999cac; }
+    .theme--dark .chart-marker-line__wrapper {
+      border-color: #ffffff; }
+  .chart-marker-line__icon {
     position: absolute;
-    bottom: 0;
+    bottom: -23px;
+    left: -11px;
     white-space: nowrap; }
+    .chart-marker-line__icon--time {
+      /* postcss-bem-linter: ignore */ }
+      .theme--light .chart-marker-line__icon--time path {
+        fill: #999cac; }
+      .theme--dark .chart-marker-line__icon--time path {
+        fill: #ffffff; }
+    .chart-marker-line__icon--won {
+      /* postcss-bem-linter: ignore */ }
+      .chart-marker-line__icon--won circle {
+        fill: #39b19d; }
+    .chart-marker-line__icon--lost {
+      /* postcss-bem-linter: ignore */ }
+      .chart-marker-line__icon--lost circle {
+        fill: #e31c4b; }
   .chart-marker-line--solid {
     border-left-style: solid; }
   .chart-marker-line--dash {
