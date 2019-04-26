@@ -15625,6 +15625,7 @@ module.exports = PaymentAgentList;
 "use strict";
 
 
+var refreshDropdown = __webpack_require__(/*! @binary-com/binary-style */ "./node_modules/@binary-com/binary-style/binary.js").selectDropdown;
 var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -15647,11 +15648,15 @@ var PaymentAgentWithdraw = function () {
     };
     var field_ids = {
         ddl_agents: '#ddlAgents',
+        txt_agents: '#txtAgents',
         txt_amount: '#txtAmount',
         txt_desc: '#txtDescription'
     };
 
-    var $views = void 0,
+    var $agent_error = void 0,
+        $ddl_agents = void 0,
+        $txt_agents = void 0,
+        $views = void 0,
         agent_name = void 0,
         currency = void 0,
         token = void 0;
@@ -15660,17 +15665,17 @@ var PaymentAgentWithdraw = function () {
     // ----- Agents List -----
     // -----------------------
     var populateAgentsList = function populateAgentsList(response) {
-        var $ddl_agents = $(field_ids.ddl_agents);
+        $ddl_agents = $(field_ids.ddl_agents);
         $ddl_agents.empty();
         var pa_list = (response.paymentagent_list || {}).list;
         if (pa_list.length > 0) {
-            checkToken($ddl_agents, pa_list);
+            checkToken(pa_list);
         } else {
             showPageError(localize('Payment Agent services are not available in your country or in your preferred currency.'));
         }
     };
 
-    var checkToken = function checkToken($ddl_agents, pa_list) {
+    var checkToken = function checkToken(pa_list) {
         token = token || Url.getHashValue('token');
         if (!token) {
             BinarySocket.send({ verify_email: Client.get('email'), type: 'paymentagent_withdraw' });
@@ -15685,29 +15690,61 @@ var PaymentAgentWithdraw = function () {
         } else if (!validEmailToken(token)) {
             showPageError('token_error');
         } else {
-            insertListOption($ddl_agents, localize('Please select a payment agent'), '');
+            insertListOption($ddl_agents, localize('Select payment agent'), '');
             for (var i = 0; i < pa_list.length; i++) {
                 insertListOption($ddl_agents, pa_list[i].name, pa_list[i].paymentagent_loginid);
             }
             setActiveView(view_ids.form);
 
             var form_id = '#' + $(view_ids.form).find('form').attr('id');
+            var $form = $(form_id);
             var min = getPaWithdrawalLimit(currency, 'min');
             var max = getPaWithdrawalLimit(currency, 'max');
 
-            $(form_id).find('label[for="txtAmount"]').text(localize('Amount') + ' ' + currency);
+            $agent_error = $('.row-agent').find('.error-msg');
+            $txt_agents = $(field_ids.txt_agents);
+
+            $form.find('.wrapper-row-agent').find('label').append($('<span />', { text: '*', class: 'required_field_asterisk' }));
+            $form.find('label[for="txtAmount"]').text(localize('Amount in') + ' ' + currency);
             trimDescriptionContent();
-            FormManager.init(form_id, [{ selector: field_ids.ddl_agents, validations: ['req'], request_field: 'paymentagent_loginid' }, { selector: field_ids.txt_amount, validations: ['req', ['number', { type: 'float', decimals: getDecimalPlaces(currency), min: min, max: max }], ['custom', { func: function func() {
+            FormManager.init(form_id, [{ selector: field_ids.txt_amount, validations: ['req', ['number', { type: 'float', decimals: getDecimalPlaces(currency), min: min, max: max }], ['custom', { func: function func() {
                         return +Client.get('balance') >= +$(field_ids.txt_amount).val();
-                    }, message: localize('Insufficient balance.') }]], request_field: 'amount' }, { selector: field_ids.txt_desc, validations: ['general'], request_field: 'description' }, { request_field: 'currency', value: currency }, { request_field: 'paymentagent_withdraw', value: 1 }, { request_field: 'dry_run', value: 1 }], true);
+                    }, message: localize('Insufficient balance.') }]], request_field: 'amount' }, { selector: field_ids.txt_desc, validations: ['general'], request_field: 'description' }, { request_field: 'currency', value: currency }, { request_field: 'paymentagent_loginid', value: getPALoginID }, { request_field: 'paymentagent_withdraw', value: 1 }, { request_field: 'dry_run', value: 1 }], true);
+
+            $ddl_agents.on('change', function () {
+                $agent_error.setVisibility(0);
+                if ($txt_agents.val()) {
+                    $txt_agents.val('');
+                }
+                if (!$ddl_agents.val()) {
+                    // error handling
+                    $agent_error.setVisibility(1);
+                }
+            });
+
+            $txt_agents.on('keyup', function () {
+                $agent_error.setVisibility(0);
+                if ($ddl_agents.val()) {
+                    $ddl_agents.val('');
+                    refreshDropdown(field_ids.ddl_agents);
+                }
+                if (!$txt_agents.val()) {
+                    // error handling
+                    $agent_error.setVisibility(1);
+                }
+            });
 
             FormManager.handleSubmit({
                 form_selector: form_id,
                 fnc_response_handler: withdrawResponse,
-                fnc_additional_check: setAgentName,
+                fnc_additional_check: checkAgent,
                 enable_button: true
             });
         }
+    };
+
+    var getPALoginID = function getPALoginID() {
+        return $ddl_agents.val() || $txt_agents.val();
     };
 
     // Remove multiline and excess whitespaces from description text.
@@ -15815,9 +15852,18 @@ var PaymentAgentWithdraw = function () {
         });
     };
 
-    var setAgentName = function setAgentName() {
-        agent_name = $(field_ids.ddl_agents).find('option:selected').text();
+    var checkAgent = function checkAgent() {
+        if (!$ddl_agents.val() && !$txt_agents.val()) {
+            $agent_error.setVisibility(1);
+            return false;
+        }
+        // else
+        setAgentName();
         return true;
+    };
+
+    var setAgentName = function setAgentName() {
+        agent_name = $ddl_agents.val() ? $ddl_agents.find('option:selected').text() : $txt_agents.val();
     };
 
     var onUnload = function onUnload() {
@@ -26368,6 +26414,7 @@ var ChartSettings = __webpack_require__(/*! ../../common/chart_settings */ "./sr
 var addComma = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
 var CommonFunctions = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var TickDisplay = function () {
     var number_of_ticks = void 0,
@@ -26389,7 +26436,6 @@ var TickDisplay = function () {
         counter = void 0,
         spots_list = void 0,
         tick_init = void 0,
-        subscribe = void 0,
         reset_spot_plotted = void 0,
         response_id = void 0,
         contract = void 0,
@@ -26666,6 +26712,10 @@ var TickDisplay = function () {
         applicable_ticks = [];
     };
 
+    var getDecimalPlaces = function getDecimalPlaces(number) {
+        return number.toString().split('.')[1].length || 2;
+    };
+
     var dispatch = function dispatch(data) {
         var tick_chart = CommonFunctions.getElementById(id_render);
 
@@ -26673,7 +26723,7 @@ var TickDisplay = function () {
             return;
         }
 
-        if (subscribe && data.tick && document.getElementById('sell_content_wrapper')) {
+        if (getPropertyValue(data, ['tick', 'id']) && document.getElementById('sell_content_wrapper')) {
             response_id = data.tick.id;
             ViewPopupUI.storeSubscriptionID(response_id);
         }
@@ -26686,11 +26736,11 @@ var TickDisplay = function () {
             if (data.tick) {
                 Tick.details(data);
                 if (!chart_display_decimals) {
-                    chart_display_decimals = data.tick.quote.split('.')[1].length || 2;
+                    chart_display_decimals = getDecimalPlaces(data.tick.quote);
                 }
             } else if (data.history) {
                 if (!chart_display_decimals) {
-                    chart_display_decimals = data.history.prices[0].split('.')[1].length || 2;
+                    chart_display_decimals = getDecimalPlaces(data.history.prices[0]);
                 }
             }
             if (!tick_init && contract) {
@@ -26885,7 +26935,6 @@ var TickDisplay = function () {
     };
 
     var updateChart = function updateChart(data, proposal_open_contract) {
-        subscribe = 'false';
         if (proposal_open_contract) {
             updateContract(proposal_open_contract);
         }
@@ -26897,20 +26946,12 @@ var TickDisplay = function () {
                 id_render = data.id_render;
             }
 
-            var request = {
-                ticks_history: contract.underlying,
+            var request = _extends({
+                end: contract.exit_tick_time || 'latest',
                 start: contract.date_start,
-                end: 'latest'
-            };
-            if (contract.current_spot_time < contract.date_expiry) {
-                request.subscribe = 1;
-                subscribe = 'true';
-            } else if (!/^(runhigh|runlow)$/i.test(contract.contract_category)) {
-                request.subscribe = 1;
-                request.end = contract.exit_tick_time || 'latest';
-            } else {
-                request.end = contract.date_expiry;
-            }
+                ticks_history: contract.underlying
+            }, !contract.exit_tick_time && { subscribe: 1 });
+
             if (data.request_ticks) {
                 // we shouldn't send this multiple times on every update
                 tick_init = '';
@@ -34861,7 +34902,7 @@ var ViewPopup = function () {
 
     var init = function init(button, onClose) {
         btn_view = button;
-        contract_id = $(btn_view).attr('contract_id');
+        contract_id = +$(btn_view).attr('contract_id');
         contract = {};
         is_sold = false;
         is_sold_before_start = false;
@@ -35589,15 +35630,15 @@ var ViewPopup = function () {
 
     var responseProposal = function responseProposal(response) {
         if (response.error) {
-            if (response.error.code !== 'AlreadySubscribed' && response.echo_req.contract_id === contract_id) {
+            if (response.error.code !== 'AlreadySubscribed' && +response.echo_req.contract_id === contract_id) {
                 showErrorPopup(response, response.error.message);
             }
             return;
         }
-        if (response.proposal_open_contract.contract_id === contract_id) {
+        if (+response.proposal_open_contract.contract_id === contract_id) {
             ViewPopupUI.storeSubscriptionID(response.proposal_open_contract.id);
             responseContract(response);
-        } else {
+        } else if (response.proposal_open_contract.id) {
             BinarySocket.send({ forget: response.proposal_open_contract.id });
         }
         var dates = ['#trade_details_start_date', '#trade_details_end_date', '#trade_details_current_date', '#trade_details_live_date'];

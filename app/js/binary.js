@@ -3734,6 +3734,148 @@ Object.keys(_notifications).forEach(function (key) {
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/App/Components/Elements/Notifications/notification-bar.jsx":
+/*!*****************************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/Notifications/notification-bar.jsx ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactTransitionGroup = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/index.js");
+
+var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NotificationBar = function (_React$Component) {
+    _inherits(NotificationBar, _React$Component);
+
+    function NotificationBar() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, NotificationBar);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = NotificationBar.__proto__ || Object.getPrototypeOf(NotificationBar)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _this.onClose = function () {
+            _this.setState({ show: false }, function () {
+                clearTimeout(_this.timer);
+            });
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(NotificationBar, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            if (!this.state.show) {
+                this.timer = setTimeout(function () {
+                    _this2.setState({ show: true });
+                }, this.props.autoShow || 500);
+            }
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            clearTimeout(this.timer);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var _props = this.props,
+                className = _props.className,
+                content = _props.content,
+                duration = _props.duration,
+                has_content_close = _props.has_content_close,
+                type = _props.type;
+
+
+            return _react2.default.createElement(
+                _reactTransitionGroup.CSSTransition,
+                {
+                    'in': this.state.show,
+                    timeout: duration || 500,
+                    classNames: {
+                        enterDone: 'notification-bar--is-active'
+                    },
+                    unmountOnExit: true
+                },
+                _react2.default.createElement(
+                    'div',
+                    {
+                        className: (0, _classnames2.default)('notification-bar', {
+                            'notification-bar--info': type === 'info',
+                            className: className
+                        })
+                    },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'notification-bar__message' },
+                        has_content_close ? _react2.default.Children.map(content, function (child) {
+                            return _react2.default.cloneElement(child, { onClose: _this3.onClose.bind(_this3) });
+                        }) : content
+                    ),
+                    !has_content_close && _react2.default.createElement(
+                        'div',
+                        {
+                            onClick: this.onClose.bind(this),
+                            className: 'notification-bar__button'
+                        },
+                        _react2.default.createElement(_Common.IconClose, { className: 'notification-bar__icon' })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return NotificationBar;
+}(_react2.default.Component);
+
+NotificationBar.propTypes = {
+    className: _propTypes2.default.string,
+    content: _propTypes2.default.oneOfType([_propTypes2.default.object, _propTypes2.default.string]),
+    has_content_close: _propTypes2.default.bool,
+    type: _propTypes2.default.string
+};
+
+exports.default = NotificationBar;
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/App/Components/Elements/Notifications/notifications.jsx":
 /*!**************************************************************************************!*\
   !*** ./src/javascript/app_2/App/Components/Elements/Notifications/notifications.jsx ***!
@@ -10092,18 +10234,6 @@ Object.keys(_depositButton).forEach(function (key) {
   });
 });
 
-var _installPwaButton = __webpack_require__(/*! ./install-pwa-button.jsx */ "./src/javascript/app_2/App/Components/Layout/Header/install-pwa-button.jsx");
-
-Object.keys(_installPwaButton).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _installPwaButton[key];
-    }
-  });
-});
-
 var _loginButton = __webpack_require__(/*! ./login-button.jsx */ "./src/javascript/app_2/App/Components/Layout/Header/login-button.jsx");
 
 Object.keys(_loginButton).forEach(function (key) {
@@ -10175,76 +10305,6 @@ Object.keys(_toggleNotificationsDrawer).forEach(function (key) {
     }
   });
 });
-
-/***/ }),
-
-/***/ "./src/javascript/app_2/App/Components/Layout/Header/install-pwa-button.jsx":
-/*!**********************************************************************************!*\
-  !*** ./src/javascript/app_2/App/Components/Layout/Header/install-pwa-button.jsx ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.InstallPWAButton = undefined;
-
-var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
-
-var _button = __webpack_require__(/*! ../../Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
-
-var _button2 = _interopRequireDefault(_button);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var InstallPWAButton = function InstallPWAButton(_ref) {
-    var className = _ref.className,
-        prompt_event = _ref.prompt_event,
-        onClick = _ref.onClick;
-
-
-    var showPrompt = function showPrompt() {
-        if (prompt_event) {
-            prompt_event.prompt();
-            prompt_event.userChoice.then(function (choice_result) {
-                if (choice_result.outcome === 'accepted') {
-                    onClick();
-                }
-            });
-        }
-    };
-
-    return _react2.default.createElement(_button2.default, {
-        className: (0, _classnames2.default)(className, 'btn--primary btn--primary--orange'),
-        has_effect: true,
-        text: (0, _localize.localize)('Install'),
-        onClick: showPrompt
-    });
-};
-
-InstallPWAButton.propTypes = {
-    className: _propTypes2.default.string,
-    onClick: _propTypes2.default.func,
-    prompt_event: _propTypes2.default.object
-};
-
-exports.InstallPWAButton = InstallPWAButton;
 
 /***/ }),
 
@@ -11736,14 +11796,37 @@ var _ttReactCustomScrollbars = __webpack_require__(/*! tt-react-custom-scrollbar
 
 var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
 
+var _installPwa = __webpack_require__(/*! ./install-pwa.jsx */ "./src/javascript/app_2/App/Containers/Layout/install-pwa.jsx");
+
+var _installPwa2 = _interopRequireDefault(_installPwa);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var AppContents = function AppContents(_ref) {
-    var children = _ref.children,
-        is_contract_mode = _ref.is_contract_mode,
-        is_positions_drawer_on = _ref.is_positions_drawer_on,
+    var addNotificationBar = _ref.addNotificationBar,
+        children = _ref.children,
         is_app_blurred = _ref.is_app_blurred,
-        is_fully_blurred = _ref.is_fully_blurred;
+        is_contract_mode = _ref.is_contract_mode,
+        is_fully_blurred = _ref.is_fully_blurred,
+        is_logged_in = _ref.is_logged_in,
+        is_positions_drawer_on = _ref.is_positions_drawer_on,
+        setPWAPromptEvent = _ref.setPWAPromptEvent;
+
+    if (is_logged_in) {
+        window.addEventListener('beforeinstallprompt', function (e) {
+            console.log('Going to show the installation prompt'); // eslint-disable-line no-console
+
+            e.preventDefault();
+
+            setPWAPromptEvent(e);
+            addNotificationBar({
+                content: _react2.default.createElement(_installPwa2.default, null),
+                autoShow: 10000, // show after 10 secs
+                msg_type: 'pwa'
+            });
+        });
+    }
+
     return _react2.default.createElement(
         'div',
         {
@@ -11766,18 +11849,28 @@ var AppContents = function AppContents(_ref) {
 };
 
 AppContents.propTypes = {
+    addNotificationBar: _propTypes2.default.func,
     children: _propTypes2.default.any,
-    is_positions_drawer_on: _propTypes2.default.bool
+    is_blurred: _propTypes2.default.bool,
+    is_contract_mode: _propTypes2.default.bool,
+    is_logged_in: _propTypes2.default.bool,
+    is_positions_drawer_on: _propTypes2.default.bool,
+    setPWAPromptEvent: _propTypes2.default.func
 };
 
 exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_ref2) {
-    var modules = _ref2.modules,
+    var client = _ref2.client,
+        modules = _ref2.modules,
         ui = _ref2.ui;
     return {
-        is_positions_drawer_on: ui.is_positions_drawer_on,
+        is_logged_in: client.is_logged_in,
         is_contract_mode: modules.smart_chart.is_contract_mode,
         is_app_blurred: ui.is_app_blurred,
-        is_fully_blurred: ui.is_fully_blurred
+        is_fully_blurred: ui.is_fully_blurred,
+        is_positions_drawer_on: ui.is_positions_drawer_on,
+        addNotificationBar: ui.addNotificationBar,
+        pwa_prompt_event: ui.pwa_prompt_event,
+        setPWAPromptEvent: ui.setPWAPromptEvent
     };
 })(AppContents));
 
@@ -11953,20 +12046,7 @@ var Header = function Header(_ref) {
         is_virtual = _ref.is_virtual,
         loginid = _ref.loginid,
         onClickUpgrade = _ref.onClickUpgrade,
-        setPWAPromptEvent = _ref.setPWAPromptEvent,
-        showInstallButton = _ref.showInstallButton,
         toggleAccountsDialog = _ref.toggleAccountsDialog;
-
-
-    window.addEventListener('beforeinstallprompt', function (e) {
-        console.log('Going to show the installation prompt'); // eslint-disable-line no-console
-
-        e.preventDefault();
-
-        setPWAPromptEvent(e);
-        showInstallButton();
-    });
-
     return _react2.default.createElement(
         'header',
         { className: (0, _classnames2.default)('header', {
@@ -12028,19 +12108,14 @@ Header.propTypes = {
     can_upgrade: _propTypes2.default.bool,
     can_upgrade_to: _propTypes2.default.string,
     currency: _propTypes2.default.string,
-    hideInstallButton: _propTypes2.default.func,
     is_acc_switcher_on: _propTypes2.default.bool,
     is_dark_mode: _propTypes2.default.bool,
     is_fully_blurred: _propTypes2.default.bool,
-    is_install_button_visible: _propTypes2.default.bool,
     is_logged_in: _propTypes2.default.bool,
     is_mobile: _propTypes2.default.bool,
     is_virtual: _propTypes2.default.bool,
     loginid: _propTypes2.default.string,
     onClickUpgrade: _propTypes2.default.func,
-    pwa_prompt_event: _propTypes2.default.object, // TODO: add click handler
-    setPWAPromptEvent: _propTypes2.default.func,
-    showInstallButton: _propTypes2.default.func,
     toggleAccountsDialog: _propTypes2.default.func
 };
 
@@ -12057,18 +12132,102 @@ exports.default = (0, _reactRouter.withRouter)((0, _connect.connect)(function (_
         is_logged_in: client.is_logged_in,
         is_virtual: client.is_virtual,
         loginid: client.loginid,
-        hideInstallButton: ui.hideInstallButton,
         is_acc_switcher_on: ui.is_accounts_switcher_on,
-        is_fully_blurred: ui.is_fully_blurred,
         is_dark_mode: ui.is_dark_mode_on,
-        is_install_button_visible: ui.is_install_button_visible,
+        is_fully_blurred: ui.is_fully_blurred,
         is_mobile: ui.is_mobile,
-        pwa_prompt_event: ui.pwa_prompt_event,
-        setPWAPromptEvent: ui.setPWAPromptEvent,
-        showInstallButton: ui.showInstallButton,
         toggleAccountsDialog: ui.toggleAccountsDialog
     };
 })(Header));
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Containers/Layout/install-pwa.jsx":
+/*!********************************************************************!*\
+  !*** ./src/javascript/app_2/App/Containers/Layout/install-pwa.jsx ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _appConfig = __webpack_require__(/*! ../../Constants/app-config */ "./src/javascript/app_2/App/Constants/app-config.js");
+
+var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
+
+var _localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js");
+
+var _button = __webpack_require__(/*! ../../Components/Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
+
+var _button2 = _interopRequireDefault(_button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InstallPWA = function InstallPWA(_ref) {
+    var onClose = _ref.onClose,
+        pwa_prompt_event = _ref.pwa_prompt_event,
+        removePWAPromptEvent = _ref.removePWAPromptEvent;
+
+    var showPrompt = function showPrompt() {
+        if (pwa_prompt_event) {
+            pwa_prompt_event.prompt();
+            pwa_prompt_event.userChoice.then(function (choice_result) {
+                if (choice_result.outcome === 'accepted') {
+                    removePWAPromptEvent();
+                }
+            });
+        }
+    };
+
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        _react2.default.createElement(
+            'p',
+            null,
+            (0, _localize.localize)('Install [_1] app?', _appConfig.website_name)
+        ),
+        _react2.default.createElement(_button2.default, {
+            className: 'btn--secondary btn--secondary--orange btn--link notification-bar__button',
+            has_effect: true,
+            text: (0, _localize.localize)('No'),
+            onClick: onClose
+        }),
+        _react2.default.createElement(_button2.default, {
+            className: 'btn--primary btn--primary--orange notification-bar__button',
+            has_effect: true,
+            text: (0, _localize.localize)('Yes'),
+            onClick: showPrompt
+        })
+    );
+};
+
+InstallPWA.propTypes = {
+    onClose: _propTypes2.default.func,
+    pwa_prompt_event: _propTypes2.default.object,
+    removePWAPromptEvent: _propTypes2.default.func
+};
+
+exports.default = (0, _connect.connect)(function (_ref2) {
+    var ui = _ref2.ui;
+    return {
+        pwa_prompt_event: ui.pwa_prompt_event,
+        removePWAPromptEvent: ui.removePWAPromptEvent
+    };
+})(InstallPWA);
 
 /***/ }),
 
@@ -13018,6 +13177,68 @@ exports.default = (0, _connect.connect)(function (_ref) {
 
 /***/ }),
 
+/***/ "./src/javascript/app_2/App/Containers/push-notification.jsx":
+/*!*******************************************************************!*\
+  !*** ./src/javascript/app_2/App/Containers/push-notification.jsx ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _connect = __webpack_require__(/*! ../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
+
+var _notificationBar = __webpack_require__(/*! ../Components/Elements/Notifications/notification-bar.jsx */ "./src/javascript/app_2/App/Components/Elements/Notifications/notification-bar.jsx");
+
+var _notificationBar2 = _interopRequireDefault(_notificationBar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PushNotification = function PushNotification(_ref) {
+    var push_notifications = _ref.push_notifications;
+    return push_notifications.map(function (notification, idx) {
+        var autoShow = notification.autoShow,
+            content = notification.content,
+            duration = notification.duration,
+            type = notification.type;
+
+        return _react2.default.createElement(_notificationBar2.default, {
+            key: idx,
+            autoShow: autoShow,
+            content: content,
+            duration: duration,
+            type: type || 'info',
+            has_content_close: true
+        });
+    });
+};
+
+PushNotification.propTypes = {
+    push_notifications: _propTypes2.default.array
+};
+
+exports.default = (0, _connect.connect)(function (_ref2) {
+    var ui = _ref2.ui;
+    return {
+        push_notifications: ui.push_notifications
+    };
+})(PushNotification);
+
+/***/ }),
+
 /***/ "./src/javascript/app_2/App/Containers/remaining-time.jsx":
 /*!****************************************************************!*\
   !*** ./src/javascript/app_2/App/Containers/remaining-time.jsx ***!
@@ -13334,6 +13555,10 @@ var _errorBoundary2 = _interopRequireDefault(_errorBoundary);
 
 var _ToastMessage = __webpack_require__(/*! ./Components/Elements/ToastMessage */ "./src/javascript/app_2/App/Components/Elements/ToastMessage/index.js");
 
+var _pushNotification = __webpack_require__(/*! ./Containers/push-notification.jsx */ "./src/javascript/app_2/App/Containers/push-notification.jsx");
+
+var _pushNotification2 = _interopRequireDefault(_pushNotification);
+
 var _toastMessage = __webpack_require__(/*! ./Containers/toast-message.jsx */ "./src/javascript/app_2/App/Containers/toast-message.jsx");
 
 var _toastMessage2 = _interopRequireDefault(_toastMessage);
@@ -13394,7 +13619,8 @@ var App = function App(_ref) {
                         _appContents2.default,
                         null,
                         _react2.default.createElement(_routes2.default, null),
-                        _react2.default.createElement(_toastMessage2.default, { position: _ToastMessage.POSITIONS.TOP_RIGHT })
+                        _react2.default.createElement(_toastMessage2.default, { position: _ToastMessage.POSITIONS.TOP_RIGHT }),
+                        _react2.default.createElement(_pushNotification2.default, null)
                     ),
                     _react2.default.createElement(_DenialOfServiceModal2.default, null),
                     _react2.default.createElement(_MarketUnavailableModal2.default, null),
@@ -32282,6 +32508,8 @@ var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module
 
 var _ui = __webpack_require__(/*! ../Constants/ui */ "./src/javascript/app_2/Constants/ui.js");
 
+var _utility = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js");
+
 var _baseStore = __webpack_require__(/*! ./base-store */ "./src/javascript/app_2/Stores/base-store.js");
 
 var _baseStore2 = _interopRequireDefault(_baseStore);
@@ -32378,11 +32606,11 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
 
         _initDefineProp(_this, 'is_chart_layout_default', _descriptor12, _this);
 
-        _initDefineProp(_this, 'is_install_button_visible', _descriptor13, _this);
+        _initDefineProp(_this, 'pwa_prompt_event', _descriptor13, _this);
 
-        _initDefineProp(_this, 'pwa_prompt_event', _descriptor14, _this);
+        _initDefineProp(_this, 'screen_width', _descriptor14, _this);
 
-        _initDefineProp(_this, 'screen_width', _descriptor15, _this);
+        _initDefineProp(_this, 'push_notifications', _descriptor15, _this);
 
         _initDefineProp(_this, 'toast_messages', _descriptor16, _this);
 
@@ -32558,14 +32786,8 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
             this.is_notifications_drawer_on = false;
         }
     }, {
-        key: 'showInstallButton',
-        value: function showInstallButton() {
-            this.is_install_button_visible = true;
-        }
-    }, {
-        key: 'hideInstallButton',
-        value: function hideInstallButton() {
-            this.is_install_button_visible = false;
+        key: 'removePWAPromptEvent',
+        value: function removePWAPromptEvent() {
             this.pwa_prompt_event = null;
         }
     }, {
@@ -32595,6 +32817,12 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
         key: 'setHasOnlyForwardingContracts',
         value: function setHasOnlyForwardingContracts(has_only_forward_starting_contracts) {
             this.has_only_forward_starting_contracts = has_only_forward_starting_contracts;
+        }
+    }, {
+        key: 'addNotificationBar',
+        value: function addNotificationBar(message) {
+            this.push_notifications.push(message);
+            this.push_notifications = (0, _utility.unique)(this.push_notifications, 'msg_type');
         }
     }, {
         key: 'is_mobile',
@@ -32669,20 +32897,20 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
     initializer: function initializer() {
         return true;
     }
-}), _descriptor13 = _applyDecoratedDescriptor(_class.prototype, 'is_install_button_visible', [_mobx.observable], {
-    enumerable: true,
-    initializer: function initializer() {
-        return false;
-    }
-}), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'pwa_prompt_event', [_mobx.observable], {
+}), _descriptor13 = _applyDecoratedDescriptor(_class.prototype, 'pwa_prompt_event', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return null;
     }
-}), _descriptor15 = _applyDecoratedDescriptor(_class.prototype, 'screen_width', [_mobx.observable], {
+}), _descriptor14 = _applyDecoratedDescriptor(_class.prototype, 'screen_width', [_mobx.observable], {
     enumerable: true,
     initializer: function initializer() {
         return window.innerWidth;
+    }
+}), _descriptor15 = _applyDecoratedDescriptor(_class.prototype, 'push_notifications', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return [];
     }
 }), _descriptor16 = _applyDecoratedDescriptor(_class.prototype, 'toast_messages', [_mobx.observable], {
     enumerable: true,
@@ -32744,7 +32972,7 @@ var UIStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _m
     initializer: function initializer() {
         return false;
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'onChangeUiStore', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'onChangeUiStore'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleResize', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'handleResize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_mobile', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_mobile'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_tablet', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_tablet'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showAppBlur', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'showAppBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideAppBlur', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'hideAppBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showFullBlur', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'showFullBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideFullBlur', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'hideFullBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleAccountsDialog', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleAccountsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartLayout', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartAssetInfo', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartAssetInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartCountdown', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartCountdown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleDarkMode', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleDarkMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleSettingsDialog', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleSettingsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showLanguageDialog', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'showLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideLanguageDialog', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'hideLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'openPositionsDrawer', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'openPositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePositionsDrawer', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleServicesErrorModal', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleServicesErrorModal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showMainDrawer', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'showMainDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showNotificationsDrawer', [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, 'showNotificationsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideDrawers', [_dec20], Object.getOwnPropertyDescriptor(_class.prototype, 'hideDrawers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showInstallButton', [_dec21], Object.getOwnPropertyDescriptor(_class.prototype, 'showInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideInstallButton', [_dec22], Object.getOwnPropertyDescriptor(_class.prototype, 'hideInstallButton'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setPWAPromptEvent', [_dec23], Object.getOwnPropertyDescriptor(_class.prototype, 'setPWAPromptEvent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addToastMessage', [_dec24], Object.getOwnPropertyDescriptor(_class.prototype, 'addToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeToastMessage', [_dec25], Object.getOwnPropertyDescriptor(_class.prototype, 'removeToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeAllToastMessages', [_dec26], Object.getOwnPropertyDescriptor(_class.prototype, 'removeAllToastMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setHasOnlyForwardingContracts', [_dec27], Object.getOwnPropertyDescriptor(_class.prototype, 'setHasOnlyForwardingContracts'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'onChangeUiStore', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'onChangeUiStore'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleResize', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'handleResize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_mobile', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_mobile'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_tablet', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_tablet'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showAppBlur', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'showAppBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideAppBlur', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'hideAppBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showFullBlur', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'showFullBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideFullBlur', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'hideFullBlur'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleAccountsDialog', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleAccountsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartLayout', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartLayout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartAssetInfo', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartAssetInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleChartCountdown', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleChartCountdown'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleDarkMode', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleDarkMode'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleSettingsDialog', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleSettingsDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showLanguageDialog', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'showLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideLanguageDialog', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'hideLanguageDialog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'openPositionsDrawer', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'openPositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'togglePositionsDrawer', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'togglePositionsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'toggleServicesErrorModal', [_dec17], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleServicesErrorModal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showMainDrawer', [_dec18], Object.getOwnPropertyDescriptor(_class.prototype, 'showMainDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'showNotificationsDrawer', [_dec19], Object.getOwnPropertyDescriptor(_class.prototype, 'showNotificationsDrawer'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'hideDrawers', [_dec20], Object.getOwnPropertyDescriptor(_class.prototype, 'hideDrawers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removePWAPromptEvent', [_dec21], Object.getOwnPropertyDescriptor(_class.prototype, 'removePWAPromptEvent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setPWAPromptEvent', [_dec22], Object.getOwnPropertyDescriptor(_class.prototype, 'setPWAPromptEvent'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addToastMessage', [_dec23], Object.getOwnPropertyDescriptor(_class.prototype, 'addToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeToastMessage', [_dec24], Object.getOwnPropertyDescriptor(_class.prototype, 'removeToastMessage'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeAllToastMessages', [_dec25], Object.getOwnPropertyDescriptor(_class.prototype, 'removeAllToastMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setHasOnlyForwardingContracts', [_dec26], Object.getOwnPropertyDescriptor(_class.prototype, 'setHasOnlyForwardingContracts'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addNotificationBar', [_dec27], Object.getOwnPropertyDescriptor(_class.prototype, 'addNotificationBar'), _class.prototype)), _class));
 exports.default = UIStore;
 
 /***/ }),
