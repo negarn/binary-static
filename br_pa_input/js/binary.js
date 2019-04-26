@@ -15853,7 +15853,7 @@ var PaymentAgentWithdraw = function () {
     };
 
     var setAgentName = function setAgentName() {
-        agent_name = $(field_ids.ddl_agents).find('option:selected').text();
+        agent_name = $ddl_agents.val() ? $ddl_agents.find('option:selected').text() : $txt_agents.val();
         return true;
     };
 
