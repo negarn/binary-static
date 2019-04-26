@@ -9587,7 +9587,7 @@ var localize = __webpack_require__(/*! ../../_common/localize */ "./src/javascri
 var ScrollToAnchor = __webpack_require__(/*! ../../_common/scroll_to_anchor */ "./src/javascript/_common/scroll_to_anchor.js");
 var isStorageSupported = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").isStorageSupported;
 var ThirdPartyLinks = __webpack_require__(/*! ../../_common/third_party_links */ "./src/javascript/_common/third_party_links.js");
-var Url = __webpack_require__(/*! ../../_common/url */ "./src/javascript/_common/url.js");
+var urlFor = __webpack_require__(/*! ../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var createElement = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js").createElement;
 
 var BinaryLoader = function () {
@@ -9645,8 +9645,7 @@ var BinaryLoader = function () {
         ContentVisibility.init();
 
         BinarySocket.wait('authorize', 'website_status', 'landing_company').then(function () {
-            var utm_source = Url.paramsHash().utm_source;
-            GTM.pushDataLayer(_extends({ event: 'page_load' }, utm_source && { utm_source: utm_source })); // we need website_status.clients_country
+            GTM.pushDataLayer({ event: 'page_load' }); // we need website_status.clients_country
 
             // first time load.
             var last_image = $('#content img').last();
@@ -9665,7 +9664,7 @@ var BinaryLoader = function () {
 
     var error_messages = {
         login: function login() {
-            return localize('Please [_1]log in[_2] or [_3]sign up[_4] to view this page.', ['<a href="' + 'javascript:;' + '">', '</a>', '<a href="' + Url.urlFor('new-account') + '">', '</a>']);
+            return localize('Please [_1]log in[_2] or [_3]sign up[_4] to view this page.', ['<a href="' + 'javascript:;' + '">', '</a>', '<a href="' + urlFor('new-account') + '">', '</a>']);
         },
         only_virtual: function only_virtual() {
             return localize('Sorry, this feature is available to virtual accounts only.');

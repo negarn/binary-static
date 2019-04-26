@@ -10919,10 +10919,6 @@ var _socket_base = __webpack_require__(/*! ../../../../_common/base/socket_base 
 
 var _socket_base2 = _interopRequireDefault(_socket_base);
 
-var _url = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js");
-
-var _url2 = _interopRequireDefault(_url);
-
 var _routes = __webpack_require__(/*! ../../../Constants/routes */ "./src/javascript/app_2/Constants/routes.js");
 
 var _routes2 = _interopRequireDefault(_routes);
@@ -10959,8 +10955,7 @@ var RouteWithSubRoutes = function RouteWithSubRoutes(route) {
         var title = route.title ? route.title + ' | ' : '';
         document.title = '' + title + _appConfig.default_title;
         _socket_base2.default.wait('website_status').then(function () {
-            var utm_source = _url2.default.paramsHash().utm_source;
-            _gtm2.default.pushDataLayer(_extends({ event: 'page_load' }, utm_source && { utm_source: utm_source }));
+            _gtm2.default.pushDataLayer({ event: 'page_load' });
         });
         return result;
     };
