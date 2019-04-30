@@ -297,7 +297,7 @@ exports.default = function (_ref) {
       styles = _ref$styles === undefined ? {} : _ref$styles,
       props = _objectWithoutProperties(_ref, ["styles"]);
 
-  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "46", height: "46", viewBox: "0 0 60.47 60.47" }, props), _react2.default.createElement("path", { fill: "#fff", d: "M51.61 8.85a30.24 30.24 0 1 0 0 42.77 30.26 30.26 0 0 0 0-42.77z" }), _react2.default.createElement("path", { fill: "#2a3052", d: "M21.8 38.17A5.51 5.51 0 0 0 24.33 42l-.58-1.08s1.11-2.92-1.95-2.75z" }), _react2.default.createElement("path", { fill: "#2a3052", d: "M50.08 10.38a28.08 28.08 0 1 0 0 39.72 28.1 28.1 0 0 0 0-39.72zm-2.9 36.81l-.92.87c-6.75 5.5-11.94 2.76-12 2.76-3.52-.7-5.27-.71-6.26-1.37-.25-.17-1-.59-1.23-.49a2.25 2.25 0 0 1-2.72-.16l-.25-.23a1.93 1.93 0 0 1-.37-2.67c.26-.26-.2-1-.2-1s-1.32-2-2.22-3.15a8.79 8.79 0 0 1-1.14-3.91 10.46 10.46 0 0 1-1.46-2.14 5.55 5.55 0 0 0-.78-.94 5 5 0 0 1-.47-.51.21.21 0 0 1 0-.16 5.65 5.65 0 0 1 1.55-2c.32-.21 1.68-1 1.68-1a2.71 2.71 0 0 1 2.08-1.21 9.93 9.93 0 0 1 3.93.6l.84.27c1.42.45 2.67 1 3.66 1.42a16.55 16.55 0 0 0 2 .79c1.75.46 4.85-1 5.5-1.56 1.07-1 1.53-1.63 1.54-2.16a1.2 1.2 0 0 0-.43-.88c-.16-.14-.36-.42-.62-.67a1.12 1.12 0 0 0-.14-.12c-3-3.15-2.46-5.13-2.45-5.16.13-1.42-.69-2.33-1.56-3.27l-.14-.18a1 1 0 0 1-.1-.11 37.8 37.8 0 0 0 4.59 1 8.79 8.79 0 0 0 2.08.11c1.54 0 2.77-.18 2.85-.54a21.27 21.27 0 0 1-4.11-1.21 65.92 65.92 0 0 0-2.72-1c-1.24-.42-2.58-1-2.58-1 5.35 1.4 7.1 2 9.54 2A7.68 7.68 0 0 0 46 18c.35-.06 1.43-.31 1.55-.68a8.74 8.74 0 0 1-3-.48c-6.24-2.06-6.77-3.09-10.23-4.44a31.17 31.17 0 0 0-5.25-1.67 10.13 10.13 0 0 0-4.54 0c-4.73-1.11-5.81-1-7.2-.69a24 24 0 0 1 29.86 3.23 24.46 24.46 0 0 1 2.92 3.54l.11.17a24 24 0 0 1-3 30.19zM31.46 20.13a5.51 5.51 0 0 1 3.1 3.34c-3 .68-2.36-2.37-2.36-2.37z" }));
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 32 32" }, props), _react2.default.createElement("g", { fill: "none" }, _react2.default.createElement("rect", { width: "32", height: "32", fill: "#00BFA5", rx: "3" }), _react2.default.createElement("path", { fill: "#FFF", d: "M23.28 8.81l-3 3.91-1.77-2.32 1.23-1.59h3.54zm2.29-1.5h-6.38a.38.38 0 0 0-.28.14l-2.27 2.95 3.65 4.79 5.58-7.29a.36.36 0 0 0-.28-.59h-.02zm-5.1 12.11l2.87 3.76h-3.5l-1.12-1.45 1.76-2.3h-.01zm.01-2.46l-3.65 4.77L19 24.54c.07.09.17.14.28.14h6.35a.36.36 0 0 0 .3-.58l-5.47-7.14h.02zM13.1 7.61a.36.36 0 0 0-.28-.14H6.35a.36.36 0 0 0-.29.59l6.17 8-6.17 8a.36.36 0 0 0 .3.58h6.44a.36.36 0 0 0 .29-.14l6.47-8.41-6.47-8.47z" })));
 };
 
 /***/ }),
@@ -10719,7 +10719,8 @@ var MenuLinks = function MenuLinks(_ref) {
                         'span',
                         { title: item.text, className: 'header__menu-link-text' },
                         item.icon,
-                        item.text
+                        item.text,
+                        item.logo
                     )
                 );
             })
@@ -11282,6 +11283,10 @@ var _socket_base = __webpack_require__(/*! ../../../../_common/base/socket_base 
 
 var _socket_base2 = _interopRequireDefault(_socket_base);
 
+var _language = __webpack_require__(/*! ../../../../_common/language */ "./src/javascript/_common/language.js");
+
+var _language2 = _interopRequireDefault(_language);
+
 var _routes = __webpack_require__(/*! ../../../Constants/routes */ "./src/javascript/app_2/Constants/routes.js");
 
 var _routes2 = _interopRequireDefault(_routes);
@@ -11315,6 +11320,7 @@ var RouteWithSubRoutes = function RouteWithSubRoutes(route) {
             result = route.is_authenticated && !route.is_logged_in ? _react2.default.createElement(_loginPrompt2.default, { onLogin: _login.redirectToLogin, page_title: route.title }) : _react2.default.createElement(route.component, _extends({}, props, { routes: route.routes }));
         }
 
+        _language2.default.setCookie();
         var title = route.title ? route.title + ' | ' : '';
         document.title = '' + title + _appConfig.default_title;
         _socket_base2.default.wait('website_status').then(function () {
@@ -11372,18 +11378,20 @@ var _react2 = _interopRequireDefault(_react);
 
 var _localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js");
 
-var _NavBar = __webpack_require__(/*! ../../Assets/Header/NavBar */ "./src/javascript/app_2/Assets/Header/NavBar/index.js");
-
 var _Constants = __webpack_require__(/*! ../../Constants */ "./src/javascript/app_2/Constants/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var header_links = [{
-    icon: _react2.default.createElement(_NavBar.IconTrade, { className: 'header__icon' }),
-    text: (0, _localize.localize)('Trade'),
+    logo: _react2.default.createElement(
+        'div',
+        { className: 'header__logo' },
+        (0, _localize.localize)('BETA')
+    ),
+    text: (0, _localize.localize)('BinaryNex'),
     link_to: _Constants.routes.trade
 }];
-
+// import { IconStatement } from 'Assets/Header/NavBar/index';
 exports.default = header_links;
 
 /***/ }),
