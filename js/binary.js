@@ -32171,10 +32171,10 @@ var MetaTraderConfig = function () {
                     var has_financial_account = Client.hasAccountType('financial', 1);
                     var is_maltainvest = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'maltainvest';
                     var is_financial = accounts_info[acc_type].account_type === 'financial';
-                    var is_demo = accounts_info[acc_type].account_type === 'demo';
+                    var is_demo_financial = accounts_info[acc_type].account_type === 'demo' && accounts_info[acc_type].mt5_account_type; // is not demo vol account
                     var is_ok = true;
 
-                    if (is_maltainvest && (is_financial || is_demo) && !has_financial_account) {
+                    if (is_maltainvest && (is_financial || is_demo_financial) && !has_financial_account) {
                         $message.find('.maltainvest').setVisibility(1);
                         is_ok = false;
                         $message.find(message_selector).setVisibility(1);
