@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_token":"api_token","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"5189d05e3eada5e2fb30","account_password":"5b98c5e0011cf272df7f","api_token":"1bcb0c881a41de9bfd6e","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"243c718b107d604341d6","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"1239d5c20c1b75c51821","portfolio":"f1d35791cb381ba423a5","statement":"58d4a34d13ede4ecde59","self_exclusion":"226ac0134b0354423868","settings":"629b43dd5f13f4355536","vendors~smart_chart":"249a07eaf640659b103a","smart_chart":"2e6f66f84b8b29bd2d74"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_token":"api_token","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"5189d05e3eada5e2fb30","account_password":"5b98c5e0011cf272df7f","api_token":"1bcb0c881a41de9bfd6e","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"243c718b107d604341d6","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"1239d5c20c1b75c51821","portfolio":"f1d35791cb381ba423a5","statement":"58d4a34d13ede4ecde59","self_exclusion":"226ac0134b0354423868","settings":"629b43dd5f13f4355536","vendors~smart_chart":"b350226433ac9a31fe9f","smart_chart":"2e6f66f84b8b29bd2d74"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -4808,7 +4808,7 @@ var PositionsDrawerCard = function (_React$PureComponent) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: (0, _classnames2.default)('positions-drawer-card__indicative--movement', {
-                                            'positions-drawer-card__indicative--movement-complete': status === 'complete'
+                                            'positions-drawer-card__indicative--movement-complete': !!result
                                         })
                                     },
                                     _react2.default.createElement(_iconPriceMove.IconPriceMove, {
@@ -4823,7 +4823,7 @@ var PositionsDrawerCard = function (_React$PureComponent) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: (0, _classnames2.default)('positions-drawer-card__indicative--movement', {
-                                            'positions-drawer-card__indicative--movement-complete': status === 'complete'
+                                            'positions-drawer-card__indicative--movement-complete': !!result
                                         })
                                     },
                                     _react2.default.createElement(_iconPriceMove.IconPriceMove, {
@@ -13375,7 +13375,10 @@ var ThemeSelectSettings = function ThemeSelectSettings(_ref) {
                     }),
                     _react2.default.createElement(
                         'p',
-                        { className: 'theme-select-settings__option__title' },
+                        { className: (0, _classnames2.default)('theme-select-settings__option__title', {
+                                'theme-select-settings__option__title--selected': is_dark_mode
+                            })
+                        },
                         _react2.default.createElement(_localize2.default, { str: 'Brand Dark' })
                     )
                 ),
@@ -13390,7 +13393,10 @@ var ThemeSelectSettings = function ThemeSelectSettings(_ref) {
                     }),
                     _react2.default.createElement(
                         'p',
-                        { className: 'theme-select-settings__option__title' },
+                        { className: (0, _classnames2.default)('theme-select-settings__option__title', {
+                                'theme-select-settings__option__title--selected': !is_dark_mode
+                            })
+                        },
                         _react2.default.createElement(_localize2.default, { str: 'Light' })
                     )
                 )
@@ -26785,7 +26791,7 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContractStore.__proto__ || Object.getPrototypeOf(ContractStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'contract_id', _descriptor, _this), _initDefineProp(_this, 'contract_info', _descriptor2, _this), _initDefineProp(_this, 'digits_info', _descriptor3, _this), _initDefineProp(_this, 'sell_info', _descriptor4, _this), _initDefineProp(_this, 'has_error', _descriptor5, _this), _initDefineProp(_this, 'error_message', _descriptor6, _this), _initDefineProp(_this, 'is_sell_requested', _descriptor7, _this), _this.is_granularity_set = false, _this.is_left_epoch_set = false, _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContractStore.__proto__ || Object.getPrototypeOf(ContractStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'contract_id', _descriptor, _this), _initDefineProp(_this, 'contract_info', _descriptor2, _this), _initDefineProp(_this, 'digits_info', _descriptor3, _this), _initDefineProp(_this, 'sell_info', _descriptor4, _this), _initDefineProp(_this, 'has_error', _descriptor5, _this), _initDefineProp(_this, 'error_message', _descriptor6, _this), _initDefineProp(_this, 'is_sell_requested', _descriptor7, _this), _this.chart_type = 'mountain', _this.is_granularity_set = false, _this.is_left_epoch_set = false, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     // ---- Normal properties ---
@@ -26814,6 +26820,10 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
                 SmartChartStore.setChartView(contract_info.purchase_time);
             } else if (should_update_chart_type) {
                 this.handleChartType(SmartChartStore, contract_info.date_start, null);
+            } else if (this.is_granularity_set) {
+                if ((0, _logic.getChartType)(contract_info.date_start, null) !== this.chart_type) {
+                    this.is_granularity_set = false;
+                }
             }
 
             (0, _chartBarriers.createChartBarrier)(SmartChartStore, contract_info);
@@ -26852,6 +26862,7 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
         key: 'onCloseContract',
         value: function onCloseContract() {
             this.forgetProposalOpenContract();
+            this.chart_type = 'mountain';
             this.contract_id = null;
             this.contract_info = {};
             this.digits_info = {};
@@ -26946,9 +26957,11 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             if (chart_type === 'candle' && granularity !== 0) {
                 SmartChartStore.updateGranularity(granularity);
                 SmartChartStore.updateChartType(chart_type);
+                this.chart_type = chart_type;
             } else {
                 SmartChartStore.updateGranularity(0);
                 SmartChartStore.updateChartType('mountain');
+                this.chart_type = 'mountain';
             }
             this.is_granularity_set = true;
         }
@@ -28131,66 +28144,26 @@ function _initializerWarningHelper(descriptor, context) {
     throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
 
-var store_name = 'smart_chart_store';
-
 var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, _dec16 = _mobx.action.bound, _dec17 = _mobx.action.bound, _dec18 = _mobx.action.bound, _dec19 = _mobx.action.bound, _dec20 = _mobx.action.bound, _dec21 = _mobx.action.bound, _dec22 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(SmartChartStore, _BaseStore);
 
-    function SmartChartStore(_ref) {
-        var root_store = _ref.root_store;
+    function SmartChartStore() {
+        var _ref;
+
+        var _temp, _this, _ret;
 
         _classCallCheck(this, SmartChartStore);
 
-        var local_storage_properties = ['trade_chart_layout'];
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
 
-        var _this = _possibleConstructorReturn(this, (SmartChartStore.__proto__ || Object.getPrototypeOf(SmartChartStore)).call(this, { root_store: root_store, local_storage_properties: local_storage_properties, store_name: store_name }));
-
-        _initDefineProp(_this, 'chart_type', _descriptor, _this);
-
-        _initDefineProp(_this, 'granularity', _descriptor2, _this);
-
-        _initDefineProp(_this, 'barriers', _descriptor3, _this);
-
-        _initDefineProp(_this, 'markers', _descriptor4, _this);
-
-        _initDefineProp(_this, 'is_contract_mode', _descriptor5, _this);
-
-        _initDefineProp(_this, 'is_title_enabled', _descriptor6, _this);
-
-        _initDefineProp(_this, 'range', _descriptor7, _this);
-
-        _initDefineProp(_this, 'scroll_to_left_epoch', _descriptor8, _this);
-
-        _initDefineProp(_this, 'scroll_to_left_epoch_offset', _descriptor9, _this);
-
-        _initDefineProp(_this, 'chart_id', _descriptor10, _this);
-
-        _initDefineProp(_this, 'should_import_layout', _descriptor11, _this);
-
-        _initDefineProp(_this, 'should_export_layout', _descriptor12, _this);
-
-        _initDefineProp(_this, 'should_clear_chart', _descriptor13, _this);
-
-        _initDefineProp(_this, 'trade_chart_layout', _descriptor14, _this);
-
-        _this.trade_chart_symbol = null;
-
-        _initDefineProp(_this, 'onMount', _descriptor15, _this);
-
-        _initDefineProp(_this, 'onUnmount', _descriptor16, _this);
-
-        _initDefineProp(_this, 'createBarriers', _descriptor17, _this);
-
-        _this.wsSubscribe = function (request_object, callback) {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = SmartChartStore.__proto__ || Object.getPrototypeOf(SmartChartStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'chart_type', _descriptor, _this), _initDefineProp(_this, 'granularity', _descriptor2, _this), _initDefineProp(_this, 'barriers', _descriptor3, _this), _initDefineProp(_this, 'markers', _descriptor4, _this), _initDefineProp(_this, 'is_contract_mode', _descriptor5, _this), _initDefineProp(_this, 'is_title_enabled', _descriptor6, _this), _initDefineProp(_this, 'range', _descriptor7, _this), _initDefineProp(_this, 'scroll_to_left_epoch', _descriptor8, _this), _initDefineProp(_this, 'scroll_to_left_epoch_offset', _descriptor9, _this), _initDefineProp(_this, 'chart_id', _descriptor10, _this), _initDefineProp(_this, 'should_import_layout', _descriptor11, _this), _initDefineProp(_this, 'should_export_layout', _descriptor12, _this), _initDefineProp(_this, 'should_clear_chart', _descriptor13, _this), _initDefineProp(_this, 'trade_chart_layout', _descriptor14, _this), _this.trade_chart_symbol = null, _initDefineProp(_this, 'onMount', _descriptor15, _this), _initDefineProp(_this, 'onUnmount', _descriptor16, _this), _initDefineProp(_this, 'createBarriers', _descriptor17, _this), _this.wsSubscribe = function (request_object, callback) {
             if (request_object.subscribe !== 1) return;
             _Services.WS.subscribeTicksHistory(_extends({}, request_object), callback); // use a copy of the request_object to prevent updating the source
-        };
-
-        _this.wsForget = function (match_values, callback) {
+        }, _this.wsForget = function (match_values, callback) {
             return _Services.WS.forget('ticks_history', callback, match_values);
-        };
-
-        _this.wsSendRequest = function (request_object) {
+        }, _this.wsSendRequest = function (request_object) {
             if (request_object.time) {
                 return _server_time2.default.timePromise.then(function () {
                     return {
@@ -28200,9 +28173,7 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
                 });
             }
             return _Services.WS.sendRequest(request_object);
-        };
-
-        return _this;
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(SmartChartStore, [{
@@ -28250,7 +28221,7 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
         key: 'setChartView',
 
 
-        // --------- Tick Contracts ---------
+        // --------- Set Contract Scroll to Left ---------
         value: function setChartView(scroll_to_left_epoch) {
             this.updateEpochScrollToOffset(1);
             this.updateEpochScrollToValue(scroll_to_left_epoch);
@@ -28302,8 +28273,8 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
         value: function saveAndClearTradeChartLayout() {
             this.should_export_layout = true;
             this.should_import_layout = false;
-
             this.trade_chart_symbol = this.root_store.modules.trade.symbol;
+            this.chart_id = 'contract';
             this.updateGranularity(0);
             this.updateChartType('mountain');
         }
@@ -28315,16 +28286,17 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
             this.should_export_layout = false;
             this.should_import_layout = true;
             this.should_clear_chart = false;
+            this.chart_id = 'trade';
 
             this.trade_chart_layout.isDone = (0, _mobx.action)(function () {
                 _this2.trade_chart_layout = null;
                 _this2.should_import_layout = false;
-            });
 
-            // Reset back to symbol before loading contract if trade_symbol and contract_symbol don't match
-            if (this.trade_chart_symbol !== this.root_store.modules.trade.symbol) {
-                this.root_store.modules.trade.updateSymbol(this.trade_chart_symbol);
-            }
+                // Reset back to symbol before loading contract if trade_symbol and contract_symbol don't match
+                if (_this2.trade_chart_symbol !== _this2.root_store.modules.trade.symbol) {
+                    _this2.root_store.modules.trade.updateSymbol(_this2.trade_chart_symbol);
+                }
+            });
         }
     }, {
         key: 'exportLayout',
