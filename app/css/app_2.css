@@ -1518,18 +1518,17 @@ html {
         .theme--dark .header__menu-link--active > .header__menu-link-text[title]:after {
           color: #ffffff; }
   .header__logo {
-    font-size: 0.9em;
-    font-weight: normal;
     background-color: #e31c4b;
-    width: 50px;
-    height: 20px;
     border-radius: 10px;
-    text-align: center;
+    color: #ffffff;
     display: inline-block;
-    margin-left: 0.6em;
-    vertical-align: middle;
-    line-height: 1.5;
-    color: #ffffff; }
+    font-size: 1.4rem;
+    font-weight: normal;
+    height: 20px;
+    line-height: 1.43;
+    margin-left: 0.8rem;
+    text-align: center;
+    width: 50px; }
   .header__icon {
     margin-right: 0.8em; }
 
