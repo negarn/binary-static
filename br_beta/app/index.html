@@ -36,34 +36,13 @@
                     'zh_tw': 'tw|mo',
                     'zh_cn': 'cn',
                 };
-                var conLang = 'en';
+                var con_lang = 'en';
                 if (country) {
                     Object.keys(langs).map(function(l) {
-                        if ((new RegExp(langs[l], 'i')).test(country)) conLang = l;
+                        if ((new RegExp(langs[l], 'i')).test(country)) con_lang = l;
                     });
                 }
-                return conLang;
-            }
-            function getArrParams(href) {
-                var arr_params = [];
-                var parsed     = ((href ? new URL(href) : location_url).search || '').substr(1).split('&');
-                var p_l        = parsed.length;
-                while (p_l--) {
-                    var param = parsed[p_l].split('=');
-                    arr_params.push(param);
-                }
-                return arr_params;
-            }
-            function paramsHash(href) {
-                var param_hash = {};
-                var arr_params = getArrParams(href);
-                var param      = arr_params.length;
-                while (param--) {
-                    if (arr_params[param][0]) {
-                        param_hash[arr_params[param][0]] = arr_params[param][1] || '';
-                    }
-                }
-                return param_hash;
+                return con_lang;
             }
             // store consistent names with other API calls
             // API_V4: send consistent names
@@ -72,12 +51,12 @@
                 landing_company_name: 'landing_company_shortcode',
             };
 
-            function storeClientAccounts(account_list) {
+            function storeClientAccounts(obj_params, account_list) {
                 var client_object = {};
                 var active_loginid;
 
-                account_list.forEach((account) => {
-                    Object.keys(account).forEach((param) => {
+                account_list.forEach(function(account) {
+                    Object.keys(account).forEach(function(param) {
                         if (param === 'loginid') {
                             if (!active_loginid && !account.is_disabled) {
                                 if (account.is_virtual) { // TODO: [only_virtual] remove this to stop logging clients into virtual for app_2
@@ -95,11 +74,10 @@
                     });
                 });
 
-                var params = paramsHash(window.location.href);
                 var i = 1;
-                while (params[`acct${i}`]) {
-                    const loginid = params[`acct${i}`];
-                    const token   = params[`token${i}`];
+                while (obj_params['acct' + i]) {
+                    const loginid = obj_params['acct' + i];
+                    const token   = obj_params['token' + i];
                     if (loginid && token) {
                         client_object[loginid].token = token;
                     }
@@ -109,7 +87,7 @@
                 // if didn't find any login ID that matched the above condition
                 // or the selected one doesn't have a token, set the first one
                 if (!active_loginid || !client_object[active_loginid].token) {
-                    active_loginid = params.acct1;
+                    active_loginid = obj_params.acct1;
                 }
 
                 // TODO: send login flag to GTM if needed
@@ -120,7 +98,7 @@
                 }
             };
 
-            function arraysEqual(arr_1, arr_2) {
+            function isEqualArray(arr_1, arr_2) {
                 if (arr_1 === arr_2) return true;
                 if (arr_1 == null || arr_2 == null) return false;
                 if (arr_1.length !== arr_2.length) return false;
@@ -147,8 +125,20 @@
             }
             lang = getCookieItem('language');
             // Parse url for loginids, tokens, and currencies returned by OAuth
-            var params = paramsHash(window.location.href);
-            if (lang && !params.token1) { // we have language and client is not trying to log in
+            var obj_params = {};
+            var search     = window.location.search;
+            if (search) {
+                var arr_params = window.location.search.substr(1).split('&');
+                arr_params.forEach(function(param) {
+                    if (param) {
+                        var param_value = param.split('=');
+                        if (param_value) {
+                            obj_params[param_value[0]] = param_value[1];
+                        }
+                    }
+                });
+            }
+            if (lang && !obj_params.token1) { // we have language and client is not trying to log in
                 redirect();
             } else {
                 var ws = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=1');
@@ -159,9 +149,9 @@
                         requests.push('website_status');
                         ws.send(JSON.stringify({'website_status': '1'}));
                     }
-                    if (params.token1) { // client is trying to log in
+                    if (obj_params.token1) { // client is trying to log in
                         requests.push('authorize');
-                        ws.send(JSON.stringify({ authorize: params.token1 }));
+                        ws.send(JSON.stringify({ authorize: obj_params.token1 }));
                     }
                 };
                 ws.onmessage = function(msg) {
@@ -174,12 +164,12 @@
                         if (!response.error && response.hasOwnProperty('authorize')) {
                             const account_list = (response.authorize || {}).account_list;
                             if (account_list) {
-                                storeClientAccounts(account_list);
+                                storeClientAccounts(obj_params, account_list);
                             }
                         }
                     }
                     responses.push(response.msg_type);
-                    if (arraysEqual(requests, responses)) {
+                    if (isEqualArray(requests, responses)) {
                         ws.close();
                         redirect();
                     }
