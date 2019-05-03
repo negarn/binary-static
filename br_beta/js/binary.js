@@ -11079,8 +11079,7 @@ var LoggedInHandler = function () {
                 redirect_url = sessionStorage.getItem('redirect_url');
                 sessionStorage.removeItem('redirect_url');
 
-                var is_app_2 = (typeof redirect_url === 'string' || redirect_url instanceof String) && redirect_url.includes('/app/');
-                storeClientAccounts(account_list, is_app_2);
+                storeClientAccounts(account_list);
             } else {
                 Client.doLogout({ logout: 1 });
             }
@@ -11114,7 +11113,10 @@ var LoggedInHandler = function () {
         landing_company_name: 'landing_company_shortcode'
     };
 
-    var storeClientAccounts = function storeClientAccounts(params, account_list) {
+    var storeClientAccounts = function storeClientAccounts(account_list) {
+        // Parse url for loginids, tokens, and currencies returned by OAuth
+        var params = paramsHash(window.location.href);
+
         // Clear all accounts before entering the loop
         Client.clearAllAccounts();
 

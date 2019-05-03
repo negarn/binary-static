@@ -22944,7 +22944,7 @@ var ContractInfo = function ContractInfo(_ref) {
         proposal_info = _ref.proposal_info;
 
     var localized_basis = (0, _contract.getLocalizedBasis)();
-    var basisOrPayout = function basisOrPayout() {
+    var stakeOrPayout = function stakeOrPayout() {
         switch (basis) {
             case 'stake':
                 return localized_basis.payout;
@@ -22970,7 +22970,7 @@ var ContractInfo = function ContractInfo(_ref) {
             _react2.default.createElement(
                 'div',
                 { className: 'trade-container__price-info-basis' },
-                has_error_or_not_loaded ? basisOrPayout() : (0, _localize.localize)('[_1]', proposal_info.obj_contract_basis.text)
+                has_error_or_not_loaded ? stakeOrPayout() : (0, _localize.localize)('[_1]', proposal_info.obj_contract_basis.text)
             ),
             _react2.default.createElement(
                 'div',
