@@ -26844,6 +26844,11 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
                     this.handleChartType(SmartChartStore, contract_info.date_start, end_time);
                 }
             } else if (!this.is_left_epoch_set) {
+                // For tick contracts, it is necessary to set the chartType and granularity after saving and clearing trade layout
+                if (contract_info.tick_count) {
+                    SmartChartStore.updateGranularity(0);
+                    SmartChartStore.updateChartType('mountain');
+                }
                 this.is_left_epoch_set = true;
                 SmartChartStore.setChartView(contract_info.purchase_time);
             } else if (should_update_chart_type) {
@@ -26983,14 +26988,13 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             var granularity = (0, _logic.getChartGranularity)(start, expiry);
 
             if (chart_type === 'candle' && granularity !== 0) {
-                SmartChartStore.updateGranularity(granularity);
                 SmartChartStore.updateChartType(chart_type);
                 this.chart_type = chart_type;
             } else {
-                SmartChartStore.updateGranularity(0);
                 SmartChartStore.updateChartType('mountain');
                 this.chart_type = 'mountain';
             }
+            SmartChartStore.updateGranularity(granularity);
             this.is_granularity_set = true;
         }
     }, {
@@ -28303,8 +28307,6 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
             this.should_import_layout = false;
             this.trade_chart_symbol = this.root_store.modules.trade.symbol;
             this.chart_id = 'contract';
-            this.updateGranularity(0);
-            this.updateChartType('mountain');
         }
     }, {
         key: 'applySavedTradeChartLayout',
@@ -30013,7 +30015,7 @@ var getDefaultCurrency = exports.getDefaultCurrency = function getDefaultCurrenc
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.hasIntradayDurationUnit = exports.convertDurationLimit = exports.getExpiryType = exports.convertDurationUnit = exports.buildDurationConfig = undefined;
+exports.resetEndTimeOnVolatilityIndices = exports.hasIntradayDurationUnit = exports.convertDurationLimit = exports.getExpiryType = exports.convertDurationUnit = exports.buildDurationConfig = undefined;
 
 var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
@@ -30140,6 +30142,18 @@ var hasIntradayDurationUnit = exports.hasIntradayDurationUnit = function hasIntr
     });
 };
 
+/**
+ * On switching symbols, end_time value of volatility indices should be set to today
+ *
+ * @param {String} symbol
+ * @param {String} expiry_type
+ * @returns {*}
+ */
+var resetEndTimeOnVolatilityIndices = exports.resetEndTimeOnVolatilityIndices = function resetEndTimeOnVolatilityIndices(symbol, expiry_type) {
+    return (/^R_/.test(symbol) && expiry_type === 'endtime' ? (0, _Date.toMoment)(null).format('DD MMM YYYY') : null
+    );
+};
+
 /***/ }),
 
 /***/ "./src/javascript/app_2/Stores/Modules/Trading/Helpers/end-time.js":
@@ -30156,7 +30170,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var getClosestTime = function getClosestTime(time, interval) {
-    return time.minute(Math.round(time.minute() / interval) * interval);
+    return time.minute(Math.ceil(time.minute() / interval) * interval);
 };
 
 var getSelectedTime = exports.getSelectedTime = function getSelectedTime(server_time, selected_time, market_open_time) {
@@ -30791,6 +30805,15 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
             return _this.is_equal;
         }, function () {
             _this.onAllowEqualsChange();
+        });
+
+        (0, _mobx.reaction)(function () {
+            return _this.symbol;
+        }, function () {
+            var date = (0, _duration.resetEndTimeOnVolatilityIndices)(_this.symbol, _this.expiry_type);
+            if (date) {
+                _this.expiry_date = date;
+            }
         });
         return _this;
     }
