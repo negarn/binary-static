@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_token":"api_token","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"5189d05e3eada5e2fb30","account_password":"5b98c5e0011cf272df7f","api_token":"1bcb0c881a41de9bfd6e","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"243c718b107d604341d6","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"1239d5c20c1b75c51821","portfolio":"f1d35791cb381ba423a5","statement":"58d4a34d13ede4ecde59","self_exclusion":"226ac0134b0354423868","settings":"629b43dd5f13f4355536","vendors~smart_chart":"b350226433ac9a31fe9f","smart_chart":"2e6f66f84b8b29bd2d74"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_token":"api_token","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"5189d05e3eada5e2fb30","account_password":"5b98c5e0011cf272df7f","api_token":"1bcb0c881a41de9bfd6e","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"243c718b107d604341d6","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"1239d5c20c1b75c51821","portfolio":"f1d35791cb381ba423a5","statement":"58d4a34d13ede4ecde59","self_exclusion":"226ac0134b0354423868","settings":"629b43dd5f13f4355536","vendors~smart_chart":"4ac1e43717d90fb2f56b","smart_chart":"2e6f66f84b8b29bd2d74"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -21908,19 +21908,25 @@ var PurchaseButton = function PurchaseButton(_ref) {
         is_disabled = _ref.is_disabled,
         is_high_low = _ref.is_high_low,
         is_loading = _ref.is_loading,
+        should_fade = _ref.should_fade,
         onClickPurchase = _ref.onClickPurchase,
         type = _ref.type;
 
     var getIconType = function getIconType() {
-        if (is_loading) return '';
+        if (!should_fade && is_loading) return '';
         return is_high_low ? type.toLowerCase() + '_barrier' : type.toLowerCase();
     };
+
     return _react2.default.createElement(
         _button2.default,
         {
             is_disabled: is_contract_mode || is_disabled,
             id: 'purchase_' + type,
-            className: (0, _classnames2.default)('btn-purchase', { 'btn-purchase--disabled': (is_contract_mode || is_disabled) && !is_loading }, { 'btn-purchase--animated': is_loading }),
+            className: (0, _classnames2.default)('btn-purchase', {
+                'btn-purchase--disabled': (is_contract_mode || is_disabled) && !is_loading,
+                'btn-purchase--animated--slide': is_loading && !should_fade,
+                'btn-purchase--animated--fade': is_loading && should_fade
+            }),
             has_effect: true,
             onClick: function onClick() {
                 onClickPurchase(info.id, info.stake, type);
@@ -21946,7 +21952,7 @@ var PurchaseButton = function PurchaseButton(_ref) {
                     _react2.default.createElement(
                         'span',
                         { className: 'btn-purchase__text' },
-                        !is_loading && (0, _localize.localize)('[_1]', (0, _contract.getContractTypeDisplay)(type, is_high_low))
+                        !should_fade && is_loading ? '' : (0, _localize.localize)('[_1]', (0, _contract.getContractTypeDisplay)(type, is_high_low))
                     )
                 )
             ),
@@ -21960,7 +21966,7 @@ var PurchaseButton = function PurchaseButton(_ref) {
                     _react2.default.createElement(
                         'span',
                         { className: 'btn-purchase__text' },
-                        is_loading || is_disabled ? '' : info.returns
+                        !(is_loading || is_disabled) ? info.returns : ''
                     )
                 )
             )
@@ -22055,15 +22061,21 @@ var PurchaseFieldset = function (_React$PureComponent) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PurchaseFieldset.__proto__ || Object.getPrototypeOf(PurchaseFieldset)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-            show_tooltip: false
+            show_tooltip: false,
+            should_fade: false
         }, _this.onMouseEnter = function () {
-            _this.setState({ show_tooltip: true });
+            return _this.setState({ show_tooltip: true });
         }, _this.onMouseLeave = function () {
-            _this.setState({ show_tooltip: false });
+            return _this.setState({ show_tooltip: false });
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(PurchaseFieldset, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.setState({ should_fade: true });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
@@ -22090,6 +22102,7 @@ var PurchaseFieldset = function (_React$PureComponent) {
                 is_high_low: is_high_low,
                 is_loading: is_loading,
                 onClickPurchase: onClickPurchase,
+                should_fade: this.state.should_fade,
                 type: type
             });
 
@@ -22107,6 +22120,7 @@ var PurchaseFieldset = function (_React$PureComponent) {
                         proposal_info: info,
                         has_increased: info.has_increased,
                         is_loading: is_loading,
+                        should_fade: this.state.should_fade,
                         is_visible: !is_contract_mode
                     }),
                     _react2.default.createElement(
@@ -22904,6 +22918,8 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _contract = __webpack_require__(/*! ../../../../../Stores/Modules/Trading/Constants/contract */ "./src/javascript/app_2/Stores/Modules/Trading/Constants/contract.js");
+
 var _localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
 var _money = __webpack_require__(/*! ../../../../../App/Components/Elements/money.jsx */ "./src/javascript/app_2/App/Components/Elements/money.jsx");
@@ -22923,52 +22939,57 @@ var ContractInfo = function ContractInfo(_ref) {
         currency = _ref.currency,
         has_increased = _ref.has_increased,
         is_loading = _ref.is_loading,
+        should_fade = _ref.should_fade,
         is_visible = _ref.is_visible,
         proposal_info = _ref.proposal_info;
 
-    var is_loaded_with_error = proposal_info.has_error || !proposal_info.id;
+    var localized_basis = (0, _contract.getLocalizedBasis)();
+    var stakeOrPayout = function stakeOrPayout() {
+        switch (basis) {
+            case 'stake':
+                return localized_basis.payout;
+            case 'payout':
+                return localized_basis.stake;
+            default:
+                return basis;
+        }
+    };
 
+    var has_error_or_not_loaded = proposal_info.has_error || !proposal_info.id;
     return _react2.default.createElement(
-        _react2.default.Fragment,
-        null,
-        is_loading ? _react2.default.createElement(
+        'div',
+        { className: 'trade-container__price' },
+        _react2.default.createElement(
             'div',
-            { className: 'trade-container__loader' },
-            _react2.default.createElement('div', { className: 'trade-container__loader--loading' })
-        ) : _react2.default.createElement(
-            'div',
-            { className: 'trade-container__price' },
+            { className: (0, _classnames2.default)('trade-container__price-info', {
+                    'trade-container__price-info--disabled': has_error_or_not_loaded,
+                    'trade-container__price-info--slide': is_loading && !should_fade,
+                    'trade-container__price-info--fade': is_loading && should_fade
+                })
+            },
             _react2.default.createElement(
                 'div',
-                { className: (0, _classnames2.default)('trade-container__price-info', { 'trade-container__price-info--disabled': is_loaded_with_error }) },
-                _react2.default.createElement(
-                    'div',
-                    { className: 'trade-container__price-info-basis' },
-                    is_loaded_with_error ? basis : (0, _localize.localize)('[_1]', proposal_info.obj_contract_basis.text)
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'trade-container__price-info-value' },
-                    is_loaded_with_error ? '' : _react2.default.createElement(_money2.default, { amount: proposal_info.obj_contract_basis.value, className: 'trade-container__price-info-currency', currency: currency })
-                ),
-                is_visible && _react2.default.createElement(
-                    'div',
-                    { className: 'trade-container__price-info-movement' },
-                    !is_loaded_with_error && has_increased !== null && _react2.default.createElement(_iconPriceMove.IconPriceMove, { type: has_increased ? 'profit' : 'loss' })
-                )
+                { className: 'trade-container__price-info-basis' },
+                has_error_or_not_loaded ? stakeOrPayout() : (0, _localize.localize)('[_1]', proposal_info.obj_contract_basis.text)
             ),
             _react2.default.createElement(
-                'span',
-                null,
-                _react2.default.createElement(_tooltip2.default, {
-                    alignment: 'left',
-                    className: (0, _classnames2.default)('trade-container__price-tooltip', { 'trade-container__price-tooltip--disabled': is_loaded_with_error }),
-                    classNameIcon: 'trade-container__price-tooltip-i',
-                    icon: 'info',
-                    message: is_loaded_with_error ? '' : proposal_info.message
-                })
+                'div',
+                { className: 'trade-container__price-info-value' },
+                !has_error_or_not_loaded && _react2.default.createElement(_money2.default, { amount: proposal_info.obj_contract_basis.value, className: 'trade-container__price-info-currency', currency: currency })
+            ),
+            is_visible && _react2.default.createElement(
+                'div',
+                { className: 'trade-container__price-info-movement' },
+                !has_error_or_not_loaded && has_increased !== null && _react2.default.createElement(_iconPriceMove.IconPriceMove, { type: has_increased ? 'profit' : 'loss' })
             )
-        )
+        ),
+        _react2.default.createElement(_tooltip2.default, {
+            alignment: 'left',
+            className: (0, _classnames2.default)('trade-container__price-tooltip', { 'trade-container__price-tooltip--disabled': has_error_or_not_loaded }),
+            classNameIcon: 'trade-container__price-tooltip-i',
+            icon: 'info',
+            message: has_error_or_not_loaded ? '' : proposal_info.message
+        })
     );
 };
 ContractInfo.propTypes = {
@@ -25002,15 +25023,18 @@ var Purchase = function Purchase(_ref) {
         trade_types = _ref.trade_types,
         validation_errors = _ref.validation_errors;
 
+    var is_high_low = /high_low/.test(contract_type.toLowerCase());
+    var isLoading = function isLoading(info) {
+        var has_validation_error = Object.values(validation_errors).some(function (e) {
+            return e.length;
+        });
+        return !has_validation_error && !info.has_error && !info.id;
+    };
+
     var components = [];
     Object.keys(trade_types).map(function (type, index) {
         var info = proposal_info[type] || {};
         var is_disabled = !is_purchase_enabled || !is_trade_enabled || !info.id || !is_client_allowed_to_visit;
-        var is_high_low = /high_low/.test(contract_type.toLowerCase());
-        var is_validation_error = Object.values(validation_errors).some(function (e) {
-            return e.length;
-        });
-        var is_loading = !is_validation_error && !info.has_error && !info.id;
         var is_proposal_error = info.has_error && !info.has_error_details;
 
         var purchase_fieldset = _react2.default.createElement(_purchaseFieldset2.default, {
@@ -25022,7 +25046,7 @@ var Purchase = function Purchase(_ref) {
             is_contract_mode: is_contract_mode,
             is_disabled: is_disabled,
             is_high_low: is_high_low,
-            is_loading: is_loading
+            is_loading: isLoading(info)
             // is_purchase_confirm_on={is_purchase_confirm_on}
             , is_proposal_error: is_proposal_error
             // is_purchase_locked={is_purchase_locked}
@@ -25031,13 +25055,17 @@ var Purchase = function Purchase(_ref) {
             onClickPurchase: onClickPurchase,
             type: type
         });
-        var contract_type_position = (0, _contract.getContractTypePosition)(type);
-        if (contract_type_position === 'top') {
-            components.unshift(purchase_fieldset);
-        } else if (contract_type_position === 'bottom') {
-            components.push(purchase_fieldset);
-        } else {
-            components.push(purchase_fieldset);
+
+        switch ((0, _contract.getContractTypePosition)(type)) {
+            case 'top':
+                components.unshift(purchase_fieldset);
+                break;
+            case 'bottom':
+                components.push(purchase_fieldset);
+                break;
+            default:
+                components.push(purchase_fieldset);
+                break;
         }
     });
 

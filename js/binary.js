@@ -9698,7 +9698,7 @@ var BinaryLoader = function () {
             }
         } else if (config.not_authenticated && Client.isLoggedIn()) {
             if (this_page === 'home') {
-                BinaryPjax.load(Client.defaultRedirectUrl(), true);
+                BinaryPjax.load('' + Client.defaultRedirectUrl() + window.location.search, true);
             } else {
                 handleNotAuthenticated();
             }
