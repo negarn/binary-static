@@ -30412,6 +30412,7 @@ var SelfExclusion = function () {
     var timeout_time_id = '#timeout_until_time';
     var exclude_until_id = '#exclude_until';
     var max_30day_turnover_id = '#max_30day_turnover';
+    var max_deposit_end_date_id = '#max_deposit_end_date';
     var error_class = 'errorfield';
     var TURNOVER_LIMIT = 999999999999999; // 15 digits
 
@@ -30472,6 +30473,10 @@ var SelfExclusion = function () {
                         $form.find('label[for="timeout_until_date"]').text(localize('Timed out until'));
                         return;
                     }
+                    if (key === 'max_deposit_end_date') {
+                        setDateTimePicker(max_deposit_end_date_id, value);
+                        return;
+                    }
                     if (key === 'exclude_until') {
                         setDateTimePicker(exclude_until_id, value);
                         $form.find('label[for="exclude_until"]').text(localize('Excluded from the website until'));
@@ -30516,7 +30521,7 @@ var SelfExclusion = function () {
         $form.find('input[type="text"]').each(function () {
             var id = $(this).attr('id');
 
-            if (/timeout_until|exclude_until/.test(id)) return;
+            if (/timeout_until|exclude_until|max_deposit_end_date/.test(id)) return;
 
             var checks = [];
             var options = { min: 0 };
@@ -30576,6 +30581,12 @@ var SelfExclusion = function () {
                 }, message: localize('Exclude time cannot be less than 6 months.') }], ['custom', { func: function func(value) {
                     return !value.length || getMoment(exclude_until_id).isBefore(moment().add(5, 'years'));
                 }, message: localize('Exclude time cannot be for more than 5 years.') }]]
+        }, {
+            selector: max_deposit_end_date_id,
+            exclude_if_empty: 1,
+            value: function value() {
+                return getDate(max_deposit_end_date_id);
+            }
         });
 
         FormManager.init(form_id, validations);
@@ -30617,6 +30628,14 @@ var SelfExclusion = function () {
             minDate: 0,
             maxDate: 6 * 7 // 6 weeks
         });
+
+        if (Client.get('landing_company_shortcode') === 'iom') {
+            // max_deposit_until
+            DatePicker.init({
+                selector: max_deposit_end_date_id,
+                minDate: moment().add(1, 'day').toDate()
+            });
+        }
 
         // exclude_until
         DatePicker.init({
@@ -32046,7 +32065,7 @@ var MetaTraderConfig = function () {
             var volatility_config = {
                 account_type: '',
                 leverage: 500,
-                short_title: localize('Volatility Indices')
+                short_title: localize('Synthetic Indices')
             };
 
             return {
@@ -32058,9 +32077,9 @@ var MetaTraderConfig = function () {
                     real_mamm: { mt5_account_type: 'mamm_advanced', max_leverage: advanced_config.leverage, title: localize('MAM Advanced'), short_title: advanced_config.short_title }
                 },
                 gaming: {
-                    demo_volatility: { mt5_account_type: volatility_config.account_type, max_leverage: volatility_config.leverage, title: localize('Demo Volatility Indices'), short_title: volatility_config.short_title },
-                    real_volatility: { mt5_account_type: volatility_config.account_type, max_leverage: volatility_config.leverage, title: localize('Real Volatility Indices'), short_title: volatility_config.short_title },
-                    real_mamm: { mt5_account_type: 'mamm', max_leverage: volatility_config.leverage, title: localize('MAM Volatility Indices'), short_title: volatility_config.short_title }
+                    demo_volatility: { mt5_account_type: volatility_config.account_type, max_leverage: volatility_config.leverage, title: localize('Demo Synthetic Indices'), short_title: volatility_config.short_title },
+                    real_volatility: { mt5_account_type: volatility_config.account_type, max_leverage: volatility_config.leverage, title: localize('Real Synthetic Indices'), short_title: volatility_config.short_title },
+                    real_mamm: { mt5_account_type: 'mamm', max_leverage: volatility_config.leverage, title: localize('MAM Synthetic Indices'), short_title: volatility_config.short_title }
                 }
             };
         };
@@ -32160,10 +32179,10 @@ var MetaTraderConfig = function () {
                     var has_financial_account = Client.hasAccountType('financial', 1);
                     var is_maltainvest = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'maltainvest';
                     var is_financial = accounts_info[acc_type].account_type === 'financial';
-                    var is_demo = accounts_info[acc_type].account_type === 'demo';
+                    var is_demo_financial = accounts_info[acc_type].account_type === 'demo' && accounts_info[acc_type].mt5_account_type; // is not demo vol account
                     var is_ok = true;
 
-                    if (is_maltainvest && (is_financial || is_demo) && !has_financial_account) {
+                    if (is_maltainvest && (is_financial || is_demo_financial) && !has_financial_account) {
                         $message.find('.maltainvest').setVisibility(1);
                         is_ok = false;
                         $message.find(message_selector).setVisibility(1);
@@ -32227,7 +32246,7 @@ var MetaTraderConfig = function () {
                     if (is_volatility && !accounts_info[acc_type].is_demo && State.getResponse('landing_company.gaming_company.shortcode') === 'malta') {
                         Dialog.confirm({
                             id: 'confirm_new_account',
-                            localized_message: localize(['Trading Contracts for Difference (CFDs) on Volatility Indices may not be suitable for everyone. Please ensure that you fully understand the risks involved, including the possibility of losing all the funds in your MT5 account. Gambling can be addictive – please play responsibly.', 'Do you wish to continue?'])
+                            localized_message: localize(['Trading Contracts for Difference (CFDs) on Synthetic Indices may not be suitable for everyone. Please ensure that you fully understand the risks involved, including the possibility of losing all the funds in your MT5 account. Gambling can be addictive – please play responsibly.', 'Do you wish to continue?'])
                         }).then(function (is_ok) {
                             if (!is_ok) {
                                 BinaryPjax.load(Client.defaultRedirectUrl());
@@ -32340,8 +32359,6 @@ var MetaTraderConfig = function () {
                 return new Promise(function (resolve) {
                     if (Client.get('is_virtual')) {
                         resolve(needsRealMessage());
-                    } else if (Client.get('landing_company_shortcode') === 'iom') {
-                        resolve(needsFinancialMessage());
                     } else {
                         BinarySocket.send({ cashier_password: 1 }).then(function (response) {
                             if (!response.error && response.cashier_password === 1) {
@@ -32374,8 +32391,6 @@ var MetaTraderConfig = function () {
                 return new Promise(function (resolve) {
                     if (Client.get('is_virtual')) {
                         resolve(needsRealMessage());
-                    } else if (Client.get('landing_company_shortcode') === 'iom') {
-                        resolve(needsFinancialMessage());
                     } else if (accounts_info[acc_type].account_type === 'financial') {
                         BinarySocket.send({ get_account_status: 1 }).then(function () {
                             resolve(!isAuthenticated() ? $messages.find('#msg_authenticate').html() : '');
@@ -33197,8 +33212,6 @@ var MetaTraderUI = function () {
                 } else if (!Client.get('currency')) {
                     // client should set currency before accessing fund management section
                     msg = $templates.find('#msg_set_currency').html();
-                } else if (Client.get('landing_company_shortcode') === 'iom') {
-                    msg = MetaTraderConfig.needsFinancialMessage();
                 }
                 if (msg) {
                     displayMainMessage(msg, false);
