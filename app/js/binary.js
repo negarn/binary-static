@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_token":"api_token","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"5189d05e3eada5e2fb30","account_password":"5b98c5e0011cf272df7f","api_token":"1bcb0c881a41de9bfd6e","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"243c718b107d604341d6","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"1239d5c20c1b75c51821","portfolio":"f1d35791cb381ba423a5","statement":"58d4a34d13ede4ecde59","self_exclusion":"226ac0134b0354423868","settings":"629b43dd5f13f4355536","vendors~smart_chart":"4ac1e43717d90fb2f56b","smart_chart":"2e6f66f84b8b29bd2d74"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_token":"api_token","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"5189d05e3eada5e2fb30","account_password":"5b98c5e0011cf272df7f","api_token":"1bcb0c881a41de9bfd6e","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"243c718b107d604341d6","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"1239d5c20c1b75c51821","portfolio":"f1d35791cb381ba423a5","statement":"58d4a34d13ede4ecde59","self_exclusion":"226ac0134b0354423868","settings":"629b43dd5f13f4355536","vendors~smart_chart":"dd7ef6f3fe9a0d70cfc2","smart_chart":"2e6f66f84b8b29bd2d74"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -1034,6 +1034,558 @@ exports.default = function (_ref) {
       props = _objectWithoutProperties(_ref, ["styles"]);
 
   return _react2.default.createElement("svg", _extends({ width: "160", height: "120", xmlns: "http://www.w3.org/2000/svg" }, props), _react2.default.createElement("defs", null, _react2.default.createElement("linearGradient", { x1: "50%", y1: "126.02%", x2: "50%", y2: "32.91%", id: "a" }, _react2.default.createElement("stop", { stopColor: "#FFF", stopOpacity: "0", offset: "0%" }), _react2.default.createElement("stop", { stopColor: "#999CAC", stopOpacity: ".16", offset: "100%" }))), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("path", { fill: "#FAFAFA", fillRule: "nonzero", d: "M0 0h160v120H0z" }), _react2.default.createElement("path", { fill: "url(#a)", d: "M0 28.06l1.35 3.76 4.04 7.53 2.7 3.77 4.04-3.77h2.7l2.7-3.76 1.35 3.76 1.35-3.76 1.34 3.76h2.7l1.35 15.06 2.7-3.76 4.04-3.77 1.35 3.77h5.4l3.04 25.76 2.34-25.76 1.35 3.76 1.35-3.76 6.74-7.53 1.35-11.3 4.05-3.76 8.09 3.76 2.7 3.77h2.69l1.35-3.77 1.35 3.77 1.34-3.77 1.35-3.76 4.05-7.53 2.7-3.76h2.7L88.98 13l2.7 3.77h2.7l2.69 3.76 1.35 18.82 1.34-3.76 6.75-3.77h2.7l1.34 11.3 1.35-11.3 1.35 3.77H130V120H0z" }), _react2.default.createElement("path", { d: "M8.43 43.19a.5.5 0 0 1-.74-.08l-2.74-3.78-4.04-7.45-.05-.14L0 27.6a.5.5 0 1 1 .98-.2l.83 4.06L5.8 38.8l2.37 3.27 3.63-3.35a.5.5 0 0 1 .33-.13h2.45l2.54-3.52a.5.5 0 0 1 .88.12l.88 2.43.88-2.43a.5.5 0 0 1 .94 0l1.22 3.4h2.35a.5.5 0 0 1 .5.46L26 52.63l1.98-2.73 4.04-3.72a.5.5 0 0 1 .81.2l1.23 3.4h5.04a.5.5 0 0 1 .5.43l2.48 21L44 50.22c.04-.54.78-.63.96-.13l.88 2.43.88-2.43.1-.16 6.63-7.34 1.33-11.02a.5.5 0 0 1 .16-.31L59 27.54a.5.5 0 0 1 .54-.09l8.1 3.73a.5.5 0 0 1 .19.16l2.55 3.52h2.09l1.23-3.4a.5.5 0 0 1 .94 0l.87 2.43.88-2.42 1.38-3.8 4.08-7.5 2.7-3.74a.5.5 0 0 1 .4-.2h2.35l1.23-3.4a.5.5 0 0 1 .87-.12l2.55 3.52h2.44a.5.5 0 0 1 .4.2l2.7 3.73a.5.5 0 0 1 .1.26l1.18 16.3.54-1.53a.5.5 0 0 1 .23-.26l6.74-3.73a.5.5 0 0 1 .25-.06h2.7a.5.5 0 0 1 .49.44l.85 7.06.85-7.06c.07-.53.79-.6.97-.11l1.23 3.4H130a.5.5 0 0 1 0 1h-16.74a.5.5 0 0 1-.47-.34l-.63-1.75-1.1 9.1c-.07.58-.92.58-1 0l-1.29-10.74h-2.12l-6.47 3.57-1.28 3.55c-.18.5-.93.4-.97-.13l-1.34-18.5-2.46-3.4h-2.44a.5.5 0 0 1-.41-.21l-2.14-2.96-1.03 2.84a.5.5 0 0 1-.47.33H85.2l-2.51 3.46-4.02 7.39-2.7 7.45a.5.5 0 0 1-.93 0l-.88-2.42-.88 2.42a.5.5 0 0 1-.47.33h-2.7a.5.5 0 0 1-.4-.2l-2.62-3.62-7.67-3.54-3.67 3.38-1.32 11a.5.5 0 0 1-.13.27l-6.67 7.38-1.32 3.64a.5.5 0 0 1-.94 0l-.58-1.62-2.15 23.5c-.05.6-.92.6-.99 0l-3-25.28h-4.94a.5.5 0 0 1-.47-.33l-1.1-3.02-3.42 3.15-2.7 3.72a.5.5 0 0 1-.9-.25l-1.3-14.45h-2.25a.5.5 0 0 1-.47-.33l-.87-2.43-.88 2.43a.5.5 0 0 1-.94 0l-1.03-2.84-2.14 2.96a.5.5 0 0 1-.4.21h-2.51l-3.9 3.6z", fill: "#999CAC", fillRule: "nonzero" }), _react2.default.createElement("path", { d: "M144.61 34.75l4.8-5.75H160v12h-10.59l-4.8-5.75h-1.11v-.5h1.11zm-11.71 0h.6v.5h-.5v.05a1.5 1.5 0 1 1-.1-.55zm2.6.5v-.5h2v.5h-2zm4 0v-.5h2v.5h-2z", fill: "#F93", fillRule: "nonzero" }), _react2.default.createElement("path", { fill: "#FAFAFA", d: "M0 3h24v114H0z" }), _react2.default.createElement("path", { fill: "#F4F4F6", fillRule: "nonzero", d: "M23 3h1v114h-1z" }), _react2.default.createElement("path", { d: "M14.29 13.94l.64.63a.25.25 0 0 1-.36.36l-5.5-5.5a.25.25 0 1 1 .36-.36l.63.64a2.99 2.99 0 0 1 1.69-.7v-.76a.25.25 0 1 1 .5 0v.76a3 3 0 0 1 2.74 2.74h.76a.25.25 0 1 1 0 .5h-.76a2.99 2.99 0 0 1-.7 1.69zm-.35-.36a2.5 2.5 0 0 0-3.52-3.52l.35.36a2 2 0 0 1 2.81 2.8l.36.36zm-.72-.71a1.5 1.5 0 0 0-2.09-2.1l2.1 2.1zm-1.47 2.12a3 3 0 0 1-2.74-2.74h-.76a.25.25 0 1 1 0-.5h.76c.02-.29.09-.57.2-.83a.25.25 0 1 1 .46.17 2.5 2.5 0 0 0 3.27 3.23.25.25 0 1 1 .19.46 2.98 2.98 0 0 1-.88.21v.76a.25.25 0 1 1-.5 0v-.76zm-1.69-3.48a.25.25 0 1 1 .49.12 1.5 1.5 0 0 0 1.76 1.84.25.25 0 0 1 .1.49 2 2 0 0 1-2.35-2.46zm-.03 16.46a.75.75 0 1 1 1.43.01l.86.65a.75.75 0 0 1 .77-.05l1.48-1.5a.75.75 0 1 1 .36.35l-1.5 1.51a.75.75 0 1 1-1.4.1l-.87-.66a.75.75 0 0 1-.83 0l-.86.65a.75.75 0 1 1-.3-.4l.86-.66zm5.22-.97a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zm-2.5 2.5a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zm-2-1.5a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zm-2 1.5a.25.25 0 1 0 0-.5.25.25 0 0 0 0 .5zM13.4 61h-2.8l-1.12 2.36a.25.25 0 0 1-.46-.22L10.05 61h-.8a.25.25 0 1 1 0-.5h1.04l1.07-2.23a1 1 0 1 1 1.28 0l1.07 2.23h1.04a.25.25 0 1 1 0 .5h-.8l1.03 2.14a.25.25 0 0 1-.46.22L13.4 61zm-.24-.5l-.97-2.02a1 1 0 0 1-.38 0l-.97 2.02h2.32zm-.3-15.5h2.9a.25.25 0 1 1 0 .5h-2.9l1.07 1.07a.25.25 0 1 1-.36.36l-1.5-1.5a.25.25 0 0 1 0-.36l1.5-1.5a.25.25 0 1 1 .36.36L12.85 45zm-1.71-2h-2.9a.25.25 0 1 1 0-.5h2.9l-1.08-1.07a.25.25 0 1 1 .36-.36l1.5 1.5a.25.25 0 0 1 0 .36l-1.5 1.5a.25.25 0 1 1-.36-.36L11.15 43zm1.1 64.75h2.25v.5h-2.25v2.25h-.5v-2.25H9.5v-.5h2.25v-2.25h.5v2.25zm-2.75-16h5v.5h-5v-.5zM14.04 74L13 72.96v.79c0 .14.11.25.25.25h.8zm-1.54-1.5h-3v7h5v-5h-1.25a.75.75 0 0 1-.75-.75V72.5zm-3-.5h3.25L15 74.25v5.25a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5zm2.25 5.15v-2.4a.25.25 0 1 1 .5 0v2.4l.57-.58a.25.25 0 1 1 .36.36l-1 1a.25.25 0 0 1-.36 0l-1-1a.25.25 0 1 1 .36-.36l.57.58z", fill: "#000", fillRule: "nonzero" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-even-odd-dark.svg":
+/*!*******************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-even-odd-dark.svg ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "270", height: "152" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd", transform: "translate(6 2)" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#101320", fillRule: "nonzero", rx: "4" }), _react2.default.createElement("path", { fill: "#191C31", fillRule: "nonzero", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z" }), _react2.default.createElement("path", { d: "M137 38h63.66v63.66H137z" }), _react2.default.createElement("path", { fill: "#F93", d: "M183.26 69.14h-29.4l14.61-23.18 14.8 23.18zm-17.39-6.65h5.38l-2.69-4.25-2.69 4.25z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M166.68 97.13h-29.41l14.61-23.19 14.8 23.18zm-17.49-6.65h5.38l-2.69-4.25-2.69 4.24zm50.75 6.64h-29.4l14.6-23.18 14.8 23.18zm-17.4-6.65h5.39l-2.7-4.24-2.68 4.24z" }), _react2.default.createElement("path", { fill: "#F93", d: "M57.54 63.82v-25.2h25.2v25.2h-25.2zm16.4-16.32h-7.53v7.54h7.54V47.5zm21.25 54.16v-25.2h25.2v25.2h-25.2zm16.32-16.41h-7.53v7.53h7.53v-7.53z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M95.2 38.63h25.19v25.2h-25.2v-25.2zm8.78 16.4h7.53V47.5h-7.53v7.53zm-46.44 46.63v-25.2h25.2v25.2h-25.2zm16.4-16.41h-7.53v7.53h7.54v-7.53z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-even-odd-light.svg":
+/*!********************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-even-odd-light.svg ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "258", height: "140" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#FFF", rx: "4" }), _react2.default.createElement("path", { fill: "#336", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z", opacity: ".08" }), _react2.default.createElement("path", { d: "M137 38h63.66v63.66H137z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M183.26 69.14h-29.4l14.61-23.18 14.8 23.18zm-17.39-6.65h5.38l-2.69-4.25-2.69 4.25z" }), _react2.default.createElement("path", { fill: "#336", d: "M166.68 97.13h-29.41l14.61-23.19 14.8 23.18zm-17.49-6.65h5.38l-2.69-4.25-2.69 4.24zm50.75 6.64h-29.4l14.6-23.18 14.8 23.18zm-17.4-6.65h5.39l-2.7-4.24-2.68 4.24z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M57.54 63.82v-25.2h25.2v25.2h-25.2zm16.4-16.32h-7.53v7.54h7.54V47.5zm21.25 54.16v-25.2h25.2v25.2h-25.2zm16.32-16.41h-7.53v7.53h7.53v-7.53z" }), _react2.default.createElement("path", { fill: "#336", d: "M95.2 38.63h25.19v25.2h-25.2v-25.2zm8.78 16.4h7.53V47.5h-7.53v7.53zm-46.44 46.63v-25.2h25.2v25.2h-25.2zm16.4-16.41h-7.53v7.53h7.54v-7.53z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-higher-lower-dark.svg":
+/*!***********************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-higher-lower-dark.svg ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", xmlnsXlink: "http://www.w3.org/1999/xlink", width: "270", height: "152" }, props), _react2.default.createElement("defs", null, _react2.default.createElement("path", { id: "a", d: "M0 0h63.66v63.66H0z" })), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd", transform: "translate(6 2)" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#101320", fillRule: "nonzero", rx: "4" }), _react2.default.createElement("path", { fill: "#191C31", fillRule: "nonzero", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z" }), _react2.default.createElement("g", { transform: "translate(137 38)" }, _react2.default.createElement("mask", { id: "b", fill: "#fff" }, _react2.default.createElement("use", { xlinkHref: "#a" })), _react2.default.createElement("g", { mask: "url(#b)" }, _react2.default.createElement("path", { fill: "#FFF", d: "M40.35 34.64l15.06 15.1v-9.26h7.89V63.2H32.82c0-4.31 3.5-7.9 7.88-7.9h9.06L29.14 34.63H.54v-7.9H63.3v7.9H40.35z" }), _react2.default.createElement("path", { fill: "#F93", d: "M13.99 8.4H.54v13.48h8.25v-7.45l7.44 7.45h11.2z" }))), _react2.default.createElement("path", { d: "M57 38h63.66v63.66H57z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M85.78 75.06L106.4 54.4h-9.05a7.9 7.9 0 0 1-7.9-7.9h30.5v22.73h-7.9v-9.26L97 75.07h22.95v7.9H57.18v-7.9h28.6z" }), _react2.default.createElement("path", { fill: "#F93", d: "M70.63 101.3H57.18V87.82h8.25v7.46l7.44-7.46h11.2z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-higher-lower-light.svg":
+/*!************************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-higher-lower-light.svg ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", xmlnsXlink: "http://www.w3.org/1999/xlink", width: "258", height: "140" }, props), _react2.default.createElement("defs", null, _react2.default.createElement("path", { id: "a", d: "M0 0h63.66v63.66H0z" })), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#FFF", rx: "4" }), _react2.default.createElement("path", { fill: "#336", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z", opacity: ".08" }), _react2.default.createElement("g", { transform: "translate(137 38)" }, _react2.default.createElement("mask", { id: "b", fill: "#fff" }, _react2.default.createElement("use", { xlinkHref: "#a" })), _react2.default.createElement("g", { mask: "url(#b)" }, _react2.default.createElement("path", { fill: "#336", d: "M40.35 34.64l15.06 15.1v-9.26h7.89V63.2H32.82c0-4.31 3.5-7.9 7.88-7.9h9.06L29.14 34.63H.54v-7.9H63.3v7.9H40.35z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M13.99 8.4H.54v13.48h8.25v-7.45l7.44 7.45h11.2z" }))), _react2.default.createElement("path", { d: "M57 38h63.66v63.66H57z" }), _react2.default.createElement("path", { fill: "#336", d: "M85.78 75.06L106.4 54.4h-9.05a7.9 7.9 0 0 1-7.9-7.9h30.5v22.73h-7.9v-9.26L97 75.07h22.95v7.9H57.18v-7.9h28.6z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M70.63 101.3H57.18V87.82h8.25v7.46l7.44-7.46h11.2z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-matches-differs-dark.svg":
+/*!**************************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-matches-differs-dark.svg ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "270", height: "152" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd", transform: "translate(6 2)" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#101320", fillRule: "nonzero", rx: "4" }), _react2.default.createElement("path", { fill: "#191C31", fillRule: "nonzero", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M150.9 40.6l22.86 22.77-22.86 22.87a7.93 7.93 0 0 1 0-11.21l7.35-7.35h-21.07v-7.9h21.7l-7.98-7.97a7.85 7.85 0 0 1 0-11.21zm13.71 46.98h7.9v13.9h-7.9v-13.9zm0-48.86h7.9v7.53h-7.9v-7.53z" }), _react2.default.createElement("path", { fill: "#F93", d: "M199.94 72.07h-17.12l7.35-7.35a8.01 8.01 0 0 0 0-11.2l-13.18 13.17a3.36 3.36 0 0 1 0 4.66l-7.26 7.27 20.44 20.44c2.42-3.68 1.88-9.33-1.26-12.47l-6.72-6.72h17.66v-7.8h.1z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M71.15 46.88l22.54 22.77-22.54 22.86a8 8 0 0 1 0-11.2l7.25-7.36H57.62v-7.89h21.4l-7.87-7.98a7.93 7.93 0 0 1 0-11.2zm13.44 40.7h7.78v13.8h-7.78v-13.8zm0-48.95h7.78v14.16h-7.78V38.63z" }), _react2.default.createElement("path", { fill: "#F93", d: "M105.36 47.33a8 8 0 0 1-.09 11.2l-5.83 5.92-5.48-5.56 11.4-11.57zm0 45.72L93.6 81.04l5.49-5.56 6.27 6.36c3 3.14 3 8.16 0 11.21zm-4.86-19l4.16-4.31-3.63-3.68h18.39v7.98H100.5z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-matches-differs-light.svg":
+/*!***************************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-matches-differs-light.svg ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "258", height: "140" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#FFF", rx: "4" }), _react2.default.createElement("path", { fill: "#336", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z", opacity: ".08" }), _react2.default.createElement("path", { fill: "#336", d: "M150.9 40.6l22.86 22.77-22.86 22.87a7.93 7.93 0 0 1 0-11.21l7.35-7.35h-21.07v-7.9h21.7l-7.98-7.97a7.85 7.85 0 0 1 0-11.21zm13.71 46.98h7.9v13.9h-7.9v-13.9zm0-48.86h7.9v7.53h-7.9v-7.53z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M199.94 72.07h-17.12l7.35-7.35a8.01 8.01 0 0 0 0-11.2l-13.18 13.17a3.36 3.36 0 0 1 0 4.66l-7.26 7.27 20.44 20.44c2.42-3.68 1.88-9.33-1.26-12.47l-6.72-6.72h17.66v-7.8h.1z" }), _react2.default.createElement("path", { fill: "#336", d: "M71.15 46.88l22.54 22.77-22.54 22.86a8 8 0 0 1 0-11.2l7.25-7.36H57.62v-7.89h21.4l-7.87-7.98a7.93 7.93 0 0 1 0-11.2zm13.44 40.7h7.78v13.8h-7.78v-13.8zm0-48.95h7.78v14.16h-7.78V38.63z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M105.36 47.33a8 8 0 0 1-.09 11.2l-5.83 5.92-5.48-5.56 11.4-11.57zm0 45.72L93.6 81.04l5.49-5.56 6.27 6.36c3 3.14 3 8.16 0 11.21zm-4.86-19l4.16-4.31-3.63-3.68h18.39v7.98H100.5z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-over-under-dark.svg":
+/*!*********************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-over-under-dark.svg ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "270", height: "152" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd", transform: "translate(6 2)" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#101320", fillRule: "nonzero", rx: "4" }), _react2.default.createElement("path", { fill: "#191C31", fillRule: "nonzero", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z" }), _react2.default.createElement("path", { d: "M137 38h63.66v63.66H137z" }), _react2.default.createElement("path", { fill: "#F93", d: "M163.27 59.8l-13.9-13.5h-11.2l19.54 18.98z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M137.54 58.05h62.76v7.66h-62.76v-7.66zm54.87 19.5c0-4.26 3.59-7.66 7.89-7.75v31.34h-32.28c0-4.18 3.5-7.66 7.9-7.66h10.84l-17.4-16.89V65.71l23.05 22.37V77.55z" }), _react2.default.createElement("path", { d: "M57 38h63.66v63.66H57z" }), _react2.default.createElement("path", { fill: "#F93", d: "M82.91 87.9l-13.9 13.41h-11.2l19.45-18.89z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M57.18 81.9h62.76v7.66H57.18V81.9zm54.87-11.84V59.53L89.01 81.9V71.02l17.4-16.88H95.54a7.79 7.79 0 0 1-7.89-7.66h32.28V77.8a7.8 7.8 0 0 1-7.89-7.75z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-over-under-light.svg":
+/*!**********************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-over-under-light.svg ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "258", height: "140" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#FFF", rx: "4" }), _react2.default.createElement("path", { fill: "#336", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z", opacity: ".08" }), _react2.default.createElement("path", { d: "M137 38h63.66v63.66H137z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M163.27 59.8l-13.9-13.5h-11.2l19.54 18.98z" }), _react2.default.createElement("path", { fill: "#336", d: "M137.54 58.05h62.76v7.66h-62.76v-7.66zm54.87 19.5c0-4.26 3.59-7.66 7.89-7.75v31.34h-32.28c0-4.18 3.5-7.66 7.9-7.66h10.84l-17.4-16.89V65.71l23.05 22.37V77.55z" }), _react2.default.createElement("path", { d: "M57 38h63.66v63.66H57z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M82.91 87.9l-13.9 13.41h-11.2l19.45-18.89z" }), _react2.default.createElement("path", { fill: "#336", d: "M57.18 81.9h62.76v7.66H57.18V81.9zm54.87-11.84V59.53L89.01 81.9V71.02l17.4-16.88H95.54a7.79 7.79 0 0 1-7.89-7.66h32.28V77.8a7.8 7.8 0 0 1-7.89-7.75z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-rise-fall-dark.svg":
+/*!********************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-rise-fall-dark.svg ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "270", height: "152" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd", transform: "translate(6 2)" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#101320", fillRule: "nonzero", rx: "4" }), _react2.default.createElement("path", { fill: "#191C31", fillRule: "nonzero", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z" }), _react2.default.createElement("path", { d: "M137 38h63.66v63.66H137z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M171.34 97.13a8 8 0 0 1 7.89-8.08h7.35l-30.03-30.76V46.81l35.68 36.55v-7.53a8 8 0 0 1 7.89-8.08v29.47h-28.78v-.1z" }), _react2.default.createElement("path", { fill: "#F93", d: "M137.18 46.81v-8.44h11.2l8.17 8.44z" }), _react2.default.createElement("path", { d: "M57 38h63.66v63.66H57z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M91.7 38.64a8 8 0 0 0 7.89 8.08h7.35L76.9 77.48v11.48l35.69-36.54v7.52a8 8 0 0 0 7.89 8.08V38.55H91.7v.1z" }), _react2.default.createElement("path", { fill: "#F93", d: "M57.54 88.96v8.44h11.2l8.16-8.44z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-rise-fall-light.svg":
+/*!*********************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-rise-fall-light.svg ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "258", height: "140" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#FFF", rx: "4" }), _react2.default.createElement("path", { fill: "#336", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z", opacity: ".08" }), _react2.default.createElement("path", { d: "M137 38h63.66v63.66H137z" }), _react2.default.createElement("path", { fill: "#336", d: "M171.34 97.13a8 8 0 0 1 7.89-8.08h7.35l-30.03-30.76V46.81l35.68 36.55v-7.53a8 8 0 0 1 7.89-8.08v29.47h-28.78v-.1z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M137.18 46.81v-8.44h11.2l8.17 8.44z" }), _react2.default.createElement("path", { d: "M57 38h63.66v63.66H57z" }), _react2.default.createElement("path", { fill: "#336", d: "M91.7 38.64a8 8 0 0 0 7.89 8.08h7.35L76.9 77.48v11.48l35.69-36.54v7.52a8 8 0 0 0 7.89 8.08V38.55H91.7v.1z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M57.54 88.96v8.44h11.2l8.16-8.44z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-touch-no-touch-dark.svg":
+/*!*************************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-touch-no-touch-dark.svg ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "270", height: "152" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd", transform: "translate(6 2)" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#101320", fillRule: "nonzero", rx: "4" }), _react2.default.createElement("path", { fill: "#191C31", fillRule: "nonzero", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z" }), _react2.default.createElement("path", { d: "M137 38h63.66v63.66H137z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M137.27 38.27h62.76v8.08h-62.76v-8.08zm54.78 31.86c0-4.5 3.5-8.08 7.9-8.17v26.45h-25.83a8 8 0 0 1 7.89-8.08h4.4l-13.37-13.68-21.34 21.94V77.11l21.34-21.94 19.01 19.46v-4.5z" }), _react2.default.createElement("path", { fill: "#F93", d: "M137.27 88.5v8.45h6.36l8.16-8.45z" }), _react2.default.createElement("path", { d: "M57 38h63.66v63.66H57z" }), _react2.default.createElement("path", { fill: "#FFF", d: "M104.7 46.35h7.89v-8.08h7.8v8.08h-7.71v29.48a8 8 0 0 1-7.9-8.08v-7.53L77.19 88.5V76.93l21.96-22.5h-7.35a8 8 0 0 1-7.9-8.07H57.64v-8.08h47.07v8.08z" }), _react2.default.createElement("path", { fill: "#F93", d: "M57.63 88.5v8.45H69l8.16-8.45z" })));
+};
+
+/***/ }),
+
+/***/ "./src/images/app_2/trade_explanations/img-touch-no-touch-light.svg":
+/*!**************************************************************************!*\
+  !*** ./src/images/app_2/trade_explanations/img-touch-no-touch-light.svg ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }return target;
+};
+
+function _objectWithoutProperties(obj, keys) {
+  var target = {};for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;target[i] = obj[i];
+  }return target;
+}
+
+exports.default = function (_ref) {
+  var _ref$styles = _ref.styles,
+      styles = _ref$styles === undefined ? {} : _ref$styles,
+      props = _objectWithoutProperties(_ref, ["styles"]);
+
+  return _react2.default.createElement("svg", _extends({ xmlns: "http://www.w3.org/2000/svg", width: "258", height: "140" }, props), _react2.default.createElement("g", { fill: "none", fillRule: "evenodd" }, _react2.default.createElement("rect", { width: "258", height: "140", fill: "#FFF", rx: "4" }), _react2.default.createElement("path", { fill: "#336", d: "M149.03 85.33h31.09c3.05 0 5.52 2.3 5.52 5.11 0 2.83-2.47 5.12-5.52 5.12H38.5c-3.06 0-5.53-2.3-5.53-5.12 0-2.82 2.47-5.1 5.53-5.1H99.3c3.05 0 5.52-2.3 5.52-5.12s-2.47-5.1-5.52-5.1H52.32v-.05c-2.76-.32-4.83-2.5-4.83-5.07s2.07-4.75 4.83-5.07v-.04h19.34c3.06 0 5.53-2.29 5.53-5.11 0-2.83-2.47-5.11-5.53-5.11H46.11c-3.06 0-5.53-2.3-5.53-5.11 0-2.83 2.47-5.12 5.52-5.12h131.25c3.06 0 5.53 2.3 5.53 5.12 0 2.82-2.47 5.1-5.53 5.1h-51.11c-3.06 0-5.53 2.3-5.53 5.12s2.48 5.1 5.53 5.1h30.4c3.04 0 5.52 2.3 5.52 5.12 0 2.82-2.48 5.11-5.53 5.11h-16.58c-3.05 0-5.52 2.29-5.52 5.11s2.47 5.11 5.52 5.11h8.98zM29.53 44.44c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1S24 52.39 24 49.57c0-2.83 2.47-5.12 5.53-5.12zM159.4 24h38.68c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11H159.4c-3.06 0-5.53-2.29-5.53-5.1 0-2.83 2.47-5.12 5.53-5.12zm-23.5 0c3.06 0 5.53 2.29 5.53 5.11s-2.47 5.11-5.52 5.11c-3.05 0-5.53-2.29-5.53-5.1 0-2.83 2.48-5.12 5.53-5.12zm67.01 20.44h9.68c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.52 5.1h-9.68c-3.05 0-5.52-2.28-5.52-5.1 0-2.83 2.47-5.12 5.52-5.12zM178.74 64.9h20.72c3.05 0 5.53 2.29 5.53 5.11s-2.48 5.11-5.53 5.11h-20.72c-3.06 0-5.53-2.29-5.53-5.1s2.47-5.12 5.53-5.12zm19.34 20.44h30.4c3.05 0 5.52 2.3 5.52 5.12 0 2.82-2.47 5.1-5.53 5.1h-30.4c-3.04 0-5.52-2.28-5.52-5.1 0-2.83 2.48-5.11 5.53-5.11zM66.14 105.78h62.17c3.05 0 5.53 2.29 5.53 5.1 0 2.83-2.48 5.12-5.53 5.12H66.14c-3.05 0-5.53-2.29-5.53-5.11s2.48-5.11 5.53-5.11zm82.9 0h9.66c3.06 0 5.53 2.29 5.53 5.1 0 2.83-2.47 5.12-5.53 5.12h-9.67c-3.05 0-5.52-2.29-5.52-5.11s2.47-5.11 5.52-5.11z", opacity: ".08" }), _react2.default.createElement("path", { d: "M137 38h63.66v63.66H137z" }), _react2.default.createElement("path", { fill: "#336", d: "M137.27 38.27h62.76v8.08h-62.76v-8.08zm54.78 31.86c0-4.5 3.5-8.08 7.9-8.17v26.45h-25.83a8 8 0 0 1 7.89-8.08h4.4l-13.37-13.68-21.34 21.94V77.11l21.34-21.94 19.01 19.46v-4.5z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M137.27 88.5v8.45h6.36l8.16-8.45z" }), _react2.default.createElement("path", { d: "M57 38h63.66v63.66H57z" }), _react2.default.createElement("path", { fill: "#336", d: "M104.7 46.35h7.89v-8.08h7.8v8.08h-7.71v29.48a8 8 0 0 1-7.9-8.08v-7.53L77.19 88.5V76.93l21.96-22.5h-7.35a8 8 0 0 1-7.9-8.07H57.64v-8.08h47.07v8.08z" }), _react2.default.createElement("path", { fill: "#F93", fillRule: "nonzero", d: "M57.63 88.5v8.45H69l8.16-8.45z" })));
 };
 
 /***/ }),
@@ -11583,6 +12135,7 @@ var AccountSwitcher = function (_React$Component) {
                 _this.props.togglePositionsDrawer(); // TODO: hide drawer inside logout, once it is a mobx action
             }
             (0, _Services.requestLogout)();
+            _this.props.cleanUp();
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -11757,6 +12310,7 @@ var AccountSwitcher = function (_React$Component) {
 AccountSwitcher.propTypes = {
     account_list: _propTypes2.default.array,
     account_loginid: _propTypes2.default.string,
+    cleanUp: _propTypes2.default.func,
     is_logged_in: _propTypes2.default.bool,
     is_positions_drawer_on: _propTypes2.default.bool,
     is_upgrade_enabled: _propTypes2.default.bool,
@@ -11779,6 +12333,7 @@ var account_switcher = (0, _connect.connect)(function (_ref4) {
         is_virtual: client.is_virtual,
         switchAccount: client.switchAccount,
         upgrade_info: client.upgrade_info,
+        cleanUp: client.cleanUp,
         virtual_loginid: client.virtual_account_loginid,
         is_positions_drawer_on: ui.is_positions_drawer_on,
         togglePositionsDrawer: ui.togglePositionsDrawer
@@ -18527,6 +19082,161 @@ Object.keys(_iconTradeCategories).forEach(function (key) {
   });
 });
 
+var _tradeCategories = __webpack_require__(/*! ./trade-categories.jsx */ "./src/javascript/app_2/Assets/Trading/Categories/trade-categories.jsx");
+
+Object.keys(_tradeCategories).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _tradeCategories[key];
+    }
+  });
+});
+
+var _tradeCategoriesGif = __webpack_require__(/*! ./trade-categories-gif.jsx */ "./src/javascript/app_2/Assets/Trading/Categories/trade-categories-gif.jsx");
+
+Object.keys(_tradeCategoriesGif).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _tradeCategoriesGif[key];
+    }
+  });
+});
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Assets/Trading/Categories/trade-categories-gif.jsx":
+/*!*********************************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Trading/Categories/trade-categories-gif.jsx ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.TradeCategoriesGIF = undefined;
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _imgEvenOddDark = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-even-odd-dark.svg */ "./src/images/app_2/trade_explanations/img-even-odd-dark.svg");
+
+var _imgEvenOddDark2 = _interopRequireDefault(_imgEvenOddDark);
+
+var _imgEvenOddLight = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-even-odd-light.svg */ "./src/images/app_2/trade_explanations/img-even-odd-light.svg");
+
+var _imgEvenOddLight2 = _interopRequireDefault(_imgEvenOddLight);
+
+var _imgHigherLowerDark = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-higher-lower-dark.svg */ "./src/images/app_2/trade_explanations/img-higher-lower-dark.svg");
+
+var _imgHigherLowerDark2 = _interopRequireDefault(_imgHigherLowerDark);
+
+var _imgHigherLowerLight = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-higher-lower-light.svg */ "./src/images/app_2/trade_explanations/img-higher-lower-light.svg");
+
+var _imgHigherLowerLight2 = _interopRequireDefault(_imgHigherLowerLight);
+
+var _imgMatchesDiffersDark = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-matches-differs-dark.svg */ "./src/images/app_2/trade_explanations/img-matches-differs-dark.svg");
+
+var _imgMatchesDiffersDark2 = _interopRequireDefault(_imgMatchesDiffersDark);
+
+var _imgMatchesDiffersLight = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-matches-differs-light.svg */ "./src/images/app_2/trade_explanations/img-matches-differs-light.svg");
+
+var _imgMatchesDiffersLight2 = _interopRequireDefault(_imgMatchesDiffersLight);
+
+var _imgOverUnderDark = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-over-under-dark.svg */ "./src/images/app_2/trade_explanations/img-over-under-dark.svg");
+
+var _imgOverUnderDark2 = _interopRequireDefault(_imgOverUnderDark);
+
+var _imgOverUnderLight = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-over-under-light.svg */ "./src/images/app_2/trade_explanations/img-over-under-light.svg");
+
+var _imgOverUnderLight2 = _interopRequireDefault(_imgOverUnderLight);
+
+var _imgRiseFallDark = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-rise-fall-dark.svg */ "./src/images/app_2/trade_explanations/img-rise-fall-dark.svg");
+
+var _imgRiseFallDark2 = _interopRequireDefault(_imgRiseFallDark);
+
+var _imgRiseFallLight = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-rise-fall-light.svg */ "./src/images/app_2/trade_explanations/img-rise-fall-light.svg");
+
+var _imgRiseFallLight2 = _interopRequireDefault(_imgRiseFallLight);
+
+var _imgTouchNoTouchDark = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-touch-no-touch-dark.svg */ "./src/images/app_2/trade_explanations/img-touch-no-touch-dark.svg");
+
+var _imgTouchNoTouchDark2 = _interopRequireDefault(_imgTouchNoTouchDark);
+
+var _imgTouchNoTouchLight = __webpack_require__(/*! ../../../../../images/app_2/trade_explanations/img-touch-no-touch-light.svg */ "./src/images/app_2/trade_explanations/img-touch-no-touch-light.svg");
+
+var _imgTouchNoTouchLight2 = _interopRequireDefault(_imgTouchNoTouchLight);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// TODO: Replace static image svgs with themed GIFs or animated SVGs
+var TradeCategoriesGIF = function TradeCategoriesGIF(_ref) {
+    var _classNames;
+
+    var category = _ref.category,
+        className = _ref.className,
+        is_dark = _ref.is_dark;
+
+    var TradeTypeGIF = void 0;
+    var themed_classes = (0, _classnames2.default)(className, (_classNames = {}, _defineProperty(_classNames, className + '--dark', is_dark), _defineProperty(_classNames, className + '--light', !is_dark), _classNames));
+    if (category) {
+        switch (category) {
+            case 'rise_fall' || 'rise_fall_equal':
+                TradeTypeGIF = is_dark ? _react2.default.createElement(_imgRiseFallDark2.default, { className: themed_classes }) : _react2.default.createElement(_imgRiseFallLight2.default, { className: themed_classes });
+                break;
+            case 'high_low':
+                TradeTypeGIF = is_dark ? _react2.default.createElement(_imgHigherLowerDark2.default, { className: themed_classes }) : _react2.default.createElement(_imgHigherLowerLight2.default, { className: themed_classes });
+                break;
+            case 'match_diff':
+                TradeTypeGIF = is_dark ? _react2.default.createElement(_imgMatchesDiffersDark2.default, { className: themed_classes }) : _react2.default.createElement(_imgMatchesDiffersLight2.default, { className: themed_classes });
+                break;
+            case 'even_odd':
+                TradeTypeGIF = is_dark ? _react2.default.createElement(_imgEvenOddDark2.default, { className: themed_classes }) : _react2.default.createElement(_imgEvenOddLight2.default, { className: themed_classes });
+                break;
+            case 'over_under':
+                TradeTypeGIF = is_dark ? _react2.default.createElement(_imgOverUnderDark2.default, { className: themed_classes }) : _react2.default.createElement(_imgOverUnderLight2.default, { className: themed_classes });
+                break;
+            case 'touch':
+                TradeTypeGIF = is_dark ? _react2.default.createElement(_imgTouchNoTouchDark2.default, { className: themed_classes }) : _react2.default.createElement(_imgTouchNoTouchLight2.default, { className: themed_classes });
+                break;
+            default:
+                TradeTypeGIF = null;
+                break;
+        }
+    }
+    return _react2.default.createElement(
+        _react2.default.Fragment,
+        null,
+        TradeTypeGIF
+    );
+};
+
+TradeCategoriesGIF.propTypes = {
+    category: _propTypes2.default.string,
+    className: _propTypes2.default.string,
+    is_dark: _propTypes2.default.bool
+};
+
+exports.TradeCategoriesGIF = TradeCategoriesGIF;
+
 /***/ }),
 
 /***/ "./src/javascript/app_2/Assets/Trading/Categories/trade-categories.jsx":
@@ -22505,100 +23215,89 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ContractTypeWidget = function (_React$PureComponent) {
     _inherits(ContractTypeWidget, _React$PureComponent);
 
-    function ContractTypeWidget(props) {
+    function ContractTypeWidget() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, ContractTypeWidget);
 
-        var _this = _possibleConstructorReturn(this, (ContractTypeWidget.__proto__ || Object.getPrototypeOf(ContractTypeWidget)).call(this, props));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
 
-        _this.handleSelect = function (item, e) {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ContractTypeWidget.__proto__ || Object.getPrototypeOf(ContractTypeWidget)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            is_dialog_open: false,
+            is_info_dialog_open: false,
+            item: {}
+        }, _this.handleSelect = function (item, e) {
             if (item.value !== _this.props.value && e.target.id !== 'info-icon') {
                 _this.props.onChange({ target: { name: _this.props.name, value: item.value } });
             }
             _this.handleVisibility();
-        };
-
-        _this.onSubmitButtonClick = function (item) {
+        }, _this.onSubmitButtonClick = function (item) {
             if (item.value !== _this.props.value) {
                 _this.props.onChange({ target: { name: _this.props.name, value: item.value } });
             }
             _this.handleInfoVisibility();
-        };
-
-        _this.handleInfoClick = function (item) {
+        }, _this.handleInfoClick = function (item) {
             _this.setState({ item: item });
             _this.handleInfoVisibility();
             _this.handleVisibility();
-        };
-
-        _this.handleNavigationClick = function (item) {
+        }, _this.handleNavigationClick = function (item) {
             _this.setState({ item: item });
-        };
-
-        _this.handleNextClick = function (navigationList) {
-            var navigationLength = navigationList.length;
+        }, _this.handleNextClick = function (itemList) {
+            var navigationLength = itemList.length;
             var item = _this.state.item;
-            var currentIndex = navigationList.findIndex(function (list_item) {
+            var currentIndex = itemList.findIndex(function (list_item) {
                 return list_item.value === item.value;
             });
             var nextIndex = currentIndex + 1;
             if (nextIndex < navigationLength) {
-                _this.handleNavigationClick(navigationList[nextIndex]);
+                _this.handleNavigationClick(itemList[nextIndex]);
             } else {
-                _this.handleNavigationClick(navigationList[0]);
+                _this.handleNavigationClick(itemList[0]);
             }
-        };
-
-        _this.handlePrevClick = function (navigationList) {
-            var navigationLength = navigationList.length;
+        }, _this.handlePrevClick = function (itemList) {
+            var navigationLength = itemList.length;
             var item = _this.state.item;
-            var currentIndex = navigationList.findIndex(function (list_item) {
+            var currentIndex = itemList.findIndex(function (list_item) {
                 return list_item.value === item.value;
             });
             var prevIndex = currentIndex - 1;
             if (prevIndex > -1) {
-                _this.handleNavigationClick(navigationList[prevIndex]);
+                _this.handleNavigationClick(itemList[prevIndex]);
             } else {
-                _this.handleNavigationClick(navigationList[navigationLength - 1]);
+                _this.handleNavigationClick(itemList[navigationLength - 1]);
             }
-        };
-
-        _this.setWrapperRef = function (node) {
+        }, _this.setWrapperRef = function (node) {
             _this.wrapper_ref = node;
-        };
-
-        _this.handleClickOutside = function (event) {
+        }, _this.handleClickOutside = function (event) {
             if (_this.wrapper_ref && !_this.wrapper_ref.contains(event.target) && _this.state.is_dialog_open) {
                 _this.setState({ is_dialog_open: false });
             } else if (_this.wrapper_ref && !_this.wrapper_ref.contains(event.target) && _this.state.is_info_dialog_open) {
-                _this.setState({ is_info_dialog_open: false, is_dialog_open: false });
+                _this.setState({
+                    is_dialog_open: false,
+                    is_info_dialog_open: false
+                });
             }
-        };
-
-        _this.handleInfoVisibility = function () {
+        }, _this.handleInfoVisibility = function () {
             _this.setState(function (state) {
                 return {
                     is_info_dialog_open: !state.is_info_dialog_open
                 };
             });
-        };
-
-        _this.handleVisibility = function () {
+        }, _this.handleVisibility = function () {
             _this.setState({ is_dialog_open: !_this.state.is_dialog_open });
-        };
-
-        _this.onWidgetClick = function () {
+        }, _this.onWidgetClick = function () {
             _this.setState(function (state) {
                 return { is_dialog_open: !state.is_dialog_open, is_info_dialog_open: false };
             });
-        };
-
-        _this.onBackButtonClick = function () {
+        }, _this.onBackButtonClick = function () {
             _this.setState(function (state) {
                 return { is_dialog_open: !state.is_dialog_open, is_info_dialog_open: false };
             });
-        };
-
-        _this.getDisplayText = function () {
+        }, _this.getDisplayText = function () {
             var _this$props = _this.props,
                 list = _this$props.list,
                 value = _this$props.value;
@@ -22616,27 +23315,22 @@ var ContractTypeWidget = function (_React$PureComponent) {
                 });
             }
             return text;
-        };
-
-        _this.getNavigationList = function () {
-            var navigationList = [];
+        }, _this.getItemIndex = function (curr_item, itemList) {
+            return itemList.findIndex(function (list_item) {
+                return list_item.value === curr_item.value;
+            });
+        }, _this.getItemList = function () {
+            var itemList = [];
             var list = _this.props.list;
             /* eslint-disable */
             Object.keys(list).map(function (key) {
                 !['In/Out', 'Asians'].includes(key) && list[key].map(function (contract) {
-                    contract.value !== 'rise_fall_equal' && navigationList.push(contract);
+                    contract.value !== 'rise_fall_equal' && itemList.push(contract);
                 });
             });
             /* eslint-disable */
-            return navigationList;
-        };
-
-        _this.state = {
-            is_dialog_open: false,
-            is_info_dialog_open: false,
-            item: {}
-        };
-        return _this;
+            return itemList;
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(ContractTypeWidget, [{
@@ -22652,60 +23346,78 @@ var ContractTypeWidget = function (_React$PureComponent) {
     }, {
         key: 'render',
         value: function render() {
+            var _props = this.props,
+                is_dark_theme = _props.is_dark_theme,
+                is_equal = _props.is_equal,
+                is_mobile = _props.is_mobile,
+                list = _props.list,
+                name = _props.name,
+                value = _props.value;
+            var _state = this.state,
+                is_dialog_open = _state.is_dialog_open,
+                is_info_dialog_open = _state.is_info_dialog_open,
+                item = _state.item;
+
             return _react2.default.createElement(
                 'div',
                 {
-                    ref: this.setWrapperRef,
                     className: 'contract-type-widget dropdown--left',
+                    ref: this.setWrapperRef,
                     tabIndex: '0'
                 },
                 _react2.default.createElement(
                     'div',
                     {
                         className: (0, _classnames2.default)('contract-type-widget__display', {
-                            'contract-type-widget__display--clicked': this.state.is_dialog_open
+                            'contract-type-widget__display--clicked': is_dialog_open || is_info_dialog_open
                         }),
                         onClick: this.onWidgetClick
                     },
-                    _react2.default.createElement(_Categories.IconTradeCategory, { category: this.props.value, className: 'contract-type-widget__icon-wrapper' }),
+                    _react2.default.createElement(_Categories.IconTradeCategory, {
+                        category: value,
+                        className: 'contract-type-widget__icon-wrapper'
+                    }),
                     _react2.default.createElement(
                         'span',
-                        { name: this.props.name, value: this.props.value },
+                        { name: name, value: value },
                         this.getDisplayText()
                     ),
-                    _react2.default.createElement(_Common.IconArrow, { className: 'contract-type-widget__select-arrow contract-type-widget__select-arrow--left' })
+                    _react2.default.createElement(_Common.IconArrow, { className: (0, _classnames2.default)('contract-type-widget__select-arrow', 'contract-type-widget__select-arrow--left')
+                    })
                 ),
                 _react2.default.createElement(
                     _contractTypeDialog2.default,
                     {
-                        is_mobile: this.props.is_mobile,
-                        open: this.state.is_dialog_open,
-                        onClose: this.handleVisibility
+                        is_mobile: is_mobile,
+                        onClose: this.handleVisibility,
+                        open: is_dialog_open
                     },
                     _react2.default.createElement(_contractTypeList2.default, {
-                        list: this.props.list,
-                        name: this.props.name,
-                        value: this.props.value,
-                        handleSelect: this.handleSelect,
                         handleInfoClick: this.handleInfoClick,
-                        is_equal: this.props.is_equal
+                        handleSelect: this.handleSelect,
+                        is_equal: is_equal,
+                        list: list,
+                        name: name,
+                        value: value
                     })
                 ),
                 _react2.default.createElement(
                     _tradeTypeInfoDialog2.default,
                     {
-                        is_mobile: this.props.is_mobile,
+                        is_mobile: is_mobile,
                         onClose: this.handleInfoClick,
-                        open: this.state.is_info_dialog_open,
-                        title: this.state.item.text
+                        open: is_info_dialog_open,
+                        title: item.text
                     },
                     _react2.default.createElement(_tradeTypeInfoItem2.default, {
                         handleNavigationClick: this.handleNavigationClick,
                         handleNextClick: this.handleNextClick,
                         handlePrevClick: this.handlePrevClick,
-                        is_mobile: this.props.is_mobile,
-                        item: this.state.item,
-                        navigationList: this.getNavigationList(),
+                        is_dark_theme: is_dark_theme,
+                        is_mobile: is_mobile,
+                        item: item,
+                        item_index: this.getItemIndex(item, this.getItemList()),
+                        itemList: this.getItemList(),
                         onBackButtonClick: this.onBackButtonClick,
                         onSubmitButtonClick: this.onSubmitButtonClick
                     })
@@ -22718,8 +23430,9 @@ var ContractTypeWidget = function (_React$PureComponent) {
 }(_react2.default.PureComponent);
 
 ContractTypeWidget.propTypes = {
-    is_mobile: _propTypes2.default.bool,
+    is_dark_theme: _propTypes2.default.bool,
     is_equal: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    is_mobile: _propTypes2.default.bool,
     list: _propTypes2.default.object,
     name: _propTypes2.default.string,
     onChange: _propTypes2.default.func,
@@ -23423,6 +24136,20 @@ var DurationWrapper = function (_React$Component) {
             return duration_list.some(function (du) {
                 return du.value === duration_unit;
             });
+        }, _this.advancedHasWrongExpiry = function () {
+            return _this.props.is_advanced_duration && _this.props.expiry_type !== _this.props.advanced_expiry_type && _this.props.duration_units_list.length > 1;
+        }, _this.handleEndTime = function () {
+            var symbol_has_endtime = _this.props.duration_units_list.length > 1;
+
+            if (symbol_has_endtime) {
+                // simple duration does not have endtime
+                if (!_this.props.is_advanced_duration) _this.props.onChangeUiStore({ name: 'is_advanced_duration', value: true });
+
+                _this.props.onChangeUiStore({ name: 'advanced_expiry_type', value: 'endtime' });
+            } else {
+                // If query string contains endtime but contract type does not e.g. digits (only ticks contracts)
+                _this.props.onChange({ target: { name: 'expiry_type', value: 'duration' } });
+            }
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -23451,7 +24178,16 @@ var DurationWrapper = function (_React$Component) {
             if (this.props.duration !== current_duration) {
                 this.props.onChangeUiStore({ name: 'duration_' + current_unit, value: this.props.duration });
             }
+
+            if (this.props.expiry_type === 'endtime') this.handleEndTime();
+
+            if (this.advancedHasWrongExpiry()) {
+                this.props.onChange({ target: { name: 'expiry_type', value: this.props.advanced_expiry_type } });
+            }
         }
+
+        // intercept changes to contract duration and check that trade_store and ui_store are aligned.
+
     }, {
         key: 'componentWillReact',
         value: function componentWillReact() {
@@ -23460,9 +24196,7 @@ var DurationWrapper = function (_React$Component) {
             var current_duration = this.props.getDurationFromUnit(this.props.duration_unit);
             var has_missing_duration_unit = !this.hasDurationUnit(current_duration_unit);
             var simple_is_not_type_duration = !this.props.is_advanced_duration && this.props.expiry_type !== 'duration';
-            var advanced_has_wrong_expiry = this.props.is_advanced_duration && this.props.expiry_type !== this.props.advanced_expiry_type && this.props.duration_units_list.length > 1;
 
-            // intercept changes to current contracts duration_units_list - if they are missing change duration_unit and value in trade_store and ui_store
             if (has_missing_duration_unit || simple_is_missing_duration_unit) {
                 this.setDurationUnit();
                 return;
@@ -23473,7 +24207,7 @@ var DurationWrapper = function (_React$Component) {
                 this.props.onChange({ target: { name: 'expiry_type', value: 'duration' } });
             }
 
-            if (advanced_has_wrong_expiry) {
+            if (this.advancedHasWrongExpiry()) {
                 this.props.onChange({ target: { name: 'expiry_type', value: this.props.advanced_expiry_type } });
             }
 
@@ -24588,7 +25322,7 @@ var _iconChevronLeft = __webpack_require__(/*! ../../../../../Assets/Common/icon
 
 var _iconChevronRight = __webpack_require__(/*! ../../../../../Assets/Common/icon-chevron-right.jsx */ "./src/javascript/app_2/Assets/Common/icon-chevron-right.jsx");
 
-var _tradeCategories = __webpack_require__(/*! ../../../../../Assets/Trading/Categories/trade-categories.jsx */ "./src/javascript/app_2/Assets/Trading/Categories/trade-categories.jsx");
+var _Categories = __webpack_require__(/*! ../../../../../Assets/Trading/Categories */ "./src/javascript/app_2/Assets/Trading/Categories/index.js");
 
 var _button = __webpack_require__(/*! ../../../../../App/Components/Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
 
@@ -24602,9 +25336,11 @@ var TradeTypeInfoItem = function TradeTypeInfoItem(_ref) {
     var handleNavigationClick = _ref.handleNavigationClick,
         handleNextClick = _ref.handleNextClick,
         handlePrevClick = _ref.handlePrevClick,
+        is_dark_theme = _ref.is_dark_theme,
         is_mobile = _ref.is_mobile,
         item = _ref.item,
-        navigationList = _ref.navigationList,
+        item_index = _ref.item_index,
+        itemList = _ref.itemList,
         onBackButtonClick = _ref.onBackButtonClick,
         onSubmitButtonClick = _ref.onSubmitButtonClick;
     return _react2.default.createElement(
@@ -24628,31 +25364,53 @@ var TradeTypeInfoItem = function TradeTypeInfoItem(_ref) {
         ),
         _react2.default.createElement(
             'div',
-            { className: 'trade-type-info-dialog__gif' },
-            'gif explanation'
-        ),
-        _react2.default.createElement(
-            'div',
-            { className: 'trade-type-info-dialog__content' },
+            { className: 'trade-type-info-dialog__body' },
             _react2.default.createElement(
-                _ttReactCustomScrollbars.Scrollbars,
+                'div',
                 {
-                    autoHide: true,
-                    style: { height: '100%' }
+                    className: 'trade-type-info-dialog__card-wrapper'
+                    // total calculated below is from 258px and 16px horizontal margin set in trade-info-dialog css
+                    , style: { 'transform': 'translate3d(-' + 274 * item_index + 'px, 0, 0)' }
                 },
-                _react2.default.createElement(_tradeCategories.TradeCategories, { category: item.value })
+                itemList.map(function (type, idx) {
+                    return _react2.default.createElement(
+                        'div',
+                        { className: 'trade-type-info-dialog__card', key: idx },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'trade-type-info-dialog__gif' },
+                            _react2.default.createElement(_Categories.TradeCategoriesGIF, {
+                                category: type.value,
+                                className: 'trade-type-info-dialog__gif-image',
+                                is_dark: is_dark_theme
+                            })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'trade-type-info-dialog__content' },
+                            _react2.default.createElement(
+                                _ttReactCustomScrollbars.Scrollbars,
+                                {
+                                    autoHide: true,
+                                    style: { height: '100%' }
+                                },
+                                _react2.default.createElement(_Categories.TradeCategories, { category: type.value })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            null,
+                            _react2.default.createElement(_button2.default, {
+                                className: 'btn--primary--orange trade-type-info-dialog__choose-button',
+                                onClick: function onClick() {
+                                    return onSubmitButtonClick(type);
+                                },
+                                text: (0, _localize.localize)('Choose')
+                            })
+                        )
+                    );
+                })
             )
-        ),
-        _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(_button2.default, {
-                className: 'btn--primary--orange trade-type-info-dialog__choose-button',
-                text: (0, _localize.localize)('Choose'),
-                onClick: function onClick() {
-                    return onSubmitButtonClick(item);
-                }
-            })
         ),
         _react2.default.createElement(
             'div',
@@ -24660,21 +25418,23 @@ var TradeTypeInfoItem = function TradeTypeInfoItem(_ref) {
             _react2.default.createElement(
                 'div',
                 { className: 'trade-type-info-navigation__icon', onClick: function onClick() {
-                        return handlePrevClick(navigationList);
+                        return handlePrevClick(itemList);
                     } },
                 _react2.default.createElement(_Common.Icon, { icon: _iconChevronLeft.IconChevronLeft })
             ),
             _react2.default.createElement(
                 'div',
                 { className: 'trade-type-info-navigation__list' },
-                navigationList.map(function (contract, idx) {
+                _react2.default.createElement('i', {
+                    className: (0, _classnames2.default)('trade-type-info-navigation__circle-button', 'trade-type-info-navigation__circle-button--active'),
+                    style: { 'transform': 'translate3d(' + 16 * item_index + 'px, 0, 0)' }
+                }),
+                itemList.map(function (contract, idx) {
                     return _react2.default.createElement(
                         _react2.default.Fragment,
                         { key: idx },
                         _react2.default.createElement('div', {
-                            className: (0, _classnames2.default)('trade-type-info-navigation__circle-button', {
-                                'trade-type-info-navigation__circle-button--active': contract.value === item.value
-                            }),
+                            className: 'trade-type-info-navigation__circle-button',
                             onClick: function onClick() {
                                 return handleNavigationClick(contract);
                             }
@@ -24685,7 +25445,7 @@ var TradeTypeInfoItem = function TradeTypeInfoItem(_ref) {
             _react2.default.createElement(
                 'div',
                 { className: 'trade-type-info-navigation__icon', onClick: function onClick() {
-                        return handleNextClick(navigationList);
+                        return handleNextClick(itemList);
                     } },
                 _react2.default.createElement(_Common.Icon, { icon: _iconChevronRight.IconChevronRight })
             )
@@ -24697,9 +25457,11 @@ TradeTypeInfoItem.propTypes = {
     handleNavigationClick: _propTypes2.default.func,
     handleNextClick: _propTypes2.default.func,
     handlePrevClick: _propTypes2.default.func,
+    is_dark_theme: _propTypes2.default.bool,
     is_mobile: _propTypes2.default.bool,
     item: _propTypes2.default.object,
-    navigationList: _propTypes2.default.array,
+    item_index: _propTypes2.default.number,
+    itemList: _propTypes2.default.array,
     onBackButtonClick: _propTypes2.default.func,
     onSubmitButtonClick: _propTypes2.default.func
 };
@@ -24942,16 +25704,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Contract = function Contract(_ref) {
     var contract_type = _ref.contract_type,
         contract_types_list = _ref.contract_types_list,
-        onChange = _ref.onChange,
+        is_dark_theme = _ref.is_dark_theme,
+        is_equal = _ref.is_equal,
         is_mobile = _ref.is_mobile,
-        is_equal = _ref.is_equal;
+        onChange = _ref.onChange;
     return _react2.default.createElement(_contractTypeWidget2.default, {
-        name: 'contract_type',
-        list: contract_types_list,
-        value: contract_type,
-        onChange: onChange,
+        is_dark_theme: is_dark_theme,
+        is_equal: is_equal,
         is_mobile: is_mobile,
-        is_equal: is_equal
+        list: contract_types_list,
+        name: 'contract_type',
+        onChange: onChange,
+        value: contract_type
     });
 };
 
@@ -24969,9 +25733,10 @@ exports.default = (0, _connect.connect)(function (_ref2) {
     return {
         contract_type: modules.trade.contract_type,
         contract_types_list: modules.trade.contract_types_list,
+        is_equal: modules.trade.is_equal,
         onChange: modules.trade.onChange,
-        is_mobile: ui.is_mobile,
-        is_equal: modules.trade.is_equal
+        is_dark_theme: ui.is_dark_mode_on,
+        is_mobile: ui.is_mobile
     };
 })(Contract);
 
@@ -25640,7 +26405,6 @@ var doLogout = function doLogout(response) {
     _client_base2.default.clearAllAccounts();
     _client_base2.default.set('loginid', '');
     _socket_cache2.default.clear();
-    window.location.reload();
 };
 
 /***/ }),
@@ -26842,8 +27606,16 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
 
                 if (should_update_chart_type) {
                     this.handleChartType(SmartChartStore, contract_info.date_start, end_time);
+                } else {
+                    SmartChartStore.updateGranularity(0);
+                    SmartChartStore.updateChartType('mountain');
                 }
             } else if (!this.is_left_epoch_set) {
+                // For tick contracts, it is necessary to set the chartType and granularity after saving and clearing trade layout
+                if (contract_info.tick_count) {
+                    SmartChartStore.updateGranularity(0);
+                    SmartChartStore.updateChartType('mountain');
+                }
                 this.is_left_epoch_set = true;
                 SmartChartStore.setChartView(contract_info.purchase_time);
             } else if (should_update_chart_type) {
@@ -26983,14 +27755,13 @@ var ContractStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec
             var granularity = (0, _logic.getChartGranularity)(start, expiry);
 
             if (chart_type === 'candle' && granularity !== 0) {
-                SmartChartStore.updateGranularity(granularity);
                 SmartChartStore.updateChartType(chart_type);
                 this.chart_type = chart_type;
             } else {
-                SmartChartStore.updateGranularity(0);
                 SmartChartStore.updateChartType('mountain');
                 this.chart_type = 'mountain';
             }
+            SmartChartStore.updateGranularity(granularity);
             this.is_granularity_set = true;
         }
     }, {
@@ -28303,8 +29074,6 @@ var SmartChartStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _d
             this.should_import_layout = false;
             this.trade_chart_symbol = this.root_store.modules.trade.symbol;
             this.chart_id = 'contract';
-            this.updateGranularity(0);
-            this.updateChartType('mountain');
         }
     }, {
         key: 'applySavedTradeChartLayout',
@@ -30013,7 +30782,7 @@ var getDefaultCurrency = exports.getDefaultCurrency = function getDefaultCurrenc
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.hasIntradayDurationUnit = exports.convertDurationLimit = exports.getExpiryType = exports.convertDurationUnit = exports.buildDurationConfig = undefined;
+exports.resetEndTimeOnVolatilityIndices = exports.hasIntradayDurationUnit = exports.convertDurationLimit = exports.getExpiryType = exports.convertDurationUnit = exports.buildDurationConfig = undefined;
 
 var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
@@ -30140,6 +30909,18 @@ var hasIntradayDurationUnit = exports.hasIntradayDurationUnit = function hasIntr
     });
 };
 
+/**
+ * On switching symbols, end_time value of volatility indices should be set to today
+ *
+ * @param {String} symbol
+ * @param {String} expiry_type
+ * @returns {*}
+ */
+var resetEndTimeOnVolatilityIndices = exports.resetEndTimeOnVolatilityIndices = function resetEndTimeOnVolatilityIndices(symbol, expiry_type) {
+    return (/^R_/.test(symbol) && expiry_type === 'endtime' ? (0, _Date.toMoment)(null).format('DD MMM YYYY') : null
+    );
+};
+
 /***/ }),
 
 /***/ "./src/javascript/app_2/Stores/Modules/Trading/Helpers/end-time.js":
@@ -30156,7 +30937,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var getClosestTime = function getClosestTime(time, interval) {
-    return time.minute(Math.round(time.minute() / interval) * interval);
+    return time.minute(Math.ceil(time.minute() / interval) * interval);
 };
 
 var getSelectedTime = exports.getSelectedTime = function getSelectedTime(server_time, selected_time, market_open_time) {
@@ -30791,6 +31572,15 @@ var TradeStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 =
             return _this.is_equal;
         }, function () {
             _this.onAllowEqualsChange();
+        });
+
+        (0, _mobx.reaction)(function () {
+            return _this.symbol;
+        }, function () {
+            var date = (0, _duration.resetEndTimeOnVolatilityIndices)(_this.symbol, _this.expiry_type);
+            if (date) {
+                _this.expiry_date = date;
+            }
         });
         return _this;
     }
@@ -32122,7 +32912,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
 
 var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
 
@@ -32212,7 +33002,7 @@ function _initializerWarningHelper(descriptor, context) {
 }
 
 var storage_key = 'client.accounts';
-var ClientStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, (_class = function (_BaseStore) {
+var ClientStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, _dec9 = _mobx.action.bound, _dec10 = _mobx.action.bound, _dec11 = _mobx.action.bound, _dec12 = _mobx.action.bound, _dec13 = _mobx.action.bound, _dec14 = _mobx.action.bound, _dec15 = _mobx.action.bound, _dec16 = _mobx.action.bound, (_class = function (_BaseStore) {
     _inherits(ClientStore, _BaseStore);
 
     function ClientStore(root_store) {
@@ -32560,6 +33350,15 @@ var ClientStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 
             this.accounts[this.loginid].email = email;
         }
     }, {
+        key: 'cleanUp',
+        value: function cleanUp() {
+            this.loginid = null;
+            this.upgrade_info = undefined;
+            this.accounts = [];
+            this.currencies_list = {};
+            this.selected_currency = '';
+        }
+    }, {
         key: 'balance',
         get: function get() {
             if (!this.accounts) return '';
@@ -32715,7 +33514,7 @@ var ClientStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 
     initializer: function initializer() {
         return '';
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'balance', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'balance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_client_allowed_to_visit', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_client_allowed_to_visit'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'account_list', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'account_list'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'active_accounts', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'active_accounts'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'all_loginids', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'all_loginids'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'account_title', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'account_title'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'currency', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'currency'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'default_currency', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'default_currency'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_valid_login', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_valid_login'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_logged_in', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_logged_in'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_virtual', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_virtual'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'can_upgrade', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'can_upgrade'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'can_upgrade_to', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'can_upgrade_to'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'virtual_account_loginid', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'virtual_account_loginid'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_single_currency', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_single_currency'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'resetLocalStorageValues', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'resetLocalStorageValues'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getBasicUpgradeInfo', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'getBasicUpgradeInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'responsePayoutCurrencies', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'responsePayoutCurrencies'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'responseAuthorize', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'responseAuthorize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateAccountList', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'updateAccountList'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'switchAccount', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'switchAccount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'switchEndSignal', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'switchEndSignal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'init', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'broadcastAccountChange', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'broadcastAccountChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'switchAccountHandler', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'switchAccountHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'registerReactions', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'registerReactions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setBalance', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'setBalance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'selectCurrency', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'selectCurrency'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setResidence', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'setResidence'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setEmail', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'setEmail'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'balance', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'balance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_client_allowed_to_visit', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_client_allowed_to_visit'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'account_list', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'account_list'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'active_accounts', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'active_accounts'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'all_loginids', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'all_loginids'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'account_title', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'account_title'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'currency', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'currency'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'default_currency', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'default_currency'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_valid_login', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_valid_login'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_logged_in', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_logged_in'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_virtual', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_virtual'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'can_upgrade', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'can_upgrade'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'can_upgrade_to', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'can_upgrade_to'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'virtual_account_loginid', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'virtual_account_loginid'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_single_currency', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_single_currency'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'resetLocalStorageValues', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'resetLocalStorageValues'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getBasicUpgradeInfo', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'getBasicUpgradeInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'responsePayoutCurrencies', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'responsePayoutCurrencies'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'responseAuthorize', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'responseAuthorize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateAccountList', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'updateAccountList'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'switchAccount', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'switchAccount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'switchEndSignal', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'switchEndSignal'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'init', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'broadcastAccountChange', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'broadcastAccountChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'switchAccountHandler', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'switchAccountHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'registerReactions', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'registerReactions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setBalance', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'setBalance'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'selectCurrency', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'selectCurrency'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setResidence', [_dec14], Object.getOwnPropertyDescriptor(_class.prototype, 'setResidence'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setEmail', [_dec15], Object.getOwnPropertyDescriptor(_class.prototype, 'setEmail'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'cleanUp', [_dec16], Object.getOwnPropertyDescriptor(_class.prototype, 'cleanUp'), _class.prototype)), _class));
 exports.default = ClientStore;
 
 /***/ }),
@@ -34892,7 +35691,8 @@ window.check_new_release = _check_new_release.checkNewRelease; // used by GTM to
  */
 var domain_app_ids = { // these domains also being used in '_common/url.js' as supported "production domains"
     'binary.com': 1,
-    'binary.me': 15284
+    'binary.me': 15284,
+    'deriv.com': 16929
 };
 
 var getCurrentBinaryDomain = function getCurrentBinaryDomain() {
@@ -34931,7 +35731,9 @@ var getAppId = function getAppId() {
         app_id = 1159;
     } else {
         window.localStorage.removeItem('config.default_app_id');
-        app_id = is_new_app ? 15265 : domain_app_ids[getCurrentBinaryDomain()] || 1;
+        var current_domain = getCurrentBinaryDomain();
+        // TODO: remove is_new_app && deriv.com check when repos are split
+        app_id = is_new_app && current_domain !== 'deriv.com' ? 15265 : domain_app_ids[current_domain] || 1;
     }
     return app_id;
 };
