@@ -41,7 +41,7 @@
     function redirect() {
         var base = /^(.+?).github.io$/.test(window.location.hostname) ? window.location.origin + '/binary-static' : window.location.origin;
 
-        window.location = base + '/' + lang.toLowerCase() + '/' + '404';
+        window.location.href = base + '/' + lang.toLowerCase() + '/' + '404';
     }
 
     function openWSAndGetLanguage(cb) {
