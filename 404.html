@@ -39,8 +39,7 @@
     }
 
     function redirect() {
-        var location = window.location;
-        var base     = /^(.+?).github.io$/.test(location.hostname) ? location.origin + '/binary-static' : location.origin;
+        var base = /^(.+?).github.io$/.test(window.location.hostname) ? window.location.origin + '/binary-static' : window.location.origin;
 
         window.location = base + '/' + lang.toLowerCase() + '/' + '404';
     }
