@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_token":"api_token","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","personal_details":"personal_details","portfolio~statement":"portfolio~statement","portfolio":"portfolio","statement":"statement","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"5189d05e3eada5e2fb30","account_password":"5b98c5e0011cf272df7f","api_token":"1bcb0c881a41de9bfd6e","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"243c718b107d604341d6","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","personal_details":"716845b634031dd9cf95","portfolio~statement":"1239d5c20c1b75c51821","portfolio":"f1d35791cb381ba423a5","statement":"58d4a34d13ede4ecde59","self_exclusion":"226ac0134b0354423868","settings":"629b43dd5f13f4355536","vendors~smart_chart":"dd7ef6f3fe9a0d70cfc2","smart_chart":"2e6f66f84b8b29bd2d74"}[chunkId] + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"404":"404","account_password":"account_password","api_token":"api_token","authorized_application":"authorized_application","cashier_password":"cashier_password","contract":"contract","financial_assessment":"financial_assessment","limits":"limits","login_history":"login_history","open_positions~portfolio~profit_table~statement":"open_positions~portfolio~profit_table~statement","open_positions~profit_table~statement":"open_positions~profit_table~statement","open_positions":"open_positions","profit_table":"profit_table","statement":"statement","portfolio":"portfolio","personal_details":"personal_details","reports":"reports","self_exclusion":"self_exclusion","settings":"settings","vendors~smart_chart":"vendors~smart_chart","smart_chart":"smart_chart"}[chunkId]||chunkId) + "-" + {"404":"5189d05e3eada5e2fb30","account_password":"5b98c5e0011cf272df7f","api_token":"1bcb0c881a41de9bfd6e","authorized_application":"41eb62c13df5f986ea68","cashier_password":"90e23ba1132672b3e187","contract":"6f63d1e0a579b376511d","financial_assessment":"182a107203c81d1cc33a","limits":"6122a66075b7120f5152","login_history":"92742ccaa1efb1ab65b8","open_positions~portfolio~profit_table~statement":"9d812bae8c298e0144b7","open_positions~profit_table~statement":"830c9c7247df3b191b82","open_positions":"6dab2585999507761dfd","profit_table":"9f2fc0a1fbe2601559d6","statement":"5d793969948774a64647","portfolio":"4d4d70a910cd7318df54","personal_details":"716845b634031dd9cf95","reports":"3f9bf9d4f195faa18fb3","self_exclusion":"226ac0134b0354423868","settings":"629b43dd5f13f4355536","vendors~smart_chart":"dd7ef6f3fe9a0d70cfc2","smart_chart":"2e6f66f84b8b29bd2d74"}[chunkId] + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -5216,6 +5216,8 @@ var _money = __webpack_require__(/*! ../money.jsx */ "./src/javascript/app_2/App
 
 var _money2 = _interopRequireDefault(_money);
 
+var _underlyingIcon = __webpack_require__(/*! ../underlying-icon.jsx */ "./src/javascript/app_2/App/Components/Elements/underlying-icon.jsx");
+
 var _button = __webpack_require__(/*! ../../Form/button.jsx */ "./src/javascript/app_2/App/Components/Form/button.jsx");
 
 var _button2 = _interopRequireDefault(_button);
@@ -5310,9 +5312,7 @@ var PositionsDrawerCard = function (_React$PureComponent) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'positions-drawer-card__underlying-name' },
-                                _react2.default.createElement('div', {
-                                    className: (0, _classnames2.default)('icons-underlying', 'icons-underlying__ic-' + (contract_info.underlying || 'unknown'))
-                                }),
+                                _react2.default.createElement(_underlyingIcon.UnderlyingIcon, { market: contract_info.underlying }),
                                 _react2.default.createElement(
                                     'span',
                                     { className: 'positions-drawer-card__symbol' },
@@ -5500,6 +5500,8 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 var _reactTransitionGroup = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/index.js");
 
 var _ttReactCustomScrollbars = __webpack_require__(/*! tt-react-custom-scrollbars */ "./node_modules/tt-react-custom-scrollbars/lib/index.js");
@@ -5507,6 +5509,10 @@ var _ttReactCustomScrollbars = __webpack_require__(/*! tt-react-custom-scrollbar
 var _localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js");
 
 var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
+
+var _routes = __webpack_require__(/*! ../../../../Constants/routes */ "./src/javascript/app_2/Constants/routes.js");
+
+var _routes2 = _interopRequireDefault(_routes);
 
 var _emptyPortfolioMessage = __webpack_require__(/*! ../../../../Modules/Portfolio/Components/empty-portfolio-message.jsx */ "./src/javascript/app_2/Modules/Portfolio/Components/empty-portfolio-message.jsx");
 
@@ -5636,6 +5642,19 @@ var PositionsDrawer = function (_React$Component) {
                             autoHide: true
                         },
                         body_content
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'positions-drawer__footer' },
+                    _react2.default.createElement(
+                        _reactRouterDom.NavLink,
+                        { className: 'btn btn--link btn--alternate', to: _routes2.default.reports },
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'btn__text' },
+                            (0, _localize.localize)('Go to Reports')
+                        )
                     )
                 )
             );
@@ -6207,6 +6226,8 @@ var _VerticalTabs2 = _interopRequireDefault(_VerticalTabs);
 
 var _SettingsDialog = __webpack_require__(/*! ../../../Containers/SettingsDialog */ "./src/javascript/app_2/App/Containers/SettingsDialog/index.js");
 
+var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
+
 var _Settings = __webpack_require__(/*! ../../../../Assets/Settings */ "./src/javascript/app_2/Assets/Settings/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -6302,7 +6323,7 @@ var SettingsDialog = function (_React$PureComponent) {
                         _react2.default.createElement(
                             'div',
                             { className: 'dialog-header__close', onClick: this.props.toggleDialog },
-                            _react2.default.createElement(_Settings.IconClose, null)
+                            _react2.default.createElement(_Common.Icon, { icon: _Settings.IconClose })
                         )
                     )
                 ),
@@ -6613,6 +6634,14 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
+
+var _routes = __webpack_require__(/*! ../../../../Constants/routes */ "./src/javascript/app_2/Constants/routes.js");
+
+var _routes2 = _interopRequireDefault(_routes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6633,18 +6662,50 @@ var VerticalTabContentContainer = function (_React$PureComponent) {
     _createClass(VerticalTabContentContainer, [{
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _props = this.props,
+                action_bar = _props.action_bar,
+                is_routed = _props.is_routed,
+                items = _props.items,
+                selected = _props.selected;
 
-            var selected = this.props.items.find(function (item) {
-                return item.label === _this2.props.selected.label;
+            var selected_item = items.find(function (item) {
+                return item.label === selected.label;
             });
-            var TabContent = selected.value;
+            var TabContent = selected_item.value;
 
             return _react2.default.createElement(
                 'div',
                 { className: 'vertical-tab__content' },
-                _react2.default.createElement(TabContent, {
-                    key: selected.label,
+                action_bar && _react2.default.createElement(
+                    'div',
+                    { className: 'vertical-tab__action-bar' },
+                    action_bar.map(function (_ref) {
+                        var icon = _ref.icon,
+                            onClick = _ref.onClick,
+                            title = _ref.title;
+                        return _react2.default.createElement(_Common.Icon, { className: 'vertical-tab__action-bar--icon', key: title, icon: icon, onClick: onClick });
+                    })
+                ),
+                is_routed ? _react2.default.createElement(
+                    _reactRouterDom.Switch,
+                    null,
+                    _react2.default.createElement(_reactRouterDom.Redirect, { exact: true, from: _routes2.default.reports, to: _routes2.default.positions }),
+                    items.map(function (_ref2) {
+                        var value = _ref2.value,
+                            path = _ref2.path,
+                            icon = _ref2.icon;
+
+                        var Component = value;
+                        return _react2.default.createElement(_reactRouterDom.Route, {
+                            key: path,
+                            path: path,
+                            render: function render() {
+                                return _react2.default.createElement(Component, { component_icon: icon });
+                            }
+                        });
+                    })
+                ) : _react2.default.createElement(TabContent, {
+                    key: selected_item.label,
                     className: 'item-id'
                 })
             );
@@ -6683,6 +6744,10 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+var _Common = __webpack_require__(/*! ../../../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6708,9 +6773,44 @@ var VerticalTabHeaders = function (_React$PureComponent) {
             return _react2.default.createElement(
                 'div',
                 { className: 'vertical-tab__tab' },
+                this.props.header_title && _react2.default.createElement(
+                    'div',
+                    { className: 'vertical-tab__header-title' },
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        this.props.header_title
+                    )
+                ),
                 this.props.items.map(function (item) {
-                    var IconComponent = item.icon;
-                    return _react2.default.createElement(
+                    // Capitalize only the first letter of the label and make the rest lowercase
+                    var label = item.label.charAt(0).toUpperCase() + item.label.slice(1).toLowerCase();
+
+                    return _this2.props.is_routed ? _react2.default.createElement(
+                        _reactRouterDom.NavLink,
+                        {
+                            key: item.path,
+                            to: item.path,
+                            onClick: function onClick() {
+                                return _this2.props.onChange(item);
+                            },
+                            className: 'vertical-tab__header',
+                            activeClassName: (0, _classnames2.default)({
+                                'vertical-tab__header--active': _this2.props.selected.label === item.label
+                            })
+                        },
+                        _react2.default.createElement(_Common.Icon, {
+                            icon: item.icon,
+                            className: (0, _classnames2.default)('vertical-tab__header__icon', {
+                                'vertical-tab__header__icon--active': _this2.props.selected.label === item.label
+                            })
+                        }),
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'vertical-tab__header__link' },
+                            label
+                        )
+                    ) : _react2.default.createElement(
                         'div',
                         {
                             className: (0, _classnames2.default)('vertical-tab__header', {
@@ -6721,7 +6821,9 @@ var VerticalTabHeaders = function (_React$PureComponent) {
                                 return _this2.props.onChange(item);
                             }
                         },
-                        _react2.default.createElement(IconComponent, { className: (0, _classnames2.default)('vertical-tab__header__icon', {
+                        _react2.default.createElement(_Common.Icon, {
+                            icon: item.icon,
+                            className: (0, _classnames2.default)('vertical-tab__header__icon', {
                                 'vertical-tab__header__icon--active': _this2.props.selected.label === item.label
                             })
                         }),
@@ -6731,7 +6833,7 @@ var VerticalTabHeaders = function (_React$PureComponent) {
                                 key: item.label,
                                 className: 'vertical-tab__header__link'
                             },
-                            item.label
+                            label
                         )
                     );
                 })
@@ -6761,6 +6863,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 
@@ -6796,9 +6902,20 @@ var VerticalTab = function (_React$PureComponent) {
             });
         };
 
-        _this.state = {
-            selected: props.list[0]
-        };
+        if (props.is_routed) {
+            var applicable_routes = props.list.filter(function (item) {
+                return item.path === props.current_path || item.default;
+            });
+            var selected = applicable_routes.length > 1 ? applicable_routes[applicable_routes.length - 1] : applicable_routes.length === 1 ? applicable_routes[0] : undefined;
+
+            _this.state = {
+                selected: selected
+            };
+        } else {
+            _this.state = {
+                selected: props.list[0]
+            };
+        }
         return _this;
     }
 
@@ -6807,15 +6924,23 @@ var VerticalTab = function (_React$PureComponent) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                { className: 'vertical-tab' },
+                {
+                    className: (0, _classnames2.default)('vertical-tab', {
+                        'vertical-tab--full-screen': this.props.is_full_width
+                    })
+                },
                 _react2.default.createElement(_verticalTabHeaders.VerticalTabHeaders, {
                     items: this.props.list,
                     onChange: this.changeSelected,
-                    selected: this.state.selected
+                    selected: this.state.selected,
+                    is_routed: this.props.is_routed,
+                    header_title: this.props.header_title
                 }),
                 _react2.default.createElement(_verticalTabContentContainer.VerticalTabContentContainer, {
+                    action_bar: this.props.action_bar,
                     items: this.props.list,
-                    selected: this.state.selected
+                    selected: this.state.selected,
+                    is_routed: this.props.is_routed
                 })
             );
         }
@@ -6825,10 +6950,21 @@ var VerticalTab = function (_React$PureComponent) {
 }(_react2.default.PureComponent);
 
 VerticalTab.propTypes = {
+    action_bar: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+        icon: _propTypes2.default.func,
+        onClick: _propTypes2.default.func,
+        title: _propTypes2.default.string
+    })),
+    current_path: _propTypes2.default.string,
+    header_title: _propTypes2.default.string,
+    is_full_width: _propTypes2.default.bool,
+    is_routed: _propTypes2.default.bool,
     list: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+        default: _propTypes2.default.bool,
         icon: _propTypes2.default.func,
         label: _propTypes2.default.string,
-        value: _propTypes2.default.func
+        path: _propTypes2.default.string,
+        value: _propTypes2.default.oneOfType([_propTypes2.default.func, _propTypes2.default.object])
     })).isRequired
 };
 
@@ -7274,6 +7410,42 @@ UILoader.propTypes = {
 };
 
 exports.default = UILoader;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/App/Components/Elements/underlying-icon.jsx":
+/*!**************************************************************************!*\
+  !*** ./src/javascript/app_2/App/Components/Elements/underlying-icon.jsx ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.UnderlyingIcon = undefined;
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var UnderlyingIcon = function UnderlyingIcon(_ref) {
+    var market = _ref.market;
+    return _react2.default.createElement('div', {
+        className: (0, _classnames2.default)('icons-underlying', 'icons-underlying__ic-' + (market.toUpperCase() || 'unknown'))
+    });
+};
+
+exports.UnderlyingIcon = UnderlyingIcon;
 
 /***/ }),
 
@@ -11930,6 +12102,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js");
 
+var _Common = __webpack_require__(/*! ../../Assets/Common */ "./src/javascript/app_2/Assets/Common/index.js");
+
+var _NavBar = __webpack_require__(/*! ../../Assets/Header/NavBar */ "./src/javascript/app_2/Assets/Header/NavBar/index.js");
+
 var _Constants = __webpack_require__(/*! ../../Constants */ "./src/javascript/app_2/Constants/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -11942,8 +12118,13 @@ var header_links = [{
     ),
     text: (0, _localize.localize)('BinaryNex'),
     link_to: _Constants.routes.trade
+}, {
+    icon: _react2.default.createElement(_Common.Icon, { icon: _NavBar.IconReports, className: 'header__icon' }),
+    text: (0, _localize.localize)('Reports'),
+    link_to: _Constants.routes.reports,
+    login_only: true
 }];
-// import { IconStatement } from 'Assets/Header/NavBar/index';
+
 exports.default = header_links;
 
 /***/ }),
@@ -11972,25 +12153,41 @@ var _Constants = __webpack_require__(/*! ../../Constants */ "./src/javascript/ap
 
 var _NavBar = __webpack_require__(/*! ../../Assets/Header/NavBar */ "./src/javascript/app_2/Assets/Header/NavBar/index.js");
 
+var _iconProfitTable = __webpack_require__(/*! ../../Assets/Reports/icon-profit-table.jsx */ "./src/javascript/app_2/Assets/Reports/icon-profit-table.jsx");
+
+var _iconOpenPositions = __webpack_require__(/*! ../../Assets/Reports/icon-open-positions.jsx */ "./src/javascript/app_2/Assets/Reports/icon-open-positions.jsx");
+
+var _iconStatement = __webpack_require__(/*! ../../Assets/Reports/icon-statement.jsx */ "./src/javascript/app_2/Assets/Reports/icon-statement.jsx");
+
 var _Trading = __webpack_require__(/*! ../../Modules/Trading */ "./src/javascript/app_2/Modules/Trading/index.js");
 
 var _Trading2 = _interopRequireDefault(_Trading);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import Statement       from 'Modules/Statement';
 var ContractDetails = (0, _react.lazy)(function () {
     return __webpack_require__.e(/*! import() | contract */ "contract").then(__webpack_require__.t.bind(null, /*! ../../Modules/Contract */ "./src/javascript/app_2/Modules/Contract/index.js", 7));
 });
-// import Statement       from 'Modules/Statement';
-
 var Portfolio = (0, _react.lazy)(function () {
-    return Promise.all(/*! import() | portfolio */[__webpack_require__.e("portfolio~statement"), __webpack_require__.e("portfolio")]).then(__webpack_require__.t.bind(null, /*! ../../Modules/Portfolio */ "./src/javascript/app_2/Modules/Portfolio/index.js", 7));
+    return Promise.all(/*! import() | portfolio */[__webpack_require__.e("open_positions~portfolio~profit_table~statement"), __webpack_require__.e("portfolio")]).then(__webpack_require__.t.bind(null, /*! ../../Modules/Portfolio */ "./src/javascript/app_2/Modules/Portfolio/index.js", 7));
 });
 var Settings = (0, _react.lazy)(function () {
     return __webpack_require__.e(/*! import() | settings */ "settings").then(__webpack_require__.t.bind(null, /*! ../../Modules/settings/settings.jsx */ "./src/javascript/app_2/Modules/settings/settings.jsx", 7));
 });
+
+// Reports Routes
+var Reports = (0, _react.lazy)(function () {
+    return __webpack_require__.e(/*! import() | reports */ "reports").then(__webpack_require__.t.bind(null, /*! ../../Modules/Reports */ "./src/javascript/app_2/Modules/Reports/index.js", 7));
+});
+var OpenPositions = (0, _react.lazy)(function () {
+    return Promise.all(/*! import() | open_positions */[__webpack_require__.e("open_positions~portfolio~profit_table~statement"), __webpack_require__.e("open_positions~profit_table~statement"), __webpack_require__.e("open_positions")]).then(__webpack_require__.t.bind(null, /*! ../../Modules/Reports/Containers/open-positions.jsx */ "./src/javascript/app_2/Modules/Reports/Containers/open-positions.jsx", 7));
+});
+var ProfitTable = (0, _react.lazy)(function () {
+    return Promise.all(/*! import() | profit_table */[__webpack_require__.e("open_positions~portfolio~profit_table~statement"), __webpack_require__.e("open_positions~profit_table~statement"), __webpack_require__.e("profit_table")]).then(__webpack_require__.t.bind(null, /*! ../../Modules/Reports/Containers/profit-table.jsx */ "./src/javascript/app_2/Modules/Reports/Containers/profit-table.jsx", 7));
+});
 var Statement = (0, _react.lazy)(function () {
-    return Promise.all(/*! import() | statement */[__webpack_require__.e("portfolio~statement"), __webpack_require__.e("statement")]).then(__webpack_require__.t.bind(null, /*! ../../Modules/Statement */ "./src/javascript/app_2/Modules/Statement/index.js", 7));
+    return Promise.all(/*! import() | statement */[__webpack_require__.e("open_positions~portfolio~profit_table~statement"), __webpack_require__.e("open_positions~profit_table~statement"), __webpack_require__.e("statement")]).then(__webpack_require__.t.bind(null, /*! ../../Modules/Reports/Containers/statement.jsx */ "./src/javascript/app_2/Modules/Reports/Containers/statement.jsx", 7));
 });
 
 // Settings Routes
@@ -12028,7 +12225,12 @@ var Page404 = (0, _react.lazy)(function () {
 });
 
 var initRoutesConfig = function initRoutesConfig() {
-    return [{ path: _Constants.routes.contract, component: ContractDetails, title: (0, _localize.localize)('Contract Details'), is_authenticated: true }, { path: _Constants.routes.index, component: _reactRouterDom.Redirect, title: '', to: '/trade' }, { path: _Constants.routes.portfolio, component: Portfolio, title: (0, _localize.localize)('Portfolio'), is_authenticated: true, icon_component: _NavBar.IconPortfolio }, { path: _Constants.routes.root, component: _reactRouterDom.Redirect, title: '', exact: true, to: '/trade' }, { path: _Constants.routes.statement, component: Statement, title: (0, _localize.localize)('Statement'), is_authenticated: true, icon_component: _NavBar.IconStatement }, { path: _Constants.routes.trade, component: _Trading2.default, title: (0, _localize.localize)('Trade'), exact: true }, {
+    return [{ path: _Constants.routes.contract, component: ContractDetails, title: (0, _localize.localize)('Contract Details'), is_authenticated: true }, { path: _Constants.routes.index, component: _reactRouterDom.Redirect, title: '', to: '/trade' }, { path: _Constants.routes.portfolio, component: Portfolio, title: (0, _localize.localize)('Portfolio'), is_authenticated: true, icon_component: _NavBar.IconPortfolio }, { path: _Constants.routes.root, component: _reactRouterDom.Redirect, title: '', exact: true, to: '/trade' }, {
+        path: _Constants.routes.reports,
+        component: Reports,
+        is_authenticated: true,
+        routes: [{ path: _Constants.routes.positions, component: OpenPositions, title: (0, _localize.localize)('Open Positions'), icon_component: _iconOpenPositions.IconOpenPositions, default: true }, { path: _Constants.routes.profit, component: ProfitTable, title: (0, _localize.localize)('Profit Table'), icon_component: _iconProfitTable.IconProfitTable }, { path: _Constants.routes.statement, component: Statement, title: (0, _localize.localize)('Statement'), icon_component: _iconStatement.IconStatement }]
+    }, { path: _Constants.routes.trade, component: _Trading2.default, title: (0, _localize.localize)('Trade'), exact: true }, {
         path: _Constants.routes.settings,
         component: Settings,
         is_authenticated: true,
@@ -12570,7 +12772,7 @@ var MenuDrawer = function MenuDrawer(_ref) {
                 }),
                 _react2.default.createElement(_Drawer.DrawerItem, {
                     text: (0, _localize.localize)('Statement'),
-                    icon: _react2.default.createElement(_Common.Icon, { icon: _NavBar.IconStatement, className: 'drawer__icon' }),
+                    icon: _react2.default.createElement(_Common.Icon, { icon: _NavBar.IconReports, className: 'drawer__icon' }),
                     link_to: _routes2.default.statement
                 }),
                 _react2.default.createElement('hr', { className: 'hr' }),
@@ -12662,6 +12864,10 @@ var _ttReactCustomScrollbars = __webpack_require__(/*! tt-react-custom-scrollbar
 
 var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
 
+var _routes = __webpack_require__(/*! ../../../Constants/routes */ "./src/javascript/app_2/Constants/routes.js");
+
+var _routes2 = _interopRequireDefault(_routes);
+
 var _installPwa = __webpack_require__(/*! ./install-pwa.jsx */ "./src/javascript/app_2/App/Containers/Layout/install-pwa.jsx");
 
 var _installPwa2 = _interopRequireDefault(_installPwa);
@@ -12683,6 +12889,7 @@ var AppContents = function AppContents(_ref) {
         is_logged_in = _ref.is_logged_in,
         is_positions_drawer_on = _ref.is_positions_drawer_on,
         loading_status = _ref.loading_status,
+        location = _ref.location,
         setPWAPromptEvent = _ref.setPWAPromptEvent;
 
     if (is_logged_in) {
@@ -12703,7 +12910,7 @@ var AppContents = function AppContents(_ref) {
     return _react2.default.createElement(
         _react2.default.Fragment,
         null,
-        is_loading && _react2.default.createElement(_loading2.default, { status: loading_status, theme: is_dark_mode ? 'dark' : 'light' }),
+        is_loading && location.pathname === _routes2.default.trade && _react2.default.createElement(_loading2.default, { status: loading_status, theme: is_dark_mode ? 'dark' : 'light' }),
         _react2.default.createElement(
             'div',
             {
@@ -12790,6 +12997,10 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _routes = __webpack_require__(/*! ../../../Constants/routes */ "./src/javascript/app_2/Constants/routes.js");
+
+var _routes2 = _interopRequireDefault(_routes);
+
 var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
 
 var _serverTime = __webpack_require__(/*! ../server-time.jsx */ "./src/javascript/app_2/App/Containers/server-time.jsx");
@@ -12817,7 +13028,7 @@ var Footer = function Footer(_ref) {
         'footer',
         { className: (0, _classnames2.default)('footer', {
                 'footer--is-blurred': is_fully_blurred,
-                'footer--show': !is_loading
+                'footer--show': !is_loading || location.pathname !== _routes2.default.trade
             })
         },
         _react2.default.createElement(
@@ -12919,6 +13130,10 @@ var _headerLinks = __webpack_require__(/*! ../../Constants/header-links */ "./sr
 
 var _headerLinks2 = _interopRequireDefault(_headerLinks);
 
+var _routes = __webpack_require__(/*! ../../../Constants/routes */ "./src/javascript/app_2/Constants/routes.js");
+
+var _routes2 = _interopRequireDefault(_routes);
+
 var _connect = __webpack_require__(/*! ../../../Stores/connect */ "./src/javascript/app_2/Stores/connect.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -12934,6 +13149,7 @@ var Header = function Header(_ref) {
         is_logged_in = _ref.is_logged_in,
         is_mobile = _ref.is_mobile,
         is_virtual = _ref.is_virtual,
+        location = _ref.location,
         loginid = _ref.loginid,
         onClickUpgrade = _ref.onClickUpgrade,
         toggleAccountsDialog = _ref.toggleAccountsDialog;
@@ -12941,7 +13157,7 @@ var Header = function Header(_ref) {
         'header',
         { className: (0, _classnames2.default)('header', {
                 'header--is-blurred': is_fully_blurred,
-                'header--show': !is_loading
+                'header--show': !is_loading || location.pathname !== _routes2.default.trade
             })
         },
         _react2.default.createElement(
@@ -15133,10 +15349,11 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var IconClose = function IconClose(_ref) {
-    var className = _ref.className;
+    var className = _ref.className,
+        onClick = _ref.onClick;
     return _react2.default.createElement(
         'svg',
-        { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
+        { onClick: onClick, className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
         _react2.default.createElement('path', { className: 'color1-fill', fill: '#2A3052', fillRule: 'nonzero', d: 'M8 7.293l4.146-4.147a.5.5 0 0 1 .708.708L8.707 8l4.147 4.146a.5.5 0 0 1-.708.708L8 8.707l-4.146 4.147a.5.5 0 0 1-.708-.708L7.293 8 3.146 3.854a.5.5 0 1 1 .708-.708L8 7.293z' })
     );
 };
@@ -17733,10 +17950,10 @@ exports.IconPortfolio = IconPortfolio;
 
 /***/ }),
 
-/***/ "./src/javascript/app_2/Assets/Header/NavBar/icon-statement.jsx":
-/*!**********************************************************************!*\
-  !*** ./src/javascript/app_2/Assets/Header/NavBar/icon-statement.jsx ***!
-  \**********************************************************************/
+/***/ "./src/javascript/app_2/Assets/Header/NavBar/icon-reports.jsx":
+/*!********************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Header/NavBar/icon-reports.jsx ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17746,7 +17963,7 @@ exports.IconPortfolio = IconPortfolio;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.IconStatement = undefined;
+exports.IconReports = undefined;
 
 var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
 
@@ -17762,7 +17979,7 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var IconStatement = function IconStatement(_ref) {
+var IconReports = function IconReports(_ref) {
     var className = _ref.className;
     return _react2.default.createElement(
         'svg',
@@ -17780,11 +17997,11 @@ var IconStatement = function IconStatement(_ref) {
     );
 };
 
-IconStatement.propTypes = {
+IconReports.propTypes = {
     className: _propTypes2.default.string
 };
 
-exports.IconStatement = IconStatement;
+exports.IconReports = IconReports;
 
 /***/ }),
 
@@ -17900,14 +18117,14 @@ Object.keys(_iconPortfolio).forEach(function (key) {
   });
 });
 
-var _iconStatement = __webpack_require__(/*! ./icon-statement.jsx */ "./src/javascript/app_2/Assets/Header/NavBar/icon-statement.jsx");
+var _iconReports = __webpack_require__(/*! ./icon-reports.jsx */ "./src/javascript/app_2/Assets/Header/NavBar/icon-reports.jsx");
 
-Object.keys(_iconStatement).forEach(function (key) {
+Object.keys(_iconReports).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _iconStatement[key];
+      return _iconReports[key];
     }
   });
 });
@@ -17923,6 +18140,144 @@ Object.keys(_iconTrade).forEach(function (key) {
     }
   });
 });
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Assets/Reports/icon-open-positions.jsx":
+/*!*********************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Reports/icon-open-positions.jsx ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconOpenPositions = undefined;
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconOpenPositions = function IconOpenPositions(_ref) {
+    var className = _ref.className;
+    return _react2.default.createElement(
+        'svg',
+        { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
+        _react2.default.createElement('path', { className: 'color1-fill', fill: '#7F8397', fillRule: 'nonzero', d: 'M11.793 7.5l-1.647-1.646a.5.5 0 0 1 .708-.708l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L11.793 8.5H5.5a.5.5 0 0 1 0-1h6.293zM12 3h3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-3v1.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0h9A1.5 1.5 0 0 1 12 1.5V3zm-1 0V1.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V13H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7zM4 4v8h11V4H4z' })
+    );
+};
+
+IconOpenPositions.propTypes = {
+    className: _propTypes2.default.string
+};
+
+exports.IconOpenPositions = IconOpenPositions;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Assets/Reports/icon-profit-table.jsx":
+/*!*******************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Reports/icon-profit-table.jsx ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconProfitTable = undefined;
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconProfitTable = function IconProfitTable(_ref) {
+    var className = _ref.className;
+    return _react2.default.createElement(
+        'svg',
+        { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
+        _react2.default.createElement('path', { className: 'color1-fill', fill: '#7F8397', fillRule: 'nonzero', d: 'M6 7.707V12.5a.5.5 0 1 1-1 0V7.707L3.854 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 1 1-.708.708L6 7.707zm4 3.586V6.5a.5.5 0 1 1 1 0v4.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L10 11.293zM0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13zm1 0v13a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-13a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5zM1 4V3h14v1H1z' })
+    );
+};
+
+IconProfitTable.propTypes = {
+    className: _propTypes2.default.string
+};
+
+exports.IconProfitTable = IconProfitTable;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Assets/Reports/icon-statement.jsx":
+/*!****************************************************************!*\
+  !*** ./src/javascript/app_2/Assets/Reports/icon-statement.jsx ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.IconStatement = undefined;
+
+var _classnames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var IconStatement = function IconStatement(_ref) {
+    var className = _ref.className;
+    return _react2.default.createElement(
+        'svg',
+        { className: (0, _classnames2.default)('inline-icon', className), width: '16', height: '16', viewBox: '0 0 16 16' },
+        _react2.default.createElement('path', { className: 'color1-fill', fill: '#7F8397', fillRule: 'nonzero', d: 'M5.5 7h7a.5.5 0 1 1 0 1h-7a.5.5 0 0 1 0-1zm-2 1a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm2 3h7a.5.5 0 1 1 0 1h-7a.5.5 0 1 1 0-1zm-2 1a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zM0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13zm1 0v13a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-13a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0-.5.5zM1 4V3h14v1H1z' })
+    );
+};
+
+IconStatement.propTypes = {
+    className: _propTypes2.default.string
+};
+
+exports.IconStatement = IconStatement;
 
 /***/ }),
 
@@ -18011,14 +18366,16 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var IconClose = function IconClose(_ref) {
-    var className = _ref.className;
+    var className = _ref.className,
+        onClick = _ref.onClick;
     return _react2.default.createElement(
         'svg',
         {
             className: (0, _classnames2.default)('inline-icon', className),
             xmlns: 'http://www.w3.org/2000/svg',
             width: '16',
-            height: '16'
+            height: '16',
+            onClick: onClick
         },
         _react2.default.createElement('path', {
             className: 'color1-fill',
@@ -20238,7 +20595,7 @@ var _iconHamburger = __webpack_require__(/*! ../Assets/Header/NavBar/icon-hambur
 
 var _iconPortfolio = __webpack_require__(/*! ../Assets/Header/NavBar/icon-portfolio.jsx */ "./src/javascript/app_2/Assets/Header/NavBar/icon-portfolio.jsx");
 
-var _iconStatement = __webpack_require__(/*! ../Assets/Header/NavBar/icon-statement.jsx */ "./src/javascript/app_2/Assets/Header/NavBar/icon-statement.jsx");
+var _iconReports = __webpack_require__(/*! ../Assets/Header/NavBar/icon-reports.jsx */ "./src/javascript/app_2/Assets/Header/NavBar/icon-reports.jsx");
 
 var _iconTrade = __webpack_require__(/*! ../Assets/Header/NavBar/icon-trade.jsx */ "./src/javascript/app_2/Assets/Header/NavBar/icon-trade.jsx");
 
@@ -20315,7 +20672,7 @@ var ICONS = {
         CASHIER: _iconCashier.IconCashier,
         HAMBURGER: _iconHamburger.IconHamburger,
         PORTFOLIO: _iconPortfolio.IconPortfolio,
-        STATEMENT: _iconStatement.IconStatement,
+        REPORTS: _iconReports.IconReports,
         TRADE: _iconTrade.IconTrade
     },
     STATEMENT: {
@@ -20428,9 +20785,12 @@ var routes = {
     limits: '/settings/limits',
     personal: '/settings/personal',
     portfolio: '/portfolio',
+    positions: '/reports/positions',
+    profit: '/reports/profit',
+    reports: '/reports',
     root: '/',
     settings: '/settings',
-    statement: '/statement',
+    statement: '/reports/statement',
     token: '/settings/token',
     trade: '/trade'
 };
@@ -26192,6 +26552,9 @@ var Trade = function (_React$Component) {
     }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
+            if (this.props.is_contract_mode) {
+                this.props.onCloseContract();
+            }
             this.props.onUnmount();
         }
     }, {
@@ -26849,6 +27212,27 @@ var WS = function () {
         return _socket_base2.default.send({ portfolio: 1 });
     };
 
+    var profitTable = function profitTable(params) {
+        var _params$date_to = params.date_to,
+            date_to = _params$date_to === undefined ? Math.floor(new Date().getTime() / 1000) : _params$date_to,
+            _params$date_from = params.date_from,
+            date_from = _params$date_from === undefined ? 0 : _params$date_from,
+            _params$limit = params.limit,
+            limit = _params$limit === undefined ? 50 : _params$limit,
+            _params$offset = params.offset,
+            offset = _params$offset === undefined ? 0 : _params$offset;
+
+
+        return _socket_base2.default.send({
+            profit_table: 1,
+            description: 1,
+            date_from: date_from,
+            date_to: date_to,
+            offset: offset,
+            limit: limit
+        });
+    };
+
     var proposalOpenContract = function proposalOpenContract(contract_id) {
         return _socket_base2.default.send({ proposal_open_contract: 1, contract_id: contract_id });
     };
@@ -26927,6 +27311,7 @@ var WS = function () {
         oauthApps: oauthApps,
         portfolio: portfolio,
         payoutCurrencies: payoutCurrencies,
+        profitTable: profitTable,
         proposalOpenContract: proposalOpenContract,
         sell: sell,
         sellExpired: sellExpired,
@@ -28011,6 +28396,8 @@ var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11
 
 var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
 
+var _mobxUtils = __webpack_require__(/*! mobx-utils */ "./node_modules/mobx-utils/mobx-utils.module.js");
+
 var _Services = __webpack_require__(/*! ../../../Services */ "./src/javascript/app_2/Services/index.js");
 
 var _formatResponse = __webpack_require__(/*! ./Helpers/format-response */ "./src/javascript/app_2/Stores/Modules/Portfolio/Helpers/format-response.js");
@@ -28088,7 +28475,11 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PortfolioStore.__proto__ || Object.getPrototypeOf(PortfolioStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'positions', _descriptor, _this), _initDefineProp(_this, 'is_loading', _descriptor2, _this), _initDefineProp(_this, 'error', _descriptor3, _this), _initDefineProp(_this, 'initializePortfolio', _descriptor4, _this), _initDefineProp(_this, 'populateResultDetails', _descriptor5, _this), _temp), _possibleConstructorReturn(_this, _ret);
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PortfolioStore.__proto__ || Object.getPrototypeOf(PortfolioStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'positions', _descriptor, _this), _initDefineProp(_this, 'is_loading', _descriptor2, _this), _initDefineProp(_this, 'error', _descriptor3, _this), _this.getPositionById = (0, _mobxUtils.createTransformer)(function (id) {
+            return _this.positions.find(function (position) {
+                return +position.id === +id;
+            });
+        }), _initDefineProp(_this, 'initializePortfolio', _descriptor4, _this), _initDefineProp(_this, 'populateResultDetails', _descriptor5, _this), _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(PortfolioStore, [{
@@ -28309,6 +28700,11 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             return this.positions;
         }
     }, {
+        key: 'is_active_empty',
+        get: function get() {
+            return !this.is_loading && this.active_positions.length === 0;
+        }
+    }, {
         key: 'is_empty',
         get: function get() {
             return !this.is_loading && this.all_positions.length === 0;
@@ -28372,8 +28768,367 @@ var PortfolioStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _de
             _this5.positions[i].is_loading = false;
         };
     }
-}), _applyDecoratedDescriptor(_class.prototype, 'pushNewPosition', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'pushNewPosition'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removePositionById', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'removePositionById'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'accountSwitcherListener', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'accountSwitcherListener'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totals', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totals'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'active_positions', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'active_positions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'all_positions', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'all_positions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype)), _class));
+}), _applyDecoratedDescriptor(_class.prototype, 'pushNewPosition', [_dec9], Object.getOwnPropertyDescriptor(_class.prototype, 'pushNewPosition'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removePositionById', [_dec10], Object.getOwnPropertyDescriptor(_class.prototype, 'removePositionById'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'accountSwitcherListener', [_dec11], Object.getOwnPropertyDescriptor(_class.prototype, 'accountSwitcherListener'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec12], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec13], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totals', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totals'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'active_positions', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'active_positions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'all_positions', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'all_positions'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_active_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_active_empty'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype)), _class));
 exports.default = PortfolioStore;
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Stores/Modules/Profit/Helpers/format-response.js":
+/*!*******************************************************************************!*\
+  !*** ./src/javascript/app_2/Stores/Modules/Profit/Helpers/format-response.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.formatProfitTableTransactions = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _currency_base = __webpack_require__(/*! ../../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js");
+
+var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
+
+var formatProfitTableTransactions = exports.formatProfitTableTransactions = function formatProfitTableTransactions(transaction, currency) {
+    var format_string = 'DD MMM YYYY - HH:mm:ss';
+    var purchase_time = '' + (0, _Date.toMoment)(+transaction.purchase_time).format(format_string);
+    var sell_time = '' + (0, _Date.toMoment)(+transaction.sell_time).format(format_string);
+    var payout = parseFloat(transaction.payout);
+    var sell_price = parseFloat(transaction.sell_price);
+    var buy_price = parseFloat(transaction.buy_price);
+    var profit_loss = (0, _currency_base.formatMoney)(currency, Number(sell_price - buy_price), true);
+    var should_exclude_currency = true;
+
+    return _extends({}, transaction, {
+        payout: isNaN(payout) ? '-' : (0, _currency_base.formatMoney)(currency, payout, should_exclude_currency),
+        sell_price: isNaN(sell_price) ? '-' : (0, _currency_base.formatMoney)(currency, sell_price, should_exclude_currency),
+        buy_price: isNaN(buy_price) ? '-' : (0, _currency_base.formatMoney)(currency, buy_price, should_exclude_currency),
+        profit_loss: profit_loss,
+        sell_time: sell_time,
+        purchase_time: purchase_time
+    });
+};
+
+/***/ }),
+
+/***/ "./src/javascript/app_2/Stores/Modules/Profit/profit-store.js":
+/*!********************************************************************!*\
+  !*** ./src/javascript/app_2/Stores/Modules/Profit/profit-store.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _desc, _value, _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+
+var _mobx = __webpack_require__(/*! mobx */ "./node_modules/mobx/lib/mobx.module.js");
+
+var _moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _Services = __webpack_require__(/*! ../../../Services */ "./src/javascript/app_2/Services/index.js");
+
+var _formatResponse = __webpack_require__(/*! ./Helpers/format-response */ "./src/javascript/app_2/Stores/Modules/Profit/Helpers/format-response.js");
+
+var _baseStore = __webpack_require__(/*! ../../base-store */ "./src/javascript/app_2/Stores/base-store.js");
+
+var _baseStore2 = _interopRequireDefault(_baseStore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable,
+        writable: descriptor.writable,
+        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+}
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
+
+var batch_size = 50;
+
+var ProfitTableStore = (_dec = _mobx.action.bound, _dec2 = _mobx.action.bound, _dec3 = _mobx.action.bound, _dec4 = _mobx.action.bound, _dec5 = _mobx.action.bound, _dec6 = _mobx.action.bound, _dec7 = _mobx.action.bound, _dec8 = _mobx.action.bound, (_class = function (_BaseStore) {
+    _inherits(ProfitTableStore, _BaseStore);
+
+    function ProfitTableStore() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, ProfitTableStore);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ProfitTableStore.__proto__ || Object.getPrototypeOf(ProfitTableStore)).call.apply(_ref, [this].concat(args))), _this), _initDefineProp(_this, 'data', _descriptor, _this), _initDefineProp(_this, 'date_from', _descriptor2, _this), _initDefineProp(_this, 'date_to', _descriptor3, _this), _initDefineProp(_this, 'error', _descriptor4, _this), _initDefineProp(_this, 'has_loaded_all', _descriptor5, _this), _initDefineProp(_this, 'is_loading', _descriptor6, _this), _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(ProfitTableStore, [{
+        key: 'fetchNextBatch',
+        value: function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                var response;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                if (!(this.has_loaded_all || this.is_loading)) {
+                                    _context.next = 2;
+                                    break;
+                                }
+
+                                return _context.abrupt('return');
+
+                            case 2:
+
+                                this.is_loading = true;
+
+                                _context.next = 5;
+                                return _Services.WS.profitTable(_extends({
+                                    offset: this.data.length
+                                }, this.date_from && { date_from: (0, _moment2.default)(this.date_from).unix() }, this.date_to && { date_to: (0, _moment2.default)(this.date_to).add(1, 'd').subtract(1, 's').unix() }));
+
+                            case 5:
+                                response = _context.sent;
+
+                                this.profitTableResponseHandler(response);
+
+                            case 7:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function fetchNextBatch() {
+                return _ref2.apply(this, arguments);
+            }
+
+            return fetchNextBatch;
+        }()
+    }, {
+        key: 'profitTableResponseHandler',
+        value: function profitTableResponseHandler(response) {
+            var _this2 = this;
+
+            if ('error' in response) {
+                this.error = response.error.message;
+                return;
+            }
+
+            var formatted_transactions = response.profit_table.transactions.map(function (transaction) {
+                return (0, _formatResponse.formatProfitTableTransactions)(transaction, _this2.root_store.client.currency);
+            });
+
+            this.data = [].concat(_toConsumableArray(this.data), _toConsumableArray(formatted_transactions));
+            this.has_loaded_all = formatted_transactions.length < batch_size;
+            this.is_loading = false;
+        }
+    }, {
+        key: 'handleScroll',
+        value: function handleScroll(event) {
+            var _event$target = event.target,
+                scrollTop = _event$target.scrollTop,
+                scrollHeight = _event$target.scrollHeight,
+                clientHeight = _event$target.clientHeight;
+
+            var left_to_scroll = scrollHeight - (scrollTop + clientHeight);
+            if (left_to_scroll < 2000) {
+                this.fetchNextBatch();
+            }
+        }
+    }, {
+        key: 'onMount',
+        value: function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.onSwitchAccount(this.accountSwitcherListener);
+                                _context2.next = 3;
+                                return this.fetchNextBatch();
+
+                            case 3:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function onMount() {
+                return _ref3.apply(this, arguments);
+            }
+
+            return onMount;
+        }()
+    }, {
+        key: 'onUnmount',
+        value: function onUnmount() {
+            this.disposeSwitchAccount();
+            this.clearTable();
+            this.clearDateFilter();
+            _Services.WS.forgetAll('proposal');
+        }
+    }, {
+        key: 'accountSwitcherListener',
+        value: function accountSwitcherListener() {
+            var _this3 = this;
+
+            return new Promise(function (resolve) {
+                _this3.clearTable();
+                _this3.clearDateFilter();
+                return resolve(_this3.fetchNextBatch());
+            });
+        }
+    }, {
+        key: 'clearTable',
+        value: function clearTable() {
+            this.data = [];
+            this.has_loaded_all = false;
+            this.is_loading = false;
+        }
+    }, {
+        key: 'clearDateFilter',
+        value: function clearDateFilter() {
+            this.date_from = '';
+            this.date_to = '';
+        }
+    }, {
+        key: 'total_profit',
+        get: function get() {
+            return this.data.reduce(function (previous, current) {
+                var buy_price = Number(parseFloat(current.buy_price));
+                var sell_price = Number(parseFloat(current.sell_price));
+                var pl = sell_price - buy_price;
+                return previous + pl;
+            }, 0);
+        }
+    }, {
+        key: 'is_empty',
+        get: function get() {
+            return !this.is_loading && this.data.length === 0;
+        }
+    }, {
+        key: 'has_selected_date',
+        get: function get() {
+            return !!(this.date_from || this.date_to);
+        }
+    }, {
+        key: 'totals',
+        get: function get() {
+            var profit_loss = 0;
+
+            this.data.forEach(function (transaction) {
+                if (transaction.profit_loss.indexOf('-') !== -1) {
+                    profit_loss -= parseFloat(transaction.profit_loss.split('-')[1]);
+                } else {
+                    profit_loss += parseFloat(transaction.profit_loss);
+                }
+            });
+            return {
+                profit_loss: profit_loss.toString()
+            };
+        }
+    }]);
+
+    return ProfitTableStore;
+}(_baseStore2.default), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'data', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return [];
+    }
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'date_from', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return '';
+    }
+}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'date_to', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return '';
+    }
+}), _descriptor4 = _applyDecoratedDescriptor(_class.prototype, 'error', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return '';
+    }
+}), _descriptor5 = _applyDecoratedDescriptor(_class.prototype, 'has_loaded_all', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return false;
+    }
+}), _descriptor6 = _applyDecoratedDescriptor(_class.prototype, 'is_loading', [_mobx.observable], {
+    enumerable: true,
+    initializer: function initializer() {
+        return false;
+    }
+}), _applyDecoratedDescriptor(_class.prototype, 'total_profit', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'total_profit'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'is_empty', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'is_empty'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'has_selected_date', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'has_selected_date'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fetchNextBatch', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'fetchNextBatch'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'profitTableResponseHandler', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'profitTableResponseHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'handleScroll', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'handleScroll'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onMount', [_dec4], Object.getOwnPropertyDescriptor(_class.prototype, 'onMount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onUnmount', [_dec5], Object.getOwnPropertyDescriptor(_class.prototype, 'onUnmount'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'totals', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'totals'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'accountSwitcherListener', [_dec6], Object.getOwnPropertyDescriptor(_class.prototype, 'accountSwitcherListener'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearTable', [_dec7], Object.getOwnPropertyDescriptor(_class.prototype, 'clearTable'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearDateFilter', [_dec8], Object.getOwnPropertyDescriptor(_class.prototype, 'clearDateFilter'), _class.prototype)), _class));
+exports.default = ProfitTableStore;
 
 /***/ }),
 
@@ -29291,9 +30046,8 @@ var _string_util = __webpack_require__(/*! ../../../../../_common/string_util */
 var _Date = __webpack_require__(/*! ../../../../Utils/Date */ "./src/javascript/app_2/Utils/Date/index.js");
 
 var formatStatementTransaction = exports.formatStatementTransaction = function formatStatementTransaction(transaction, currency) {
-    var moment_obj = (0, _Date.toMoment)(transaction.transaction_time);
-    var date_str = moment_obj.format('YYYY-MM-DD');
-    var time_str = moment_obj.format('HH:mm:ss') + ' GMT';
+    var format_string = 'DD MMM YYYY - HH:mm:ss';
+    var transaction_time = (0, _Date.toMoment)(transaction.transaction_time).format(format_string);
     var payout = parseFloat(transaction.payout);
     var amount = parseFloat(transaction.amount);
     var balance = parseFloat(transaction.balance_after);
@@ -29301,14 +30055,16 @@ var formatStatementTransaction = exports.formatStatementTransaction = function f
 
     return {
         action: (0, _localize.localize)((0, _string_util.toTitleCase)(transaction.action_type) /* localize-ignore */), // handled in static_strings_app_2.js: 'Buy', 'Sell', 'Deposit', 'Withdrawal'
-        date: date_str + '\n' + time_str,
+        date: transaction_time,
         refid: transaction.transaction_id,
         payout: isNaN(payout) ? '-' : (0, _currency_base.formatMoney)(currency, payout, should_exclude_currency),
         amount: isNaN(amount) ? '-' : (0, _currency_base.formatMoney)(currency, amount, should_exclude_currency),
         balance: isNaN(balance) ? '-' : (0, _currency_base.formatMoney)(currency, balance, should_exclude_currency),
         desc: transaction.longcode.replace(/\n/g, '<br />'),
         id: transaction.contract_id,
-        app_id: transaction.app_id
+        app_id: transaction.app_id,
+        shortcode: ['buy', 'sell'].includes(transaction.action_type) ? transaction.shortcode : null,
+        action_type: transaction.action_type
     };
 };
 
@@ -32396,6 +33152,10 @@ var _tradeStore = __webpack_require__(/*! ./Trading/trade-store */ "./src/javasc
 
 var _tradeStore2 = _interopRequireDefault(_tradeStore);
 
+var _profitStore = __webpack_require__(/*! ./Profit/profit-store */ "./src/javascript/app_2/Stores/Modules/Profit/profit-store.js");
+
+var _profitStore2 = _interopRequireDefault(_profitStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32405,6 +33165,7 @@ var ModulesStore = function ModulesStore(root_store) {
 
     this.contract = new _contractStore2.default({ root_store: root_store });
     this.portfolio = new _portfolioStore2.default({ root_store: root_store });
+    this.profit_table = new _profitStore2.default({ root_store: root_store });
     this.smart_chart = new _smartChartStore2.default({ root_store: root_store });
     this.statement = new _statementStore2.default({ root_store: root_store });
     this.trade = new _tradeStore2.default({ root_store: root_store });
