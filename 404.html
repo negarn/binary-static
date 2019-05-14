@@ -23,7 +23,6 @@
         'zh_tw': 'tw|mo',
         'zh_cn': 'cn',
     };
-    var all_languages = ['en'].concat(Object.keys(langs));
     function getLanguage(country) {
         var conLang = 'en';
         if (country) {
@@ -38,7 +37,7 @@
         return conLang;
     }
 
-    function redirect() {
+    function redirect(lang) {
         var base = /^(.+?).github.io$/.test(window.location.hostname) ? window.location.origin + '/binary-static' : window.location.origin;
 
         window.location.href = base + '/' + lang.toLowerCase() + '/' + '404';
@@ -63,14 +62,9 @@
             }
         };
     }
-    var all_lang_regex = new RegExp('(' + all_languages.join('|') + ')', 'i');
 
-    var lang = location.href
-        .split('/')
-        .find(function(url_segment) { return all_lang_regex.test((url_segment.toLowerCase())) })
-        || getCookieItem('language');
-
-    if (lang && all_languages.indexOf(lang.toLowerCase()) > -1) {
+    var lang = getCookieItem('language');
+    if (lang) {
         redirect(lang);
     } else {
         openWSAndGetLanguage(function(lang) {
