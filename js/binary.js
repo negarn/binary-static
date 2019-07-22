@@ -32476,9 +32476,10 @@ var GetCurrency = function () {
     var getCurrenciesOfOtherAccounts = function getCurrenciesOfOtherAccounts() {
         var all_loginids = Client.getAllLoginids();
         var other_currencies = [];
+        var current_landing_company_shortcode = Client.get('landing_company_shortcode');
         all_loginids.forEach(function (loginid) {
-            // if it's not current client or virtual client, consider the currency
-            if (Client.get('loginid') !== loginid && Client.getAccountType(loginid) !== 'virtual') {
+            // if it's not current client or under a different landing company, consider the currency
+            if (Client.get('loginid') !== loginid && current_landing_company_shortcode === Client.get('landing_company_shortcode', loginid)) {
                 var currency = Client.get('currency', loginid);
                 if (currency) {
                     other_currencies.push(currency);
