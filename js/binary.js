@@ -31247,7 +31247,7 @@ var MetaTrader = function () {
             BinarySocket.wait('mt5_login_list').then(function (response_login_list) {
                 // don't allow account opening for IOM accounts but let them see the dashboard if they have existing MT5 accounts
                 if (Client.get('landing_company_shortcode') === 'iom' && !response_login_list.mt5_login_list.length) {
-                    return false;
+                    resolve(false);
                 }
                 setMTCompanies();
                 var has_mt_company = false;
