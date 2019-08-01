@@ -30677,7 +30677,7 @@ var MetaTraderConfig = function () {
             if (Client.hasAccountType('financial')) {
                 id_to_show += 'switch_financial';
             } else {
-                id_to_show += 'upgrade_financial';
+                id_to_show += 'switch_financial'; // TODO: update this when copywriting is done
             }
         } else if (Client.hasAccountType('real')) {
             id_to_show += 'switch';
