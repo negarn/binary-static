@@ -30684,7 +30684,7 @@ var MetaTraderConfig = function () {
         } else {
             id_to_show += 'upgrade';
         }
-        $messages.find(id_to_show).html();
+        return $messages.find(id_to_show).html();
     };
 
     // currency equivalent to 1 USD
