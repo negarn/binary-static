@@ -31228,7 +31228,11 @@ var MetaTrader = function () {
 
     var setMTCompanies = function setMTCompanies() {
         var mt_financial_company = State.getResponse('landing_company.mt_financial_company');
-        var mt_gaming_company = State.getResponse('landing_company.mt_gaming_company');
+
+        var has_iom_gaming_company = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
+
+        // for iom landing company ignore mt_gaming_company for now
+        var mt_gaming_company = has_iom_gaming_company ? {} : State.getResponse('landing_company.mt_gaming_company');
 
         // Check if mt_financial_company is offered, if not found, switch to mt_gaming_company
         var mt_landing_company = mt_financial_company || mt_gaming_company;
