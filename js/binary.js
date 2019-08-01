@@ -30671,19 +30671,8 @@ var MetaTraderConfig = function () {
 
     var $messages = void 0;
     var needsRealMessage = function needsRealMessage() {
-        var id_to_show = '#msg_';
         var has_iom_gaming = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
-        if (has_iom_gaming) {
-            if (Client.hasAccountType('financial')) {
-                id_to_show += 'switch_financial';
-            } else {
-                id_to_show += 'switch_financial'; // TODO: update this when copywriting is done
-            }
-        } else if (Client.hasAccountType('real')) {
-            id_to_show += 'switch';
-        } else {
-            id_to_show += 'upgrade';
-        }
+        var id_to_show = '#msg_switch' + (has_iom_gaming ? '_financial' : '');
         return $messages.find(id_to_show).html();
     };
 
