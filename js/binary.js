@@ -31245,7 +31245,6 @@ var MetaTrader = function () {
 
     var isEligible = function isEligible() {
         return new Promise(function (resolve) {
-            // eslint-disable-next-line consistent-return
             BinarySocket.wait('mt5_login_list').then(function (response_login_list) {
                 var financial_company = State.getResponse('landing_company.financial_company.shortcode');
                 // client is currently IOM landing company
