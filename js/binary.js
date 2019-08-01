@@ -30653,8 +30653,7 @@ var MetaTraderConfig = function () {
                 gaming: {
                     demo_volatility: configMtCompanies.get().gaming.demo_volatility,
                     real_volatility: configMtCompanies.get().gaming.real_volatility
-                }
-            });
+                } });
         };
 
         return {
