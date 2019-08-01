@@ -30671,10 +30671,20 @@ var MetaTraderConfig = function () {
 
     var $messages = void 0;
     var needsRealMessage = function needsRealMessage() {
-        return $messages.find('#msg_' + (Client.hasAccountType('real') ? 'switch' : 'upgrade')).html();
-    };
-    var needsFinancialMessage = function needsFinancialMessage() {
-        return $messages.find('#msg_switch_financial').html();
+        var id_to_show = '#msg_';
+        var has_iom_gaming = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
+        if (has_iom_gaming) {
+            if (Client.hasAccountType('financial')) {
+                id_to_show += 'switch_financial';
+            } else {
+                id_to_show += 'upgrade_financial';
+            }
+        } else if (Client.hasAccountType('real')) {
+            id_to_show += 'switch';
+        } else {
+            id_to_show += 'upgrade';
+        }
+        $messages.find(id_to_show).html();
     };
 
     // currency equivalent to 1 USD
@@ -31134,7 +31144,6 @@ var MetaTraderConfig = function () {
         fields: fields,
         validations: validations,
         needsRealMessage: needsRealMessage,
-        needsFinancialMessage: needsFinancialMessage,
         hasAccount: hasAccount,
         getCurrency: getCurrency,
         isAuthenticated: isAuthenticated,
@@ -31249,8 +31258,12 @@ var MetaTrader = function () {
         return new Promise(function (resolve) {
             // eslint-disable-next-line consistent-return
             BinarySocket.wait('mt5_login_list').then(function (response_login_list) {
+                var financial_company = State.getResponse('landing_company.financial_company.shortcode');
+                // client is currently IOM landing company
+                // or has IOM landing company and doesn't have a non-IOM financial company
+                var has_iom_gaming_company = Client.get('landing_company_shortcode') === 'iom' || State.getResponse('landing_company.gaming_company.shortcode') === 'iom' && financial_company && financial_company !== 'iom';
                 // don't allow account opening for IOM accounts but let them see the dashboard if they have existing MT5 accounts
-                if (Client.get('landing_company_shortcode') === 'iom' && !response_login_list.mt5_login_list.length) {
+                if (has_iom_gaming_company && !response_login_list.mt5_login_list.length) {
                     resolve(false);
                 }
                 setMTCompanies();
