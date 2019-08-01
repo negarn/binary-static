@@ -30570,6 +30570,8 @@ module.exports = LostPassword;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var BinaryPjax = __webpack_require__(/*! ../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -30639,17 +30641,20 @@ var MetaTraderConfig = function () {
                 short_title: localize('Standard')
             };
 
-            return {
+            var has_iom_gaming = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
+
+            return _extends({
                 // for financial mt company with shortcode maltainvest, only offer standard account with different leverage
                 financial: {
                     demo_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Demo Standard'), short_title: standard_config.short_title },
                     real_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Real Standard'), short_title: standard_config.short_title }
-                },
+                }
+            }, !has_iom_gaming && {
                 gaming: {
                     demo_volatility: configMtCompanies.get().gaming.demo_volatility,
                     real_volatility: configMtCompanies.get().gaming.real_volatility
                 }
-            };
+            });
         };
 
         return {
