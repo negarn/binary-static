@@ -31261,7 +31261,7 @@ var MetaTrader = function () {
                 var financial_company = State.getResponse('landing_company.financial_company.shortcode');
                 // client is currently IOM landing company
                 // or has IOM landing company and doesn't have a non-IOM financial company
-                var has_iom_gaming_company = Client.get('landing_company_shortcode') === 'iom' || State.getResponse('landing_company.gaming_company.shortcode') === 'iom' && financial_company && financial_company !== 'iom';
+                var has_iom_gaming_company = Client.get('landing_company_shortcode') === 'iom' || State.getResponse('landing_company.gaming_company.shortcode') === 'iom' && financial_company && financial_company === 'iom';
                 // don't allow account opening for IOM accounts but let them see the dashboard if they have existing MT5 accounts
                 if (has_iom_gaming_company && !response_login_list.mt5_login_list.length) {
                     resolve(false);
