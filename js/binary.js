@@ -10958,7 +10958,7 @@ var Header = function () {
             var get_account_status = void 0,
                 status = void 0;
             var is_svg = Client.get('landing_company_shortcode') === 'svg';
-            var loginid = Client.get('loginid');
+            var loginid = Client.get('loginid') || {};
             var landing_company = State.getResponse('landing_company');
             var requirements = getLandingCompanyValue(loginid, landing_company, 'requirements');
             var necessary_withdrawal_fields = is_svg ? requirements.withdrawal : [];
@@ -20853,11 +20853,11 @@ var DigitDisplay = function () {
         }
         if (proposal_open_contract.status === 'won') {
             DigitTicker.markAsWon();
-            DigitTicker.markDigitAsWon(proposal_open_contract.exit_tick.toString().slice(-1));
+            DigitTicker.markDigitAsWon(proposal_open_contract.exit_tick_display_value.slice(-1));
         }
         if (proposal_open_contract.status === 'lost') {
             DigitTicker.markAsLost();
-            DigitTicker.markDigitAsLost(proposal_open_contract.exit_tick.toString().slice(-1));
+            DigitTicker.markDigitAsLost(proposal_open_contract.exit_tick_display_value.slice(-1));
         }
     };
 
@@ -25535,11 +25535,9 @@ var ViewPopup = __webpack_require__(/*! ../user/view_popup/view_popup */ "./src/
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var Header = __webpack_require__(/*! ../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
-var isEuCountry = __webpack_require__(/*! ../../common/country_base */ "./src/javascript/app/common/country_base.js").isEuCountry;
 var Guide = __webpack_require__(/*! ../../common/guide */ "./src/javascript/app/common/guide.js");
 var TopUpVirtualPopup = __webpack_require__(/*! ../../pages/user/account/top_up_virtual/pop_up */ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js");
 var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
-var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 
 var TradePage = function () {
     var events_initialized = 0;
@@ -25603,17 +25601,6 @@ var TradePage = function () {
         TradingAnalysis.bindAnalysisTabEvent();
 
         ViewPopup.viewButtonOnClick('#contract_confirmation_container');
-
-        displayBanner();
-    };
-
-    var displayBanner = function displayBanner() {
-        BinarySocket.wait('website_status', 'authorize', 'landing_company').then(function () {
-            if (!isEuCountry()) {
-                var el_binary_grid_banner = getElementById('binary_grid_banner');
-                el_binary_grid_banner.setVisibility(1);
-            }
-        });
     };
 
     var reload = function reload() {
@@ -30653,7 +30640,8 @@ var MetaTraderConfig = function () {
                 gaming: {
                     demo_volatility: configMtCompanies.get().gaming.demo_volatility,
                     real_volatility: configMtCompanies.get().gaming.real_volatility
-                } });
+                }
+            });
         };
 
         return {
@@ -31179,6 +31167,7 @@ var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javasc
 var Validation = __webpack_require__(/*! ../../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
+var isEmptyObject = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
 
 var MetaTrader = function () {
     var mt_companies = void 0;
@@ -31233,11 +31222,10 @@ var MetaTrader = function () {
 
         var has_iom_gaming_company = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
 
-        // for iom landing company ignore mt_gaming_company for now
-        var mt_gaming_company = has_iom_gaming_company ? {} : State.getResponse('landing_company.mt_gaming_company');
+        var mt_gaming_company = has_iom_gaming_company ? State.getResponse('landing_company.mt_gaming_company') : {};
 
-        // Check if mt_financial_company is offered, if not found, switch to mt_gaming_company
-        var mt_landing_company = mt_financial_company || mt_gaming_company;
+        // Check if mt_gaming_company is offered, if not found, switch to mt_financial_company
+        var mt_landing_company = isEmptyObject(mt_gaming_company) ? mt_financial_company : mt_gaming_company;
 
         // Check if any of the account type shortcodes from mt_landing_company account is maltainvest
         var is_financial = mt_landing_company ? Object.keys(mt_landing_company).some(function (key) {
@@ -31249,29 +31237,38 @@ var MetaTrader = function () {
 
     var isEligible = function isEligible() {
         return new Promise(function (resolve) {
-            BinarySocket.wait('mt5_login_list').then(function (response_login_list) {
-                var financial_company = State.getResponse('landing_company.financial_company.shortcode');
-                // client is currently IOM landing company
-                // or has IOM landing company and doesn't have a non-IOM financial company
-                var has_iom_gaming_company = Client.get('landing_company_shortcode') === 'iom' || State.getResponse('landing_company.gaming_company.shortcode') === 'iom' && financial_company && financial_company === 'iom';
-                // don't allow account opening for IOM accounts but let them see the dashboard if they have existing MT5 accounts
-                if (has_iom_gaming_company && !response_login_list.mt5_login_list.length) {
+            var financial_company = State.getResponse('landing_company.financial_company.shortcode');
+            // client is currently IOM landing company
+            // or has IOM landing company and doesn't have a non-IOM financial company
+            var has_iom_gaming_company = Client.get('landing_company_shortcode') === 'iom' || State.getResponse('landing_company.gaming_company.shortcode') === 'iom' && financial_company && financial_company === 'iom';
+            if (has_iom_gaming_company) {
+                if (Client.isLoggedIn()) {
+                    BinarySocket.wait('mt5_login_list').then(function (response_login_list) {
+                        // don't allow account opening for IOM accounts but let them see the dashboard if they have existing MT5 accounts
+                        resolve(response_login_list.mt5_login_list.length ? hasMTCompany() : false);
+                    });
+                } else {
                     resolve(false);
                 }
-                setMTCompanies();
-                var has_mt_company = false;
-                Object.keys(mt_companies).forEach(function (company) {
-                    Object.keys(mt_companies[company]).forEach(function (acc_type) {
-                        mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
-                        if (mt_company[company]) {
-                            has_mt_company = true;
-                            addAccount(company);
-                        }
-                    });
-                });
-                resolve(has_mt_company);
+            } else {
+                resolve(hasMTCompany());
+            }
+        });
+    };
+
+    var hasMTCompany = function hasMTCompany() {
+        setMTCompanies();
+        var has_mt_company = false;
+        Object.keys(mt_companies).forEach(function (company) {
+            Object.keys(mt_companies[company]).forEach(function (acc_type) {
+                mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
+                if (mt_company[company]) {
+                    has_mt_company = true;
+                    addAccount(company);
+                }
             });
         });
+        return has_mt_company;
     };
 
     var addAccount = function addAccount(company) {
@@ -31999,7 +31996,7 @@ var MetaTraderUI = function () {
         }) // toEnableMAM: remove second check
         .forEach(function (acc_type) {
             // toEnableVanuatuAdvanced: remove vanuatu_advanced from regex below
-            if (/labuan_standard|vanuatu_advanced/.test(acc_type)) {
+            if (/labuan_standard|vanuatu_advanced|iom|maltainvest_advanced/.test(acc_type)) {
                 return;
             }
             count++;
