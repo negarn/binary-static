@@ -31779,7 +31779,7 @@ var MetaTraderUI = function () {
             }
 
             if (action === 'revoke_mam') {
-                _$form.find('#mam_id').text(accounts_info[acc_type].info.manager_id);
+                _$form.find('.mam-id').text(accounts_info[acc_type].info.manager_id);
             }
 
             _$form.find('button[type="submit"]').each(function () {
