@@ -542,7 +542,9 @@ var ClientBase = function () {
         } else {
             var financial_company = (getPropertyValue(landing_company, 'financial_company') || {})[key] || [];
             var gaming_company = (getPropertyValue(landing_company, 'gaming_company') || {})[key] || [];
-            landing_company_object = financial_company.concat(gaming_company);
+
+            landing_company_object = Array.isArray(financial_company) ? financial_company.concat(gaming_company) : $.extend({}, financial_company, gaming_company);
+
             return landing_company_object;
         }
         return (landing_company_object || {})[key];
@@ -744,7 +746,6 @@ var CryptoConfig = function () {
     var initCryptoConfig = function initCryptoConfig() {
         return {
             BTC: { name: localize('Bitcoin'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
-            BCH: { name: localize('Bitcoin Cash'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
             ETH: { name: localize('Ether'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
             ETC: { name: localize('Ether Classic'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
             LTC: { name: localize('Litecoin'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
@@ -9886,7 +9887,6 @@ var DepositWithdraw = __webpack_require__(/*! ../pages/cashier/deposit_withdraw 
 var PaymentAgentList = __webpack_require__(/*! ../pages/cashier/payment_agent_list */ "./src/javascript/app/pages/cashier/payment_agent_list.js");
 var PaymentAgentWithdraw = __webpack_require__(/*! ../pages/cashier/payment_agent_withdraw */ "./src/javascript/app/pages/cashier/payment_agent_withdraw.js");
 var Endpoint = __webpack_require__(/*! ../pages/endpoint */ "./src/javascript/app/pages/endpoint.js");
-var MBTradePage = __webpack_require__(/*! ../pages/mb_trade/mb_tradepage */ "./src/javascript/app/pages/mb_trade/mb_tradepage.js");
 var EconomicCalendar = __webpack_require__(/*! ../pages/resources/economic_calendar/economic_calendar */ "./src/javascript/app/pages/resources/economic_calendar/economic_calendar.js");
 var AssetIndexUI = __webpack_require__(/*! ../pages/resources/asset_index/asset_index.ui */ "./src/javascript/app/pages/resources/asset_index/asset_index.ui.js");
 var MetatraderDownloadUI = __webpack_require__(/*! ../pages/resources/metatrader/download.ui */ "./src/javascript/app/pages/resources/metatrader/download.ui.js");
@@ -9980,7 +9980,6 @@ var pages_config = {
     market_timesws: { module: TradingTimesUI },
     metals: { module: GetStarted.Metals },
     metatrader: { module: MetaTrader, is_authenticated: true, needs_currency: true },
-    multi_barriers_trading: { module: MBTradePage, needs_currency: true },
     payment_agent_listws: { module: PaymentAgentList, is_authenticated: true },
     payment_methods: { module: Cashier.PaymentMethods },
     platforms: { module: Platforms },
@@ -10671,6 +10670,8 @@ module.exports = Footer;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var BinaryPjax = __webpack_require__(/*! ./binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ./client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
@@ -10786,14 +10787,33 @@ var Header = function () {
     };
 
     var metatraderMenuItemVisibility = function metatraderMenuItemVisibility() {
-        BinarySocket.wait('landing_company', 'get_account_status').then(function () {
-            if (MetaTrader.isEligible()) {
-                var mt_visibility = document.getElementsByClassName('mt_visibility');
-                applyToAllElements(mt_visibility, function (el) {
-                    el.setVisibility(1);
-                });
-            }
-        });
+        BinarySocket.wait('landing_company', 'get_account_status').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var is_eligible, mt_visibility;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.next = 2;
+                            return MetaTrader.isEligible();
+
+                        case 2:
+                            is_eligible = _context.sent;
+
+                            if (is_eligible) {
+                                mt_visibility = document.getElementsByClassName('mt_visibility');
+
+                                applyToAllElements(mt_visibility, function (el) {
+                                    el.setVisibility(1);
+                                });
+                            }
+
+                        case 4:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        })));
     };
 
     var switchLoginid = function switchLoginid(loginid) {
@@ -10807,8 +10827,6 @@ var Header = function () {
         sessionStorage.setItem('active_tab', '1');
         // set local storage
         GTM.setLoginFlag('account_switch');
-        Client.set('cashier_confirmed', 0);
-        Client.set('accepted_bch', 0);
         Client.set('loginid', loginid);
         SocketCache.clear();
         window.location.reload();
@@ -10940,7 +10958,7 @@ var Header = function () {
             var get_account_status = void 0,
                 status = void 0;
             var is_svg = Client.get('landing_company_shortcode') === 'svg';
-            var loginid = Client.get('loginid');
+            var loginid = Client.get('loginid') || {};
             var landing_company = State.getResponse('landing_company');
             var requirements = getLandingCompanyValue(loginid, landing_company, 'requirements');
             var necessary_withdrawal_fields = is_svg ? requirements.withdrawal : [];
@@ -11035,7 +11053,7 @@ var Header = function () {
                     return Client.get('excluded_until');
                 },
                 financial_limit: function financial_limit() {
-                    return hasStatus('ukrts_max_turnover_limit_not_set');
+                    return hasStatus('max_turnover_limit_not_set');
                 },
                 mf_retail: function mf_retail() {
                     return Client.get('landing_company_shortcode') === 'maltainvest' && !hasStatus('professional');
@@ -11076,7 +11094,7 @@ var Header = function () {
                 var notified = check_statuses.some(function (check_type) {
                     if (validations[check_type]()) {
                         // show MF retail message on Trading pages only
-                        if (check_type === 'mf_retail' && !(State.get('is_trading') || State.get('is_mb_trading'))) {
+                        if (check_type === 'mf_retail' && !State.get('is_trading')) {
                             return false;
                         }
                         displayNotification(messages[check_type](), false, check_type === 'mf_retail' ? 'MF_RETAIL_MESSAGE' : '');
@@ -11659,7 +11677,6 @@ var Header = __webpack_require__(/*! ./header */ "./src/javascript/app/base/head
 var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
 var Dialog = __webpack_require__(/*! ../common/attach_dom/dialog */ "./src/javascript/app/common/attach_dom/dialog.js");
 var createLanguageDropDown = __webpack_require__(/*! ../common/attach_dom/language_dropdown */ "./src/javascript/app/common/attach_dom/language_dropdown.js");
-var showPopup = __webpack_require__(/*! ../common/attach_dom/popup */ "./src/javascript/app/common/attach_dom/popup.js");
 var setCurrencies = __webpack_require__(/*! ../common/currency */ "./src/javascript/app/common/currency.js").setCurrencies;
 var SessionDurationLimit = __webpack_require__(/*! ../common/session_duration_limit */ "./src/javascript/app/common/session_duration_limit.js");
 var updateBalance = __webpack_require__(/*! ../pages/user/update_balance */ "./src/javascript/app/pages/user/update_balance.js");
@@ -11669,7 +11686,6 @@ var Crowdin = __webpack_require__(/*! ../../_common/crowdin */ "./src/javascript
 var localize = __webpack_require__(/*! ../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var LocalStore = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").LocalStore;
 var State = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").State;
-var urlFor = __webpack_require__(/*! ../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var getPropertyValue = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 var isLoginPages = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js").isLoginPages;
 
@@ -11752,18 +11768,6 @@ var BinarySocketGeneral = function () {
                             BinarySocket.send({ get_self_exclusion: 1 });
                         }
                         BinarySocket.sendBuffered();
-                        if (/bch/i.test(response.authorize.currency) && !Client.get('accepted_bch')) {
-                            showPopup({
-                                url: urlFor('user/warning'),
-                                popup_id: 'warning_popup',
-                                form_id: '#frm_warning',
-                                content_id: '#warning_content',
-                                validations: [{ selector: '#chk_accept', validations: [['req', { hide_asterisk: true }]] }],
-                                onAccept: function onAccept() {
-                                    Client.set('accepted_bch', 1);
-                                }
-                            });
-                        }
                         LocalStore.remove('date_first_contact');
                         LocalStore.remove('signup_device');
                     }
@@ -13066,6 +13070,8 @@ module.exports = ChartSettings;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var Client = __webpack_require__(/*! ../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../base/socket */ "./src/javascript/app/base/socket.js");
 var MetaTrader = __webpack_require__(/*! ../pages/user/metatrader/metatrader */ "./src/javascript/app/pages/user/metatrader/metatrader.js");
@@ -13120,23 +13126,44 @@ var ContentVisibility = function () {
     var init = function init() {
         var arr_mt5fin_shortcodes = void 0;
 
-        BinarySocket.wait('authorize', 'landing_company', 'website_status').then(function () {
-            var current_landing_company_shortcode = State.getResponse('authorize.landing_company_name') || 'default';
-            var mt_financial_company = State.getResponse('landing_company.mt_financial_company');
-            var mt_gaming_company = State.getResponse('landing_company.mt_gaming_company');
+        BinarySocket.wait('authorize', 'landing_company', 'website_status').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var current_landing_company_shortcode, mt_financial_company, mt_gaming_company, mt_landing_company, is_eligible_mt5;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            current_landing_company_shortcode = State.getResponse('authorize.landing_company_name') || 'default';
+                            mt_financial_company = State.getResponse('landing_company.mt_financial_company');
+                            mt_gaming_company = State.getResponse('landing_company.mt_gaming_company');
 
-            // Check if mt_financial_company is offered, if not found, switch to mt_gaming_company
-            var mt_landing_company = mt_financial_company || mt_gaming_company;
+                            // Check if mt_financial_company is offered, if not found, switch to mt_gaming_company
 
-            // Check mt_financial_company by account type, since we are offering different landing companies for standard and advanced
-            arr_mt5fin_shortcodes = mt_landing_company ? Object.keys(mt_landing_company).map(function (key) {
-                return mt_landing_company[key].shortcode;
-            }) : [];
+                            mt_landing_company = mt_financial_company || mt_gaming_company;
 
-            controlVisibility(current_landing_company_shortcode, MetaTrader.isEligible(),
-            // We then pass the list of found mt5fin company shortcodes as an array
-            arr_mt5fin_shortcodes);
-        });
+                            // Check mt_financial_company by account type, since we are offering different landing companies for standard and advanced
+
+                            arr_mt5fin_shortcodes = mt_landing_company ? Object.keys(mt_landing_company).map(function (key) {
+                                return mt_landing_company[key].shortcode;
+                            }) : [];
+
+                            _context.next = 7;
+                            return MetaTrader.isEligible();
+
+                        case 7:
+                            is_eligible_mt5 = _context.sent;
+
+
+                            controlVisibility(current_landing_company_shortcode, is_eligible_mt5,
+                            // We then pass the list of found mt5fin company shortcodes as an array
+                            arr_mt5fin_shortcodes);
+
+                        case 9:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        })));
     };
 
     var generateParsingErrorMessage = function generateParsingErrorMessage(reason, attr_str) {
@@ -14163,86 +14190,81 @@ module.exports = Guide;
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var getDecimalPlaces = __webpack_require__(/*! ./currency */ "./src/javascript/app/common/currency.js").getDecimalPlaces;
-var getUnderlyingPipSize = __webpack_require__(/*! ../pages/trade/symbols */ "./src/javascript/app/pages/trade/symbols.js").getUnderlyingPipSize;
+var Client = __webpack_require__(/*! ../base/client */ "./src/javascript/app/base/client.js");
 var addComma = __webpack_require__(/*! ../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
 var isEmptyObject = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
-var Client = __webpack_require__(/*! ../base/client */ "./src/javascript/app/base/client.js");
 
 var changePocNumbersToString = function changePocNumbersToString(response) {
     var _response$proposal_op = response.proposal_open_contract,
         audit_details = _response$proposal_op.audit_details,
         barrier = _response$proposal_op.barrier,
         bid_price = _response$proposal_op.bid_price,
-        current_spot = _response$proposal_op.current_spot,
-        entry_spot = _response$proposal_op.entry_spot,
-        entry_tick = _response$proposal_op.entry_tick,
-        exit_tick = _response$proposal_op.exit_tick,
+        current_spot_display_value = _response$proposal_op.current_spot_display_value,
+        display_value = _response$proposal_op.display_value,
+        entry_spot_display_value = _response$proposal_op.entry_spot_display_value,
+        entry_tick_display_value = _response$proposal_op.entry_tick_display_value,
+        exit_tick_display_value = _response$proposal_op.exit_tick_display_value,
         sell_price = _response$proposal_op.sell_price,
-        sell_spot = _response$proposal_op.sell_spot,
+        sell_spot_display_value = _response$proposal_op.sell_spot_display_value,
         tick_stream = _response$proposal_op.tick_stream,
         profit_percentage = _response$proposal_op.profit_percentage;
 
 
-    return new Promise(function (resolve) {
-        getUnderlyingPipSize(response.proposal_open_contract.underlying).then(function (pip_size) {
-            var currency_decimal_places = getDecimalPlaces(Client.get('currency'));
-            var toString = function toString(property) {
-                var has_comma = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-                var decimal_places = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : pip_size;
-                return property || property === 0 ? has_comma ? addComma(property, decimal_places) : addComma(property, decimal_places).replace(/,/g, '') : undefined;
-            };
+    var currency_decimal_places = getDecimalPlaces(Client.get('currency'));
+    var toString = function toString(property, decimal_places) {
+        return property || property === 0 ? addComma(property, decimal_places) : undefined;
+    };
 
-            var new_response = $.extend({}, _extends({}, response, {
-                proposal_open_contract: _extends({}, response.proposal_open_contract, {
-                    barrier: barrier ? addComma(barrier).replace(/,/g, '') : undefined, // Because `barrier` must not be displayed when zero
-                    bid_price: toString(bid_price, true, currency_decimal_places),
-                    sell_price: toString(sell_price, true, currency_decimal_places),
-                    sell_spot: toString(sell_spot),
-                    current_spot: toString(current_spot),
-                    entry_spot: toString(entry_spot, false),
-                    entry_tick: toString(entry_tick),
-                    exit_tick: toString(exit_tick),
-                    profit_percentage: toString(profit_percentage, true, 2)
-                })
-            }));
+    var modded_response = $.extend({}, _extends({}, response, {
+        proposal_open_contract: _extends({}, response.proposal_open_contract, {
+            barrier: barrier ? addComma(barrier).replace(/,/g, '') : undefined, // Because `barrier` must not be displayed when zero
+            bid_price: toString(bid_price, currency_decimal_places),
+            sell_price: toString(sell_price, currency_decimal_places),
+            profit_percentage: toString(profit_percentage, 2),
+            current_spot_display_value: current_spot_display_value ? addComma(current_spot_display_value) : undefined,
+            display_value: display_value ? addComma(display_value) : undefined,
+            entry_spot_display_value: entry_spot_display_value ? addComma(entry_spot_display_value) : undefined,
+            entry_tick_display_value: entry_tick_display_value ? addComma(entry_tick_display_value) : undefined,
+            exit_tick_display_value: exit_tick_display_value ? addComma(exit_tick_display_value) : undefined,
+            sell_spot_display_value: sell_spot_display_value ? addComma(sell_spot_display_value) : undefined
+        })
+    }));
 
-            if (!isEmptyObject(audit_details)) {
-                var formatAuditDetails = function formatAuditDetails(obj) {
-                    var modded_obj = _extends({}, obj);
+    if (!isEmptyObject(audit_details)) {
+        var formatAuditDetails = function formatAuditDetails(obj) {
+            var modded_obj = _extends({}, obj);
 
-                    Object.keys(obj).forEach(function (key) {
-                        modded_obj[key] = modded_obj[key].map(function (tick_obj) {
-                            return tick_obj.tick ? _extends({}, tick_obj, { tick: toString(tick_obj.tick) }) : tick_obj;
-                        });
-                    });
+            Object.keys(obj).forEach(function (key) {
+                modded_obj[key] = modded_obj[key].map(function (tick_obj) {
+                    return tick_obj.tick ? _extends({}, tick_obj, { tick_display_value: addComma(tick_obj.tick_display_value) }) : tick_obj;
+                });
+            });
 
-                    return modded_obj;
-                };
+            return modded_obj;
+        };
 
-                new_response = $.extend({}, _extends({}, new_response, {
-                    proposal_open_contract: _extends({}, new_response.proposal_open_contract, {
-                        audit_details: formatAuditDetails(audit_details)
-                    })
-                }));
-            }
+        modded_response = $.extend({}, _extends({}, modded_response, {
+            proposal_open_contract: _extends({}, modded_response.proposal_open_contract, {
+                audit_details: formatAuditDetails(audit_details)
+            })
+        }));
+    }
 
-            if (!isEmptyObject(tick_stream)) {
-                var formatTickStream = function formatTickStream(arr) {
-                    return arr.map(function (tick_obj) {
-                        return tick_obj.tick ? _extends({}, tick_obj, { tick: toString(tick_obj.tick) }) : tick_obj;
-                    });
-                };
+    if (!isEmptyObject(tick_stream)) {
+        var formatTickStream = function formatTickStream(arr) {
+            return arr.map(function (tick_obj) {
+                return tick_obj.tick ? _extends({}, tick_obj, { tick_display_value: addComma(tick_obj.tick_display_value) }) : tick_obj;
+            });
+        };
 
-                new_response = $.extend({}, _extends({}, new_response, {
-                    proposal_open_contract: _extends({}, new_response.proposal_open_contract, {
-                        tick_stream: formatTickStream(tick_stream)
-                    })
-                }));
-            }
+        modded_response = $.extend({}, _extends({}, modded_response, {
+            proposal_open_contract: _extends({}, modded_response.proposal_open_contract, {
+                tick_stream: formatTickStream(tick_stream)
+            })
+        }));
+    }
 
-            resolve(new_response);
-        });
-    });
+    return modded_response;
 };
 
 module.exports = {
@@ -15363,9 +15385,6 @@ var Cashier = function () {
                     });
                 }
                 $(isCryptocurrency(currency) ? '.crypto_currency' : '.normal_currency').setVisibility(1);
-                if (/^BCH/.test(currency)) {
-                    getElementById('message_bitcoin_cash').setVisibility(1);
-                }
             });
         }
         showContent();
@@ -15400,12 +15419,10 @@ var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javasc
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var Dialog = __webpack_require__(/*! ../../common/attach_dom/dialog */ "./src/javascript/app/common/attach_dom/dialog.js");
-var showPopup = __webpack_require__(/*! ../../common/attach_dom/popup */ "./src/javascript/app/common/attach_dom/popup.js");
 var Currency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js");
 var FormManager = __webpack_require__(/*! ../../common/form_manager */ "./src/javascript/app/common/form_manager.js");
 var validEmailToken = __webpack_require__(/*! ../../common/form_validation */ "./src/javascript/app/common/form_validation.js").validEmailToken;
 var handleVerifyCode = __webpack_require__(/*! ../../common/verification_code */ "./src/javascript/app/common/verification_code.js").handleVerifyCode;
-var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var Url = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js");
@@ -15507,34 +15524,10 @@ var DepositWithdraw = function () {
         return req;
     };
 
-    var getCashierURL = function getCashierURL(bch_has_confirmed) {
-        if (!/^BCH/.test(Client.get('currency')) || bch_has_confirmed || Client.get('cashier_confirmed')) {
-            BinarySocket.send(populateReq()).then(function (response) {
-                return handleCashierResponse(response);
-            });
-        } else {
-            showPopup({
-                url: Url.urlFor('cashier/confirmation'),
-                popup_id: 'confirm_popup',
-                form_id: '#frm_confirm',
-                content_id: '#confirm_content',
-                validations: [{ selector: '#chk_confirm', validations: [['req', { hide_asterisk: true }]] }],
-                additionalFunction: function additionalFunction() {
-                    var el_cancel = getElementById('cancel');
-                    var el_popup = getElementById('confirm_popup');
-                    el_cancel.addEventListener('click', function () {
-                        if (el_popup) {
-                            el_popup.remove();
-                        }
-                        BinaryPjax.load(Client.defaultRedirectUrl());
-                    });
-                },
-                onAccept: function onAccept() {
-                    Client.set('cashier_confirmed', 1);
-                    getCashierURL(1);
-                }
-            });
-        }
+    var getCashierURL = function getCashierURL() {
+        BinarySocket.send(populateReq()).then(function (response) {
+            return handleCashierResponse(response);
+        });
     };
 
     var hideAll = function hideAll(option) {
@@ -15651,10 +15644,6 @@ var DepositWithdraw = function () {
                         return BinaryPjax.load(Url.urlFor('cashier'));
                     }
                 });
-            }
-
-            if (/^BCH/.test(Client.get('currency'))) {
-                getElementById('message_bitcoin_cash').setVisibility(1);
             }
 
             $iframe = $(container).find('#cashier_iframe');
@@ -16170,2051 +16159,6 @@ var Endpoint = function () {
 }();
 
 module.exports = Endpoint;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_contract.js":
-/*!**********************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_contract.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-var MBDefaults = __webpack_require__(/*! ./mb_defaults */ "./src/javascript/app/pages/mb_trade/mb_defaults.js");
-var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
-var SocketCache = __webpack_require__(/*! ../../../_common/base/socket_cache */ "./src/javascript/_common/base/socket_cache.js");
-var getLanguage = __webpack_require__(/*! ../../../_common/language */ "./src/javascript/_common/language.js").get;
-var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
-var localizeKeepPlaceholders = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localizeKeepPlaceholders;
-var padLeft = __webpack_require__(/*! ../../../_common/string_util */ "./src/javascript/_common/string_util.js").padLeft;
-var isEmptyObject = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
-
-/*
- * Contract object mocks the trading form we have on our website
- * It parses the contracts json we get from socket.send({contracts_for: 'R_50'})
- */
-var MBContract = function () {
-    var contracts_for_response = void 0,
-        remaining_timeout = void 0,
-        current_time_left = void 0,
-        $period = void 0,
-        $durations = void 0,
-        $duration = void 0,
-        $count_down_timer = void 0;
-
-    var hidden_class = 'invisible';
-
-    var DurationMap = function () {
-        var duration_map = void 0;
-
-        var initDurationMap = function initDurationMap() {
-            return {
-                m: localize(['minute', 'minutes']),
-                h: localize(['h']),
-                d: localize(['day', 'days']),
-                W: localize(['week', 'weeks']),
-                M: localize(['month', 'months']),
-                Y: localize(['year', 'years'])
-            };
-        };
-
-        return {
-            get: function get(key) {
-                if (!duration_map) {
-                    duration_map = initDurationMap();
-                }
-                return key ? duration_map[key] : duration_map;
-            }
-        };
-    }();
-
-    var durationText = function durationText(duration) {
-        var dur = duration;
-        if (dur) {
-            dur = dur.replace(/([a-z])/, '$1<br>');
-            Object.keys(DurationMap.get()).forEach(function (key) {
-                dur = dur.replace(key, DurationMap.get(key)[+dur[0] === 1 || /h/.test(key) ? 0 : 1]);
-            });
-        }
-        return dur.toUpperCase();
-    };
-
-    var periodText = function periodText(trading_period) {
-        var date_start = void 0,
-            date_expiry = void 0,
-            duration = void 0;
-        if ((typeof trading_period === 'undefined' ? 'undefined' : _typeof(trading_period)) === 'object') {
-            date_start = trading_period.date_start.epoch;
-            date_expiry = trading_period.date_expiry.epoch;
-            duration = trading_period.duration;
-        } else {
-            date_start = trading_period.split('_')[0];
-            date_expiry = trading_period.split('_')[1];
-            duration = trading_period.split('_')[2];
-        }
-        duration = duration ? duration.replace('0d', '1d') : '';
-
-        var toDate = function toDate(date) {
-            return moment.utc(date * 1000).locale(getLanguage().toLowerCase()).format('HH:mm');
-        };
-        return {
-            end: [toDate(date_start), toDate(date_expiry)].join('-') + ' GMT',
-            duration: durationText(duration)
-        };
-    };
-
-    var populatePeriods = function populatePeriods(should_rebuild) {
-        if (!contracts_for_response || isEmptyObject(contracts_for_response)) return;
-        var trading_period = void 0,
-            start_end = void 0;
-        var trading_period_array = [];
-        var available_contracts = contracts_for_response.contracts_for.available;
-        var selected_option = MBDefaults.get('category');
-        $period = $('#period');
-        if (!selected_option || !available_contracts) return;
-        for (var i = 0; i < available_contracts.length; i++) {
-            if (available_contracts[i].contract_category === selected_option) {
-                trading_period = available_contracts[i].trading_period;
-                if (!trading_period) return;
-                start_end = [trading_period.date_start.epoch, trading_period.date_expiry.epoch, trading_period.duration].join('_');
-                if (trading_period_array.indexOf(start_end) < 0) {
-                    trading_period_array.push(start_end);
-                }
-            }
-        }
-        trading_period_array.sort(sortByExpiryTime);
-        var $list = $period.find('.list');
-        if (should_rebuild) {
-            $list.empty();
-        }
-
-        var makeItem = function makeItem(period) {
-            var text = periodText(period);
-
-            var $div_period = $('<div/>', { value: period, class: 'gr-row' });
-
-            var $div_end_time = $('<div/>', { class: 'end gr-6', text: text.end });
-            var $div_remain_time = $('<div/>', { class: 'remaining-time gr-6' });
-
-            $div_period.append($div_end_time).append($div_remain_time);
-
-            return $div_period;
-        };
-        if ($list.children().length === 0) {
-            // populate for the first time
-            var default_value = MBDefaults.get('period');
-            if (trading_period_array.indexOf(default_value) === -1) default_value = '';
-            trading_period_array.forEach(function (period, idx) {
-                var is_current = !default_value && idx === 0 || period === default_value;
-                var $current = makeItem(period);
-                $list.append($current);
-                if (is_current) {
-                    setCurrentItem($period, period);
-                }
-            });
-            MBDefaults.set('period', $period.attr('value'));
-            displayRemainingTime(true);
-        } else {
-            // update options
-            var existing_array = [];
-            var missing_array = [];
-            $list.find('> div').each(function () {
-                existing_array.push($(this).val());
-            });
-
-            // add new periods to dropdown
-            trading_period_array.forEach(function (period) {
-                if (existing_array.indexOf(period) < 0) {
-                    missing_array.push(period);
-                }
-            });
-            if (missing_array.length > 0) {
-                var $new_item = void 0;
-                existing_array = existing_array.concat(missing_array).sort(sortByExpiryTime);
-                existing_array.forEach(function (existing, idx) {
-                    if ($list.find('[value="' + existing + '"]').length < 1) {
-                        $new_item = makeItem(existing);
-                        if (idx < 1) {
-                            $($new_item).insertBefore($list.children().eq(idx));
-                        } else {
-                            $($new_item).insertAfter($list.children().eq(idx - 1));
-                        }
-                    }
-                });
-            }
-
-            // remove periods that no longer exist
-            existing_array.forEach(function (period) {
-                if (trading_period_array.indexOf(period) < 0) {
-                    $list.find('[value="' + period + '"]').remove();
-                }
-            });
-        }
-    };
-
-    var RemainingTimeUnits = function () {
-        var duration_units = void 0;
-
-        var initDurationUnits = function initDurationUnits() {
-            return {
-                month: localize(['Month', 'Months']),
-                day: localize(['Day', 'Days']),
-                hour: localize(['Hour', 'Hours']),
-                minute: localize(['Minute', 'Minutes']),
-                second: localize(['Second', 'Seconds'])
-            };
-        };
-
-        return {
-            get: function get(key, is_singular) {
-                if (!duration_units) {
-                    duration_units = initDurationUnits();
-                }
-                return duration_units[key][is_singular ? 0 : 1];
-            }
-        };
-    }();
-
-    var displayRemainingTime = function displayRemainingTime(should_recalculate) {
-        if (typeof $durations === 'undefined' || should_recalculate) {
-            // period_value = MBDefaults.get('period');
-            $period = $('#period');
-            $durations = $period.find('.list > div, .current > div');
-        }
-        if (!$durations) return;
-        $durations.each(function (idx) {
-            $duration = $($durations[idx]);
-            $count_down_timer = $duration.find('.remaining-time');
-
-            var time_left = parseInt($duration.attr('value').split('_')[1]) - window.time.unix();
-            if (time_left <= 0) {
-                // clear the expired contracts_for response
-                SocketCache.remove('contracts_for', 1);
-                location.reload();
-            } else if (time_left < 120) {
-                $count_down_timer.addClass('alert');
-            }
-            var remaining_month_day_string = [];
-            var remaining_time_string = [];
-
-            var duration = moment.duration(time_left * 1000);
-
-            var all_durations = {
-                month: duration.months(),
-                day: duration.days(),
-                hour: duration.hours(),
-                minute: duration.minutes(),
-                second: duration.seconds()
-            };
-
-            var duration_unit_to_show = void 0;
-            Object.keys(all_durations).forEach(function (key) {
-                if (/month|day/.test(key)) {
-                    if (all_durations[key]) {
-                        duration_unit_to_show = RemainingTimeUnits.get(key, all_durations[key] === 1);
-                        remaining_month_day_string.push(all_durations[key] + ' ' + duration_unit_to_show);
-                    }
-                } else {
-                    remaining_time_string.push(padLeft(all_durations[key] || 0, 2, '0'));
-                }
-            });
-
-            $count_down_timer.text(remaining_month_day_string.join(' ') + ' ' + remaining_time_string.join(':'));
-        });
-        current_time_left = parseInt($period.attr('value').split('_')[1]) - window.time.unix();
-        if (current_time_left < 120) {
-            // make all price buttons inactive if less than 2 minutes remaining
-            $('.price-button').addClass('inactive');
-        }
-        if (remaining_timeout) clearRemainingTimeout();
-        remaining_timeout = setTimeout(function () {
-            displayRemainingTime(false);
-        }, 500);
-    };
-
-    var clearRemainingTimeout = function clearRemainingTimeout() {
-        clearTimeout(remaining_timeout);
-    };
-
-    var sortByExpiryTime = function sortByExpiryTime(first, second) {
-        var a = first.split('_');
-        var b = second.split('_');
-
-        var duration1 = a[1] - a[0];
-        var duration2 = b[1] - b[0];
-
-        return a[1] === b[1] ? duration1 - duration2 : a[1] - b[1];
-    };
-
-    var categories = [{ value: 'callput', type1: 'PUT', type2: 'CALLE' }, { value: 'touchnotouch', type1: 'ONETOUCH', type2: 'NOTOUCH' }, { value: 'endsinout', type1: 'EXPIRYRANGEE', type2: 'EXPIRYMISS' }, { value: 'staysinout', type1: 'RANGE', type2: 'UPORDOWN' }];
-
-    var populateOptions = function populateOptions(should_rebuild) {
-        if (!contracts_for_response || isEmptyObject(contracts_for_response)) return;
-        var available_contracts = contracts_for_response.contracts_for.available;
-
-        var $category = $('#category');
-        var $list = $category.find('.list');
-        if (should_rebuild) {
-            $list.empty();
-        }
-        if ($list.children().length === 0) {
-            var default_value = MBDefaults.get('category');
-            categories.forEach(function (category, idx) {
-                if (available_contracts.find(function (contract) {
-                    return contract.contract_category === category.value;
-                })) {
-                    var is_current = !default_value && idx === 0 || category.value === default_value;
-                    var el_contract_type = '<div class="category-wrapper gr-6"><div class="contract-type ' + category.type2 + '" /><div>' + TemplatesConfig.get(category.type2).name + '</div></div>\n                         <div class="category-wrapper gr-6"><div class="contract-type ' + category.type1 + ' negative-color" /><div>' + TemplatesConfig.get(category.type1).name + '</div></div>';
-                    var $current = $('<div/>', {
-                        value: category.value,
-                        html: el_contract_type,
-                        class: 'gr-row'
-                    });
-                    $list.append($current);
-                    if (is_current) {
-                        setCurrentItem($category, category.value);
-                    }
-                }
-            });
-            MBDefaults.set('category', $category.attr('value'));
-        }
-        populatePeriods(should_rebuild);
-    };
-
-    var getCurrentContracts = function getCurrentContracts() {
-        if (!contracts_for_response || isEmptyObject(contracts_for_response)) return [];
-        var contracts = [];
-        var periods = MBDefaults.get('period').split('_');
-        contracts_for_response.contracts_for.available.forEach(function (c) {
-            // only allow callput/callputequal contracts here
-            if (/callput/.test(c.contract_category) && c.trading_period && +c.trading_period.date_start.epoch === +periods[0] && +c.trading_period.date_expiry.epoch === +periods[1]) {
-                contracts.push(c);
-            }
-        });
-        return contracts;
-    };
-
-    var TemplatesConfig = function () {
-        var templates_config = void 0;
-
-        var initTemplatesConfig = function initTemplatesConfig() {
-            return {
-                CALLE: {
-                    opposite: 'PUT',
-                    order: 0,
-                    name: localize('Higher'),
-                    description: localizeKeepPlaceholders('[_1] [_2] payout if [_3] is strictly higher than or equal to Barrier at close on [_4].')
-                },
-                PUT: {
-                    opposite: 'CALLE',
-                    order: 1,
-                    name: localize('Lower'),
-                    description: localizeKeepPlaceholders('[_1] [_2] payout if [_3] is strictly lower than Barrier at close on [_4].')
-                },
-                ONETOUCH: {
-                    opposite: 'NOTOUCH',
-                    order: 0,
-                    name: localize('Touches'),
-                    description: localizeKeepPlaceholders('[_1] [_2] payout if [_3] touches Barrier through close on [_4].')
-                },
-                NOTOUCH: {
-                    opposite: 'ONETOUCH',
-                    order: 1,
-                    name: localize('Does Not Touch'),
-                    description: localizeKeepPlaceholders('[_1] [_2] payout if [_3] does not touch Barrier through close on [_4].')
-                },
-                EXPIRYRANGEE: {
-                    opposite: 'EXPIRYMISS',
-                    order: 0,
-                    name: localize('Ends Between'),
-                    description: localizeKeepPlaceholders('[_1] [_2] payout if [_3] ends on or between low and high values of Barrier at close on [_4].')
-                },
-                EXPIRYMISS: {
-                    opposite: 'EXPIRYRANGEE',
-                    order: 1,
-                    name: localize('Ends Outside'),
-                    description: localizeKeepPlaceholders('[_1] [_2] payout if [_3] ends outside low and high values of Barrier at close on [_4].')
-                },
-                RANGE: {
-                    opposite: 'UPORDOWN',
-                    order: 0,
-                    name: localize('Stays Between'),
-                    description: localizeKeepPlaceholders('[_1] [_2] payout if [_3] stays between low and high values of Barrier through close on [_4].')
-                },
-                UPORDOWN: {
-                    opposite: 'RANGE',
-                    order: 1,
-                    name: localize('Goes Outside'),
-                    description: localizeKeepPlaceholders('[_1] [_2] payout if [_3] goes outside of low and high values of Barrier through close on [_4].')
-                }
-            };
-        };
-
-        return {
-            get: function get(contract_type) {
-                if (!templates_config) {
-                    templates_config = initTemplatesConfig();
-                }
-                return contract_type ? templates_config[contract_type] : templates_config;
-            }
-        };
-    }();
-
-    var getCurrency = function getCurrency() {
-        return Client.get('currency') || $('#currency').attr('value') || 'USD';
-    };
-
-    var setCurrentItem = function setCurrentItem($container, value, is_underlying) {
-        var $selected = $container.find('.list [value="' + value + '"]');
-        if ($selected.length) {
-            if (is_underlying) {
-                $container.attr('value', value).find('> .current').find('img').attr('src', $selected.find('img').attr('src')).end().find('.name').text($selected.text());
-            } else {
-                $container.attr('value', value).find('> .current').html($selected.clone());
-            }
-
-            $container.find('.list .' + hidden_class).removeClass(hidden_class);
-            $selected.addClass(hidden_class);
-        }
-    };
-
-    return {
-        populatePeriods: populatePeriods,
-        populateOptions: populateOptions,
-        displayRemainingTime: displayRemainingTime,
-        getCurrentContracts: getCurrentContracts,
-        getCurrency: getCurrency,
-        setCurrentItem: setCurrentItem,
-        getTemplate: TemplatesConfig.get,
-        getRemainingTime: function getRemainingTime() {
-            return current_time_left;
-        },
-        getContractsResponse: function getContractsResponse() {
-            return contracts_for_response;
-        },
-        setContractsResponse: function setContractsResponse(contracts_for) {
-            contracts_for_response = contracts_for;
-        },
-        onUnload: function onUnload() {
-            clearRemainingTimeout();contracts_for_response = {};$durations = undefined;
-        }
-    };
-}();
-
-module.exports = MBContract;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_currency.js":
-/*!**********************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_currency.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MBContract = __webpack_require__(/*! ./mb_contract */ "./src/javascript/app/pages/mb_trade/mb_contract.js");
-var MBDefaults = __webpack_require__(/*! ./mb_defaults */ "./src/javascript/app/pages/mb_trade/mb_defaults.js");
-var formatCurrency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").formatCurrency;
-var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
-
-/*
- * Handles currency display
- *
- * It process 'socket.send({payout_currencies:1})` response
- * and display them
- */
-var MBDisplayCurrencies = function MBDisplayCurrencies() {
-    var $currency = $('.trade_form #currency');
-    var $list = $currency.find('.list');
-    var $current = $currency.find('.current');
-    var currencies = State.getResponse('payout_currencies');
-
-    if (!$currency.length) return;
-    $list.empty();
-    var def_curr = MBDefaults.get('currency');
-    var def_value = def_curr && currencies.indexOf(def_curr) >= 0 ? def_curr : currencies[0];
-    if (currencies.length > 1) {
-        currencies.forEach(function (currency) {
-            $list.append($('<div/>', { value: currency, html: formatCurrency(currency) }));
-            if (def_value === currency) {
-                MBContract.setCurrentItem($currency, currency);
-            }
-        });
-    }
-    $current.html($('<span/>', { class: 'nav-caret' })).append(formatCurrency(def_value));
-    $currency.attr('value', def_value);
-    MBDefaults.set('currency', def_value);
-    // if there is no currency drop down, remove hover style from currency
-    if (!$list.children().length) {
-        $currency.removeClass('gr-5').addClass('gr-3').siblings('#payout').removeClass('gr-7').addClass('gr-9');
-        $current.css({ 'background-color': 'white', 'border-right': 'none' }).hover(function () {
-            $(this).css({ 'background-color': 'white', cursor: 'auto' });
-        }).off('click').find('.nav-caret').addClass('invisible').end().find('.symbols:before').css({ 'margin-right': '2px' });
-    }
-};
-
-module.exports = MBDisplayCurrencies;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_defaults.js":
-/*!**********************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_defaults.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var isEmptyObject = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
-
-/*
- * Handles trading page default values
- *
- * Priorities:
- * 1. Client's input: on each change to form, it will reflect to both query string & session storage
- * 2. Local storage values: if none of the above, it will be the source
- *
- */
-
-var MBDefaults = function () {
-    var params = {};
-
-    var getDefault = function getDefault(key) {
-        loadParams();
-        return params[key];
-    };
-
-    var loadParams = function loadParams() {
-        if (isEmptyObject(params)) params = JSON.parse(localStorage.getItem('mb_trading') || false) || {};
-    };
-
-    var saveParams = function saveParams() {
-        localStorage.setItem('mb_trading', JSON.stringify(params));
-    };
-
-    var setDefault = function setDefault(key) {
-        var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-        if (!key) return;
-        loadParams();
-        if (params[key] !== value) {
-            params[key] = value;
-            saveParams();
-        }
-    };
-
-    var removeDefault = function removeDefault() {
-        for (var _len = arguments.length, keys = Array(_len), _key = 0; _key < _len; _key++) {
-            keys[_key] = arguments[_key];
-        }
-
-        loadParams();
-        var is_updated = false;
-        keys.forEach(function (key) {
-            if (key in params) {
-                delete params[key];
-                is_updated = true;
-            }
-        });
-        if (is_updated) {
-            saveParams();
-        }
-    };
-
-    return {
-        get: getDefault,
-        set: setDefault,
-        remove: removeDefault,
-        clear: function clear() {
-            params = {};
-        }
-    };
-}();
-
-module.exports = MBDefaults;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_event.js":
-/*!*******************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_event.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MBContract = __webpack_require__(/*! ./mb_contract */ "./src/javascript/app/pages/mb_trade/mb_contract.js");
-var MBDefaults = __webpack_require__(/*! ./mb_defaults */ "./src/javascript/app/pages/mb_trade/mb_defaults.js");
-var MBNotifications = __webpack_require__(/*! ./mb_notifications */ "./src/javascript/app/pages/mb_trade/mb_notifications.js");
-var MBPrice = __webpack_require__(/*! ./mb_price */ "./src/javascript/app/pages/mb_trade/mb_price.js");
-var MBProcess = __webpack_require__(/*! ./mb_process */ "./src/javascript/app/pages/mb_trade/mb_process.js");
-var MBTick = __webpack_require__(/*! ./mb_tick */ "./src/javascript/app/pages/mb_trade/mb_tick.js");
-var MBSymbols = __webpack_require__(/*! ./mb_symbols */ "./src/javascript/app/pages/mb_trade/mb_symbols.js");
-var TradingAnalysis = __webpack_require__(/*! ../trade/analysis */ "./src/javascript/app/pages/trade/analysis.js");
-var debounce = __webpack_require__(/*! ../trade/common */ "./src/javascript/app/pages/trade/common.js").debounce;
-var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
-var Currency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js");
-var onlyNumericOnKeypress = __webpack_require__(/*! ../../common/event_handler */ "./src/javascript/app/common/event_handler.js");
-var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
-var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
-var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
-
-/*
- * TradingEvents object contains all the event handler function required for
- * websocket trading page
- *
- * We need it as object so that we can call TradingEvent.init() only on trading
- * page for pjax to work else it will fire on all pages
- *
- */
-var MBTradingEvents = function () {
-    var $form = void 0,
-        hidden_class = void 0,
-        border_class = void 0;
-
-    var initiate = function initiate() {
-        $form = $('.trade_form');
-        hidden_class = 'invisible';
-        border_class = 'primary-border-color';
-
-        $(document).on('click', function (e) {
-            if ($(e.target).parents('#payout_list').length) return;
-            makeListsInvisible();
-        });
-
-        $form.find('.current, .header-current').on('click', function (e) {
-            e.stopPropagation();
-            var $this = $(this);
-            var $list = $this.siblings('.list');
-            if (!$list.length) {
-                $list = $this.siblings().find('.list'); // in case of .header-current
-            }
-            if ($list.hasClass(hidden_class)) {
-                makeListsInvisible();
-            }
-            $list.toggleClass(hidden_class);
-            $this.toggleClass(border_class).siblings().find('.current').toggleClass(border_class).end().end().parent().siblings('.header-current').toggleClass(border_class);
-        });
-
-        /*
-         * attach event to underlying change, event need to request new contract details and price
-         */
-        var $underlying = $form.find('#underlying');
-        if ($underlying.length) {
-            $underlying.on('click', '.list > div', function () {
-                var underlying = $(this).attr('value');
-                MBContract.setCurrentItem($underlying, underlying, 1);
-                MBDefaults.set('underlying', underlying);
-                MBNotifications.hide('SYMBOL_INACTIVE');
-
-                MBTick.clean();
-
-                MBProcess.getContracts(underlying);
-                // forget the old tick id i.e. close the old tick stream
-                MBProcess.processForgetTicks().then(function () {
-                    // get ticks for current underlying
-                    MBTick.request(underlying);
-                });
-            });
-        }
-
-        var $category = $form.find('#category');
-        if ($category.length) {
-            $category.on('click', '.list > div', function () {
-                var category = $(this).attr('value');
-                MBContract.setCurrentItem($category, category);
-                MBDefaults.set('category', category);
-                MBContract.populatePeriods(1);
-                MBProcess.processPriceRequest();
-                TradingAnalysis.request();
-            });
-        }
-
-        var $period = $form.find('#period');
-        if ($period.length) {
-            $period.on('click', '.list > div', function () {
-                var period = $(this).attr('value');
-                MBContract.setCurrentItem($period, period);
-                MBDefaults.set('period', period);
-                MBProcess.processPriceRequest();
-                $('.remaining-time').removeClass('alert');
-                MBContract.displayRemainingTime(true);
-            });
-            var $header_cur = $form.find('.header-current');
-            $period.on('mouseover', function (e) {
-                e.stopPropagation();
-                $header_cur.addClass(border_class);
-            }).on('mouseleave', function (e) {
-                e.stopPropagation();
-                if ($period.find('.list').hasClass(hidden_class)) {
-                    $header_cur.removeClass(border_class);
-                }
-            });
-        }
-
-        var validatePayout = function validatePayout(payout_amount, $error_wrapper) {
-            var market = getPropertyValue(MBSymbols.getAllSymbols(), [MBDefaults.get('underlying'), 'market']);
-            if (!market) return false;
-
-            var selected_currency = MBDefaults.get('currency');
-            var max_client_amount = State.getResponse('landing_company.financial_company.currency_config.' + market + '.' + selected_currency + '.max_payout') || 5000;
-
-            var is_valid = true;
-            var error_msg = '';
-
-            if (!payout_amount || isNaN(payout_amount)) {
-                is_valid = false;
-                error_msg = localize('Should be a valid number.');
-            } else if (+payout_amount > max_client_amount) {
-                is_valid = false;
-                error_msg = localize('Should be less than [_1]', max_client_amount);
-            }
-
-            // if value has decimal places
-            if (is_valid && +payout_amount % 1 !== 0) {
-                var allowed_decimals = Currency.getDecimalPlaces(MBDefaults.get('currency'));
-
-                // verify number of decimal places doesn't exceed the allowed decimal places according to the currency
-                is_valid = payout_amount.toString().replace(/^-?\d*\.?|0+$/, '').length <= allowed_decimals;
-                if (!is_valid) {
-                    error_msg = localize('Up to [_1] decimal places are allowed.', allowed_decimals);
-                }
-            }
-
-            if (!is_valid && $error_wrapper && error_msg) {
-                var $err_payout = $('#err_payout');
-                if ($err_payout.length) {
-                    $err_payout.text(error_msg);
-                } else {
-                    $error_wrapper.append($('<p/>', { class: 'error-msg gr-row', id: 'err_payout', text: error_msg }));
-                }
-            }
-
-            return is_valid;
-        };
-
-        var $payout = $form.find('#payout');
-        if ($payout.length) {
-            var $payout_list = $form.find('#payout_list');
-
-            var client_currency = Client.get('currency') || MBDefaults.get('currency');
-            var is_crypto = Currency.isCryptocurrency(client_currency);
-            var old_value = Currency.getMinPayout(client_currency);
-            if (!$payout.attr('value')) {
-                var amount = 'payout' + (is_crypto ? '_crypto' : '');
-                var payout_def = MBDefaults.get(amount);
-                if (!validatePayout(payout_def)) {
-                    payout_def = old_value;
-                }
-                $payout.value = payout_def;
-                MBDefaults.set(amount, payout_def);
-                $payout.attr('value', payout_def);
-            }
-            var $panel = $('#panel');
-            $payout.on('click', function () {
-                $(this).select();
-            }).on('keypress', onlyNumericOnKeypress).on('input', debounce(function (e) {
-                var payout = e.target.value;
-                var currency = MBDefaults.get('currency');
-                if (validatePayout(payout, $panel)) {
-                    $panel.find('#err_payout').remove();
-                    $payout.removeClass('error');
-                    e.target.setAttribute('value', payout);
-                    MBDefaults.set('payout' + (Currency.isCryptocurrency(currency) ? '_crypto' : ''), payout);
-                    MBProcess.processPriceRequest();
-                } else {
-                    $payout.addClass('error');
-                    MBPrice.showPriceOverlay();
-                }
-            }));
-            if ($payout_list.length) {
-                $payout_list.on('click', '> .list > div', debounce(function () {
-                    var payout = +MBDefaults.get('payout' + (Currency.isCryptocurrency(MBDefaults.get('currency')) ? '_crypto' : ''));
-                    var value = $(this).attr('value');
-                    var new_payout = void 0;
-                    if (/\+|-/.test(value)) {
-                        new_payout = payout + parseInt(value);
-                    } else if (/ok|cancel/.test(value)) {
-                        if (value === 'cancel') new_payout = old_value || 10;
-                        makeListsInvisible();
-                    } else {
-                        new_payout = value;
-                    }
-
-                    if (validatePayout(new_payout)) {
-                        $('.price-table').setVisibility(1);
-                        MBDefaults.set('payout', new_payout);
-                        $payout.attr('value', new_payout).find('.current').html(new_payout);
-                        MBProcess.processPriceRequest();
-                    }
-                }));
-                $payout_list.find('div[unselectable]').on('selectstart mousedown', function () {
-                    return false;
-                });
-            }
-        }
-
-        var $currency = $form.find('#currency');
-        if ($currency.length) {
-            $currency.on('click', '.list > div', function () {
-                var currency = $(this).attr('value');
-                MBContract.setCurrentItem($currency, currency);
-                MBDefaults.set('currency', currency);
-                var is_crypto = Currency.isCryptocurrency(currency);
-                var amount = MBDefaults.get('payout' + (is_crypto ? '_crypto' : ''));
-                if (!amount) {
-                    amount = Currency.getMinPayout(currency);
-                    MBDefaults.set('payout' + (is_crypto ? '_crypto' : ''), amount);
-                }
-                $payout.val(amount).attr('value', amount).trigger('input'); // payout will call processPriceRequest
-            });
-        }
-    };
-
-    var makeListsInvisible = function makeListsInvisible() {
-        $form.find('.list, #payout_list').setVisibility(0).end().find('#period, #category').setVisibility(1);
-        $form.find('.current, .header-current').removeClass(border_class);
-    };
-
-    return {
-        init: initiate
-    };
-}();
-
-module.exports = MBTradingEvents;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_notifications.js":
-/*!***************************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_notifications.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Login = __webpack_require__(/*! ../../../_common/base/login */ "./src/javascript/_common/base/login.js");
-var CommonFunctions = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
-
-/*
- * Notifications manages various notification messages
- *
- */
-
-var MBNotifications = function () {
-    /*
-     * options: Object {
-     *     localized_text: {string}  message text to display
-     *     uid           : {string}  unique id to prevent duplicating the same message and also used to hide the message
-     *     dismissible   : {boolean} dismissible messages can be hidden by client
-     * }
-     */
-    var showErrorMessage = function showErrorMessage(options) {
-        var $note_wrapper = getContainer();
-        var $this_uid = $note_wrapper.find('#' + options.uid);
-        var el_login_error_container = CommonFunctions.getElementById('login_error_container');
-        el_login_error_container.setVisibility(0);
-
-        if (/LOGIN_ERROR/.test(options.uid)) {
-            el_login_error_container.setVisibility(1);
-            var login_error_btn_login = CommonFunctions.getElementById('login_error_btn_login');
-            login_error_btn_login.removeEventListener('click', loginOnClick);
-            login_error_btn_login.addEventListener('click', loginOnClick);
-        } else {
-            if (!options.uid || $this_uid.length === 0) {
-                $note_wrapper.prepend(generateMessage(options));
-            } else if ($this_uid.html() !== options.localized_text) {
-                $this_uid.replaceWith(generateMessage(options));
-            }
-
-            $.scrollTo($note_wrapper, 500, { offset: -5 });
-        }
-
-        hideSpinnerShowTrading();
-    };
-
-    var generateMessage = function generateMessage(options) {
-        var $message = $('<div class="notice-msg gr-12 center-text' + (options.dismissible ? ' dismissible' : '') + '"\n            ' + (options.uid ? ' id="' + options.uid + '"' : '') + '>' + options.localized_text + '\n                ' + (options.dismissible ? '<div class="notification-dismiss">x</div>' : '') + '\n            </div>');
-
-        if (options.dismissible) {
-            $message.click(function () {
-                dismissMessage(this);
-            });
-        }
-
-        return $message;
-    };
-
-    var hideErrorMessage = function hideErrorMessage(uid) {
-        if (uid) {
-            getContainer().find('#' + uid).remove();
-        }
-    };
-
-    var dismissMessage = function dismissMessage(obj) {
-        $(obj).remove();
-    };
-
-    var loginOnClick = function loginOnClick(e) {
-        e.preventDefault();
-        Login.redirectToLogin();
-    };
-
-    var getContainer = function getContainer() {
-        return $('#notifications_wrapper');
-    };
-
-    var hideSpinnerShowTrading = function hideSpinnerShowTrading() {
-        $('#main_loading').setVisibility(0);
-        $('#mb-trading-wrapper').setVisibility(1);
-    };
-
-    return {
-        hideSpinnerShowTrading: hideSpinnerShowTrading,
-
-        show: showErrorMessage,
-        hide: hideErrorMessage
-    };
-}();
-
-module.exports = MBNotifications;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_portfolio.js":
-/*!***********************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_portfolio.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
-var PortfolioInit = __webpack_require__(/*! ../../pages/user/account/portfolio/portfolio.init */ "./src/javascript/app/pages/user/account/portfolio/portfolio.init.js");
-var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
-
-var MBPortfolio = function () {
-    var $portfolio = void 0;
-
-    var is_portfolio_active = false;
-
-    var init = function init() {
-        if (Client.isLoggedIn() && isTradePage()) {
-            $('#tab_portfolio').setVisibility(1);
-        }
-
-        var $container = $('#tab_portfolio-content');
-        $portfolio = $portfolio || $('#portfolio');
-
-        if ($portfolio && (!$portfolio.parent().length || $portfolio.parent().get(0).id !== 'tab_portfolio-content')) {
-            $portfolio.detach();
-            $container.append($portfolio);
-        }
-    };
-
-    var show = function show() {
-        if (isTradePage() && !is_portfolio_active) {
-            PortfolioInit.onLoad();
-            is_portfolio_active = true;
-        }
-    };
-
-    var hide = function hide() {
-        if (isTradePage() && is_portfolio_active) {
-            PortfolioInit.onUnload();
-            is_portfolio_active = false;
-        }
-        $portfolio = undefined;
-    };
-
-    var isTradePage = function isTradePage() {
-        return State.get('is_mb_trading');
-    };
-
-    return {
-        init: init,
-        show: show,
-        hide: hide
-    };
-}();
-
-module.exports = MBPortfolio;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_price.js":
-/*!*******************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_price.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MBContract = __webpack_require__(/*! ./mb_contract */ "./src/javascript/app/pages/mb_trade/mb_contract.js");
-var MBNotifications = __webpack_require__(/*! ./mb_notifications */ "./src/javascript/app/pages/mb_trade/mb_notifications.js");
-var TradingAnalysis = __webpack_require__(/*! ../trade/analysis */ "./src/javascript/app/pages/trade/analysis.js");
-var redrawChart = __webpack_require__(/*! ../trade/charts/webtrader_chart */ "./src/javascript/app/pages/trade/charts/webtrader_chart.js").redrawChart;
-var ViewPopup = __webpack_require__(/*! ../user/view_popup/view_popup */ "./src/javascript/app/pages/user/view_popup/view_popup.js");
-var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
-var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
-var formatMoney = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
-var GTM = __webpack_require__(/*! ../../../_common/base/gtm */ "./src/javascript/_common/base/gtm.js");
-var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
-var isEmptyObject = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
-
-/*
- * Price object handles all the functions we need to display prices
- *
- * We create Price proposal that we need to send to server to get price,
- * longcode and all other information that we need to get the price for
- * current contract
- *
- */
-
-var MBPrice = function () {
-    var price_selector = '.prices-wrapper .price-rows';
-
-    var prices = {};
-    var contract_types = {};
-    var el_rows = {};
-    var barriers = [];
-    var req_id = 0;
-    var is_displayed = false;
-    var is_unwelcome = false;
-
-    var $table = void 0;
-
-    var addPriceObj = function addPriceObj(req) {
-        req.barriers.forEach(function (barrier_obj) {
-            var barrier = makeBarrier(barrier_obj);
-            if (!prices[barrier]) {
-                prices[barrier] = {};
-            }
-            req.contract_type.forEach(function (c_type) {
-                prices[barrier][c_type] = {};
-                if (!contract_types[c_type]) {
-                    contract_types[c_type] = MBContract.getTemplate(c_type);
-                }
-            });
-        });
-    };
-
-    var updateTabsAndChart = function updateTabsAndChart() {
-        TradingAnalysis.bindAnalysisTabEvent();
-        TradingAnalysis.request();
-        redrawChart();
-    };
-
-    var makeBarrier = function makeBarrier(barrier_object) {
-        if (!barrier_object.barrier && barrier_object.error) {
-            // error.details will include the barrier value in case of error
-            // it is intended to change the original object as we need the barrier value
-            barrier_object = barrier_object.error.details; // eslint-disable-line no-param-reassign
-        }
-        return (barrier_object.barrier2 ? barrier_object.barrier2 + '_' : '') + barrier_object.barrier;
-    };
-
-    var display = function display(response) {
-        if (isEmptyObject(response.proposal_array.proposals)) {
-            // ignore invalid responses
-            updateTabsAndChart();
-            return;
-        }
-        Object.keys(response.proposal_array.proposals).forEach(function (contract_type) {
-            response.proposal_array.proposals[contract_type].forEach(function (proposal) {
-                var barrier = makeBarrier(proposal);
-                var prev_proposal = $.extend({}, prices[barrier][contract_type]);
-                prices[barrier][contract_type] = $.extend({ echo_req: response.echo_req }, proposal);
-
-                // update previous ask_price to use in price movement
-                if (!isEmptyObject(prev_proposal) && !prev_proposal.error) {
-                    prices[barrier][contract_type].prev_price = prev_proposal.ask_price;
-                }
-            });
-        });
-
-        if (!is_displayed) {
-            populateTable();
-        }
-        updatePrices();
-    };
-
-    var populateTable = function populateTable() {
-        if (!$table) {
-            $table = $(price_selector);
-        }
-        $table.off('click', 'button.price-button').on('click', 'button.price-button', processBuy);
-
-        BinarySocket.wait('get_account_status').then(function (response) {
-            is_unwelcome = /unwelcome/.test(response.get_account_status.status);
-            if (is_unwelcome) {
-                MBNotifications.show({
-                    localized_text: localize('Sorry, your account is not authorised for any further contract purchases.'),
-                    uid: 'UNWELCOME',
-                    dismissible: false
-                });
-            }
-        });
-
-        if (!barriers.length) {
-            barriers = Object.keys(prices).sort(function (a, b) {
-                return +b.split('_')[0] - +a.split('_')[0];
-            });
-        }
-
-        var el_price_row = document.querySelector('#templates .price-row');
-        barriers.forEach(function (barrier) {
-            el_rows[barrier] = {};
-            var el_row = el_price_row.cloneNode(true);
-            el_row.setAttribute('data-barrier', barrier);
-            el_row.querySelector('.barrier').innerHTML = barrier.replace(/_/g, '<br />');
-            Object.keys(contract_types).forEach(function (contract_type) {
-                if (!el_rows[barrier][contract_type]) {
-                    el_rows[barrier][contract_type] = {};
-                }
-
-                var order = contract_types[contract_type].order;
-                var el_buy = el_row.querySelectorAll('.buy-price button')[order];
-
-                el_buy.setAttribute('data-barrier', barrier);
-                el_buy.setAttribute('data-contract_type', contract_type);
-
-                el_rows[barrier][contract_type].buy = {
-                    btn: el_buy,
-                    dyn: el_buy.getElementsByClassName('dynamics')[0],
-                    val: el_buy.getElementsByClassName('value')[0]
-                };
-
-                updatePriceRow(getValues(prices[barrier][contract_type], contract_type));
-            });
-            $table.append(el_row);
-        });
-
-        hidePriceOverlay();
-        MBNotifications.hideSpinnerShowTrading();
-        is_displayed = true;
-
-        // Analysis should be initialised after contents being displayed,
-        // so the chart is able to get the proper container width/height
-        updateTabsAndChart();
-    };
-
-    var updatePrices = function updatePrices() {
-        Object.keys(contract_types).forEach(function (contract_type) {
-            barriers.forEach(function (barrier) {
-                var proposal = prices[barrier][contract_type];
-                var price_rows = document.querySelectorAll(price_selector + ' div[data-barrier="' + makeBarrier(proposal) + '"]');
-
-                if (!price_rows.length) return;
-
-                var contract_type_opp = contract_types[contract_type].opposite;
-
-                updatePriceRow(getValues(proposal, contract_type));
-                updatePriceRow(getValues(prices[barrier][contract_type_opp], contract_type_opp));
-            });
-        });
-    };
-
-    var getValues = function getValues(proposal, contract_type) {
-        var barrier = makeBarrier(proposal);
-        var payout = proposal.echo_req.amount;
-        var proposal_opp = prices[barrier][contract_types[contract_type].opposite];
-        var time_left = MBContract.getRemainingTime();
-        return {
-            contract_type: contract_type,
-            barrier: barrier,
-            payout: payout / 1000,
-            is_active: !proposal.error && proposal.ask_price && !is_unwelcome && time_left > 120,
-            message: proposal.error && proposal.error.code !== 'RateLimit' ? proposal.error.message : '',
-            ask_price: getAskPrice(proposal),
-            sell_price: payout - getAskPrice(proposal_opp),
-            ask_price_movement: !proposal.error ? getMovementDirection(proposal.prev_price, proposal.ask_price) : '',
-            sell_price_movement: proposal_opp && !proposal_opp.error ? getMovementDirection(proposal_opp.ask_price, proposal_opp.prev_price) : ''
-        };
-    };
-
-    var getAskPrice = function getAskPrice(proposal) {
-        return (
-            // In case of RateLimit error, there is no display_value, so we display the request amount
-            proposal.error || +proposal.ask_price === 0 ? proposal.echo_req.amount : proposal.ask_price
-        );
-    };
-
-    var getMovementDirection = function getMovementDirection(prev, current) {
-        var movement = '';
-        if (prev !== current) {
-            movement = current > prev ? 'up' : 'down';
-        }
-        return movement;
-    };
-
-    var updatePriceRow = function updatePriceRow(values) {
-        var el_buy = el_rows[values.barrier][values.contract_type].buy;
-
-        el_buy.btn.classList[values.is_active ? 'remove' : 'add']('inactive');
-        el_buy.btn[values.message ? 'setAttribute' : 'removeAttribute']('data-balloon', values.message);
-        el_buy.btn[values.message ? 'setAttribute' : 'removeAttribute']('data-balloon-length', 'medium');
-        el_buy.dyn.setAttribute('class', 'dynamics ' + (values.ask_price_movement || ''));
-        el_buy.val.textContent = formatPrice(values.ask_price);
-    };
-
-    var processBuy = function processBuy(e) {
-        e.preventDefault();
-
-        if (!Client.isLoggedIn()) {
-            MBNotifications.show({ localized_text: localize('Please log in.'), uid: 'LOGIN_ERROR', dismissible: true });
-            return;
-        }
-
-        var $btn = $(e.target);
-        if ($btn.prop('tagName').toLowerCase() !== 'button') {
-            $btn = $btn.parents('button.price-button');
-        }
-
-        if ($btn.hasClass('inactive')) return;
-
-        var barrier = $btn.attr('data-barrier');
-        var contract_type = $btn.attr('data-contract_type');
-        if (!barrier || !contract_type) return;
-
-        showPriceOverlay();
-        sendBuyRequest(barrier, contract_type);
-    };
-
-    var formatPrice = function formatPrice(price) {
-        return formatMoney(MBContract.getCurrency(), price, 1);
-    };
-
-    var cleanup = function cleanup() {
-        prices = {};
-        contract_types = {};
-        barriers = [];
-        is_displayed = false;
-        el_rows = {};
-        // display loading
-        if ($(price_selector).html()) {
-            $('#loading-overlay').height($(price_selector).height()).setVisibility(1);
-        }
-        $(price_selector).html('');
-    };
-
-    var sendBuyRequest = function sendBuyRequest(barrier, contract_type) {
-        var proposal = prices[barrier][contract_type];
-        if (!proposal || proposal.error) return;
-
-        var req = {
-            buy: 1,
-            price: proposal.ask_price,
-            parameters: {
-                contract_type: contract_type,
-                amount: proposal.echo_req.amount,
-                barrier: proposal.barrier,
-                basis: 'payout',
-                currency: MBContract.getCurrency(),
-                symbol: proposal.echo_req.symbol,
-                date_expiry: proposal.echo_req.date_expiry,
-                trading_period_start: proposal.echo_req.trading_period_start,
-                product_type: 'multi_barrier',
-                app_markup_percentage: '0'
-            }
-        };
-
-        if (proposal.barrier2) {
-            req.parameters.barrier2 = proposal.barrier2;
-        }
-
-        BinarySocket.send(req).then(function (response) {
-            if (response.error) {
-                hidePriceOverlay();
-                MBNotifications.show({ localized_text: response.error.message, uid: 'BUY_ERROR', dismissible: true });
-            } else {
-                MBNotifications.hide('BUY_ERROR');
-                ViewPopup.init($('<div />', { contract_id: response.buy.contract_id }).get(0));
-                GTM.pushPurchaseData(response);
-            }
-        });
-    };
-
-    var showPriceOverlay = function showPriceOverlay() {
-        $('#disable-overlay').setVisibility(1);
-        $('#loading-overlay').setVisibility(0);
-    };
-
-    var hidePriceOverlay = function hidePriceOverlay() {
-        $('#disable-overlay').setVisibility(0);
-        $('#loading-overlay').setVisibility(0);
-    };
-
-    return {
-        display: display,
-        addPriceObj: addPriceObj,
-        cleanup: cleanup,
-        showPriceOverlay: showPriceOverlay,
-        hidePriceOverlay: hidePriceOverlay,
-
-        getReqId: function getReqId() {
-            return req_id;
-        },
-        increaseReqId: function increaseReqId() {
-            req_id++;cleanup();
-        },
-        getPrices: function getPrices() {
-            return prices;
-        },
-        onUnload: function onUnload() {
-            cleanup();req_id = 0;$table = undefined;
-        }
-    };
-}();
-
-module.exports = MBPrice;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_process.js":
-/*!*********************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_process.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MBContract = __webpack_require__(/*! ./mb_contract */ "./src/javascript/app/pages/mb_trade/mb_contract.js");
-var MBDefaults = __webpack_require__(/*! ./mb_defaults */ "./src/javascript/app/pages/mb_trade/mb_defaults.js");
-var MBNotifications = __webpack_require__(/*! ./mb_notifications */ "./src/javascript/app/pages/mb_trade/mb_notifications.js");
-var MBPrice = __webpack_require__(/*! ./mb_price */ "./src/javascript/app/pages/mb_trade/mb_price.js");
-var MBSymbols = __webpack_require__(/*! ./mb_symbols */ "./src/javascript/app/pages/mb_trade/mb_symbols.js");
-var MBTick = __webpack_require__(/*! ./mb_tick */ "./src/javascript/app/pages/mb_trade/mb_tick.js");
-var showChart = __webpack_require__(/*! ../trade/charts/webtrader_chart */ "./src/javascript/app/pages/trade/charts/webtrader_chart.js").showChart;
-var commonTrading = __webpack_require__(/*! ../trade/common */ "./src/javascript/app/pages/trade/common.js");
-var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
-var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
-var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
-var isCryptocurrency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").isCryptocurrency;
-var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
-var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
-var urlForStatic = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlForStatic;
-var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
-
-var MBProcess = function () {
-    var market_status = '';
-
-    var symbols_timeout = void 0,
-        contract_timeout = void 0;
-
-    var getSymbols = function getSymbols() {
-        BinarySocket.wait('website_status', 'landing_company').then(function () {
-            var landing_company_obj = State.getResponse('landing_company');
-            var allowed_markets = Client.currentLandingCompany().legal_allowed_markets;
-            if (Client.isLoggedIn() && allowed_markets && allowed_markets.indexOf('forex') === -1) {
-                BinaryPjax.load('trading');
-                return;
-            }
-            var req = {
-                active_symbols: 'brief',
-                product_type: 'multi_barrier'
-            };
-            if (landing_company_obj && landing_company_obj.financial_company) {
-                req.landing_company = landing_company_obj.financial_company.shortcode;
-            }
-            BinarySocket.send(req, { msg_type: 'active_symbols' }).then(function (response) {
-                if (!response.active_symbols || !response.active_symbols.length) {
-                    $('#main_loading').replaceWith($('<p/>', { class: 'notice-msg center-text container', text: localize('Sorry, this feature is not available in your jurisdiction.') }));
-                    return;
-                }
-                processActiveSymbols(response);
-            });
-        });
-    };
-
-    /*
-     * This function processes the active symbols to get markets
-     * and underlying list
-     */
-    var processActiveSymbols = function processActiveSymbols(data) {
-        if (getPropertyValue(data, 'error')) {
-            MBNotifications.show({ localized_text: data.error.message, uid: 'ACTIVE_SYMBOLS' });
-            return;
-        }
-
-        // populate the Symbols object
-        MBSymbols.details(data);
-
-        var symbols_list = MBSymbols.getAllSymbols();
-        var symbol = MBDefaults.get('underlying');
-
-        if (!symbol || !symbols_list[symbol]) {
-            symbol = undefined;
-            MBDefaults.remove('underlying');
-        }
-
-        // check if all symbols are inactive
-        var is_market_closed = true;
-        Object.keys(symbols_list).forEach(function (s) {
-            if (symbols_list[s].is_active) {
-                is_market_closed = false;
-            }
-        });
-        clearSymbolTimeout();
-        if (is_market_closed) {
-            handleMarketClosed();
-        } else {
-            handleMarketOpen();
-            populateUnderlyings(symbol);
-
-            if (symbol && !symbols_list[symbol].is_active) {
-                MBNotifications.show({ localized_text: localize('This symbol is not active. Please try another symbol.'), uid: 'SYMBOL_INACTIVE' });
-            } else {
-                processMarketUnderlying();
-            }
-        }
-    };
-
-    var populateUnderlyings = function populateUnderlyings(selected) {
-        var $underlyings = $('#underlying');
-        var all_symbols = MBSymbols.getAllSymbols();
-
-        var $list = $underlyings.find('.list');
-        $list.empty();
-        $underlyings.find('.current').html($('<div/>', { class: 'gr-row' }).append($('<span/>', { class: 'nav-caret' })).append($('<img/>', { class: 'gr-3 gr-no-gutter-m' })).append($('<span/>', { class: 'name gr-6 gr-5-m align-self-center' })).append($('<span/>', { class: 'gr-3 gr-4-m align-self-center still', id: 'spot' })));
-
-        var selected_symbol = selected;
-        if (Object.keys(all_symbols).indexOf(selected) === -1) selected_symbol = '';
-        Object.keys(all_symbols).forEach(function (symbol, idx) {
-            if (all_symbols[symbol].is_active) {
-                var is_current = !selected_symbol && idx === 0 || symbol === selected_symbol;
-                var $current = $('<div/>', { value: symbol, class: 'gr-4 gr-4-t gr-4-m' }).append($('<img/>', { src: urlForStatic('/images/pages/mb_trading/' + symbol.toLowerCase() + '.svg'), alt: '' })).append($('<div/>', { text: all_symbols[symbol].display, class: 'name align-self-center' }));
-                $list.append($current);
-                if (is_current) {
-                    MBContract.setCurrentItem($underlyings, symbol, 1);
-                }
-            }
-        });
-    };
-
-    var selectors = '.trade_form, .price-table, #trading_bottom_content, .selection_wrapper, #trade_live_chart';
-
-    var handleMarketClosed = function handleMarketClosed() {
-        $(selectors).setVisibility(0);
-        hideShowMbTrading('hide');
-        MBNotifications.show({ localized_text: localize('Market is closed. Please try again later.'), uid: 'MARKET_CLOSED' });
-        symbols_timeout = setTimeout(function () {
-            getSymbols();
-        }, 30000);
-    };
-
-    var handleMarketOpen = function handleMarketOpen() {
-        $(selectors).setVisibility(1);
-        hideShowMbTrading('show');
-        MBNotifications.hide('MARKET_CLOSED');
-    };
-
-    var hideShowMbTrading = function hideShowMbTrading(action) {
-        var classes = ['gr-5 ', 'gr-12 ']; // the extra space is so gr-5-m is not replaced
-        var show = action === 'show';
-        var $parent = $('#mb_trading').parent();
-        $parent.attr('class', $parent.attr('class').replace(classes[+show], classes[+!show]));
-    };
-
-    var clearSymbolTimeout = function clearSymbolTimeout() {
-        clearTimeout(symbols_timeout);
-    };
-
-    /*
-     * Function to call when underlying has changed
-     */
-    var processMarketUnderlying = function processMarketUnderlying() {
-        var underlying = $('#underlying').attr('value');
-        MBDefaults.set('underlying', underlying);
-
-        commonTrading.showFormOverlay();
-
-        // forget the old tick id i.e. close the old tick stream
-        processForgetTicks().then(function () {
-            // get ticks for current underlying
-            MBTick.request(underlying);
-            MBTick.clean();
-        });
-
-        BinarySocket.clearTimeouts();
-
-        getContracts(underlying);
-    };
-
-    var getContracts = function getContracts(underlying) {
-        var req = {
-            contracts_for: underlying || MBDefaults.get('underlying'),
-            currency: MBContract.getCurrency(),
-            product_type: 'multi_barrier'
-        };
-        BinarySocket.send(req).then(function (response) {
-            MBNotifications.hide('CONNECTION_ERROR');
-            MBContract.setContractsResponse(response);
-            // contracts_for is triggered every 15 seconds to check for expired barriers
-            // but we don't want to send proposal in that case
-            // so getContracts will be called without underlying param to distinguish these two cases
-            processContract(response, underlying);
-        });
-        if (contract_timeout) clearContractTimeout();
-        contract_timeout = setTimeout(getContracts, 15000);
-    };
-
-    var clearContractTimeout = function clearContractTimeout() {
-        clearTimeout(contract_timeout);
-    };
-
-    /*
-     * Function to display contract form for current underlying
-     */
-    var processContract = function processContract(contracts, should_send_proposal) {
-        if (getPropertyValue(contracts, 'error')) {
-            MBNotifications.show({ localized_text: contracts.error.message, uid: contracts.error.code });
-            // Hide trading form but still display the chart
-            $('#period').parents('.selection_wrapper').setVisibility(0);
-            $('.price-table, ' + (Client.isLoggedIn() ? '#tab_explanation' : '#trade_analysis')).setVisibility(0);
-            showChart();
-            return;
-        }
-
-        State.set('is_chart_allowed', !(contracts.contracts_for && contracts.contracts_for.feed_license && contracts.contracts_for.feed_license === 'chartonly'));
-
-        checkMarketStatus(contracts.contracts_for.close);
-
-        MBContract.populateOptions(should_send_proposal);
-        if (should_send_proposal) {
-            processPriceRequest();
-        } else {
-            processExpiredBarriers();
-        }
-    };
-
-    var checkMarketStatus = function checkMarketStatus(close) {
-        var now = window.time.unix();
-
-        // if market is closed, else if market is open
-        if (now > close) {
-            if (market_status === 'open') {
-                handleMarketClosed();
-            }
-            market_status = 'closed';
-        } else {
-            if (market_status === 'closed') {
-                getSymbols();
-                handleMarketOpen();
-            }
-            market_status = 'open';
-        }
-    };
-
-    var processPriceRequest = function processPriceRequest() {
-        MBPrice.increaseReqId();
-        MBPrice.showPriceOverlay();
-        var durations = MBDefaults.get('period').split('_');
-        var is_crypto = isCryptocurrency(MBDefaults.get('currency'));
-        var payout = parseFloat(MBDefaults.get('payout' + (is_crypto ? '_crypto' : '')));
-
-        var req = {
-            proposal_array: 1,
-            subscribe: 1,
-            basis: 'payout',
-            amount: payout,
-            currency: MBContract.getCurrency(),
-            symbol: MBDefaults.get('underlying'),
-            passthrough: { req_id: MBPrice.getReqId() },
-            date_expiry: durations[1],
-            contract_type: [],
-            barriers: [],
-            product_type: 'multi_barrier',
-
-            trading_period_start: durations[0]
-        };
-
-        var available_contracts = MBContract.getCurrentContracts();
-        // contract_type
-        available_contracts.forEach(function (c) {
-            return req.contract_type.push(c.contract_type);
-        });
-
-        // barriers
-        var all_expired = true;
-        var contract = available_contracts[0];
-        contract.available_barriers.forEach(function (barrier) {
-            var barrier_item = {};
-            if (+contract.barriers === 2) {
-                barrier_item.barrier = barrier[1];
-                barrier_item.barrier2 = barrier[0];
-            } else {
-                barrier_item.barrier = barrier;
-            }
-            if (!barrierHasExpired(contract.expired_barriers, barrier_item.barrier, barrier_item.barrier2)) {
-                all_expired = false;
-                req.barriers.push(barrier_item);
-            }
-        });
-
-        processForgetProposals().then(function () {
-            // send request
-            if (req.barriers.length) {
-                MBPrice.addPriceObj(req);
-                BinarySocket.send(req, { callback: processProposal });
-            }
-        });
-
-        // all barriers expired
-        if (all_expired) {
-            MBNotifications.show({ localized_text: localize('All barriers in this trading window are expired') + '.', uid: 'ALL_EXPIRED' });
-            MBPrice.hidePriceOverlay();
-        } else {
-            MBNotifications.hide('ALL_EXPIRED');
-        }
-    };
-
-    var processProposal = function processProposal(response) {
-        var req_id = MBPrice.getReqId();
-        if (response.passthrough.req_id === req_id) {
-            if (response.error) {
-                var error_message = response.error.error ? response.error.error.message : response.error.message;
-                MBNotifications.show({ localized_text: error_message, uid: 'PROPOSAL', dismissible: false });
-                return;
-            }
-            MBNotifications.hide('PROPOSAL');
-            MBPrice.display(response);
-        }
-    };
-
-    var processExpiredBarriers = function processExpiredBarriers() {
-        var contracts = MBContract.getCurrentContracts();
-        var expired_barrier = void 0,
-            $expired_barrier_element = void 0;
-        contracts.forEach(function (c) {
-            var expired_barriers = c.expired_barriers;
-            for (var i = 0; i < expired_barriers.length; i++) {
-                if (+c.barriers === 2) {
-                    expired_barrier = [expired_barriers[i][0], expired_barriers[i][1]].join('_');
-                } else {
-                    expired_barrier = expired_barriers[i];
-                }
-                $expired_barrier_element = $('div [data-barrier="' + expired_barrier + '"]');
-                if ($expired_barrier_element.length > 0) {
-                    processForgetProposal(expired_barrier);
-                    $expired_barrier_element.remove();
-                }
-            }
-        });
-    };
-
-    var barrierHasExpired = function barrierHasExpired(expired_barriers, barrier, barrier2) {
-        if (barrier2) {
-            return containsArray(expired_barriers, [[barrier2, barrier]]);
-        }
-        return expired_barriers.indexOf(barrier.toString()) > -1;
-    };
-
-    var processForgetProposal = function processForgetProposal(expired_barrier) {
-        var prices = MBPrice.getPrices();
-        Object.keys(prices[expired_barrier]).forEach(function (c) {
-            if (!getPropertyValue(prices[expired_barrier][c], 'error')) {
-                BinarySocket.send({ forget: prices[expired_barrier][c].proposal.id });
-            }
-        });
-    };
-
-    var processForgetProposals = function processForgetProposals() {
-        MBPrice.showPriceOverlay();
-        var forget_proposal = BinarySocket.send({ forget_all: 'proposal_array' });
-        forget_proposal.then(function () {
-            MBPrice.cleanup();
-        });
-        return forget_proposal;
-    };
-
-    var processForgetTicks = function processForgetTicks() {
-        return BinarySocket.send({ forget_all: 'ticks' });
-    };
-
-    var forgetTradingStreams = function forgetTradingStreams() {
-        processForgetProposals();
-        processForgetTicks();
-    };
-
-    var containsArray = function containsArray(array, val) {
-        var hash = {};
-        for (var i = 0; i < array.length; i++) {
-            hash[array[i]] = i;
-        }
-        return getPropertyValue(hash, val);
-    };
-
-    var onUnload = function onUnload() {
-        forgetTradingStreams();
-        clearSymbolTimeout();
-        clearContractTimeout();
-        MBSymbols.clearData();
-        MBTick.clean();
-    };
-
-    return {
-        getSymbols: getSymbols,
-        getContracts: getContracts,
-        processPriceRequest: processPriceRequest,
-        processForgetTicks: processForgetTicks,
-        onUnload: onUnload
-    };
-}();
-
-module.exports = MBProcess;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_symbols.js":
-/*!*********************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_symbols.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var ActiveSymbols = __webpack_require__(/*! ../../common/active_symbols */ "./src/javascript/app/common/active_symbols.js");
-
-/*
- * MBSymbols object parses the active_symbols json that we get from socket.send({active_symbols: 'brief'}
- * and outputs in usable form, it gives markets, underlyings
- *
- *
- * Usage:
- *
- * use `MBSymbols.details` to populate this object first
- *
- * then use
- *
- * `MBSymbols.markets` to get markets like Forex
- * `MBSymbols.underlyings` to get underlyings
- *
- */
-
-var MBSymbols = function () {
-    var trade_markets = {};
-    var trade_markets_list = {};
-    var trade_underlyings = {};
-    var all_symbols = {};
-    var names = {};
-
-    var details = function details(data) {
-        ActiveSymbols.clearData();
-        var active_symbols = data.active_symbols;
-        trade_markets = ActiveSymbols.getMarkets(active_symbols);
-        trade_markets_list = ActiveSymbols.getMarketsList(active_symbols);
-        trade_underlyings = ActiveSymbols.getTradeUnderlyings(active_symbols);
-        all_symbols = ActiveSymbols.getSymbols(all_symbols);
-        names = ActiveSymbols.getSymbolNames(active_symbols);
-    };
-
-    return {
-        details: details,
-        markets: function markets(list) {
-            return list ? trade_markets_list : trade_markets;
-        },
-        getName: function getName(symbol) {
-            return names[symbol];
-        },
-        underlyings: function underlyings() {
-            return trade_underlyings;
-        },
-        getAllSymbols: function getAllSymbols() {
-            return all_symbols;
-        },
-        clearData: function clearData() {
-            ActiveSymbols.clearData();
-        }
-    };
-}();
-
-module.exports = MBSymbols;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_tick.js":
-/*!******************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_tick.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MBDefaults = __webpack_require__(/*! ./mb_defaults */ "./src/javascript/app/pages/mb_trade/mb_defaults.js");
-var MBNotifications = __webpack_require__(/*! ./mb_notifications */ "./src/javascript/app/pages/mb_trade/mb_notifications.js");
-var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
-var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
-var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
-
-/*
- * MBTick object handles all the process/display related to tick streaming
- *
- * We request tick stream for particular underlying to update current spot
- *
- *
- * Usage:
- * use `MBTick.detail` to populate this object
- *
- * then use
- *
- * `MBTick.quote()` to get current spot quote
- * 'MBTick.display()` to display current spot
- */
-
-var MBTick = function () {
-    var _quote = '';
-    var error_message = '';
-
-    var details = function details(data) {
-        error_message = '';
-
-        if (data) {
-            if (data.error) {
-                error_message = data.error.message;
-            } else {
-                _quote = data.tick.quote;
-            }
-        }
-    };
-
-    var display = function display() {
-        $('#spot').fadeIn(200);
-        var message = '';
-        if (error_message) {
-            message = error_message;
-        } else {
-            message = _quote;
-        }
-
-        var spot_element = getElementById('spot');
-        if (parseFloat(message) !== +message) {
-            spot_element.className = 'error';
-        } else {
-            spot_element.classList.remove('error');
-            displayPriceMovement(parseFloat(spot_element.textContent), parseFloat(message));
-        }
-
-        spot_element.textContent = message;
-    };
-
-    /*
-     * Display price/spot movement variation to depict price moved up or down
-     */
-    var displayPriceMovement = function displayPriceMovement(old_value, current_value) {
-        var class_name = 'still';
-        if (old_value !== current_value) {
-            class_name = current_value > old_value ? 'up' : 'down';
-        }
-        var $spot = $('#spot');
-        $spot.removeClass('up down still').addClass(class_name);
-    };
-
-    var request = function request(symbol) {
-        BinarySocket.send({
-            ticks: symbol,
-            subscribe: 1
-        }, { callback: processTickStream });
-    };
-
-    var processTickStream = function processTickStream(response) {
-        if (response.msg_type === 'tick' && MBDefaults.get('underlying') === (response.echo_req.ticks || response.echo_req.ticks_history)) {
-            if (getPropertyValue(response, 'error')) {
-                MBNotifications.show({ localized_text: response.error.message, uid: 'TICK_ERROR' });
-                return;
-            }
-
-            details(response);
-            display();
-        }
-    };
-
-    return {
-        details: details,
-        display: display,
-        request: request,
-        displayPriceMovement: displayPriceMovement,
-        processTickStream: processTickStream,
-        quote: function quote() {
-            return _quote;
-        },
-        errorMessage: function errorMessage() {
-            return error_message;
-        },
-        setQuote: function setQuote(q) {
-            _quote = q;
-        },
-        clean: function clean() {
-            _quote = '';
-            var $spot = $('#spot');
-            $spot.fadeOut(200, function () {
-                // resets spot movement coloring, will continue on the next tick responses
-                $spot.removeClass('up down').text('');
-            });
-        }
-    };
-}();
-
-module.exports = MBTick;
-
-/***/ }),
-
-/***/ "./src/javascript/app/pages/mb_trade/mb_tradepage.js":
-/*!***********************************************************!*\
-  !*** ./src/javascript/app/pages/mb_trade/mb_tradepage.js ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var MBContract = __webpack_require__(/*! ./mb_contract */ "./src/javascript/app/pages/mb_trade/mb_contract.js");
-var MBDisplayCurrencies = __webpack_require__(/*! ./mb_currency */ "./src/javascript/app/pages/mb_trade/mb_currency.js");
-var MBTradingEvents = __webpack_require__(/*! ./mb_event */ "./src/javascript/app/pages/mb_trade/mb_event.js");
-var MBPortfolio = __webpack_require__(/*! ./mb_portfolio */ "./src/javascript/app/pages/mb_trade/mb_portfolio.js");
-var MBPrice = __webpack_require__(/*! ./mb_price */ "./src/javascript/app/pages/mb_trade/mb_price.js");
-var MBProcess = __webpack_require__(/*! ./mb_process */ "./src/javascript/app/pages/mb_trade/mb_process.js");
-var cleanupChart = __webpack_require__(/*! ../trade/charts/webtrader_chart */ "./src/javascript/app/pages/trade/charts/webtrader_chart.js").cleanupChart;
-var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
-var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
-var Header = __webpack_require__(/*! ../../base/header */ "./src/javascript/app/base/header.js");
-var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
-var getDecimalPlaces = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").getDecimalPlaces;
-var TopUpVirtualPopup = __webpack_require__(/*! ../../pages/user/account/top_up_virtual/pop_up */ "./src/javascript/app/pages/user/account/top_up_virtual/pop_up.js");
-var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
-var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
-var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
-var findParent = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").findParent;
-
-var MBTradePage = function () {
-    var events_initialized = 0;
-    State.remove('is_mb_trading');
-
-    var onLoad = function onLoad() {
-        State.set('is_mb_trading', true);
-        BinarySocket.wait('authorize').then(init);
-        if (!Client.isLoggedIn() || !Client.get('residence')) {
-            // if client is logged out or they don't have residence set
-            BinarySocket.wait('website_status').then(function () {
-                BinarySocket.send({ landing_company: State.getResponse('website_status.clients_country') });
-            });
-        }
-    };
-
-    var init = function init() {
-        Header.displayAccountStatus();
-        if (/^(malta|iom)$/.test(Client.get('landing_company_shortcode'))) {
-            BinaryPjax.load(urlFor('trading'));
-            return;
-        }
-        showCurrency(Client.get('currency'));
-
-        BinarySocket.wait('landing_company', 'active_symbols').then(function () {
-            if (events_initialized === 0) {
-                events_initialized = 1;
-                MBTradingEvents.init();
-            }
-        });
-
-        BinarySocket.send({ payout_currencies: 1 }).then(function () {
-            MBDisplayCurrencies();
-            MBProcess.getSymbols();
-        });
-
-        State.set('is_chart_allowed', true);
-        State.set('ViewPopup.onDisplayed', MBPrice.hidePriceOverlay);
-        $('.container').css('max-width', '1200px');
-        // if not loaded by pjax, balance update function calls TopUpVirtualPopup
-        if (State.get('is_loaded_by_pjax')) {
-            BinarySocket.wait('balance').then(function () {
-                TopUpVirtualPopup.init(State.getResponse('balance.balance'));
-            });
-        }
-    };
-
-    var showCurrency = function showCurrency(currency) {
-        if (currency) {
-            var el_payout_amount = getElementById('payout_amount');
-            if (!new RegExp(currency).test(el_payout_amount.textContent)) {
-                el_payout_amount.textContent += ' (' + currency + ')';
-            }
-
-            if (getDecimalPlaces(currency) > 2) {
-                var el_category = getElementById('category');
-                var payout_wrapper = findParent(el_payout_amount, '.gr-3');
-                var category_wrapper = findParent(el_category, '.gr-9');
-                if (payout_wrapper && category_wrapper) {
-                    payout_wrapper.classList.remove('gr-3');
-                    category_wrapper.classList.remove('gr-9');
-                    payout_wrapper.classList.add('gr-4');
-                    category_wrapper.classList.add('gr-8');
-                }
-            }
-        }
-    };
-
-    var reload = function reload() {
-        window.location.reload();
-    };
-
-    var onUnload = function onUnload() {
-        if (!/trading/.test(window.location.href)) {
-            Header.hideNotification('MF_RETAIL_MESSAGE');
-        }
-        cleanupChart();
-        State.set('is_chart_allowed', false);
-        MBPortfolio.hide();
-        State.remove('is_mb_trading');
-        events_initialized = 0;
-        MBContract.onUnload();
-        MBPrice.onUnload();
-        MBProcess.onUnload();
-        BinarySocket.clear('active_symbols');
-        State.remove('ViewPopup.onDisplayed');
-        $('.container').css('max-width', '');
-    };
-
-    var onDisconnect = function onDisconnect() {
-        MBPrice.showPriceOverlay();
-        cleanupChart();
-        onLoad();
-    };
-
-    return {
-        onLoad: onLoad,
-        reload: reload,
-        onUnload: onUnload,
-        onDisconnect: onDisconnect
-    };
-}();
-
-module.exports = MBTradePage;
 
 /***/ }),
 
@@ -18976,11 +16920,8 @@ var showChart = __webpack_require__(/*! ./charts/webtrader_chart */ "./src/javas
 var Defaults = __webpack_require__(/*! ./defaults */ "./src/javascript/app/pages/trade/defaults.js");
 var getActiveTab = __webpack_require__(/*! ./get_active_tab */ "./src/javascript/app/pages/trade/get_active_tab.js").getActiveTab;
 var GetTicks = __webpack_require__(/*! ./get_ticks */ "./src/javascript/app/pages/trade/get_ticks.js");
-var MBDefaults = __webpack_require__(/*! ../mb_trade/mb_defaults */ "./src/javascript/app/pages/mb_trade/mb_defaults.js");
-var MBPortfolio = __webpack_require__(/*! ../mb_trade/mb_portfolio */ "./src/javascript/app/pages/mb_trade/mb_portfolio.js");
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var getLanguage = __webpack_require__(/*! ../../../_common/language */ "./src/javascript/_common/language.js").get;
-var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var TabSelector = __webpack_require__(/*! ../../../_common/tab_selector */ "./src/javascript/_common/tab_selector.js");
 var Url = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js");
 
@@ -19005,7 +16946,7 @@ var TradingAnalysis = function () {
         current_tab = void 0;
 
     var requestTradeAnalysis = function requestTradeAnalysis() {
-        form_name = (State.get('is_mb_trading') ? MBDefaults.get('category') : Defaults.get('formname')) || 'risefall';
+        form_name = Defaults.get('formname') || 'risefall';
 
         var map_obj = { matchdiff: 'digits', callputequal: 'risefall', callput: 'higherlower' };
         form_name = map_obj[form_name] || form_name;
@@ -19042,46 +16983,37 @@ var TradingAnalysis = function () {
         $('#trade_analysis').find('li').removeClass('active');
         $('#' + current_tab).addClass('active');
         toggleActiveAnalysisTabs();
-        MBPortfolio.init();
-        if (State.get('is_mb_trading')) {
+        if (current_tab === 'tab_graph') {
             showChart();
-        }
-        if (current_tab === 'tab_portfolio') {
-            MBPortfolio.show();
-        } else {
-            MBPortfolio.hide();
-            if (current_tab === 'tab_graph') {
-                showChart();
-            } else if (current_tab === 'tab_last_digit') {
-                var $digit_underlying = $('#digit_underlying');
-                var $underlying = $('#underlying');
-                var underlying = $underlying.val();
-                var underlying_text = $underlying.attr('data-text');
-                var tick = $('#tick_count').val() || 100;
+        } else if (current_tab === 'tab_last_digit') {
+            var $digit_underlying = $('#digit_underlying');
+            var $underlying = $('#underlying');
+            var underlying = $underlying.val();
+            var underlying_text = $underlying.attr('data-text');
+            var tick = $('#tick_count').val() || 100;
 
-                if (underlying !== $digit_underlying.val() && $digit_underlying.val() !== null) {
-                    $digit_underlying.find('option[value="' + underlying + '"]').prop('selected', true).trigger('change');
-                    var $digit_underlying_dropdown = $digit_underlying.next('div.select-dropdown');
+            if (underlying !== $digit_underlying.val() && $digit_underlying.val() !== null) {
+                $digit_underlying.find('option[value="' + underlying + '"]').prop('selected', true).trigger('change');
+                var $digit_underlying_dropdown = $digit_underlying.next('div.select-dropdown');
 
-                    // check if custom dropdown exists and sync with underlying dropdown
-                    if ($digit_underlying_dropdown) {
-                        var $digit_underlying_list = $digit_underlying_dropdown.next('ul.select-options').children('li');
-                        $digit_underlying_dropdown.text(underlying_text);
-                        $digit_underlying_list.not(undefined).each(function (idx, el) {
-                            el.classList.remove('selected');
-                        });
-                        $digit_underlying_list.filter('[value=\'' + underlying + '\']').addClass('selected');
-                    }
-                } else {
-                    GetTicks.request('', {
-                        ticks_history: underlying,
-                        count: tick.toString(),
-                        end: 'latest'
+                // check if custom dropdown exists and sync with underlying dropdown
+                if ($digit_underlying_dropdown) {
+                    var $digit_underlying_list = $digit_underlying_dropdown.next('ul.select-options').children('li');
+                    $digit_underlying_dropdown.text(underlying_text);
+                    $digit_underlying_list.not(undefined).each(function (idx, el) {
+                        el.classList.remove('selected');
                     });
+                    $digit_underlying_list.filter('[value=\'' + underlying + '\']').addClass('selected');
                 }
-            } else if (current_tab === 'tab_explanation') {
-                showExplanation();
+            } else {
+                GetTicks.request('', {
+                    ticks_history: underlying,
+                    count: tick.toString(),
+                    end: 'latest'
+                });
             }
+        } else if (current_tab === 'tab_explanation') {
+            showExplanation();
         }
         if (current_tab) {
             var el_to_show = getElementById(current_tab);
@@ -19262,10 +17194,10 @@ module.exports = TradingAnalysis;
 
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-var countDecimalPlaces = __webpack_require__(/*! ./common_independent */ "./src/javascript/app/pages/trade/common_independent.js").countDecimalPlaces;
 var Contract = __webpack_require__(/*! ./contract */ "./src/javascript/app/pages/trade/contract.js");
 var Defaults = __webpack_require__(/*! ./defaults */ "./src/javascript/app/pages/trade/defaults.js");
 var Tick = __webpack_require__(/*! ./tick */ "./src/javascript/app/pages/trade/tick.js");
+var addComma = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
 var elementTextContent = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementTextContent;
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var isVisible = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").isVisible;
@@ -19294,7 +17226,7 @@ var Barriers = function () {
             var barrier = barriers[form_name][is_daily ? 'daily' : 'intraday'];
             if (barrier) {
                 var current_tick = Tick.quote();
-                var decimal_places = countDecimalPlaces(current_tick);
+                var decimal_places = Tick.pipSize();
 
                 var indicative_barrier_tooltip = getElementById('indicative_barrier_tooltip');
                 var indicative_high_barrier_tooltip = getElementById('indicative_high_barrier_tooltip');
@@ -19327,7 +17259,7 @@ var Barriers = function () {
                         span.style.display = 'none';
                         tooltip.style.display = 'inherit';
                         if (current_tick && !isNaN(current_tick)) {
-                            elementTextContent(indicative_barrier_tooltip, (parseFloat(current_tick) + parseFloat(barrier_def)).toFixed(decimal_places));
+                            elementTextContent(indicative_barrier_tooltip, addComma(parseFloat(current_tick) + parseFloat(barrier_def), decimal_places));
                         } else {
                             elementTextContent(indicative_barrier_tooltip, '');
                         }
@@ -20138,8 +18070,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var HighchartUI = __webpack_require__(/*! ./highchart.ui */ "./src/javascript/app/pages/trade/charts/highchart.ui.js");
 var getHighstock = __webpack_require__(/*! ../common */ "./src/javascript/app/pages/trade/common.js").requireHighstock;
 var getUnderlyingPipSize = __webpack_require__(/*! ../symbols */ "./src/javascript/app/pages/trade/symbols.js").getUnderlyingPipSize;
-var MBContract = __webpack_require__(/*! ../../mb_trade/mb_contract */ "./src/javascript/app/pages/mb_trade/mb_contract.js");
-var MBDefaults = __webpack_require__(/*! ../../mb_trade/mb_defaults */ "./src/javascript/app/pages/mb_trade/mb_defaults.js");
 var Callputspread = __webpack_require__(/*! ../../trade/callputspread */ "./src/javascript/app/pages/trade/callputspread.js");
 var Defaults = __webpack_require__(/*! ../../trade/defaults */ "./src/javascript/app/pages/trade/defaults.js");
 var GetTicks = __webpack_require__(/*! ../../trade/get_ticks */ "./src/javascript/app/pages/trade/get_ticks.js");
@@ -20405,8 +18335,8 @@ var Highchart = function () {
                             is_tick_type = !isEmptyObject(history) || !isEmptyObject(tick);
                             // send view popup the response ID so view popup can forget the calls if it's closed before contract ends
                             if (response_id && !is_response_id_set) {
-                                if (State.get('is_trading') || State.get('is_mb_trading')) {
-                                    page_underlying = State.get('is_mb_trading') ? MBDefaults.get('underlying') : Defaults.get('underlying');
+                                if (State.get('is_trading')) {
+                                    page_underlying = Defaults.get('underlying');
 
                                     if (page_underlying !== (tick || ohlc).symbol) {
                                         ViewPopupUI.storeSubscriptionID(response_id, true);
@@ -20585,7 +18515,7 @@ var Highchart = function () {
             request.subscribe = 1;
         }
 
-        var contracts_response = State.get('is_mb_trading') ? MBContract.getContractsResponse() : State.get(['response', 'contracts_for']);
+        var contracts_response = State.get(['response', 'contracts_for']);
         var stored_delay = sessionStorage.getItem('license.' + contract.underlying);
 
         if (contracts_response && contracts_response.echo_req.contracts_for === contract.underlying) {
@@ -21038,7 +18968,6 @@ module.exports = HighchartUI;
 
 
 var getAllSymbols = __webpack_require__(/*! ../symbols */ "./src/javascript/app/pages/trade/symbols.js").getAllSymbols;
-var MBDefaults = __webpack_require__(/*! ../../mb_trade/mb_defaults */ "./src/javascript/app/pages/mb_trade/mb_defaults.js");
 var getElementById = __webpack_require__(/*! ../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var getLanguage = __webpack_require__(/*! ../../../../_common/language */ "./src/javascript/_common/language.js").get;
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
@@ -21069,9 +18998,8 @@ var WebtraderChart = function () {
     };
 
     var setChart = function setChart() {
-        var is_mb_trading = State.get('is_mb_trading');
-        var new_underlying = is_mb_trading ? $('#underlying').attr('value') : getElementById('underlying').value;
-        if (($('#tab_graph').hasClass('active') || is_mb_trading) && (!chart || chart.data().instrumentCode !== new_underlying || is_mb_trading && (getChartSettings().time_frame !== chart.data().timePeriod || getChartSettings().chart_type !== chart.data().type))) {
+        var new_underlying = getElementById('underlying').value;
+        if ($('#tab_graph').hasClass('active') && (!chart || chart.data().instrumentCode !== new_underlying)) {
             cleanupChart();
             initChart();
         }
@@ -21100,10 +19028,9 @@ var WebtraderChart = function () {
     };
 
     var addChart = function addChart() {
-        var is_mb_trading = State.get('is_mb_trading');
         var $underlying = $('#underlying');
-        var $underlying_code = is_mb_trading ? $underlying.attr('value') : $underlying.val();
-        var $underlying_name = is_mb_trading ? $underlying.find('.current .name').text() : getAllSymbols()[$underlying_code];
+        var $underlying_code = $underlying.val();
+        var $underlying_name = getAllSymbols()[$underlying_code];
 
         var chart_config = {
             instrumentCode: $underlying_code,
@@ -21112,7 +19039,7 @@ var WebtraderChart = function () {
             timePeriod: getChartSettings().time_frame,
             type: getChartSettings().chart_type,
             lang: getLanguage().toLowerCase(),
-            showShare: !is_mb_trading
+            showShare: true
         };
 
         chart = WebtraderCharts.chartWindow.addNewChart($('#webtrader_chart'), chart_config);
@@ -21125,20 +19052,7 @@ var WebtraderChart = function () {
     };
 
     var getChartSettings = function getChartSettings() {
-        var chart_settings = { time_frame: '1t', chart_type: 'line' };
-        if (State.get('is_mb_trading')) {
-            var period = MBDefaults.get('period').split('_')[2].substr(0, 2).toUpperCase();
-            var period_map = {
-                '5H': { time_frame: '1m', chart_type: 'line' },
-                '0D': { time_frame: '30m', chart_type: 'ohlc' },
-                '1W': { time_frame: '1d', chart_type: 'ohlc' },
-                '1M': { time_frame: '1d', chart_type: 'candlestick' },
-                '3M': { time_frame: '1d', chart_type: 'candlestick' },
-                '1Y': { time_frame: '1d', chart_type: 'candlestick' }
-            };
-            chart_settings = period_map[period] || chart_settings;
-        }
-        return chart_settings;
+        return { time_frame: '1t', chart_type: 'line' };
     };
 
     return {
@@ -22722,7 +20636,7 @@ var DigitTicker = function () {
         setElements(epoch);
         el_container.classList.remove('invisible');
         adjustBoxSizes();
-        current_spot = quote.toString().substr(-1);
+        current_spot = quote.substr(-1);
         if (el_mask) el_mask.innerText = current_tick_count + ' / ' + total_tick_count;
         if (el_peek_box) {
             el_peek_box.classList.add('digit-running');
@@ -22811,7 +20725,6 @@ var DigitTicker = __webpack_require__(/*! ./digit_ticker */ "./src/javascript/ap
 var ViewPopupUI = __webpack_require__(/*! ../user/view_popup/view_popup.ui */ "./src/javascript/app/pages/user/view_popup/view_popup.ui.js");
 var showLocalTimeOnHover = __webpack_require__(/*! ../../base/clock */ "./src/javascript/app/base/clock.js").showLocalTimeOnHover;
 var LoadingSpinner = __webpack_require__(/*! ../../components/loading-spinner */ "./src/javascript/app/components/loading-spinner.js");
-var addComma = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 
 var DigitDisplay = function () {
@@ -22854,7 +20767,7 @@ var DigitDisplay = function () {
 
         if (DigitTicker.isInitialized()) {
             DigitTicker.update(poc.tick_stream.length, {
-                quote: poc.status !== 'open' ? poc.exit_tick : poc.current_spot,
+                quote: poc.status !== 'open' ? poc.exit_tick_display_value : poc.current_spot_display_value,
                 epoch: +poc.exit_tick_time || +poc.current_spot_time
             });
         }
@@ -22897,10 +20810,9 @@ var DigitDisplay = function () {
     };
 
     var renderRow = function renderRow(tick, index, total) {
-        var csv_spot = addComma(tick.tick);
         var el_fragment = document.createDocumentFragment();
         el_fragment.append(createIndexElement(index));
-        el_fragment.append(createCounterElement(csv_spot, index, total));
+        el_fragment.append(createCounterElement(tick.tick_display_value, index, total));
         el_fragment.append(createSpotElement(tick));
 
         return el_fragment;
@@ -22935,17 +20847,17 @@ var DigitDisplay = function () {
     var end = function end(proposal_open_contract) {
         if (proposal_open_contract.status !== 'open') {
             DigitTicker.update(proposal_open_contract.tick_count, {
-                quote: proposal_open_contract.exit_tick || proposal_open_contract.tick_stream.slice(-1).tick,
+                quote: proposal_open_contract.exit_tick_display_value || proposal_open_contract.tick_stream.slice(-1).tick_display_value,
                 epoch: +proposal_open_contract.exit_tick_time
             });
         }
         if (proposal_open_contract.status === 'won') {
             DigitTicker.markAsWon();
-            DigitTicker.markDigitAsWon(proposal_open_contract.exit_tick.toString().slice(-1));
+            DigitTicker.markDigitAsWon(proposal_open_contract.exit_tick_display_value.slice(-1));
         }
         if (proposal_open_contract.status === 'lost') {
             DigitTicker.markAsLost();
-            DigitTicker.markDigitAsLost(proposal_open_contract.exit_tick.toString().slice(-1));
+            DigitTicker.markDigitAsLost(proposal_open_contract.exit_tick_display_value.slice(-1));
         }
     };
 
@@ -24134,23 +22046,20 @@ module.exports = TradingEvents;
 "use strict";
 
 
-var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
-var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
-
 /*
  * get the current active tab if its visible i.e allowed for current parameters
  */
 var getActiveTab = function getActiveTab(item) {
     var tab = item || 'currentAnalysisTab';
     var default_tab = 'tab_explanation';
-    var selected_tab = sessionStorage.getItem(tab) || (State.get('is_mb_trading') ? 'tab_portfolio' : default_tab);
+    var selected_tab = sessionStorage.getItem(tab) || default_tab;
     var selected_element = document.getElementById(selected_tab);
     if (!selected_element) {
-        selected_tab = 'tab_explanation';
+        selected_tab = default_tab;
         selected_element = document.getElementById(selected_tab);
     }
 
-    if (selected_element && selected_element.classList.contains('invisible') && (item || !(selected_tab === 'tab_portfolio' && !!(Client.isLoggedIn() && State.get('is_mb_trading'))))) {
+    if (selected_element && selected_element.classList.contains('invisible') || selected_element && selected_element.classList.contains('invisible') && item) {
         selected_tab = default_tab;
         sessionStorage.setItem(tab, selected_tab);
     }
@@ -24184,16 +22093,13 @@ var getActiveTab = __webpack_require__(/*! ./get_active_tab */ "./src/javascript
 var Purchase = __webpack_require__(/*! ./purchase */ "./src/javascript/app/pages/trade/purchase.js");
 var Tick = __webpack_require__(/*! ./tick */ "./src/javascript/app/pages/trade/tick.js");
 var TickDisplay = __webpack_require__(/*! ./tick_trade */ "./src/javascript/app/pages/trade/tick_trade.js");
-var MBDefaults = __webpack_require__(/*! ../mb_trade/mb_defaults */ "./src/javascript/app/pages/mb_trade/mb_defaults.js");
-var MBTick = __webpack_require__(/*! ../mb_trade/mb_tick */ "./src/javascript/app/pages/mb_trade/mb_tick.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
-var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 
 var GetTicks = function () {
     var underlying = void 0;
 
     var request = function request(symbol, req, _callback) {
-        underlying = State.get('is_mb_trading') ? MBDefaults.get('underlying') : Defaults.get('underlying');
+        underlying = Defaults.get('underlying');
         if (underlying && req && _callback && (underlying !== req.ticks_history || !req.subscribe)) {
             BinarySocket.send(req, { callback: _callback });
         } else {
@@ -24219,51 +22125,42 @@ var GetTicks = function () {
                                                 _callback(response);
                                             }
 
-                                            if (!State.get('is_mb_trading')) {
-                                                _context.next = 5;
-                                                break;
-                                            }
-
-                                            MBTick.processTickStream(response);
-                                            return _context.abrupt('return');
-
-                                        case 5:
                                             if (!(type === 'tick')) {
-                                                _context.next = 12;
+                                                _context.next = 9;
                                                 break;
                                             }
 
                                             processTick(response);
 
                                             if (!(getActiveTab() === 'tab_last_digit')) {
-                                                _context.next = 10;
+                                                _context.next = 7;
                                                 break;
                                             }
 
-                                            _context.next = 10;
+                                            _context.next = 7;
                                             return DigitInfo.updateChart(response);
 
-                                        case 10:
-                                            _context.next = 17;
+                                        case 7:
+                                            _context.next = 14;
                                             break;
 
-                                        case 12:
+                                        case 9:
                                             if (!(type === 'history')) {
-                                                _context.next = 17;
+                                                _context.next = 14;
                                                 break;
                                             }
 
                                             processHistory(response);
 
                                             if (!(getActiveTab() === 'tab_last_digit')) {
-                                                _context.next = 17;
+                                                _context.next = 14;
                                                 break;
                                             }
 
-                                            _context.next = 17;
+                                            _context.next = 14;
                                             return DigitInfo.showChart(response.echo_req.ticks_history, response.history.prices);
 
-                                        case 17:
+                                        case 14:
                                         case 'end':
                                             return _context.stop();
                                     }
@@ -25376,7 +23273,7 @@ var Price = function () {
                 var multiplier_value = formatMoney(Client.get('currency'), proposal.multiplier, false, 3, 2);
                 CommonFunctions.elementInnerHtml(comment, localize('Payout') + ': ' + getLookBackFormula(type, multiplier_value));
             } else {
-                commonTrading.displayCommentPrice(comment, currency.value || currency.getAttribute('value'), proposal.ask_price, proposal.payout);
+                commonTrading.displayCommentPrice(comment, currency.value || currency.getAttribute('value'), proposal.display_value, proposal.payout);
             }
             var old_price = purchase.getAttribute('data-display_value');
             var old_payout = purchase.getAttribute('data-payout');
@@ -25950,8 +23847,6 @@ module.exports = Process;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var isCallputspread = __webpack_require__(/*! ./callputspread */ "./src/javascript/app/pages/trade/callputspread.js").isCallputspread;
 var Contract = __webpack_require__(/*! ./contract */ "./src/javascript/app/pages/trade/contract.js");
@@ -26185,17 +24080,7 @@ var Purchase = function () {
         if (show_chart && has_chart) {
             // calculate number of decimals needed to display tick-chart according to the spot
             // value of the underlying
-            var decimal_points = 2;
-            var tick_spots = Tick.spots();
-            var tick_spot_epochs = Object.keys(tick_spots);
-            if (tick_spot_epochs.length > 0) {
-                var last_quote = tick_spots[tick_spot_epochs[0]].toString();
-
-                if (last_quote.indexOf('.') !== -1) {
-                    decimal_points = last_quote.split('.')[1].length;
-                }
-            }
-
+            var decimal_points = Tick.pipSize();
             var category = sessionStorage.getItem('formname');
             if (/^(risefall|higherlower)$/.test(category)) {
                 category = 'callput';
@@ -26226,66 +24111,30 @@ var Purchase = function () {
                 contract_id: receipt.contract_id,
                 subscribe: 1
             };
-            BinarySocket.send(request, { callback: function () {
-                    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(response) {
-                        var mw_response, contract;
-                        return regeneratorRuntime.wrap(function _callee$(_context) {
-                            while (1) {
-                                switch (_context.prev = _context.next) {
-                                    case 0:
-                                        if (!response.proposal_open_contract) {
-                                            _context.next = 6;
-                                            break;
-                                        }
-
-                                        _context.next = 3;
-                                        return changePocNumbersToString(response);
-
-                                    case 3:
-                                        _context.t0 = _context.sent;
-                                        _context.next = 7;
-                                        break;
-
-                                    case 6:
-                                        _context.t0 = undefined;
-
-                                    case 7:
-                                        mw_response = _context.t0;
-                                        contract = mw_response ? mw_response.proposal_open_contract : undefined;
-
-                                        if (contract) {
-                                            status = contract.status;
-                                            profit_value = contract.profit;
-                                            if (has_chart) {
-                                                TickDisplay.setStatus(contract);
-                                            }
-                                            if (/^digit/i.test(contract.contract_type)) {
-                                                if (contract.status !== 'open' || contract.is_sold || contract.is_settleable) {
-                                                    digitShowExitTime(contract.status, contract.exit_tick);
-                                                }
-                                            }
-                                            if (!/^digit/i.test(contract.contract_type) && contract.exit_tick_time && +contract.exit_tick_time < contract.date_expiry) {
-                                                TickDisplay.updateChart({ is_sold: true }, contract);
-                                            }
-
-                                            // force to sell the expired contract, in order to get the final status
-                                            if (+contract.is_settleable === 1 && !contract.is_sold) {
-                                                sellExpired();
-                                            }
-                                        }
-
-                                    case 10:
-                                    case 'end':
-                                        return _context.stop();
-                                }
+            BinarySocket.send(request, { callback: function callback(response) {
+                    var mw_response = response.proposal_open_contract ? changePocNumbersToString(response) : undefined;
+                    var contract = mw_response ? mw_response.proposal_open_contract : undefined;
+                    if (contract) {
+                        status = contract.status;
+                        profit_value = contract.profit;
+                        if (has_chart) {
+                            TickDisplay.setStatus(contract);
+                        }
+                        if (/^digit/i.test(contract.contract_type)) {
+                            if (contract.status !== 'open' || contract.is_sold || contract.is_settleable) {
+                                digitShowExitTime(contract.status, contract.exit_tick_display_value);
                             }
-                        }, _callee, undefined);
-                    }));
+                        }
+                        if (!/^digit/i.test(contract.contract_type) && contract.exit_tick_time && +contract.exit_tick_time < contract.date_expiry) {
+                            TickDisplay.updateChart({ is_sold: true }, contract);
+                        }
 
-                    return function callback(_x) {
-                        return _ref.apply(this, arguments);
-                    };
-                }() });
+                        // force to sell the expired contract, in order to get the final status
+                        if (+contract.is_settleable === 1 && !contract.is_sold) {
+                            sellExpired();
+                        }
+                    }
+                } });
         }
     };
 
@@ -26438,7 +24287,7 @@ var Purchase = function () {
         if (el_epoch && el_epoch.classList) {
             el_epoch.classList.add('is-visible');
             el_epoch.setAttribute('style', 'position: absolute; right: ' + ((el_epoch.parentElement.offsetWidth - el_epoch.nextSibling.offsetWidth) / 2 + adjustment) + 'px');
-            var last_digit_quote = last_tick_quote ? last_tick_quote.toString().slice(-1) : '';
+            var last_digit_quote = last_tick_quote ? last_tick_quote.slice(-1) : '';
             if (contract_status === 'won') {
                 DigitTicker.markAsWon();
                 DigitTicker.markDigitAsWon(last_digit_quote);
@@ -26898,11 +24747,11 @@ var Tick = function () {
 
         var end_time = getElementById('expiry_date');
         if (unit && (!isVisible(unit) || unit.value !== 'd') && current_tick && !isNaN(current_tick) && end_time && (!isVisible(end_time) || moment(end_time.getAttribute('data-value')).isBefore(moment().add(1, 'day'), 'day'))) {
-            var decimal_places = countDecimalPlaces(current_tick);
+            var decimal_places = Tick.pipSize();
             if (isVisible(indicative_barrier_tooltip) && String(barrier_element.value).match(/^[+-]/)) {
                 var barrier_value = isNaN(parseFloat(barrier_element.value)) ? 0 : parseFloat(barrier_element.value);
 
-                indicative_barrier_tooltip.textContent = (parseFloat(current_tick) + barrier_value).toFixed(decimal_places);
+                indicative_barrier_tooltip.textContent = addComma(parseFloat(current_tick) + barrier_value, decimal_places);
                 tooltip.style.display = 'inherit';
                 span.style.display = 'none';
             } else {
@@ -26994,10 +24843,14 @@ module.exports = Tick;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var HighchartUI = __webpack_require__(/*! ./charts/highchart.ui */ "./src/javascript/app/pages/trade/charts/highchart.ui.js");
 var requireHighstock = __webpack_require__(/*! ./common */ "./src/javascript/app/pages/trade/common.js").requireHighstock;
+var countDecimalPlaces = __webpack_require__(/*! ./common_independent */ "./src/javascript/app/pages/trade/common_independent.js").countDecimalPlaces;
 var Reset = __webpack_require__(/*! ./reset */ "./src/javascript/app/pages/trade/reset.js");
+var getUnderlyingPipSize = __webpack_require__(/*! ./symbols */ "./src/javascript/app/pages/trade/symbols.js").getUnderlyingPipSize;
 var Tick = __webpack_require__(/*! ./tick */ "./src/javascript/app/pages/trade/tick.js");
 var updatePurchaseStatus = __webpack_require__(/*! ./update_values */ "./src/javascript/app/pages/trade/update_values.js").updatePurchaseStatus;
 var ViewPopupUI = __webpack_require__(/*! ../user/view_popup/view_popup.ui */ "./src/javascript/app/pages/user/view_popup/view_popup.ui.js");
@@ -27304,148 +25157,235 @@ var TickDisplay = function () {
         applicable_ticks = [];
     };
 
-    var getDecimalPlaces = function getDecimalPlaces(number) {
-        return number.toString().split('.')[1].length || 2;
-    };
+    var dispatch = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(data) {
+            var tick_chart, epoches, spots2, chart_display_decimals, _contract, entry_spot_display_value, entry_tick_display_value, exit_tick_display_value, sell_spot_display_value, available_display_value, available_underlying, category, has_finished, has_sold, d, tick, current_tick_count, points, indicator_key;
 
-    var dispatch = function dispatch(data) {
-        var tick_chart = CommonFunctions.getElementById(id_render);
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            tick_chart = CommonFunctions.getElementById(id_render);
 
-        if (!CommonFunctions.isVisible(tick_chart) || !data || !data.tick && !data.history) {
-            return;
-        }
+                            if (!(!CommonFunctions.isVisible(tick_chart) || !data || !data.tick && !data.history)) {
+                                _context.next = 3;
+                                break;
+                            }
 
-        if (getPropertyValue(data, ['tick', 'id']) && document.getElementById('sell_content_wrapper')) {
-            response_id = data.tick.id;
-            ViewPopupUI.storeSubscriptionID(response_id);
-        }
+                            return _context.abrupt('return');
 
-        var epoches = void 0,
-            spots2 = void 0,
-            chart_display_decimals = void 0;
+                        case 3:
 
-        if (document.getElementById('sell_content_wrapper')) {
-            if (data.tick) {
-                Tick.details(data);
-                if (!chart_display_decimals) {
-                    chart_display_decimals = getDecimalPlaces(data.tick.quote);
-                }
-            } else if (data.history) {
-                if (!chart_display_decimals) {
-                    chart_display_decimals = getDecimalPlaces(data.history.prices[0]);
-                }
-            }
-            if (!tick_init && contract) {
-                var category = 'callput';
-                if (/asian/i.test(contract.shortcode)) {
-                    category = 'asian';
-                } else if (/touch/i.test(contract.shortcode)) {
-                    category = 'touchnotouch';
-                } else if (/reset/i.test(contract.shortcode)) {
-                    category = 'reset';
-                } else if (/^(tickhigh|ticklow)_/i.test(contract.shortcode)) {
-                    category = 'highlowticks';
-                } else if (/^(runhigh|runlow)/i.test(contract.shortcode)) {
-                    category = 'runs';
-                }
+                            if (getPropertyValue(data, ['tick', 'id']) && document.getElementById('sell_content_wrapper')) {
+                                response_id = data.tick.id;
+                                ViewPopupUI.storeSubscriptionID(response_id);
+                            }
 
-                initialize({
-                    barrier: barrier,
-                    symbol: contract.underlying,
-                    number_of_ticks: contract.tick_count,
-                    contract_category: category,
-                    longcode: contract.longcode,
-                    display_symbol: contract.display_name,
-                    contract_start: contract.date_start,
-                    display_decimals: chart_display_decimals,
-                    shortcode: contract.shortcode,
-                    show_contract_result: 0
-                }, data);
-                spots_list = {};
-                tick_init = 'initialized';
-                return;
-            }
-        }
+                            epoches = void 0, spots2 = void 0, chart_display_decimals = void 0;
 
-        if (data.tick) {
-            spots2 = Tick.spots();
-            epoches = Object.keys(spots2).sort(function (a, b) {
-                return a - b;
-            });
-        } else if (data.history) {
-            epoches = data.history.times;
-        }
+                            if (!document.getElementById('sell_content_wrapper')) {
+                                _context.next = 27;
+                                break;
+                            }
 
-        var has_finished = applicable_ticks && ticks_needed && applicable_ticks.length >= ticks_needed;
-        if (contract_category.match('runs')) {
-            has_finished = applicable_ticks.length && contract.exit_tick_time || false;
-        }
-        var has_sold = contract && contract.exit_tick_time && applicable_ticks && applicable_ticks.find(function (_ref) {
-            var epoch = _ref.epoch;
-            return +epoch === +contract.exit_tick_time;
-        }) !== undefined;
+                            if (chart_display_decimals) {
+                                _context.next = 19;
+                                break;
+                            }
 
-        if (!has_finished && !has_sold && (!data.tick || !contract.status || contract.status === 'open')) {
-            for (var d = 0; d < epoches.length; d++) {
-                var tick = void 0;
-                if (data.tick) {
-                    tick = {
-                        epoch: parseInt(epoches[d]),
-                        quote: parseFloat(spots2[epoches[d]])
-                    };
-                } else if (data.history) {
-                    tick = {
-                        epoch: parseInt(data.history.times[d]),
-                        quote: parseFloat(data.history.prices[d])
-                    };
-                }
+                            // We're getting the pip size based on standard `display_value` provided by API
+                            _contract = contract, entry_spot_display_value = _contract.entry_spot_display_value, entry_tick_display_value = _contract.entry_tick_display_value, exit_tick_display_value = _contract.exit_tick_display_value, sell_spot_display_value = _contract.sell_spot_display_value;
+                            available_display_value = entry_spot_display_value || entry_tick_display_value || exit_tick_display_value || sell_spot_display_value;
+                            available_underlying = data.echo_req.ticks_history || data.echo_req.ticks || data.tick.symbol;
+                            _context.t1 = countDecimalPlaces(available_display_value);
 
-                var current_tick_count = applicable_ticks.length + 1;
+                            if (_context.t1) {
+                                _context.next = 15;
+                                break;
+                            }
 
-                if (contract_start_moment && tick.epoch > contract_start_moment.unix() && !spots_list[tick.epoch]) {
-                    if (!chart || !chart.series) return;
-                    chart.series[0].addPoint([counter, tick.quote], true, false);
+                            _context.next = 14;
+                            return getUnderlyingPipSize(available_underlying);
 
-                    if (+selected_tick === current_tick_count) {
-                        var points = chart.series[0].points;
-                        points[points.length - 1].update({ marker: marker });
+                        case 14:
+                            _context.t1 = _context.sent;
+
+                        case 15:
+                            _context.t0 = _context.t1;
+
+                            if (_context.t0) {
+                                _context.next = 18;
+                                break;
+                            }
+
+                            _context.t0 = Tick.pipSize();
+
+                        case 18:
+                            chart_display_decimals = _context.t0;
+
+                        case 19:
+                            if (data.tick) {
+                                Tick.details(data);
+                            }
+
+                            if (!(!tick_init && contract)) {
+                                _context.next = 27;
+                                break;
+                            }
+
+                            category = 'callput';
+
+                            if (/asian/i.test(contract.shortcode)) {
+                                category = 'asian';
+                            } else if (/touch/i.test(contract.shortcode)) {
+                                category = 'touchnotouch';
+                            } else if (/reset/i.test(contract.shortcode)) {
+                                category = 'reset';
+                            } else if (/^(tickhigh|ticklow)_/i.test(contract.shortcode)) {
+                                category = 'highlowticks';
+                            } else if (/^(runhigh|runlow)/i.test(contract.shortcode)) {
+                                category = 'runs';
+                            }
+
+                            initialize({
+                                barrier: barrier,
+                                symbol: contract.underlying,
+                                number_of_ticks: contract.tick_count,
+                                contract_category: category,
+                                longcode: contract.longcode,
+                                display_symbol: contract.display_name,
+                                contract_start: contract.date_start,
+                                display_decimals: chart_display_decimals,
+                                shortcode: contract.shortcode,
+                                show_contract_result: 0
+                            }, data);
+                            spots_list = {};
+                            tick_init = 'initialized';
+                            return _context.abrupt('return');
+
+                        case 27:
+
+                            if (data.tick) {
+                                spots2 = Tick.spots();
+                                epoches = Object.keys(spots2).sort(function (a, b) {
+                                    return a - b;
+                                });
+                            } else if (data.history) {
+                                epoches = data.history.times;
+                            }
+
+                            has_finished = applicable_ticks && ticks_needed && applicable_ticks.length >= ticks_needed;
+
+                            if (contract_category.match('runs')) {
+                                has_finished = applicable_ticks.length && contract.exit_tick_time || false;
+                            }
+                            has_sold = contract && contract.exit_tick_time && applicable_ticks && applicable_ticks.find(function (_ref2) {
+                                var epoch = _ref2.epoch;
+                                return +epoch === +contract.exit_tick_time;
+                            }) !== undefined;
+
+                            if (!(!has_finished && !has_sold && (!data.tick || !contract.status || contract.status === 'open'))) {
+                                _context.next = 53;
+                                break;
+                            }
+
+                            d = 0;
+
+                        case 33:
+                            if (!(d < epoches.length)) {
+                                _context.next = 52;
+                                break;
+                            }
+
+                            tick = void 0;
+
+                            if (data.tick) {
+                                tick = {
+                                    epoch: parseInt(epoches[d]),
+                                    quote: parseFloat(spots2[epoches[d]])
+                                };
+                            } else if (data.history) {
+                                tick = {
+                                    epoch: parseInt(data.history.times[d]),
+                                    quote: parseFloat(data.history.prices[d])
+                                };
+                            }
+
+                            current_tick_count = applicable_ticks.length + 1;
+
+                            if (!(contract_start_moment && tick.epoch > contract_start_moment.unix() && !spots_list[tick.epoch])) {
+                                _context.next = 49;
+                                break;
+                            }
+
+                            if (!(!chart || !chart.series)) {
+                                _context.next = 40;
+                                break;
+                            }
+
+                            return _context.abrupt('return');
+
+                        case 40:
+                            chart.series[0].addPoint([counter, tick.quote], true, false);
+
+                            if (+selected_tick === current_tick_count) {
+                                points = chart.series[0].points;
+
+                                points[points.length - 1].update({ marker: marker });
+                            }
+
+                            applicable_ticks.push(tick);
+                            spots_list[tick.epoch] = tick.quote;
+                            indicator_key = '_' + counter;
+
+
+                            if (!x_indicators[indicator_key] && tick.epoch === +contract.exit_tick_time) {
+                                x_indicators[indicator_key] = {
+                                    index: counter,
+                                    label: localize('Exit Spot'),
+                                    dashStyle: 'Dash'
+                                };
+                            } else if (current_tick_count === ticks_needed) {
+                                HighchartUI.updateLabels(chart, {
+                                    contract_type: contract_category,
+                                    has_barrier: false,
+                                    is_reset_barrier: false,
+                                    is_tick_trade: true,
+                                    shortcode: contract.shortcode,
+                                    show_end_time: true
+                                });
+                            }
+
+                            if (typeof x_indicators[indicator_key] !== 'undefined') {
+                                x_indicators[indicator_key].index = counter;
+                                add(x_indicators[indicator_key]);
+                            }
+
+                            addBarrier();
+                            counter++;
+
+                        case 49:
+                            d++;
+                            _context.next = 33;
+                            break;
+
+                        case 52:
+                            if (Reset.isReset(contract_category) && data.history) {
+                                plotResetSpot();
+                            }
+
+                        case 53:
+                        case 'end':
+                            return _context.stop();
                     }
-
-                    applicable_ticks.push(tick);
-                    spots_list[tick.epoch] = tick.quote;
-                    var indicator_key = '_' + counter;
-
-                    if (!x_indicators[indicator_key] && tick.epoch === +contract.exit_tick_time) {
-                        x_indicators[indicator_key] = {
-                            index: counter,
-                            label: localize('Exit Spot'),
-                            dashStyle: 'Dash'
-                        };
-                    } else if (current_tick_count === ticks_needed) {
-                        HighchartUI.updateLabels(chart, {
-                            contract_type: contract_category,
-                            has_barrier: false,
-                            is_reset_barrier: false,
-                            is_tick_trade: true,
-                            shortcode: contract.shortcode,
-                            show_end_time: true
-                        });
-                    }
-
-                    if (typeof x_indicators[indicator_key] !== 'undefined') {
-                        x_indicators[indicator_key].index = counter;
-                        add(x_indicators[indicator_key]);
-                    }
-
-                    addBarrier();
-                    counter++;
                 }
-            }
-            if (Reset.isReset(contract_category) && data.history) {
-                plotResetSpot();
-            }
-        }
-    };
+            }, _callee, undefined);
+        }));
+
+        return function dispatch(_x) {
+            return _ref.apply(this, arguments);
+        };
+    }();
 
     var removePlotLine = function removePlotLine(id) {
         var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'y';
@@ -27502,8 +25442,8 @@ var TickDisplay = function () {
     var addExitSpot = function addExitSpot() {
         if (!applicable_ticks || !contract) return;
 
-        var index = applicable_ticks.findIndex(function (_ref2) {
-            var epoch = _ref2.epoch;
+        var index = applicable_ticks.findIndex(function (_ref3) {
+            var epoch = _ref3.epoch;
             return epoch === +contract.exit_tick_time;
         });
 
@@ -31033,7 +28973,7 @@ var SelfExclusion = function () {
                 return;
             }
             BinarySocket.send({ get_account_status: 1 }).then(function (data) {
-                var has_to_set_30day_turnover = !has_exclude_until && /ukrts_max_turnover_limit_not_set/.test(data.get_account_status.status);
+                var has_to_set_30day_turnover = !has_exclude_until && /max_turnover_limit_not_set/.test(data.get_account_status.status);
                 if (typeof set_30day_turnover === 'undefined') {
                     set_30day_turnover = has_to_set_30day_turnover;
                 }
@@ -31944,7 +29884,7 @@ var TopUpVirtualPopup = function () {
 
     var shouldShowPopup = function shouldShowPopup(balance, should_ignore_hide) {
         // this is only applicable to virtual clients who are on smart trader page or ladders page
-        if (!(Client.get('is_virtual') && (State.get('is_trading') || State.get('is_mb_trading')))) {
+        if (!(Client.get('is_virtual') && State.get('is_trading'))) {
             return false;
         }
         // this is only applicable to clients who have less than 1k balance and have not set popup to remain hidden
@@ -32476,9 +30416,10 @@ var GetCurrency = function () {
     var getCurrenciesOfOtherAccounts = function getCurrenciesOfOtherAccounts() {
         var all_loginids = Client.getAllLoginids();
         var other_currencies = [];
+        var current_landing_company_shortcode = Client.get('landing_company_shortcode');
         all_loginids.forEach(function (loginid) {
-            // if it's not current client or virtual client, consider the currency
-            if (Client.get('loginid') !== loginid && Client.getAccountType(loginid) !== 'virtual') {
+            // if it's not current client or under a different landing company, consider the currency
+            if (Client.get('loginid') !== loginid && current_landing_company_shortcode === Client.get('landing_company_shortcode', loginid)) {
                 var currency = Client.get('currency', loginid);
                 if (currency) {
                     other_currencies.push(currency);
@@ -32616,6 +30557,8 @@ module.exports = LostPassword;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var BinaryPjax = __webpack_require__(/*! ../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -32686,17 +30629,20 @@ var MetaTraderConfig = function () {
                 short_title: localize('Standard')
             };
 
-            return {
+            var has_iom_gaming = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
+
+            return _extends({
                 // for financial mt company with shortcode maltainvest, only offer standard account with different leverage
                 financial: {
                     demo_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Demo Standard'), short_title: standard_config.short_title },
                     real_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Real Standard'), short_title: standard_config.short_title }
-                },
+                }
+            }, !has_iom_gaming && {
                 gaming: {
                     demo_volatility: configMtCompanies.get().gaming.demo_volatility,
                     real_volatility: configMtCompanies.get().gaming.real_volatility
                 }
-            };
+            });
         };
 
         return {
@@ -32718,10 +30664,9 @@ var MetaTraderConfig = function () {
 
     var $messages = void 0;
     var needsRealMessage = function needsRealMessage() {
-        return $messages.find('#msg_' + (Client.hasAccountType('real') ? 'switch' : 'upgrade')).html();
-    };
-    var needsFinancialMessage = function needsFinancialMessage() {
-        return $messages.find('#msg_switch_financial').html();
+        var has_iom_gaming = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
+        var id_to_show = '#msg_switch' + (has_iom_gaming ? '_financial' : '');
+        return $messages.find(id_to_show).html();
     };
 
     // currency equivalent to 1 USD
@@ -33181,7 +31126,6 @@ var MetaTraderConfig = function () {
         fields: fields,
         validations: validations,
         needsRealMessage: needsRealMessage,
-        needsFinancialMessage: needsFinancialMessage,
         hasAccount: hasAccount,
         getCurrency: getCurrency,
         isAuthenticated: isAuthenticated,
@@ -33215,6 +31159,8 @@ module.exports = MetaTraderConfig;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var MetaTraderConfig = __webpack_require__(/*! ./metatrader.config */ "./src/javascript/app/pages/user/metatrader/metatrader.config.js");
 var MetaTraderUI = __webpack_require__(/*! ./metatrader.ui */ "./src/javascript/app/pages/user/metatrader/metatrader.ui.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
@@ -33222,6 +31168,7 @@ var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javasc
 var Validation = __webpack_require__(/*! ../../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
+var isEmptyObject = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
 
 var MetaTrader = function () {
     var mt_companies = void 0;
@@ -33234,19 +31181,36 @@ var MetaTrader = function () {
 
     var onLoad = function onLoad() {
         BinarySocket.send({ statement: 1, limit: 1 });
-        BinarySocket.wait('landing_company', 'get_account_status', 'statement').then(function () {
-            setMTCompanies();
-            if (isEligible()) {
-                if (Client.get('is_virtual')) {
-                    getAllAccountsInfo();
-                } else {
-                    BinarySocket.send({ get_limits: 1 }).then(getAllAccountsInfo);
-                    getExchangeRates();
+        BinarySocket.wait('landing_company', 'get_account_status', 'statement').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var is_eligible;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.next = 2;
+                            return isEligible();
+
+                        case 2:
+                            is_eligible = _context.sent;
+
+                            if (is_eligible) {
+                                if (Client.get('is_virtual')) {
+                                    getAllAccountsInfo();
+                                } else {
+                                    BinarySocket.send({ get_limits: 1 }).then(getAllAccountsInfo);
+                                    getExchangeRates();
+                                }
+                            } else {
+                                MetaTraderUI.displayPageError(localize('Sorry, this feature is not available in your jurisdiction.'));
+                            }
+
+                        case 4:
+                        case 'end':
+                            return _context.stop();
+                    }
                 }
-            } else {
-                MetaTraderUI.displayPageError(localize('Sorry, this feature is not available in your jurisdiction.'));
-            }
-        });
+            }, _callee, undefined);
+        })));
     };
 
     // we need to calculate min/max equivalent to 1 and 20000 USD, so get exchange rates for all currencies based on USD
@@ -33256,10 +31220,13 @@ var MetaTrader = function () {
 
     var setMTCompanies = function setMTCompanies() {
         var mt_financial_company = State.getResponse('landing_company.mt_financial_company');
-        var mt_gaming_company = State.getResponse('landing_company.mt_gaming_company');
 
-        // Check if mt_financial_company is offered, if not found, switch to mt_gaming_company
-        var mt_landing_company = mt_financial_company || mt_gaming_company;
+        var has_iom_gaming_company = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
+
+        var mt_gaming_company = has_iom_gaming_company ? State.getResponse('landing_company.mt_gaming_company') : {};
+
+        // Check if mt_gaming_company is offered, if not found, switch to mt_financial_company
+        var mt_landing_company = isEmptyObject(mt_gaming_company) ? mt_financial_company : mt_gaming_company;
 
         // Check if any of the account type shortcodes from mt_landing_company account is maltainvest
         var is_financial = mt_landing_company ? Object.keys(mt_landing_company).some(function (key) {
@@ -33270,6 +31237,27 @@ var MetaTrader = function () {
     };
 
     var isEligible = function isEligible() {
+        return new Promise(function (resolve) {
+            var financial_company = State.getResponse('landing_company.financial_company.shortcode');
+            // client is currently IOM landing company
+            // or has IOM landing company and doesn't have a non-IOM financial company
+            var has_iom_gaming_company = Client.get('landing_company_shortcode') === 'iom' || State.getResponse('landing_company.gaming_company.shortcode') === 'iom' && financial_company && financial_company === 'iom';
+            if (has_iom_gaming_company) {
+                if (Client.isLoggedIn()) {
+                    BinarySocket.wait('mt5_login_list').then(function (response_login_list) {
+                        // don't allow account opening for IOM accounts but let them see the dashboard if they have existing MT5 accounts
+                        resolve(response_login_list.mt5_login_list.length ? hasMTCompany() : false);
+                    });
+                } else {
+                    resolve(false);
+                }
+            } else {
+                resolve(hasMTCompany());
+            }
+        });
+    };
+
+    var hasMTCompany = function hasMTCompany() {
         setMTCompanies();
         var has_mt_company = false;
         Object.keys(mt_companies).forEach(function (company) {
@@ -33680,7 +31668,8 @@ var MetaTraderUI = function () {
                 $acc_item.find('.mt-balance').html(mt_balance);
                 $action.find('.mt5-balance').html(mt_balance);
             }
-            if (Object.keys(accounts_info).every(function (type) {
+            // disable MT5 account opening for iom clients as well as client who created all available accounts
+            if (Client.get('landing_company_shortcode') === 'iom' || Object.keys(accounts_info).every(function (type) {
                 return accounts_info[type].info;
             })) {
                 $container.find('.act_new_account').remove();
@@ -33883,7 +31872,7 @@ var MetaTraderUI = function () {
         var is_new_account = /new_account/.test(action);
         var $acc_actions = $container.find('.acc-actions');
         $acc_actions.find('.new-account').setVisibility(is_new_account);
-        $acc_actions.find('.act_new_account_mam').setVisibility(is_new_account && (Client.get('landing_company_shortcode') === 'costarica' || Client.get('landing_company_shortcode') === 'svg'));
+        $acc_actions.find('.act_new_account_mam').setVisibility(is_new_account && Client.get('landing_company_shortcode') === 'svg');
         $acc_actions.find('.has-account').setVisibility(!is_new_account);
         $acc_actions.find('.has-mam').setVisibility(is_new_account ? 0 : getPropertyValue(accounts_info, [Client.get('mt5_account'), 'info', 'manager_id']));
         $detail.setVisibility(!is_new_account);
@@ -34009,7 +31998,7 @@ var MetaTraderUI = function () {
         }).forEach(function (acc_type) {
             // toEnableVanuatuAdvanced: remove vanuatu_advanced from regex below
             // toEnableMAMAdvanced: remove mamm_advanced from regex below
-            if (/labuan_standard|vanuatu_advanced|mamm_advanced/.test(acc_type)) {
+            if (/labuan_standard|vanuatu_advanced|iom|maltainvest_advanced|mamm_advanced/.test(acc_type)) {
                 return;
             }
             count++;
@@ -34305,7 +32294,8 @@ var toISOFormat = __webpack_require__(/*! ../../../../_common/string_util */ "./
 var FinancialAccOpening = function () {
     var form_id = '#financial-form';
 
-    var get_settings = void 0;
+    var get_settings = void 0,
+        txt_secret_answer = void 0;
 
     var onLoad = function onLoad() {
         if (Client.hasAccountType('financial') || !Client.get('residence')) {
@@ -34354,6 +32344,7 @@ var FinancialAccOpening = function () {
             FormManager.handleSubmit({
                 form_selector: form_id,
                 obj_request: { new_account_maltainvest: 1, accept_risk: 0 },
+                fnc_additional_check: storeSecretAnswer,
                 fnc_response_handler: handleResponse
             });
         });
@@ -34366,6 +32357,12 @@ var FinancialAccOpening = function () {
 
         AccountOpening.showHidePulser(0);
         AccountOpening.registerPepToggle();
+    };
+
+    // API won't return secret answer in echo_req, it will return <not shown> so we should store it in FE before sending it after accept_risk
+    var storeSecretAnswer = function storeSecretAnswer(request) {
+        txt_secret_answer = request.secret_answer;
+        return true;
     };
 
     var getValidations = function getValidations() {
@@ -34390,6 +32387,7 @@ var FinancialAccOpening = function () {
 
             var echo_req = $.extend({}, response.echo_req);
             echo_req.accept_risk = 1;
+            echo_req.secret_answer = txt_secret_answer; // update from <not shown> to the previous value stored in FE
             FormManager.handleSubmit({
                 form_selector: risk_form_id,
                 obj_request: echo_req,
@@ -35531,8 +33529,6 @@ module.exports = VideoFacility;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var ViewPopupUI = __webpack_require__(/*! ./view_popup.ui */ "./src/javascript/app/pages/user/view_popup/view_popup.ui.js");
 var Highchart = __webpack_require__(/*! ../../trade/charts/highchart */ "./src/javascript/app/pages/trade/charts/highchart.js");
@@ -35546,7 +33542,6 @@ var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javasc
 var changePocNumbersToString = __webpack_require__(/*! ../../../common/request_middleware */ "./src/javascript/app/common/request_middleware.js").changePocNumbersToString;
 var getElementById = __webpack_require__(/*! ../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
-var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var urlFor = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var Utility = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js");
 
@@ -35690,10 +33685,6 @@ var ViewPopup = function () {
         Clock.setExternalTimer(updateTimers);
         update();
         ViewPopupUI.repositionConfirmation();
-
-        if (State.get('is_mb_trading')) {
-            State.call('ViewPopup.onDisplayed');
-        }
     };
 
     var update = function update() {
@@ -35728,20 +33719,20 @@ var ViewPopup = function () {
             containerSetText('trade_details_barrier', contract.entry_tick_time && is_sold_before_start ? '-' : barrier_prefix + formatted_barrier, '', true);
 
             if (Reset.isReset(contract.contract_type) && Reset.isNewBarrier(contract.entry_spot, contract.barrier)) {
-                containerSetText('trade_details_barrier', is_sold_before_start ? '-' : addComma(contract.entry_spot), '', true);
+                containerSetText('trade_details_barrier', is_sold_before_start ? '-' : contract.entry_spot_display_value, '', true);
                 containerSetText('trade_details_reset_barrier', contract.entry_tick_time && is_sold_before_start ? '-' : barrier_prefix + formatted_barrier, '', true);
             }
         }
 
-        var current_spot = contract.status === 'sold' ? '' : contract.current_spot;
+        var current_spot = contract.status === 'sold' ? '' : contract.current_spot_display_value;
         var current_spot_time = contract.status === 'sold' ? '' : contract.current_spot_time;
         if (is_ended && contract.status !== 'sold') {
-            current_spot = contract.exit_tick;
+            current_spot = contract.exit_tick_display_value;
             current_spot_time = contract.exit_tick_time;
         }
 
         if (current_spot) {
-            containerSetText('trade_details_current_spot > span', addComma(current_spot));
+            containerSetText('trade_details_current_spot > span', current_spot);
             $('#trade_details_current_spot').parent().setVisibility(1);
         } else {
             $('#trade_details_current_spot').parent().setVisibility(0);
@@ -35774,9 +33765,9 @@ var ViewPopup = function () {
             containerSetText('trade_details_entry_spot > span', '-');
             containerSetText('trade_details_message', localize('Contract has not started yet'));
         } else {
-            if (parseFloat(contract.entry_spot) > 0) {
+            if (contract.entry_spot > 0) {
                 // only show entry spot if available and contract was not sold before start time
-                containerSetText('trade_details_entry_spot > span', is_sold_before_start ? '-' : addComma(contract.entry_spot));
+                containerSetText('trade_details_entry_spot > span', is_sold_before_start ? '-' : contract.entry_spot_display_value);
             }
             containerSetText('trade_details_message', contract.validation_error ? contract.validation_error : '&nbsp;');
         }
@@ -35984,7 +33975,7 @@ var ViewPopup = function () {
         'tick(high|low)': 'highlowticks',
         'run(high|low)': 'runs',
         'call|put': function callPut() {
-            return +contract.entry_tick === +contract.barrier ? 'risefall' : 'higherlower';
+            return contract.entry_tick === +contract.barrier ? 'risefall' : 'higherlower';
         }
     };
 
@@ -36026,7 +34017,7 @@ var ViewPopup = function () {
                     color = secondary_classes;
                 }
 
-                createAuditRow(table, audit_data.epoch, audit_data.tick, audit_data.name, color);
+                createAuditRow(table, audit_data.epoch, audit_data.tick, audit_data.tick_display_value, audit_data.name, color);
             });
             resolve();
         });
@@ -36061,7 +34052,7 @@ var ViewPopup = function () {
         table.insertBefore(tr, table.childNodes[0]);
     };
 
-    var createAuditRow = function createAuditRow(table, date, tick, remark, td_class) {
+    var createAuditRow = function createAuditRow(table, date, tick, tick_display, remark, td_class) {
         // if we have already added this timestamp in first table, skip adding it again to second table
         // unless it is a highlighted tick like entry or exit spot, or start or end time
         if (document.querySelector('.audit-dates[data-value=\'' + date + '\']') && !remark) {
@@ -36070,7 +34061,7 @@ var ViewPopup = function () {
 
         var tr = Utility.createElement('tr', { class: 'gr-row' });
         var td_remark = Utility.createElement('td', { class: 'gr-4 remark', text: remark || '' });
-        var td_tick = Utility.createElement('td', { class: 'gr-3 spot-value', text: tick && !isNaN(tick) ? addComma(tick) : tick || '' });
+        var td_tick = Utility.createElement('td', { class: 'gr-3 spot-value', text: tick_display || '' });
         var td_date = Utility.createElement('td', { class: 'gr-4 audit-dates', 'data-value': date, 'data-balloon-pos': 'down', text: date && !isNaN(date) ? moment.unix(date).utc().format('YYYY-MM-DD HH:mm:ss') : date || '' });
 
         tr.appendChild(td_remark);
@@ -36306,65 +34297,25 @@ var ViewPopup = function () {
         getContract('no-subscribe');
     };
 
-    var responseProposal = function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(response) {
-            var dates, i;
-            return regeneratorRuntime.wrap(function _callee$(_context) {
-                while (1) {
-                    switch (_context.prev = _context.next) {
-                        case 0:
-                            if (!response.error) {
-                                _context.next = 3;
-                                break;
-                            }
-
-                            if (response.error.code !== 'AlreadySubscribed' && +response.echo_req.contract_id === contract_id) {
-                                showErrorPopup(response, response.error.message);
-                            }
-                            return _context.abrupt('return');
-
-                        case 3:
-                            if (!(+response.proposal_open_contract.contract_id === contract_id)) {
-                                _context.next = 12;
-                                break;
-                            }
-
-                            ViewPopupUI.storeSubscriptionID(response.proposal_open_contract.id);
-                            _context.t0 = responseContract;
-                            _context.next = 8;
-                            return changePocNumbersToString(response);
-
-                        case 8:
-                            _context.t1 = _context.sent;
-                            (0, _context.t0)(_context.t1);
-                            _context.next = 13;
-                            break;
-
-                        case 12:
-                            if (response.proposal_open_contract.id) {
-                                BinarySocket.send({ forget: response.proposal_open_contract.id });
-                            }
-
-                        case 13:
-                            dates = ['#trade_details_start_date', '#trade_details_end_date', '#trade_details_current_date', '#trade_details_live_date'];
-
-                            for (i = 0; i < dates.length; i++) {
-                                Clock.showLocalTimeOnHover(dates[i]);
-                                $(dates[i]).attr('data-balloon-pos', 'left');
-                            }
-
-                        case 15:
-                        case 'end':
-                            return _context.stop();
-                    }
-                }
-            }, _callee, undefined);
-        }));
-
-        return function responseProposal(_x3) {
-            return _ref.apply(this, arguments);
-        };
-    }();
+    var responseProposal = function responseProposal(response) {
+        if (response.error) {
+            if (response.error.code !== 'AlreadySubscribed' && +response.echo_req.contract_id === contract_id) {
+                showErrorPopup(response, response.error.message);
+            }
+            return;
+        }
+        if (+response.proposal_open_contract.contract_id === contract_id) {
+            ViewPopupUI.storeSubscriptionID(response.proposal_open_contract.id);
+            responseContract(changePocNumbersToString(response));
+        } else if (response.proposal_open_contract.id) {
+            BinarySocket.send({ forget: response.proposal_open_contract.id });
+        }
+        var dates = ['#trade_details_start_date', '#trade_details_end_date', '#trade_details_current_date', '#trade_details_live_date'];
+        for (var i = 0; i < dates.length; i++) {
+            Clock.showLocalTimeOnHover(dates[i]);
+            $(dates[i]).attr('data-balloon-pos', 'left');
+        }
+    };
 
     var viewButtonOnClick = function viewButtonOnClick(container_selector) {
         $(container_selector).on('click', '.open_contract_details', function (e) {
@@ -37249,6 +35200,9 @@ var getElementById = __webpack_require__(/*! ../../_common/common_functions */ "
 var TabSelector = __webpack_require__(/*! ../../_common/tab_selector */ "./src/javascript/_common/tab_selector.js");
 var isBinaryApp = __webpack_require__(/*! ../../config */ "./src/javascript/config.js").isBinaryApp;
 
+var _require = __webpack_require__(/*! ../../_common/os_detect */ "./src/javascript/_common/os_detect.js"),
+    OSDetect = _require.OSDetect;
+
 var os_list = [{
     name: 'mac',
     url_test: /\.dmg$/
@@ -37289,6 +35243,13 @@ var Platforms = function () {
         }).then(function (gridapp) {
             $('.download-grid-app').attr('href', 'https://grid.binary.me/download/' + gridapp.name);
         });
+        var os = OSDetect();
+        var android_app = document.querySelector('.android-download-grid-app');
+        if (os === 'ios') {
+            var ios_message = document.querySelector('.ios-download-grid-app');
+            ios_message.classList.remove('invisible');
+            android_app.classList.add('invisible');
+        }
     };
 
     return {
