@@ -15057,7 +15057,7 @@ var AccountTransfer = function () {
         if (/iom|malta/.test(Client.get('landing_company_shortcode'))) {
             el_transfer_fee.setVisibility(0);
         }
-        hideLoading();
+        setLoadingVisibility(0);
     };
 
     var setTransferFeeAmount = function setTransferFeeAmount() {
@@ -15078,14 +15078,14 @@ var AccountTransfer = function () {
     };
 
     var showError = function showError() {
-        hideLoading();
+        setLoadingVisibility(0);
         getElementById(messages.parent).setVisibility(1);
         getElementById(messages.error).setVisibility(1);
     };
 
-    var hideLoading = function hideLoading() {
-        getElementById('loading').setVisibility(0);
-        getElementById('transfer_between_accounts').setVisibility(1);
+    var setLoadingVisibility = function setLoadingVisibility(is_loading_visible) {
+        getElementById('loading').setVisibility(is_loading_visible);
+        getElementById('transfer_between_accounts').setVisibility(!is_loading_visible);
     };
 
     var showForm = function showForm() {
@@ -15149,6 +15149,7 @@ var AccountTransfer = function () {
             return;
         }
 
+        setLoadingVisibility(1);
         el_transfer_fee = getElementById('transfer_fee');
         el_fee_amount = getElementById('transfer_fee_amount');
         el_fee_minimum = getElementById('transfer_fee_minimum');
@@ -15161,7 +15162,7 @@ var AccountTransfer = function () {
             client_currency = Client.get('currency');
             var min_amount = Currency.getTransferLimits(client_currency, 'min');
             if (!client_balance || client_balance < +min_amount) {
-                hideLoading();
+                setLoadingVisibility(0);
                 getElementById(messages.parent).setVisibility(1);
                 if (client_currency) {
                     elementTextContent(getElementById('min_required_amount'), client_currency + ' ' + min_amount);
