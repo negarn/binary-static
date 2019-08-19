@@ -15114,7 +15114,11 @@ var AccountTransfer = function () {
             }, 5000);
         } else {
             BinarySocket.send({ transfer_between_accounts: 1 }).then(function (data) {
-                return populateReceipt(response, data);
+                populateReceipt(response, data);
+                // manually enable the button instead of inside form manager since the API response is slow
+                var el_button_submit = getElementById('btn_submit');
+                el_button_submit.removeAttribute('disabled');
+                el_button_submit.html(el_button_submit.getElementsByTagName('span')[0].textContent);
             });
         }
     };
