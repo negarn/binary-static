@@ -9782,7 +9782,7 @@ var BinaryLoader = function () {
                 });
             }
         } else if (config.not_authenticated && Client.isLoggedIn()) {
-            if (this_page === 'home') {
+            if (this_page === 'home' || this_page === 'new-account') {
                 BinaryPjax.load('' + Client.defaultRedirectUrl() + window.location.search, true);
             } else {
                 handleNotAuthenticated();
@@ -15099,7 +15099,8 @@ var AccountTransfer = function () {
 
         FormManager.handleSubmit({
             form_selector: form_id_hash,
-            fnc_response_handler: responseHandler
+            fnc_response_handler: responseHandler,
+            enable_button: true
         });
     };
 
@@ -15113,24 +15114,18 @@ var AccountTransfer = function () {
                 return el_error.setVisibility(0);
             }, 5000);
         } else {
-            BinarySocket.send({ transfer_between_accounts: 1 }).then(function (data) {
-                populateReceipt(response, data);
-                // manually enable the button instead of inside form manager since the API response is slow
-                var el_button_submit = getElementById('btn_submit');
-                el_button_submit.removeAttribute('disabled');
-                el_button_submit.html(el_button_submit.getElementsByTagName('span')[0].textContent);
-            });
+            populateReceipt(response);
         }
     };
 
-    var populateReceipt = function populateReceipt(response_submit_success, response) {
+    var populateReceipt = function populateReceipt(response) {
         getElementById(form_id).setVisibility(0);
         response.accounts.forEach(function (account) {
             if (account.loginid === client_loginid) {
                 elementTextContent(getElementById('transfer_success_from'), localize('From account: '));
                 elementTextContent(getElementById('from_loginid'), account.loginid + ' (' + account.currency + ')');
                 getElementById('from_current_balance').innerText = Currency.getTextFormat(account.balance, account.currency);
-            } else if (account.loginid === response_submit_success.client_to_loginid) {
+            } else if (account.loginid === response.client_to_loginid) {
                 elementTextContent(getElementById('transfer_success_to'), localize('To account: '));
                 elementTextContent(getElementById('to_loginid'), account.loginid + ' (' + account.currency + ')');
                 getElementById('to_current_balance').innerText = Currency.getTextFormat(account.balance, account.currency);
@@ -30996,20 +30991,6 @@ var MetaTraderConfig = function () {
                         resolve();
                     }
                 });
-            },
-            pre_submit: function pre_submit($form, acc_type, displayFormMessage) {
-                return BinarySocket.send({
-                    mt5_password_check: 1,
-                    login: accounts_info[acc_type].info.login,
-                    password: $form.find(fields.withdrawal.txt_main_pass.id).val()
-                }).then(function (response) {
-                    if (+response.mt5_password_check === 1) {
-                        return true;
-                    } else if (response.error) {
-                        displayFormMessage(response.error.message, 'withdrawal');
-                    }
-                    return false;
-                });
             }
         }
     };
@@ -31100,7 +31081,6 @@ var MetaTraderConfig = function () {
         },
         withdrawal: {
             txt_amount: { id: '#txt_amount_withdrawal', request_field: 'amount' },
-            txt_main_pass: { id: '#txt_main_pass_wd' },
             additional_fields: function additional_fields(acc_type) {
                 return {
                     from_mt5: accounts_info[acc_type].info.login,
@@ -31124,7 +31104,7 @@ var MetaTraderConfig = function () {
                     }, decimals: Currency.getDecimalPlaces(Client.get('currency')) }], ['custom', { func: function func() {
                         return Client.get('balance') && +Client.get('balance') >= +$(fields.deposit.txt_amount.id).val();
                     }, message: localize('You have insufficient funds in your Binary account, please <a href="[_1]">add funds</a>.', urlFor('cashier')) }]] }],
-            withdrawal: [{ selector: fields.withdrawal.txt_main_pass.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.withdrawal.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
+            withdrawal: [{ selector: fields.withdrawal.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
                         return getMinMT5TransferValue(getCurrency(Client.get('mt5_account')));
                     }, max: function max() {
                         return getMaxMT5TransferValue(getCurrency(Client.get('mt5_account')));
