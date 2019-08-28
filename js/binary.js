@@ -31132,7 +31132,7 @@ var MetaTrader = function () {
 
     var isEligible = function isEligible() {
         // hide MT5 dashboard for IOM
-        if (Client.get('landing_company_shortcode') === 'iom') {
+        if ((State.getResponse('landing_company.gaming_company') || State.getResponse('landing_company.financial_company')).shortcode === 'iom') {
             return false;
         }
         setMTCompanies();
