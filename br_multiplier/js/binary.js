@@ -24026,7 +24026,7 @@ var Purchase = function () {
             var contract_type = passthrough.contract_type;
 
             if (isLookback(contract_type)) {
-                multiplier = formatMoney(currency, passthrough.amount, false, 3, 2);
+                multiplier = formatMoney(currency, passthrough.multiplier, false, 3, 2);
                 formula = getLookBackFormula(contract_type, multiplier);
             }
 
