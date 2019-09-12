@@ -10372,7 +10372,7 @@ var Client = function () {
     var doLogout = function doLogout(response) {
         if (response.logout !== 1) return;
         removeCookies('login', 'loginid', 'loginid_list', 'email', 'residence', 'settings'); // backward compatibility
-        removeCookies('reality_check', 'affiliate_token', 'affiliate_tracking');
+        removeCookies('reality_check', 'affiliate_token', 'affiliate_tracking', 'onfido_token');
         // clear elev.io session storage
         sessionStorage.removeItem('_elevaddon-6app');
         sessionStorage.removeItem('_elevaddon-6create');
@@ -10676,7 +10676,6 @@ var BinaryPjax = __webpack_require__(/*! ./binary_pjax */ "./src/javascript/app/
 var Client = __webpack_require__(/*! ./client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
 var showHidePulser = __webpack_require__(/*! ../common/account_opening */ "./src/javascript/app/common/account_opening.js").showHidePulser;
-var MetaTrader = __webpack_require__(/*! ../pages/user/metatrader/metatrader */ "./src/javascript/app/pages/user/metatrader/metatrader.js");
 var getLandingCompanyValue = __webpack_require__(/*! ../../_common/base/client_base */ "./src/javascript/_common/base/client_base.js").getLandingCompanyValue;
 var GTM = __webpack_require__(/*! ../../_common/base/gtm */ "./src/javascript/_common/base/gtm.js");
 var Login = __webpack_require__(/*! ../../_common/base/login */ "./src/javascript/_common/base/login.js");
@@ -10784,17 +10783,6 @@ var Header = function () {
             el_loginid.setAttribute('disabled', 'disabled');
             switchLoginid(el_loginid.getAttribute('data-value'));
         }
-    };
-
-    var metatraderMenuItemVisibility = function metatraderMenuItemVisibility() {
-        BinarySocket.wait('landing_company', 'get_account_status').then(function () {
-            if (MetaTrader.isEligible()) {
-                var mt_visibility = document.getElementsByClassName('mt_visibility');
-                applyToAllElements(mt_visibility, function (el) {
-                    el.setVisibility(1);
-                });
-            }
-        });
     };
 
     var switchLoginid = function switchLoginid(loginid) {
@@ -10935,8 +10923,9 @@ var Header = function () {
     };
 
     var displayAccountStatus = function displayAccountStatus() {
-        BinarySocket.wait('authorize', 'landing_company').then(function () {
-            var get_account_status = void 0,
+        BinarySocket.wait('get_account_status', 'authorize', 'landing_company').then(function () {
+            var authentication = void 0,
+                get_account_status = void 0,
                 status = void 0;
             var is_svg = Client.get('landing_company_shortcode') === 'svg';
             var loginid = Client.get('loginid') || {};
@@ -10961,26 +10950,111 @@ var Header = function () {
                 var hash = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
                 return template(string, ['<a href="' + Url.urlFor(path) + hash + '">', '</a>']);
             };
+            var buildSpecificMessage = function buildSpecificMessage(string, additional) {
+                return template(string, [].concat(_toConsumableArray(additional)));
+            };
             var hasStatus = function hasStatus(string) {
                 return status.findIndex(function (s) {
                     return s === string;
                 }) < 0 ? Boolean(false) : Boolean(true);
             };
+            var hasVerification = function hasVerification(string) {
+                var _authentication = authentication,
+                    identity = _authentication.identity,
+                    document = _authentication.document,
+                    needs_verification = _authentication.needs_verification;
+
+                var verification_length = needs_verification.length;
+                var result = false;
+
+                switch (string) {
+                    case 'unsubmitted':
+                        {
+                            result = verification_length === 2 && identity.status === 'none' && document.status === 'none';
+                            break;
+                        }
+                    case 'expired':
+                        {
+                            result = verification_length === 2 && identity.status === 'expired' && document.status === 'expired';
+                            break;
+                        }
+                    case 'expired_identity':
+                        {
+                            result = verification_length && identity.status === 'expired';
+                            break;
+                        }
+                    case 'expired_document':
+                        {
+                            result = verification_length && document.status === 'expired';
+                            break;
+                        }
+                    case 'rejected':
+                        {
+                            result = verification_length === 2 && (identity.status !== 'none' || document.status !== 'none');
+                            break;
+                        }
+                    case 'rejected_identity':
+                        {
+                            result = verification_length && (identity.status === 'rejected' || identity.status === 'suspected');
+                            break;
+                        }
+                    case 'rejected_document':
+                        {
+                            result = verification_length && (document.status === 'rejected' || document.status === 'suspected');
+                            break;
+                        }
+                    case 'identity':
+                        {
+                            result = verification_length && identity.status === 'none';
+                            break;
+                        }
+                    case 'document':
+                        {
+                            result = verification_length && document.status === 'none';
+                            break;
+                        }
+                    default:
+                        break;
+                }
+
+                return result;
+            };
 
             var has_no_tnc_limit = is_svg;
 
             var messages = {
-                authenticate: function authenticate() {
-                    return buildMessage(localizeKeepPlaceholders('[_1]Authenticate your account[_2] now to take full advantage of all payment methods available.'), 'user/authenticate');
-                },
                 cashier_locked: function cashier_locked() {
                     return localize('Deposits and withdrawals have been disabled on your account. Please check your email for more details.');
                 },
                 currency: function currency() {
                     return buildMessage(localizeKeepPlaceholders('Please set the [_1]currency[_2] of your account.'), 'user/set-currency');
                 },
-                document_needs_action: function document_needs_action() {
-                    return buildMessage(localizeKeepPlaceholders('[_1]Your Proof of Identity or Proof of Address[_2] did not meet our requirements. Please check your email for further instructions.'), 'user/authenticate');
+                unsubmitted: function unsubmitted() {
+                    return buildMessage(localizeKeepPlaceholders('Please submit your [_1]proof of identity and proof of address[_2].'), 'user/authenticate');
+                },
+                expired: function expired() {
+                    return buildSpecificMessage(localizeKeepPlaceholders('Your [_1]proof of identity[_3] and [_2]proof of address[_3] have expired.'), ['<a href=\'' + Url.urlFor('user/authenticate') + '\'>', '<a href=\'' + Url.urlFor('user/authenticate') + '?authentication_tab=poa\'>', '</a>']);
+                },
+                expired_identity: function expired_identity() {
+                    return buildMessage(localizeKeepPlaceholders('Your [_1]proof of identity[_2] has expired.'), 'user/authenticate');
+                },
+                expired_document: function expired_document() {
+                    return buildMessage(localizeKeepPlaceholders('Your [_1]proof of address[_2] has expired.'), 'user/authenticate', '?authentication_tab=poa');
+                },
+                rejected: function rejected() {
+                    return buildSpecificMessage(localizeKeepPlaceholders('Your [_1]proof of identity[_3] and [_2]proof of address[_3] have not been verified. Please check your email for details.'), ['<a href=\'' + Url.urlFor('user/authenticate') + '\'>', '<a href=\'' + Url.urlFor('user/authenticate') + '?authentication_tab=poa\'>', '</a>']);
+                },
+                rejected_identity: function rejected_identity() {
+                    return buildMessage(localizeKeepPlaceholders('Your [_1]proof of identity[_2] has not been verified. Please check your email for details.'), 'user/authenticate');
+                },
+                rejected_document: function rejected_document() {
+                    return buildMessage(localizeKeepPlaceholders('Your [_1]proof of address[_2] has not been verified. Please check your email for details.'), 'user/authenticate', '?authentication_tab=poa');
+                },
+                identity: function identity() {
+                    return buildMessage(localizeKeepPlaceholders('Please submit your [_1]proof of identity[_2].'), 'user/authenticate');
+                },
+                document: function document() {
+                    return buildMessage(localizeKeepPlaceholders('Please submit your [_1]proof of address[_2].'), 'user/authenticate', '?authentication_tab=poa');
                 },
                 excluded_until: function excluded_until() {
                     return buildMessage(localizeKeepPlaceholders('Your account is restricted. Kindly [_1]contact customer support[_2] for assistance.'), 'contact');
@@ -11018,17 +11092,38 @@ var Header = function () {
             };
 
             var validations = {
-                authenticate: function authenticate() {
-                    return +get_account_status.prompt_client_to_authenticate && !hasStatus('document_under_review');
-                },
                 cashier_locked: function cashier_locked() {
                     return hasStatus('cashier_locked');
                 },
                 currency: function currency() {
                     return !Client.get('currency');
                 },
-                document_needs_action: function document_needs_action() {
-                    return hasStatus('document_needs_action');
+                unsubmitted: function unsubmitted() {
+                    return hasVerification('unsubmitted');
+                },
+                expired: function expired() {
+                    return hasVerification('expired');
+                },
+                expired_identity: function expired_identity() {
+                    return hasVerification('expired_identity');
+                },
+                expired_document: function expired_document() {
+                    return hasVerification('expired_document');
+                },
+                rejected: function rejected() {
+                    return hasVerification('rejected');
+                },
+                rejected_identity: function rejected_identity() {
+                    return hasVerification('rejected_identity');
+                },
+                rejected_document: function rejected_document() {
+                    return hasVerification('rejected_document');
+                },
+                identity: function identity() {
+                    return hasVerification('identity');
+                },
+                document: function document() {
+                    return hasVerification('document');
                 },
                 excluded_until: function excluded_until() {
                     return Client.get('excluded_until');
@@ -11066,7 +11161,9 @@ var Header = function () {
             };
 
             // real account checks in order
-            var check_statuses_real = ['excluded_until', 'tnc', 'required_fields', 'financial_limit', 'risk', 'tax', 'currency', 'document_needs_action', 'authenticate', 'cashier_locked', 'withdrawal_locked', 'mt5_withdrawal_locked', 'unwelcome', 'mf_retail'];
+            var check_statuses_real = ['excluded_until', 'tnc', 'required_fields', 'financial_limit', 'risk', 'tax', 'currency', 'cashier_locked', 'withdrawal_locked', 'mt5_withdrawal_locked', 'unwelcome', 'unsubmitted', 'expired', 'expired_identity', 'expired_document', 'rejected', 'rejected_identity', 'rejected_document', 'identity', 'document', 'mf_retail'];
+
+            var check_statuses_mf_mlt = ['excluded_until', 'tnc', 'required_fields', 'financial_limit', 'risk', 'tax', 'currency', 'unsubmitted', 'expired', 'expired_identity', 'expired_document', 'rejected', 'rejected_identity', 'rejected_document', 'identity', 'document', 'unwelcome', 'cashier_locked', 'withdrawal_locked', 'mt5_withdrawal_locked', 'mf_retail'];
 
             // virtual checks
             var check_statuses_virtual = ['residence'];
@@ -11090,11 +11187,15 @@ var Header = function () {
                 checkStatus(check_statuses_virtual);
             } else {
                 var el_account_status = createElement('span', { class: 'authenticated', 'data-balloon': localize('Account Authenticated'), 'data-balloon-pos': 'down' });
-
                 BinarySocket.wait('website_status', 'get_account_status', 'get_settings', 'balance').then(function () {
+                    authentication = State.getResponse('get_account_status.authentication') || {};
                     get_account_status = State.getResponse('get_account_status') || {};
                     status = get_account_status.status;
-                    checkStatus(check_statuses_real);
+                    if (Client.get('landing_company_shortcode') === 'maltainvest' || Client.get('landing_company_shortcode') === 'malta' || Client.get('landing_company_shortcode') === 'iom') {
+                        checkStatus(check_statuses_mf_mlt);
+                    } else {
+                        checkStatus(check_statuses_real);
+                    }
                     var is_fully_authenticated = hasStatus('authenticated') && !+get_account_status.prompt_client_to_authenticate;
                     $('.account-id')[is_fully_authenticated ? 'append' : 'remove'](el_account_status);
                 });
@@ -11106,7 +11207,6 @@ var Header = function () {
         onLoad: onLoad,
         populateAccountsList: populateAccountsList,
         upgradeMessageVisibility: upgradeMessageVisibility,
-        metatraderMenuItemVisibility: metatraderMenuItemVisibility,
         displayNotification: displayNotification,
         hideNotification: hideNotification,
         displayAccountStatus: displayAccountStatus,
@@ -11656,6 +11756,7 @@ var Clock = __webpack_require__(/*! ./clock */ "./src/javascript/app/base/clock.
 var Footer = __webpack_require__(/*! ./footer */ "./src/javascript/app/base/footer.js");
 var Header = __webpack_require__(/*! ./header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
+var MetaTrader = __webpack_require__(/*! ../pages/user/metatrader/metatrader */ "./src/javascript/app/pages/user/metatrader/metatrader.js");
 var Dialog = __webpack_require__(/*! ../common/attach_dom/dialog */ "./src/javascript/app/common/attach_dom/dialog.js");
 var createLanguageDropDown = __webpack_require__(/*! ../common/attach_dom/language_dropdown */ "./src/javascript/app/common/attach_dom/language_dropdown.js");
 var setCurrencies = __webpack_require__(/*! ../common/currency */ "./src/javascript/app/common/currency.js").setCurrencies;
@@ -11763,7 +11864,7 @@ var BinarySocketGeneral = function () {
             case 'landing_company':
                 Header.upgradeMessageVisibility();
                 if (!response.error) {
-                    Header.metatraderMenuItemVisibility();
+                    MetaTrader.metatraderMenuItemVisibility();
                 }
                 break;
             case 'get_self_exclusion':
@@ -13051,6 +13152,8 @@ module.exports = ChartSettings;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var Client = __webpack_require__(/*! ../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../base/socket */ "./src/javascript/app/base/socket.js");
 var MetaTrader = __webpack_require__(/*! ../pages/user/metatrader/metatrader */ "./src/javascript/app/pages/user/metatrader/metatrader.js");
@@ -13106,25 +13209,46 @@ var ContentVisibility = function () {
         var arr_mt5fin_shortcodes = void 0;
 
         return new Promise(function (resolve) {
-            BinarySocket.wait('authorize', 'landing_company', 'website_status').then(function () {
-                var current_landing_company_shortcode = State.getResponse('authorize.landing_company_name') || 'default';
-                var mt_financial_company = State.getResponse('landing_company.mt_financial_company');
-                var mt_gaming_company = State.getResponse('landing_company.mt_gaming_company');
+            BinarySocket.wait('authorize', 'landing_company', 'website_status').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                var current_landing_company_shortcode, mt_financial_company, mt_gaming_company, mt_landing_company, is_eligible_mt5;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                current_landing_company_shortcode = State.getResponse('authorize.landing_company_name') || 'default';
+                                mt_financial_company = State.getResponse('landing_company.mt_financial_company');
+                                mt_gaming_company = State.getResponse('landing_company.mt_gaming_company');
 
-                // Check if mt_financial_company is offered, if not found, switch to mt_gaming_company
-                var mt_landing_company = mt_financial_company || mt_gaming_company;
+                                // Check if mt_financial_company is offered, if not found, switch to mt_gaming_company
 
-                // Check mt_financial_company by account type, since we are offering different landing companies for standard and advanced
-                arr_mt5fin_shortcodes = mt_landing_company ? Object.keys(mt_landing_company).map(function (key) {
-                    return mt_landing_company[key].shortcode;
-                }) : [];
+                                mt_landing_company = mt_financial_company || mt_gaming_company;
 
-                controlVisibility(current_landing_company_shortcode, MetaTrader.isEligible(),
-                // We then pass the list of found mt5fin company shortcodes as an array
-                arr_mt5fin_shortcodes);
+                                // Check mt_financial_company by account type, since we are offering different landing companies for standard and advanced
 
-                resolve();
-            });
+                                arr_mt5fin_shortcodes = mt_landing_company ? Object.keys(mt_landing_company).map(function (key) {
+                                    return mt_landing_company[key].shortcode;
+                                }) : [];
+
+                                _context.next = 7;
+                                return MetaTrader.isEligible();
+
+                            case 7:
+                                is_eligible_mt5 = _context.sent;
+
+
+                                controlVisibility(current_landing_company_shortcode, is_eligible_mt5,
+                                // We then pass the list of found mt5fin company shortcodes as an array
+                                arr_mt5fin_shortcodes);
+
+                                resolve();
+
+                            case 10:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, undefined);
+            })));
         });
     };
 
@@ -25663,7 +25787,12 @@ module.exports = {
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var DocumentUploader = __webpack_require__(/*! @binary-com/binary-document-uploader */ "./node_modules/@binary-com/binary-document-uploader/DocumentUploader.js");
+var Cookies = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
+var Onfido = __webpack_require__(/*! onfido-sdk-ui */ "./node_modules/onfido-sdk-ui/lib/index.js");
+var BinaryPjax = __webpack_require__(/*! ../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
 var Header = __webpack_require__(/*! ../../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -25672,51 +25801,30 @@ var ConvertToBase64 = __webpack_require__(/*! ../../../../_common/image_utility 
 var isImageType = __webpack_require__(/*! ../../../../_common/image_utility */ "./src/javascript/_common/image_utility.js").isImageType;
 var getLanguage = __webpack_require__(/*! ../../../../_common/language */ "./src/javascript/_common/language.js").get;
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var toTitleCase = __webpack_require__(/*! ../../../../_common/string_util */ "./src/javascript/_common/string_util.js").toTitleCase;
+var TabSelector = __webpack_require__(/*! ../../../../_common/tab_selector */ "./src/javascript/_common/tab_selector.js");
 var Url = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js");
 var showLoadingImage = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").showLoadingImage;
 
+/*
+    To handle onfido unsupported country, we handle the functions separately,
+    the name of the functions will be original name + uns abbreviation of `unsupported`
+*/
+
 var Authenticate = function () {
-    var is_action_needed = false;
     var is_any_upload_failed = false;
+    var is_any_upload_failed_uns = false;
+    var onfido_unsupported = false;
     var file_checks = {};
-    var $button = void 0,
+    var file_checks_uns = {};
+    var onfido = void 0,
+        $button = void 0,
         $submit_status = void 0,
-        $submit_table = void 0;
-
-    var onLoad = function onLoad() {
-        BinarySocket.send({ get_account_status: 1 }).then(function (response) {
-            $('#loading_authenticate').remove();
-            if (response.error) {
-                $('#error_message').setVisibility(1).text(response.error.message);
-            } else {
-                var status = response.get_account_status.status;
-                is_action_needed = /document_needs_action/.test(response.get_account_status.status);
-                if (!/authenticated/.test(status)) {
-                    init();
-                    var language = getLanguage();
-                    var language_based_link = ['ID', 'RU', 'PT'].includes(language) ? '_' + language : '';
-                    var $not_authenticated = $('#not_authenticated');
-                    $not_authenticated.setVisibility(1);
-                    var link = Url.urlForCurrentDomain('https://marketing.binary.com/authentication/Authentication_Process' + language_based_link + '.pdf');
-                    if (Client.isAccountOfType('financial')) {
-                        $('#not_authenticated_financial').setVisibility(1);
-                        link = Url.urlForCurrentDomain('https://marketing.binary.com/authentication/MF_Authentication_Process.pdf');
-                    }
-                    $not_authenticated.find('.learn_more').setVisibility(1).find('a').attr('href', link);
-
-                    if (isIdentificationNoExpiry(Client.get('residence'))) {
-                        $('#expiry_datepicker_proofid').setVisibility(0);
-                        $('#exp_date_2').datepicker('setDate', '2099-12-31');
-                    }
-                } else if (!/age_verification/.test(status)) {
-                    $('#needs_age_verification').setVisibility(1);
-                } else {
-                    $('#fully_authenticated').setVisibility(1);
-                }
-            }
-        });
-    };
+        $submit_table = void 0,
+        $button_uns = void 0,
+        $submit_status_uns = void 0,
+        $submit_table_uns = void 0;
 
     var init = function init() {
         file_checks = {};
@@ -25724,20 +25832,67 @@ var Authenticate = function () {
         $submit_table = $submit_status.find('table tbody');
 
         // Setup accordion
-        $('.files').accordion({
+        $('#not_authenticated .files').accordion({
             heightStyle: 'content',
             collapsible: true,
             active: false
         });
         // Setup Date picker
-        $('.date-picker').datepicker({
+        $('#not_authenticated .date-picker').datepicker({
             dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true,
             minDate: '+6m'
         });
 
-        $('.file-picker').on('change', onFileSelected);
+        $('#not_authenticated .file-picker').on('change', onFileSelected);
+
+        var language = getLanguage();
+        var language_based_link = ['ID', 'RU', 'PT'].includes(language) ? '_' + language : '';
+        var $not_authenticated = $('#not_authenticated');
+        var link = Url.urlForCurrentDomain('https://marketing.binary.com/authentication/Authentication_Process' + language_based_link + '.pdf');
+
+        $not_authenticated.setVisibility(1);
+
+        $not_authenticated.find('.learn_more').setVisibility(1).find('a').attr('href', link);
+
+        if (isIdentificationNoExpiry(Client.get('residence'))) {
+            $('#expiry_datepicker_proofid').setVisibility(0);
+            $('#exp_date_2').datepicker('setDate', '2099-12-31');
+        }
+    };
+
+    var initUnsupported = function initUnsupported() {
+        file_checks_uns = {};
+        $submit_status_uns = $('.submit-status-uns');
+        $submit_table_uns = $submit_status_uns.find('table tbody');
+
+        // Setup accordion
+        $('#not_authenticated_uns .files').accordion({
+            heightStyle: 'content',
+            collapsible: true,
+            active: false
+        });
+        // Setup Date picker
+        $('#not_authenticated_uns .date-picker').datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            minDate: '+6m'
+        });
+        $('#not_authenticated_uns .file-picker').on('change', onFileSelectedUns);
+
+        var language = getLanguage();
+        var language_based_link = ['ID', 'RU', 'PT'].includes(language) ? '_' + language : '';
+        var $not_authenticated_uns = $('#not_authenticated_uns');
+        var link = Url.urlForCurrentDomain('https://marketing.binary.com/authentication/Authentication_Process' + language_based_link + '.pdf');
+
+        $not_authenticated_uns.find('.learn_more').setVisibility(1).find('a').attr('href', link);
+
+        if (isIdentificationNoExpiry(Client.get('residence'))) {
+            $('#expiry_datepicker_proofid').setVisibility(0);
+            $('#exp_date_2').datepicker('setDate', '2099-12-31');
+        }
     };
 
     /**
@@ -25776,6 +25931,28 @@ var Authenticate = function () {
         enableDisableSubmit();
     };
 
+    var onFileSelectedUns = function onFileSelectedUns(event) {
+        if (!event.target.files || !event.target.files.length) {
+            resetLabelUns(event);
+            return;
+        }
+        var $target = $(event.target);
+        var file_name = event.target.files[0].name || '';
+        var display_name = file_name.length > 20 ? file_name.slice(0, 10) + '..' + file_name.slice(-8) : file_name;
+        $target.attr('data-status', '').parent().find('label').off('click')
+        // Prevent opening file selector.
+        .on('click', function (e) {
+            if ($(e.target).is('span.remove')) e.preventDefault();
+        }).text(display_name).removeClass('error').addClass('selected').append($('<span/>', { class: 'remove' })).find('.remove').click(function (e) {
+            if ($(e.target).is('span.remove')) resetLabelUns(event);
+        });
+
+        // Hide success message on another file selected
+        hideSuccessUns();
+        // Change submit button state
+        enableDisableSubmitUns();
+    };
+
     // Reset file-selector label
     var resetLabel = function resetLabel(event) {
         var $target = $(event.target);
@@ -25788,6 +25965,20 @@ var Authenticate = function () {
         $target.val('').parent().find('label').text(default_text).removeClass('selected error').append($('<span/>', { class: 'add' }));
         // Change submit button state
         enableDisableSubmit();
+    };
+
+    // Reset file-selector label
+    var resetLabelUns = function resetLabelUns(event) {
+        var $target = $(event.target);
+        var default_text = toTitleCase($target.attr('id').split('_')[0]);
+        if (default_text !== 'Add') {
+            default_text = default_text === 'Back' ? localize('Reverse Side') : localize('Front Side');
+        }
+        fileTracker($target, false);
+        // Remove previously selected file and set the label
+        $target.val('').parent().find('label').text(default_text).removeClass('selected error').append($('<span/>', { class: 'add' }));
+        // Change submit button state
+        enableDisableSubmitUns();
     };
 
     /**
@@ -25815,6 +26006,31 @@ var Authenticate = function () {
         }
     };
 
+    /**
+     * Enables the submit button if any file is selected, also adds the event handler for the button.
+     * Disables the button if it no files are selected.
+     */
+    var enableDisableSubmitUns = function enableDisableSubmitUns() {
+        var $not_authenticated = $('#not_authenticated_uns');
+        var $files = $not_authenticated.find('input[type="file"]');
+        $button_uns = $not_authenticated.find('#btn_submit_uns');
+
+        var file_selected = $('label[class~="selected"]').length;
+        var has_file_error = $('label[class~="error"]').length;
+
+        if (file_selected && !has_file_error) {
+            if ($button_uns.hasClass('button')) return;
+            $('#resolve_error').setVisibility(0);
+            $button_uns.removeClass('button-disabled').addClass('button').off('click') // To avoid binding multiple click events
+            .click(function () {
+                return submitFilesUns($files);
+            });
+        } else {
+            if ($button_uns.hasClass('button-disabled')) return;
+            $button_uns.removeClass('button').addClass('button-disabled').off('click');
+        }
+    };
+
     var showButtonLoading = function showButtonLoading() {
         if ($button.length && !$button.find('.barspinner').length) {
             var $btn_text = $('<span/>', { text: $button.find('span').text(), class: 'invisible' });
@@ -25823,9 +26039,23 @@ var Authenticate = function () {
         }
     };
 
+    var showButtonLoadingUns = function showButtonLoadingUns() {
+        if ($button_uns.length && !$button_uns.find('.barspinner').length) {
+            var $btn_text = $('<span/>', { text: $button_uns.find('span').text(), class: 'invisible' });
+            showLoadingImage($button_uns.find('span'), 'white');
+            $button_uns.find('span').append($btn_text);
+        }
+    };
+
     var removeButtonLoading = function removeButtonLoading() {
         if ($button.length && $button.find('.barspinner').length) {
             $button.find('>span').html($button.find('>span>span').text());
+        }
+    };
+
+    var removeButtonLoadingUns = function removeButtonLoadingUns() {
+        if ($button_uns.length && $button_uns.find('.barspinner').length) {
+            $button_uns.find('>span').html($button_uns.find('>span>span').text());
         }
     };
 
@@ -25878,6 +26108,57 @@ var Authenticate = function () {
         });
         $submit_status.setVisibility(1);
         processFiles(files);
+    };
+
+    /**
+     * On submit button click
+     */
+    var submitFilesUns = function submitFilesUns($files) {
+        if ($button_uns.length && $button_uns.find('.barspinner').length) {
+            // it's still in submit process
+            return;
+        }
+        // Disable submit button
+        showButtonLoadingUns();
+        var files = [];
+        is_any_upload_failed_uns = false;
+        $submit_table_uns.children().remove();
+        $files.each(function (i, e) {
+            if (e.files && e.files.length) {
+                var $e = $(e);
+                var id = $e.attr('id');
+                var type = '' + ($e.attr('data-type') || '').replace(/\s/g, '_').toLowerCase();
+                var name = $e.attr('data-name');
+                var page_type = $e.attr('data-page-type');
+                var $inputs = $e.closest('.fields').find('input[type="text"]');
+                var file_obj = {
+                    file: e.files[0],
+                    chunkSize: 16384, // any higher than this sends garbage data to websocket currently.
+                    class: id,
+                    type: type,
+                    name: name,
+                    page_type: page_type
+                };
+                if ($inputs.length) {
+                    file_obj.id_number = $($inputs[0]).val();
+                    file_obj.exp_date = $($inputs[1]).val();
+                }
+                fileTrackerUns($e, true);
+                files.push(file_obj);
+
+                var display_name = name;
+                if (/front|back/.test(id)) {
+                    display_name += ' - ' + (/front/.test(id) ? localize('Front Side') : localize('Reverse Side'));
+                }
+
+                $submit_table_uns.append($('<tr/>', { id: file_obj.type, class: id }).append($('<td/>', { text: display_name })) // document type, e.g. Passport - Front Side
+                .append($('<td/>', { text: e.files[0].name, class: 'filename' })) // file name, e.g. sample.pdf
+                .append($('<td/>', { text: localize('Pending'), class: 'status' })) // status of uploading file, first set to Pending
+                );
+            }
+        });
+        $submit_status_uns.setVisibility(1);
+        processFilesUns(files);
     };
 
     var processFiles = function processFiles(files) {
@@ -25935,6 +26216,61 @@ var Authenticate = function () {
         });
     };
 
+    var processFilesUns = function processFilesUns(files) {
+        var uploader = new DocumentUploader({ connection: BinarySocket.get() }); // send 'debug: true' here for debugging
+        var idx_to_upload = 0;
+        var is_any_file_error = false;
+
+        compressImageFilesUns(files).then(function (files_to_process) {
+            readFilesUns(files_to_process).then(function (processed_files) {
+                processed_files.forEach(function (file) {
+                    if (file.message) {
+                        is_any_file_error = true;
+                        showErrorUns(file);
+                    }
+                });
+                var total_to_upload = processed_files.length;
+                if (is_any_file_error || !total_to_upload) {
+                    removeButtonLoadingUns();
+                    enableDisableSubmitUns();
+                    return; // don't start submitting files until all front-end validation checks pass
+                }
+
+                var isLastUpload = function isLastUpload() {
+                    return total_to_upload === idx_to_upload + 1;
+                };
+                // sequentially send files
+                var uploadFile = function uploadFile() {
+                    var $status = $submit_table_uns.find('.' + processed_files[idx_to_upload].passthrough.class + ' .status');
+                    $status.text(localize('Submitting') + '...');
+                    uploader.upload(processed_files[idx_to_upload]).then(function (api_response) {
+                        onResponseUns(api_response, isLastUpload());
+                        if (!api_response.error && !api_response.warning) {
+                            $status.text(localize('Submitted')).append($('<span/>', { class: 'checked' }));
+                            $('#' + api_response.passthrough.class).attr('type', 'hidden'); // don't allow users to change submitted files
+                            $('label[for=' + api_response.passthrough.class + ']').removeClass('selected error').find('span').attr('class', 'checked');
+                        }
+                        uploadNextFile();
+                    }).catch(function (error) {
+                        is_any_upload_failed_uns = true;
+                        showErrorUns({
+                            message: error.message || localize('Failed'),
+                            class: error.passthrough ? error.passthrough.class : ''
+                        });
+                        uploadNextFile();
+                    });
+                };
+                var uploadNextFile = function uploadNextFile() {
+                    if (!isLastUpload()) {
+                        idx_to_upload += 1;
+                        uploadFile();
+                    }
+                };
+                uploadFile();
+            });
+        });
+    };
+
     var compressImageFiles = function compressImageFiles(files) {
         var promises = [];
         files.forEach(function (f) {
@@ -25942,6 +26278,33 @@ var Authenticate = function () {
                 if (isImageType(f.file.name)) {
                     var $status = $submit_table.find('.' + f.class + ' .status');
                     var $filename = $submit_table.find('.' + f.class + ' .filename');
+                    $status.text(localize('Compressing Image') + '...');
+
+                    ConvertToBase64(f.file).then(function (img) {
+                        CompressImage(img).then(function (compressed_img) {
+                            var file_arr = f;
+                            file_arr.file = compressed_img;
+                            $filename.text(file_arr.file.name);
+                            resolve(file_arr);
+                        });
+                    });
+                } else {
+                    resolve(f);
+                }
+            });
+            promises.push(promise);
+        });
+
+        return Promise.all(promises);
+    };
+
+    var compressImageFilesUns = function compressImageFilesUns(files) {
+        var promises = [];
+        files.forEach(function (f) {
+            var promise = new Promise(function (resolve) {
+                if (isImageType(f.file.name)) {
+                    var $status = $submit_table_uns.find('.' + f.class + ' .status');
+                    var $filename = $submit_table_uns.find('.' + f.class + ' .filename');
                     $status.text(localize('Compressing Image') + '...');
 
                     ConvertToBase64(f.file).then(function (img) {
@@ -26018,6 +26381,62 @@ var Authenticate = function () {
         return Promise.all(promises);
     };
 
+    // Returns file promise.
+    var readFilesUns = function readFilesUns(files) {
+        var promises = [];
+        files.forEach(function (f) {
+            var fr = new FileReader();
+            var promise = new Promise(function (resolve) {
+                fr.onload = function () {
+                    var $status = $submit_table_uns.find('.' + f.class + ' .status');
+                    $status.text(localize('Checking') + '...');
+
+                    var format = (f.file.type.split('/')[1] || (f.file.name.match(/\.([\w\d]+)$/) || [])[1] || '').toUpperCase();
+                    var obj = {
+                        filename: f.file.name,
+                        buffer: fr.result,
+                        documentType: f.type,
+                        pageType: f.page_type,
+                        documentFormat: format,
+                        documentId: f.id_number || undefined,
+                        expirationDate: f.exp_date || undefined,
+                        chunkSize: f.chunkSize,
+                        passthrough: {
+                            filename: f.file.name,
+                            name: f.name,
+                            class: f.class
+                        }
+                    };
+
+                    var error = { message: validate(obj) };
+                    if (error && error.message) {
+                        resolve({
+                            message: error.message,
+                            class: f.class
+                        });
+                    } else {
+                        $status.text(localize('Checked')).append($('<span/>', { class: 'checked' }));
+                    }
+
+                    resolve(obj);
+                };
+
+                fr.onerror = function () {
+                    resolve({
+                        message: localize('Unable to read file [_1]', f.file.name),
+                        class: f.class
+                    });
+                };
+                // Reading file.
+                fr.readAsArrayBuffer(f.file);
+            });
+
+            promises.push(promise);
+        });
+
+        return Promise.all(promises);
+    };
+
     var fileTracker = function fileTracker($e, selected) {
         var doc_type = ($e.attr('data-type') || '').replace(/\s/g, '_').toLowerCase();
         var file_type = ($e.attr('id').match(/\D+/g) || [])[0];
@@ -26030,18 +26449,24 @@ var Authenticate = function () {
         }
     };
 
+    var fileTrackerUns = function fileTrackerUns($e, selected) {
+        var doc_type = ($e.attr('data-type') || '').replace(/\s/g, '_').toLowerCase();
+        var file_type = ($e.attr('id').match(/\D+/g) || [])[0];
+        // Keep track of front and back sides of files.
+        if (selected) {
+            file_checks_uns[doc_type] = file_checks_uns[doc_type] || {};
+            file_checks_uns[doc_type][file_type] = true;
+        } else if (file_checks_uns[doc_type]) {
+            file_checks_uns[doc_type][file_type] = false;
+        }
+    };
+
     var onErrorResolved = function onErrorResolved(error_field, class_name, reverse_class_name) {
         var id = error_field ? error_field + '_' + class_name.match(/\d+/)[0] : reverse_class_name;
         $('#' + id).one('input change', function () {
             $('label[for=' + class_name + ']').removeClass('error');
             enableDisableSubmit();
         });
-    };
-
-    var sides = ['front', 'back'];
-    var getReverseClass = function getReverseClass(class_name) {
-        var is_front = /front/.test(class_name);
-        return class_name.replace(sides[+!is_front], sides[+is_front]);
     };
 
     // Validate user input
@@ -26073,19 +26498,6 @@ var Authenticate = function () {
             onErrorResolved('exp_date', file.passthrough.class);
             return localize('Expiry date is required for [_1].', doc_name[file.documentType]);
         }
-        // These checks will only be executed when the user uploads the files for the first time, otherwise skipped.
-        if (!is_action_needed) {
-            if (file.documentType === 'proofid' && file_checks.proofid && file_checks.proofid.front_file ^ file_checks.proofid.back_file) {
-                // eslint-disable-line no-bitwise
-                onErrorResolved(null, file.passthrough.class, getReverseClass(file.passthrough.class));
-                return localize('Front and reverse side photos of [_1] are required.', doc_name.proofid);
-            }
-            if (file.documentType === 'driverslicense' && file_checks.driverslicense && file_checks.driverslicense.front_file ^ file_checks.driverslicense.back_file) {
-                // eslint-disable-line no-bitwise
-                onErrorResolved(null, file.passthrough.class, getReverseClass(file.passthrough.class));
-                return localize('Front and reverse side photos of [_1] are required.', doc_name.driverslicense);
-            }
-        }
 
         return null;
     };
@@ -26105,23 +26517,55 @@ var Authenticate = function () {
         enableDisableSubmit();
     };
 
+    var showErrorUns = function showErrorUns(obj_error) {
+        removeButtonLoadingUns();
+        var $error = $('#msg_form_uns');
+        var $file_error = $submit_table_uns.find('.' + obj_error.class + ' .status');
+        var message = obj_error.message;
+        if ($file_error.length) {
+            $file_error.text(message).addClass('error-msg');
+            $('label[for=' + obj_error.class + ']').addClass('error');
+            $('#resolve_error_uns').setVisibility(1);
+        } else {
+            $error.text(message).setVisibility(1);
+        }
+        enableDisableSubmitUns();
+    };
+
     var showSuccess = function showSuccess() {
         BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function () {
             Header.displayAccountStatus();
-        });
-        setTimeout(function () {
             removeButtonLoading();
             $button.setVisibility(0);
             $('.submit-status').setVisibility(0);
-            $('#success-message').setVisibility(1);
-        }, 3000);
+            $('#not_authenticated').setVisibility(0);
+            $('#pending_poa').setVisibility(1);
+        });
+    };
+
+    var showSuccessUns = function showSuccessUns() {
+        BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function () {
+            Header.displayAccountStatus();
+            removeButtonLoadingUns();
+            $button_uns.setVisibility(0);
+            $('.submit-status-uns').setVisibility(0);
+            $('#not_authenticated_uns').setVisibility(0);
+            $('#upload_complete').setVisibility(1);
+        });
     };
 
     var hideSuccess = function hideSuccess() {
         if ($button) {
             $button.setVisibility(1);
         }
-        $('#success-message').setVisibility(0);
+        $('#pending_poa').setVisibility(0);
+    };
+
+    var hideSuccessUns = function hideSuccessUns() {
+        if ($button_uns) {
+            $button_uns.setVisibility(1);
+        }
+        $('#upload_complete').setVisibility(0);
     };
 
     var onResponse = function onResponse(response, is_last_upload) {
@@ -26136,8 +26580,271 @@ var Authenticate = function () {
         }
     };
 
+    var onResponseUns = function onResponseUns(response, is_last_upload) {
+        if (response.warning || response.error) {
+            is_any_upload_failed_uns = true;
+            showErrorUns({
+                message: response.message || (response.error ? response.error.message : localize('Failed')),
+                class: response.passthrough.class
+            });
+        } else if (is_last_upload && !is_any_upload_failed_uns) {
+            showSuccessUns();
+        }
+    };
+
+    var initTab = function initTab() {
+        TabSelector.onLoad();
+    };
+
+    var getAuthenticationStatus = function getAuthenticationStatus() {
+        return new Promise(function (resolve) {
+            // check update account status
+            BinarySocket.wait('get_account_status').then(function () {
+                var authentication_response = State.getResponse('get_account_status.authentication');
+                resolve(authentication_response);
+            });
+        });
+    };
+
+    var initOnfido = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(sdk_token) {
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            $('#onfido').setVisibility(1);
+                            try {
+                                onfido = Onfido.init({
+                                    containerId: 'onfido',
+                                    language: {
+                                        locale: getLanguage().toLowerCase() || 'en'
+                                    },
+                                    token: sdk_token,
+                                    useModal: false,
+                                    onComplete: handleComplete,
+                                    steps: ['document', 'face']
+                                });
+                                $('#authentication_loading').setVisibility(0);
+                            } catch (err) {
+                                $('#error_occured').setVisibility(1);
+                                $('#authentication_loading').setVisibility(0);
+                            }
+
+                        case 2:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        }));
+
+        return function initOnfido(_x) {
+            return _ref.apply(this, arguments);
+        };
+    }();
+
+    var handleComplete = function handleComplete() {
+        BinarySocket.send({
+            notification_event: 1,
+            category: 'authentication',
+            event: 'poi_documents_uploaded'
+        }).then(function () {
+            onfido.tearDown();
+            $('#authentication_loading').setVisibility(1);
+            setTimeout(function () {
+                BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function () {
+                    $('#upload_complete').setVisibility(1);
+                    Header.displayAccountStatus();
+                    $('#authentication_loading').setVisibility(0);
+                });
+            }, 4000);
+        });
+    };
+
+    var getOnfidoServiceToken = function getOnfidoServiceToken() {
+        return new Promise(function (resolve) {
+            var onfido_cookie = Cookies.get('onfido_token');
+
+            if (!onfido_cookie) {
+                BinarySocket.send({
+                    service_token: 1,
+                    service: 'onfido'
+                }).then(function (response) {
+                    if (response.error || !response.service_token) {
+                        if (response.error.code === 'UnsupportedCountry') {
+                            onfido_unsupported = true;
+                        }
+                        resolve();
+                        return;
+                    }
+                    var token = response.service_token.token;
+                    var in_90_minutes = 1 / 16;
+                    Cookies.set('onfido_token', token, {
+                        expires: in_90_minutes,
+                        secure: true
+                    });
+                    resolve(token);
+                });
+            } else {
+                resolve(onfido_cookie);
+            }
+        });
+    };
+
+    var initAuthentication = function () {
+        var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            var authentication_status, onfido_token, identity, document, needs_verification;
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                while (1) {
+                    switch (_context2.prev = _context2.next) {
+                        case 0:
+                            _context2.next = 2;
+                            return getAuthenticationStatus();
+
+                        case 2:
+                            authentication_status = _context2.sent;
+                            _context2.next = 5;
+                            return getOnfidoServiceToken();
+
+                        case 5:
+                            onfido_token = _context2.sent;
+
+                            if (!(!authentication_status || authentication_status.error)) {
+                                _context2.next = 10;
+                                break;
+                            }
+
+                            $('#authentication_tab').setVisibility(0);
+                            $('#error_occured').setVisibility(1);
+                            return _context2.abrupt('return');
+
+                        case 10:
+                            identity = authentication_status.identity, document = authentication_status.document, needs_verification = authentication_status.needs_verification;
+
+
+                            if (identity.status === 'none' && document.status === 'none' && !needs_verification.length) {
+                                BinaryPjax.load(Url.urlFor('user/settingsws'));
+                            }
+
+                            if (identity.status === 'verified' && document.status === 'verified') {
+                                $('#authentication_tab').setVisibility(0);
+                                $('#authentication_verified').setVisibility(1);
+                            }
+
+                            if (identity.further_resubmissions_allowed) {
+                                _context2.next = 32;
+                                break;
+                            }
+
+                            _context2.t0 = identity.status;
+                            _context2.next = _context2.t0 === 'none' ? 17 : _context2.t0 === 'pending' ? 19 : _context2.t0 === 'rejected' ? 21 : _context2.t0 === 'verified' ? 23 : _context2.t0 === 'expired' ? 25 : _context2.t0 === 'suspected' ? 27 : 29;
+                            break;
+
+                        case 17:
+                            if (onfido_unsupported) {
+                                $('#not_authenticated_uns').setVisibility(1);
+                                initUnsupported();
+                            } else {
+                                initOnfido(onfido_token);
+                            }
+                            return _context2.abrupt('break', 30);
+
+                        case 19:
+                            $('#upload_complete').setVisibility(1);
+                            return _context2.abrupt('break', 30);
+
+                        case 21:
+                            $('#unverified').setVisibility(1);
+                            return _context2.abrupt('break', 30);
+
+                        case 23:
+                            $('#verified').setVisibility(1);
+                            return _context2.abrupt('break', 30);
+
+                        case 25:
+                            $('#expired_poi').setVisibility(1);
+                            return _context2.abrupt('break', 30);
+
+                        case 27:
+                            $('#unverified').setVisibility(1);
+                            return _context2.abrupt('break', 30);
+
+                        case 29:
+                            return _context2.abrupt('break', 30);
+
+                        case 30:
+                            _context2.next = 33;
+                            break;
+
+                        case 32:
+                            initOnfido(onfido_token);
+
+                        case 33:
+                            _context2.t1 = document.status;
+                            _context2.next = _context2.t1 === 'none' ? 36 : _context2.t1 === 'pending' ? 39 : _context2.t1 === 'rejected' ? 41 : _context2.t1 === 'suspected' ? 43 : _context2.t1 === 'verified' ? 45 : _context2.t1 === 'expired' ? 47 : 49;
+                            break;
+
+                        case 36:
+                            init();
+                            $('#not_authenticated').setVisibility(1);
+                            return _context2.abrupt('break', 50);
+
+                        case 39:
+                            $('#pending_poa').setVisibility(1);
+                            return _context2.abrupt('break', 50);
+
+                        case 41:
+                            $('#unverified_poa').setVisibility(1);
+                            return _context2.abrupt('break', 50);
+
+                        case 43:
+                            $('#unverified_poa').setVisibility(1);
+                            return _context2.abrupt('break', 50);
+
+                        case 45:
+                            $('#verified_poa').setVisibility(1);
+                            return _context2.abrupt('break', 50);
+
+                        case 47:
+                            $('#expired_poa').setVisibility(1);
+                            return _context2.abrupt('break', 50);
+
+                        case 49:
+                            return _context2.abrupt('break', 50);
+
+                        case 50:
+                            $('#authentication_loading').setVisibility(0);
+                            TabSelector.updateTabDisplay();
+
+                        case 52:
+                        case 'end':
+                            return _context2.stop();
+                    }
+                }
+            }, _callee2, undefined);
+        }));
+
+        return function initAuthentication() {
+            return _ref2.apply(this, arguments);
+        };
+    }();
+
+    var onLoad = function onLoad() {
+        initTab();
+        initAuthentication();
+    };
+
+    var onUnload = function onUnload() {
+        if (onfido) {
+            onfido.tearDown();
+        }
+
+        TabSelector.onUnload();
+    };
+
     return {
-        onLoad: onLoad
+        onLoad: onLoad,
+        onUnload: onUnload
     };
 }();
 
@@ -27122,8 +27829,15 @@ var Settings = function () {
             $('.real').setVisibility(!Client.get('is_virtual'));
 
             var status = State.getResponse('get_account_status.status') || [];
+            var authentication = State.getResponse('get_account_status.authentication') || {};
             if (!/social_signup/.test(status)) {
                 $('#change_password').setVisibility(1);
+            }
+
+            if (!authentication.needs_verification.length && authentication.identity.status === 'none' && authentication.document.status === 'none') {
+                $('#authenticate').setVisibility(0);
+            } else {
+                $('#authenticate').setVisibility(1);
             }
 
             // Professional Client menu should only be shown to maltainvest accounts.
@@ -30526,8 +31240,11 @@ module.exports = LostPassword;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var BinaryPjax = __webpack_require__(/*! ../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
+var Header = __webpack_require__(/*! ../../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
 var Dialog = __webpack_require__(/*! ../../../common/attach_dom/dialog */ "./src/javascript/app/common/attach_dom/dialog.js");
 var Currency = __webpack_require__(/*! ../../../common/currency */ "./src/javascript/app/common/currency.js");
@@ -30595,17 +31312,20 @@ var MetaTraderConfig = function () {
                 short_title: localize('Standard')
             };
 
-            return {
+            var has_iom_gaming = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
+
+            return _extends({
                 // for financial mt company with shortcode maltainvest, only offer standard account with different leverage
                 financial: {
                     demo_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Demo Standard'), short_title: standard_config.short_title },
                     real_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Real Standard'), short_title: standard_config.short_title }
-                },
+                }
+            }, !has_iom_gaming && {
                 gaming: {
                     demo_volatility: configMtCompanies.get().gaming.demo_volatility,
                     real_volatility: configMtCompanies.get().gaming.real_volatility
                 }
-            };
+            });
         };
 
         return {
@@ -30627,7 +31347,9 @@ var MetaTraderConfig = function () {
 
     var $messages = void 0;
     var needsRealMessage = function needsRealMessage() {
-        return $messages.find('#msg_switch').html();
+        var has_iom_gaming = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
+        var id_to_show = '#msg_switch' + (has_iom_gaming ? '_financial' : '');
+        return $messages.find(id_to_show).html();
     };
 
     // currency equivalent to 1 USD
@@ -30655,7 +31377,19 @@ var MetaTraderConfig = function () {
             if (!Client.get('currency')) {
                 resolve($messages.find('#msg_set_currency').html());
             } else if (is_demo) {
-                resolve();
+                if (Client.get('residence') === 'gb') {
+                    BinarySocket.wait('get_account_status').then(function (response) {
+                        if (!/age_verification/.test(response.get_account_status.status)) {
+                            $message.find('#msg_metatrader_account').setVisibility(1);
+                            $message.find('.authenticate').setVisibility(1);
+                            resolve($message.html());
+                        }
+
+                        resolve();
+                    });
+                } else {
+                    resolve();
+                }
             } else if (is_virtual) {
                 // virtual clients can only open demo MT accounts
                 resolve(needsRealMessage());
@@ -30680,7 +31414,17 @@ var MetaTraderConfig = function () {
                     if (is_maltainvest && (is_financial || is_demo_financial) && !has_financial_account) {
                         $message.find('.maltainvest').setVisibility(1);
 
-                        resolveWithMessage();
+                        if (Client.get('residence') === 'gb') {
+                            BinarySocket.wait('get_account_status').then(function (response) {
+                                if (!/age_verification/.test(response.get_account_status.status)) {
+                                    $message.find('.authenticate').setVisibility(1);
+                                }
+
+                                resolveWithMessage();
+                            });
+                        } else {
+                            resolveWithMessage();
+                        }
                     }
 
                     var response_get_settings = State.getResponse('get_settings');
@@ -30705,6 +31449,10 @@ var MetaTraderConfig = function () {
                                 showCitizenshipMessage();
                                 is_ok = false;
                             }
+                            if (Client.get('residence') === 'gb' && !/age_verification/.test(response_get_account_status.status)) {
+                                $message.find('.authenticate').setVisibility(1);
+                                is_ok = false;
+                            }
                             if (is_ok && !isAuthenticated()) {
                                 $new_account_financial_authenticate_msg.setVisibility(1);
                             }
@@ -30722,6 +31470,10 @@ var MetaTraderConfig = function () {
                             }
                             if (!response_get_settings.citizen && !(is_maltainvest && !has_financial_account)) {
                                 showCitizenshipMessage();
+                                _is_ok = false;
+                            }
+                            if (Client.get('residence') === 'gb' && !/age_verification/.test(response_get_account_status.status)) {
+                                $message.find('.authenticate').setVisibility(1);
                                 _is_ok = false;
                             }
 
@@ -30788,6 +31540,10 @@ var MetaTraderConfig = function () {
             },
             onSuccess: function onSuccess(response) {
                 GTM.mt5NewAccount(response);
+
+                BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function () {
+                    Header.displayAccountStatus();
+                });
             }
         },
         new_account_mam: {
@@ -30800,6 +31556,10 @@ var MetaTraderConfig = function () {
             },
             onSuccess: function onSuccess(response) {
                 GTM.mt5NewAccount(response);
+
+                BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function () {
+                    Header.displayAccountStatus();
+                });
             }
         },
         password_change: {
@@ -31075,6 +31835,8 @@ module.exports = MetaTraderConfig;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var MetaTraderConfig = __webpack_require__(/*! ./metatrader.config */ "./src/javascript/app/pages/user/metatrader/metatrader.config.js");
 var MetaTraderUI = __webpack_require__(/*! ./metatrader.ui */ "./src/javascript/app/pages/user/metatrader/metatrader.ui.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
@@ -31083,6 +31845,7 @@ var Validation = __webpack_require__(/*! ../../../common/form_validation */ "./s
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var isEmptyObject = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
+var applyToAllElements = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").applyToAllElements;
 
 var MetaTrader = function () {
     var mt_companies = void 0;
@@ -31095,19 +31858,36 @@ var MetaTrader = function () {
 
     var onLoad = function onLoad() {
         BinarySocket.send({ statement: 1, limit: 1 });
-        BinarySocket.wait('landing_company', 'get_account_status', 'statement').then(function () {
-            setMTCompanies();
-            if (isEligible()) {
-                if (Client.get('is_virtual')) {
-                    getAllAccountsInfo();
-                } else {
-                    BinarySocket.send({ get_limits: 1 }).then(getAllAccountsInfo);
-                    getExchangeRates();
+        BinarySocket.wait('landing_company', 'get_account_status', 'statement').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var is_eligible;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.next = 2;
+                            return isEligible();
+
+                        case 2:
+                            is_eligible = _context.sent;
+
+                            if (is_eligible) {
+                                if (Client.get('is_virtual')) {
+                                    getAllAccountsInfo();
+                                } else {
+                                    BinarySocket.send({ get_limits: 1 }).then(getAllAccountsInfo);
+                                    getExchangeRates();
+                                }
+                            } else {
+                                MetaTraderUI.displayPageError(localize('Sorry, this feature is not available in your jurisdiction.'));
+                            }
+
+                        case 4:
+                        case 'end':
+                            return _context.stop();
+                    }
                 }
-            } else {
-                MetaTraderUI.displayPageError(localize('Sorry, this feature is not available in your jurisdiction.'));
-            }
-        });
+            }, _callee, undefined);
+        })));
     };
 
     // we need to calculate min/max equivalent to 1 and 20000 USD, so get exchange rates for all currencies based on USD
@@ -31117,7 +31897,10 @@ var MetaTrader = function () {
 
     var setMTCompanies = function setMTCompanies() {
         var mt_financial_company = State.getResponse('landing_company.mt_financial_company');
-        var mt_gaming_company = State.getResponse('landing_company.mt_gaming_company');
+
+        var has_iom_gaming_company = State.getResponse('landing_company.gaming_company.shortcode') === 'iom';
+
+        var mt_gaming_company = has_iom_gaming_company ? State.getResponse('landing_company.mt_gaming_company') : {};
 
         // Check if mt_gaming_company is offered, if not found, switch to mt_financial_company
         var mt_landing_company = isEmptyObject(mt_gaming_company) ? mt_financial_company : mt_gaming_company;
@@ -31131,10 +31914,27 @@ var MetaTrader = function () {
     };
 
     var isEligible = function isEligible() {
-        // hide MT5 dashboard for IOM account or VRTC of IOM landing company
-        if (State.getResponse('landing_company.gaming_company.shortcode') === 'iom' && !Client.isAccountOfType('financial')) {
-            return false;
-        }
+        return new Promise(function (resolve) {
+            var financial_company = State.getResponse('landing_company.financial_company.shortcode');
+            // client is currently IOM landing company
+            // or has IOM landing company and doesn't have a non-IOM financial company
+            var has_iom_gaming_company = Client.get('landing_company_shortcode') === 'iom' || State.getResponse('landing_company.gaming_company.shortcode') === 'iom' && financial_company && financial_company === 'iom';
+            if (has_iom_gaming_company) {
+                if (Client.isLoggedIn()) {
+                    BinarySocket.wait('mt5_login_list').then(function (response_login_list) {
+                        // don't allow account opening for IOM accounts but let them see the dashboard if they have existing MT5 accounts
+                        resolve(response_login_list.mt5_login_list.length ? hasMTCompany() : false);
+                    });
+                } else {
+                    resolve(false);
+                }
+            } else {
+                resolve(hasMTCompany());
+            }
+        });
+    };
+
+    var hasMTCompany = function hasMTCompany() {
         setMTCompanies();
         var has_mt_company = false;
         Object.keys(mt_companies).forEach(function (company) {
@@ -31355,6 +32155,36 @@ var MetaTrader = function () {
         });
     };
 
+    var metatraderMenuItemVisibility = function metatraderMenuItemVisibility() {
+        BinarySocket.wait('landing_company', 'get_account_status').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            var is_eligible, mt_visibility;
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                while (1) {
+                    switch (_context2.prev = _context2.next) {
+                        case 0:
+                            _context2.next = 2;
+                            return isEligible();
+
+                        case 2:
+                            is_eligible = _context2.sent;
+
+                            if (is_eligible) {
+                                mt_visibility = document.getElementsByClassName('mt_visibility');
+
+                                applyToAllElements(mt_visibility, function (el) {
+                                    el.setVisibility(1);
+                                });
+                            }
+
+                        case 4:
+                        case 'end':
+                            return _context2.stop();
+                    }
+                }
+            }, _callee2, undefined);
+        })));
+    };
+
     var onUnload = function onUnload() {
         MetaTraderUI.refreshAction();
     };
@@ -31362,7 +32192,8 @@ var MetaTrader = function () {
     return {
         onLoad: onLoad,
         onUnload: onUnload,
-        isEligible: isEligible
+        isEligible: isEligible,
+        metatraderMenuItemVisibility: metatraderMenuItemVisibility
     };
 }();
 
@@ -31545,8 +32376,8 @@ var MetaTraderUI = function () {
                 $acc_item.find('.mt-balance').html(mt_balance);
                 $action.find('.mt5-balance').html(mt_balance);
             }
-            // disable MT5 account opening if created all available accounts
-            if (Object.keys(accounts_info).every(function (type) {
+            // disable MT5 account opening for iom clients as well as client who created all available accounts
+            if (Client.get('landing_company_shortcode') === 'iom' || Object.keys(accounts_info).every(function (type) {
                 return accounts_info[type].info;
             })) {
                 $container.find('.act_new_account').remove();
@@ -31835,7 +32666,7 @@ var MetaTraderUI = function () {
             updateAccountTypesUI(selected_acc_type);
             _$form.find('#view_1 #btn_next').addClass('button-disabled');
             _$form.find('#view_1 .step-2').setVisibility(1);
-            displayMessage('#new_account_msg', selected_acc_type === 'real' && Client.get('is_virtual') ? MetaTraderConfig.needsRealMessage() : '', true);
+            displayMessage('#new_account_msg', (selected_acc_type === 'demo' && Client.get('residence') === 'gb' || selected_acc_type === 'real') && Client.get('is_virtual') ? MetaTraderConfig.needsRealMessage() : '', true);
             _$form.find('#new_account_no_deposit_bonus_msg').setVisibility(0);
         } else {
             var new_acc_type = newAccountGetType();
@@ -31854,7 +32685,7 @@ var MetaTraderUI = function () {
         Object.keys(accounts_info).filter(function (acc_type) {
             return acc_type.indexOf(type) === 0;
         }).forEach(function (acc_type) {
-            var class_name = type === 'real' && Client.get('is_virtual') ? 'disabled' : '';
+            var class_name = (type === 'demo' && Client.get('residence') === 'gb' || type === 'real') && Client.get('is_virtual') ? 'disabled' : '';
             if (accounts_info[acc_type].info) {
                 class_name = 'existed';
             }
@@ -31874,7 +32705,7 @@ var MetaTraderUI = function () {
         }) // toEnableMAM: remove second check
         .forEach(function (acc_type) {
             // toEnableVanuatuAdvanced: remove vanuatu_advanced from regex below
-            if (/labuan_standard|vanuatu_advanced|maltainvest_advanced/.test(acc_type)) {
+            if (/labuan_standard|vanuatu_advanced|iom|maltainvest_advanced/.test(acc_type)) {
                 return;
             }
             count++;
@@ -33355,6 +34186,7 @@ module.exports = updateBalance;
 
 var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
+var Header = __webpack_require__(/*! ../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 
@@ -33377,6 +34209,7 @@ var VideoFacility = function () {
                     }
                     $('.msg_authenticate').setVisibility(1);
                     $('#generated_token').text(Client.get('token').slice(-4)).parent().setVisibility(1);
+                    Header.displayAccountStatus();
                 } else {
                     BinaryPjax.loadPreviousUrl();
                 }
