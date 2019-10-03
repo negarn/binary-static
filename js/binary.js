@@ -32799,6 +32799,10 @@ var MetaTraderUI = function () {
     };
 
     var setCounterpartyAndJurisdictionTooltip = function setCounterpartyAndJurisdictionTooltip($el, acc_type) {
+        if (/real_vanuatu_standard/.test(acc_type)) {
+            return;
+        }
+
         var mt_financial_company = State.getResponse('landing_company.mt_financial_company');
         var mt_gaming_company = State.getResponse('landing_company.mt_gaming_company');
         var account = accounts_info[acc_type];
