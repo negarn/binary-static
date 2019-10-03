@@ -28410,7 +28410,7 @@ var FinancialAssessment = function () {
         }
 
         // display Trading Experience only for financial & MT5 financial accounts
-        var is_mt5_financial = /labuan_advanced|real_svg_standard|real_vanuatu_advanced|real_vanuatu_mamm_advanced/.test(localStorage.getItem('financial_assessment_redirect'));
+        var is_mt5_financial = /labuan_advanced/.test(localStorage.getItem('financial_assessment_redirect'));
         $('#trading_experience_form').setVisibility(is_mt5_financial || Client.isAccountOfType('financial'));
 
         Object.keys(financial_assessment).forEach(function (key) {
@@ -29271,7 +29271,7 @@ var PersonalDetails = function () {
                 }
                 var get_settings = data.get_settings;
                 var is_tax_req = +State.getResponse('landing_company.config.tax_details_required') === 1;
-                var is_for_mt_financial = /real_svg_standard/.test(redirect_url);
+                var is_for_mt_financial = /real_svg_standard|labuan_advanced/.test(redirect_url);
                 var has_required_mt = is_for_mt_financial && is_tax_req ? get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen : get_settings.citizen // only check Citizen if user selects mt volatility account
                 ;
                 if (redirect_url && has_required_mt) {
@@ -31655,7 +31655,11 @@ var MetaTraderConfig = function () {
                         resolve(needsRealMessage());
                     } else if (accounts_info[acc_type].account_type === 'financial') {
                         BinarySocket.send({ get_account_status: 1 }).then(function () {
-                            resolve(!isAuthenticated() ? $messages.find('#msg_authenticate').html() : '');
+                            if (getMTFinancialAccountType(acc_type) === 'advanced' && isAuthenticationPromptNeeded()) {
+                                resolve($messages.find('#msg_authenticate').html());
+                            }
+
+                            resolve();
                         });
                     } else {
                         resolve();
@@ -31795,7 +31799,7 @@ var MetaTraderConfig = function () {
     };
 
     var isAuthenticationPromptNeeded = function isAuthenticationPromptNeeded() {
-        return State.getResponse('get_account_status').prompt_client_to_authenticate === 1;
+        return State.getResponse('get_account_status').authentication.needs_verification.length;
     };
 
     return {
@@ -31913,10 +31917,30 @@ var MetaTrader = function () {
                 }
             });
         });
+
         return has_mt_company;
     };
 
     var addAccount = function addAccount(company) {
+        BinarySocket.wait('mt5_login_list').then(function (response) {
+            var vanuatu_standard_account = response.mt5_login_list.find(function (account) {
+                return Client.getMT5AccountType(account.group) === 'real_vanuatu_standard';
+            });
+
+            if (vanuatu_standard_account) {
+                var mt5_account_type = Client.getMT5AccountType(vanuatu_standard_account.group);
+                var is_demo = /^demo_/.test(Client.getMT5AccountType(vanuatu_standard_account.group));
+                accounts_info[mt5_account_type] = {
+                    is_demo: is_demo,
+                    mt5_account_type: mt5_account_type,
+                    account_type: is_demo ? 'demo' : MetaTraderConfig.getMTFinancialAccountType(mt5_account_type),
+                    max_leverage: 1000,
+                    short_title: localize('Standard'),
+                    title: localize('Real Standard')
+                };
+            }
+        });
+
         Object.keys(mt_companies[company]).forEach(function (acc_type) {
             var company_info = mt_companies[company][acc_type];
             var mt5_account_type = company_info.mt5_account_type;
