@@ -32805,6 +32805,14 @@ var MetaTraderUI = function () {
     };
 
     var setCounterpartyAndJurisdictionTooltip = function setCounterpartyAndJurisdictionTooltip($el, acc_type) {
+        /*
+            The details for vanuatu landing company was changed to
+            those of the svg landing company, thus it will show
+            the new details instead of the old one even when the
+            account is still on the old landing company.
+             The code below is to stop the tooltip from showing wrong
+            information.
+        */
         if (/vanuatu_standard/.test(acc_type)) {
             return;
         }
