@@ -31923,21 +31923,27 @@ var MetaTrader = function () {
 
     var addAccount = function addAccount(company) {
         BinarySocket.wait('mt5_login_list').then(function (response) {
-            var vanuatu_standard_account = response.mt5_login_list.find(function (account) {
+            var vanuatu_standard_real_account = response.mt5_login_list.find(function (account) {
                 return Client.getMT5AccountType(account.group) === 'real_vanuatu_standard';
             });
 
-            if (vanuatu_standard_account) {
-                var mt5_account_type = Client.getMT5AccountType(vanuatu_standard_account.group);
-                var is_demo = /^demo_/.test(Client.getMT5AccountType(vanuatu_standard_account.group));
-                accounts_info[mt5_account_type] = {
-                    is_demo: is_demo,
-                    mt5_account_type: mt5_account_type,
-                    account_type: is_demo ? 'demo' : MetaTraderConfig.getMTFinancialAccountType(mt5_account_type),
-                    max_leverage: 1000,
-                    short_title: localize('Standard'),
-                    title: localize('Real Standard')
-                };
+            var vanuatu_standard_demo_account = response.mt5_login_list.find(function (account) {
+                return Client.getMT5AccountType(account.group) === 'demo_vanuatu_standard';
+            });
+
+            if (vanuatu_standard_real_account || vanuatu_standard_demo_account) {
+                [vanuatu_standard_demo_account, vanuatu_standard_real_account].forEach(function (account) {
+                    var mt5_account_type = Client.getMT5AccountType(account.group);
+                    var is_demo = /^demo_/.test(Client.getMT5AccountType(account.group));
+                    accounts_info[mt5_account_type] = {
+                        is_demo: is_demo,
+                        mt5_account_type: mt5_account_type,
+                        account_type: is_demo ? 'demo' : MetaTraderConfig.getMTFinancialAccountType(mt5_account_type),
+                        max_leverage: 1000,
+                        short_title: localize('Standard'),
+                        title: localize('Real Standard')
+                    };
+                });
             }
         });
 
@@ -32799,7 +32805,7 @@ var MetaTraderUI = function () {
     };
 
     var setCounterpartyAndJurisdictionTooltip = function setCounterpartyAndJurisdictionTooltip($el, acc_type) {
-        if (/real_vanuatu_standard/.test(acc_type)) {
+        if (/vanuatu_standard/.test(acc_type)) {
             return;
         }
 
