@@ -31979,9 +31979,9 @@ var MetaTrader = function () {
                             var is_demo = /^demo_/.test(mt5_account_type);
                             accounts_info[mt5_account_type] = {
                                 is_demo: is_demo,
-                                mt5_account_type: mt5_account_type,
                                 account_type: is_demo ? 'demo' : 'financial',
                                 max_leverage: 1000,
+                                mt5_account_type: mt5_account_type.replace(/demo_|real_/, ''),
                                 short_title: localize('Standard'),
                                 title: localize('Real Standard')
                             };
