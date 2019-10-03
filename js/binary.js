@@ -31866,19 +31866,66 @@ var MetaTrader = function () {
 
     var onLoad = function onLoad() {
         BinarySocket.send({ statement: 1, limit: 1 });
-        BinarySocket.wait('landing_company', 'get_account_status', 'statement').then(function () {
-            setMTCompanies();
-            if (isEligible()) {
-                if (Client.get('is_virtual')) {
-                    getAllAccountsInfo();
-                } else {
-                    BinarySocket.send({ get_limits: 1 }).then(getAllAccountsInfo);
-                    getExchangeRates();
+        BinarySocket.wait('landing_company', 'get_account_status', 'statement').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                while (1) {
+                    switch (_context2.prev = _context2.next) {
+                        case 0:
+                            setMTCompanies();
+
+                            if (!isEligible()) {
+                                _context2.next = 12;
+                                break;
+                            }
+
+                            if (!Client.get('is_virtual')) {
+                                _context2.next = 8;
+                                break;
+                            }
+
+                            _context2.next = 5;
+                            return addAllAccounts();
+
+                        case 5:
+                            getAllAccountsInfo();
+                            _context2.next = 10;
+                            break;
+
+                        case 8:
+                            BinarySocket.send({ get_limits: 1 }).then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                                return regeneratorRuntime.wrap(function _callee$(_context) {
+                                    while (1) {
+                                        switch (_context.prev = _context.next) {
+                                            case 0:
+                                                _context.next = 2;
+                                                return addAllAccounts();
+
+                                            case 2:
+                                                getAllAccountsInfo();
+
+                                            case 3:
+                                            case 'end':
+                                                return _context.stop();
+                                        }
+                                    }
+                                }, _callee, undefined);
+                            })));
+                            getExchangeRates();
+
+                        case 10:
+                            _context2.next = 13;
+                            break;
+
+                        case 12:
+                            MetaTraderUI.displayPageError(localize('Sorry, this feature is not available in your jurisdiction.'));
+
+                        case 13:
+                        case 'end':
+                            return _context2.stop();
+                    }
                 }
-            } else {
-                MetaTraderUI.displayPageError(localize('Sorry, this feature is not available in your jurisdiction.'));
-            }
-        });
+            }, _callee2, undefined);
+        })));
     };
 
     // we need to calculate min/max equivalent to 1 and 20000 USD, so get exchange rates for all currencies based on USD
@@ -31913,7 +31960,6 @@ var MetaTrader = function () {
                 mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
                 if (mt_company[company]) {
                     has_mt_company = true;
-                    addAccount(company);
                 }
             });
         });
@@ -31921,31 +31967,45 @@ var MetaTrader = function () {
         return has_mt_company;
     };
 
-    var addAccount = function addAccount(company) {
-        BinarySocket.wait('mt5_login_list').then(function (response) {
-            var vanuatu_standard_real_account = response.mt5_login_list.find(function (account) {
-                return Client.getMT5AccountType(account.group) === 'real_vanuatu_standard';
-            });
-
-            var vanuatu_standard_demo_account = response.mt5_login_list.find(function (account) {
-                return Client.getMT5AccountType(account.group) === 'demo_vanuatu_standard';
-            });
-
-            if (vanuatu_standard_real_account || vanuatu_standard_demo_account) {
-                [vanuatu_standard_demo_account, vanuatu_standard_real_account].forEach(function (account) {
-                    var mt5_account_type = Client.getMT5AccountType(account.group);
-                    var is_demo = /^demo_/.test(Client.getMT5AccountType(account.group));
-                    accounts_info[mt5_account_type] = {
-                        is_demo: is_demo,
-                        mt5_account_type: mt5_account_type,
-                        account_type: is_demo ? 'demo' : MetaTraderConfig.getMTFinancialAccountType(mt5_account_type),
-                        max_leverage: 1000,
-                        short_title: localize('Standard'),
-                        title: localize('Real Standard')
-                    };
+    var addAllAccounts = function addAllAccounts() {
+        return new Promise(function (resolve) {
+            BinarySocket.wait('mt5_login_list').then(function (response) {
+                var vanuatu_standard_real_account = response.mt5_login_list.find(function (account) {
+                    return Client.getMT5AccountType(account.group) === 'real_vanuatu_standard';
                 });
-            }
+
+                var vanuatu_standard_demo_account = response.mt5_login_list.find(function (account) {
+                    return Client.getMT5AccountType(account.group) === 'demo_vanuatu_standard';
+                });
+
+                Object.keys(mt_companies).forEach(function (company) {
+                    Object.keys(mt_companies[company]).forEach(function (acc_type) {
+                        mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
+                        if (mt_company[company]) {
+                            addAccount(company, vanuatu_standard_demo_account, vanuatu_standard_real_account);
+                        }
+                    });
+                });
+                resolve();
+            });
         });
+    };
+
+    var addAccount = function addAccount(company, vanuatu_standard_demo_account, vanuatu_standard_real_account) {
+        if (vanuatu_standard_real_account || vanuatu_standard_demo_account) {
+            [vanuatu_standard_demo_account, vanuatu_standard_real_account].forEach(function (account) {
+                var mt5_account_type = Client.getMT5AccountType(account.group);
+                var is_demo = /^demo_/.test(Client.getMT5AccountType(account.group));
+                accounts_info[mt5_account_type] = {
+                    is_demo: is_demo,
+                    mt5_account_type: mt5_account_type,
+                    account_type: is_demo ? 'demo' : MetaTraderConfig.getMTFinancialAccountType(mt5_account_type),
+                    max_leverage: 1000,
+                    short_title: localize('Standard'),
+                    title: localize('Real Standard')
+                };
+            });
+        }
 
         Object.keys(mt_companies[company]).forEach(function (acc_type) {
             var company_info = mt_companies[company][acc_type];
@@ -32153,11 +32213,11 @@ var MetaTrader = function () {
     };
 
     var metatraderMenuItemVisibility = function metatraderMenuItemVisibility() {
-        BinarySocket.wait('landing_company', 'get_account_status').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        BinarySocket.wait('landing_company', 'get_account_status').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
             var mt_visibility;
-            return regeneratorRuntime.wrap(function _callee$(_context) {
+            return regeneratorRuntime.wrap(function _callee3$(_context3) {
                 while (1) {
-                    switch (_context.prev = _context.next) {
+                    switch (_context3.prev = _context3.next) {
                         case 0:
                             if (isEligible()) {
                                 mt_visibility = document.getElementsByClassName('mt_visibility');
@@ -32169,10 +32229,10 @@ var MetaTrader = function () {
 
                         case 1:
                         case 'end':
-                            return _context.stop();
+                            return _context3.stop();
                     }
                 }
-            }, _callee, undefined);
+            }, _callee3, undefined);
         })));
     };
 
