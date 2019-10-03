@@ -31978,10 +31978,26 @@ var MetaTrader = function () {
                     return Client.getMT5AccountType(account.group) === 'demo_vanuatu_standard';
                 });
 
+                if (vanuatu_standard_real_account || vanuatu_standard_demo_account) {
+                    [vanuatu_standard_demo_account, vanuatu_standard_real_account].forEach(function (account) {
+                        var mt5_account_type = Client.getMT5AccountType(account.group);
+                        var is_demo = /^demo_/.test(Client.getMT5AccountType(account.group));
+                        accounts_info[mt5_account_type] = {
+                            is_demo: is_demo,
+                            mt5_account_type: mt5_account_type,
+                            account_type: is_demo ? 'demo' : MetaTraderConfig.getMTFinancialAccountType(mt5_account_type),
+                            max_leverage: 1000,
+                            short_title: localize('Standard'),
+                            title: localize('Real Standard')
+                        };
+                    });
+                }
+
                 Object.keys(mt_companies).forEach(function (company) {
                     Object.keys(mt_companies[company]).forEach(function (acc_type) {
                         mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
-                        if (mt_company[company]) {
+                        // if have vanuatu, don't add svg anymore
+                        if (mt_company[company] && !((vanuatu_standard_demo_account || vanuatu_standard_real_account) && /svg/.test(mt_company[company]))) {
                             addAccount(company, vanuatu_standard_demo_account, vanuatu_standard_real_account);
                         }
                     });
@@ -31991,22 +32007,7 @@ var MetaTrader = function () {
         });
     };
 
-    var addAccount = function addAccount(company, vanuatu_standard_demo_account, vanuatu_standard_real_account) {
-        if (vanuatu_standard_real_account || vanuatu_standard_demo_account) {
-            [vanuatu_standard_demo_account, vanuatu_standard_real_account].forEach(function (account) {
-                var mt5_account_type = Client.getMT5AccountType(account.group);
-                var is_demo = /^demo_/.test(Client.getMT5AccountType(account.group));
-                accounts_info[mt5_account_type] = {
-                    is_demo: is_demo,
-                    mt5_account_type: mt5_account_type,
-                    account_type: is_demo ? 'demo' : MetaTraderConfig.getMTFinancialAccountType(mt5_account_type),
-                    max_leverage: 1000,
-                    short_title: localize('Standard'),
-                    title: localize('Real Standard')
-                };
-            });
-        }
-
+    var addAccount = function addAccount(company) {
         Object.keys(mt_companies[company]).forEach(function (acc_type) {
             var company_info = mt_companies[company][acc_type];
             var mt5_account_type = company_info.mt5_account_type;
