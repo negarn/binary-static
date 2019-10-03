@@ -31979,9 +31979,9 @@ var MetaTrader = function () {
                             var is_demo = /^demo_/.test(mt5_account_type);
                             accounts_info[mt5_account_type] = {
                                 is_demo: is_demo,
-                                account_type: is_demo ? 'demo' : 'standard',
+                                mt5_account_type: mt5_account_type,
+                                account_type: is_demo ? 'demo' : 'financial',
                                 max_leverage: 1000,
-                                mt5_account_type: 'standard',
                                 short_title: localize('Standard'),
                                 title: localize('Real Standard')
                             };
@@ -32761,7 +32761,7 @@ var MetaTraderUI = function () {
             count++;
             var $acc = $acc_template.clone();
             var type = acc_type.split('_').slice(1).join('_');
-            var image = accounts_info[acc_type].mt5_account_type.replace(/mamm(_)*/, '') || 'volatility_indices'; // image name can be (advanced|standard|volatility_indices)
+            var image = accounts_info[acc_type].mt5_account_type.replace(/mamm(_)*/, '').replace(/real_vanuatu_/, '') || 'volatility_indices'; // image name can be (advanced|standard|volatility_indices)
             $acc.find('.mt5_type_box').attr({ id: 'rbtn_' + type, 'data-acc-type': type }).find('img').attr('src', urlForStatic('/images/pages/metatrader/icons/acc_' + image + '.svg'));
             $acc.find('p').text(accounts_info[acc_type].short_title);
             (/mam/.test(acc_type) ? $acc_template_mam : $acc_template_mt).append($acc);
