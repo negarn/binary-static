@@ -31954,17 +31954,11 @@ var MetaTrader = function () {
             return false;
         }
         setMTCompanies();
-        var has_mt_company = false;
-        Object.keys(mt_companies).forEach(function (company) {
-            Object.keys(mt_companies[company]).forEach(function (acc_type) {
-                mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
-                if (mt_company[company]) {
-                    has_mt_company = true;
-                }
+        return Object.keys(mt_companies).find(function (company) {
+            return !!Object.keys(mt_companies[company]).find(function (acc_type) {
+                return !!State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
             });
         });
-
-        return has_mt_company;
     };
 
     var addAllAccounts = function addAllAccounts() {
@@ -31982,12 +31976,12 @@ var MetaTrader = function () {
                     [vanuatu_standard_demo_account, vanuatu_standard_real_account].forEach(function (account) {
                         if (account) {
                             var mt5_account_type = Client.getMT5AccountType(account.group);
-                            var is_demo = /^demo_/.test(Client.getMT5AccountType(account.group));
+                            var is_demo = /^demo_/.test(mt5_account_type);
                             accounts_info[mt5_account_type] = {
                                 is_demo: is_demo,
-                                mt5_account_type: mt5_account_type,
-                                account_type: is_demo ? 'demo' : MetaTraderConfig.getMTFinancialAccountType(mt5_account_type),
+                                account_type: is_demo ? 'demo' : 'standard',
                                 max_leverage: 1000,
+                                mt5_account_type: 'standard',
                                 short_title: localize('Standard'),
                                 title: localize('Real Standard')
                             };
@@ -31999,7 +31993,7 @@ var MetaTrader = function () {
                     Object.keys(mt_companies[company]).forEach(function (acc_type) {
                         mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
                         // if have vanuatu, don't add svg anymore
-                        if (mt_company[company] && !((vanuatu_standard_demo_account || vanuatu_standard_real_account) && /svg/.test(mt_company[company]))) {
+                        if (mt_company[company]) {
                             addAccount(company, vanuatu_standard_demo_account, vanuatu_standard_real_account);
                         }
                     });
@@ -32009,21 +32003,23 @@ var MetaTrader = function () {
         });
     };
 
-    var addAccount = function addAccount(company) {
+    var addAccount = function addAccount(company, vanuatu_standard_demo_account, vanuatu_standard_real_account) {
         Object.keys(mt_companies[company]).forEach(function (acc_type) {
             var company_info = mt_companies[company][acc_type];
             var mt5_account_type = company_info.mt5_account_type;
             var is_demo = /^demo_/.test(acc_type);
             var type = is_demo ? 'demo' : 'real';
 
-            accounts_info[type + '_' + mt_company[company] + (mt5_account_type ? '_' + mt5_account_type : '')] = {
-                is_demo: is_demo,
-                mt5_account_type: mt5_account_type,
-                account_type: is_demo ? 'demo' : company,
-                max_leverage: company_info.max_leverage,
-                short_title: company_info.short_title,
-                title: company_info.title
-            };
+            if (!((vanuatu_standard_demo_account || vanuatu_standard_real_account) && /svg/.test(mt_company[company]))) {
+                accounts_info[type + '_' + mt_company[company] + (mt5_account_type ? '_' + mt5_account_type : '')] = {
+                    is_demo: is_demo,
+                    mt5_account_type: mt5_account_type,
+                    account_type: is_demo ? 'demo' : company,
+                    max_leverage: company_info.max_leverage,
+                    short_title: company_info.short_title,
+                    title: company_info.title
+                };
+            }
         });
     };
 
