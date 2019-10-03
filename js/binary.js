@@ -31980,16 +31980,18 @@ var MetaTrader = function () {
 
                 if (vanuatu_standard_real_account || vanuatu_standard_demo_account) {
                     [vanuatu_standard_demo_account, vanuatu_standard_real_account].forEach(function (account) {
-                        var mt5_account_type = Client.getMT5AccountType(account.group);
-                        var is_demo = /^demo_/.test(Client.getMT5AccountType(account.group));
-                        accounts_info[mt5_account_type] = {
-                            is_demo: is_demo,
-                            mt5_account_type: mt5_account_type,
-                            account_type: is_demo ? 'demo' : MetaTraderConfig.getMTFinancialAccountType(mt5_account_type),
-                            max_leverage: 1000,
-                            short_title: localize('Standard'),
-                            title: localize('Real Standard')
-                        };
+                        if (account) {
+                            var mt5_account_type = Client.getMT5AccountType(account.group);
+                            var is_demo = /^demo_/.test(Client.getMT5AccountType(account.group));
+                            accounts_info[mt5_account_type] = {
+                                is_demo: is_demo,
+                                mt5_account_type: mt5_account_type,
+                                account_type: is_demo ? 'demo' : MetaTraderConfig.getMTFinancialAccountType(mt5_account_type),
+                                max_leverage: 1000,
+                                short_title: localize('Standard'),
+                                title: localize('Real Standard')
+                            };
+                        }
                     });
                 }
 
