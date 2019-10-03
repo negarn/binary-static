@@ -2972,7 +2972,7 @@ var Language = function () {
         PL: 'Polish',
         PT: 'Português',
         RU: 'Русский',
-        TH: 'Thai',
+        // TH   : 'Thai', // TODO: uncomment to enable Thai language
         VI: 'Tiếng Việt',
         ZH_CN: '简体中文',
         ZH_TW: '繁體中文'
@@ -9759,6 +9759,9 @@ var BinaryLoader = function () {
         },
         not_authenticated: function not_authenticated() {
             return localize('This page is only available to logged out clients.');
+        },
+        no_mf: function no_mf() {
+            return localize('Sorry, but binary options trading is not available in your financial account.');
         }
     };
 
@@ -9787,6 +9790,10 @@ var BinaryLoader = function () {
             } else {
                 handleNotAuthenticated();
             }
+        } else if (config.no_mf && Client.isLoggedIn() && Client.isAccountOfType('financial')) {
+            BinarySocket.wait('authorize').then(function () {
+                return displayMessage(error_messages.no_mf());
+            });
         } else {
             loadActiveScript(config);
         }
@@ -9812,7 +9819,7 @@ var BinaryLoader = function () {
             return;
         }
 
-        var div_container = createElement('div', { class: 'logged_out_title_container', html: content.getElementsByTagName('h1')[0] || '' });
+        var div_container = createElement('div', { class: 'logged_out_title_container', html: Client.isAccountOfType('financial') ? '' : content.getElementsByTagName('h1')[0] || '' });
         var div_notice = createElement('p', { class: 'center-text notice-msg', html: localized_message });
 
         div_container.appendChild(div_notice);
@@ -9948,7 +9955,7 @@ var pages_config = {
     accounts: { module: Accounts, is_authenticated: true, needs_currency: true },
     api_tokenws: { module: APIToken, is_authenticated: true },
     assessmentws: { module: FinancialAssessment, is_authenticated: true, only_real: true },
-    asset_indexws: { module: AssetIndexUI },
+    asset_indexws: { module: AssetIndexUI, no_mf: true },
     asuncion: { module: StaticPages.Locations },
     authenticate: { module: Authenticate, is_authenticated: true, only_real: true },
     authorised_appsws: { module: AuthorisedApps, is_authenticated: true },
@@ -9979,7 +9986,7 @@ var pages_config = {
     lost_passwordws: { module: LostPassword, not_authenticated: true },
     malta: { module: StaticPages.Locations },
     maltainvestws: { module: FinancialAccOpening, is_authenticated: true },
-    market_timesws: { module: TradingTimesUI },
+    market_timesws: { module: TradingTimesUI, no_mf: true },
     metals: { module: GetStarted.Metals },
     metatrader: { module: MetaTrader, is_authenticated: true, needs_currency: true },
     payment_agent_listws: { module: PaymentAgentList, is_authenticated: true },
@@ -9998,7 +10005,7 @@ var pages_config = {
     statementws: { module: Statement, is_authenticated: true, needs_currency: true },
     tnc_approvalws: { module: TNCApproval, is_authenticated: true, only_real: true },
     top_up_virtualws: { module: TopUpVirtual, is_authenticated: true, only_virtual: true },
-    trading: { module: TradePage, needs_currency: true },
+    trading: { module: TradePage, needs_currency: true, no_mf: true },
     transferws: { module: PaymentAgentTransfer, is_authenticated: true, only_real: true },
     two_factor_authentication: { module: TwoFactorAuthentication, is_authenticated: true },
     virtualws: { module: VirtualAccOpening, not_authenticated: true },
@@ -10725,8 +10732,12 @@ var Header = function () {
     };
 
     var logoOnClick = function logoOnClick() {
-        var url = Client.isLoggedIn() ? Client.defaultRedirectUrl() : Url.urlFor('');
-        BinaryPjax.load(url);
+        if (Client.isLoggedIn()) {
+            var url = Client.isAccountOfType('financial') ? Url.urlFor('user/metatrader') : Client.defaultRedirectUrl();
+            BinaryPjax.load(url);
+        } else {
+            BinaryPjax.load(Url.urlFor(''));
+        }
     };
 
     var loginOnClick = function loginOnClick(e) {
@@ -11065,9 +11076,6 @@ var Header = function () {
                 financial_limit: function financial_limit() {
                     return buildMessage(localizeKeepPlaceholders('Please set your [_1]30-day turnover limit[_2] to remove deposit limits.'), 'user/security/self_exclusionws');
                 },
-                mf_retail: function mf_retail() {
-                    return buildMessage(localizeKeepPlaceholders('Binary Options Trading has been disabled on your account. Kindly [_1]contact customer support[_2] for assistance.'), 'contact');
-                },
                 mt5_withdrawal_locked: function mt5_withdrawal_locked() {
                     return localize('MT5 withdrawals have been disabled on your account. Please check your email for more details.');
                 },
@@ -11134,9 +11142,6 @@ var Header = function () {
                 financial_limit: function financial_limit() {
                     return hasStatus('max_turnover_limit_not_set');
                 },
-                mf_retail: function mf_retail() {
-                    return Client.get('landing_company_shortcode') === 'maltainvest' && !hasStatus('professional');
-                },
                 mt5_withdrawal_locked: function mt5_withdrawal_locked() {
                     return hasStatus('mt5_withdrawal_locked');
                 },
@@ -11164,9 +11169,9 @@ var Header = function () {
             };
 
             // real account checks in order
-            var check_statuses_real = ['excluded_until', 'tnc', 'required_fields', 'financial_limit', 'risk', 'tax', 'currency', 'cashier_locked', 'withdrawal_locked', 'mt5_withdrawal_locked', 'unwelcome', 'unsubmitted', 'expired', 'expired_identity', 'expired_document', 'rejected', 'rejected_identity', 'rejected_document', 'identity', 'document', 'mf_retail'];
+            var check_statuses_real = ['excluded_until', 'tnc', 'required_fields', 'financial_limit', 'risk', 'tax', 'currency', 'cashier_locked', 'withdrawal_locked', 'mt5_withdrawal_locked', 'unwelcome', 'unsubmitted', 'expired', 'expired_identity', 'expired_document', 'rejected', 'rejected_identity', 'rejected_document', 'identity', 'document'];
 
-            var check_statuses_mf_mlt = ['excluded_until', 'tnc', 'required_fields', 'financial_limit', 'risk', 'tax', 'currency', 'unsubmitted', 'expired', 'expired_identity', 'expired_document', 'rejected', 'rejected_identity', 'rejected_document', 'identity', 'document', 'unwelcome', 'cashier_locked', 'withdrawal_locked', 'mt5_withdrawal_locked', 'mf_retail'];
+            var check_statuses_mf_mlt = ['excluded_until', 'tnc', 'required_fields', 'financial_limit', 'risk', 'tax', 'currency', 'unsubmitted', 'expired', 'expired_identity', 'expired_document', 'rejected', 'rejected_identity', 'rejected_document', 'identity', 'document', 'unwelcome', 'cashier_locked', 'withdrawal_locked', 'mt5_withdrawal_locked'];
 
             // virtual checks
             var check_statuses_virtual = ['residence'];
@@ -11174,11 +11179,7 @@ var Header = function () {
             var checkStatus = function checkStatus(check_statuses) {
                 var notified = check_statuses.some(function (check_type) {
                     if (validations[check_type]()) {
-                        // show MF retail message on Trading pages only
-                        if (check_type === 'mf_retail' && !State.get('is_trading')) {
-                            return false;
-                        }
-                        displayNotification(messages[check_type](), false, check_type === 'mf_retail' ? 'MF_RETAIL_MESSAGE' : '');
+                        displayNotification(messages[check_type](), false);
                         return true;
                     }
                     return false;
@@ -11276,7 +11277,7 @@ var LoggedInHandler = function () {
             if (set_default) {
                 var lang_cookie = urlLang(redirect_url) || Cookies.get('language');
                 var language = getLanguage();
-                redirect_url = Client.defaultRedirectUrl();
+                redirect_url = Client.isAccountOfType('financial') ? urlFor('user/metatrader') : Client.defaultRedirectUrl();
                 if (lang_cookie && lang_cookie !== language) {
                     redirect_url = redirect_url.replace(new RegExp('/' + language + '/', 'i'), '/' + lang_cookie.toLowerCase() + '/');
                 }
@@ -15713,12 +15714,13 @@ var DepositWithdraw = function () {
         } else {
             var popup_valid_for_url = Url.urlFor('cashier/forwardws') + '?action=deposit';
             var popup_valid = popup_valid_for_url === window.location.href;
+            var client_currency = Client.get('currency');
             if (popup_valid && Client.canChangeCurrency(State.getResponse('statement'), State.getResponse('mt5_login_list'))) {
                 Dialog.confirm({
                     id: 'deposit_currency_change_popup_container',
                     ok_text: localize('Yes I\'m sure'),
                     cancel_text: localize('Cancel'),
-                    localized_title: localize('Are you sure?'),
+                    localized_title: localize('Are you sure you want to deposit in [_1]?', [client_currency]),
                     localized_message: localize('You will not be able to change your fiat account\'s currency after making this deposit. Are you sure you want to proceed?'),
                     localized_footnote: localize('[_1]No, change my fiat account\'s currency now[_2]', ['<a href=' + Url.urlFor('user/accounts') + '>', '</a>']),
                     onAbort: function onAbort() {
@@ -15729,7 +15731,7 @@ var DepositWithdraw = function () {
 
             $iframe = $(container).find('#cashier_iframe');
 
-            if (Currency.isCryptocurrency(Client.get('currency'))) {
+            if (Currency.isCryptocurrency(client_currency)) {
                 $iframe.height(default_iframe_height);
             } else {
                 // Automatically adjust iframe height based on contents
@@ -25643,13 +25645,16 @@ var TradePage = function () {
     };
 
     var init = function init() {
+        if (Client.isAccountOfType('financial')) {
+            return;
+        }
+
         State.set('is_trading', true);
         Price.clearFormId();
         if (events_initialized === 0) {
             events_initialized = 1;
             TradingEvents.init();
         }
-
         BinarySocket.wait('authorize').then(function () {
             Header.displayAccountStatus();
             if (Client.get('is_virtual')) {
@@ -25682,7 +25687,6 @@ var TradePage = function () {
                 }
             });
         });
-
         if (document.getElementById('websocket_form')) {
             commonTrading.addEventListenerForm();
         }
@@ -25702,9 +25706,6 @@ var TradePage = function () {
     };
 
     var onUnload = function onUnload() {
-        if (!/trading/.test(window.location.href)) {
-            Header.hideNotification('MF_RETAIL_MESSAGE');
-        }
         State.remove('is_trading');
         events_initialized = 0;
         Process.forgetTradingStreams();
@@ -25792,7 +25793,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var DocumentUploader = __webpack_require__(/*! @binary-com/binary-document-uploader */ "./node_modules/@binary-com/binary-document-uploader/DocumentUploader.js");
 var Cookies = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
 var Onfido = __webpack_require__(/*! onfido-sdk-ui */ "./node_modules/onfido-sdk-ui/lib/index.js");
-var BinaryPjax = __webpack_require__(/*! ../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
 var Header = __webpack_require__(/*! ../../../base/header */ "./src/javascript/app/base/header.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -26691,9 +26691,19 @@ var Authenticate = function () {
         });
     };
 
+    var checkIsRequired = function checkIsRequired(authentication_status) {
+        var identity = authentication_status.identity,
+            document = authentication_status.document,
+            needs_verification = authentication_status.needs_verification;
+
+        var is_not_required = identity.status === 'none' && document.status === 'none' && !needs_verification.length;
+
+        return !is_not_required;
+    };
+
     var initAuthentication = function () {
         var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-            var authentication_status, onfido_token, identity, document, needs_verification;
+            var authentication_status, onfido_token, identity, document, is_fully_authenticated;
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
                 while (1) {
                     switch (_context2.prev = _context2.next) {
@@ -26719,14 +26729,11 @@ var Authenticate = function () {
                             return _context2.abrupt('return');
 
                         case 10:
-                            identity = authentication_status.identity, document = authentication_status.document, needs_verification = authentication_status.needs_verification;
+                            identity = authentication_status.identity, document = authentication_status.document;
+                            is_fully_authenticated = identity.status === 'verified' && document.status === 'verified';
 
 
-                            if (identity.status === 'none' && document.status === 'none' && !needs_verification.length) {
-                                BinaryPjax.load(Url.urlFor('user/settingsws'));
-                            }
-
-                            if (identity.status === 'verified' && document.status === 'verified') {
+                            if (is_fully_authenticated) {
                                 $('#authentication_tab').setVisibility(0);
                                 $('#authentication_verified').setVisibility(1);
                             }
@@ -26829,10 +26836,42 @@ var Authenticate = function () {
         };
     }();
 
-    var onLoad = function onLoad() {
-        initTab();
-        initAuthentication();
-    };
+    var onLoad = function () {
+        var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+            var authentication_status, is_required;
+            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                while (1) {
+                    switch (_context3.prev = _context3.next) {
+                        case 0:
+                            _context3.next = 2;
+                            return getAuthenticationStatus();
+
+                        case 2:
+                            authentication_status = _context3.sent;
+                            is_required = checkIsRequired(authentication_status);
+
+
+                            if (is_required) {
+                                initTab();
+                                initAuthentication();
+                            } else {
+                                $('#authentication_tab').setVisibility(0);
+                                $('#not_required_msg').setVisibility(1);
+                                $('#authentication_loading').setVisibility(0);
+                            }
+
+                        case 5:
+                        case 'end':
+                            return _context3.stop();
+                    }
+                }
+            }, _callee3, undefined);
+        }));
+
+        return function onLoad() {
+            return _ref3.apply(this, arguments);
+        };
+    }();
 
     var onUnload = function onUnload() {
         if (onfido) {
@@ -27829,21 +27868,9 @@ var Settings = function () {
             $('.real').setVisibility(!Client.get('is_virtual'));
 
             var status = State.getResponse('get_account_status.status') || [];
-            var authentication = State.getResponse('get_account_status.authentication') || {};
-            var identity = authentication.identity,
-                document = authentication.document,
-                needs_verification = authentication.needs_verification;
 
             if (!/social_signup/.test(status)) {
                 $('#change_password').setVisibility(1);
-            }
-
-            if (identity && document && needs_verification) {
-                if (!needs_verification.length && identity.status === 'none' && document.status === 'none') {
-                    $('#authenticate').setVisibility(0);
-                } else {
-                    $('#authenticate').setVisibility(1);
-                }
             }
 
             // Professional Client menu should only be shown to maltainvest accounts.
@@ -31406,6 +31433,9 @@ var MetaTraderConfig = function () {
 
                     var response_get_settings = State.getResponse('get_settings');
                     if (is_financial) {
+                        var is_svg = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'svg';
+                        if (is_svg) resolve();
+
                         var is_ok = true;
                         BinarySocket.wait('get_account_status', 'landing_company').then(function () {
                             if (is_maltainvest && !has_financial_account) resolve();
@@ -31441,7 +31471,7 @@ var MetaTraderConfig = function () {
                                 showAssessment('.assessment');
                                 _is_ok = false;
                             }
-                            if (!response_get_settings.citizen && !(is_maltainvest && !has_financial_account)) {
+                            if (!response_get_settings.citizen && !(is_maltainvest && !has_financial_account) && accounts_info[acc_type].mt5_account_type) {
                                 showCitizenshipMessage();
                                 _is_ok = false;
                             }
@@ -31764,6 +31794,10 @@ var MetaTraderConfig = function () {
         return State.getResponse('get_account_status').status.indexOf('authenticated') !== -1;
     };
 
+    var isAuthenticationPromptNeeded = function isAuthenticationPromptNeeded() {
+        return State.getResponse('get_account_status').prompt_client_to_authenticate === 1;
+    };
+
     return {
         accounts_info: accounts_info,
         actions_info: actions_info,
@@ -31774,6 +31808,7 @@ var MetaTraderConfig = function () {
         hasAccount: hasAccount,
         getCurrency: getCurrency,
         isAuthenticated: isAuthenticated,
+        isAuthenticationPromptNeeded: isAuthenticationPromptNeeded,
         configMtCompanies: configMtCompanies.get,
         configMtFinCompanies: configMtFinCompanies.get,
         setMessages: function setMessages($msg) {
@@ -32631,7 +32666,7 @@ var MetaTraderUI = function () {
         }) // toEnableMAM: remove second check
         .forEach(function (acc_type) {
             // toEnableVanuatuAdvanced: remove vanuatu_advanced from regex below
-            if (/labuan_standard|vanuatu_advanced|maltainvest_advanced/.test(acc_type)) {
+            if (/svg_advanced|labuan_standard|vanuatu_advanced|maltainvest_advanced/.test(acc_type)) {
                 return;
             }
             count++;
@@ -32734,8 +32769,8 @@ var MetaTraderUI = function () {
     };
 
     var showHideFinancialAuthenticate = function showHideFinancialAuthenticate(acc_type) {
-        if (MetaTraderConfig.hasAccount(acc_type) && accounts_info[acc_type].account_type === 'financial') {
-            $('#financial_authenticate_msg').setVisibility(!MetaTraderConfig.isAuthenticated());
+        if (MetaTraderConfig.hasAccount(acc_type)) {
+            $('#financial_authenticate_msg').setVisibility(MetaTraderConfig.isAuthenticationPromptNeeded());
         }
     };
 
@@ -35872,11 +35907,6 @@ var Platforms = function () {
                 var el_button = getElementById('app_' + os.name);
                 el_button.setAttribute('href', os.download_url);
             });
-        });
-        fetch('https://grid.binary.me/version.json').then(function (response) {
-            return response.json();
-        }).then(function (gridapp) {
-            $('.download-grid-app').attr('href', 'https://grid.binary.me/download/' + gridapp.name);
         });
         var os = OSDetect();
         var android_app = document.querySelector('.android-download-grid-app');
