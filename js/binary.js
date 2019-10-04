@@ -31992,7 +31992,6 @@ var MetaTrader = function () {
                 Object.keys(mt_companies).forEach(function (company) {
                     Object.keys(mt_companies[company]).forEach(function (acc_type) {
                         mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
-                        // if have vanuatu, don't add svg anymore
                         if (mt_company[company]) {
                             addAccount(company, vanuatu_standard_demo_account, vanuatu_standard_real_account);
                         }
@@ -32010,7 +32009,8 @@ var MetaTrader = function () {
             var is_demo = /^demo_/.test(acc_type);
             var type = is_demo ? 'demo' : 'real';
 
-            if (!((vanuatu_standard_demo_account || vanuatu_standard_real_account) && /svg/.test(mt_company[company]))) {
+            // if have vanuatu, don't add svg anymore unless it's for volatility, meaning has mt5_account_type value
+            if (!((vanuatu_standard_demo_account || vanuatu_standard_real_account) && /svg/.test(mt_company[company]) && mt5_account_type)) {
                 accounts_info[type + '_' + mt_company[company] + (mt5_account_type ? '_' + mt5_account_type : '')] = {
                     is_demo: is_demo,
                     mt5_account_type: mt5_account_type,
