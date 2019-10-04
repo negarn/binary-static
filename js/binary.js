@@ -1923,8 +1923,8 @@ var SocketCache = function () {
     //     function: return value of the function
     var config = {
         payout_currencies: { expire: 10 },
-        active_symbols: { expire: 10, map_to: ['product_type', 'landing_company', getLanguage] },
-        contracts_for: { expire: 10, map_to: ['contracts_for', 'product_type', 'currency'] },
+        active_symbols: { expire: 10, map_to: ['landing_company', getLanguage] },
+        contracts_for: { expire: 10, map_to: ['contracts_for', 'currency'] },
         exchange_rates: { expire: 60, map_to: ['base_currency'] }
     };
 
@@ -9910,7 +9910,6 @@ var ProfitTable = __webpack_require__(/*! ../pages/user/account/profit_table/pro
 var Settings = __webpack_require__(/*! ../pages/user/account/settings */ "./src/javascript/app/pages/user/account/settings.js");
 var APIToken = __webpack_require__(/*! ../pages/user/account/settings/api_token */ "./src/javascript/app/pages/user/account/settings/api_token.js");
 var AuthorisedApps = __webpack_require__(/*! ../pages/user/account/settings/authorised_apps */ "./src/javascript/app/pages/user/account/settings/authorised_apps.js");
-var CashierPassword = __webpack_require__(/*! ../pages/user/account/settings/cashier_password */ "./src/javascript/app/pages/user/account/settings/cashier_password.js");
 var FinancialAssessment = __webpack_require__(/*! ../pages/user/account/settings/financial_assessment */ "./src/javascript/app/pages/user/account/settings/financial_assessment.js");
 var IPHistory = __webpack_require__(/*! ../pages/user/account/settings/iphistory/iphistory */ "./src/javascript/app/pages/user/account/settings/iphistory/iphistory.js");
 var Limits = __webpack_require__(/*! ../pages/user/account/settings/limits/limits */ "./src/javascript/app/pages/user/account/settings/limits/limits.js");
@@ -9961,7 +9960,6 @@ var pages_config = {
     authorised_appsws: { module: AuthorisedApps, is_authenticated: true },
     careers: { module: StaticPages.Careers },
     cashier: { module: Cashier },
-    cashier_passwordws: { module: CashierPassword, is_authenticated: true, only_real: true },
     cfds: { module: GetStarted.CFDs },
     // charity                  : { module: Charity },
     change_passwordws: { module: ChangePassword, is_authenticated: true },
@@ -11912,9 +11910,7 @@ var BinarySocketGeneral = function () {
                     break;
                 }
             case 'RateLimit':
-                if (msg_type !== 'cashier_password') {
-                    Header.displayNotification(localize('You have reached the rate limit of requests per second. Please try later.'), true, 'RATE_LIMIT');
-                }
+                Header.displayNotification(localize('You have reached the rate limit of requests per second. Please try later.'), true, 'RATE_LIMIT');
                 break;
             case 'InvalidAppID':
                 Header.displayNotification(response.error.message, true, 'INVALID_APP_ID');
@@ -15496,7 +15492,6 @@ module.exports = Cashier;
 "use strict";
 
 
-var setShouldRedirect = __webpack_require__(/*! ../user/account/settings/cashier_password */ "./src/javascript/app/pages/user/account/settings/cashier_password.js").setShouldRedirect;
 var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -15525,13 +15520,7 @@ var DepositWithdraw = function () {
 
     var container = '#deposit_withdraw';
 
-    var init = function init(cashier_password) {
-        if (cashier_password) {
-            showMessage('cashier_locked_message');
-            setShouldRedirect(true);
-            return;
-        }
-
+    var init = function init() {
         if (!Client.get('currency')) {
             BinaryPjax.load(Url.urlFor('user/set-currency') + '#redirect_' + cashier_type);
             return;
@@ -15756,20 +15745,14 @@ var DepositWithdraw = function () {
     var onLoad = function onLoad() {
         $loading = $('#loading_cashier');
         getCashierType();
-        var req_cashier_password = BinarySocket.send({ cashier_password: 1 });
         var req_get_account_status = BinarySocket.send({ get_account_status: 1 });
         var req_statement = BinarySocket.send({ statement: 1, limit: 1 });
         var req_mt5_login_list = BinarySocket.send({ mt5_login_list: 1 });
 
-        Promise.all([req_cashier_password, req_get_account_status, req_statement, req_mt5_login_list]).then(function () {
+        Promise.all([req_get_account_status, req_statement, req_mt5_login_list]).then(function () {
             // cannot use State.getResponse because we want to check error which is outside of response[msg_type]
-            var response_cashier_password = State.get(['response', 'cashier_password']);
             var response_get_account_status = State.get(['response', 'get_account_status']);
-            if ('error' in response_cashier_password) {
-                showError('custom_error', response_cashier_password.error.code === 'RateLimit' ? localize('You have reached the rate limit of requests per second. Please try later.') : response_cashier_password.error.message);
-            } else if (response_cashier_password.cashier_password === 1) {
-                showMessage('cashier_locked_message'); // Locked by client
-            } else if (!response_get_account_status.error && /cashier_locked/.test(response_get_account_status.get_account_status.status)) {
+            if (!response_get_account_status.error && /cashier_locked/.test(response_get_account_status.get_account_status.status)) {
                 showError('custom_error', localize('Your cashier is locked.')); // Locked from BO
             } else {
                 var limit = State.getResponse('get_limits.remainder');
@@ -15777,7 +15760,7 @@ var DepositWithdraw = function () {
                     showError('custom_error', localize('You have reached the withdrawal limit.'));
                 } else {
                     BinarySocket.wait('get_settings').then(function () {
-                        init(response_cashier_password.cashier_password);
+                        init();
                     });
                 }
             }
@@ -28236,115 +28219,6 @@ module.exports = AuthorisedApps;
 
 /***/ }),
 
-/***/ "./src/javascript/app/pages/user/account/settings/cashier_password.js":
-/*!****************************************************************************!*\
-  !*** ./src/javascript/app/pages/user/account/settings/cashier_password.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var BinaryPjax = __webpack_require__(/*! ../../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
-var BinarySocket = __webpack_require__(/*! ../../../../base/socket */ "./src/javascript/app/base/socket.js");
-var FormManager = __webpack_require__(/*! ../../../../common/form_manager */ "./src/javascript/app/common/form_manager.js");
-var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
-
-var CashierPassword = function () {
-    var form_id = '#frm_cashier_password';
-
-    var should_redirect = false;
-
-    var $form = void 0;
-
-    var onLoad = function onLoad() {
-        $form = $(form_id);
-
-        BinarySocket.wait('authorize').then(function () {
-            BinarySocket.send({ cashier_password: 1 }).then(function (response) {
-                return init(response);
-            });
-        });
-    };
-
-    var updatePage = function updatePage(config) {
-        $('legend').text(config.legend);
-        $('#lockInfo').text(config.info);
-        $form.find('button').html(config.button);
-    };
-
-    var init = function init(response) {
-        var locked = response.cashier_password;
-        if (response.error) {
-            $('#form_message').addClass('notice-msg center-text').text(response.error.code === 'RateLimit' ? localize('You have reached the rate limit of requests per second. Please try later.') : response.error.message);
-            return;
-        } else if (locked) {
-            updatePage({
-                legend: localize('Unlock Cashier'),
-                info: localize('Your cashier is locked as per your request - to unlock it, please enter the password.'),
-                button: localize('Unlock Cashier')
-            });
-            $('#repeat_password_row').setVisibility(0);
-        } else {
-            updatePage({
-                legend: localize('Lock Cashier'),
-                info: localize('An additional password can be used to restrict access to the cashier.'),
-                button: localize('Update')
-            });
-            $('#repeat_password_row').setVisibility(1);
-        }
-        $form.setVisibility(1);
-        FormManager.init(form_id, [{ selector: '#cashier_password', validations: ['req', locked ? ['length', { min: 6, max: 25 }] : 'password'], request_field: locked ? 'unlock_password' : 'lock_password', re_check_field: locked ? null : '#repeat_cashier_password' }, { selector: '#repeat_cashier_password', validations: ['req', ['compare', { to: '#cashier_password' }]], exclude_request: 1 }, { request_field: 'cashier_password', value: 1 }]);
-        FormManager.handleSubmit({
-            form_selector: form_id,
-            fnc_response_handler: handleResponse
-        });
-    };
-
-    var handleResponse = function handleResponse(response) {
-        var $form_error = $('#form_error');
-        var $form_message = $('#form_message');
-        $form_message.removeClass('notice-msg center-text').text('');
-        $form_error.setVisibility(0);
-        if (response.error) {
-            if (response.error.code === 'RateLimit') {
-                $form.setVisibility(0);
-                $form_message.addClass('notice-msg center-text').text(localize('You have reached the rate limit of requests per second. Please try later.'));
-            } else {
-                var message = response.error.message;
-                if (response.error.code === 'InputValidationFailed') {
-                    message = localize('Sorry, you have entered an incorrect cashier password');
-                }
-                $form_error.text(message).setVisibility(1);
-            }
-        } else {
-            $form.setVisibility(0);
-            $form_message.text(localize('Your settings have been updated successfully.'));
-            setTimeout(redirect, 2000);
-        }
-    };
-
-    var redirect = function redirect() {
-        if (should_redirect) {
-            should_redirect = false;
-            BinaryPjax.loadPreviousUrl();
-        }
-    };
-
-    return {
-        onLoad: onLoad,
-
-        setShouldRedirect: function setShouldRedirect(bool) {
-            should_redirect = bool;
-        }
-    };
-}();
-
-module.exports = CashierPassword;
-
-/***/ }),
-
 /***/ "./src/javascript/app/pages/user/account/settings/financial_assessment.js":
 /*!********************************************************************************!*\
   !*** ./src/javascript/app/pages/user/account/settings/financial_assessment.js ***!
@@ -31622,22 +31496,16 @@ var MetaTraderConfig = function () {
                     if (Client.get('is_virtual')) {
                         resolve(needsRealMessage());
                     } else {
-                        BinarySocket.send({ cashier_password: 1 }).then(function (response) {
-                            if (!response.error && response.cashier_password === 1) {
-                                resolve(localize('Your cashier is locked as per your request - to unlock it, please click <a href="[_1]">here</a>.', urlFor('user/security/cashier_passwordws')));
+                        BinarySocket.send({ get_account_status: 1 }).then(function (response_status) {
+                            if (!response_status.error && /cashier_locked/.test(response_status.get_account_status.status)) {
+                                resolve(localize('Your cashier is locked.')); // Locked from BO
                             } else {
-                                BinarySocket.send({ get_account_status: 1 }).then(function (response_status) {
-                                    if (!response_status.error && /cashier_locked/.test(response_status.get_account_status.status)) {
-                                        resolve(localize('Your cashier is locked.')); // Locked from BO
-                                    } else {
-                                        var limit = State.getResponse('get_limits.remainder');
-                                        if (typeof limit !== 'undefined' && +limit < getMinMT5TransferValue(Client.get('currency'))) {
-                                            resolve(localize('You have reached the limit.'));
-                                        } else {
-                                            resolve();
-                                        }
-                                    }
-                                });
+                                var limit = State.getResponse('get_limits.remainder');
+                                if (typeof limit !== 'undefined' && +limit < getMinMT5TransferValue(Client.get('currency'))) {
+                                    resolve(localize('You have reached the limit.'));
+                                } else {
+                                    resolve();
+                                }
                             }
                         });
                     }
