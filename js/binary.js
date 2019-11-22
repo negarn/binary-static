@@ -26847,7 +26847,7 @@ var Authenticate = function () {
 
     var onLoad = function () {
         var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-            var authentication_status, is_required;
+            var authentication_status, is_required, has_svg_account, identity, document, is_not_fully_authenticated, is_not_high_risk;
             return regeneratorRuntime.wrap(function _callee3$(_context3) {
                 while (1) {
                     switch (_context3.prev = _context3.next) {
@@ -26858,18 +26858,26 @@ var Authenticate = function () {
                         case 2:
                             authentication_status = _context3.sent;
                             is_required = checkIsRequired(authentication_status);
+                            has_svg_account = Client.hasSvgAccount();
 
-
-                            if (is_required) {
+                            if (is_required || has_svg_account) {
                                 initTab();
                                 initAuthentication();
+
+                                identity = authentication_status.identity, document = authentication_status.document;
+                                is_not_fully_authenticated = identity.status !== 'verified' && document.status !== 'verified';
+                                is_not_high_risk = !/high/.test(State.getResponse('get_account_status.risk_classification'));
+
+                                if (is_not_fully_authenticated && has_svg_account && is_not_high_risk) {
+                                    $('#authenticate_only_real_mt5_advanced').setVisibility(1);
+                                }
                             } else {
                                 $('#authentication_tab').setVisibility(0);
                                 $('#not_required_msg').setVisibility(1);
                                 $('#authentication_loading').setVisibility(0);
                             }
 
-                        case 5:
+                        case 6:
                         case 'end':
                             return _context3.stop();
                     }
@@ -31293,8 +31301,6 @@ var MetaTraderConfig = function () {
     var newAccCheck = function newAccCheck(acc_type, message_selector) {
         return new Promise(function (resolve) {
             var $message = $messages.find('#msg_real_financial').clone();
-            var $new_account_financial_authenticate_msg = $('#new_account_financial_authenticate_msg');
-            $new_account_financial_authenticate_msg.setVisibility(0);
             var is_virtual = Client.get('is_virtual');
             var is_demo = accounts_info[acc_type].is_demo;
 
@@ -31354,8 +31360,9 @@ var MetaTraderConfig = function () {
                                 showCitizenshipMessage();
                                 is_ok = false;
                             }
-                            if (is_ok && !isAuthenticated()) {
-                                $new_account_financial_authenticate_msg.setVisibility(1);
+                            if (is_ok && !isAuthenticated() && accounts_info[acc_type].mt5_account_type === 'advanced') {
+                                $message.find('.authenticate').setVisibility(1);
+                                is_ok = false;
                             }
 
                             if (is_ok) resolve();else resolveWithMessage();
@@ -32510,7 +32517,6 @@ var MetaTraderUI = function () {
         if (/\b(disabled|selected|existed)\b/.test($item.attr('class'))) return;
         $item.parents('.type-group').find('.' + box_class + '.selected').removeClass('selected');
         $item.addClass('selected');
-        $('#new_account_financial_authenticate_msg').setVisibility(0);
         var selected_acc_type = $item.attr('data-acc-type');
         var action = 'new_account';
         if (/(demo|real)/.test(selected_acc_type)) {
@@ -35776,9 +35782,6 @@ var getElementById = __webpack_require__(/*! ../../_common/common_functions */ "
 var TabSelector = __webpack_require__(/*! ../../_common/tab_selector */ "./src/javascript/_common/tab_selector.js");
 var isBinaryApp = __webpack_require__(/*! ../../config */ "./src/javascript/config.js").isBinaryApp;
 
-var _require = __webpack_require__(/*! ../../_common/os_detect */ "./src/javascript/_common/os_detect.js"),
-    OSDetect = _require.OSDetect;
-
 var os_list = [{
     name: 'mac',
     url_test: /\.dmg$/
@@ -35814,13 +35817,6 @@ var Platforms = function () {
                 el_button.setAttribute('href', os.download_url);
             });
         });
-        var os = OSDetect();
-        var android_app = document.querySelector('.android-download-grid-app');
-        if (os === 'ios') {
-            var ios_message = document.querySelector('.ios-download-grid-app');
-            ios_message.classList.remove('invisible');
-            android_app.classList.add('invisible');
-        }
     };
 
     return {
