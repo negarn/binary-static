@@ -482,6 +482,9 @@ a.previous-wrapper {
   .mt-sidebar-button .small-icon img {
     width: 76px; }
 
+tbody#instruments > tr > td {
+  width: 33%; }
+
 #portfolio td {
   padding: 10px;
   vertical-align: middle; }

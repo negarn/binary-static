@@ -1411,9 +1411,6 @@ html.mm-right.mm-opening body .mm-page, html.mm-right.mm-opening body #mm-blocke
   html.mm-right.mm-opening body .mm-page, html.mm-right.mm-opening body #mm-blocker, html.mm-right.mm-opening body .mm-fixed-top, html.mm-right.mm-opening body .mm-fixed-bottom {
     right: 250px; } }
 
-#accordion .ui-accordion-content {
-  padding-top: 0; }
-
 #ui-timepicker-div, #ui-timepicker-div:before, #ui-timepicker-div:after, #ui-datepicker-div, #ui-datepicker-div:before, #ui-datepicker-div:after {
   -webkit-transition: none;
   transition: none; }
