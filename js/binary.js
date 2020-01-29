@@ -31999,7 +31999,7 @@ var MetaTraderConfig = function () {
     // or 1 of donor currency if both accounts have the same currency
     var getMinMT5TransferValue = function getMinMT5TransferValue(currency) {
         var client_currency = Client.get('currency');
-        var mt5_currency = MetaTraderConfig.getCurrency(Client.get('mt5_account'));
+        var mt5_currency = getCurrency(Client.get('mt5_account'));
         if (client_currency === mt5_currency) return 1;
         return (+State.getResponse('exchange_rates.rates.' + currency) || 1).toFixed(Currency.getDecimalPlaces(currency));
     };
@@ -32182,7 +32182,7 @@ var MetaTraderConfig = function () {
         password_change: {
             title: localize('Change Password'),
             success_msg: function success_msg(response) {
-                return localize('The [_1] password of account number [_2] has been changed.', [response.echo_req.password_type, response.echo_req.login]);
+                return localize('The [_1] password of account number [_2] has been changed.', [response.echo_req.password_type, getDisplayLogin(response.echo_req.login)]);
             },
             prerequisites: function prerequisites() {
                 return new Promise(function (resolve) {
@@ -32368,6 +32368,10 @@ var MetaTraderConfig = function () {
         return accounts_info[acc_type].info.currency;
     };
 
+    var getDisplayLogin = function getDisplayLogin(login) {
+        return login.replace(/^MT(D|R)/i, '');
+    };
+
     var isAuthenticated = function isAuthenticated() {
         return State.getResponse('get_account_status').status.indexOf('authenticated') !== -1;
     };
@@ -32394,6 +32398,7 @@ var MetaTraderConfig = function () {
         needsRealMessage: needsRealMessage,
         hasAccount: hasAccount,
         getCurrency: getCurrency,
+        getDisplayLogin: getDisplayLogin,
         isAuthenticated: isAuthenticated,
         isAuthenticationPromptNeeded: isAuthenticationPromptNeeded,
         configMtCompanies: configMtCompanies.get,
@@ -32651,6 +32656,7 @@ var MetaTrader = function () {
             });
             if (info) {
                 accounts_info[acc_type].info = info;
+                accounts_info[acc_type].info.display_login = MetaTraderConfig.getDisplayLogin(info.login);
                 MetaTraderUI.updateAccount(acc_type);
             }
         }
@@ -32770,7 +32776,7 @@ var MetaTrader = function () {
         // Update account info
         mt5_login_list.forEach(function (obj) {
             var acc_type = Client.getMT5AccountType(obj.group);
-            accounts_info[acc_type].info = { login: obj.login };
+            accounts_info[acc_type].info = { login: obj.login, display_login: obj.login.replace(/^MT(D|R)/i, '') };
             setAccountDetails(obj.login, acc_type, response);
         });
 
@@ -32788,10 +32794,9 @@ var MetaTrader = function () {
     var sendTopupDemo = function sendTopupDemo() {
         MetaTraderUI.setTopupLoading(true);
         var acc_type = Client.get('mt5_account');
-        var login = accounts_info[acc_type].info.login;
         var req = {
             mt5_deposit: 1,
-            to_mt5: login
+            to_mt5: accounts_info[acc_type].info.login
         };
 
         BinarySocket.send(req).then(function (response) {
@@ -32799,7 +32804,7 @@ var MetaTrader = function () {
                 MetaTraderUI.displayPageError(response.error.message);
                 MetaTraderUI.setTopupLoading(false);
             } else {
-                MetaTraderUI.displayMainMessage(localize('[_1] has been credited into your MT5 Demo Account: [_2].', [MetaTraderConfig.getCurrency(acc_type) + ' 10,000.00', login.toString()]));
+                MetaTraderUI.displayMainMessage(localize('[_1] has been credited into your MT5 Demo Account: [_2].', [MetaTraderConfig.getCurrency(acc_type) + ' 10,000.00', accounts_info[acc_type].info.display_login]));
                 BinarySocket.send({ mt5_login_list: 1 }).then(function (res) {
                     allAccountsResponseHandler(res);
                     MetaTraderUI.setTopupLoading(false);
@@ -32987,7 +32992,7 @@ var MetaTraderUI = function () {
         var acc_type = $mt5_account.attr('value');
         if (acc_type) {
             var login = getPropertyValue(accounts_info[acc_type], ['info', 'login']);
-            var title = '' + accounts_info[acc_type].title + (login ? ' (' + login.replace(/^MT(D|R)/i, '') + ')' : '');
+            var title = '' + accounts_info[acc_type].title + (login ? ' (' + login + ')' : '');
             if (!new RegExp(title).test($mt5_account.text())) {
                 $mt5_account.html(title);
             }
@@ -32999,7 +33004,7 @@ var MetaTraderUI = function () {
         $acc_item.find('.mt-type').text(accounts_info[acc_type].title.replace(/(demo|real)\s/i, ''));
         if (accounts_info[acc_type].info) {
             setMTAccountText();
-            $acc_item.find('.mt-login').text('(' + accounts_info[acc_type].info.login + ')');
+            $acc_item.find('.mt-login').text('(' + accounts_info[acc_type].info.display_login + ')');
             $acc_item.setVisibility(1);
             if (/demo/.test(accounts_info[acc_type].account_type)) {
                 $list.find('#acc_group_demo').setVisibility(1);
@@ -33110,7 +33115,7 @@ var MetaTraderUI = function () {
             $action.find('#frm_action').html(_$form).setVisibility(1).end().setVisibility(1);
 
             if (action === 'manage_password') {
-                _$form.find('button[type="submit"]').append(accounts_info[acc_type].info.login ? ' ' + localize('for account [_1]', accounts_info[acc_type].info.login) : '');
+                _$form.find('button[type="submit"]').append(accounts_info[acc_type].info.display_login ? ' ' + localize('for account [_1]', accounts_info[acc_type].info.display_login) : '');
                 if (!token) {
                     _$form.find('#frm_verify_password_reset').setVisibility(1);
                 } else if (!Validation.validEmailToken(token)) {
@@ -33148,7 +33153,7 @@ var MetaTraderUI = function () {
             setDemoTopupStatus();
             _$form.find('.binary-account').text('' + localize('[_1] Account [_2]', ['Binary', Client.get('loginid')]));
             _$form.find('.binary-balance').html('' + Currency.formatMoney(client_currency, Client.get('balance')));
-            _$form.find('.mt5-account').text('' + localize('[_1] Account [_2]', [accounts_info[acc_type].title, accounts_info[acc_type].info.login]));
+            _$form.find('.mt5-account').text('' + localize('[_1] Account [_2]', [accounts_info[acc_type].title, accounts_info[acc_type].info.display_login]));
             _$form.find('.mt5-balance').html('' + Currency.formatMoney(mt_currency, accounts_info[acc_type].info.balance));
             _$form.find('label[for="txt_amount_deposit"]').append(' ' + client_currency);
             _$form.find('label[for="txt_amount_withdrawal"]').append(' ' + mt_currency);
@@ -33425,7 +33430,7 @@ var MetaTraderUI = function () {
                 // go back to verify reset password form
                 loadAction('manage_password');
                 if (!response.error) {
-                    displayMainMessage(localize('The [_1] password of account number [_2] has been changed.', [response.echo_req.password_type, response.echo_req.login]));
+                    displayMainMessage(localize('The [_1] password of account number [_2] has been changed.', [response.echo_req.password_type, MetaTraderConfig.getDisplayLogin(response.echo_req.login)]));
                 } else if (has_invalid_token) {
                     _$form.find('#frm_verify_password_reset #token_error').setVisibility(1);
                 }
