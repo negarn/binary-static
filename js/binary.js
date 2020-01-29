@@ -32368,6 +32368,8 @@ var MetaTraderConfig = function () {
         return accounts_info[acc_type].info.currency;
     };
 
+    // if you have acc_type, use accounts_info[acc_type].info.display_login
+    // otherwise, use this function to format login into display login
     var getDisplayLogin = function getDisplayLogin(login) {
         return login.replace(/^MT(D|R)/i, '');
     };
@@ -32776,7 +32778,10 @@ var MetaTrader = function () {
         // Update account info
         mt5_login_list.forEach(function (obj) {
             var acc_type = Client.getMT5AccountType(obj.group);
-            accounts_info[acc_type].info = { login: obj.login, display_login: obj.login.replace(/^MT(D|R)/i, '') };
+            accounts_info[acc_type].info = {
+                display_login: MetaTraderConfig.getDisplayLogin(obj.login),
+                login: obj.login
+            };
             setAccountDetails(obj.login, acc_type, response);
         });
 
@@ -32991,7 +32996,7 @@ var MetaTraderUI = function () {
     var setMTAccountText = function setMTAccountText() {
         var acc_type = $mt5_account.attr('value');
         if (acc_type) {
-            var login = getPropertyValue(accounts_info[acc_type], ['info', 'login']);
+            var login = getPropertyValue(accounts_info[acc_type], ['info', 'display_login']);
             var title = '' + accounts_info[acc_type].title + (login ? ' (' + login + ')' : '');
             if (!new RegExp(title).test($mt5_account.text())) {
                 $mt5_account.html(title);
@@ -33046,11 +33051,11 @@ var MetaTraderUI = function () {
                     balance: function balance() {
                         return isNaN(info) ? '' : Currency.formatMoney(MetaTraderConfig.getCurrency(acc_type), +info);
                     },
+                    display_login: function display_login() {
+                        return info + ' (' + (/demo/.test(accounts_info[acc_type].account_type) ? localize('Demo Account') : localize('Real-Money Account')) + ')';
+                    },
                     leverage: function leverage() {
                         return '1:' + info;
-                    },
-                    login: function login() {
-                        return info + ' (' + (/demo/.test(accounts_info[acc_type].account_type) ? localize('Demo Account') : localize('Real-Money Account')) + ')';
                     }
                 };
                 $(this).html(typeof mapping[key] === 'function' ? mapping[key]() : info);
