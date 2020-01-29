@@ -32371,7 +32371,7 @@ var MetaTraderConfig = function () {
     // if you have acc_type, use accounts_info[acc_type].info.display_login
     // otherwise, use this function to format login into display login
     var getDisplayLogin = function getDisplayLogin(login) {
-        return login.replace(/^MT(D|R)/i, '');
+        return login.replace(/^MT[DR]?/i, '');
     };
 
     var isAuthenticated = function isAuthenticated() {
