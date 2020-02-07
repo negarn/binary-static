@@ -2193,11 +2193,19 @@ body #not_authenticated_financial ul.checked > li {
   height: 4em;
   width: 206px; }
 
-#binary-dp2p {
+#binary_dp2p {
   margin: 0 auto;
   width: 1008px;
   font-size: 10px;
   position: relative; }
+  @media screen and (max-width: 1023px) {
+    #binary_dp2p {
+      display: none; } }
+
+@media screen and (max-width: 1023px) {
+  #message_dp2p_mobile_view {
+    display: block !important;
+    visibility: visible; } }
 
 .timeline {
   margin: 0 auto;
