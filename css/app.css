@@ -482,9 +482,6 @@ a.previous-wrapper {
   .mt-sidebar-button .small-icon img {
     width: 76px; }
 
-tbody#instruments > tr > td {
-  width: 33%; }
-
 #portfolio td {
   padding: 10px;
   vertical-align: middle; }
@@ -648,9 +645,9 @@ tbody#instruments > tr > td {
         .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table td, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table td[data-balloon], .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit td, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit td[data-balloon] {
           border-bottom: 1px solid #f2f2f2;
           vertical-align: middle; }
-        .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_profit_loss, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_total_pnl, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_profit_loss, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_total_pnl {
+        .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_profit_loss, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_profit_loss {
           font-weight: bold; }
-          .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_profit_loss span.percent, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_total_pnl span.percent, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_profit_loss span.percent, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_total_pnl span.percent {
+          .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_profit_loss span.percent, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_profit_loss span.percent {
             font-size: 0.6575162324rem;
             padding-left: 7px;
             font-weight: normal; }
