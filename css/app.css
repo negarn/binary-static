@@ -481,6 +481,37 @@ a.previous-wrapper {
   text-align: center; }
   .mt-sidebar-button .small-icon img {
     width: 76px; }
+  .mt-sidebar-button .mt-link-download {
+    background-color: #f2f2f2;
+    width: 100%;
+    height: inherit;
+    border-top: 1px solid #dedede; }
+    .mt-sidebar-button .mt-link-download .mt-link-button {
+      display: inline-block;
+      margin-top: 10px; }
+  .mt-sidebar-button .mt-title-mt5-web {
+    font-weight: bold; }
+  .mt-sidebar-button .mt-link-web {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    height: 40px; }
+    .mt-sidebar-button .mt-link-web .mt5-web-link {
+      -webkit-box-flex: 50%;
+          -ms-flex: 50%;
+              flex: 50%;
+      background-color: #f2f2f2;
+      height: 40px;
+      line-height: 40px;
+      border: 1px solid #dedede; }
+
+.mt-sidebar-button.mt5-web {
+  height: 140px; }
+
+tbody#instruments > tr > td {
+  width: 33%; }
 
 #portfolio td {
   padding: 10px;
@@ -645,9 +676,9 @@ a.previous-wrapper {
         .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table td, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table td[data-balloon], .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit td, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit td[data-balloon] {
           border-bottom: 1px solid #f2f2f2;
           vertical-align: middle; }
-        .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_profit_loss, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_profit_loss {
+        .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_profit_loss, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_total_pnl, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_profit_loss, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_total_pnl {
           font-weight: bold; }
-          .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_profit_loss span.percent, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_profit_loss span.percent {
+          .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_profit_loss span.percent, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_table #trade_details_total_pnl span.percent, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_profit_loss span.percent, .inpage_popup_container .inpage_popup_content_box #sell_content_wrapper #sell_details_audit #trade_details_total_pnl span.percent {
             font-size: 0.6575162324rem;
             padding-left: 7px;
             font-weight: normal; }
