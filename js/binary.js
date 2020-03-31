@@ -18562,6 +18562,8 @@ module.exports = DigitInfo;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var HighchartUI = __webpack_require__(/*! ./highchart.ui */ "./src/javascript/app/pages/trade/charts/highchart.ui.js");
@@ -18709,7 +18711,8 @@ var Highchart = function () {
 
                             HighchartUI.updateLabels(chart, getHighchartLabelParams());
 
-                            // const display_decimals = (history ? history.prices[0] : candles[0].open).toString().split('.')[1].length || 3;
+                            // if we disable a symbol in API, it will be missing from active symbols so we can't retrieve its pip
+                            // so we should handle getting an undefined display_decimals
                             _context.next = 14;
                             return getUnderlyingPipSize(contract.underlying);
 
@@ -18726,10 +18729,9 @@ var Highchart = function () {
                                 height: Math.max(el.parentElement.offsetHeight, 450),
                                 radius: 2,
                                 title: init_options.title,
-                                tooltip: {
-                                    valueDecimals: display_decimals,
+                                tooltip: _extends({
                                     xDateFormat: '%A, %b %e, %H:%M:%S GMT'
-                                },
+                                }, display_decimals && { valueDecimals: display_decimals }),
                                 user_sold: contract.status === 'sold',
                                 x_axis: { label: { format: '{value:%H:%M:%S}', overflow: 'justify' } }
                             };
@@ -25071,6 +25073,7 @@ module.exports = {
 var countDecimalPlaces = __webpack_require__(/*! ./common_independent */ "./src/javascript/app/pages/trade/common_independent.js").countDecimalPlaces;
 var ActiveSymbols = __webpack_require__(/*! ../../common/active_symbols */ "./src/javascript/app/common/active_symbols.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
+var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 /*
  * Symbols object parses the active_symbols json that we get from socket.send({active_symbols: 'brief'}
@@ -25112,7 +25115,10 @@ var Symbols = function () {
                 var market = ActiveSymbols.getSymbols(active_symbols);
                 is_active_symbols_cached = true;
 
-                resolve(countDecimalPlaces(market[underlying].pip));
+                // if we disable a symbol in API, pipsize won't be available
+                // but we can still draw historical trades' charts
+                // so we should handle getting undefined from this function
+                resolve(countDecimalPlaces(getPropertyValue(market[underlying], ['pip'])));
             });
         });
     };
