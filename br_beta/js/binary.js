@@ -17072,6 +17072,8 @@ module.exports = EconomicCalendar;
 
 var _os_detect = __webpack_require__(/*! ../../../../_common/os_detect */ "./src/javascript/_common/os_detect.js");
 
+var _common_functions = __webpack_require__(/*! ../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
+
 var toggleDownloadPage = function toggleDownloadPage(target) {
     if ((0, _os_detect.isDesktop)()) {
         document.querySelectorAll('.download-block').forEach(function (block) {
@@ -17083,6 +17085,8 @@ var toggleDownloadPage = function toggleDownloadPage(target) {
         document.querySelectorAll('.alternative-download-description').forEach(function (text) {
             text.setVisibility(text.getAttribute('id') === target + '-alternative-description');
         });
+
+        (0, _common_functions.getElementById)('mt5_download_' + (target === 'mac' ? 'mac_' : '') + 'platforms').setVisibility(1);
     } else {
         document.querySelectorAll('.mobile-alternative-download-description').forEach(function (text) {
             text.setVisibility(text.getAttribute('id') === target + '-alternative-description');
@@ -17093,9 +17097,9 @@ var toggleDownloadPage = function toggleDownloadPage(target) {
         document.querySelector('#mobile-apps').childNodes.forEach(function (child) {
             return child.setVisibility(0);
         });
-        document.querySelector('#' + target + '-app').setVisibility(1);
-        document.querySelector('#' + target + '-heading').setVisibility(1);
-        document.querySelector('#' + target + '-description').setVisibility(1);
+        (0, _common_functions.getElementById)(target + '-app').setVisibility(1);
+        (0, _common_functions.getElementById)(target + '-heading').setVisibility(1);
+        (0, _common_functions.getElementById)(target + '-description').setVisibility(1);
     }
 };
 var DownloadMetatrader = function () {
