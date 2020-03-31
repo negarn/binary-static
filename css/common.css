@@ -1603,7 +1603,7 @@ body .app-store-badge, body .google-play-badge {
   display: inline-block;
   background-size: contain; }
 
-body.EN .calls_recording, body.RU .calls_recording {
+body.EN .calls_recording, body.ID .calls_recording, body.RU .calls_recording {
   display: block !important; }
 
 /*Vietnamese Language */
@@ -1731,6 +1731,12 @@ body.FR .app-store-badge {
 
 body.FR .google-play-badge {
   background-image: url("../images/pages/applications/googleplay_fr.svg"); }
+
+body.ID .app-store-badge {
+  background-image: url("../images/pages/applications/appstore_id.svg"); }
+
+body.ID .google-play-badge {
+  background-image: url("../images/pages/applications/googleplay_id.svg"); }
 
 body.IT .app-store-badge {
   background-image: url("../images/pages/applications/appstore_it.svg"); }

@@ -3015,6 +3015,7 @@ var Language = function () {
         // DE   : 'Deutsch', // TODO: uncomment to enable German language
         ES: 'Español',
         FR: 'Français',
+        ID: 'Indonesia',
         IT: 'Italiano',
         PL: 'Polish',
         PT: 'Português',
@@ -10044,6 +10045,7 @@ var Contact = __webpack_require__(/*! ../../static/pages/contact */ "./src/javas
 var Contact2 = __webpack_require__(/*! ../../static/pages/contact_2 */ "./src/javascript/static/pages/contact_2.js");
 var GetStarted = __webpack_require__(/*! ../../static/pages/get_started */ "./src/javascript/static/pages/get_started.js");
 var Home = __webpack_require__(/*! ../../static/pages/home */ "./src/javascript/static/pages/home.js");
+var KeepSafe = __webpack_require__(/*! ../../static/pages/keep_safe */ "./src/javascript/static/pages/keep_safe.js");
 var JobDetails = __webpack_require__(/*! ../../static/pages/job_details */ "./src/javascript/static/pages/job_details.js");
 var Platforms = __webpack_require__(/*! ../../static/pages/platforms */ "./src/javascript/static/pages/platforms.js");
 var Regulation = __webpack_require__(/*! ../../static/pages/regulation */ "./src/javascript/static/pages/regulation.js");
@@ -10125,6 +10127,7 @@ var pages_config = {
     'how-to-trade-mt5': { module: TabSelector },
     'ib-faq': { module: StaticPages.IBProgrammeFAQ },
     'job-details': { module: JobDetails },
+    'keep-safe': { module: KeepSafe },
     'new-account': { module: NewAccount, not_authenticated: true },
     'open-positions': { module: StaticPages.OpenPositions },
     'open-source-projects': { module: StaticPages.OpenSourceProjects },
@@ -12862,7 +12865,7 @@ var createLanguageDropDown = function createLanguageDropDown(website_status) {
     $languages.find('#display_language li, ' + select_language_id + ' li').addClass(current_language).find('span.language').text(mapCodeToLanguage(current_language));
 
     // TODO: REMOVE/CHANGE this after addition of DE or TH languages
-    var unsupported_languages = ['de', 'id', 'th'];
+    var unsupported_languages = ['de', 'th'];
 
     var languages = website_status.supported_languages.sort(function (a, b) {
         return a === 'EN' || a < b ? -1 : 1;
@@ -13502,6 +13505,10 @@ var isEuCountry = function isEuCountry() {
     return financial_shortcode || gaming_shortcode ? eu_shortcode_regex.test(financial_shortcode) || eu_shortcode_regex.test(gaming_shortcode) : eu_excluded_regex.test(clients_country);
 };
 
+var isIndonesia = function isIndonesia() {
+    return State.getResponse('website_status.clients_country') === 'id';
+};
+
 var isExcludedFromCfd = function isExcludedFromCfd() {
     var cfd_excluded_regex = new RegExp('^fr$');
     var clients_country = Client.get('residence') || State.getResponse('website_status.clients_country');
@@ -13510,6 +13517,7 @@ var isExcludedFromCfd = function isExcludedFromCfd() {
 
 module.exports = {
     isEuCountry: isEuCountry,
+    isIndonesia: isIndonesia,
     isExcludedFromCfd: isExcludedFromCfd
 };
 
@@ -37127,6 +37135,36 @@ module.exports = JobDetails;
 
 /***/ }),
 
+/***/ "./src/javascript/static/pages/keep_safe.js":
+/*!**************************************************!*\
+  !*** ./src/javascript/static/pages/keep_safe.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var BinarySocket = __webpack_require__(/*! ../../app/base/socket */ "./src/javascript/app/base/socket.js");
+var isIndonesia = __webpack_require__(/*! ../../app/common/country_base */ "./src/javascript/app/common/country_base.js").isIndonesia;
+var isBinaryApp = __webpack_require__(/*! ../../config */ "./src/javascript/config.js").isBinaryApp;
+
+var KeepSafe = function () {
+    var onLoad = function onLoad() {
+        BinarySocket.wait('website_status').then(function () {
+            $('.desktop-app').setVisibility(isIndonesia() && !isBinaryApp());
+        });
+    };
+
+    return {
+        onLoad: onLoad
+    };
+}();
+
+module.exports = KeepSafe;
+
+/***/ }),
+
 /***/ "./src/javascript/static/pages/platforms.js":
 /*!**************************************************!*\
   !*** ./src/javascript/static/pages/platforms.js ***!
@@ -37137,8 +37175,11 @@ module.exports = JobDetails;
 "use strict";
 
 
+var BinarySocket = __webpack_require__(/*! ../../app/base/socket */ "./src/javascript/app/base/socket.js");
+var isIndonesia = __webpack_require__(/*! ../../app/common/country_base */ "./src/javascript/app/common/country_base.js").isIndonesia;
 var getElementById = __webpack_require__(/*! ../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var TabSelector = __webpack_require__(/*! ../../_common/tab_selector */ "./src/javascript/_common/tab_selector.js");
+var isBinaryApp = __webpack_require__(/*! ../../config */ "./src/javascript/config.js").isBinaryApp;
 
 var os_list = [{
     name: 'mac',
@@ -37150,6 +37191,9 @@ var os_list = [{
 
 var Platforms = function () {
     var onLoad = function onLoad() {
+        BinarySocket.wait('website_status').then(function () {
+            $('.desktop-app').setVisibility(isIndonesia() && !isBinaryApp());
+        });
         TabSelector.onLoad();
         $.getJSON('https://api.github.com/repos/binary-com/binary-desktop-installers/releases/latest', function () {
             var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { assets: [] };
