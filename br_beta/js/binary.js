@@ -17085,8 +17085,6 @@ var toggleDownloadPage = function toggleDownloadPage(target) {
         document.querySelectorAll('.alternative-download-description').forEach(function (text) {
             text.setVisibility(text.getAttribute('id') === target + '-alternative-description');
         });
-
-        (0, _common_functions.getElementById)('mt5_download_' + (target === 'mac' ? 'mac_' : '') + 'platforms').setVisibility(1);
     } else {
         document.querySelectorAll('.mobile-alternative-download-description').forEach(function (text) {
             text.setVisibility(text.getAttribute('id') === target + '-alternative-description');
@@ -17101,6 +17099,7 @@ var toggleDownloadPage = function toggleDownloadPage(target) {
         (0, _common_functions.getElementById)(target + '-heading').setVisibility(1);
         (0, _common_functions.getElementById)(target + '-description').setVisibility(1);
     }
+    (0, _common_functions.getElementById)('mt5_download_' + (target === 'mac' ? 'mac_' : '') + 'platforms').setVisibility(1);
 };
 var DownloadMetatrader = function () {
     var onLoad = function onLoad() {
