@@ -16411,6 +16411,7 @@ var handleVerifyCode = __webpack_require__(/*! ../../common/verification_code */
 var getCurrencies = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").getCurrencies;
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var Url = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js");
 var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 var isBinaryApp = __webpack_require__(/*! ../../../config */ "./src/javascript/config.js").isBinaryApp;
@@ -16669,16 +16670,17 @@ var PaymentAgentWithdraw = function () {
             BinaryPjax.load('' + Url.urlFor('user/set-currency'));
             return;
         }
-        BinarySocket.wait('website_status', 'get_account_status').then(function (data) {
+        BinarySocket.wait('website_status', 'get_account_status').then(function () {
             $views = $('#paymentagent_withdrawal').find('.viewItem');
             $views.setVisibility(0);
 
-            if (/(withdrawal|cashier)_locked/.test(data.get_account_status.status)) {
+            var get_account_status = State.getResponse('get_account_status');
+            if (/(withdrawal|cashier)_locked/.test(get_account_status.status)) {
                 showPageError('', 'withdrawal-locked-error');
                 return;
             }
             currency = Client.get('currency');
-            var experimental_suspended = getPropertyValue(data.get_account_status, ['experimental_suspended', currency]) || {};
+            var experimental_suspended = getPropertyValue(get_account_status, ['experimental_suspended', currency]) || {};
             if (experimental_suspended.is_withdrawal_suspended) {
                 // Experimental currency is suspended
                 showPageError(localize('Please note that the selected currency is allowed for limited accounts only.'));
