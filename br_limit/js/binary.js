@@ -32490,7 +32490,6 @@ var GTM = __webpack_require__(/*! ../../../../_common/base/gtm */ "./src/javascr
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var urlFor = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
-var getPropertyValue = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 var isBinaryApp = __webpack_require__(/*! ../../../../config */ "./src/javascript/config.js").isBinaryApp;
 
 var MetaTraderConfig = function () {
@@ -32867,9 +32866,6 @@ var MetaTraderConfig = function () {
                         });
                     }
                 });
-            },
-            onSuccess: function onSuccess(response, $form) {
-                setRemainingTransfer($form);
             }
         },
         withdrawal: {
@@ -32893,9 +32889,6 @@ var MetaTraderConfig = function () {
                         resolve();
                     }
                 });
-            },
-            onSuccess: function onSuccess(response, $form) {
-                setRemainingTransfer($form);
             }
         }
     };
@@ -33021,48 +33014,6 @@ var MetaTraderConfig = function () {
         return is_need_verification;
     };
 
-    var setRemainingTransfer = function () {
-        var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2($form) {
-            var get_limits, remaining_transfers, $remaining_container, $remaining_number;
-            return regeneratorRuntime.wrap(function _callee2$(_context2) {
-                while (1) {
-                    switch (_context2.prev = _context2.next) {
-                        case 0:
-                            _context2.next = 2;
-                            return BinarySocket.send({ get_limits: 1 });
-
-                        case 2:
-                            get_limits = _context2.sent.get_limits;
-                            remaining_transfers = getPropertyValue(get_limits, ['daily_transfers', 'mt5', 'available']);
-
-
-                            if (typeof remaining_transfers !== 'undefined') {
-                                $remaining_container = $form.find('#mt5_remaining_transfers');
-
-                                $remaining_container.setVisibility(1);
-                                $remaining_number = $remaining_container.find('strong');
-
-                                $remaining_number.text(remaining_transfers);
-                                if (+remaining_transfers) {
-                                    $remaining_number.removeClass('empty');
-                                } else {
-                                    $remaining_number.addClass('empty');
-                                }
-                            }
-
-                        case 5:
-                        case 'end':
-                            return _context2.stop();
-                    }
-                }
-            }, _callee2, undefined);
-        }));
-
-        return function setRemainingTransfer(_x) {
-            return _ref2.apply(this, arguments);
-        };
-    }();
-
     return {
         accounts_info: accounts_info,
         actions_info: actions_info,
@@ -33075,7 +33026,6 @@ var MetaTraderConfig = function () {
         getDisplayLogin: getDisplayLogin,
         isAuthenticated: isAuthenticated,
         isAuthenticationPromptNeeded: isAuthenticationPromptNeeded,
-        setRemainingTransfer: setRemainingTransfer,
         configMtCompanies: configMtCompanies.get,
         configMtFinCompanies: configMtFinCompanies.get,
         setMessages: function setMessages($msg) {
@@ -33393,43 +33343,83 @@ var MetaTrader = function () {
                 }
 
                 var req = makeRequestObject(acc_type, action);
-                BinarySocket.send(req).then(function (response) {
-                    if (response.error) {
-                        MetaTraderUI.displayFormMessage(response.error.message, action);
-                        if (typeof actions_info[action].onError === 'function') {
-                            actions_info[action].onError(response, MetaTraderUI.$form());
-                        }
-                        if (/^MT5(Deposit|Withdrawal)Error$/.test(response.error.code)) {
-                            getExchangeRates();
-                        }
-                        MetaTraderUI.enableButton(action, response);
-                    } else {
-                        if (accounts_info[acc_type].info) {
-                            var parent_action = /password/.test(action) ? 'manage_password' : 'cashier';
-                            MetaTraderUI.loadAction(parent_action);
-                            MetaTraderUI.enableButton(action, response);
-                            MetaTraderUI.refreshAction();
-                        }
-                        if (typeof actions_info[action].success_msg === 'function') {
-                            var success_msg = actions_info[action].success_msg(response, acc_type);
-                            if (actions_info[action].success_msg_selector) {
-                                MetaTraderUI.displayMessage(actions_info[action].success_msg_selector, success_msg, 1);
-                            } else {
-                                MetaTraderUI.displayMainMessage(success_msg);
+                BinarySocket.send(req).then(function () {
+                    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(response) {
+                        var parent_action, success_msg;
+                        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                            while (1) {
+                                switch (_context3.prev = _context3.next) {
+                                    case 0:
+                                        if (!response.error) {
+                                            _context3.next = 7;
+                                            break;
+                                        }
+
+                                        MetaTraderUI.displayFormMessage(response.error.message, action);
+                                        if (typeof actions_info[action].onError === 'function') {
+                                            actions_info[action].onError(response, MetaTraderUI.$form());
+                                        }
+                                        if (/^MT5(Deposit|Withdrawal)Error$/.test(response.error.code)) {
+                                            getExchangeRates();
+                                        }
+                                        MetaTraderUI.enableButton(action, response);
+                                        _context3.next = 18;
+                                        break;
+
+                                    case 7:
+                                        if (!accounts_info[acc_type].info) {
+                                            _context3.next = 15;
+                                            break;
+                                        }
+
+                                        parent_action = /password/.test(action) ? 'manage_password' : 'cashier';
+
+                                        if (!(parent_action === 'cashier')) {
+                                            _context3.next = 12;
+                                            break;
+                                        }
+
+                                        _context3.next = 12;
+                                        return BinarySocket.send({ get_limits: 1 });
+
+                                    case 12:
+                                        MetaTraderUI.loadAction(parent_action);
+                                        MetaTraderUI.enableButton(action, response);
+                                        MetaTraderUI.refreshAction();
+
+                                    case 15:
+                                        if (typeof actions_info[action].success_msg === 'function') {
+                                            success_msg = actions_info[action].success_msg(response, acc_type);
+
+                                            if (actions_info[action].success_msg_selector) {
+                                                MetaTraderUI.displayMessage(actions_info[action].success_msg_selector, success_msg, 1);
+                                            } else {
+                                                MetaTraderUI.displayMainMessage(success_msg);
+                                            }
+                                            MetaTraderUI.enableButton(action, response);
+                                        }
+                                        if (typeof actions_info[action].onSuccess === 'function') {
+                                            actions_info[action].onSuccess(response, MetaTraderUI.$form());
+                                        }
+                                        BinarySocket.send({ mt5_login_list: 1 }).then(function (response_login_list) {
+                                            MetaTraderUI.refreshAction();
+                                            allAccountsResponseHandler(response_login_list);
+                                            MetaTraderUI.setAccountType(acc_type, true);
+                                            MetaTraderUI.loadAction(null, acc_type);
+                                        });
+
+                                    case 18:
+                                    case 'end':
+                                        return _context3.stop();
+                                }
                             }
-                            MetaTraderUI.enableButton(action, response);
-                        }
-                        if (typeof actions_info[action].onSuccess === 'function') {
-                            actions_info[action].onSuccess(response, MetaTraderUI.$form());
-                        }
-                        BinarySocket.send({ mt5_login_list: 1 }).then(function (response_login_list) {
-                            MetaTraderUI.refreshAction();
-                            allAccountsResponseHandler(response_login_list);
-                            MetaTraderUI.setAccountType(acc_type, true);
-                            MetaTraderUI.loadAction(null, acc_type);
-                        });
-                    }
-                });
+                        }, _callee3, undefined);
+                    }));
+
+                    return function (_x) {
+                        return _ref3.apply(this, arguments);
+                    };
+                }());
             });
         }
     };
@@ -33488,11 +33478,11 @@ var MetaTrader = function () {
     };
 
     var metatraderMenuItemVisibility = function metatraderMenuItemVisibility() {
-        BinarySocket.wait('landing_company', 'get_account_status').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        BinarySocket.wait('landing_company', 'get_account_status').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
             var mt_visibility;
-            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            return regeneratorRuntime.wrap(function _callee4$(_context4) {
                 while (1) {
-                    switch (_context3.prev = _context3.next) {
+                    switch (_context4.prev = _context4.next) {
                         case 0:
                             if (isEligible()) {
                                 mt_visibility = document.getElementsByClassName('mt_visibility');
@@ -33504,10 +33494,10 @@ var MetaTrader = function () {
 
                         case 1:
                         case 'end':
-                            return _context3.stop();
+                            return _context4.stop();
                     }
                 }
-            }, _callee3, undefined);
+            }, _callee4, undefined);
         })));
     };
 
@@ -33835,8 +33825,6 @@ var MetaTraderUI = function () {
             _$form.find('label[for="txt_amount_deposit"]').append(' ' + client_currency);
             _$form.find('label[for="txt_amount_withdrawal"]').append(' ' + mt_currency);
 
-            MetaTraderConfig.setRemainingTransfer(_$form);
-
             var should_show_transfer_fee = client_currency !== mt_currency;
             if (should_show_transfer_fee) {
                 $('#transfer_fee_amount_to').text(getTransferFee(client_currency, mt_currency));
@@ -33868,6 +33856,21 @@ var MetaTraderUI = function () {
                     $action.find('#frm_cashier').setVisibility(0);
                 }
             }
+
+            var remaining_transfers = getPropertyValue(State.getResponse('get_limits'), ['daily_transfers', 'mt5', 'available']);
+
+            if (typeof remaining_transfers !== 'undefined') {
+                var $remaining_container = _$form.find('#mt5_remaining_transfers');
+                $remaining_container.setVisibility(1);
+                var $remaining_number = $remaining_container.find('strong');
+                $remaining_number.text(remaining_transfers);
+                if (+remaining_transfers) {
+                    $remaining_number.removeClass('empty');
+                } else {
+                    $remaining_number.addClass('empty');
+                }
+            }
+
             return;
         }
 
