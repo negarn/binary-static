@@ -32490,6 +32490,7 @@ var GTM = __webpack_require__(/*! ../../../../_common/base/gtm */ "./src/javascr
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var urlFor = __webpack_require__(/*! ../../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
+var getPropertyValue = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 var isBinaryApp = __webpack_require__(/*! ../../../../config */ "./src/javascript/config.js").isBinaryApp;
 
 var MetaTraderConfig = function () {
@@ -32866,6 +32867,11 @@ var MetaTraderConfig = function () {
                         });
                     }
                 });
+            },
+            onSuccess: function onSuccess(response, $form) {
+                BinarySocket.send({ get_limits: 1 }).then(function () {
+                    setRemainingTransfer($form);
+                });
             }
         },
         withdrawal: {
@@ -32888,6 +32894,11 @@ var MetaTraderConfig = function () {
                     } else {
                         resolve();
                     }
+                });
+            },
+            onSuccess: function onSuccess(response, $form) {
+                BinarySocket.send({ get_limits: 1 }).then(function () {
+                    setRemainingTransfer($form);
                 });
             }
         }
@@ -33014,6 +33025,13 @@ var MetaTraderConfig = function () {
         return is_need_verification;
     };
 
+    var setRemainingTransfer = function setRemainingTransfer($form) {
+        var remaining_transfers = getPropertyValue(State.getResponse('get_limits'), ['daily_transfers', 'mt5', 'available']);
+        if (typeof remaining_transfers !== 'undefined') {
+            $form.find('#mt5_remaining_transfers').setVisibility(1).find('strong').text(remaining_transfers).addClass(+remaining_transfers ? '' : 'empty');
+        }
+    };
+
     return {
         accounts_info: accounts_info,
         actions_info: actions_info,
@@ -33026,6 +33044,7 @@ var MetaTraderConfig = function () {
         getDisplayLogin: getDisplayLogin,
         isAuthenticated: isAuthenticated,
         isAuthenticationPromptNeeded: isAuthenticationPromptNeeded,
+        setRemainingTransfer: setRemainingTransfer,
         configMtCompanies: configMtCompanies.get,
         configMtFinCompanies: configMtFinCompanies.get,
         setMessages: function setMessages($msg) {
@@ -33785,10 +33804,7 @@ var MetaTraderUI = function () {
             _$form.find('label[for="txt_amount_deposit"]').append(' ' + client_currency);
             _$form.find('label[for="txt_amount_withdrawal"]').append(' ' + mt_currency);
 
-            var remaining_transfers = getPropertyValue(State.getResponse('get_limits'), ['daily_transfers', 'mt5', 'available']);
-            if (typeof remaining_transfers !== 'undefined') {
-                _$form.find('#mt5_remaining_transfers').setVisibility(1).find('strong').text(remaining_transfers).addClass(+remaining_transfers ? '' : 'empty');
-            }
+            MetaTraderConfig.setRemainingTransfer(_$form);
 
             var should_show_transfer_fee = client_currency !== mt_currency;
             if (should_show_transfer_fee) {
