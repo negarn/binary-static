@@ -30174,7 +30174,7 @@ var LimitsUI = function () {
             Object.keys(limits.market_specific).forEach(function (market) {
                 appendRowTable(markets[market].name, '', 'auto', 'bold');
                 limits.market_specific[market].forEach(function (submarket) {
-                    // submarket name could be (Commodities|Minor Pairs|Major Pairs|Smart FX|Indices|Synthetic Indices)
+                    // submarket name could be (Commodities|Minor Pairs|Major Pairs|Smart FX|Stock Indices|Synthetic Indices)
                     appendRowTable(localize(submarket.name /* localize-ignore */), submarket.turnover_limit !== 'null' ? formatMoney(currency, submarket.turnover_limit, 1) : 0, '25px', 'normal');
                 });
             });
@@ -32302,7 +32302,7 @@ var Accounts = function () {
             return {
                 commodities: localize('Commodities'),
                 forex: localize('Forex'),
-                indices: localize('Indices'),
+                indices: localize('Stock Indices'),
                 stocks: localize('Stocks'),
                 synthetic_index: localize('Synthetic Indices')
             };
