@@ -32869,9 +32869,7 @@ var MetaTraderConfig = function () {
                 });
             },
             onSuccess: function onSuccess(response, $form) {
-                BinarySocket.send({ get_limits: 1 }).then(function () {
-                    setRemainingTransfer($form);
-                });
+                setRemainingTransfer($form);
             }
         },
         withdrawal: {
@@ -32897,9 +32895,7 @@ var MetaTraderConfig = function () {
                 });
             },
             onSuccess: function onSuccess(response, $form) {
-                BinarySocket.send({ get_limits: 1 }).then(function () {
-                    setRemainingTransfer($form);
-                });
+                setRemainingTransfer($form);
             }
         }
     };
@@ -33025,12 +33021,47 @@ var MetaTraderConfig = function () {
         return is_need_verification;
     };
 
-    var setRemainingTransfer = function setRemainingTransfer($form) {
-        var remaining_transfers = getPropertyValue(State.getResponse('get_limits'), ['daily_transfers', 'mt5', 'available']);
-        if (typeof remaining_transfers !== 'undefined') {
-            $form.find('#mt5_remaining_transfers').setVisibility(1).find('strong').text(remaining_transfers).addClass(+remaining_transfers ? '' : 'empty');
-        }
-    };
+    var setRemainingTransfer = function () {
+        var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2($form) {
+            var get_limits, remaining_transfers, $remaining_container, $remaining_number;
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                while (1) {
+                    switch (_context2.prev = _context2.next) {
+                        case 0:
+                            _context2.next = 2;
+                            return BinarySocket.send({ get_limits: 1 });
+
+                        case 2:
+                            get_limits = _context2.sent.get_limits;
+                            remaining_transfers = getPropertyValue(get_limits, ['daily_transfers', 'mt5', 'available']);
+
+
+                            if (typeof remaining_transfers !== 'undefined') {
+                                $remaining_container = $form.find('#mt5_remaining_transfers');
+
+                                $remaining_container.setVisibility(1);
+                                $remaining_number = $remaining_container.find('strong');
+
+                                $remaining_number.text(remaining_transfers);
+                                if (+remaining_transfers) {
+                                    $remaining_number.removeClass('empty');
+                                } else {
+                                    $remaining_number.addClass('empty');
+                                }
+                            }
+
+                        case 5:
+                        case 'end':
+                            return _context2.stop();
+                    }
+                }
+            }, _callee2, undefined);
+        }));
+
+        return function setRemainingTransfer(_x) {
+            return _ref2.apply(this, arguments);
+        };
+    }();
 
     return {
         accounts_info: accounts_info,
