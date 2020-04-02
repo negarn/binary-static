@@ -33479,35 +33479,21 @@ var MetaTrader = function () {
                                             getExchangeRates();
                                         }
                                         MetaTraderUI.enableButton(action, response);
-                                        _context3.next = 20;
+                                        _context3.next = 13;
                                         break;
 
                                     case 7:
-                                        if (!accounts_info[acc_type].info) {
-                                            _context3.next = 17;
-                                            break;
-                                        }
-
-                                        parent_action = /password/.test(action) ? 'manage_password' : 'cashier';
-
-                                        if (!(parent_action === 'cashier')) {
-                                            _context3.next = 14;
-                                            break;
-                                        }
-
-                                        _context3.next = 12;
+                                        _context3.next = 9;
                                         return BinarySocket.send({ get_account_status: 1 });
 
-                                    case 12:
-                                        _context3.next = 14;
-                                        return BinarySocket.send({ get_limits: 1 });
+                                    case 9:
+                                        if (accounts_info[acc_type].info) {
+                                            parent_action = /password/.test(action) ? 'manage_password' : 'cashier';
 
-                                    case 14:
-                                        MetaTraderUI.loadAction(parent_action);
-                                        MetaTraderUI.enableButton(action, response);
-                                        MetaTraderUI.refreshAction();
-
-                                    case 17:
+                                            MetaTraderUI.loadAction(parent_action);
+                                            MetaTraderUI.enableButton(action, response);
+                                            MetaTraderUI.refreshAction();
+                                        }
                                         if (typeof actions_info[action].success_msg === 'function') {
                                             success_msg = actions_info[action].success_msg(response, acc_type);
 
@@ -33528,7 +33514,7 @@ var MetaTrader = function () {
                                             MetaTraderUI.loadAction(null, acc_type);
                                         });
 
-                                    case 20:
+                                    case 13:
                                     case 'end':
                                         return _context3.stop();
                                 }
@@ -33976,21 +33962,6 @@ var MetaTraderUI = function () {
                     $action.find('#frm_cashier').setVisibility(0);
                 }
             }
-
-            var remaining_transfers = getPropertyValue(State.getResponse('get_limits'), ['daily_transfers', 'mt5', 'available']);
-
-            if (typeof remaining_transfers !== 'undefined') {
-                var $remaining_container = _$form.find('#mt5_remaining_transfers');
-                $remaining_container.setVisibility(1);
-                var $remaining_number = $remaining_container.find('strong');
-                $remaining_number.text(remaining_transfers);
-                if (+remaining_transfers) {
-                    $remaining_number.removeClass('empty');
-                } else {
-                    $remaining_number.addClass('empty');
-                }
-            }
-
             return;
         }
 
