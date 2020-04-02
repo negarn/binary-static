@@ -15782,6 +15782,8 @@ module.exports = Cashier;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -15790,10 +15792,12 @@ var Currency = __webpack_require__(/*! ../../common/currency */ "./src/javascrip
 var FormManager = __webpack_require__(/*! ../../common/form_manager */ "./src/javascript/app/common/form_manager.js");
 var validEmailToken = __webpack_require__(/*! ../../common/form_validation */ "./src/javascript/app/common/form_validation.js").validEmailToken;
 var handleVerifyCode = __webpack_require__(/*! ../../common/verification_code */ "./src/javascript/app/common/verification_code.js").handleVerifyCode;
+var getCurrencies = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").getCurrencies;
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var Url = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js");
 var template = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").template;
+var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 var isEmptyObject = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
 var getCurrentBinaryDomain = __webpack_require__(/*! ../../../config */ "./src/javascript/config.js").getCurrentBinaryDomain;
 var isBinaryApp = __webpack_require__(/*! ../../../config */ "./src/javascript/config.js").isBinaryApp;
@@ -15811,11 +15815,6 @@ var DepositWithdraw = function () {
     var container = '#deposit_withdraw';
 
     var init = function init() {
-        if (!Client.get('currency')) {
-            BinaryPjax.load(Url.urlFor('user/set-currency') + '#redirect_' + cashier_type);
-            return;
-        }
-
         if (cashier_type === 'deposit') {
             token = '';
             getCashierURL();
@@ -15991,10 +15990,8 @@ var DepositWithdraw = function () {
                     showError('custom_error', error.message);
             }
         } else {
-            var popup_valid_for_url = Url.urlFor('cashier/forwardws') + '?action=deposit';
-            var popup_valid = popup_valid_for_url === window.location.href;
             var client_currency = Client.get('currency');
-            if (popup_valid && Client.canChangeCurrency(State.getResponse('statement'), State.getResponse('mt5_login_list'))) {
+            if (cashier_type === 'deposit' && Client.canChangeCurrency(State.getResponse('statement'), State.getResponse('mt5_login_list'))) {
                 Dialog.confirm({
                     id: 'deposit_currency_change_popup_container',
                     ok_text: localize('Yes I\'m sure'),
@@ -16032,36 +16029,138 @@ var DepositWithdraw = function () {
         }
     };
 
-    var onLoad = function onLoad() {
-        $loading = $('#loading_cashier');
-        getCashierType();
+    var onLoad = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var response_get_account_status, experimental_suspended, currency_config, promises;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            $loading = $('#loading_cashier');
+                            getCashierType();
 
-        if (cashier_type === 'withdraw' && +Client.get('balance') === 0) {
-            showError('no_balance_error');
-            return;
-        }
+                            if (Client.get('currency')) {
+                                _context.next = 5;
+                                break;
+                            }
 
-        var req_get_account_status = BinarySocket.send({ get_account_status: 1 });
-        var req_statement = BinarySocket.send({ statement: 1, limit: 1 });
-        var req_mt5_login_list = BinarySocket.send({ mt5_login_list: 1 });
+                            BinaryPjax.load(Url.urlFor('user/set-currency') + '#redirect_' + cashier_type);
+                            return _context.abrupt('return');
 
-        Promise.all([req_get_account_status, req_statement, req_mt5_login_list]).then(function () {
-            // cannot use State.getResponse because we want to check error which is outside of response[msg_type]
-            var response_get_account_status = State.get(['response', 'get_account_status']);
-            if (!response_get_account_status.error && /cashier_locked/.test(response_get_account_status.get_account_status.status)) {
-                showError('custom_error', localize('Your cashier is locked.')); // Locked from BO
-            } else {
-                var limit = State.getResponse('get_limits.remainder');
-                if (cashier_type === 'withdraw' && typeof limit !== 'undefined' && +limit < Currency.getMinWithdrawal(Client.get('currency'))) {
-                    showError('custom_error', localize('You have reached the withdrawal limit.'));
-                } else {
-                    BinarySocket.wait('get_settings').then(function () {
-                        init();
-                    });
+                        case 5:
+                            if (!(cashier_type === 'withdraw' && +Client.get('balance') === 0)) {
+                                _context.next = 8;
+                                break;
+                            }
+
+                            showError('no_balance_error');
+                            return _context.abrupt('return');
+
+                        case 8:
+                            _context.next = 10;
+                            return BinarySocket.send({ get_account_status: 1 });
+
+                        case 10:
+
+                            // cannot use State.getResponse because we want to check error which is outside of response[msg_type]
+                            response_get_account_status = State.get(['response', 'get_account_status']);
+
+                            if (response_get_account_status.error) {
+                                _context.next = 19;
+                                break;
+                            }
+
+                            if (!/cashier_locked/.test(response_get_account_status.get_account_status.status)) {
+                                _context.next = 15;
+                                break;
+                            }
+
+                            showError('custom_error', localize('Your cashier is locked.')); // Locked from BO
+                            return _context.abrupt('return');
+
+                        case 15:
+                            experimental_suspended = getPropertyValue(response_get_account_status.get_account_status, ['experimental_suspended', Client.get('currency')]) || {};
+
+                            if (!(cashier_type === 'deposit' && experimental_suspended.is_deposit_suspended || cashier_type === 'withdraw' && experimental_suspended.is_withdrawal_suspended)) {
+                                _context.next = 19;
+                                break;
+                            }
+
+                            // Experimental currency is suspended
+                            showError('custom_error', localize('Please note that the selected currency is allowed for limited accounts only.'));
+                            return _context.abrupt('return');
+
+                        case 19:
+                            _context.next = 21;
+                            return BinarySocket.wait('website_status');
+
+                        case 21:
+                            currency_config = getPropertyValue(getCurrencies(), [Client.get('currency')]) || {};
+
+                            if (!(cashier_type === 'deposit')) {
+                                _context.next = 28;
+                                break;
+                            }
+
+                            if (!currency_config.is_deposit_suspended) {
+                                _context.next = 26;
+                                break;
+                            }
+
+                            // Currency deposit is suspended
+                            showError('custom_error', localize('Sorry, deposits for this currency are currently disabled.'));
+                            return _context.abrupt('return');
+
+                        case 26:
+                            _context.next = 31;
+                            break;
+
+                        case 28:
+                            if (!currency_config.is_withdrawal_suspended) {
+                                _context.next = 31;
+                                break;
+                            }
+
+                            // type is withdrawal
+                            // Currency withdrawal is suspended
+                            showError('custom_error', localize('Sorry, withdrawals for this currency are currently disabled.'));
+                            return _context.abrupt('return');
+
+                        case 31:
+                            promises = [];
+
+                            if (cashier_type === 'deposit') {
+                                promises.push(BinarySocket.send({ statement: 1, limit: 1 }));
+                                promises.push(BinarySocket.send({ mt5_login_list: 1 }));
+                            } else {
+                                promises.push(BinarySocket.send({ get_limits: 1 }));
+                            }
+
+                            Promise.all(promises).then(function () {
+                                if (cashier_type === 'withdraw') {
+                                    var limit = State.getResponse('get_limits.remainder');
+                                    if (typeof limit !== 'undefined' && +limit < Currency.getMinWithdrawal(Client.get('currency'))) {
+                                        showError('custom_error', localize('You have reached the withdrawal limit.'));
+                                        return;
+                                    }
+                                }
+                                BinarySocket.wait('get_settings').then(function () {
+                                    init();
+                                });
+                            });
+
+                        case 34:
+                        case 'end':
+                            return _context.stop();
+                    }
                 }
-            }
-        });
-    };
+            }, _callee, undefined);
+        }));
+
+        return function onLoad() {
+            return _ref.apply(this, arguments);
+        };
+    }();
 
     var onUnload = function onUnload() {
         window.removeEventListener('message', setFrameHeight);
@@ -16309,9 +16408,12 @@ var getPaWithdrawalLimit = __webpack_require__(/*! ../../common/currency */ "./s
 var FormManager = __webpack_require__(/*! ../../common/form_manager */ "./src/javascript/app/common/form_manager.js");
 var Validation = __webpack_require__(/*! ../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
 var handleVerifyCode = __webpack_require__(/*! ../../common/verification_code */ "./src/javascript/app/common/verification_code.js").handleVerifyCode;
+var getCurrencies = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").getCurrencies;
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var Url = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js");
+var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 var isBinaryApp = __webpack_require__(/*! ../../../config */ "./src/javascript/config.js").isBinaryApp;
 
 var PaymentAgentWithdraw = function () {
@@ -16568,25 +16670,39 @@ var PaymentAgentWithdraw = function () {
             BinaryPjax.load('' + Url.urlFor('user/set-currency'));
             return;
         }
-        BinarySocket.wait('get_account_status').then(function (data) {
+        BinarySocket.wait('website_status', 'get_account_status').then(function () {
             $views = $('#paymentagent_withdrawal').find('.viewItem');
             $views.setVisibility(0);
 
-            if (/(withdrawal|cashier)_locked/.test(data.get_account_status.status)) {
+            var get_account_status = State.getResponse('get_account_status');
+            if (/(withdrawal|cashier)_locked/.test(get_account_status.status)) {
                 showPageError('', 'withdrawal-locked-error');
-            } else {
-                currency = Client.get('currency');
-                if (!currency || +Client.get('balance') === 0) {
-                    showPageError(localize('Please [_1]deposit[_2] to your account.', ['<a href=\'' + (Url.urlFor('cashier/forwardws') + '?action=deposit') + '\'>', '</a>']));
-                    return;
-                }
-                BinarySocket.send({
-                    paymentagent_list: Client.get('residence'),
-                    currency: currency
-                }).then(function (response) {
-                    return populateAgentsList(response);
-                });
+                return;
             }
+            currency = Client.get('currency');
+            var experimental_suspended = getPropertyValue(get_account_status, ['experimental_suspended', currency]) || {};
+            if (experimental_suspended.is_withdrawal_suspended) {
+                // Experimental currency is suspended
+                showPageError(localize('Please note that the selected currency is allowed for limited accounts only.'));
+                return;
+            }
+            var currency_config = getPropertyValue(getCurrencies(), [currency]) || {};
+            if (currency_config.is_withdrawal_suspended) {
+                // Currency withdrawal is suspended
+                showPageError(localize('Sorry, withdrawals for this currency are currently disabled.'));
+                return;
+            }
+            if (!currency || +Client.get('balance') === 0) {
+                showPageError(localize('Please [_1]deposit[_2] to your account.', ['<a href=\'' + (Url.urlFor('cashier/forwardws') + '?action=deposit') + '\'>', '</a>']));
+                return;
+            }
+
+            BinarySocket.send({
+                paymentagent_list: Client.get('residence'),
+                currency: currency
+            }).then(function (response) {
+                return populateAgentsList(response);
+            });
         });
     };
 
@@ -30058,7 +30174,7 @@ var LimitsUI = function () {
             Object.keys(limits.market_specific).forEach(function (market) {
                 appendRowTable(markets[market].name, '', 'auto', 'bold');
                 limits.market_specific[market].forEach(function (submarket) {
-                    // submarket name could be (Commodities|Minor Pairs|Major Pairs|Smart FX|Indices|Synthetic Indices)
+                    // submarket name could be (Commodities|Minor Pairs|Major Pairs|Smart FX|Stock Indices|Synthetic Indices)
                     appendRowTable(localize(submarket.name /* localize-ignore */), submarket.turnover_limit !== 'null' ? formatMoney(currency, submarket.turnover_limit, 1) : 0, '25px', 'normal');
                 });
             });
@@ -32186,7 +32302,7 @@ var Accounts = function () {
             return {
                 commodities: localize('Commodities'),
                 forex: localize('Forex'),
-                indices: localize('Indices'),
+                indices: localize('Stock Indices'),
                 stocks: localize('Stocks'),
                 synthetic_index: localize('Synthetic Indices')
             };
@@ -32852,7 +32968,7 @@ var MetaTraderConfig = function () {
                     if (Client.get('is_virtual')) {
                         resolve(needsRealMessage());
                     } else {
-                        BinarySocket.send({ get_account_status: 1 }).then(function (response_status) {
+                        BinarySocket.wait('get_account_status').then(function (response_status) {
                             if (!response_status.error && /cashier_locked/.test(response_status.get_account_status.status)) {
                                 resolve(localize('Your cashier is locked.')); // Locked from BO
                             } else {
@@ -32878,7 +32994,7 @@ var MetaTraderConfig = function () {
                     if (Client.get('is_virtual')) {
                         resolve(needsRealMessage());
                     } else if (accounts_info[acc_type].account_type === 'financial') {
-                        BinarySocket.send({ get_account_status: 1 }).then(function () {
+                        BinarySocket.wait('get_account_status').then(function () {
                             if (!/svg_standard/.test(acc_type) && isAuthenticationPromptNeeded()) {
                                 resolve($messages.find('#msg_authenticate').html());
                             }
@@ -33363,31 +33479,35 @@ var MetaTrader = function () {
                                             getExchangeRates();
                                         }
                                         MetaTraderUI.enableButton(action, response);
-                                        _context3.next = 18;
+                                        _context3.next = 20;
                                         break;
 
                                     case 7:
                                         if (!accounts_info[acc_type].info) {
-                                            _context3.next = 15;
+                                            _context3.next = 17;
                                             break;
                                         }
 
                                         parent_action = /password/.test(action) ? 'manage_password' : 'cashier';
 
                                         if (!(parent_action === 'cashier')) {
-                                            _context3.next = 12;
+                                            _context3.next = 14;
                                             break;
                                         }
 
                                         _context3.next = 12;
-                                        return BinarySocket.send({ get_limits: 1 });
+                                        return BinarySocket.send({ get_account_status: 1 });
 
                                     case 12:
+                                        _context3.next = 14;
+                                        return BinarySocket.send({ get_limits: 1 });
+
+                                    case 14:
                                         MetaTraderUI.loadAction(parent_action);
                                         MetaTraderUI.enableButton(action, response);
                                         MetaTraderUI.refreshAction();
 
-                                    case 15:
+                                    case 17:
                                         if (typeof actions_info[action].success_msg === 'function') {
                                             success_msg = actions_info[action].success_msg(response, acc_type);
 
@@ -33408,7 +33528,7 @@ var MetaTrader = function () {
                                             MetaTraderUI.loadAction(null, acc_type);
                                         });
 
-                                    case 18:
+                                    case 20:
                                     case 'end':
                                         return _context3.stop();
                                 }
