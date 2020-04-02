@@ -362,8 +362,6 @@ a.previous-wrapper {
     #mt_account_management .fst-container #fst_action button .barspinner.white {
       height: 13px;
       margin: 3px; }
-    #mt_account_management .fst-container #fst_action #frm_deposit #mt5_remaining_transfers .empty {
-      color: #c03; }
     #mt_account_management .fst-container #fst_action #frm_cashier .mt-panel {
       margin-bottom: 0;
       padding: 15px;
@@ -373,6 +371,8 @@ a.previous-wrapper {
     #mt_account_management .fst-container #fst_action #frm_cashier .binary-balance, #mt_account_management .fst-container #fst_action #frm_cashier .mt5-balance {
       font-weight: bold;
       color: #c2c2c2; }
+    #mt_account_management .fst-container #fst_action #frm_cashier #mt5_remaining_transfers .empty {
+      color: #c03; }
     #mt_account_management .fst-container #fst_action #frm_manage_password #token_error {
       margin-bottom: 10px; }
     #mt_account_management .fst-container #fst_action #frm_manage_password select:focus {
