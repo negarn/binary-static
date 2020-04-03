@@ -486,10 +486,6 @@ button .barspinner.white {
   -ms-flex-item-align: center;
       align-self: center; }
 
-.center-text-m {
-  -moz-text-align-last: center;
-       text-align-last: center; }
-
 .align-start {
   text-align: left; }
 

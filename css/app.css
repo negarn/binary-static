@@ -1931,7 +1931,9 @@ tbody#instruments > tr > td {
 
 @media all and (max-width: 480px) {
   .detailsws-content #frmPersonalDetails div.select {
-    width: 280px !important; } }
+    width: 280px !important; }
+  .detailsws-content #frmPersonalDetails .error-msg {
+    text-align: center; } }
 
 #limits-container thead {
   text-align: left; }
