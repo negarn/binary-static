@@ -289,6 +289,12 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   appearance: none;
   margin: 0; }
 
+input[type=date] {
+  display: block;
+  margin: auto;
+  line-height: 24px;
+  text-indent: 20px; }
+
 /* form styles */
 label {
   line-height: 25px; }
