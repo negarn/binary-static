@@ -30020,7 +30020,7 @@ var getPropertyValue = __webpack_require__(/*! ../../../../../../_common/utility
 var LimitsInit = function () {
     var limitsHandler = function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(response, response_active_symbols) {
-            var limits, el_withdraw_limit, response_get_account_status, el_withdrawn, currency, base_currency, should_convert, exchange_rate, response_exchange_rates, days_limit, days_limit_converted, withdrawal_for_days, withdrawal_for_days_converted, withdrawal_since_inception, withdrawal_since_inception_converted, el_withdraw_limit_agg, remainder, remainder_converted;
+            var limits, el_withdraw_limit, response_get_account_status, el_withdrawn, currency, base_currency, should_convert, exchange_rate, response_exchange_rates, getCoversionText, days_limit, days_limit_converted, withdrawal_for_days, withdrawal_for_days_converted, withdrawal_since_inception, withdrawal_since_inception_converted, el_withdraw_limit_agg, remainder, remainder_converted;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
@@ -30042,7 +30042,7 @@ var LimitsInit = function () {
                             }
 
                             elementTextContent(el_withdraw_limit, localize('Your account is fully authenticated and your withdrawal limits have been lifted.'));
-                            _context.next = 28;
+                            _context.next = 29;
                             break;
 
                         case 10:
@@ -30066,6 +30066,10 @@ var LimitsInit = function () {
                             exchange_rate = getPropertyValue(response_exchange_rates, ['exchange_rates', 'rates', currency]);
 
                         case 20:
+                            getCoversionText = function getCoversionText(amount) {
+                                return should_convert ? ' (' + amount + ' ' + base_currency + ')' : '';
+                            };
+
                             days_limit = formatMoney(currency, limits.num_of_days_limit, 1);
                             days_limit_converted = formatMoney(base_currency, limits.num_of_days_limit / exchange_rate, 1);
 
@@ -30075,15 +30079,15 @@ var LimitsInit = function () {
                                 withdrawal_for_days_converted = formatMoney(base_currency, limits.withdrawal_for_x_days_monetary / exchange_rate, 1);
 
 
-                                elementTextContent(el_withdraw_limit, localize('Your [_1] day withdrawal limit is currently [_2][_3].', [limits.num_of_days, days_limit + ' ' + currency, should_convert ? ' (' + days_limit_converted + ' ' + base_currency + ')' : '']));
-                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2] in aggregate over the last [_3] days.', [withdrawal_for_days + ' ' + currency, should_convert ? ' (' + withdrawal_for_days_converted + ' ' + base_currency + ')' : '', limits.num_of_days]));
+                                elementTextContent(el_withdraw_limit, localize('Your [_1] day withdrawal limit is currently [_2][_3].', [limits.num_of_days, days_limit + ' ' + currency, getCoversionText(days_limit_converted)]));
+                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2] in aggregate over the last [_3] days.', [withdrawal_for_days + ' ' + currency, getCoversionText(withdrawal_for_days_converted), limits.num_of_days]));
                             } else {
                                 withdrawal_since_inception = formatMoney(currency, limits.withdrawal_since_inception_monetary, 1);
                                 withdrawal_since_inception_converted = formatMoney(base_currency, limits.withdrawal_since_inception_monetary / exchange_rate, 1);
 
 
-                                elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1][_2].', [days_limit + ' ' + currency, should_convert ? ' (' + days_limit_converted + ' ' + base_currency + ')' : '']));
-                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2].', [withdrawal_since_inception + ' ' + currency, should_convert ? ' (' + withdrawal_since_inception_converted + ' ' + base_currency + ')' : '']));
+                                elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1][_2].', [days_limit + ' ' + currency, getCoversionText(days_limit_converted)]));
+                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2].', [withdrawal_since_inception + ' ' + currency, getCoversionText(withdrawal_since_inception_converted)]));
                             }
 
                             el_withdraw_limit_agg = getElementById('withdrawal-limit-aggregate');
@@ -30091,17 +30095,17 @@ var LimitsInit = function () {
                             remainder_converted = should_convert ? formatMoney(base_currency, limits.remainder / exchange_rate, 1) : '';
 
 
-                            elementTextContent(el_withdraw_limit_agg, localize('Hence, your withdrawable balance is only up to [_1][_2], subject to your account’s available funds.', [remainder + ' ' + currency, should_convert ? ' (' + remainder_converted + ' ' + base_currency + ')' : '']));
+                            elementTextContent(el_withdraw_limit_agg, localize('Hence, your withdrawable balance is only up to [_1][_2], subject to your account’s available funds.', [remainder + ' ' + currency, getCoversionText(remainder_converted)]));
 
                             if (should_convert) {
                                 $('#withdrawal-limits').setVisibility(1);
                             }
 
-                        case 28:
+                        case 29:
 
                             $('#loading').remove();
 
-                        case 29:
+                        case 30:
                         case 'end':
                             return _context.stop();
                     }
