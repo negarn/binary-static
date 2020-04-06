@@ -30006,8 +30006,11 @@ module.exports = IPHistoryUI;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var LimitsUI = __webpack_require__(/*! ./limits.ui */ "./src/javascript/app/pages/user/account/settings/limits/limits.ui.js");
 var Client = __webpack_require__(/*! ../../../../../base/client */ "./src/javascript/app/base/client.js");
+var BinarySocket = __webpack_require__(/*! ../../../../../base/socket */ "./src/javascript/app/base/socket.js");
 var formatMoney = __webpack_require__(/*! ../../../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
 var elementTextContent = __webpack_require__(/*! ../../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementTextContent;
 var getElementById = __webpack_require__(/*! ../../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
@@ -30015,43 +30018,101 @@ var localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./
 var getPropertyValue = __webpack_require__(/*! ../../../../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var LimitsInit = function () {
-    var limitsHandler = function limitsHandler(response, response_get_account_status, response_active_symbols) {
-        var limits = response.get_limits;
-        LimitsUI.fillLimitsTable(limits, response_active_symbols);
+    var limitsHandler = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(response, response_active_symbols) {
+            var limits, el_withdraw_limit, response_get_account_status, el_withdrawn, currency, base_currency, should_convert, exchange_rate, response_exchange_rates, days_limit, days_limit_converted, withdrawal_for_days, withdrawal_for_days_converted, withdrawal_since_inception, withdrawal_since_inception_converted, el_withdraw_limit_agg, remainder, remainder_converted;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            limits = response.get_limits;
 
-        var el_withdraw_limit = getElementById('withdrawal-limit');
-        var el_withdrawn = getElementById('already-withdraw');
-        var el_withdraw_limit_agg = getElementById('withdrawal-limit-aggregate');
+                            LimitsUI.fillLimitsTable(limits, response_active_symbols);
 
-        if (/authenticated/.test(getPropertyValue(response_get_account_status, ['get_account_status', 'status']))) {
-            elementTextContent(el_withdraw_limit, localize('Your account is fully authenticated and your withdrawal limits have been lifted.'));
-        } else {
-            var currency = Client.get('currency') || Client.currentLandingCompany().legal_default_currency;
-            var days_limit = formatMoney(currency, limits.num_of_days_limit, 1);
-            var remainder = formatMoney(currency, limits.remainder, 1);
-            var withdrawal_since_inception_monetary = formatMoney(currency, limits.withdrawal_since_inception_monetary, 1);
+                            el_withdraw_limit = getElementById('withdrawal-limit');
+                            _context.next = 5;
+                            return BinarySocket.wait('get_account_status');
 
-            if (Client.get('landing_company_shortcode') === 'iom') {
-                elementTextContent(el_withdraw_limit, localize('Your [_1] day withdrawal limit is currently [_2] [_3] (or equivalent in other currency).', [limits.num_of_days, currency, days_limit]));
-                elementTextContent(el_withdrawn, localize('You have already withdrawn the equivalent of [_1] [_2] in aggregate over the last [_3] days.', [currency, limits.withdrawal_for_x_days_monetary, limits.num_of_days]));
-                elementTextContent(el_withdraw_limit_agg, localize('Therefore your current immediate maximum withdrawal (subject to your account having sufficient funds) is [_1] [_2] (or equivalent in other currency).', [currency, remainder]));
-            } else if (Client.get('landing_company_shortcode') === 'svg') {
-                elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1] [_2].', [currency, days_limit]));
-                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1] [_2].', [currency, withdrawal_since_inception_monetary]));
-                elementTextContent(el_withdraw_limit_agg, localize('Therefore your current immediate maximum withdrawal (subject to your account having sufficient funds) is [_1] [_2].', [currency, remainder]));
-            } else {
-                elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1] [_2] (or equivalent in other currency).', [currency, days_limit]));
-                elementTextContent(el_withdrawn, localize('You have already withdrawn the equivalent of [_1] [_2].', [currency, withdrawal_since_inception_monetary]));
-                elementTextContent(el_withdraw_limit_agg, localize('Therefore your current immediate maximum withdrawal (subject to your account having sufficient funds) is [_1] [_2] (or equivalent in other currency).', [currency, remainder]));
-            }
-        }
-    };
+                        case 5:
+                            response_get_account_status = _context.sent;
 
-    var limitsError = function limitsError(error) {
-        getElementById('withdrawal-title').setVisibility(0);
-        getElementById('limits-title').setVisibility(0);
-        $('#limits_error').append($('<p/>', { class: 'center-text notice-msg', text: error && error.message ? error.message : localize('Sorry, an error occurred while processing your request.') }));
-    };
+                            if (!/authenticated/.test(getPropertyValue(response_get_account_status, ['get_account_status', 'status']))) {
+                                _context.next = 10;
+                                break;
+                            }
+
+                            elementTextContent(el_withdraw_limit, localize('Your account is fully authenticated and your withdrawal limits have been lifted.'));
+                            _context.next = 28;
+                            break;
+
+                        case 10:
+                            el_withdrawn = getElementById('already-withdraw');
+                            currency = Client.get('currency') || Client.currentLandingCompany().legal_default_currency;
+                            base_currency = 'USD';
+                            should_convert = currency !== base_currency;
+                            exchange_rate = void 0;
+
+                            if (!should_convert) {
+                                _context.next = 20;
+                                break;
+                            }
+
+                            _context.next = 18;
+                            return BinarySocket.send({ exchange_rates: 1, base_currency: base_currency });
+
+                        case 18:
+                            response_exchange_rates = _context.sent;
+
+                            exchange_rate = getPropertyValue(response_exchange_rates, ['exchange_rates', 'rates', currency]);
+
+                        case 20:
+                            days_limit = formatMoney(currency, limits.num_of_days_limit, 1);
+                            days_limit_converted = formatMoney(base_currency, limits.num_of_days_limit / exchange_rate, 1);
+
+
+                            if (Client.get('landing_company_shortcode') === 'iom') {
+                                withdrawal_for_days = formatMoney(currency, limits.withdrawal_for_x_days_monetary, 1);
+                                withdrawal_for_days_converted = formatMoney(base_currency, limits.withdrawal_for_x_days_monetary / exchange_rate, 1);
+
+
+                                elementTextContent(el_withdraw_limit, localize('Your [_1] day withdrawal limit is currently [_2][_3].', [limits.num_of_days, days_limit + ' ' + currency, should_convert ? ' (' + days_limit_converted + ' ' + base_currency + ')' : '']));
+                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2] in aggregate over the last [_3] days.', [withdrawal_for_days + ' ' + currency, should_convert ? ' (' + withdrawal_for_days_converted + ' ' + base_currency + ')' : '', limits.num_of_days]));
+                            } else {
+                                withdrawal_since_inception = formatMoney(currency, limits.withdrawal_since_inception_monetary, 1);
+                                withdrawal_since_inception_converted = formatMoney(base_currency, limits.withdrawal_since_inception_monetary / exchange_rate, 1);
+
+
+                                elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1][_2].', [days_limit + ' ' + currency, should_convert ? ' (' + days_limit_converted + ' ' + base_currency + ')' : '']));
+                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2].', [withdrawal_since_inception + ' ' + currency, should_convert ? ' (' + withdrawal_since_inception_converted + ' ' + base_currency + ')' : '']));
+                            }
+
+                            el_withdraw_limit_agg = getElementById('withdrawal-limit-aggregate');
+                            remainder = formatMoney(currency, limits.remainder, 1);
+                            remainder_converted = should_convert ? formatMoney(base_currency, limits.remainder / exchange_rate, 1) : '';
+
+
+                            elementTextContent(el_withdraw_limit_agg, localize('Hence, your withdrawable balance is only up to [_1][_2], subject to your account’s available funds.', [remainder + ' ' + currency, should_convert ? ' (' + remainder_converted + ' ' + base_currency + ')' : '']));
+
+                            if (should_convert) {
+                                $('#withdrawal-limits').setVisibility(1);
+                            }
+
+                        case 28:
+
+                            $('#loading').remove();
+
+                        case 29:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        }));
+
+        return function limitsHandler(_x, _x2) {
+            return _ref.apply(this, arguments);
+        };
+    }();
 
     var initTable = function initTable() {
         LimitsUI.clearTableContent();
@@ -30059,8 +30120,6 @@ var LimitsInit = function () {
 
     return {
         limitsHandler: limitsHandler,
-        limitsError: limitsError,
-
         clean: initTable
     };
 }();
@@ -30079,24 +30138,48 @@ module.exports = LimitsInit;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var LimitsInit = __webpack_require__(/*! ./limits.init */ "./src/javascript/app/pages/user/account/settings/limits/limits.init.js");
+var LimitsUI = __webpack_require__(/*! ./limits.ui */ "./src/javascript/app/pages/user/account/settings/limits/limits.ui.js");
 var BinarySocket = __webpack_require__(/*! ../../../../../base/socket */ "./src/javascript/app/base/socket.js");
 
 var Limits = function () {
-    var onLoad = function onLoad() {
-        BinarySocket.wait('get_account_status').then(function (response_get_account_status) {
-            BinarySocket.send({ get_limits: 1 }).then(function (response) {
-                if (response.error) {
-                    LimitsInit.limitsError(response.error);
-                } else {
-                    BinarySocket.send({ active_symbols: 'brief' }).then(function (response_active_symbols) {
-                        // this is to get localized texts for the name of the market_specific limits
-                        LimitsInit.limitsHandler(response, response_get_account_status, response_active_symbols);
-                    });
+    var onLoad = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var response_get_limits;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.next = 2;
+                            return BinarySocket.send({ get_limits: 1 });
+
+                        case 2:
+                            response_get_limits = _context.sent;
+
+
+                            if (response_get_limits.error) {
+                                LimitsUI.limitsError(response_get_limits.error);
+                            }
+
+                            BinarySocket.send({ active_symbols: 'brief' }).then(function (response_active_symbols) {
+                                // this is to get localized texts for the name of the market_specific limits
+                                LimitsInit.limitsHandler(response_get_limits, response_active_symbols);
+                            });
+
+                        case 5:
+                        case 'end':
+                            return _context.stop();
+                    }
                 }
-            });
-        });
-    };
+            }, _callee, undefined);
+        }));
+
+        return function onLoad() {
+            return _ref.apply(this, arguments);
+        };
+    }();
 
     var onUnload = function onUnload() {
         LimitsInit.clean();
@@ -30191,16 +30274,25 @@ var LimitsUI = function () {
             $('#withdrawal-title').prepend(login_id + ' - ');
         }
         $('#limits-title').setVisibility(1);
-        $('#withdrawal-limits').setVisibility(1);
     };
 
     var clearTableContent = function clearTableContent() {
         Table.clearTableBody('client-limits');
     };
 
+    var limitsError = function limitsError() {
+        var error = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+        getElementById('withdrawal-title').setVisibility(0);
+        getElementById('limits-title').setVisibility(0);
+        $('#loading').remove();
+        $('#limits_error').html($('<p/>', { class: 'center-text notice-msg', text: error.message || localize('Sorry, an error occurred while processing your request.') }));
+    };
+
     return {
         clearTableContent: clearTableContent,
-        fillLimitsTable: fillLimitsTable
+        fillLimitsTable: fillLimitsTable,
+        limitsError: limitsError
     };
 }();
 
