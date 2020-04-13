@@ -9841,6 +9841,8 @@ var BinaryLoader = function () {
                 }
 
                 ScrollToAnchor.init();
+
+                ContentVisibility.centerAlignSelect(true);
             });
         });
 
@@ -13325,6 +13327,8 @@ var mt_company_rule = 'mtcompany';
 var eu_country_rule = 'eucountry';
 
 var ContentVisibility = function () {
+    var $center_select_m = void 0;
+
     var init = function init() {
         var arr_mt5fin_shortcodes = void 0;
 
@@ -13466,7 +13470,39 @@ var ContentVisibility = function () {
         updateTabDisplay();
     };
 
+    // if text is hidden, we need to append it to body to be able to get its width
+    var getTextWidth = function getTextWidth(text) {
+        var $el = $('<span />', { text: text });
+        $el.prependTo('body');
+        var el_width = $el.width();
+        $el.remove();
+        return el_width;
+    };
+
+    var centerSelect = function centerSelect($el) {
+        var option_width = getTextWidth($el.children(':selected').html());
+        var empty_space = '280' - option_width; // in mobile all select drop-downs are hardcoded to be at 280px in css
+        $el.css('text-indent', empty_space / 2 - 7); // 7px is for the drop-down arrow
+    };
+
+    var centerAlignSelect = function centerAlignSelect(should_init) {
+        $(window).off('resize', centerAlignSelect);
+        $center_select_m = typeof should_init === 'boolean' && should_init || !$center_select_m ? $('.center-select-m') : $center_select_m;
+
+        if ($(window).width() <= 480) {
+            $center_select_m.on('change', function () {
+                centerSelect($(this));
+            });
+        } else {
+            $center_select_m.each(function () {
+                $(this).css('text-indent', 0);
+            });
+            $(window).resize(centerAlignSelect);
+        }
+    };
+
     return {
+        centerAlignSelect: centerAlignSelect,
         init: init,
         __test__: {
             parseAttributeString: parseAttributeString,
@@ -30006,8 +30042,11 @@ module.exports = IPHistoryUI;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var LimitsUI = __webpack_require__(/*! ./limits.ui */ "./src/javascript/app/pages/user/account/settings/limits/limits.ui.js");
 var Client = __webpack_require__(/*! ../../../../../base/client */ "./src/javascript/app/base/client.js");
+var BinarySocket = __webpack_require__(/*! ../../../../../base/socket */ "./src/javascript/app/base/socket.js");
 var formatMoney = __webpack_require__(/*! ../../../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
 var elementTextContent = __webpack_require__(/*! ../../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementTextContent;
 var getElementById = __webpack_require__(/*! ../../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
@@ -30015,43 +30054,105 @@ var localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./
 var getPropertyValue = __webpack_require__(/*! ../../../../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var LimitsInit = function () {
-    var limitsHandler = function limitsHandler(response, response_get_account_status, response_active_symbols) {
-        var limits = response.get_limits;
-        LimitsUI.fillLimitsTable(limits, response_active_symbols);
+    var limitsHandler = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(response, response_active_symbols) {
+            var limits, el_withdraw_limit, response_get_account_status, el_withdrawn, currency, base_currency, should_convert, exchange_rate, response_exchange_rates, getCoversionText, days_limit, days_limit_converted, withdrawal_for_days, withdrawal_for_days_converted, withdrawal_since_inception, withdrawal_since_inception_converted, el_withdraw_limit_agg, remainder, remainder_converted;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            limits = response.get_limits;
 
-        var el_withdraw_limit = getElementById('withdrawal-limit');
-        var el_withdrawn = getElementById('already-withdraw');
-        var el_withdraw_limit_agg = getElementById('withdrawal-limit-aggregate');
+                            LimitsUI.fillLimitsTable(limits, response_active_symbols);
 
-        if (/authenticated/.test(getPropertyValue(response_get_account_status, ['get_account_status', 'status']))) {
-            elementTextContent(el_withdraw_limit, localize('Your account is fully authenticated and your withdrawal limits have been lifted.'));
-        } else {
-            var currency = Client.get('currency') || Client.currentLandingCompany().legal_default_currency;
-            var days_limit = formatMoney(currency, limits.num_of_days_limit, 1);
-            var remainder = formatMoney(currency, limits.remainder, 1);
-            var withdrawal_since_inception_monetary = formatMoney(currency, limits.withdrawal_since_inception_monetary, 1);
+                            el_withdraw_limit = getElementById('withdrawal-limit');
+                            _context.next = 5;
+                            return BinarySocket.wait('get_account_status');
 
-            if (Client.get('landing_company_shortcode') === 'iom') {
-                elementTextContent(el_withdraw_limit, localize('Your [_1] day withdrawal limit is currently [_2] [_3] (or equivalent in other currency).', [limits.num_of_days, currency, days_limit]));
-                elementTextContent(el_withdrawn, localize('You have already withdrawn the equivalent of [_1] [_2] in aggregate over the last [_3] days.', [currency, limits.withdrawal_for_x_days_monetary, limits.num_of_days]));
-                elementTextContent(el_withdraw_limit_agg, localize('Therefore your current immediate maximum withdrawal (subject to your account having sufficient funds) is [_1] [_2] (or equivalent in other currency).', [currency, remainder]));
-            } else if (Client.get('landing_company_shortcode') === 'svg') {
-                elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1] [_2].', [currency, days_limit]));
-                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1] [_2].', [currency, withdrawal_since_inception_monetary]));
-                elementTextContent(el_withdraw_limit_agg, localize('Therefore your current immediate maximum withdrawal (subject to your account having sufficient funds) is [_1] [_2].', [currency, remainder]));
-            } else {
-                elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1] [_2] (or equivalent in other currency).', [currency, days_limit]));
-                elementTextContent(el_withdrawn, localize('You have already withdrawn the equivalent of [_1] [_2].', [currency, withdrawal_since_inception_monetary]));
-                elementTextContent(el_withdraw_limit_agg, localize('Therefore your current immediate maximum withdrawal (subject to your account having sufficient funds) is [_1] [_2] (or equivalent in other currency).', [currency, remainder]));
-            }
-        }
-    };
+                        case 5:
+                            response_get_account_status = _context.sent;
 
-    var limitsError = function limitsError(error) {
-        getElementById('withdrawal-title').setVisibility(0);
-        getElementById('limits-title').setVisibility(0);
-        $('#limits_error').append($('<p/>', { class: 'center-text notice-msg', text: error && error.message ? error.message : localize('Sorry, an error occurred while processing your request.') }));
-    };
+                            if (!/authenticated/.test(getPropertyValue(response_get_account_status, ['get_account_status', 'status']))) {
+                                _context.next = 10;
+                                break;
+                            }
+
+                            elementTextContent(el_withdraw_limit, localize('Your account is fully authenticated and your withdrawal limits have been lifted.'));
+                            _context.next = 29;
+                            break;
+
+                        case 10:
+                            el_withdrawn = getElementById('already-withdraw');
+                            currency = Client.get('currency') || Client.currentLandingCompany().legal_default_currency;
+                            base_currency = 'USD';
+                            should_convert = currency !== base_currency;
+                            exchange_rate = void 0;
+
+                            if (!should_convert) {
+                                _context.next = 20;
+                                break;
+                            }
+
+                            _context.next = 18;
+                            return BinarySocket.send({ exchange_rates: 1, base_currency: base_currency });
+
+                        case 18:
+                            response_exchange_rates = _context.sent;
+
+                            exchange_rate = getPropertyValue(response_exchange_rates, ['exchange_rates', 'rates', currency]);
+
+                        case 20:
+                            getCoversionText = function getCoversionText(amount) {
+                                return should_convert ? ' (' + amount + ' ' + base_currency + ')' : '';
+                            };
+
+                            days_limit = formatMoney(currency, limits.num_of_days_limit, 1);
+                            days_limit_converted = formatMoney(base_currency, limits.num_of_days_limit / exchange_rate, 1);
+
+
+                            if (Client.get('landing_company_shortcode') === 'iom') {
+                                withdrawal_for_days = formatMoney(currency, limits.withdrawal_for_x_days_monetary, 1);
+                                withdrawal_for_days_converted = formatMoney(base_currency, limits.withdrawal_for_x_days_monetary / exchange_rate, 1);
+
+
+                                elementTextContent(el_withdraw_limit, localize('Your [_1] day withdrawal limit is currently [_2][_3].', [limits.num_of_days, days_limit + ' ' + currency, getCoversionText(days_limit_converted)]));
+                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2] in aggregate over the last [_3] days.', [withdrawal_for_days + ' ' + currency, getCoversionText(withdrawal_for_days_converted), limits.num_of_days]));
+                            } else {
+                                withdrawal_since_inception = formatMoney(currency, limits.withdrawal_since_inception_monetary, 1);
+                                withdrawal_since_inception_converted = formatMoney(base_currency, limits.withdrawal_since_inception_monetary / exchange_rate, 1);
+
+
+                                elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1][_2].', [days_limit + ' ' + currency, getCoversionText(days_limit_converted)]));
+                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2].', [withdrawal_since_inception + ' ' + currency, getCoversionText(withdrawal_since_inception_converted)]));
+                            }
+
+                            el_withdraw_limit_agg = getElementById('withdrawal-limit-aggregate');
+                            remainder = formatMoney(currency, limits.remainder, 1);
+                            remainder_converted = should_convert ? formatMoney(base_currency, limits.remainder / exchange_rate, 1) : '';
+
+
+                            elementTextContent(el_withdraw_limit_agg, localize('Hence, your withdrawable balance is only up to [_1][_2], subject to your account’s available funds.', [remainder + ' ' + currency, getCoversionText(remainder_converted)]));
+
+                            if (should_convert) {
+                                $('#withdrawal-limits').setVisibility(1);
+                            }
+
+                        case 29:
+
+                            $('#loading').remove();
+
+                        case 30:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        }));
+
+        return function limitsHandler(_x, _x2) {
+            return _ref.apply(this, arguments);
+        };
+    }();
 
     var initTable = function initTable() {
         LimitsUI.clearTableContent();
@@ -30059,8 +30160,6 @@ var LimitsInit = function () {
 
     return {
         limitsHandler: limitsHandler,
-        limitsError: limitsError,
-
         clean: initTable
     };
 }();
@@ -30079,24 +30178,48 @@ module.exports = LimitsInit;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var LimitsInit = __webpack_require__(/*! ./limits.init */ "./src/javascript/app/pages/user/account/settings/limits/limits.init.js");
+var LimitsUI = __webpack_require__(/*! ./limits.ui */ "./src/javascript/app/pages/user/account/settings/limits/limits.ui.js");
 var BinarySocket = __webpack_require__(/*! ../../../../../base/socket */ "./src/javascript/app/base/socket.js");
 
 var Limits = function () {
-    var onLoad = function onLoad() {
-        BinarySocket.wait('get_account_status').then(function (response_get_account_status) {
-            BinarySocket.send({ get_limits: 1 }).then(function (response) {
-                if (response.error) {
-                    LimitsInit.limitsError(response.error);
-                } else {
-                    BinarySocket.send({ active_symbols: 'brief' }).then(function (response_active_symbols) {
-                        // this is to get localized texts for the name of the market_specific limits
-                        LimitsInit.limitsHandler(response, response_get_account_status, response_active_symbols);
-                    });
+    var onLoad = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var response_get_limits;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.next = 2;
+                            return BinarySocket.send({ get_limits: 1 });
+
+                        case 2:
+                            response_get_limits = _context.sent;
+
+
+                            if (response_get_limits.error) {
+                                LimitsUI.limitsError(response_get_limits.error);
+                            }
+
+                            BinarySocket.send({ active_symbols: 'brief' }).then(function (response_active_symbols) {
+                                // this is to get localized texts for the name of the market_specific limits
+                                LimitsInit.limitsHandler(response_get_limits, response_active_symbols);
+                            });
+
+                        case 5:
+                        case 'end':
+                            return _context.stop();
+                    }
                 }
-            });
-        });
-    };
+            }, _callee, undefined);
+        }));
+
+        return function onLoad() {
+            return _ref.apply(this, arguments);
+        };
+    }();
 
     var onUnload = function onUnload() {
         LimitsInit.clean();
@@ -30191,16 +30314,25 @@ var LimitsUI = function () {
             $('#withdrawal-title').prepend(login_id + ' - ');
         }
         $('#limits-title').setVisibility(1);
-        $('#withdrawal-limits').setVisibility(1);
     };
 
     var clearTableContent = function clearTableContent() {
         Table.clearTableBody('client-limits');
     };
 
+    var limitsError = function limitsError() {
+        var error = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+        getElementById('withdrawal-title').setVisibility(0);
+        getElementById('limits-title').setVisibility(0);
+        $('#loading').remove();
+        $('#limits_error').html($('<p/>', { class: 'center-text notice-msg', text: error.message || localize('Sorry, an error occurred while processing your request.') }));
+    };
+
     return {
         clearTableContent: clearTableContent,
-        fillLimitsTable: fillLimitsTable
+        fillLimitsTable: fillLimitsTable,
+        limitsError: limitsError
     };
 }();
 
@@ -32621,7 +32753,7 @@ var MetaTraderConfig = function () {
             var advanced_config = {
                 account_type: 'advanced',
                 leverage: 100,
-                short_title: localize('Financial Pro')
+                short_title: localize('Financial STP')
             };
             var volatility_config = {
                 account_type: '',
@@ -32637,8 +32769,8 @@ var MetaTraderConfig = function () {
                 financial: {
                     demo_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Demo Financial'), short_title: standard_config.short_title },
                     real_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Real Financial'), short_title: standard_config.short_title },
-                    demo_advanced: { mt5_account_type: advanced_config.account_type, max_leverage: advanced_config.leverage, title: localize('Demo Financial Pro'), short_title: advanced_config.short_title },
-                    real_advanced: { mt5_account_type: advanced_config.account_type, max_leverage: advanced_config.leverage, title: localize('Real Financial Pro'), short_title: advanced_config.short_title }
+                    demo_advanced: { mt5_account_type: advanced_config.account_type, max_leverage: advanced_config.leverage, title: localize('Demo Financial STP'), short_title: advanced_config.short_title },
+                    real_advanced: { mt5_account_type: advanced_config.account_type, max_leverage: advanced_config.leverage, title: localize('Real Financial STP'), short_title: advanced_config.short_title }
                 }
             };
         };
@@ -32870,7 +33002,7 @@ var MetaTraderConfig = function () {
                     if (is_volatility && !accounts_info[acc_type].is_demo && State.getResponse('landing_company.gaming_company.shortcode') === 'malta') {
                         Dialog.confirm({
                             id: 'confirm_new_account',
-                            localized_message: localize(['Trading Contracts for Difference (CFDs) on Synthetic Indices may not be suitable for everyone. Please ensure that you fully understand the risks involved, including the possibility of losing all the funds in your MT5 account. Gambling can be addictive – please play responsibly.', 'Do you wish to continue?'])
+                            localized_message: localize(['Trading contracts for difference (CFDs) on Synthetic Indices may not be suitable for everyone. Please ensure that you fully understand the risks involved, including the possibility of losing all the funds in your MT5 account. Gambling can be addictive – please play responsibly.', 'Do you wish to continue?'])
                         }).then(function (is_ok) {
                             if (!is_ok) {
                                 BinaryPjax.load(Client.defaultRedirectUrl());
@@ -32884,7 +33016,7 @@ var MetaTraderConfig = function () {
                                 trading_score = _response$get_financi.trading_score;
 
                             var passed_financial_assessment = cfd_score === 4 || trading_score >= 8;
-                            var message = [localize('{SPAIN ONLY}You are about to purchase a product that is not simple and may be difficult to understand: Contracts for Difference and Forex. As a general rule, the CNMV considers that such products are not appropriate for retail clients, due to their complexity.'), localize('{SPAIN ONLY}This is a product with leverage. You should be aware that losses may be higher than the amount initially paid to purchase the product.')];
+                            var message = [localize('{SPAIN ONLY}You are about to purchase a product that is not simple and may be difficult to understand: Contracts for difference and forex. As a general rule, the CNMV considers that such products are not appropriate for retail clients, due to their complexity.'), localize('{SPAIN ONLY}This is a product with leverage. You should be aware that losses may be higher than the amount initially paid to purchase the product.')];
                             if (passed_financial_assessment) {
                                 message.splice(1, 0, localize('{SPAIN ONLY}However, Binary Investments (Europe) Ltd has assessed your knowledge and experience and deems the product appropriate for you.'));
                             }
@@ -32968,7 +33100,7 @@ var MetaTraderConfig = function () {
                     if (Client.get('is_virtual')) {
                         resolve(needsRealMessage());
                     } else {
-                        BinarySocket.send({ get_account_status: 1 }).then(function (response_status) {
+                        BinarySocket.wait('get_account_status').then(function (response_status) {
                             if (!response_status.error && /cashier_locked/.test(response_status.get_account_status.status)) {
                                 resolve(localize('Your cashier is locked.')); // Locked from BO
                             } else {
@@ -32994,7 +33126,7 @@ var MetaTraderConfig = function () {
                     if (Client.get('is_virtual')) {
                         resolve(needsRealMessage());
                     } else if (accounts_info[acc_type].account_type === 'financial') {
-                        BinarySocket.send({ get_account_status: 1 }).then(function () {
+                        BinarySocket.wait('get_account_status').then(function () {
                             if (!/svg_standard/.test(acc_type) && isAuthenticationPromptNeeded()) {
                                 resolve($messages.find('#msg_authenticate').html());
                             }
@@ -33459,43 +33591,87 @@ var MetaTrader = function () {
                 }
 
                 var req = makeRequestObject(acc_type, action);
-                BinarySocket.send(req).then(function (response) {
-                    if (response.error) {
-                        MetaTraderUI.displayFormMessage(response.error.message, action);
-                        if (typeof actions_info[action].onError === 'function') {
-                            actions_info[action].onError(response, MetaTraderUI.$form());
-                        }
-                        if (/^MT5(Deposit|Withdrawal)Error$/.test(response.error.code)) {
-                            getExchangeRates();
-                        }
-                        MetaTraderUI.enableButton(action, response);
-                    } else {
-                        if (accounts_info[acc_type].info) {
-                            var parent_action = /password/.test(action) ? 'manage_password' : 'cashier';
-                            MetaTraderUI.loadAction(parent_action);
-                            MetaTraderUI.enableButton(action, response);
-                            MetaTraderUI.refreshAction();
-                        }
-                        if (typeof actions_info[action].success_msg === 'function') {
-                            var success_msg = actions_info[action].success_msg(response, acc_type);
-                            if (actions_info[action].success_msg_selector) {
-                                MetaTraderUI.displayMessage(actions_info[action].success_msg_selector, success_msg, 1);
-                            } else {
-                                MetaTraderUI.displayMainMessage(success_msg);
+                BinarySocket.send(req).then(function () {
+                    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(response) {
+                        var parent_action, success_msg;
+                        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                            while (1) {
+                                switch (_context3.prev = _context3.next) {
+                                    case 0:
+                                        if (!response.error) {
+                                            _context3.next = 7;
+                                            break;
+                                        }
+
+                                        MetaTraderUI.displayFormMessage(response.error.message, action);
+                                        if (typeof actions_info[action].onError === 'function') {
+                                            actions_info[action].onError(response, MetaTraderUI.$form());
+                                        }
+                                        if (/^MT5(Deposit|Withdrawal)Error$/.test(response.error.code)) {
+                                            getExchangeRates();
+                                        }
+                                        MetaTraderUI.enableButton(action, response);
+                                        _context3.next = 20;
+                                        break;
+
+                                    case 7:
+                                        _context3.next = 9;
+                                        return BinarySocket.send({ get_account_status: 1 });
+
+                                    case 9:
+                                        if (!accounts_info[acc_type].info) {
+                                            _context3.next = 17;
+                                            break;
+                                        }
+
+                                        parent_action = /password/.test(action) ? 'manage_password' : 'cashier';
+
+                                        if (!(parent_action === 'cashier')) {
+                                            _context3.next = 14;
+                                            break;
+                                        }
+
+                                        _context3.next = 14;
+                                        return BinarySocket.send({ get_limits: 1 });
+
+                                    case 14:
+                                        MetaTraderUI.loadAction(parent_action);
+                                        MetaTraderUI.enableButton(action, response);
+                                        MetaTraderUI.refreshAction();
+
+                                    case 17:
+                                        if (typeof actions_info[action].success_msg === 'function') {
+                                            success_msg = actions_info[action].success_msg(response, acc_type);
+
+                                            if (actions_info[action].success_msg_selector) {
+                                                MetaTraderUI.displayMessage(actions_info[action].success_msg_selector, success_msg, 1);
+                                            } else {
+                                                MetaTraderUI.displayMainMessage(success_msg);
+                                            }
+                                            MetaTraderUI.enableButton(action, response);
+                                        }
+                                        if (typeof actions_info[action].onSuccess === 'function') {
+                                            actions_info[action].onSuccess(response, MetaTraderUI.$form());
+                                        }
+                                        BinarySocket.send({ mt5_login_list: 1 }).then(function (response_login_list) {
+                                            MetaTraderUI.refreshAction();
+                                            allAccountsResponseHandler(response_login_list);
+                                            MetaTraderUI.setAccountType(acc_type, true);
+                                            MetaTraderUI.loadAction(null, acc_type);
+                                        });
+
+                                    case 20:
+                                    case 'end':
+                                        return _context3.stop();
+                                }
                             }
-                            MetaTraderUI.enableButton(action, response);
-                        }
-                        if (typeof actions_info[action].onSuccess === 'function') {
-                            actions_info[action].onSuccess(response, MetaTraderUI.$form());
-                        }
-                        BinarySocket.send({ mt5_login_list: 1 }).then(function (response_login_list) {
-                            MetaTraderUI.refreshAction();
-                            allAccountsResponseHandler(response_login_list);
-                            MetaTraderUI.setAccountType(acc_type, true);
-                            MetaTraderUI.loadAction(null, acc_type);
-                        });
-                    }
-                });
+                        }, _callee3, undefined);
+                    }));
+
+                    return function (_x) {
+                        return _ref3.apply(this, arguments);
+                    };
+                }());
             });
         }
     };
@@ -33554,11 +33730,11 @@ var MetaTrader = function () {
     };
 
     var metatraderMenuItemVisibility = function metatraderMenuItemVisibility() {
-        BinarySocket.wait('landing_company', 'get_account_status').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        BinarySocket.wait('landing_company', 'get_account_status').then(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
             var mt_visibility;
-            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            return regeneratorRuntime.wrap(function _callee4$(_context4) {
                 while (1) {
-                    switch (_context3.prev = _context3.next) {
+                    switch (_context4.prev = _context4.next) {
                         case 0:
                             if (isEligible()) {
                                 mt_visibility = document.getElementsByClassName('mt_visibility');
@@ -33570,10 +33746,10 @@ var MetaTrader = function () {
 
                         case 1:
                         case 'end':
-                            return _context3.stop();
+                            return _context4.stop();
                     }
                 }
-            }, _callee3, undefined);
+            }, _callee4, undefined);
         })));
     };
 
@@ -33932,6 +34108,21 @@ var MetaTraderUI = function () {
                     $action.find('#frm_cashier').setVisibility(0);
                 }
             }
+
+            var remaining_transfers = getPropertyValue(State.getResponse('get_limits'), ['daily_transfers', 'mt5', 'available']);
+
+            if (typeof remaining_transfers !== 'undefined') {
+                var $remaining_container = _$form.find('#mt5_remaining_transfers');
+                $remaining_container.setVisibility(1);
+                var $remaining_number = $remaining_container.find('strong');
+                $remaining_number.text(remaining_transfers);
+                if (+remaining_transfers) {
+                    $remaining_number.removeClass('empty');
+                } else {
+                    $remaining_number.addClass('empty');
+                }
+            }
+
             return;
         }
 
