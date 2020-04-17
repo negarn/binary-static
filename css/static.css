@@ -375,6 +375,12 @@
 #mt_download .alternative-download-description {
   margin: 0; }
 
+@media screen and (max-width: 480px) {
+  #mt_download #btn_trade_with_demo {
+    margin-left: 0;
+    margin-top: 10px;
+    display: block; } }
+
 /* GET-STARTED PAGES RULES */
 .get-started a:hover {
   text-decoration: none; }
