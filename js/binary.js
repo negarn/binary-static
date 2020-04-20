@@ -35377,7 +35377,7 @@ var SetCurrency = function () {
                                 }).setVisibility(1);
                                 localStorage.removeItem('is_new_account');
                             } else if (popup_action) {
-                                currencies = popup_action === 'multi_account' ? GetCurrency.getCurrencies(landing_company) : getCurrencyChangeOptions(landing_company);
+                                currencies = /multi_account|set_currency/.test(popup_action) ? GetCurrency.getCurrencies(landing_company) : getCurrencyChangeOptions(landing_company);
 
                                 $('#hide_new_account').setVisibility(0);
                                 $('.show_' + popup_action).setVisibility(1);
