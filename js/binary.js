@@ -845,7 +845,7 @@ var getPaWithdrawalLimit = function getPaWithdrawalLimit(currency, limit) {
 };
 
 var getCurrencyDisplayCode = function getCurrencyDisplayCode(currency) {
-    return getPropertyValue(CryptoConfig.get(), [currency, 'display_code']) || '';
+    return getPropertyValue(CryptoConfig.get(), [currency, 'display_code']) || currency;
 };
 
 var getCurrencyName = function getCurrencyName(currency) {
@@ -10873,7 +10873,7 @@ var Header = function () {
                     var account_title = Client.getAccountTitle(loginid);
                     var is_real = !Client.getAccountType(loginid); // this function only returns virtual/gaming/financial types
                     var currency = Client.get('currency', loginid);
-                    var localized_type = localize('[_1] Account', is_real && currency ? getCurrencyDisplayCode(currency) || currency : account_title);
+                    var localized_type = localize('[_1] Account', is_real && currency ? getCurrencyDisplayCode(currency) : account_title);
                     if (loginid === Client.get('loginid')) {
                         // default account
                         applyToAllElements('.account-type', function (el) {
@@ -15224,7 +15224,7 @@ var AccountTransfer = function () {
         el_transfer_from = getElementById('lbl_transfer_from');
         el_transfer_to = getElementById('transfer_to');
 
-        elementTextContent(el_transfer_from, client_loginid + ' ' + (client_currency ? '(' + client_currency + ')' : ''));
+        elementTextContent(el_transfer_from, client_loginid + ' ' + (client_currency ? '(' + Currency.getCurrencyDisplayCode(client_currency) + ')' : ''));
 
         var fragment_transfer_to = document.createElement('select');
 
@@ -15236,7 +15236,7 @@ var AccountTransfer = function () {
                 var option = document.createElement('option');
                 option.setAttribute('data-currency', account.currency);
                 option.setAttribute('data-loginid', account.loginid);
-                option.appendChild(document.createTextNode('' + account.loginid + (account.currency ? ' (' + account.currency + ')' : '')));
+                option.appendChild(document.createTextNode('' + account.loginid + (account.currency ? ' (' + Currency.getCurrencyDisplayCode(account.currency) + ')' : '')));
                 fragment_transfer_to.appendChild(option);
             }
         });
@@ -15316,7 +15316,7 @@ var AccountTransfer = function () {
     };
 
     var showForm = function showForm() {
-        elementTextContent(document.querySelector(form_id_hash + ' #currency'), client_currency);
+        elementTextContent(document.querySelector(form_id_hash + ' #currency'), Currency.getCurrencyDisplayCode(client_currency));
 
         getElementById(form_id).setVisibility(1);
 
@@ -15350,11 +15350,11 @@ var AccountTransfer = function () {
         response.accounts.forEach(function (account) {
             if (account.loginid === client_loginid) {
                 elementTextContent(getElementById('transfer_success_from'), localize('From account: '));
-                elementTextContent(getElementById('from_loginid'), account.loginid + ' (' + account.currency + ')');
+                elementTextContent(getElementById('from_loginid'), account.loginid + ' (' + Currency.getCurrencyDisplayCode(account.currency) + ')');
                 getElementById('from_current_balance').innerText = Currency.getTextFormat(account.balance, account.currency);
             } else if (account.loginid === response.client_to_loginid) {
                 elementTextContent(getElementById('transfer_success_to'), localize('To account: '));
-                elementTextContent(getElementById('to_loginid'), account.loginid + ' (' + account.currency + ')');
+                elementTextContent(getElementById('to_loginid'), account.loginid + ' (' + Currency.getCurrencyDisplayCode(account.currency) + ')');
                 getElementById('to_current_balance').innerText = Currency.getTextFormat(account.balance, account.currency);
             }
         });
@@ -15391,7 +15391,7 @@ var AccountTransfer = function () {
                 setLoadingVisibility(0);
                 getElementById(messages.parent).setVisibility(1);
                 if (client_currency) {
-                    elementTextContent(getElementById('min_required_amount'), client_currency + ' ' + min_amount);
+                    elementTextContent(getElementById('min_required_amount'), Currency.getCurrencyDisplayCode(client_currency) + ' ' + min_amount);
                     getElementById(messages.balance).setVisibility(1);
                 }
                 getElementById(messages.deposit).setVisibility(1);
@@ -15498,7 +15498,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var getCurrencies = __webpack_require__(/*! ../user/get_currency */ "./src/javascript/app/pages/user/get_currency.js").getCurrencies;
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
-var isCryptocurrency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").isCryptocurrency;
+var Currency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js");
 var elementInnerHtml = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementInnerHtml;
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
@@ -15534,7 +15534,7 @@ var Cashier = function () {
         BinarySocket.wait('authorize').then(function () {
             $('.cashier_note').setVisibility(Client.isLoggedIn() && // only show to logged-in clients
             !Client.get('is_virtual') && // only show to real accounts
-            !isCryptocurrency(Client.get('currency')) // only show to fiat currencies
+            !Currency.isCryptocurrency(Client.get('currency')) // only show to fiat currencies
             );
         });
     };
@@ -15658,19 +15658,21 @@ var Cashier = function () {
         // Set messages based on currency being crypto or fiat
         // If fiat, set message based on if they're allowed to change currency or not
         // Condition is to have no MT5 accounts *and* have no transactions
-        var currency_message = isCryptocurrency(currency) ? localize('This is your [_1] account.', '' + currency) : has_no_mt5 && has_no_transaction ? localize('Your fiat account\'s currency is currently set to [_1].', '' + currency) : localize('Your fiat account\'s currency is set to [_1].', '' + currency);
+        var currency_message = Currency.isCryptocurrency(currency) ? localize('This is your [_1] account.', '' + Currency.getCurrencyDisplayCode(currency)) : has_no_mt5 && has_no_transaction ? localize('Your fiat account\'s currency is currently set to [_1].', '' + currency) : localize('Your fiat account\'s currency is set to [_1].', '' + currency);
 
-        var currency_hint = isCryptocurrency(currency) ? localize('Don\'t want to trade in [_1]? You can open another cryptocurrency account.', '' + currency) + account_action_text : has_no_mt5 && has_no_transaction ? localize('You can [_1]set a new currency[_2] before you deposit for the first time or create an MT5 account.', can_change ? ['<a href=' + Url.urlFor('user/accounts') + '>', '</a>'] : ['', '']) : missingCriteria(!has_no_mt5, !has_no_transaction);
+        var currency_hint = Currency.isCryptocurrency(currency) ? localize('Don\'t want to trade in [_1]? You can open another cryptocurrency account.', '' + Currency.getCurrencyDisplayCode(currency)) + account_action_text : has_no_mt5 && has_no_transaction ? localize('You can [_1]set a new currency[_2] before you deposit for the first time or create an MT5 account.', can_change ? ['<a href=' + Url.urlFor('user/accounts') + '>', '</a>'] : ['', '']) : missingCriteria(!has_no_mt5, !has_no_transaction);
 
         elementInnerHtml(el_current_currency, currency_message);
         elementInnerHtml(el_current_hint, currency_hint);
         el_currency_image.src = Url.urlForStatic('/images/pages/cashier/icons/icon-' + currency + '.svg');
 
         var available_currencies = getCurrencies(State.getResponse('landing_company'));
+
         var has_more_crypto = (available_currencies.find(function (cur) {
-            return isCryptocurrency(cur);
+            return Currency.isCryptocurrency(cur);
         }) || []).length > 0;
-        var show_current_currency = !isCryptocurrency(currency) || isCryptocurrency(currency) && has_more_crypto;
+
+        var show_current_currency = !Currency.isCryptocurrency(currency) || Currency.isCryptocurrency(currency) && has_more_crypto;
 
         el_acc_currency.setVisibility(show_current_currency);
     };
@@ -15785,7 +15787,7 @@ var Cashier = function () {
                     });
                 }
 
-                if (isCryptocurrency(currency)) {
+                if (Currency.isCryptocurrency(currency)) {
                     $('.crypto_currency').setVisibility(1);
 
                     var previous_href = $('#view_payment_methods').attr('href');
@@ -15913,7 +15915,7 @@ var DepositWithdraw = function () {
         if (/^(withdraw|deposit)$/.test(action)) {
             cashier_type = action;
             var currency = Client.get('currency') || '';
-            $heading.text((action === 'withdraw' ? localize('Withdraw') : localize('Deposit')) + ' ' + (Currency.getCurrencyDisplayCode(currency) || currency));
+            $heading.text((action === 'withdraw' ? localize('Withdraw') : localize('Deposit')) + ' ' + Currency.getCurrencyDisplayCode(currency));
         }
     };
 
@@ -35369,7 +35371,10 @@ var SetCurrency = function () {
 
                             if (is_new_account) {
                                 $('#set_currency_loading').remove();
-                                $('#deposit_btn, #set_currency').setVisibility(1);
+                                $('#set_currency').setVisibility(1);
+                                $('#deposit_btn').on('click', function () {
+                                    BinaryPjax.load(Url.urlFor('cashier/forwardws') + '?action=deposit');
+                                }).setVisibility(1);
                                 localStorage.removeItem('is_new_account');
                             } else if (popup_action) {
                                 currencies = popup_action === 'multi_account' ? GetCurrency.getCurrencies(landing_company) : getCurrencyChangeOptions(landing_company);
