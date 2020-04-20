@@ -712,7 +712,7 @@ var getPropertyValue = __webpack_require__(/*! ../utility */ "./src/javascript/_
 var currencies_config = {};
 
 var getTextFormat = function getTextFormat(number, currency) {
-    return currency + ' ' + addComma(number, getDecimalPlaces(currency), isCryptocurrency(currency));
+    return addComma(number, getDecimalPlaces(currency), isCryptocurrency(currency)) + ' ' + getCurrencyDisplayCode(currency);
 };
 
 var getNumberFormat = function getNumberFormat(number, currency) {
@@ -833,7 +833,7 @@ var getTransferFee = function getTransferFee(currency_from, currency_to) {
 // returns in a string format, e.g. '0.00000001'
 var getMinimumTransferFee = function getMinimumTransferFee(currency) {
     var decimals = getDecimalPlaces(currency);
-    return currency + ' ' + (1 / Math.pow(10, decimals)).toFixed(decimals); // we need toFixed() so that it doesn't display in scientific notation, e.g. 1e-8 for currencies with 8 decimal places
+    return (1 / Math.pow(10, decimals)).toFixed(decimals) + ' ' + getCurrencyDisplayCode(currency); // we need toFixed() so that it doesn't display in scientific notation, e.g. 1e-8 for currencies with 8 decimal places
 };
 
 // @param {String} limit = max|min
@@ -15391,7 +15391,7 @@ var AccountTransfer = function () {
                 setLoadingVisibility(0);
                 getElementById(messages.parent).setVisibility(1);
                 if (client_currency) {
-                    elementTextContent(getElementById('min_required_amount'), Currency.getCurrencyDisplayCode(client_currency) + ' ' + min_amount);
+                    elementTextContent(getElementById('min_required_amount'), Currency.getTextFormat(min_amount, client_currency));
                     getElementById(messages.balance).setVisibility(1);
                 }
                 getElementById(messages.deposit).setVisibility(1);
@@ -16447,9 +16447,7 @@ var refreshDropdown = __webpack_require__(/*! @binary-com/binary-style */ "./nod
 var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
-var getDecimalPlaces = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").getDecimalPlaces;
-var getNumberFormat = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").getNumberFormat;
-var getPaWithdrawalLimit = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js").getPaWithdrawalLimit;
+var Currency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js");
 var FormManager = __webpack_require__(/*! ../../common/form_manager */ "./src/javascript/app/common/form_manager.js");
 var Validation = __webpack_require__(/*! ../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
 var handleVerifyCode = __webpack_require__(/*! ../../common/verification_code */ "./src/javascript/app/common/verification_code.js").handleVerifyCode;
@@ -16537,7 +16535,7 @@ var PaymentAgentWithdraw = function () {
                     });
                     if (selected_pa) return selected_pa[limit + '_withdrawal'];
                 }
-                return getPaWithdrawalLimit(currency, limit);
+                return Currency.getPaWithdrawalLimit(currency, limit);
             };
 
             var min = function min() {
@@ -16555,8 +16553,8 @@ var PaymentAgentWithdraw = function () {
             var payment_ref_prefix = 'payment-ref-';
 
             $form.find('.wrapper-row-agent').find('label').append($('<span />', { text: '*', class: 'required_field_asterisk' }));
-            $form.find('label[for="txtAmount"]').text(localize('Amount in') + ' ' + currency);
-            FormManager.init(form_id, [{ selector: field_ids.txt_amount, validations: ['req', ['number', { type: 'float', decimals: getDecimalPlaces(currency), min: min, max: max }], ['custom', { func: function func() {
+            $form.find('label[for="txtAmount"]').text(localize('Amount in') + ' ' + Currency.getCurrencyDisplayCode(currency));
+            FormManager.init(form_id, [{ selector: field_ids.txt_amount, validations: ['req', ['number', { type: 'float', decimals: Currency.getDecimalPlaces(currency), min: min, max: max }], ['custom', { func: function func() {
                         return +Client.get('balance') >= +$txt_amount.val();
                     }, message: localize('Insufficient balance.') }]], request_field: 'amount' }, { selector: field_ids.txt_payment_ref, validations: [['length', { min: 0, max: 30 }], ['regular', { regex: /^[0-9A-Za-z .,'-]{0,30}$/, message: localize('Only letters, numbers, space, hyphen, period, comma, and apostrophe are allowed.') }]], request_field: 'description', value: function value() {
                     return $txt_payment_ref.val() ? payment_ref_prefix + $txt_payment_ref.val() : '';
@@ -16640,8 +16638,8 @@ var PaymentAgentWithdraw = function () {
                     setActiveView(view_ids.confirm);
 
                     $('#lblAgentName').text(agent_name);
-                    $('#lblCurrency').text(request.currency);
-                    $('#lblAmount').text(getNumberFormat(request.amount, request.currency));
+                    $('#lblCurrency').text(Currency.getCurrencyDisplayCode(request.currency));
+                    $('#lblAmount').text(Currency.getNumberFormat(request.amount, request.currency));
 
                     if (request.description) {
                         // This Regex operation gets everything after the prefix, and handles the prefix not existing
@@ -16649,7 +16647,7 @@ var PaymentAgentWithdraw = function () {
                         $('#lblPaymentRefContainer').setVisibility(1);
                     }
 
-                    FormManager.init(view_ids.confirm, [{ request_field: 'amount', value: getNumberFormat(request.amount, request.currency) }, { request_field: 'currency', value: request.currency }, { request_field: 'description', value: request.description }, { request_field: 'paymentagent_loginid', value: request.paymentagent_loginid }, { request_field: 'paymentagent_withdraw', value: 1 }], true);
+                    FormManager.init(view_ids.confirm, [{ request_field: 'amount', value: Currency.getNumberFormat(request.amount, request.currency) }, { request_field: 'currency', value: request.currency }, { request_field: 'description', value: request.description }, { request_field: 'paymentagent_loginid', value: request.paymentagent_loginid }, { request_field: 'paymentagent_withdraw', value: 1 }], true);
 
                     FormManager.handleSubmit({
                         form_selector: view_ids.confirm,
@@ -16664,7 +16662,7 @@ var PaymentAgentWithdraw = function () {
             case 1:
                 // withdrawal success
                 setActiveView(view_ids.success);
-                $('#successMessage').css('display', '').attr('class', 'success-msg').html($('<ul/>', { class: 'checked' }).append($('<li/>', { text: localize('Your request to withdraw [_1] [_2] from your account [_3] to Payment Agent [_4] account has been successfully processed.', [request.currency, getNumberFormat(request.amount, request.currency), Client.get('loginid'), agent_name]) })));
+                $('#successMessage').css('display', '').attr('class', 'success-msg').html($('<ul/>', { class: 'checked' }).append($('<li/>', { text: localize('Your request to withdraw [_1] [_2] from your account [_3] to Payment Agent [_4] account has been successfully processed.', [Currency.getNumberFormat(request.amount, request.currency), Currency.getCurrencyDisplayCode(request.currency), Client.get('loginid'), agent_name]) })));
 
                 // Set PA details.
                 if (agent_name && agent_website && agent_email && agent_telephone) {
@@ -28088,6 +28086,7 @@ module.exports = PaymentAgentTransfer;
 
 
 var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var getCurrencyDisplayCode = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js").getCurrencyDisplayCode;
 
 var PaymentAgentTransferUI = function () {
     var $paymentagent_transfer = void 0,
@@ -28139,15 +28138,15 @@ var PaymentAgentTransferUI = function () {
     };
 
     var updateFormView = function updateFormView(currency) {
-        $paymentagent_transfer.find('label[for="amount"]').text(localize('Amount') + ' ' + currency);
+        $paymentagent_transfer.find('label[for="amount"]').text(localize('Amount') + ' ' + getCurrencyDisplayCode(currency));
     };
 
     var updateConfirmView = function updateConfirmView(username, loginid, amount, currency) {
-        $confirm_transfer.find('#user_name').empty().text(username).end().find('#loginid').empty().text(loginid).end().find('#confirm_amount').empty().text(currency + ' ' + amount);
+        $confirm_transfer.find('#user_name').empty().text(username).end().find('#loginid').empty().text(loginid).end().find('#confirm_amount').empty().text(amount + ' ' + getCurrencyDisplayCode(currency));
     };
 
     var updateDoneView = function updateDoneView(from_id, to_id, amount, currency) {
-        var confirm_msg = localize('Your request to transfer [_1] [_2] from [_3] to [_4] has been successfully processed.', [amount, currency, from_id, to_id]);
+        var confirm_msg = localize('Your request to transfer [_1] [_2] from [_3] to [_4] has been successfully processed.', [amount, getCurrencyDisplayCode(currency), from_id, to_id]);
         $done_transfer.find(' > #confirm_msg').text(confirm_msg).setVisibility(1);
     };
 
@@ -28718,7 +28717,7 @@ module.exports = ProfitTable;
 var ProfitTable = __webpack_require__(/*! ./profit_table */ "./src/javascript/app/pages/user/account/profit_table/profit_table.js");
 var Client = __webpack_require__(/*! ../../../../base/client */ "./src/javascript/app/base/client.js");
 var Table = __webpack_require__(/*! ../../../../common/attach_dom/table */ "./src/javascript/app/common/attach_dom/table.js");
-var formatMoney = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var Currency = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js");
 var showTooltip = __webpack_require__(/*! ../../../../common/get_app_details */ "./src/javascript/app/common/get_app_details.js").showTooltip;
 var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 
@@ -28736,7 +28735,7 @@ var ProfitTableUI = function () {
 
         currency = Client.get('currency');
 
-        header[7] += currency ? ' (' + currency + ')' : '';
+        header[7] += currency ? ' (' + Currency.getCurrencyDisplayCode(currency) + ')' : '';
 
         var footer = [localize('Total Profit/Loss'), '', '', '', '', '', '', '', ''];
 
@@ -28762,7 +28761,7 @@ var ProfitTableUI = function () {
 
         var sub_total_type = total_profit >= 0 ? 'profit' : 'loss';
 
-        $('#pl-day-total').find(' > .pl').html(formatMoney(currency, Number(total_profit), true)).removeClass('profit loss').addClass(sub_total_type);
+        $('#pl-day-total').find(' > .pl').html(Currency.formatMoney(currency, Number(total_profit), true)).removeClass('profit loss').addClass(sub_total_type);
     };
 
     var createProfitTableRow = function createProfitTableRow(transaction) {
@@ -30257,7 +30256,7 @@ module.exports = Limits;
 var Client = __webpack_require__(/*! ../../../../../base/client */ "./src/javascript/app/base/client.js");
 var getMarkets = __webpack_require__(/*! ../../../../../common/active_symbols */ "./src/javascript/app/common/active_symbols.js").getMarkets;
 var Table = __webpack_require__(/*! ../../../../../common/attach_dom/table */ "./src/javascript/app/common/attach_dom/table.js");
-var formatMoney = __webpack_require__(/*! ../../../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var Currency = __webpack_require__(/*! ../../../../../common/currency */ "./src/javascript/app/common/currency.js");
 var elementInnerHtml = __webpack_require__(/*! ../../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementInnerHtml;
 var getElementById = __webpack_require__(/*! ../../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
@@ -30288,7 +30287,7 @@ var LimitsUI = function () {
         var currency = Client.get('currency');
 
         if (currency) {
-            $('.limit').append(' (' + currency + ')');
+            $('.limit').append(' (' + Currency.getCurrencyDisplayCode(currency) + ')');
         }
 
         var open_position = getElementById('open-positions');
@@ -30298,8 +30297,8 @@ var LimitsUI = function () {
         $client_limits = $('#client-limits');
 
         setText(open_position, 'open_positions' in limits ? limits.open_positions : '');
-        setText(account_balance, 'account_balance' in limits ? formatMoney(currency, limits.account_balance, 1) : '');
-        setText(payout, 'payout' in limits ? formatMoney(currency, limits.payout, 1) : '');
+        setText(account_balance, 'account_balance' in limits ? Currency.formatMoney(currency, limits.account_balance, 1) : '');
+        setText(payout, 'payout' in limits ? Currency.formatMoney(currency, limits.payout, 1) : '');
 
         if (limits.market_specific) {
             var markets = getMarkets(response_active_symbols.active_symbols);
@@ -30307,7 +30306,7 @@ var LimitsUI = function () {
                 appendRowTable(markets[market].name, '', 'auto', 'bold');
                 limits.market_specific[market].forEach(function (submarket) {
                     // submarket name could be (Commodities|Minor Pairs|Major Pairs|Smart FX|Stock Indices|Synthetic Indices)
-                    appendRowTable(localize(submarket.name /* localize-ignore */), submarket.turnover_limit !== 'null' ? formatMoney(currency, submarket.turnover_limit, 1) : 0, '25px', 'normal');
+                    appendRowTable(localize(submarket.name /* localize-ignore */), submarket.turnover_limit !== 'null' ? Currency.formatMoney(currency, submarket.turnover_limit, 1) : 0, '25px', 'normal');
                 });
             });
         } else {
@@ -31817,8 +31816,7 @@ module.exports = StatementInit;
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var Client = __webpack_require__(/*! ../../../../base/client */ "./src/javascript/app/base/client.js");
-var formatCurrency = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js").formatCurrency;
-var formatMoney = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var Currency = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js");
 var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var toTitleCase = __webpack_require__(/*! ../../../../../_common/string_util */ "./src/javascript/_common/string_util.js").toTitleCase;
 
@@ -31844,9 +31842,9 @@ var Statement = function () {
             action_type: statement.action_type,
             date: date_str + '\n' + time_str,
             ref: statement.transaction_id,
-            payout: isNaN(payout) || is_ico_bid || !+payout ? '-' : formatMoney(currency, payout, true),
-            amount: isNaN(amount) ? '-' : formatMoney(currency, amount, true),
-            balance: isNaN(balance) ? '-' : formatMoney(currency, balance, true),
+            payout: isNaN(payout) || is_ico_bid || !+payout ? '-' : Currency.formatMoney(currency, payout, true),
+            amount: isNaN(amount) ? '-' : Currency.formatMoney(currency, amount, true),
+            balance: isNaN(balance) ? '-' : Currency.formatMoney(currency, balance, true),
             desc: localize(statement.longcode.replace(/\n/g, '<br />') /* localize-ignore */), // untranslated desc
             id: statement.contract_id,
             app_id: statement.app_id
@@ -31857,14 +31855,14 @@ var Statement = function () {
         var columns = ['date', 'ref', 'payout', 'action', 'desc', 'amount', 'balance'];
         var header = localize(['Date', 'Reference ID', 'Potential Payout', 'Action', 'Description', 'Credit/Debit']);
         var currency = Client.get('currency');
-        header.push(localize('Balance') + (currency ? ' (' + currency + ')' : ''));
+        header.push(localize('Balance') + (currency ? ' (' + Currency.getCurrencyDisplayCode(currency) + ')' : ''));
         var sep = ',';
         var csv = [header.join(sep)];
         if (all_data && all_data.length > 0) {
             // eslint-disable-next-line no-control-regex
             csv = csv.concat(all_data.map(function (data) {
                 return columns.map(function (key) {
-                    return data[key] ? data[key].replace(formatCurrency(currency), '¥').replace(new RegExp(sep, 'g'), '').replace(new RegExp('\n|<br />', 'g'), ' ') : '';
+                    return data[key] ? data[key].replace(Currency.formatCurrency(currency), '¥').replace(new RegExp(sep, 'g'), '').replace(new RegExp('\n|<br />', 'g'), ' ') : '';
                 }).join(sep);
             }));
         }
@@ -33983,7 +33981,7 @@ var MetaTraderUI = function () {
             _$form.find('.binary-balance').html('' + Currency.formatMoney(client_currency, Client.get('balance')));
             _$form.find('.mt5-account').text('' + localize('[_1] Account [_2]', [accounts_info[acc_type].title, accounts_info[acc_type].info.display_login]));
             _$form.find('.mt5-balance').html('' + Currency.formatMoney(mt_currency, accounts_info[acc_type].info.balance));
-            _$form.find('label[for="txt_amount_deposit"]').append(' ' + client_currency);
+            _$form.find('label[for="txt_amount_deposit"]').append(' ' + Currency.getCurrencyDisplayCode(client_currency));
             _$form.find('label[for="txt_amount_withdrawal"]').append(' ' + mt_currency);
 
             var should_show_transfer_fee = client_currency !== mt_currency;
@@ -34329,7 +34327,7 @@ var MetaTraderUI = function () {
         var el_loading = getElementById('demo_topup_loading');
         var acc_type = Client.get('mt5_account');
         var is_demo = accounts_info[acc_type].is_demo;
-        var topup_btn_text = localize('Get [_1]', MetaTraderConfig.getCurrency(acc_type) + ' 10,000.00');
+        var topup_btn_text = localize('Get [_1]', '10,000.00 ' + MetaTraderConfig.getCurrency(acc_type));
 
         el_loading.setVisibility(0);
         el_demo_topup_btn.firstChild.innerText = topup_btn_text;
@@ -34356,7 +34354,7 @@ var MetaTraderUI = function () {
         el_demo_topup_btn.classList.add(is_enabled ? 'button' : 'button-disabled');
         el_demo_topup_btn.classList.remove(is_enabled ? 'button-disabled' : 'button');
 
-        el_demo_topup_info.innerText = is_enabled ? localize('Your demo account balance is currently [_1] or less. You may top up your account with an additional [_2].', [MetaTraderConfig.getCurrency(acc_type) + ' 1,000.00', MetaTraderConfig.getCurrency(acc_type) + ' 10,000.00']) : localize('You can top up your demo account with an additional [_1] if your balance is [_2] or less.', [MetaTraderConfig.getCurrency(acc_type) + ' 10,000.00', MetaTraderConfig.getCurrency(acc_type) + ' 1,000.00']);
+        el_demo_topup_info.innerText = is_enabled ? localize('Your demo account balance is currently [_1] or less. You may top up your account with an additional [_2].', ['1,000.00 ' + MetaTraderConfig.getCurrency(acc_type), '10,000.00 ' + MetaTraderConfig.getCurrency(acc_type)]) : localize('You can top up your demo account with an additional [_1] if your balance is [_2] or less.', ['10,000.00 ' + MetaTraderConfig.getCurrency(acc_type), '1,000.00 ' + MetaTraderConfig.getCurrency(acc_type)]);
     };
 
     var setTopupLoading = function setTopupLoading(is_loading) {
