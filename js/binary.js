@@ -31892,7 +31892,7 @@ module.exports = Statement;
 var Statement = __webpack_require__(/*! ./statement */ "./src/javascript/app/pages/user/account/statement/statement.js");
 var Client = __webpack_require__(/*! ../../../../base/client */ "./src/javascript/app/base/client.js");
 var Table = __webpack_require__(/*! ../../../../common/attach_dom/table */ "./src/javascript/app/common/attach_dom/table.js");
-var formatMoney = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var Currency = __webpack_require__(/*! ../../../../common/currency */ "./src/javascript/app/common/currency.js");
 var showTooltip = __webpack_require__(/*! ../../../../common/get_app_details */ "./src/javascript/app/common/get_app_details.js").showTooltip;
 var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var downloadCSV = __webpack_require__(/*! ../../../../../_common/utility */ "./src/javascript/_common/utility.js").downloadCSV;
@@ -31909,7 +31909,7 @@ var StatementUI = function () {
 
         var currency = Client.get('currency');
 
-        header[6] += currency ? ' (' + currency + ')' : '';
+        header[6] += currency ? ' (' + Currency.getCurrencyDisplayCode(currency) + ')' : '';
 
         var metadata = {
             id: table_id,
@@ -31970,9 +31970,9 @@ var StatementUI = function () {
             total_withdrawals = account_statistics.total_withdrawals;
 
 
-        $('#total_deposits').html(formatMoney(currency, total_deposits));
-        $('#total_withdrawals').html(formatMoney(currency, total_withdrawals));
-        $('#net_deposits').html(formatMoney(currency, +total_deposits - +total_withdrawals));
+        $('#total_deposits').html(Currency.formatMoney(currency, total_deposits));
+        $('#total_withdrawals').html(Currency.formatMoney(currency, total_withdrawals));
+        $('#net_deposits').html(Currency.formatMoney(currency, +total_deposits - +total_withdrawals));
         $('#account_statistics').setVisibility(1);
     };
 
