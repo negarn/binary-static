@@ -1540,6 +1540,11 @@ body #not_authenticated_financial ul.checked > li {
     margin-top: 0; }
   .lightbox #set_currency #fiat_currencies + div, .lightbox #set_currency #crypto_currencies + div {
     max-width: 30em; }
+  .lightbox #set_currency .section-divider {
+    margin-top: 0;
+    margin-bottom: 0; }
+  .lightbox #set_currency #submit_section {
+    margin-top: 20px; }
 
 .platforms-content h2 {
   line-height: 36px; }

@@ -15263,7 +15263,7 @@ var AccountTransfer = function () {
         });
 
         transfer_to_currency = getElementById('amount-add-on');
-        transfer_to_currency.textContent = Client.get('currency');
+        transfer_to_currency.textContent = Currency.getCurrencyDisplayCode(Client.get('currency'));
 
         if (Client.hasCurrencyType('crypto') && Client.hasCurrencyType('fiat')) {
             setTransferFeeAmount();
