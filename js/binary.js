@@ -30055,7 +30055,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var LimitsUI = __webpack_require__(/*! ./limits.ui */ "./src/javascript/app/pages/user/account/settings/limits/limits.ui.js");
 var Client = __webpack_require__(/*! ../../../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../../../base/socket */ "./src/javascript/app/base/socket.js");
-var formatMoney = __webpack_require__(/*! ../../../../../common/currency */ "./src/javascript/app/common/currency.js").formatMoney;
+var Currency = __webpack_require__(/*! ../../../../../common/currency */ "./src/javascript/app/common/currency.js");
 var elementTextContent = __webpack_require__(/*! ../../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementTextContent;
 var getElementById = __webpack_require__(/*! ../../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
@@ -30064,7 +30064,7 @@ var getPropertyValue = __webpack_require__(/*! ../../../../../../_common/utility
 var LimitsInit = function () {
     var limitsHandler = function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(response, response_active_symbols) {
-            var limits, el_withdraw_limit, response_get_account_status, el_withdrawn, currency, base_currency, should_convert, exchange_rate, response_exchange_rates, getCoversionText, days_limit, days_limit_converted, withdrawal_for_days, withdrawal_for_days_converted, withdrawal_since_inception, withdrawal_since_inception_converted, el_withdraw_limit_agg, remainder, remainder_converted;
+            var limits, el_withdraw_limit, response_get_account_status, el_withdrawn, currency, base_currency, should_convert, display_currency, exchange_rate, response_exchange_rates, getCoversionText, days_limit, days_limit_converted, withdrawal_for_days, withdrawal_for_days_converted, withdrawal_since_inception, withdrawal_since_inception_converted, el_withdraw_limit_agg, remainder, remainder_converted;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
@@ -30086,7 +30086,7 @@ var LimitsInit = function () {
                             }
 
                             elementTextContent(el_withdraw_limit, localize('Your account is fully authenticated and your withdrawal limits have been lifted.'));
-                            _context.next = 29;
+                            _context.next = 30;
                             break;
 
                         case 10:
@@ -30094,62 +30094,63 @@ var LimitsInit = function () {
                             currency = Client.get('currency') || Client.currentLandingCompany().legal_default_currency;
                             base_currency = 'USD';
                             should_convert = currency !== base_currency;
+                            display_currency = Currency.getCurrencyDisplayCode(currency);
                             exchange_rate = void 0;
 
                             if (!should_convert) {
-                                _context.next = 20;
+                                _context.next = 21;
                                 break;
                             }
 
-                            _context.next = 18;
+                            _context.next = 19;
                             return BinarySocket.send({ exchange_rates: 1, base_currency: base_currency });
 
-                        case 18:
+                        case 19:
                             response_exchange_rates = _context.sent;
 
                             exchange_rate = getPropertyValue(response_exchange_rates, ['exchange_rates', 'rates', currency]);
 
-                        case 20:
+                        case 21:
                             getCoversionText = function getCoversionText(amount) {
-                                return should_convert ? ' (' + amount + ' ' + base_currency + ')' : '';
+                                return should_convert ? ' (' + amount + ' ' + Currency.getCurrencyDisplayCode(base_currency) + ')' : '';
                             };
 
-                            days_limit = formatMoney(currency, limits.num_of_days_limit, 1);
-                            days_limit_converted = formatMoney(base_currency, limits.num_of_days_limit / exchange_rate, 1);
+                            days_limit = Currency.formatMoney(currency, limits.num_of_days_limit, 1);
+                            days_limit_converted = Currency.formatMoney(base_currency, limits.num_of_days_limit / exchange_rate, 1);
 
 
                             if (Client.get('landing_company_shortcode') === 'iom') {
-                                withdrawal_for_days = formatMoney(currency, limits.withdrawal_for_x_days_monetary, 1);
-                                withdrawal_for_days_converted = formatMoney(base_currency, limits.withdrawal_for_x_days_monetary / exchange_rate, 1);
+                                withdrawal_for_days = Currency.formatMoney(currency, limits.withdrawal_for_x_days_monetary, 1);
+                                withdrawal_for_days_converted = Currency.formatMoney(base_currency, limits.withdrawal_for_x_days_monetary / exchange_rate, 1);
 
 
-                                elementTextContent(el_withdraw_limit, localize('Your [_1] day withdrawal limit is currently [_2][_3].', [limits.num_of_days, days_limit + ' ' + currency, getCoversionText(days_limit_converted)]));
-                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2] in aggregate over the last [_3] days.', [withdrawal_for_days + ' ' + currency, getCoversionText(withdrawal_for_days_converted), limits.num_of_days]));
+                                elementTextContent(el_withdraw_limit, localize('Your [_1] day withdrawal limit is currently [_2][_3].', [limits.num_of_days, days_limit + ' ' + display_currency, getCoversionText(days_limit_converted)]));
+                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2] in aggregate over the last [_3] days.', [withdrawal_for_days + ' ' + display_currency, getCoversionText(withdrawal_for_days_converted), limits.num_of_days]));
                             } else {
-                                withdrawal_since_inception = formatMoney(currency, limits.withdrawal_since_inception_monetary, 1);
-                                withdrawal_since_inception_converted = formatMoney(base_currency, limits.withdrawal_since_inception_monetary / exchange_rate, 1);
+                                withdrawal_since_inception = Currency.formatMoney(currency, limits.withdrawal_since_inception_monetary, 1);
+                                withdrawal_since_inception_converted = Currency.formatMoney(base_currency, limits.withdrawal_since_inception_monetary / exchange_rate, 1);
 
 
-                                elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1][_2].', [days_limit + ' ' + currency, getCoversionText(days_limit_converted)]));
-                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2].', [withdrawal_since_inception + ' ' + currency, getCoversionText(withdrawal_since_inception_converted)]));
+                                elementTextContent(el_withdraw_limit, localize('Your withdrawal limit is [_1][_2].', [days_limit + ' ' + display_currency, getCoversionText(days_limit_converted)]));
+                                elementTextContent(el_withdrawn, localize('You have already withdrawn [_1][_2].', [withdrawal_since_inception + ' ' + display_currency, getCoversionText(withdrawal_since_inception_converted)]));
                             }
 
                             el_withdraw_limit_agg = getElementById('withdrawal-limit-aggregate');
-                            remainder = formatMoney(currency, limits.remainder, 1);
-                            remainder_converted = should_convert ? formatMoney(base_currency, limits.remainder / exchange_rate, 1) : '';
+                            remainder = Currency.formatMoney(currency, limits.remainder, 1);
+                            remainder_converted = should_convert ? Currency.formatMoney(base_currency, limits.remainder / exchange_rate, 1) : '';
 
 
-                            elementTextContent(el_withdraw_limit_agg, localize('Hence, your withdrawable balance is only up to [_1][_2], subject to your account’s available funds.', [remainder + ' ' + currency, getCoversionText(remainder_converted)]));
+                            elementTextContent(el_withdraw_limit_agg, localize('Hence, your withdrawable balance is only up to [_1][_2], subject to your account’s available funds.', [remainder + ' ' + display_currency, getCoversionText(remainder_converted)]));
 
                             if (should_convert) {
                                 $('#withdrawal-limits').setVisibility(1);
                             }
 
-                        case 29:
+                        case 30:
 
                             $('#loading').remove();
 
-                        case 30:
+                        case 31:
                         case 'end':
                             return _context.stop();
                     }
