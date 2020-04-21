@@ -2717,7 +2717,8 @@ tbody#instruments > tr > td {
                   align-items: center;
           -webkit-box-pack: center;
               -ms-flex-pack: center;
-                  justify-content: center; }
+                  justify-content: center;
+          margin-right: 5px; }
         .transfer_form__right_pane__input_group__prefix input {
           margin: 0;
           padding: 0 0 0 5px;

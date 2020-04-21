@@ -35567,12 +35567,13 @@ var SetCurrency = function () {
                         }
                     } else if (/[set|change]_currency/.test(popup_action)) {
                         $('.select_currency').setVisibility(0);
-                        $('#congratulations_message').html(popup_action === 'set_currency' ? localize('You have successfully set your account currency to [_1].', ['<strong>' + previous_currency + '</strong>']) : localize('You have successfully changed your account currency from [_1] to [_2].', ['<strong>' + previous_currency + '</strong>', '<strong>' + selected_currency + '</strong>']));
+                        $('#congratulations_message').html(popup_action === 'set_currency' ? localize('You have successfully set your account currency to [_1].', ['<strong>' + selected_currency + '</strong>']) : localize('You have successfully changed your account currency from [_1] to [_2].', ['<strong>' + previous_currency + '</strong>', '<strong>' + selected_currency + '</strong>']));
                         $('.btn_cancel, #deposit_btn, #set_currency, #show_new_account').setVisibility(1);
                         $('#' + Client.get('loginid')).find('td[datath="Currency"]').text(Client.get('currency'));
                     } else if (popup_action === 'multi_account') {
                         var new_account = response_c.new_account_real;
                         localStorage.setItem('is_new_account', 1);
+                        cleanupPopup();
                         // add new account to store and refresh the page
                         Client.processNewAccount({
                             email: Client.get('email'),
