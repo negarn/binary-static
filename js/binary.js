@@ -35344,6 +35344,7 @@ var SetCurrency = function () {
                     switch (_context.prev = _context.next) {
                         case 0:
                             is_new_account = localStorage.getItem('is_new_account');
+                            localStorage.removeItem('is_new_account');
                             el = is_new_account ? 'show' : 'hide';
 
                             $('#' + el + '_new_account').setVisibility(1);
@@ -35352,10 +35353,10 @@ var SetCurrency = function () {
 
                             $('#upgrade_to_mf').setVisibility(can_upgrade && type === 'financial');
 
-                            _context.next = 7;
+                            _context.next = 8;
                             return BinarySocket.wait('landing_company');
 
-                        case 7:
+                        case 8:
                             landing_company = _context.sent.landing_company;
                             $currency_list = $('.currency_list');
                             $error = $('#set_currency').find('.error-msg');
@@ -35364,7 +35365,7 @@ var SetCurrency = function () {
                             popup_action = localStorage.getItem('popup_action');
 
                             if (!(Client.get('currency') || popup_action)) {
-                                _context.next = 14;
+                                _context.next = 15;
                                 break;
                             }
 
@@ -35374,7 +35375,6 @@ var SetCurrency = function () {
                                 $('#deposit_btn').on('click', function () {
                                     BinaryPjax.load(Url.urlFor('cashier/forwardws') + '?action=deposit');
                                 }).setVisibility(1);
-                                localStorage.removeItem('is_new_account');
                             } else if (popup_action) {
                                 currencies = /multi_account|set_currency/.test(popup_action) ? GetCurrency.getCurrencies(landing_company) : getCurrencyChangeOptions(landing_company);
 
@@ -35399,7 +35399,7 @@ var SetCurrency = function () {
                             }
                             return _context.abrupt('return');
 
-                        case 14:
+                        case 15:
 
                             BinarySocket.wait('payout_currencies', 'landing_company').then(function () {
                                 var currencies = State.getResponse('payout_currencies');
@@ -35413,7 +35413,7 @@ var SetCurrency = function () {
                                 onSelection($currency_list, $error, true);
                             });
 
-                        case 15:
+                        case 16:
                         case 'end':
                             return _context.stop();
                     }
@@ -35542,7 +35542,6 @@ var SetCurrency = function () {
                         $error.text(response_c.error.message).setVisibility(1);
                     }
                 } else {
-                    localStorage.removeItem('is_new_account');
                     var previous_currency = Client.get('currency');
                     Client.set('currency', selected_currency);
                     BinarySocket.send({ balance: 1 });
@@ -35566,10 +35565,12 @@ var SetCurrency = function () {
                             redirect_url = Url.urlFor('cashier');
                         }
                     } else if (/[set|change]_currency/.test(popup_action)) {
+                        var previous_currency_display = Currency.getCurrencyDisplayCode(previous_currency);
+                        var selected_currency_display = Currency.getCurrencyDisplayCode(selected_currency);
                         $('.select_currency').setVisibility(0);
-                        $('#congratulations_message').html(popup_action === 'set_currency' ? localize('You have successfully set your account currency to [_1].', ['<strong>' + selected_currency + '</strong>']) : localize('You have successfully changed your account currency from [_1] to [_2].', ['<strong>' + previous_currency + '</strong>', '<strong>' + selected_currency + '</strong>']));
+                        $('#congratulations_message').html(popup_action === 'set_currency' ? localize('You have successfully set your account currency to [_1].', ['<strong>' + selected_currency_display + '</strong>']) : localize('You have successfully changed your account currency from [_1] to [_2].', ['<strong>' + previous_currency_display + '</strong>', '<strong>' + selected_currency_display + '</strong>']));
                         $('.btn_cancel, #deposit_btn, #set_currency, #show_new_account').setVisibility(1);
-                        $('#' + Client.get('loginid')).find('td[datath="Currency"]').text(Client.get('currency'));
+                        $('#' + Client.get('loginid')).find('td[datath="Currency"]').text(selected_currency_display);
                     } else if (popup_action === 'multi_account') {
                         var new_account = response_c.new_account_real;
                         localStorage.setItem('is_new_account', 1);
@@ -35887,6 +35888,7 @@ var Reset = __webpack_require__(/*! ../../trade/reset */ "./src/javascript/app/p
 var TickDisplay = __webpack_require__(/*! ../../trade/tick_trade */ "./src/javascript/app/pages/trade/tick_trade.js");
 var Clock = __webpack_require__(/*! ../../../base/clock */ "./src/javascript/app/base/clock.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
+var getCurrencyDisplayCode = __webpack_require__(/*! ../../../common/currency */ "./src/javascript/app/common/currency.js").getCurrencyDisplayCode;
 var changePocNumbersToString = __webpack_require__(/*! ../../../common/request_middleware */ "./src/javascript/app/common/request_middleware.js").changePocNumbersToString;
 var getElementById = __webpack_require__(/*! ../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
@@ -36662,7 +36664,7 @@ var ViewPopup = function () {
         sellSetVisibility(false);
         if (is_sell_clicked) {
             var formatted_sell_price = formatMoney(contract.currency, response.sell.sold_for, true);
-            containerSetText('contract_sell_message', localize('You have sold this contract at [_1] [_2]', [contract.currency, formatted_sell_price]) + '\n                <br />\n                ' + localize('Your transaction reference number is [_1]', response.sell.transaction_id));
+            containerSetText('contract_sell_message', localize('You have sold this contract at [_1] [_2]', [getCurrencyDisplayCode(contract.currency), formatted_sell_price]) + '\n                <br />\n                ' + localize('Your transaction reference number is [_1]', response.sell.transaction_id));
         }
         getContract('no-subscribe');
     };
