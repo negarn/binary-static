@@ -2711,20 +2711,19 @@ tbody#instruments > tr > td {
           display: -ms-inline-flexbox;
           display: inline-flex;
           height: 28px;
-          width: 46px;
+          width: 50px;
           -webkit-box-align: center;
               -ms-flex-align: center;
                   align-items: center;
           -webkit-box-pack: center;
               -ms-flex-pack: center;
-                  justify-content: center;
-          margin-right: 5px; }
+                  justify-content: center; }
         .transfer_form__right_pane__input_group__prefix input {
           margin: 0;
           padding: 0 0 0 5px;
           height: 28px;
           max-width: 100%;
-          width: 232px;
+          width: 230px;
           -webkit-box-sizing: border-box;
                   box-sizing: border-box; }
       .transfer_form__right_pane__input_group .select {
