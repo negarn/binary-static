@@ -9255,6 +9255,7 @@ var ThirdPartyLinks = function () {
         return !!destination.host && !new RegExp('^.*\\.' + (getCurrentBinaryDomain() || 'binary\\.com') + '$').test(destination.host) // destination host is not binary subdomain
         && !new RegExp('^.*\\.binary\\.bot$').test(destination.host) // destination host is not binary subdomain
         && !/www.(betonmarkets|xodds).com/.test(destination.host) // destination host is not binary old domain
+        && !/deriv.(app|com)/.test(destination.host) // destination host is not deriv
         && window.location.host !== destination.host;
     };
 
@@ -30388,6 +30389,7 @@ var PersonalDetails = function () {
         is_virtual = void 0,
         is_fully_authenticated = void 0,
         residence = void 0,
+        obj_current_residence = void 0,
         get_settings_data = void 0,
         has_changeable_fields = void 0,
         changeable_fields = void 0;
@@ -30395,8 +30397,7 @@ var PersonalDetails = function () {
     var init = function init() {
         editable_fields = {};
         get_settings_data = {};
-        // TODO: remove tax_id and tax_residence when api is fixed.
-        changeable_fields = ['tax_identification_number', 'tax_residence'];
+        changeable_fields = [];
         is_virtual = Client.get('is_virtual');
         residence = Client.get('residence');
     };
@@ -30421,6 +30422,12 @@ var PersonalDetails = function () {
             $tax_information_info.setVisibility(0); // hide tax info
             $tax_info_declaration.setVisibility(0); // hide tax info declaration
         }
+    };
+
+    var showHideTaxForm = function showHideTaxForm(get_settings) {
+        var should_show_tax = isTaxEditable();
+        var has_set_tax = get_settings.tax_identification_number || get_settings.tax_residence;
+        CommonFunctions.getElementById('tax_information_form').setVisibility(should_show_tax || has_set_tax);
     };
 
     var showHideMissingDetails = function showHideMissingDetails() {
@@ -30522,14 +30529,15 @@ var PersonalDetails = function () {
 
         if (has_changeable_fields) {
             displayChangeableFields(data);
-            CommonFunctions.getElementById('tax_information_form').setVisibility(1);
             CommonFunctions.getElementById('address_form').setVisibility(1);
             showHideTaxMessage();
+            showHideTaxForm(get_settings);
         } else if (is_virtual) {
             $(real_acc_elements).remove();
         } else {
             $(real_acc_elements).setVisibility(1);
             showHideTaxMessage();
+            showHideTaxForm(get_settings);
         }
 
         $(form_id).setVisibility(1);
@@ -30545,11 +30553,14 @@ var PersonalDetails = function () {
         showHideMissingDetails();
     };
 
-    var show_label_if_any_value = ['account_opening_reason', 'citizen', 'place_of_birth', 'tax_residence', 'tax_identification_number', 'date_of_birth', 'first_name', 'last_name', 'salutation'];
+    var show_label_if_any_value = ['account_opening_reason', 'citizen', 'place_of_birth', 'date_of_birth', 'first_name', 'last_name', 'salutation'];
     var force_update_fields = ['tax_residence', 'tax_identification_number'];
 
     var displayGetSettingsData = function displayGetSettingsData(get_settings) {
         Object.keys(get_settings).forEach(function (key) {
+            if (!isTaxEditable()) {
+                show_label_if_any_value.push('tax_residence', 'tax_identification_number');
+            }
             // If there are changeable fields, show input instead of labels instead.
             var has_label = show_label_if_any_value.includes(key) && (has_changeable_fields ? !changeable_fields.includes(key) : true);
             var force_update = force_update_fields.concat(changeable_fields).includes(key);
@@ -30629,6 +30640,21 @@ var PersonalDetails = function () {
         });
     };
 
+    var isForMtTax = function isForMtTax() {
+        var mt_acct_type = getHashValue('mt5_redirect');
+        // demo and volatility mt accounts do not require tax info
+        return (/real/.test(mt_acct_type) && mt_acct_type.split('_').length > 2
+        );
+    };
+
+    var isTaxReq = function isTaxReq() {
+        return Client.shouldCompleteTax() || 'tin_format' in obj_current_residence || isForMtTax() && +State.getResponse('landing_company.config.tax_details_required') === 1;
+    };
+
+    var isTaxEditable = function isTaxEditable() {
+        return isTaxReq() || /tax_identification_number|tax_residence/.test(changeable_fields);
+    };
+
     var getValidations = function getValidations() {
         var validations = void 0;
         if (is_virtual) {
@@ -30638,12 +30664,30 @@ var PersonalDetails = function () {
             var is_gaming = Client.isAccountOfType('gaming');
             var mt_acct_type = getHashValue('mt5_redirect');
             var is_for_mt_citizen = !!mt_acct_type; // all mt account opening requires citizen
-            var is_for_mt_tax = /real/.test(mt_acct_type) && mt_acct_type.split('_').length > 2; // demo and volatility mt accounts do not require tax info
-            var is_tax_req = is_financial || is_for_mt_tax && +State.getResponse('landing_company.config.tax_details_required') === 1;
+            var is_tax_req = isTaxReq();
+            var tax_regex = (obj_current_residence.tin_format || []).map(function (format) {
+                return new RegExp(format);
+            });
 
-            validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
+            var $tax_identification_number = $('#tax_identification_number');
+
+            validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [residence === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
                         return $('#phone').val().replace(/\D/g, '');
-                    } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#date_of_birth', validations: ['req'] }, { selector: '#tax_residence', validations: is_tax_req ? ['req'] : '' }, { selector: '#citizen', validations: is_financial || is_gaming || is_for_mt_citizen ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
+                    } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#date_of_birth', validations: ['req'] }, { selector: '#tax_residence', validations: is_tax_req ? ['req'] : '' }, {
+                selector: '#tax_identification_number',
+                validations: [is_tax_req ? 'req' : undefined, 'tax_id', ['length', { min: is_tax_req ? 1 : 0, max: 20 }], tax_regex.length ? ['custom', {
+                    func: function func() {
+                        var tax_id = $tax_identification_number.val();
+                        // as long as tax id value matches some acceptable regex from the tax_regex array
+                        return tax_regex.find(function (regex) {
+                            return regex.test(tax_id);
+                        });
+                    },
+                    message: localize('Invalid tax identification number.')
+                }] : undefined].filter(function (item) {
+                    return item;
+                })
+            }, { selector: '#citizen', validations: is_financial || is_gaming || is_for_mt_citizen ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
 
             // Push validations for changeable fields.
             changeable_fields.forEach(function (key) {
@@ -30665,13 +30709,6 @@ var PersonalDetails = function () {
                     });
                 }
             });
-
-            var tax_id_validation = { selector: '#tax_identification_number', validations: ['tax_id', ['length', { min: 0, max: 20 }]] };
-            if (is_tax_req) {
-                tax_id_validation.validations[1][1].min = 1;
-                tax_id_validation.validations.unshift('req');
-            }
-            validations.push(tax_id_validation);
         }
         return validations;
     };
@@ -30748,12 +30785,15 @@ var PersonalDetails = function () {
                         value: res.value,
                         is_disabled: res.disabled
                     }));
+                    if (res.value === residence) {
+                        obj_current_residence = res;
+                    }
                 });
                 if (residence) {
                     var $tax_residence = $('#tax_residence');
                     $tax_residence.html($options_with_disabled.html()).promise().done(function () {
                         setTimeout(function () {
-                            var residence_value = get_settings_data.tax_residence ? get_settings_data.tax_residence.split(',') : Client.get('residence') || '';
+                            var residence_value = get_settings_data.tax_residence ? get_settings_data.tax_residence.split(',') : residence || '';
                             $tax_residence.select2().val(residence_value).trigger('change').setVisibility(1);
                         }, 500);
                     });
@@ -32947,6 +32987,11 @@ var MetaTraderConfig = function () {
                     }
                 });
             },
+            onError: function onError(response, $form, acc_type) {
+                if (response.error.code === 'TINWrongFormat') {
+                    $form.find('#msg_form').html(localize('Your tax number is not in the correct format. Please [_1]update your tax number[_2] correctly. If you need help, please [_3]contact us[_4].', ['<a href=\'' + urlFor('user/settings/detailsws') + '#mt5_redirect=' + acc_type + '\'>', '</a>', '<a href=\'' + urlFor('contact') + '\'>', '</a>']));
+                }
+            },
             onSuccess: function onSuccess(response) {
                 GTM.mt5NewAccount(response);
 
@@ -33513,7 +33558,7 @@ var MetaTrader = function () {
 
                                         MetaTraderUI.displayFormMessage(response.error.message, action);
                                         if (typeof actions_info[action].onError === 'function') {
-                                            actions_info[action].onError(response, MetaTraderUI.$form());
+                                            actions_info[action].onError(response, MetaTraderUI.$form(), acc_type);
                                         }
                                         if (/^MT5(Deposit|Withdrawal)Error$/.test(response.error.code)) {
                                             getExchangeRates();
