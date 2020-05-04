@@ -1549,21 +1549,6 @@ body #not_authenticated_financial ul.checked > li {
 .platforms-content h2 {
   line-height: 36px; }
 
-.platforms-content .beta {
-  position: relative;
-  top: -15px;
-  left: 5px;
-  background-color: #2a3052;
-  border-radius: 10px;
-  color: #fff;
-  display: inline-block;
-  font-size: 10px;
-  font-weight: 400;
-  height: 16px;
-  line-height: 1.8;
-  text-align: center;
-  width: 34px; }
-
 .platforms-content .new:after {
   content: url("../images/pages/platforms/new_badge.svg");
   position: relative;

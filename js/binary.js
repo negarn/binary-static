@@ -30392,7 +30392,8 @@ var PersonalDetails = function () {
         obj_current_residence = void 0,
         get_settings_data = void 0,
         has_changeable_fields = void 0,
-        changeable_fields = void 0;
+        changeable_fields = void 0,
+        $tax_residence = void 0;
 
     var init = function init() {
         editable_fields = {};
@@ -30657,6 +30658,15 @@ var PersonalDetails = function () {
         return isTaxReq() || has_changeable_fields && /tax_identification_number|tax_residence/.test(changeable_fields);
     }; // only allow changing if not fully authenticated
 
+    var getTaxRegex = function getTaxRegex(residence_list, tax_residence) {
+        var tin_format = (residence_list.find(function (res) {
+            return res.value === tax_residence;
+        }) || []).tin_format;
+        return (tin_format || []).map(function (format) {
+            return new RegExp(format);
+        });
+    };
+
     var getValidations = function getValidations() {
         var validations = void 0;
         if (is_virtual) {
@@ -30667,26 +30677,30 @@ var PersonalDetails = function () {
             var mt_acct_type = getHashValue('mt5_redirect');
             var is_for_mt_citizen = !!mt_acct_type; // all mt account opening requires citizen
             var is_tax_req = isTaxReq();
-            var tax_regex = (obj_current_residence.tin_format || []).map(function (format) {
-                return new RegExp(format);
-            });
+            var residence_list = State.getResponse('residence_list');
 
             var $tax_identification_number = $('#tax_identification_number');
 
             validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [residence === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
                         return $('#phone').val().replace(/\D/g, '');
-                    } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#date_of_birth', validations: ['req'] }, { selector: '#tax_residence', validations: is_tax_req ? ['req'] : '' }, {
+                    } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#date_of_birth', validations: ['req'] },
+
+            // recheck tax_identiciation_number after tax_residence is selected as the validation regex is taken from API based on tax residence
+            { selector: '#tax_residence', validations: is_tax_req ? ['req'] : '', re_check_field: '#tax_identification_number' }, {
                 selector: '#tax_identification_number',
-                validations: [is_tax_req ? 'req' : undefined, 'tax_id', ['length', { min: is_tax_req ? 1 : 0, max: 20 }], tax_regex.length ? ['custom', {
+                validations: [is_tax_req ? 'req' : undefined, 'tax_id', ['length', { min: is_tax_req ? 1 : 0, max: 20 }], ['custom', {
                     func: function func() {
+                        // get the tax id regex validation of currently selected tax residence
+                        var tax_regex = getTaxRegex(residence_list, $tax_residence.val());
                         var tax_id = $tax_identification_number.val();
-                        // as long as tax id value matches some acceptable regex from the tax_regex array
-                        return tax_regex.find(function (regex) {
+                        // return true if no validation is needed, or
+                        // tax id value matches some acceptable regex from the tax_regex array
+                        return !tax_regex.length || tax_regex.find(function (regex) {
                             return regex.test(tax_id);
                         });
                     },
                     message: localize('Invalid tax identification number.')
-                }] : undefined].filter(function (item) {
+                }]].filter(function (item) {
                     return item;
                 })
             }, { selector: '#citizen', validations: is_financial || is_gaming || is_for_mt_citizen ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
@@ -30792,7 +30806,7 @@ var PersonalDetails = function () {
                     }
                 });
                 if (residence) {
-                    var $tax_residence = $('#tax_residence');
+                    $tax_residence = $('#tax_residence');
                     $tax_residence.html($options_with_disabled.html()).promise().done(function () {
                         setTimeout(function () {
                             var residence_value = get_settings_data.tax_residence ? get_settings_data.tax_residence.split(',') : residence || '';
@@ -32698,29 +32712,29 @@ var MetaTraderConfig = function () {
             var standard_config = {
                 account_type: 'standard',
                 leverage: 1000,
-                short_title: localize('Standard')
+                short_title: localize('Financial')
             };
             var advanced_config = {
                 account_type: 'advanced',
                 leverage: 100,
-                short_title: localize('Advanced')
+                short_title: localize('Financial STP')
             };
             var volatility_config = {
                 account_type: '',
                 leverage: 500,
-                short_title: localize('Synthetic Indices')
+                short_title: localize('Synthetic')
             };
 
             return {
                 gaming: {
-                    demo_volatility: { mt5_account_type: volatility_config.account_type, max_leverage: volatility_config.leverage, title: localize('Demo Synthetic Indices'), short_title: volatility_config.short_title },
-                    real_volatility: { mt5_account_type: volatility_config.account_type, max_leverage: volatility_config.leverage, title: localize('Real Synthetic Indices'), short_title: volatility_config.short_title }
+                    demo_volatility: { mt5_account_type: volatility_config.account_type, max_leverage: volatility_config.leverage, title: localize('Demo Synthetic'), short_title: volatility_config.short_title },
+                    real_volatility: { mt5_account_type: volatility_config.account_type, max_leverage: volatility_config.leverage, title: localize('Real Synthetic'), short_title: volatility_config.short_title }
                 },
                 financial: {
-                    demo_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Demo Standard'), short_title: standard_config.short_title },
-                    real_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Real Standard'), short_title: standard_config.short_title },
-                    demo_advanced: { mt5_account_type: advanced_config.account_type, max_leverage: advanced_config.leverage, title: localize('Demo Advanced'), short_title: advanced_config.short_title },
-                    real_advanced: { mt5_account_type: advanced_config.account_type, max_leverage: advanced_config.leverage, title: localize('Real Advanced'), short_title: advanced_config.short_title }
+                    demo_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Demo Financial'), short_title: standard_config.short_title },
+                    real_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Real Financial'), short_title: standard_config.short_title },
+                    demo_advanced: { mt5_account_type: advanced_config.account_type, max_leverage: advanced_config.leverage, title: localize('Demo Financial STP'), short_title: advanced_config.short_title },
+                    real_advanced: { mt5_account_type: advanced_config.account_type, max_leverage: advanced_config.leverage, title: localize('Real Financial STP'), short_title: advanced_config.short_title }
                 }
             };
         };
@@ -32742,14 +32756,14 @@ var MetaTraderConfig = function () {
             var standard_config = {
                 account_type: 'standard',
                 leverage: 30,
-                short_title: localize('Standard')
+                short_title: localize('Financial')
             };
 
             return {
                 // for financial mt company with shortcode maltainvest, only offer standard account with different leverage
                 financial: {
-                    demo_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Demo Standard'), short_title: standard_config.short_title },
-                    real_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Real Standard'), short_title: standard_config.short_title }
+                    demo_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Demo Financial'), short_title: standard_config.short_title },
+                    real_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Real Financial'), short_title: standard_config.short_title }
                 },
                 gaming: {
                     demo_volatility: configMtCompanies.get().gaming.demo_volatility,
