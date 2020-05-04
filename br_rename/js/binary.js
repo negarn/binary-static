@@ -16077,7 +16077,7 @@ var DepositWithdraw = function () {
 
     var onLoad = function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var response_get_account_status, experimental_suspended, currency_config, promises;
+            var response_get_account_status, account_currency_config, currency_config, promises;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
@@ -16125,9 +16125,9 @@ var DepositWithdraw = function () {
                             return _context.abrupt('return');
 
                         case 15:
-                            experimental_suspended = getPropertyValue(response_get_account_status.get_account_status, ['experimental_suspended', Client.get('currency')]) || {};
+                            account_currency_config = getPropertyValue(response_get_account_status.get_account_status, ['currency_config', Client.get('currency')]) || {};
 
-                            if (!(cashier_type === 'deposit' && experimental_suspended.is_deposit_suspended || cashier_type === 'withdraw' && experimental_suspended.is_withdrawal_suspended)) {
+                            if (!(cashier_type === 'deposit' && account_currency_config.is_deposit_suspended || cashier_type === 'withdraw' && account_currency_config.is_withdrawal_suspended)) {
                                 _context.next = 19;
                                 break;
                             }
@@ -16724,8 +16724,8 @@ var PaymentAgentWithdraw = function () {
                 return;
             }
             currency = Client.get('currency');
-            var experimental_suspended = getPropertyValue(get_account_status, ['experimental_suspended', currency]) || {};
-            if (experimental_suspended.is_withdrawal_suspended) {
+            var account_currency_config = getPropertyValue(get_account_status, ['currency_config', currency]) || {};
+            if (account_currency_config.is_withdrawal_suspended) {
                 // Experimental currency is suspended
                 showPageError(localize('Please note that the selected currency is allowed for limited accounts only.'));
                 return;
