@@ -15817,6 +15817,72 @@ module.exports = Cashier;
 
 /***/ }),
 
+/***/ "./src/javascript/app/pages/cashier/common.js":
+/*!****************************************************!*\
+  !*** ./src/javascript/app/pages/cashier/common.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
+var getCurrencies = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").getCurrencies;
+var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
+
+// to maintain readability of the four different use cases,
+// this function is writing everything out instead of combining
+// and shortening the conditions to return true/false
+// so please don't refactor this as it'll be an even more confusing function
+var isDepositWithdrawalLocked = function isDepositWithdrawalLocked(get_account_status, cashier_type, showError) {
+    var account_currency_config = getPropertyValue(get_account_status.get_account_status, ['currency_config', Client.get('currency')]) || {};
+    var currency_config = getPropertyValue(getCurrencies(), [Client.get('currency')]) || {};
+    var account_cur_is_suspended = cashier_type === 'deposit' ? account_currency_config.is_deposit_suspended : account_currency_config.is_withdrawal_suspended;
+    var website_cur_is_suspended = cashier_type === 'deposit' ? currency_config.is_deposit_suspended : currency_config.is_withdrawal_suspended;
+    var account_cur_is_defined = cashier_type === 'deposit' ? 'is_deposit_suspended' in account_currency_config : 'is_withdrawal_suspended' in account_currency_config;
+
+    // account_cur_is_suspended 0 || undefined
+    // website_cur_is_suspended 0
+    // no error
+    if (!account_cur_is_suspended && !website_cur_is_suspended) {
+        return false;
+    }
+
+    // account_cur_is_suspended 0 && !undefined
+    // website_cur_is_suspended 1
+    // no error (e.g. USDT might be disabled in website but whitelisted for current client)
+    if (!account_cur_is_suspended && account_cur_is_defined && website_cur_is_suspended) {
+        return false;
+    }
+
+    // account_cur_is_suspended 1
+    // website_cur_is_suspended 0
+    // error: experimental currency is suspended
+    if (account_cur_is_suspended && !website_cur_is_suspended) {
+        showError('custom_error', localize('Please note that the selected currency is allowed for limited accounts only.'));
+        return true;
+    }
+
+    // account_cur_is_suspended 1 || undefined
+    // website_cur_is_suspended 1
+    // error: currency deposit/withdrawal is suspended
+    if ((account_cur_is_suspended || !account_cur_is_defined) && website_cur_is_suspended) {
+        showError('custom_error', cashier_type === 'deposit' ? localize('Sorry, deposits for this currency are currently disabled.') : localize('Sorry, withdrawals for this currency are currently disabled.'));
+        return true;
+    }
+
+    // default no error
+    return false;
+};
+
+module.exports = {
+    isDepositWithdrawalLocked: isDepositWithdrawalLocked
+};
+
+/***/ }),
+
 /***/ "./src/javascript/app/pages/cashier/deposit_withdraw.js":
 /*!**************************************************************!*\
   !*** ./src/javascript/app/pages/cashier/deposit_withdraw.js ***!
@@ -15829,6 +15895,7 @@ module.exports = Cashier;
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+var isDepositWithdrawalLocked = __webpack_require__(/*! ./common */ "./src/javascript/app/pages/cashier/common.js").isDepositWithdrawalLocked;
 var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -15837,12 +15904,10 @@ var Currency = __webpack_require__(/*! ../../common/currency */ "./src/javascrip
 var FormManager = __webpack_require__(/*! ../../common/form_manager */ "./src/javascript/app/common/form_manager.js");
 var validEmailToken = __webpack_require__(/*! ../../common/form_validation */ "./src/javascript/app/common/form_validation.js").validEmailToken;
 var handleVerifyCode = __webpack_require__(/*! ../../common/verification_code */ "./src/javascript/app/common/verification_code.js").handleVerifyCode;
-var getCurrencies = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").getCurrencies;
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var Url = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js");
 var template = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").template;
-var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 var isEmptyObject = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
 var getCurrentBinaryDomain = __webpack_require__(/*! ../../../config */ "./src/javascript/config.js").getCurrentBinaryDomain;
 var isBinaryApp = __webpack_require__(/*! ../../../config */ "./src/javascript/config.js").isBinaryApp;
@@ -16077,7 +16142,7 @@ var DepositWithdraw = function () {
 
     var onLoad = function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var response_get_account_status, account_currency_config, currency_config, promises;
+            var response_get_account_status, promises;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
@@ -16112,7 +16177,7 @@ var DepositWithdraw = function () {
                             response_get_account_status = State.get(['response', 'get_account_status']);
 
                             if (response_get_account_status.error) {
-                                _context.next = 19;
+                                _context.next = 15;
                                 break;
                             }
 
@@ -16125,54 +16190,18 @@ var DepositWithdraw = function () {
                             return _context.abrupt('return');
 
                         case 15:
-                            account_currency_config = getPropertyValue(response_get_account_status.get_account_status, ['currency_config', Client.get('currency')]) || {};
+                            _context.next = 17;
+                            return BinarySocket.wait('website_status');
 
-                            if (!(cashier_type === 'deposit' && account_currency_config.is_deposit_suspended || cashier_type === 'withdraw' && account_currency_config.is_withdrawal_suspended)) {
+                        case 17:
+                            if (!isDepositWithdrawalLocked(response_get_account_status, cashier_type, showError)) {
                                 _context.next = 19;
                                 break;
                             }
 
-                            // Experimental currency is suspended
-                            showError('custom_error', localize('Please note that the selected currency is allowed for limited accounts only.'));
                             return _context.abrupt('return');
 
                         case 19:
-                            _context.next = 21;
-                            return BinarySocket.wait('website_status');
-
-                        case 21:
-                            currency_config = getPropertyValue(getCurrencies(), [Client.get('currency')]) || {};
-
-                            if (!(cashier_type === 'deposit')) {
-                                _context.next = 28;
-                                break;
-                            }
-
-                            if (!currency_config.is_deposit_suspended) {
-                                _context.next = 26;
-                                break;
-                            }
-
-                            // Currency deposit is suspended
-                            showError('custom_error', localize('Sorry, deposits for this currency are currently disabled.'));
-                            return _context.abrupt('return');
-
-                        case 26:
-                            _context.next = 31;
-                            break;
-
-                        case 28:
-                            if (!currency_config.is_withdrawal_suspended) {
-                                _context.next = 31;
-                                break;
-                            }
-
-                            // type is withdrawal
-                            // Currency withdrawal is suspended
-                            showError('custom_error', localize('Sorry, withdrawals for this currency are currently disabled.'));
-                            return _context.abrupt('return');
-
-                        case 31:
                             promises = [];
 
                             if (cashier_type === 'deposit') {
@@ -16195,7 +16224,7 @@ var DepositWithdraw = function () {
                                 });
                             });
 
-                        case 34:
+                        case 22:
                         case 'end':
                             return _context.stop();
                     }
@@ -16445,6 +16474,7 @@ module.exports = PaymentAgentList;
 
 
 var refreshDropdown = __webpack_require__(/*! @binary-com/binary-style */ "./node_modules/@binary-com/binary-style/binary.js").selectDropdown;
+var isDepositWithdrawalLocked = __webpack_require__(/*! ./common */ "./src/javascript/app/pages/cashier/common.js").isDepositWithdrawalLocked;
 var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -16452,12 +16482,10 @@ var Currency = __webpack_require__(/*! ../../common/currency */ "./src/javascrip
 var FormManager = __webpack_require__(/*! ../../common/form_manager */ "./src/javascript/app/common/form_manager.js");
 var Validation = __webpack_require__(/*! ../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
 var handleVerifyCode = __webpack_require__(/*! ../../common/verification_code */ "./src/javascript/app/common/verification_code.js").handleVerifyCode;
-var getCurrencies = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").getCurrencies;
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var Url = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js");
-var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 var isBinaryApp = __webpack_require__(/*! ../../../config */ "./src/javascript/config.js").isBinaryApp;
 
 var PaymentAgentWithdraw = function () {
@@ -16724,16 +16752,7 @@ var PaymentAgentWithdraw = function () {
                 return;
             }
             currency = Client.get('currency');
-            var account_currency_config = getPropertyValue(get_account_status, ['currency_config', currency]) || {};
-            if (account_currency_config.is_withdrawal_suspended) {
-                // Experimental currency is suspended
-                showPageError(localize('Please note that the selected currency is allowed for limited accounts only.'));
-                return;
-            }
-            var currency_config = getPropertyValue(getCurrencies(), [currency]) || {};
-            if (currency_config.is_withdrawal_suspended) {
-                // Currency withdrawal is suspended
-                showPageError(localize('Sorry, withdrawals for this currency are currently disabled.'));
+            if (isDepositWithdrawalLocked(get_account_status, 'withdraw', showPageError)) {
                 return;
             }
             if (!currency || +Client.get('balance') === 0) {
