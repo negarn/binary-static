@@ -279,11 +279,18 @@ textarea {
   height: 8em;
   width: 25em; }
 
-input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button, input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   margin: 0; }
+
+input[type=date] {
+  display: block;
+  margin: auto;
+  line-height: 24px; }
+  input[type=date].center-text-m {
+    text-indent: 20px; }
 
 /* form styles */
 label {
