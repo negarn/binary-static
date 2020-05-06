@@ -30558,12 +30558,13 @@ var PersonalDetails = function () {
     var force_update_fields = ['tax_residence', 'tax_identification_number'];
 
     var displayGetSettingsData = function displayGetSettingsData(get_settings) {
+        var show_label = [].concat(show_label_if_any_value);
         if (!is_virtual && !isTaxEditable()) {
-            show_label_if_any_value.push('tax_residence', 'tax_identification_number');
+            show_label.push('tax_residence', 'tax_identification_number');
         }
         Object.keys(get_settings).forEach(function (key) {
             // If there are changeable fields, show input instead of labels instead.
-            var has_label = show_label_if_any_value.includes(key) && (has_changeable_fields ? !changeable_fields.includes(key) : true);
+            var has_label = show_label.includes(key) && (has_changeable_fields ? !changeable_fields.includes(key) : true);
             var force_update = force_update_fields.concat(changeable_fields).includes(key);
             var should_show_label = has_label && get_settings[key];
             var element_id = '' + (should_show_label ? 'lbl_' : '') + key;
