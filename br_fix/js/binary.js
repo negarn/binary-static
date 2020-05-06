@@ -15684,11 +15684,11 @@ var Cashier = function () {
                 var $row = $(this);
                 var $columns = $row.find('td:nth-child(2) div:nth-child(2)');
 
-                var shortname = $columns.find('p:nth-child(1)').text();
-                var $crypto_min_withdrawal = $columns.find('p:nth-child(3)');
+                var $crypto_min_withdrawal = $columns.find('span[data-currency]');
+                var shortname = $crypto_min_withdrawal.attr('data-currency');
 
                 if (shortname && $crypto_min_withdrawal) {
-                    var minimum_withdrawal = response.website_status.crypto_config[shortname].minimum_withdrawal;
+                    var minimum_withdrawal = getPropertyValue(response, ['website_status', 'crypto_config', shortname, 'minimum_withdrawal']);
 
                     var to_fixed = 0;
                     // cut long numbers off after two non-zero decimals
