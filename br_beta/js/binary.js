@@ -35338,7 +35338,7 @@ var SetCurrency = function () {
 
     var onLoad = function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var el, _Client$getUpgradeInf, can_upgrade, type, landing_company, $currency_list, $error, currencies, action_map;
+            var el, _Client$getUpgradeInf, can_upgrade, type, landing_company, $currency_list, $error, currencies, action_map, $submit;
 
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
@@ -35392,8 +35392,13 @@ var SetCurrency = function () {
 
 
                                 $('.btn_cancel').off('click dblclick').on('click dblclick', cleanupPopup);
-                                $('#btn_ok').off('click dblclick').on('click dblclick', function () {
-                                    return _onConfirm($currency_list, $error, popup_action === 'multi_account');
+                                $submit = $('#btn_ok');
+
+                                $submit.off('click dblclick').on('click dblclick', function () {
+                                    if (!$submit.hasClass('button-disabled')) {
+                                        _onConfirm($currency_list, $error, popup_action === 'multi_account');
+                                    }
+                                    $submit.addClass('button-disabled');
                                 }).find('span').text(action_map[popup_action]);
                             } else {
                                 BinaryPjax.loadPreviousUrl();
