@@ -35334,11 +35334,12 @@ var Url = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_com
 
 var SetCurrency = function () {
     var is_new_account = void 0,
-        popup_action = void 0;
+        popup_action = void 0,
+        $submit = void 0;
 
     var onLoad = function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var el, _Client$getUpgradeInf, can_upgrade, type, landing_company, $currency_list, $error, currencies, action_map, $submit;
+            var el, _Client$getUpgradeInf, can_upgrade, type, landing_company, $currency_list, $error, currencies, action_map;
 
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
@@ -35393,7 +35394,6 @@ var SetCurrency = function () {
 
                                 $('.btn_cancel').off('click dblclick').on('click dblclick', cleanupPopup);
                                 $submit = $('#btn_ok');
-
                                 $submit.off('click dblclick').on('click dblclick', function () {
                                     if (!$submit.hasClass('button-disabled')) {
                                         _onConfirm($currency_list, $error, popup_action === 'multi_account');
@@ -35538,6 +35538,9 @@ var SetCurrency = function () {
                 request = { set_account_currency: selected_currency };
             }
             BinarySocket.send(request).then(function (response_c) {
+                if ($submit) {
+                    $submit.removeClass('button-disabled');
+                }
                 if (response_c.error) {
                     if (popup_action === 'multi_account' && /InsufficientAccountDetails|InputValidationFailed/.test(response_c.error.code)) {
                         cleanupPopup();
@@ -35608,6 +35611,9 @@ var SetCurrency = function () {
                 }
             });
         } else {
+            if ($submit) {
+                $submit.removeClass('button-disabled');
+            }
             $error.text(localize('Please choose a currency')).setVisibility(1);
         }
     };
