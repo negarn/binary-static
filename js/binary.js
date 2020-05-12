@@ -15684,11 +15684,11 @@ var Cashier = function () {
                 var $row = $(this);
                 var $columns = $row.find('td:nth-child(2) div:nth-child(2)');
 
-                var shortname = $columns.find('p:nth-child(1)').text();
-                var $crypto_min_withdrawal = $columns.find('p:nth-child(3)');
+                var $crypto_min_withdrawal = $columns.find('span[data-currency]');
+                var shortname = $crypto_min_withdrawal.attr('data-currency');
 
                 if (shortname && $crypto_min_withdrawal) {
-                    var minimum_withdrawal = response.website_status.crypto_config[shortname].minimum_withdrawal;
+                    var minimum_withdrawal = getPropertyValue(response, ['website_status', 'crypto_config', shortname, 'minimum_withdrawal']);
 
                     var to_fixed = 0;
                     // cut long numbers off after two non-zero decimals
@@ -30376,7 +30376,6 @@ var State = __webpack_require__(/*! ../../../../../_common/storage */ "./src/jav
 var toISOFormat = __webpack_require__(/*! ../../../../../_common/string_util */ "./src/javascript/_common/string_util.js").toISOFormat;
 var getHashValue = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js").getHashValue;
 var urlFor = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
-var getPropertyValue = __webpack_require__(/*! ../../../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var PersonalDetails = function () {
     var form_id = '#frmPersonalDetails';
@@ -30386,6 +30385,7 @@ var PersonalDetails = function () {
     var is_for_new_account = false;
 
     var editable_fields = void 0,
+        error_code = void 0,
         is_virtual = void 0,
         is_fully_authenticated = void 0,
         residence = void 0,
@@ -30399,6 +30399,7 @@ var PersonalDetails = function () {
         editable_fields = {};
         get_settings_data = {};
         changeable_fields = [];
+        error_code = '';
         is_virtual = Client.get('is_virtual');
         residence = Client.get('residence');
     };
@@ -30656,7 +30657,8 @@ var PersonalDetails = function () {
     }; // for accounts trying to open mt5 advanced that need to set tax
 
     var isTaxEditable = function isTaxEditable() {
-        return isTaxReq() || has_changeable_fields && /tax_identification_number|tax_residence/.test(changeable_fields);
+        return (/^TINWrongFormat$/i.test(error_code) || isTaxReq() || has_changeable_fields && /tax_identification_number|tax_residence/.test(changeable_fields)
+        );
     }; // only allow changing if not fully authenticated
 
     var getTaxRegex = function getTaxRegex(residence_list, tax_residence) {
@@ -30733,6 +30735,7 @@ var PersonalDetails = function () {
     var setDetailsResponse = function setDetailsResponse(response) {
         // allow user to resubmit the form on error.
         var is_error = response.set_settings !== 1;
+        error_code = '';
         if (!is_error) {
             var redirect_url = getHashValue('mt5_redirect') ? urlFor('user/metatrader') : undefined;
             // to update tax information message for financial clients
@@ -30780,7 +30783,16 @@ var PersonalDetails = function () {
             });
         } else {
             // is_error
-            showFormMessage(getPropertyValue(response, ['error', 'message']) || localize('Sorry, an error occurred while processing your account.'), false);
+            var error = response.error || {};
+            error_code = error.code;
+            if (/^TINWrongFormat$/i.test(error.code)) {
+                // make tax fields editable on error
+                $('#row_lbl_tax_identification_number, #row_lbl_tax_residence').setVisibility(0);
+                $('#row_tax_identification_number, #row_tax_residence').setVisibility(1);
+                // repopulate validations
+                getDetailsResponse(get_settings_data);
+            }
+            showFormMessage(error.message || localize('Sorry, an error occurred while processing your account.'), false);
         }
     };
 
@@ -35395,7 +35407,8 @@ var Url = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_com
 
 var SetCurrency = function () {
     var is_new_account = void 0,
-        popup_action = void 0;
+        popup_action = void 0,
+        $submit = void 0;
 
     var onLoad = function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -35434,7 +35447,7 @@ var SetCurrency = function () {
                             if (is_new_account) {
                                 $('#set_currency_loading').remove();
                                 $('#set_currency').setVisibility(1);
-                                $('#deposit_btn').on('click', function () {
+                                $('#deposit_btn').off('click dblclick').on('click dblclick', function () {
                                     BinaryPjax.load(Url.urlFor('cashier/forwardws') + '?action=deposit');
                                 }).setVisibility(1);
                             } else if (popup_action) {
@@ -35452,9 +35465,13 @@ var SetCurrency = function () {
                                 };
 
 
-                                $('.btn_cancel').on('click', cleanupPopup);
-                                $('#btn_ok').on('click', function () {
-                                    return _onConfirm($currency_list, $error, popup_action === 'multi_account');
+                                $('.btn_cancel').off('click dblclick').on('click dblclick', cleanupPopup);
+                                $submit = $('#btn_ok');
+                                $submit.off('click dblclick').on('click dblclick', function () {
+                                    if (!$submit.hasClass('button-disabled')) {
+                                        _onConfirm($currency_list, $error, popup_action === 'multi_account');
+                                    }
+                                    $submit.addClass('button-disabled');
                                 }).find('span').text(action_map[popup_action]);
                             } else {
                                 BinaryPjax.loadPreviousUrl();
@@ -35545,7 +35562,7 @@ var SetCurrency = function () {
     };
 
     var onSelection = function onSelection($currency_list, $error, should_show_confirmation) {
-        $('.currency_wrapper').on('click', function () {
+        $('.currency_wrapper').off('click dblclick').on('click dblclick', function () {
             $error.setVisibility(0);
             var $clicked_currency = $(this);
             $currency_list.find('> div').removeClass('selected');
@@ -35594,6 +35611,9 @@ var SetCurrency = function () {
                 request = { set_account_currency: selected_currency };
             }
             BinarySocket.send(request).then(function (response_c) {
+                if ($submit) {
+                    $submit.removeClass('button-disabled');
+                }
                 if (response_c.error) {
                     if (popup_action === 'multi_account' && /InsufficientAccountDetails|InputValidationFailed/.test(response_c.error.code)) {
                         cleanupPopup();
@@ -35654,7 +35674,7 @@ var SetCurrency = function () {
                     } else {
                         Header.populateAccountsList(); // update account title
                         $('.select_currency').setVisibility(0);
-                        $('#deposit_btn').on('click', function () {
+                        $('#deposit_btn').off('click dblclick').on('click dblclick', function () {
                             if (popup_action) {
                                 cleanupPopup();
                             }
@@ -35664,6 +35684,9 @@ var SetCurrency = function () {
                 }
             });
         } else {
+            if ($submit) {
+                $submit.removeClass('button-disabled');
+            }
             $error.text(localize('Please choose a currency')).setVisibility(1);
         }
     };
