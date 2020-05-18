@@ -30389,7 +30389,6 @@ var PersonalDetails = function () {
         is_fully_authenticated = void 0,
         residence = void 0,
         get_settings_data = void 0,
-        has_changeable_fields = void 0,
         changeable_fields = void 0,
         mt_acct_type = void 0,
         is_mt_tax_required = void 0,
@@ -30444,7 +30443,7 @@ var PersonalDetails = function () {
     };
 
     var populateChangeableFields = function populateChangeableFields() {
-        if (!has_changeable_fields) return;
+        if (is_fully_authenticated) return;
 
         var loginid = Client.get('loginid');
         var landing_company = State.getResponse('landing_company');
@@ -30460,7 +30459,7 @@ var PersonalDetails = function () {
      * @param {get_settings} to prepopulate some of the values.
      */
     var displayChangeableFields = function displayChangeableFields(get_settings) {
-        if (!has_changeable_fields) return;
+        if (is_fully_authenticated) return;
         changeable_fields.forEach(function (field) {
             CommonFunctions.getElementById('row_' + field).setVisibility(1);
             CommonFunctions.getElementById('row_lbl_' + field).setVisibility(0);
@@ -30531,7 +30530,7 @@ var PersonalDetails = function () {
 
         displayGetSettingsData(get_settings);
 
-        if (has_changeable_fields) {
+        if (!is_fully_authenticated) {
             displayChangeableFields(data);
             CommonFunctions.getElementById('address_form').setVisibility(1);
             showHideTaxMessage();
@@ -30567,7 +30566,7 @@ var PersonalDetails = function () {
         }
         Object.keys(get_settings).forEach(function (key) {
             // If there are changeable fields, show input instead of labels instead.
-            var has_label = show_label.includes(key) && (has_changeable_fields ? !changeable_fields.includes(key) : true);
+            var has_label = show_label.includes(key) && (!is_fully_authenticated ? !changeable_fields.includes(key) : true);
             var force_update = force_update_fields.concat(changeable_fields).includes(key);
             var should_show_label = has_label && get_settings[key];
             var element_id = '' + (should_show_label ? 'lbl_' : '') + key;
@@ -30762,7 +30761,7 @@ var PersonalDetails = function () {
                     getDetailsResponse(get_settings);
 
                     // Re-populate changeable fields based on incoming data
-                    if (has_changeable_fields) {
+                    if (!is_fully_authenticated) {
                         displayChangeableFields(get_settings);
                     }
                     showFormMessage(localize('Your settings have been updated successfully.'), true);
@@ -30867,23 +30866,19 @@ var PersonalDetails = function () {
             var account_status = State.getResponse('get_account_status').status;
             get_settings_data = State.getResponse('get_settings');
             is_fully_authenticated = checkStatus(account_status, 'authenticated');
-            has_changeable_fields = Client.get('landing_company_shortcode') === 'svg' && !is_fully_authenticated;
 
             if (!residence) {
                 displayResidenceList();
             } else if (is_virtual) {
                 getDetailsResponse(get_settings_data);
-            } else if (has_changeable_fields) {
-                populateChangeableFields();
-                displayResidenceList();
             } else if (is_fully_authenticated) {
                 displayResidenceList();
                 name_fields.forEach(function (field) {
                     return CommonFunctions.getElementById('row_' + field).classList.add('invisible');
                 });
             } else {
+                populateChangeableFields();
                 displayResidenceList();
-                // getDetailsResponse(get_settings_data);
             }
         });
     };
