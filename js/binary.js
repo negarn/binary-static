@@ -30375,7 +30375,7 @@ var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src
 var State = __webpack_require__(/*! ../../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var toISOFormat = __webpack_require__(/*! ../../../../../_common/string_util */ "./src/javascript/_common/string_util.js").toISOFormat;
 var getHashValue = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js").getHashValue;
-var urlFor = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
+var getPropertyValue = __webpack_require__(/*! ../../../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var PersonalDetails = function () {
     var form_id = '#frmPersonalDetails';
@@ -30385,23 +30385,25 @@ var PersonalDetails = function () {
     var is_for_new_account = false;
 
     var editable_fields = void 0,
-        error_code = void 0,
         is_virtual = void 0,
         is_fully_authenticated = void 0,
         residence = void 0,
-        obj_current_residence = void 0,
         get_settings_data = void 0,
         has_changeable_fields = void 0,
         changeable_fields = void 0,
+        mt_acct_type = void 0,
+        is_mt_tax_required = void 0,
         $tax_residence = void 0;
 
     var init = function init() {
         editable_fields = {};
         get_settings_data = {};
         changeable_fields = [];
-        error_code = '';
         is_virtual = Client.get('is_virtual');
         residence = Client.get('residence');
+        mt_acct_type = getHashValue('mt5_redirect');
+        // demo and volatility mt accounts do not require tax info
+        is_mt_tax_required = /real/.test(mt_acct_type) && mt_acct_type.split('_').length > 2 && +State.getResponse('landing_company.config.tax_details_required') === 1;
     };
 
     var checkStatus = function checkStatus(status, string) {
@@ -30560,7 +30562,7 @@ var PersonalDetails = function () {
 
     var displayGetSettingsData = function displayGetSettingsData(get_settings) {
         var show_label = [].concat(show_label_if_any_value);
-        if (!is_virtual && !isTaxEditable()) {
+        if (!isTaxEditable()) {
             show_label.push('tax_residence', 'tax_identification_number');
         }
         Object.keys(get_settings).forEach(function (key) {
@@ -30643,22 +30645,12 @@ var PersonalDetails = function () {
         });
     };
 
-    var isForMtTax = function isForMtTax() {
-        var mt_acct_type = getHashValue('mt5_redirect');
-        // demo and volatility mt accounts do not require tax info
-        return (/real/.test(mt_acct_type) && mt_acct_type.split('_').length > 2
-        );
+    var isTaxReq = function isTaxReq() {
+        return Client.isAccountOfType('financial') && Client.shouldCompleteTax() || is_mt_tax_required;
     };
 
-    var isTaxReq = function isTaxReq() {
-        return (Client.isAccountOfType('financial') ? Client.shouldCompleteTax() // for financial check crs_tin_information flag exists in get_account_status.status
-        : 'tin_format' in obj_current_residence // for others check if any tin_format regex is sent in residence_list
-        ) || isForMtTax() && +State.getResponse('landing_company.config.tax_details_required') === 1;
-    }; // for accounts trying to open mt5 advanced that need to set tax
-
     var isTaxEditable = function isTaxEditable() {
-        return (/^TINWrongFormat$/i.test(error_code) || isTaxReq() || has_changeable_fields && /tax_identification_number|tax_residence/.test(changeable_fields)
-        );
+        return !is_virtual && (isTaxReq() || !is_fully_authenticated && /tax_identification_number|tax_residence/.test(changeable_fields));
     }; // only allow changing if not fully authenticated
 
     var getTaxRegex = function getTaxRegex(residence_list, tax_residence) {
@@ -30677,8 +30669,6 @@ var PersonalDetails = function () {
         } else {
             var is_financial = Client.isAccountOfType('financial');
             var is_gaming = Client.isAccountOfType('gaming');
-            var mt_acct_type = getHashValue('mt5_redirect');
-            var is_for_mt_citizen = !!mt_acct_type; // all mt account opening requires citizen
             var is_tax_req = isTaxReq();
             var residence_list = State.getResponse('residence_list');
 
@@ -30706,7 +30696,10 @@ var PersonalDetails = function () {
                 }]].filter(function (item) {
                     return item;
                 })
-            }, { selector: '#citizen', validations: is_financial || is_gaming || is_for_mt_citizen ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
+            },
+
+            // all mt account opening requires citizen
+            { selector: '#citizen', validations: is_financial || is_gaming || mt_acct_type ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
 
             // Push validations for changeable fields.
             changeable_fields.forEach(function (key) {
@@ -30735,9 +30728,7 @@ var PersonalDetails = function () {
     var setDetailsResponse = function setDetailsResponse(response) {
         // allow user to resubmit the form on error.
         var is_error = response.set_settings !== 1;
-        error_code = '';
         if (!is_error) {
-            var redirect_url = getHashValue('mt5_redirect') ? urlFor('user/metatrader') : undefined;
             // to update tax information message for financial clients
             BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function () {
                 showHideTaxMessage();
@@ -30758,11 +30749,8 @@ var PersonalDetails = function () {
                     return;
                 }
                 var get_settings = data.get_settings;
-                var is_tax_req = +State.getResponse('landing_company.config.tax_details_required') === 1;
-                var is_for_mt_financial = /real_svg_standard|labuan_advanced/.test(redirect_url);
-                var has_required_mt = is_for_mt_financial && is_tax_req ? get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen : get_settings.citizen // only check Citizen if user selects mt volatility account
-                ;
-                if (redirect_url && has_required_mt) {
+                var has_required_mt = is_mt_tax_required ? get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen : get_settings.citizen; // only check Citizen if user selects mt volatility account
+                if (mt_acct_type && has_required_mt) {
                     $.scrollTo($('h1#heading'), 500, { offset: -10 });
                     $(form_id).setVisibility(0);
                     $('#missing_details_notice').setVisibility(0);
@@ -30783,16 +30771,7 @@ var PersonalDetails = function () {
             });
         } else {
             // is_error
-            var error = response.error || {};
-            error_code = error.code;
-            if (/^TINWrongFormat$/i.test(error.code)) {
-                // make tax fields editable on error
-                $('#row_lbl_tax_identification_number, #row_lbl_tax_residence').setVisibility(0);
-                $('#row_tax_identification_number, #row_tax_residence').setVisibility(1);
-                // repopulate validations
-                getDetailsResponse(get_settings_data);
-            }
-            showFormMessage(error.message || localize('Sorry, an error occurred while processing your account.'), false);
+            showFormMessage(getPropertyValue(response, ['error', 'message']) || localize('Sorry, an error occurred while processing your account.'), false);
         }
     };
 
@@ -30814,9 +30793,6 @@ var PersonalDetails = function () {
                         value: res.value,
                         is_disabled: res.disabled
                     }));
-                    if (res.value === residence) {
-                        obj_current_residence = res;
-                    }
                 });
                 if (residence) {
                     $tax_residence = $('#tax_residence');
@@ -33016,11 +32992,6 @@ var MetaTraderConfig = function () {
                     }
                 });
             },
-            onError: function onError(response, $form, acc_type) {
-                if (response.error.code === 'TINWrongFormat') {
-                    $form.find('#msg_form').html(localize('Your tax number is not in the correct format. Please [_1]update your tax number[_2] correctly. If you need help, please [_3]contact us[_4].', ['<a href=\'' + urlFor('user/settings/detailsws') + '#mt5_redirect=' + acc_type + '\'>', '</a>', '<a href=\'' + urlFor('contact') + '\'>', '</a>']));
-                }
-            },
             onSuccess: function onSuccess(response) {
                 GTM.mt5NewAccount(response);
 
@@ -33587,7 +33558,7 @@ var MetaTrader = function () {
 
                                         MetaTraderUI.displayFormMessage(response.error.message, action);
                                         if (typeof actions_info[action].onError === 'function') {
-                                            actions_info[action].onError(response, MetaTraderUI.$form(), acc_type);
+                                            actions_info[action].onError(response, MetaTraderUI.$form());
                                         }
                                         if (/^MT5(Deposit|Withdrawal)Error$/.test(response.error.code)) {
                                             getExchangeRates();
