@@ -12146,6 +12146,28 @@ var AccountOpening = function () {
             professionalClient.init(is_financial, false);
         }
         generateBirthDate(landing_company.minimum_age);
+        BinarySocket.wait('get_settings').then(function (response) {
+            var get_settings = response.get_settings;
+            var $element = void 0,
+                value = void 0;
+            Object.keys(get_settings).forEach(function (key) {
+                $element = $('#' + key);
+                value = get_settings[key];
+                if (key === 'date_of_birth' && value) {
+                    var moment_val = moment.utc(value * 1000);
+                    get_settings[key] = moment_val.format('DD MMM, YYYY');
+                    $element.attr({
+                        'data-value': toISOFormat(moment_val),
+                        'value': toISOFormat(moment_val),
+                        'type': 'text'
+                    });
+                    $('.input-disabled').attr('disabled', 'disabled');
+                } else if (value) $element.val(value);
+            });
+            if (get_settings.has_secret_answer) {
+                $('.security').hide();
+            }
+        });
     };
 
     var getResidence = function getResidence(form_id, getValidations) {
@@ -34534,7 +34556,6 @@ module.exports = TypesOfAccounts;
 "use strict";
 
 
-var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var BinaryPjax = __webpack_require__(/*! ../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -34543,7 +34564,6 @@ var FormManager = __webpack_require__(/*! ../../../common/form_manager */ "./src
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var isEmptyObject = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
-var toISOFormat = __webpack_require__(/*! ../../../../_common/string_util */ "./src/javascript/_common/string_util.js").toISOFormat;
 
 var FinancialAccOpening = function () {
     var form_id = '#financial-form';
@@ -34567,27 +34587,9 @@ var FinancialAccOpening = function () {
                 });
             }
         });
+
         var req_settings = BinarySocket.wait('get_settings').then(function (response) {
             get_settings = response.get_settings;
-            var $element = void 0,
-                value = void 0;
-            Object.keys(get_settings).forEach(function (key) {
-                $element = $('#' + key);
-                value = get_settings[key];
-                if (key === 'date_of_birth' && value) {
-                    var moment_val = moment.utc(value * 1000);
-                    get_settings[key] = moment_val.format('DD MMM, YYYY');
-                    $element.attr({
-                        'data-value': toISOFormat(moment_val),
-                        'value': toISOFormat(moment_val),
-                        'type': 'text'
-                    });
-                    $('.input-disabled').attr('disabled', 'disabled');
-                } else if (value) $element.val(value);
-            });
-            if (get_settings.has_secret_answer) {
-                $('.security').hide();
-            }
         });
 
         Promise.all([req_settings, req_financial_assessment]).then(function () {
