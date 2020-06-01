@@ -535,8 +535,8 @@ var ClientBase = function () {
         var upgradeable_landing_companies = State.getResponse('authorize.upgradeable_landing_companies');
 
         var can_open_multi = false;
-        var can_upgrade_to = [];
-        var type = void 0;
+        var type = void 0,
+            can_upgrade_to = void 0;
         if ((upgradeable_landing_companies || []).length) {
             var current_landing_company = get('landing_company_shortcode');
             can_open_multi = upgradeable_landing_companies.indexOf(current_landing_company) !== -1;
@@ -551,11 +551,11 @@ var ClientBase = function () {
                     return landing_company !== current_landing_company && upgradeable_landing_companies.indexOf(landing_company) !== -1;
                 });
 
-                return result.length ? result : [];
+                return result.length ? result : undefined;
             };
 
             can_upgrade_to = canUpgrade('iom', 'svg', 'malta', 'maltainvest');
-            if (can_upgrade_to.length) {
+            if (can_upgrade_to) {
                 type = can_upgrade_to.map(function (landing_company_shortcode) {
                     return landing_company_shortcode === 'maltainvest' ? 'financial' : 'real';
                 });
@@ -564,7 +564,7 @@ var ClientBase = function () {
 
         return {
             type: type,
-            can_upgrade: !!can_upgrade_to.length,
+            can_upgrade: !!can_upgrade_to && !!can_upgrade_to.length,
             can_upgrade_to: can_upgrade_to,
             can_open_multi: can_open_multi
         };
@@ -10520,7 +10520,7 @@ var Client = function () {
         var upgrade_info = ClientBase.getBasicUpgradeInfo();
 
         var upgrade_links = {};
-        if (upgrade_info.can_upgrade_to.length) {
+        if (upgrade_info.can_upgrade_to) {
             var upgrade_link_map = {
                 realws: ['svg', 'iom', 'malta'],
                 maltainvestws: ['maltainvest']
@@ -12146,28 +12146,6 @@ var AccountOpening = function () {
             professionalClient.init(is_financial, false);
         }
         generateBirthDate(landing_company.minimum_age);
-        BinarySocket.wait('get_settings').then(function (response) {
-            var get_settings = response.get_settings;
-            var $element = void 0,
-                value = void 0;
-            Object.keys(get_settings).forEach(function (key) {
-                $element = $('#' + key);
-                value = get_settings[key];
-                if (key === 'date_of_birth' && value) {
-                    var moment_val = moment.utc(value * 1000);
-                    get_settings[key] = moment_val.format('DD MMM, YYYY');
-                    $element.attr({
-                        'data-value': toISOFormat(moment_val),
-                        'value': toISOFormat(moment_val),
-                        'type': 'text'
-                    });
-                    $('.input-disabled').attr('disabled', 'disabled');
-                } else if (value) $element.val(value);
-            });
-            if (get_settings.has_secret_answer) {
-                $('.security').hide();
-            }
-        });
     };
 
     var getResidence = function getResidence(form_id, getValidations) {
@@ -34556,6 +34534,7 @@ module.exports = TypesOfAccounts;
 "use strict";
 
 
+var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var BinaryPjax = __webpack_require__(/*! ../../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
@@ -34564,6 +34543,7 @@ var FormManager = __webpack_require__(/*! ../../../common/form_manager */ "./src
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var isEmptyObject = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
+var toISOFormat = __webpack_require__(/*! ../../../../_common/string_util */ "./src/javascript/_common/string_util.js").toISOFormat;
 
 var FinancialAccOpening = function () {
     var form_id = '#financial-form';
@@ -34575,7 +34555,11 @@ var FinancialAccOpening = function () {
         if (Client.hasAccountType('financial') || !Client.get('residence')) {
             BinaryPjax.loadPreviousUrl();
             return;
+        } else if (Client.hasAccountType('gaming')) {
+            $('.security').hide();
         }
+
+        if (AccountOpening.redirectAccount()) return;
 
         var req_financial_assessment = BinarySocket.send({ get_financial_assessment: 1 }).then(function (response) {
             var get_financial_assessment = response.get_financial_assessment;
@@ -34587,9 +34571,24 @@ var FinancialAccOpening = function () {
                 });
             }
         });
-
         var req_settings = BinarySocket.wait('get_settings').then(function (response) {
             get_settings = response.get_settings;
+            var $element = void 0,
+                value = void 0;
+            Object.keys(get_settings).forEach(function (key) {
+                $element = $('#' + key);
+                value = get_settings[key];
+                if (key === 'date_of_birth' && value) {
+                    var moment_val = moment.utc(value * 1000);
+                    get_settings[key] = moment_val.format('DD MMM, YYYY');
+                    $element.attr({
+                        'data-value': toISOFormat(moment_val),
+                        'value': toISOFormat(moment_val),
+                        'type': 'text'
+                    });
+                    $('.input-disabled').attr('disabled', 'disabled');
+                } else if (value) $element.val(value);
+            });
         });
 
         Promise.all([req_settings, req_financial_assessment]).then(function () {
@@ -34692,7 +34691,7 @@ var RealAccOpening = function () {
         if (Client.get('residence')) {
             if (AccountOpening.redirectAccount()) return;
 
-            BinarySocket.wait('get_settings', 'landing_company', 'get_account_status').then(function () {
+            BinarySocket.wait('landing_company', 'get_account_status').then(function () {
                 var is_unwelcome_uk = State.getResponse('get_account_status.status').some(function (status) {
                     return status === 'unwelcome';
                 }) && /gb/.test(Client.get('residence'));
@@ -34704,11 +34703,6 @@ var RealAccOpening = function () {
                 }
                 if (is_unwelcome_uk) {
                     getElementById('ukgc_age_verification').setVisibility(1);
-                }
-
-                var get_settings = State.getResponse('get_settings');
-                if (get_settings.has_secret_answer) {
-                    $('.security').hide();
                 }
 
                 AccountOpening.populateForm(form_id, getValidations, false);
