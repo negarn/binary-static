@@ -539,6 +539,7 @@ var ClientBase = function () {
             can_upgrade_to = void 0;
         if ((upgradeable_landing_companies || []).length) {
             var current_landing_company = get('landing_company_shortcode');
+
             can_open_multi = upgradeable_landing_companies.indexOf(current_landing_company) !== -1;
 
             // only show upgrade message to landing companies other than current
@@ -547,24 +548,20 @@ var ClientBase = function () {
                     landing_companies[_key] = arguments[_key];
                 }
 
-                var result = landing_companies.filter(function (landing_company) {
+                return landing_companies.find(function (landing_company) {
                     return landing_company !== current_landing_company && upgradeable_landing_companies.indexOf(landing_company) !== -1;
                 });
-
-                return result.length ? result : undefined;
             };
 
             can_upgrade_to = canUpgrade('iom', 'svg', 'malta', 'maltainvest');
             if (can_upgrade_to) {
-                type = can_upgrade_to.map(function (landing_company_shortcode) {
-                    return landing_company_shortcode === 'maltainvest' ? 'financial' : 'real';
-                });
+                type = can_upgrade_to === 'maltainvest' ? 'financial' : 'real';
             }
         }
 
         return {
             type: type,
-            can_upgrade: !!can_upgrade_to && !!can_upgrade_to.length,
+            can_upgrade: !!can_upgrade_to,
             can_upgrade_to: can_upgrade_to,
             can_open_multi: can_open_multi
         };
@@ -10416,10 +10413,6 @@ module.exports = BinaryPjax;
 "use strict";
 
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
 var RealityCheckData = __webpack_require__(/*! ../pages/user/reality_check/reality_check.data */ "./src/javascript/app/pages/user/reality_check/reality_check.data.js");
 var ClientBase = __webpack_require__(/*! ../../_common/base/client_base */ "./src/javascript/_common/base/client_base.js");
@@ -10519,33 +10512,20 @@ var Client = function () {
     var getUpgradeInfo = function getUpgradeInfo() {
         var upgrade_info = ClientBase.getBasicUpgradeInfo();
 
-        var upgrade_links = {};
+        var upgrade_link = void 0;
         if (upgrade_info.can_upgrade_to) {
             var upgrade_link_map = {
                 realws: ['svg', 'iom', 'malta'],
                 maltainvestws: ['maltainvest']
             };
-
-            Object.keys(upgrade_link_map).forEach(function (link) {
-                var res = upgrade_link_map[link].find(function (lc) {
-                    return upgrade_info.can_upgrade_to.includes(lc);
-                });
-                if (res) {
-                    upgrade_links = _extends({}, upgrade_links, _defineProperty({}, res, link));
-                }
+            upgrade_link = Object.keys(upgrade_link_map).find(function (link) {
+                return upgrade_link_map[link].indexOf(upgrade_info.can_upgrade_to) !== -1;
             });
         }
 
-        var transformed_upgrade_links = {};
-        Object.keys(upgrade_links).forEach(function (link) {
-            transformed_upgrade_links = _extends({}, transformed_upgrade_links, _defineProperty({}, link, 'new_account/' + upgrade_links[link]));
-        });
-
         return Object.assign(upgrade_info, {
-            upgrade_links: transformed_upgrade_links,
-            is_current_path: !!Object.values(upgrade_links).find(function (link) {
-                return new RegExp(link, 'i').test(window.location.pathname);
-            })
+            upgrade_link: upgrade_link ? 'new_account/' + upgrade_link : undefined,
+            is_current_path: upgrade_link ? new RegExp(upgrade_link, 'i').test(window.location.pathname) : undefined
         });
     };
 
@@ -10976,16 +10956,8 @@ var Header = function () {
 
             var upgrade_info = Client.getUpgradeInfo();
             var show_upgrade_msg = upgrade_info.can_upgrade;
-            var upgrade_link_txt = '';
-            var upgrade_btn_txt = '';
-
-            if (upgrade_info.can_upgrade_to.length > 1) {
-                upgrade_link_txt = localize('Click here to open a Real Account');
-                upgrade_btn_txt = localize('Open a Real Account');
-            } else if (upgrade_info.can_upgrade_to.length === 1) {
-                upgrade_link_txt = upgrade_info.type[0] === 'financial' ? localize('Click here to open a Financial Account') : upgrade_info.can_upgrade_to[0] === 'malta' ? localize('Click here to open a Gaming account') : localize('Click here to open a Real Account');
-                upgrade_btn_txt = upgrade_info.type[0] === 'financial' ? localize('Open a Financial Account') : localize('Open a Real Account');
-            }
+            var upgrade_link_txt = upgrade_info.type === 'financial' ? localize('Click here to open a Financial Account') : localize('Click here to open a Real Account');
+            var upgrade_btn_txt = upgrade_info.type === 'financial' ? localize('Open a Financial Account') : localize('Open a Real Account');
 
             if (Client.get('is_virtual')) {
                 applyToAllElements(upgrade_msg, function (el) {
@@ -11000,9 +10972,8 @@ var Header = function () {
                 });
 
                 if (show_upgrade_msg) {
-                    var upgrade_url = upgrade_info.can_upgrade_to.length > 1 ? 'user/accounts' : Object.values(upgrade_info.upgrade_links)[0];
-                    showUpgrade(upgrade_url, upgrade_link_txt);
-                    showUpgradeBtn(upgrade_url, upgrade_btn_txt);
+                    showUpgrade(upgrade_info.upgrade_link, upgrade_link_txt);
+                    showUpgradeBtn(upgrade_info.upgrade_link, upgrade_btn_txt);
                 } else {
                     applyToAllElements(upgrade_msg, function (el) {
                         applyToAllElements('a', function (ele) {
@@ -11012,9 +10983,8 @@ var Header = function () {
                 }
             } else if (show_upgrade_msg) {
                 getElementById('virtual-wrapper').setVisibility(0);
-                var _upgrade_url = upgrade_info.can_upgrade_to.length > 1 ? 'user/accounts' : Object.values(upgrade_info.upgrade_links)[0];
-                showUpgrade(_upgrade_url, upgrade_link_txt);
-                showUpgradeBtn(_upgrade_url, upgrade_btn_txt);
+                showUpgrade(upgrade_info.upgrade_link, upgrade_link_txt);
+                showUpgradeBtn(upgrade_info.upgrade_link, upgrade_btn_txt);
 
                 if (/new_account/.test(window.location.href)) {
                     showHidePulser(0);
@@ -12098,7 +12068,6 @@ module.exports = BinarySocketGeneral;
 
 var SelectMatcher = __webpack_require__(/*! @binary-com/binary-style */ "./node_modules/@binary-com/binary-style/binary.js").select2Matcher;
 var Cookies = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
-var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 var generateBirthDate = __webpack_require__(/*! ./attach_dom/birth_date_picker */ "./src/javascript/app/common/attach_dom/birth_date_picker.js");
 var FormManager = __webpack_require__(/*! ./form_manager */ "./src/javascript/app/common/form_manager.js");
 var BinaryPjax = __webpack_require__(/*! ../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
@@ -12109,8 +12078,6 @@ var CommonFunctions = __webpack_require__(/*! ../../_common/common_functions */ 
 var Geocoder = __webpack_require__(/*! ../../_common/geocoder */ "./src/javascript/_common/geocoder.js");
 var localize = __webpack_require__(/*! ../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").State;
-var toISOFormat = __webpack_require__(/*! ../../_common/string_util */ "./src/javascript/_common/string_util.js").toISOFormat;
-var toReadableFormat = __webpack_require__(/*! ../../_common/string_util */ "./src/javascript/_common/string_util.js").toReadableFormat;
 var urlFor = __webpack_require__(/*! ../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var getPropertyValue = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
@@ -12124,12 +12091,7 @@ var AccountOpening = function () {
         }
 
         if (!upgrade_info.is_current_path) {
-            var upgradable_accounts_count = Object.keys(upgrade_info.upgrade_links).length;
-            if (upgradable_accounts_count > 1) {
-                BinaryPjax.load('user/accounts');
-            } else if (upgradable_accounts_count === 1) {
-                BinaryPjax.load(Object.values(upgrade_info.upgrade_links)[0]);
-            }
+            BinaryPjax.load(upgrade_info.upgrade_link);
             return 1;
         }
         return 0;
@@ -12158,7 +12120,6 @@ var AccountOpening = function () {
         if (residence_list.length > 0) {
             var $place_of_birth = $('#place_of_birth');
             var $phone = $('#phone');
-            var $date_of_birth = $('#date_of_birth');
             var residence_value = Client.get('residence') || '';
             var residence_text = '';
 
@@ -12175,8 +12136,7 @@ var AccountOpening = function () {
                 if (residence_value === res.value) {
                     residence_text = res.text;
                     if (res.phone_idd && !$phone.val()) {
-                        var phone = State.getResponse('get_settings.phone');
-                        $phone.val(phone || '+' + res.phone_idd);
+                        $phone.val('+' + res.phone_idd);
                     }
                 }
             });
@@ -12187,11 +12147,6 @@ var AccountOpening = function () {
                 var citizen = response.get_settings.citizen;
                 var place_of_birth = response.get_settings.place_of_birth;
                 var tax_residence = response.get_settings.tax_residence;
-                var date_of_birth = response.get_settings.date_of_birth;
-                if (date_of_birth) {
-                    var dt_date_of_birth = moment.unix(date_of_birth);
-                    $date_of_birth.attr('data-value', toISOFormat(dt_date_of_birth)).val(toReadableFormat(dt_date_of_birth));
-                }
 
                 if ($place_of_birth.length) {
                     if (place_of_birth) {
@@ -12209,11 +12164,7 @@ var AccountOpening = function () {
                     });
                 }
 
-                if (State.getResponse('authorize.upgradeable_landing_companies').some(function (item) {
-                    return ['malta', 'maltainvest', 'iom'].some(function (lc) {
-                        return lc === item;
-                    });
-                })) {
+                if (/^(malta|maltainvest|iom)$/.test(State.getResponse('authorize.upgradeable_landing_companies'))) {
                     var $citizen = $('#citizen');
                     CommonFunctions.getElementById('citizen_row').setVisibility(1);
                     if ($citizen.length) {
@@ -12254,14 +12205,6 @@ var AccountOpening = function () {
                     .trigger('change');
                     CommonFunctions.getElementById('row_tax_residence').setVisibility(1);
                 }
-
-                Object.keys(response.get_settings).forEach(function (key) {
-                    if (key === 'date_of_birth') return;
-                    var $el = $('#' + key);
-                    if (response.get_settings[key] && $el) {
-                        $el.val(response.get_settings[key]);
-                    }
-                });
             });
             BinarySocket.send({ states_list: Client.get('residence') }).then(function (data) {
                 return handleState(data.states_list, form_id, getValidations);
@@ -12339,9 +12282,7 @@ var AccountOpening = function () {
     };
 
     var commonValidations = function commonValidations() {
-        var req = [{ selector: '#salutation', validations: ['req'] }, { selector: '#first_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 50 }]] }, { selector: '#last_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 50 }]] }, { selector: '#date_of_birth', validations: ['req'] }, { selector: '#address_line_1', validations: ['req', 'address', ['length', { min: 1, max: 70 }]] }, { selector: '#address_line_2', validations: ['address', ['length', { min: 0, max: 70 }]] }, { selector: '#address_city', validations: ['req', 'letter_symbol', ['length', { min: 1, max: 35 }]] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol', ['length', { min: 0, max: 35 }]] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' || State.getResponse('authorize.upgradeable_landing_companies').some(function (lc) {
-                return lc === 'iom';
-            }) ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
+        var req = [{ selector: '#salutation', validations: ['req'] }, { selector: '#first_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 50 }]] }, { selector: '#last_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 50 }]] }, { selector: '#date_of_birth', validations: ['req'] }, { selector: '#address_line_1', validations: ['req', 'address', ['length', { min: 1, max: 70 }]] }, { selector: '#address_line_2', validations: ['address', ['length', { min: 0, max: 70 }]] }, { selector: '#address_city', validations: ['req', 'letter_symbol', ['length', { min: 1, max: 35 }]] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol', ['length', { min: 0, max: 35 }]] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' || State.getResponse('authorize.upgradeable_landing_companies').indexOf('iom') > -1 ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
                     return $('#phone').val().replace(/\D/g, '');
                 } }]] }, { selector: '#secret_question', validations: ['req'] }, { selector: '#secret_answer', validations: ['req', 'general', ['length', { min: 4, max: 50 }]] }, { selector: '#tnc', validations: [['req', { message: localize('Please accept the terms and conditions.') }]], exclude_request: 1 }, { selector: '#tax_residence', validations: ['req', ['length', { min: 1, max: 20 }]] }, { selector: '#tax_identification_number', validations: ['req'] }, { request_field: 'residence', value: Client.get('residence') }, { request_field: 'client_type', value: function value() {
                 return $('#chk_professional').is(':checked') ? 'professional' : 'retail';
@@ -14050,10 +13991,6 @@ var Validation = function () {
     var validEmailToken = function validEmailToken(value) {
         return value.trim().length === 8;
     };
-    var validTaxID = function validTaxID(value) {
-        return (/^[a-zA-Z0-9]*[\w-]*$/.test(value)
-        );
-    };
 
     var validCompare = function validCompare(value, options) {
         return value === $(options.to).val();
@@ -14110,6 +14047,36 @@ var Validation = function () {
 
     var isMoreThanMax = function isMoreThanMax(value, options) {
         return options.type === 'float' ? +value > +options.max : compareBigUnsignedInt(value, options.max) === 1;
+    };
+
+    var validTaxID = function validTaxID(value, options, field) {
+        // input is valid in API regex but may not be valid for country regex
+        if (/^[a-zA-Z0-9]*[\w-]*$/.test(value)) {
+            if (options.residence_list && options.$tax_residence && options.$warning) {
+                // get the tax id regex validation of currently selected tax residence dynamically
+                var tax_regex = getTaxRegex(options.residence_list, options.$tax_residence.val());
+                var tax_id = $(field.selector).val();
+                // consider valid if no validation is needed, or
+                // tax id value matches some acceptable regex from the tax_regex array
+                var is_valid_tax = !tax_regex.length || tax_regex.find(function (regex) {
+                    return regex.test(tax_id);
+                });
+                options.$warning.setVisibility(!is_valid_tax);
+            }
+            // allow to continue with or without warning
+            return true;
+        }
+
+        return false;
+    };
+
+    var getTaxRegex = function getTaxRegex(residence_list, tax_residence) {
+        var tin_format = (residence_list.find(function (residence) {
+            return residence.value === tax_residence;
+        }) || {}).tin_format;
+        return (tin_format || []).map(function (format) {
+            return new RegExp(format);
+        });
     };
 
     var ValidatorsMap = function () {
@@ -30428,7 +30395,6 @@ var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src
 var State = __webpack_require__(/*! ../../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var toISOFormat = __webpack_require__(/*! ../../../../../_common/string_util */ "./src/javascript/_common/string_util.js").toISOFormat;
 var getHashValue = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js").getHashValue;
-var urlFor = __webpack_require__(/*! ../../../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var getPropertyValue = __webpack_require__(/*! ../../../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var PersonalDetails = function () {
@@ -30443,16 +30409,20 @@ var PersonalDetails = function () {
         is_fully_authenticated = void 0,
         residence = void 0,
         get_settings_data = void 0,
-        has_changeable_fields = void 0,
-        changeable_fields = void 0;
+        changeable_fields = void 0,
+        mt_acct_type = void 0,
+        is_mt_tax_required = void 0,
+        $tax_residence = void 0;
 
     var init = function init() {
         editable_fields = {};
         get_settings_data = {};
-        // TODO: remove tax_id and tax_residence when api is fixed.
-        changeable_fields = ['tax_identification_number', 'tax_residence'];
+        changeable_fields = [];
         is_virtual = Client.get('is_virtual');
         residence = Client.get('residence');
+        mt_acct_type = getHashValue('mt5_redirect');
+        // demo and volatility mt accounts do not require tax info
+        is_mt_tax_required = /real/.test(mt_acct_type) && mt_acct_type.split('_').length > 2 && +State.getResponse('landing_company.config.tax_details_required') === 1;
     };
 
     var checkStatus = function checkStatus(status, string) {
@@ -30477,6 +30447,12 @@ var PersonalDetails = function () {
         }
     };
 
+    var showHideTaxForm = function showHideTaxForm(get_settings) {
+        var should_show_tax = isTaxReq();
+        var has_set_tax = get_settings.tax_identification_number || get_settings.tax_residence;
+        CommonFunctions.getElementById('tax_information_form').setVisibility(should_show_tax || has_set_tax);
+    };
+
     var showHideMissingDetails = function showHideMissingDetails() {
         var validations = getValidations();
         var has_missing_field = validations.find(function (validation) {
@@ -30487,7 +30463,7 @@ var PersonalDetails = function () {
     };
 
     var populateChangeableFields = function populateChangeableFields() {
-        if (!has_changeable_fields) return;
+        if (is_fully_authenticated) return;
 
         var loginid = Client.get('loginid');
         var landing_company = State.getResponse('landing_company');
@@ -30503,7 +30479,7 @@ var PersonalDetails = function () {
      * @param {get_settings} to prepopulate some of the values.
      */
     var displayChangeableFields = function displayChangeableFields(get_settings) {
-        if (!has_changeable_fields) return;
+        if (is_fully_authenticated) return;
         changeable_fields.forEach(function (field) {
             CommonFunctions.getElementById('row_' + field).setVisibility(1);
             CommonFunctions.getElementById('row_lbl_' + field).setVisibility(0);
@@ -30574,16 +30550,17 @@ var PersonalDetails = function () {
 
         displayGetSettingsData(get_settings);
 
-        if (has_changeable_fields) {
+        if (!is_fully_authenticated) {
             displayChangeableFields(data);
-            CommonFunctions.getElementById('tax_information_form').setVisibility(1);
             CommonFunctions.getElementById('address_form').setVisibility(1);
             showHideTaxMessage();
+            showHideTaxForm(get_settings);
         } else if (is_virtual) {
             $(real_acc_elements).remove();
         } else {
             $(real_acc_elements).setVisibility(1);
             showHideTaxMessage();
+            showHideTaxForm(get_settings);
         }
 
         $(form_id).setVisibility(1);
@@ -30599,13 +30576,17 @@ var PersonalDetails = function () {
         showHideMissingDetails();
     };
 
-    var show_label_if_any_value = ['account_opening_reason', 'citizen', 'place_of_birth', 'tax_residence', 'tax_identification_number', 'date_of_birth', 'first_name', 'last_name', 'salutation'];
+    var show_label_if_any_value = ['account_opening_reason', 'citizen', 'place_of_birth', 'date_of_birth', 'first_name', 'last_name', 'salutation'];
     var force_update_fields = ['tax_residence', 'tax_identification_number'];
 
     var displayGetSettingsData = function displayGetSettingsData(get_settings) {
+        var show_label = [].concat(show_label_if_any_value);
+        if (is_fully_authenticated) {
+            show_label.push('tax_residence', 'tax_identification_number');
+        }
         Object.keys(get_settings).forEach(function (key) {
             // If there are changeable fields, show input instead of labels instead.
-            var has_label = show_label_if_any_value.includes(key) && (has_changeable_fields ? !changeable_fields.includes(key) : true);
+            var has_label = show_label.includes(key) && (!is_fully_authenticated ? !changeable_fields.includes(key) : true);
             var force_update = force_update_fields.concat(changeable_fields).includes(key);
             var should_show_label = has_label && get_settings[key];
             var element_id = '' + (should_show_label ? 'lbl_' : '') + key;
@@ -30683,6 +30664,10 @@ var PersonalDetails = function () {
         });
     };
 
+    var isTaxReq = function isTaxReq() {
+        return Client.isAccountOfType('financial') && Client.shouldCompleteTax() || is_mt_tax_required;
+    };
+
     var getValidations = function getValidations() {
         var validations = void 0;
         if (is_virtual) {
@@ -30690,14 +30675,22 @@ var PersonalDetails = function () {
         } else {
             var is_financial = Client.isAccountOfType('financial');
             var is_gaming = Client.isAccountOfType('gaming');
-            var mt_acct_type = getHashValue('mt5_redirect');
-            var is_for_mt_citizen = !!mt_acct_type; // all mt account opening requires citizen
-            var is_for_mt_tax = /real/.test(mt_acct_type) && mt_acct_type.split('_').length > 2; // demo and volatility mt accounts do not require tax info
-            var is_tax_req = is_financial || is_for_mt_tax && +State.getResponse('landing_company.config.tax_details_required') === 1;
+            var is_tax_req = isTaxReq();
 
-            validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [Client.get('residence') === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
+            validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [residence === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
                         return $('#phone').val().replace(/\D/g, '');
-                    } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#date_of_birth', validations: ['req'] }, { selector: '#tax_residence', validations: is_tax_req ? ['req'] : '' }, { selector: '#citizen', validations: is_financial || is_gaming || is_for_mt_citizen ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
+                    } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#date_of_birth', validations: ['req'] },
+
+            // recheck tax_identiciation_number after tax_residence is selected as the validation regex is taken from API based on tax residence
+            { selector: '#tax_residence', validations: is_tax_req ? ['req'] : '', re_check_field: '#tax_identification_number' }, {
+                selector: '#tax_identification_number',
+                validations: [is_tax_req ? 'req' : undefined, ['tax_id', { residence_list: State.getResponse('residence_list'), $warning: $('#tax_id_warning'), $tax_residence: $('#tax_residence') }], ['length', { min: is_tax_req ? 1 : 0, max: 20 }]].filter(function (item) {
+                    return item;
+                })
+            },
+
+            // all mt account opening requires citizen
+            { selector: '#citizen', validations: is_financial || is_gaming || mt_acct_type ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
 
             // Push validations for changeable fields.
             changeable_fields.forEach(function (key) {
@@ -30719,13 +30712,6 @@ var PersonalDetails = function () {
                     });
                 }
             });
-
-            var tax_id_validation = { selector: '#tax_identification_number', validations: ['tax_id', ['length', { min: 0, max: 20 }]] };
-            if (is_tax_req) {
-                tax_id_validation.validations[1][1].min = 1;
-                tax_id_validation.validations.unshift('req');
-            }
-            validations.push(tax_id_validation);
         }
         return validations;
     };
@@ -30734,7 +30720,6 @@ var PersonalDetails = function () {
         // allow user to resubmit the form on error.
         var is_error = response.set_settings !== 1;
         if (!is_error) {
-            var redirect_url = getHashValue('mt5_redirect') ? urlFor('user/metatrader') : undefined;
             // to update tax information message for financial clients
             BinarySocket.send({ get_account_status: 1 }, { forced: true }).then(function () {
                 showHideTaxMessage();
@@ -30755,11 +30740,8 @@ var PersonalDetails = function () {
                     return;
                 }
                 var get_settings = data.get_settings;
-                var is_tax_req = +State.getResponse('landing_company.config.tax_details_required') === 1;
-                var is_for_mt_financial = /real_svg_standard|labuan_advanced/.test(redirect_url);
-                var has_required_mt = is_for_mt_financial && is_tax_req ? get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen : get_settings.citizen // only check Citizen if user selects mt volatility account
-                ;
-                if (redirect_url && has_required_mt) {
+                var has_required_mt = is_mt_tax_required ? get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen : get_settings.citizen; // only check Citizen if user selects mt volatility account
+                if (mt_acct_type && has_required_mt) {
                     $.scrollTo($('h1#heading'), 500, { offset: -10 });
                     $(form_id).setVisibility(0);
                     $('#missing_details_notice').setVisibility(0);
@@ -30771,7 +30753,7 @@ var PersonalDetails = function () {
                     getDetailsResponse(get_settings);
 
                     // Re-populate changeable fields based on incoming data
-                    if (has_changeable_fields) {
+                    if (!is_fully_authenticated) {
                         displayChangeableFields(get_settings);
                     }
                     showFormMessage(localize('Your settings have been updated successfully.'), true);
@@ -30804,10 +30786,10 @@ var PersonalDetails = function () {
                     }));
                 });
                 if (residence) {
-                    var $tax_residence = $('#tax_residence');
+                    $tax_residence = $('#tax_residence');
                     $tax_residence.html($options_with_disabled.html()).promise().done(function () {
                         setTimeout(function () {
-                            var residence_value = get_settings_data.tax_residence ? get_settings_data.tax_residence.split(',') : Client.get('residence') || '';
+                            var residence_value = get_settings_data.tax_residence ? get_settings_data.tax_residence.split(',') : residence || '';
                             $tax_residence.select2().val(residence_value).trigger('change').setVisibility(1);
                         }, 500);
                     });
@@ -30876,23 +30858,19 @@ var PersonalDetails = function () {
             var account_status = State.getResponse('get_account_status').status;
             get_settings_data = State.getResponse('get_settings');
             is_fully_authenticated = checkStatus(account_status, 'authenticated');
-            has_changeable_fields = Client.get('landing_company_shortcode') === 'svg' && !is_fully_authenticated;
 
             if (!residence) {
                 displayResidenceList();
             } else if (is_virtual) {
                 getDetailsResponse(get_settings_data);
-            } else if (has_changeable_fields) {
-                populateChangeableFields();
-                displayResidenceList();
             } else if (is_fully_authenticated) {
                 displayResidenceList();
                 name_fields.forEach(function (field) {
                     return CommonFunctions.getElementById('row_' + field).classList.add('invisible');
                 });
             } else {
+                populateChangeableFields();
                 displayResidenceList();
-                // getDetailsResponse(get_settings_data);
             }
         });
     };
@@ -32334,21 +32312,17 @@ var Accounts = function () {
 
     var populateNewAccounts = function populateNewAccounts(upgrade_info) {
         var table_headers = TableHeaders.get();
-        upgrade_info.type.forEach(function (new_account_type, index) {
-            var account = {
-                real: new_account_type === 'real',
-                financial: new_account_type === 'financial'
-            };
-            var new_account_title = new_account_type === 'financial' ? localize('Financial Account') : upgrade_info.can_upgrade_to[index] === 'malta' ? localize('Gaming Account') : localize('Real Account');
-            $(form_id).find('tbody').append($('<tr/>').append($('<td/>', { datath: table_headers.account }).html($('<span/>', {
-                text: new_account_title,
-                'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) + ', ' + localize('Jurisdiction') + ': ' + getCompanyCountry(account),
-                'data-balloon-length': 'large'
-            }))).append($('<td/>', { text: getAvailableMarkets(account), datath: table_headers.available_markets })).append($('<td/>').html($('<a/>', {
-                class: 'button',
-                href: urlFor(upgrade_info.upgrade_links[upgrade_info.can_upgrade_to[index]])
-            }).html($('<span/>', { text: localize('Create account') })))));
-        });
+        var new_account = upgrade_info;
+        var account = {
+            real: new_account.type === 'real',
+            financial: new_account.type === 'financial'
+        };
+        var new_account_title = new_account.type === 'financial' ? localize('Financial Account') : localize('Real Account');
+        $(form_id).find('tbody').append($('<tr/>').append($('<td/>', { datath: table_headers.account }).html($('<span/>', {
+            text: new_account_title,
+            'data-balloon': localize('Counterparty') + ': ' + getCompanyName(account) + ', ' + localize('Jurisdiction') + ': ' + getCompanyCountry(account),
+            'data-balloon-length': 'large'
+        }))).append($('<td/>', { text: getAvailableMarkets(account), datath: table_headers.available_markets })).append($('<td/>').html($('<a/>', { class: 'button', href: urlFor(new_account.upgrade_link) }).html($('<span/>', { text: localize('Create account') })))));
     };
 
     var addChangeCurrencyOption = function addChangeCurrencyOption() {
@@ -34620,7 +34594,10 @@ var FinancialAccOpening = function () {
     };
 
     var getValidations = function getValidations() {
-        var validations = AccountOpening.commonValidations().concat(AccountOpening.selectCheckboxValidation(form_id), [{ selector: '#citizen', validations: ['req'] }, { selector: '#tax_residence', validations: ['req'] }, { selector: '#tax_identification_number', validations: ['req', 'tax_id', ['length', { min: 1, max: 20 }]] }, { selector: '#chk_tax_id', validations: [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]], exclude_request: 1 }]);
+        var validations = AccountOpening.commonValidations().concat(AccountOpening.selectCheckboxValidation(form_id), [{ selector: '#citizen', validations: ['req'] }, { selector: '#tax_residence', validations: ['req'] }, {
+            selector: '#tax_identification_number',
+            validations: ['req', ['tax_id', { residence_list: State.getResponse('residence_list'), $warning: $('#tax_id_warning'), $tax_residence: $('#tax_residence') }], ['length', { min: 1, max: 20 }]]
+        }, { selector: '#chk_tax_id', validations: [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]], exclude_request: 1 }]);
         var place_of_birth = State.getResponse('get_settings.place_of_birth');
         if (place_of_birth) {
             validations = validations.concat([{ request_field: 'place_of_birth', value: place_of_birth }]);
@@ -34696,9 +34673,7 @@ var RealAccOpening = function () {
                     return status === 'unwelcome';
                 }) && /gb/.test(Client.get('residence'));
 
-                if (State.getResponse('authorize.upgradeable_landing_companies').some(function (item) {
-                    return item === 'svg';
-                })) {
+                if (State.getResponse('authorize.upgradeable_landing_companies').indexOf('svg') !== -1) {
                     getElementById('risk_disclaimer').setVisibility(1);
                 }
                 if (is_unwelcome_uk) {
@@ -34726,11 +34701,7 @@ var RealAccOpening = function () {
         if (place_of_birth) {
             validations = validations.concat([{ request_field: 'place_of_birth', value: place_of_birth }]);
         }
-        if (State.getResponse('authorize.upgradeable_landing_companies').some(function (item) {
-            return ['malta', 'iom'].some(function (lc) {
-                return lc === item;
-            });
-        })) {
+        if (/^(malta|iom)$/.test(State.getResponse('authorize.upgradeable_landing_companies'))) {
             validations = validations.concat([{ selector: '#citizen', validations: ['req'] }]);
         }
         return validations;
@@ -34971,22 +34942,13 @@ var WelcomePage = function () {
 
             var upgrade_info = Client.getUpgradeInfo();
             var el_upgrade_title = getElementById('upgrade_title');
-            var upgrade_btn_txt = '';
-
-            if (upgrade_info.can_upgrade_to.length > 1) {
-                upgrade_btn_txt = localize('Real Account');
-            } else if (upgrade_info.can_upgrade_to.length === 1) {
-                upgrade_btn_txt = upgrade_info.type[0] === 'financial' ? localize('Financial Account') : localize('Real Account');
-            }
-            el_upgrade_title.html(upgrade_btn_txt);
+            el_upgrade_title.html(upgrade_info.type === 'financial' ? localize('Financial Account') : localize('Real Account'));
             el_welcome_container.setVisibility(1);
-
-            var upgrade_url = upgrade_info.can_upgrade_to.length > 1 ? 'user/accounts' : Object.values(upgrade_info.upgrade_links)[0];
 
             if (upgrade_info.can_upgrade) {
                 var upgrade_btn = getElementById('upgrade_btn');
                 if (upgrade_btn) {
-                    upgrade_btn.html(createElement('span', { text: localize('Upgrade now') })).setAttribute('href', Url.urlFor(upgrade_url));
+                    upgrade_btn.html(createElement('span', { text: localize('Upgrade now') })).setAttribute('href', Url.urlFor(upgrade_info.upgrade_link));
                     upgrade_btn.classList.remove('button-disabled');
                 }
             }
