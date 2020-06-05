@@ -11068,8 +11068,9 @@ var Header = function () {
                 var required_fields = is_svg ? [].concat(_toConsumableArray(necessary_signup_fields), _toConsumableArray(necessary_withdrawal_fields)) : Client.isAccountOfType('financial') ? ['account_opening_reason', 'address_line_1', 'address_city', 'phone', 'tax_identification_number', 'tax_residence'].concat(_toConsumableArray(Client.get('residence') === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? ['address_postcode'] : [])) : [];
 
                 var get_settings = State.getResponse('get_settings');
+                // date_of_birth can be 0 as a valid epoch, so we should only check missing values, '', null, or undefined
                 return required_fields.some(function (field) {
-                    return !get_settings[field];
+                    return !(field in get_settings) || get_settings[field] === '' || get_settings[field] === null || get_settings[field] === undefined;
                 });
             };
 
@@ -11175,7 +11176,7 @@ var Header = function () {
                     return buildSpecificMessage(localizeKeepPlaceholders('Your [_1]proof of identity[_3] and [_2]proof of address[_3] have not been verified. Please check your email for details.'), ['<a href=\'' + Url.urlFor('user/authenticate') + '\'>', '<a href=\'' + Url.urlFor('user/authenticate') + '?authentication_tab=poa\'>', '</a>']);
                 },
                 rejected_identity: function rejected_identity() {
-                    return buildMessage(localizeKeepPlaceholders('Your [_1]proof of identity[_2] has not been verified. Please check your email for details.'), 'user/authenticate');
+                    return buildMessage(localizeKeepPlaceholders('Your [_1]proof of identity[_2] has not been verified.'), 'user/authenticate');
                 },
                 rejected_document: function rejected_document() {
                     return buildMessage(localizeKeepPlaceholders('Your [_1]proof of address[_2] has not been verified. Please check your email for details.'), 'user/authenticate', '?authentication_tab=poa');
@@ -12100,7 +12101,6 @@ var AccountOpening = function () {
     var populateForm = function populateForm(form_id, getValidations, is_financial) {
         getResidence(form_id, getValidations);
         handleTaxIdentificationNumber();
-        generateBirthDate();
         var landing_company = State.getResponse('landing_company');
         var lc_to_upgrade_to = landing_company[is_financial ? 'financial_company' : 'gaming_company'] || landing_company.financial_company;
         CommonFunctions.elementTextContent(CommonFunctions.getElementById('lc-name'), lc_to_upgrade_to.name);
@@ -12108,6 +12108,7 @@ var AccountOpening = function () {
         if (getPropertyValue(landing_company, ['financial_company', 'shortcode']) === 'maltainvest') {
             professionalClient.init(is_financial, false);
         }
+        generateBirthDate(landing_company.minimum_age);
     };
 
     var getResidence = function getResidence(form_id, getValidations) {
@@ -12527,14 +12528,14 @@ var DatePicker = __webpack_require__(/*! ../../components/date_picker */ "./src/
 var dateValueChanged = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").dateValueChanged;
 var toISOFormat = __webpack_require__(/*! ../../../_common/string_util */ "./src/javascript/_common/string_util.js").toISOFormat;
 
-var generateBirthDate = function generateBirthDate() {
+var generateBirthDate = function generateBirthDate(min_age) {
     var date_of_birth = '#date_of_birth';
 
     if (!$(date_of_birth).val()) {
         DatePicker.init({
             selector: date_of_birth,
             minDate: -100 * 365,
-            maxDate: -18 * 365 - 4,
+            maxDate: -min_age * 365 - Math.trunc(min_age / 4) - 1,
             yearRange: '-100:-18'
         });
         $(date_of_birth).attr('data-value', toISOFormat(moment())).change(function () {
@@ -16071,7 +16072,7 @@ var DepositWithdraw = function () {
 
     var onLoad = function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var response_get_account_status, experimental_suspended, currency_config, promises;
+            var response_get_account_status, account_currency_config, currency_config, promises;
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
@@ -16119,9 +16120,9 @@ var DepositWithdraw = function () {
                             return _context.abrupt('return');
 
                         case 15:
-                            experimental_suspended = getPropertyValue(response_get_account_status.get_account_status, ['experimental_suspended', Client.get('currency')]) || {};
+                            account_currency_config = getPropertyValue(response_get_account_status.get_account_status, ['currency_config', Client.get('currency')]) || {};
 
-                            if (!(cashier_type === 'deposit' && experimental_suspended.is_deposit_suspended || cashier_type === 'withdraw' && experimental_suspended.is_withdrawal_suspended)) {
+                            if (!(cashier_type === 'deposit' && account_currency_config.is_deposit_suspended || cashier_type === 'withdraw' && account_currency_config.is_withdrawal_suspended)) {
                                 _context.next = 19;
                                 break;
                             }
@@ -16718,8 +16719,8 @@ var PaymentAgentWithdraw = function () {
                 return;
             }
             currency = Client.get('currency');
-            var experimental_suspended = getPropertyValue(get_account_status, ['experimental_suspended', currency]) || {};
-            if (experimental_suspended.is_withdrawal_suspended) {
+            var account_currency_config = getPropertyValue(get_account_status, ['currency_config', currency]) || {};
+            if (account_currency_config.is_withdrawal_suspended) {
                 // Experimental currency is suspended
                 showPageError(localize('Please note that the selected currency is allowed for limited accounts only.'));
                 return;
@@ -30491,7 +30492,8 @@ var PersonalDetails = function () {
         var residence_list = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : State.getResponse('residence_list');
 
         var get_settings = $.extend({}, data);
-        get_settings.date_of_birth = 'date_of_birth' in get_settings ? moment.utc(new Date(get_settings.date_of_birth * 1000)).format('YYYY-MM-DD') : '';
+        // date_of_birth can be 0 as a valid epoch
+        get_settings.date_of_birth = 'date_of_birth' in get_settings && get_settings.date_of_birth !== 'null' ? moment.utc(new Date(get_settings.date_of_birth * 1000)).format('YYYY-MM-DD') : '';
         var accounts = Client.getAllLoginids();
         // for subaccounts, back-end sends loginid of the master account as name
         var hide_name = accounts.some(function (loginid) {
@@ -34515,7 +34517,8 @@ var FinancialAccOpening = function () {
             Object.keys(get_settings).forEach(function (key) {
                 $element = $('#' + key);
                 value = get_settings[key];
-                if (key === 'date_of_birth' && value) {
+                // date_of_birth can be 0 as a valid epoch
+                if (key === 'date_of_birth' && value !== 'null') {
                     var moment_val = moment.utc(value * 1000);
                     get_settings[key] = moment_val.format('DD MMM, YYYY');
                     $element.attr({
@@ -34531,7 +34534,10 @@ var FinancialAccOpening = function () {
         Promise.all([req_settings, req_financial_assessment]).then(function () {
             AccountOpening.populateForm(form_id, getValidations, true);
 
-            $('#date_of_birth').val(get_settings.date_of_birth);
+            // date_of_birth can be 0 as a valid epoch
+            if ('date_of_birth' in get_settings && get_settings.date_of_birth !== 'null') {
+                $('#date_of_birth').val(get_settings.date_of_birth);
+            }
             FormManager.handleSubmit({
                 form_selector: form_id,
                 obj_request: { new_account_maltainvest: 1, accept_risk: 0 },
