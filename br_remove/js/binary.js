@@ -11778,7 +11778,7 @@ var Page = function () {
         var src = '//browser-update.org/update.min.js';
         if (document.querySelector('script[src*="' + src + '"]')) return;
         window.$buoop = {
-            vs: { i: 14, f: -4, o: -4, s: 9, c: 65 },
+            vs: { i: 16, f: -4, o: -4, s: 9, c: 65 },
             api: 4,
             l: Language.get().toLowerCase(),
             url: 'https://browsehappy.com/',
