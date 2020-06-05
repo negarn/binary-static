@@ -11068,8 +11068,9 @@ var Header = function () {
                 var required_fields = is_svg ? [].concat(_toConsumableArray(necessary_signup_fields), _toConsumableArray(necessary_withdrawal_fields)) : Client.isAccountOfType('financial') ? ['account_opening_reason', 'address_line_1', 'address_city', 'phone', 'tax_identification_number', 'tax_residence'].concat(_toConsumableArray(Client.get('residence') === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? ['address_postcode'] : [])) : [];
 
                 var get_settings = State.getResponse('get_settings');
+                // date_of_birth can be 0 as a valid epoch, so we should only check missing values, '', null, or undefined
                 return required_fields.some(function (field) {
-                    return !get_settings[field];
+                    return !(field in get_settings) || get_settings[field] === '' || get_settings[field] === null || get_settings[field] === undefined;
                 });
             };
 
@@ -11778,7 +11779,7 @@ var Page = function () {
         var src = '//browser-update.org/update.min.js';
         if (document.querySelector('script[src*="' + src + '"]')) return;
         window.$buoop = {
-            vs: { i: 11, f: -4, o: -4, s: 9, c: 65 },
+            vs: { i: 17, f: -4, o: -4, s: 9, c: 65 }, // it will support this number and above, or the latest -versions
             api: 4,
             l: Language.get().toLowerCase(),
             url: 'https://browsehappy.com/',
@@ -29571,7 +29572,8 @@ var AuthorisedApps = function () {
             admin: localize('Admin'),
             payments: localize('Payments'),
             read: localize('Read'),
-            trade: localize('Trade')
+            trade: localize('Trade'),
+            trading_information: localize('Trading Information')
         };
         var last_used = app.last_used ? app.last_used.format('YYYY-MM-DD HH:mm:ss') : localize('Never');
         var scopes = app.scopes.map(function (scope) {
@@ -30470,7 +30472,8 @@ var PersonalDetails = function () {
         var residence_list = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : State.getResponse('residence_list');
 
         var get_settings = $.extend({}, data);
-        get_settings.date_of_birth = 'date_of_birth' in get_settings ? moment.utc(new Date(get_settings.date_of_birth * 1000)).format('YYYY-MM-DD') : '';
+        // date_of_birth can be 0 as a valid epoch
+        get_settings.date_of_birth = 'date_of_birth' in get_settings && get_settings.date_of_birth !== 'null' ? moment.utc(new Date(get_settings.date_of_birth * 1000)).format('YYYY-MM-DD') : '';
         var accounts = Client.getAllLoginids();
         // for subaccounts, back-end sends loginid of the master account as name
         var hide_name = accounts.some(function (loginid) {
@@ -34494,7 +34497,8 @@ var FinancialAccOpening = function () {
             Object.keys(get_settings).forEach(function (key) {
                 $element = $('#' + key);
                 value = get_settings[key];
-                if (key === 'date_of_birth' && value) {
+                // date_of_birth can be 0 as a valid epoch
+                if (key === 'date_of_birth' && value !== 'null') {
                     var moment_val = moment.utc(value * 1000);
                     get_settings[key] = moment_val.format('DD MMM, YYYY');
                     $element.attr({
@@ -34510,7 +34514,10 @@ var FinancialAccOpening = function () {
         Promise.all([req_settings, req_financial_assessment]).then(function () {
             AccountOpening.populateForm(form_id, getValidations, true);
 
-            $('#date_of_birth').val(get_settings.date_of_birth);
+            // date_of_birth can be 0 as a valid epoch
+            if ('date_of_birth' in get_settings && get_settings.date_of_birth !== 'null') {
+                $('#date_of_birth').val(get_settings.date_of_birth);
+            }
             FormManager.handleSubmit({
                 form_selector: form_id,
                 obj_request: { new_account_maltainvest: 1, accept_risk: 0 },
@@ -36124,7 +36131,10 @@ var ViewPopup = function () {
             }
             containerSetText('trade_details_message', contract.validation_error && !is_unsupported_contract ? contract.validation_error : '&nbsp;');
             if (is_unsupported_contract) {
-                containerSetText('trade_details_bottom', localize('This contract is only available on DTrader.[_1][_2]Go to Dtrader[_3] to close or cancel this contract.', ['<br/>', '<a href="https://deriv.app" target="_blank" rel="noopener noreferrer">', '</a>']));
+                var redirect = '<a href="https://deriv.app" target="_blank" rel="noopener noreferrer">';
+                var redirect_close = '</a>';
+                var message = Callputspread.isCallputspread(contract.contract_type) ? localize('This contract is only available on [_1]DTrader[_2].', [redirect, redirect_close]) : localize('This contract is only available on DTrader.[_1][_2]Go to Dtrader[_3] to close or cancel this contract.', ['<br/>', redirect, redirect_close]);
+                containerSetText('trade_details_bottom', message);
             }
         }
 
