@@ -30447,10 +30447,10 @@ var PersonalDetails = function () {
         }
     };
 
-    var showHideTaxForm = function showHideTaxForm(get_settings) {
-        var should_show_tax = isTaxReq();
+    var shouldShowTax = function shouldShowTax(get_settings) {
+        var is_tax_req = isTaxReq();
         var has_set_tax = get_settings.tax_identification_number || get_settings.tax_residence;
-        CommonFunctions.getElementById('tax_information_form').setVisibility(should_show_tax || has_set_tax);
+        return is_tax_req || has_set_tax;
     };
 
     var showHideMissingDetails = function showHideMissingDetails() {
@@ -30556,11 +30556,11 @@ var PersonalDetails = function () {
             displayChangeableFields(data);
             CommonFunctions.getElementById('address_form').setVisibility(1);
             showHideTaxMessage();
-            showHideTaxForm(get_settings);
+            CommonFunctions.getElementById('tax_information_form').setVisibility(shouldShowTax(get_settings));
         } else {
             $(real_acc_elements).setVisibility(1);
             showHideTaxMessage();
-            showHideTaxForm(get_settings);
+            CommonFunctions.getElementById('tax_information_form').setVisibility(shouldShowTax(get_settings));
         }
 
         $(form_id).setVisibility(1);
@@ -30786,13 +30786,15 @@ var PersonalDetails = function () {
                     }));
                 });
                 if (residence) {
-                    $tax_residence = $('#tax_residence');
-                    $tax_residence.html($options_with_disabled.html()).promise().done(function () {
-                        setTimeout(function () {
-                            var residence_value = get_settings_data.tax_residence ? get_settings_data.tax_residence.split(',') : residence || '';
-                            $tax_residence.select2().val(residence_value).trigger('change').setVisibility(1);
-                        }, 500);
-                    });
+                    if (shouldShowTax(get_settings_data)) {
+                        $tax_residence = $('#tax_residence');
+                        $tax_residence.html($options_with_disabled.html()).promise().done(function () {
+                            setTimeout(function () {
+                                var residence_value = get_settings_data.tax_residence ? get_settings_data.tax_residence.split(',') : residence || '';
+                                $tax_residence.select2().val(residence_value).trigger('change').setVisibility(1);
+                            }, 500);
+                        });
+                    }
 
                     if (!get_settings_data.place_of_birth) {
                         $options.prepend($('<option/>', { value: '', text: localize('Please select') }));
