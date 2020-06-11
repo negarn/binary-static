@@ -11053,6 +11053,7 @@ var Header = function () {
         BinarySocket.wait('get_account_status', 'authorize', 'landing_company').then(function () {
             var authentication = void 0,
                 get_account_status = void 0,
+                is_fully_authenticated = void 0,
                 status = void 0;
             var is_svg = Client.get('landing_company_shortcode') === 'svg';
             var loginid = Client.get('loginid') || {};
@@ -11214,6 +11215,9 @@ var Header = function () {
                 unwelcome: function unwelcome() {
                     return buildMessage(localizeKeepPlaceholders('Trading and deposits have been disabled on your account. Kindly [_1]contact customer support[_2] for assistance.'), 'contact');
                 },
+                withdrawal_locked_review: function withdrawal_locked_review() {
+                    return localize('Withdrawals have been disabled on your account. Please wait until your uploaded documents are verified.');
+                },
                 withdrawal_locked: function withdrawal_locked() {
                     return localize('Withdrawals have been disabled on your account. Please check your email for more details.');
                 },
@@ -11286,13 +11290,16 @@ var Header = function () {
                 unwelcome: function unwelcome() {
                     return hasStatus('unwelcome');
                 },
+                withdrawal_locked_review: function withdrawal_locked_review() {
+                    return hasStatus('withdrawal_locked') && get_account_status.risk_classification === 'high' && !is_fully_authenticated && authentication.document.status === 'pending';
+                },
                 withdrawal_locked: function withdrawal_locked() {
                     return hasStatus('withdrawal_locked');
                 }
             };
 
             // real account checks in order
-            var check_statuses_real = ['excluded_until', 'tnc', 'required_fields', 'financial_limit', 'risk', 'tax', 'currency', 'unsubmitted', 'expired', 'expired_identity', 'expired_document', 'rejected', 'rejected_identity', 'rejected_document', 'identity', 'document', 'unwelcome', 'no_withdrawal_or_trading', 'cashier_locked', 'withdrawal_locked', 'mt5_withdrawal_locked'];
+            var check_statuses_real = ['excluded_until', 'tnc', 'required_fields', 'financial_limit', 'risk', 'tax', 'currency', 'unsubmitted', 'expired', 'expired_identity', 'expired_document', 'rejected', 'rejected_identity', 'rejected_document', 'identity', 'document', 'unwelcome', 'no_withdrawal_or_trading', 'cashier_locked', 'withdrawal_locked_review', 'withdrawal_locked', 'mt5_withdrawal_locked'];
 
             // virtual checks
             var check_statuses_virtual = ['residence'];
@@ -11317,7 +11324,7 @@ var Header = function () {
                     get_account_status = State.getResponse('get_account_status') || {};
                     status = get_account_status.status;
                     checkStatus(check_statuses_real);
-                    var is_fully_authenticated = hasStatus('authenticated') && !+get_account_status.prompt_client_to_authenticate;
+                    is_fully_authenticated = hasStatus('authenticated') && !+get_account_status.prompt_client_to_authenticate;
                     $('.account-id')[is_fully_authenticated ? 'append' : 'remove'](el_account_status);
                 });
             }
