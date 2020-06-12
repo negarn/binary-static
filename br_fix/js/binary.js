@@ -26896,7 +26896,7 @@ var Authenticate = function () {
                         resolve({ error: response.error });
                         return;
                     }
-                    var token = response.service_token.token;
+                    var token = response.service_token.onfido.token;
                     var in_90_minutes = 1 / 16;
                     Cookies.set('onfido_token', token, {
                         expires: in_90_minutes,
