@@ -32825,6 +32825,7 @@ var MetaTraderConfig = __webpack_require__(/*! ./metatrader.config */ "./src/jav
 var MetaTraderUI = __webpack_require__(/*! ./metatrader.ui */ "./src/javascript/app/pages/user/metatrader/metatrader.ui.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
+var setCurrencies = __webpack_require__(/*! ../../../common/currency */ "./src/javascript/app/common/currency.js").setCurrencies;
 var Validation = __webpack_require__(/*! ../../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
@@ -33116,7 +33117,7 @@ var MetaTrader = function () {
                                         }
                                         if (/^MT5(Deposit|Withdrawal)Error$/.test(response.error.code)) {
                                             // update limits if outdated due to exchange rates changing for currency
-                                            BinarySocket.send({ website_status: 1 });
+                                            BinarySocket.send({ website_status: 1 }).then(setCurrencies);
                                         }
                                         MetaTraderUI.enableButton(action, response);
                                         _context3.next = 20;
