@@ -33117,7 +33117,11 @@ var MetaTrader = function () {
                                         }
                                         if (/^MT5(Deposit|Withdrawal)Error$/.test(response.error.code)) {
                                             // update limits if outdated due to exchange rates changing for currency
-                                            BinarySocket.send({ website_status: 1 }).then(setCurrencies);
+                                            BinarySocket.send({ website_status: 1 }).then(function (response_w) {
+                                                if (response_w.website_status) {
+                                                    setCurrencies(response_w.website_status);
+                                                }
+                                            });
                                         }
                                         MetaTraderUI.enableButton(action, response);
                                         _context3.next = 20;
