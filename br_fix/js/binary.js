@@ -33106,7 +33106,7 @@ var MetaTrader = function () {
                                 switch (_context3.prev = _context3.next) {
                                     case 0:
                                         if (!response.error) {
-                                            _context3.next = 6;
+                                            _context3.next = 7;
                                             break;
                                         }
 
@@ -33114,36 +33114,40 @@ var MetaTrader = function () {
                                         if (typeof actions_info[action].onError === 'function') {
                                             actions_info[action].onError(response, MetaTraderUI.$form());
                                         }
+                                        if (/^MT5(Deposit|Withdrawal)Error$/.test(response.error.code)) {
+                                            // update limits if outdated due to exchange rates changing for currency
+                                            BinarySocket.send({ website_status: 1 });
+                                        }
                                         MetaTraderUI.enableButton(action, response);
-                                        _context3.next = 19;
+                                        _context3.next = 20;
                                         break;
 
-                                    case 6:
-                                        _context3.next = 8;
+                                    case 7:
+                                        _context3.next = 9;
                                         return BinarySocket.send({ get_account_status: 1 });
 
-                                    case 8:
+                                    case 9:
                                         if (!accounts_info[acc_type].info) {
-                                            _context3.next = 16;
+                                            _context3.next = 17;
                                             break;
                                         }
 
                                         parent_action = /password/.test(action) ? 'manage_password' : 'cashier';
 
                                         if (!(parent_action === 'cashier')) {
-                                            _context3.next = 13;
+                                            _context3.next = 14;
                                             break;
                                         }
 
-                                        _context3.next = 13;
+                                        _context3.next = 14;
                                         return BinarySocket.send({ get_limits: 1 });
 
-                                    case 13:
+                                    case 14:
                                         MetaTraderUI.loadAction(parent_action);
                                         MetaTraderUI.enableButton(action, response);
                                         MetaTraderUI.refreshAction();
 
-                                    case 16:
+                                    case 17:
                                         if (typeof actions_info[action].success_msg === 'function') {
                                             success_msg = actions_info[action].success_msg(response, acc_type);
 
@@ -33164,7 +33168,7 @@ var MetaTrader = function () {
                                             MetaTraderUI.loadAction(null, acc_type);
                                         });
 
-                                    case 19:
+                                    case 20:
                                     case 'end':
                                         return _context3.stop();
                                 }
