@@ -2766,6 +2766,7 @@ var Geocoder = function () {
     var validator = function validator(address) {
         return new Promise(function (resolve) {
             scriptjs.ready('gMaps', function () {
+                if (!google) return;
                 var geocoder = new google.maps.Geocoder();
                 el_btn_validate.classList.add('geocode-btn-disabled');
                 el_success.setVisibility(0);
@@ -18934,8 +18935,9 @@ var Highchart = function () {
                             HighchartUI.setChartOptions(chart_options);
 
                             return _context.abrupt('return', getHighstock(function (Highcharts) {
-                                Highcharts.setOptions(HighchartUI.getHighchartOptions());
                                 if (!el) chart = null;else {
+                                    Highcharts.setOptions(HighchartUI.getHighchartOptions());
+
                                     chart = Highcharts.StockChart(el, HighchartUI.getChartOptions());
                                     is_initialized = true;
 
