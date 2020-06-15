@@ -12358,7 +12358,36 @@ module.exports = AccountOpening;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var isEmptyObject = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
+
+var submarket_order = {
+    forex: 0,
+    major_pairs: 1,
+    minor_pairs: 2,
+    smart_fx: 3,
+    indices: 4,
+    asia_oceania: 5,
+    europe_africa: 6,
+    americas: 7,
+    otc_index: 8,
+    stocks: 9,
+    au_otc_stock: 10,
+    ge_otc_stock: 11,
+    india_otc_stock: 12,
+    uk_otc_stock: 13,
+    us_otc_stock: 14,
+    commodities: 15,
+    metals: 16,
+    energy: 17,
+    synthetic_index: 18,
+    random_index: 19,
+    random_daily: 20,
+    random_nightly: 21
+};
 
 var ActiveSymbols = function () {
     var groupBy = function groupBy(xs, key) {
@@ -12473,6 +12502,35 @@ var ActiveSymbols = function () {
         return clone(symbols);
     };
 
+    var getSymbolsForMarket = function getSymbolsForMarket(active_symbols, market) {
+        var all_symbols = getSymbols(active_symbols);
+
+        var filtered_symbols = Object.keys(all_symbols)
+        // only keep the symbols of the currently selected market
+        .filter(function (symbol) {
+            return all_symbols[symbol].market === market;
+        })
+        // sort them by the submarket order defined
+        .sort(function (symbol_a, symbol_b) {
+            return sortSubmarket(all_symbols[symbol_a].submarket, all_symbols[symbol_b].submarket);
+        })
+        // make it into an object again with all needed data
+        .reduce(function (obj, symbol) {
+            return _extends({}, obj, _defineProperty({}, symbol, all_symbols[symbol]));
+        }, {});
+
+        return clone(filtered_symbols);
+    };
+
+    var sortSubmarket = function sortSubmarket(a, b) {
+        if (submarket_order[a] > submarket_order[b]) {
+            return 1;
+        } else if (submarket_order[a] < submarket_order[b]) {
+            return -1;
+        }
+        return 0;
+    };
+
     var getMarketsList = function getMarketsList(active_symbols) {
         var trade_markets_list = {};
         extend(trade_markets_list, getMarkets(active_symbols));
@@ -12512,7 +12570,9 @@ var ActiveSymbols = function () {
         getTradeUnderlyings: getTradeUnderlyings,
         getSymbolNames: getSymbolNames,
         clearData: clearData,
-        getSymbols: getSymbols
+        getSymbols: getSymbols,
+        getSymbolsForMarket: getSymbolsForMarket,
+        sortSubmarket: sortSubmarket
     };
 }();
 
@@ -18439,10 +18499,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var CreateDropdown = __webpack_require__(/*! @binary-com/binary-style */ "./node_modules/@binary-com/binary-style/binary.js").selectDropdown;
 var getHighstock = __webpack_require__(/*! ../common */ "./src/javascript/app/pages/trade/common.js").requireHighstock;
 var Defaults = __webpack_require__(/*! ../defaults */ "./src/javascript/app/pages/trade/defaults.js");
-var submarketSort = __webpack_require__(/*! ../markets.jsx */ "./src/javascript/app/pages/trade/markets.jsx").submarketSort;
 var Symbols = __webpack_require__(/*! ../symbols */ "./src/javascript/app/pages/trade/symbols.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
-var ActiveSymbols = __webpack_require__(/*! ../../../common/active_symbols */ "./src/javascript/app/common/active_symbols.js");
+var getSymbolsForMarket = __webpack_require__(/*! ../../../common/active_symbols */ "./src/javascript/app/common/active_symbols.js").getSymbolsForMarket;
 var addComma = __webpack_require__(/*! ../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
@@ -18538,21 +18597,10 @@ var DigitInfo = function () {
 
     var addContent = function addContent(underlying) {
         var domain = document.domain.split('.').slice(-2).join('.');
-        var market = Defaults.get('market');
-        var symbols = ActiveSymbols.getSymbols(State.getResponse('active_symbols'));
+        var symbols = getSymbolsForMarket(State.getResponse('active_symbols'), Defaults.get('market'));
 
         var elem = '';
-        Object.keys(symbols)
-        // only keep the symbols of the currently selected market
-        .filter(function (symbol) {
-            return symbols[symbol].market === market;
-        })
-        // sort them by the submarket order defined
-        .sort(function (symbol_a, symbol_b) {
-            return submarketSort(symbols[symbol_a].submarket, symbols[symbol_b].submarket);
-        })
-        // populate the drop-down with them
-        .forEach(function (symbol) {
+        Object.keys(symbols).forEach(function (symbol) {
             elem += '<option value="' + symbol + '">' + symbols[symbol].display + '</option>';
         });
 
@@ -23064,7 +23112,7 @@ module.exports = Lookback;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.init = exports.submarketSort = undefined;
+exports.init = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -23089,6 +23137,8 @@ var _symbols2 = _interopRequireDefault(_symbols);
 var _defaults = __webpack_require__(/*! ./defaults */ "./src/javascript/app/pages/trade/defaults.js");
 
 var _defaults2 = _interopRequireDefault(_defaults);
+
+var _active_symbols = __webpack_require__(/*! ../../common/active_symbols */ "./src/javascript/app/common/active_symbols.js");
 
 var _common_functions = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
 
@@ -23143,7 +23193,7 @@ var List = function List(_ref) {
                 obj.name
             ),
             Object.entries(obj.submarkets).sort(function (a, b) {
-                return submarketSort(a[0], b[0]);
+                return (0, _active_symbols.sortSubmarket)(a[0], b[0]);
             }).map(function (_ref4, idx_2) {
                 var _ref5 = _slicedToArray(_ref4, 2),
                     key = _ref5[0],
@@ -23185,40 +23235,6 @@ var List = function List(_ref) {
     });
 };
 
-var submarket_order = {
-    forex: 0,
-    major_pairs: 1,
-    minor_pairs: 2,
-    smart_fx: 3,
-    indices: 4,
-    asia_oceania: 5,
-    europe_africa: 6,
-    americas: 7,
-    otc_index: 8,
-    stocks: 9,
-    au_otc_stock: 10,
-    ge_otc_stock: 11,
-    india_otc_stock: 12,
-    uk_otc_stock: 13,
-    us_otc_stock: 14,
-    commodities: 15,
-    metals: 16,
-    energy: 17,
-    synthetic_index: 18,
-    random_index: 19,
-    random_daily: 20,
-    random_nightly: 21
-};
-
-var submarketSort = exports.submarketSort = function submarketSort(a, b) {
-    if (submarket_order[a] > submarket_order[b]) {
-        return 1;
-    } else if (submarket_order[a] < submarket_order[b]) {
-        return -1;
-    }
-    return 0;
-};
-
 var Markets = (_temp = _class = function (_React$Component) {
     _inherits(Markets, _React$Component);
 
@@ -23235,11 +23251,11 @@ var Markets = (_temp = _class = function (_React$Component) {
         _this.underlyings = _symbols2.default.getAllSymbols() || {};
         var underlying_symbol = _defaults2.default.get('underlying');
         if (!underlying_symbol || !_this.underlyings[underlying_symbol]) {
-            var submarket = Object.keys(_this.markets[market_symbol].submarkets).sort(submarketSort)[0];
+            var submarket = Object.keys(_this.markets[market_symbol].submarkets).sort(_active_symbols.sortSubmarket)[0];
             underlying_symbol = Object.keys(_this.markets[market_symbol].submarkets[submarket].symbols).sort()[0];
         }
         var markets_arr = Object.entries(_this.markets).sort(function (a, b) {
-            return submarketSort(a[0], b[0]);
+            return (0, _active_symbols.sortSubmarket)(a[0], b[0]);
         });
         _this.markets_all = markets_arr.slice();
         if (!(market_symbol in _this.markets)) {
