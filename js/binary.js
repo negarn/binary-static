@@ -526,9 +526,9 @@ var ClientBase = function () {
     };
 
     // remove manager id or master distinction from group
-    // remove EUR or GBP distinction from group
+    // remove EUR or GBP or bBook or HighRisk distinction from group
     var getMT5AccountType = function getMT5AccountType(group) {
-        return group ? group.replace('\\', '_').replace(/_(\d+|master|EUR|GBP)/, '') : '';
+        return group ? group.replace('\\', '_').replace(/_(\d+|master|EUR|GBP|bBook|HighRisk)/, '') : '';
     };
 
     var getBasicUpgradeInfo = function getBasicUpgradeInfo() {
