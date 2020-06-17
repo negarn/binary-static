@@ -12360,7 +12360,36 @@ module.exports = AccountOpening;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var isEmptyObject = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
+
+var submarket_order = {
+    forex: 0,
+    major_pairs: 1,
+    minor_pairs: 2,
+    smart_fx: 3,
+    indices: 4,
+    asia_oceania: 5,
+    europe_africa: 6,
+    americas: 7,
+    otc_index: 8,
+    stocks: 9,
+    au_otc_stock: 10,
+    ge_otc_stock: 11,
+    india_otc_stock: 12,
+    uk_otc_stock: 13,
+    us_otc_stock: 14,
+    commodities: 15,
+    metals: 16,
+    energy: 17,
+    synthetic_index: 18,
+    random_index: 19,
+    random_daily: 20,
+    random_nightly: 21
+};
 
 var ActiveSymbols = function () {
     var groupBy = function groupBy(xs, key) {
@@ -12475,6 +12504,35 @@ var ActiveSymbols = function () {
         return clone(symbols);
     };
 
+    var getSymbolsForMarket = function getSymbolsForMarket(active_symbols, market) {
+        var all_symbols = getSymbols(active_symbols);
+
+        var filtered_symbols = Object.keys(all_symbols)
+        // only keep the symbols of the currently selected market
+        .filter(function (symbol) {
+            return all_symbols[symbol].market === market;
+        })
+        // sort them by the submarket order defined
+        .sort(function (symbol_a, symbol_b) {
+            return sortSubmarket(all_symbols[symbol_a].submarket, all_symbols[symbol_b].submarket);
+        })
+        // make it into an object again with all needed data
+        .reduce(function (obj, symbol) {
+            return _extends({}, obj, _defineProperty({}, symbol, all_symbols[symbol]));
+        }, {});
+
+        return clone(filtered_symbols);
+    };
+
+    var sortSubmarket = function sortSubmarket(a, b) {
+        if (submarket_order[a] > submarket_order[b]) {
+            return 1;
+        } else if (submarket_order[a] < submarket_order[b]) {
+            return -1;
+        }
+        return 0;
+    };
+
     var getMarketsList = function getMarketsList(active_symbols) {
         var trade_markets_list = {};
         extend(trade_markets_list, getMarkets(active_symbols));
@@ -12514,7 +12572,9 @@ var ActiveSymbols = function () {
         getTradeUnderlyings: getTradeUnderlyings,
         getSymbolNames: getSymbolNames,
         clearData: clearData,
-        getSymbols: getSymbols
+        getSymbols: getSymbols,
+        getSymbolsForMarket: getSymbolsForMarket,
+        sortSubmarket: sortSubmarket
     };
 }();
 
@@ -15195,15 +15255,19 @@ module.exports = TimePicker;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
+var Dialog = __webpack_require__(/*! ../../common/attach_dom/dialog */ "./src/javascript/app/common/attach_dom/dialog.js");
 var Currency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js");
 var FormManager = __webpack_require__(/*! ../../common/form_manager */ "./src/javascript/app/common/form_manager.js");
 var elementTextContent = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementTextContent;
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
+var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var AccountTransfer = function () {
@@ -15362,19 +15426,68 @@ var AccountTransfer = function () {
         });
     };
 
-    var responseHandler = function responseHandler(response) {
-        if (response.error) {
-            var el_error = getElementById('form_error');
-            elementTextContent(el_error, response.error.message);
-            el_error.setVisibility(1);
-            // Auto hide error after 5 seconds.
-            setTimeout(function () {
-                return el_error.setVisibility(0);
-            }, 5000);
-        } else {
-            populateReceipt(response);
-        }
-    };
+    var responseHandler = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(response) {
+            var el_error;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            if (!response.error) {
+                                _context.next = 13;
+                                break;
+                            }
+
+                            if (!(response.error.code === 'Fiat2CryptoTransferOverLimit')) {
+                                _context.next = 7;
+                                break;
+                            }
+
+                            _context.next = 4;
+                            return BinarySocket.send({ get_account_status: 1 });
+
+                        case 4:
+                            Dialog.confirm({
+                                id: 'error_transfer',
+                                localized_title: localize('Verification required'),
+                                localized_message: response.error.message,
+                                ok_text: localize('Verify identity'),
+                                onConfirm: function onConfirm() {
+                                    BinaryPjax.load(urlFor('user/authenticate'));
+                                }
+                            });
+                            _context.next = 11;
+                            break;
+
+                        case 7:
+                            el_error = getElementById('form_error');
+
+                            elementTextContent(el_error, response.error.message);
+                            el_error.setVisibility(1);
+                            // Auto hide error after 5 seconds.
+                            setTimeout(function () {
+                                return el_error.setVisibility(0);
+                            }, 5000);
+
+                        case 11:
+                            _context.next = 14;
+                            break;
+
+                        case 13:
+                            populateReceipt(response);
+
+                        case 14:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        }));
+
+        return function responseHandler(_x) {
+            return _ref.apply(this, arguments);
+        };
+    }();
 
     var populateReceipt = function populateReceipt(response) {
         getElementById(form_id).setVisibility(0);
@@ -18387,10 +18500,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var CreateDropdown = __webpack_require__(/*! @binary-com/binary-style */ "./node_modules/@binary-com/binary-style/binary.js").selectDropdown;
 var getHighstock = __webpack_require__(/*! ../common */ "./src/javascript/app/pages/trade/common.js").requireHighstock;
+var Defaults = __webpack_require__(/*! ../defaults */ "./src/javascript/app/pages/trade/defaults.js");
 var Symbols = __webpack_require__(/*! ../symbols */ "./src/javascript/app/pages/trade/symbols.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
+var getSymbolsForMarket = __webpack_require__(/*! ../../../common/active_symbols */ "./src/javascript/app/common/active_symbols.js").getSymbolsForMarket;
 var addComma = __webpack_require__(/*! ../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var template = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").template;
 
 var DigitInfo = function () {
@@ -18483,20 +18599,13 @@ var DigitInfo = function () {
 
     var addContent = function addContent(underlying) {
         var domain = document.domain.split('.').slice(-2).join('.');
-        var underlyings = [];
-        var symbols = Symbols.getAllSymbols();
-        Object.keys(symbols).forEach(function (key) {
-            if (/^(R_|RD)/.test(key)) {
-                underlyings.push(key);
-            }
-        });
-        underlyings = underlyings.sort();
-        underlyings.splice(2, 0, '1HZ10V'); // add Volatility 10 (1s)
-        underlyings.splice(4, 0, '1HZ100V'); // add Volatility 100 (1s)
+        var symbols = getSymbolsForMarket(State.getResponse('active_symbols'), Defaults.get('market'));
+
         var elem = '';
-        for (var i = 0; i < underlyings.length; i++) {
-            elem += '<option value="' + underlyings[i] + '">' + symbols[underlyings[i]] + '</option>';
-        }
+        Object.keys(symbols).forEach(function (symbol) {
+            elem += '<option value="' + symbol + '">' + symbols[symbol].display + '</option>';
+        });
+
         $('#digit_underlying').html($(elem)).val(underlying);
         $('#digit_domain').text(domain.charAt(0).toUpperCase() + domain.slice(1));
         $('#digit_info_underlying').text($('#digit_underlying option:selected').text());
@@ -23032,6 +23141,8 @@ var _defaults = __webpack_require__(/*! ./defaults */ "./src/javascript/app/page
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
+var _active_symbols = __webpack_require__(/*! ../../common/active_symbols */ "./src/javascript/app/common/active_symbols.js");
+
 var _common_functions = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
 
 var _localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js");
@@ -23085,7 +23196,7 @@ var List = function List(_ref) {
                 obj.name
             ),
             Object.entries(obj.submarkets).sort(function (a, b) {
-                return submarketSort(a[0], b[0]);
+                return (0, _active_symbols.sortSubmarket)(a[0], b[0]);
             }).map(function (_ref4, idx_2) {
                 var _ref5 = _slicedToArray(_ref4, 2),
                     key = _ref5[0],
@@ -23127,40 +23238,6 @@ var List = function List(_ref) {
     });
 };
 
-var submarket_order = {
-    forex: 0,
-    major_pairs: 1,
-    minor_pairs: 2,
-    smart_fx: 3,
-    indices: 4,
-    asia_oceania: 5,
-    europe_africa: 6,
-    americas: 7,
-    otc_index: 8,
-    stocks: 9,
-    au_otc_stock: 10,
-    ge_otc_stock: 11,
-    india_otc_stock: 12,
-    uk_otc_stock: 13,
-    us_otc_stock: 14,
-    commodities: 15,
-    metals: 16,
-    energy: 17,
-    synthetic_index: 18,
-    random_index: 19,
-    random_daily: 20,
-    random_nightly: 21
-};
-
-var submarketSort = function submarketSort(a, b) {
-    if (submarket_order[a] > submarket_order[b]) {
-        return 1;
-    } else if (submarket_order[a] < submarket_order[b]) {
-        return -1;
-    }
-    return 0;
-};
-
 var Markets = (_temp = _class = function (_React$Component) {
     _inherits(Markets, _React$Component);
 
@@ -23177,11 +23254,11 @@ var Markets = (_temp = _class = function (_React$Component) {
         _this.underlyings = _symbols2.default.getAllSymbols() || {};
         var underlying_symbol = _defaults2.default.get('underlying');
         if (!underlying_symbol || !_this.underlyings[underlying_symbol]) {
-            var submarket = Object.keys(_this.markets[market_symbol].submarkets).sort(submarketSort)[0];
+            var submarket = Object.keys(_this.markets[market_symbol].submarkets).sort(_active_symbols.sortSubmarket)[0];
             underlying_symbol = Object.keys(_this.markets[market_symbol].submarkets[submarket].symbols).sort()[0];
         }
         var markets_arr = Object.entries(_this.markets).sort(function (a, b) {
-            return submarketSort(a[0], b[0]);
+            return (0, _active_symbols.sortSubmarket)(a[0], b[0]);
         });
         _this.markets_all = markets_arr.slice();
         if (!(market_symbol in _this.markets)) {
@@ -26996,96 +27073,100 @@ var Authenticate = function () {
                             }
 
                             $('#personal_details_error').setVisibility(1);
-                            _context2.next = 41;
+                            _context2.next = 42;
                             break;
 
                         case 21:
                             if (identity.further_resubmissions_allowed) {
-                                _context2.next = 40;
+                                _context2.next = 41;
                                 break;
                             }
 
+                            // if POI is verified and POA is not verified, redirect to POA tab
+                            if (identity.status === 'verified' && document.status !== 'verified') {
+                                Url.updateParamsWithoutReload({ authentication_tab: 'poa' }, true);
+                            }
                             _context2.t0 = identity.status;
-                            _context2.next = _context2.t0 === 'none' ? 25 : _context2.t0 === 'pending' ? 27 : _context2.t0 === 'rejected' ? 29 : _context2.t0 === 'verified' ? 31 : _context2.t0 === 'expired' ? 33 : _context2.t0 === 'suspected' ? 35 : 37;
+                            _context2.next = _context2.t0 === 'none' ? 26 : _context2.t0 === 'pending' ? 28 : _context2.t0 === 'rejected' ? 30 : _context2.t0 === 'verified' ? 32 : _context2.t0 === 'expired' ? 34 : _context2.t0 === 'suspected' ? 36 : 38;
                             break;
 
-                        case 25:
+                        case 26:
                             if (onfido_unsupported) {
                                 $('#not_authenticated_uns').setVisibility(1);
                                 initUnsupported();
                             } else {
                                 initOnfido(service_token_response.token, documents_supported);
                             }
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
-                        case 27:
+                        case 28:
                             $('#upload_complete').setVisibility(1);
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
-                        case 29:
+                        case 30:
                             $('#unverified').setVisibility(1);
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
-                        case 31:
+                        case 32:
                             $('#verified').setVisibility(1);
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
-                        case 33:
+                        case 34:
                             $('#expired_poi').setVisibility(1);
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
-                        case 35:
+                        case 36:
                             $('#unverified').setVisibility(1);
-                            return _context2.abrupt('break', 38);
-
-                        case 37:
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
                         case 38:
-                            _context2.next = 41;
-                            break;
+                            return _context2.abrupt('break', 39);
 
-                        case 40:
-                            initOnfido(service_token_response.token, documents_supported);
+                        case 39:
+                            _context2.next = 42;
+                            break;
 
                         case 41:
+                            initOnfido(service_token_response.token, documents_supported);
+
+                        case 42:
                             _context2.t1 = document.status;
-                            _context2.next = _context2.t1 === 'none' ? 44 : _context2.t1 === 'pending' ? 47 : _context2.t1 === 'rejected' ? 49 : _context2.t1 === 'suspected' ? 51 : _context2.t1 === 'verified' ? 53 : _context2.t1 === 'expired' ? 55 : 57;
+                            _context2.next = _context2.t1 === 'none' ? 45 : _context2.t1 === 'pending' ? 48 : _context2.t1 === 'rejected' ? 50 : _context2.t1 === 'suspected' ? 52 : _context2.t1 === 'verified' ? 54 : _context2.t1 === 'expired' ? 56 : 58;
                             break;
 
-                        case 44:
+                        case 45:
                             init();
                             $('#not_authenticated').setVisibility(1);
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
-                        case 47:
+                        case 48:
                             $('#pending_poa').setVisibility(1);
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
-                        case 49:
+                        case 50:
                             $('#unverified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
-                        case 51:
+                        case 52:
                             $('#unverified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
-                        case 53:
+                        case 54:
                             $('#verified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
-                        case 55:
+                        case 56:
                             $('#expired_poa').setVisibility(1);
-                            return _context2.abrupt('break', 58);
-
-                        case 57:
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
                         case 58:
+                            return _context2.abrupt('break', 59);
+
+                        case 59:
                             $('#authentication_loading').setVisibility(0);
                             TabSelector.updateTabDisplay();
 
-                        case 60:
+                        case 61:
                         case 'end':
                             return _context2.stop();
                     }
@@ -32362,20 +32443,6 @@ var MetaTraderConfig = function () {
         return $messages.find('#msg_switch').html();
     };
 
-    // currency equivalent to 1 USD
-    // or 1 of donor currency if both accounts have the same currency
-    var getMinMT5TransferValue = function getMinMT5TransferValue(currency) {
-        var client_currency = Client.get('currency');
-        var mt5_currency = getCurrency(Client.get('mt5_account'));
-        if (client_currency === mt5_currency) return 1;
-        return (+State.getResponse('exchange_rates.rates.' + currency) || 1).toFixed(Currency.getDecimalPlaces(currency));
-    };
-
-    // currency equivalent to 20000 USD
-    var getMaxMT5TransferValue = function getMaxMT5TransferValue(currency) {
-        return (+getMinMT5TransferValue(currency) * 20000).toFixed(Currency.getDecimalPlaces(currency));
-    };
-
     var newAccCheck = function newAccCheck(acc_type, message_selector) {
         return new Promise(function (resolve) {
             var $message = $messages.find('#msg_real_financial').clone();
@@ -32637,7 +32704,7 @@ var MetaTraderConfig = function () {
                                 resolve(localize('Your cashier is locked.')); // Locked from BO
                             } else {
                                 var limit = State.getResponse('get_limits.remainder');
-                                if (typeof limit !== 'undefined' && +limit < getMinMT5TransferValue(Client.get('currency'))) {
+                                if (typeof limit !== 'undefined' && +limit < Currency.getTransferLimits(Client.get('currency'), 'min')) {
                                     resolve(localize('You have reached the limit.'));
                                 } else {
                                     resolve();
@@ -32749,16 +32816,16 @@ var MetaTraderConfig = function () {
             password_reset: [{ selector: fields.password_reset.ddl_password_type.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_reset.txt_new_password.id, validations: [['req', { hide_asterisk: true }], ['password', 'mt']], re_check_field: fields.password_reset.txt_re_new_password.id }, { selector: fields.password_reset.txt_re_new_password.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.password_reset.txt_new_password.id }]] }],
             verify_password_reset_token: [{ selector: fields.verify_password_reset_token.txt_verification_code.id, validations: [['req', { hide_asterisk: true }], 'token'], exclude_request: 1 }],
             deposit: [{ selector: fields.deposit.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
-                        return getMinMT5TransferValue(Client.get('currency'));
+                        return Currency.getTransferLimits(Client.get('currency'), 'min');
                     }, max: function max() {
-                        return Math.min(State.getResponse('get_limits.remainder') || getMaxMT5TransferValue(Client.get('currency')), getMaxMT5TransferValue(Client.get('currency'))).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
+                        return Math.min(State.getResponse('get_limits.remainder') || Currency.getTransferLimits(Client.get('currency'), 'max'), Currency.getTransferLimits(Client.get('currency'), 'max')).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
                     }, decimals: Currency.getDecimalPlaces(Client.get('currency')) }], ['custom', { func: function func() {
                         return Client.get('balance') && +Client.get('balance') >= +$(fields.deposit.txt_amount.id).val();
                     }, message: localize('You have insufficient funds in your Binary account, please <a href="[_1]">add funds</a>.', urlFor('cashier')) }]] }],
             withdrawal: [{ selector: fields.withdrawal.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
-                        return getMinMT5TransferValue(getCurrency(Client.get('mt5_account')));
+                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'min');
                     }, max: function max() {
-                        return getMaxMT5TransferValue(getCurrency(Client.get('mt5_account')));
+                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'max');
                     }, decimals: 2 }]] }]
         };
     };
@@ -32844,6 +32911,7 @@ var MetaTraderConfig = __webpack_require__(/*! ./metatrader.config */ "./src/jav
 var MetaTraderUI = __webpack_require__(/*! ./metatrader.ui */ "./src/javascript/app/pages/user/metatrader/metatrader.ui.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
+var setCurrencies = __webpack_require__(/*! ../../../common/currency */ "./src/javascript/app/common/currency.js").setCurrencies;
 var Validation = __webpack_require__(/*! ../../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
@@ -32867,7 +32935,7 @@ var MetaTrader = function () {
                     switch (_context2.prev = _context2.next) {
                         case 0:
                             if (!isEligible()) {
-                                _context2.next = 16;
+                                _context2.next = 15;
                                 break;
                             }
 
@@ -32891,7 +32959,7 @@ var MetaTrader = function () {
                             MetaTraderUI.displayPageError(_context2.t0.message);
 
                         case 10:
-                            _context2.next = 14;
+                            _context2.next = 13;
                             break;
 
                         case 12:
@@ -32921,27 +32989,21 @@ var MetaTrader = function () {
                                     }
                                 }, _callee, undefined, [[0, 5]]);
                             })));
-                            getExchangeRates();
 
-                        case 14:
-                            _context2.next = 17;
+                        case 13:
+                            _context2.next = 16;
                             break;
 
-                        case 16:
+                        case 15:
                             MetaTraderUI.displayPageError(localize('Sorry, this feature is not available in your jurisdiction.'));
 
-                        case 17:
+                        case 16:
                         case 'end':
                             return _context2.stop();
                     }
                 }
             }, _callee2, undefined, [[2, 7]]);
         })));
-    };
-
-    // we need to calculate min/max equivalent to 1 and 20000 USD, so get exchange rates for all currencies based on USD
-    var getExchangeRates = function getExchangeRates() {
-        return BinarySocket.send({ exchange_rates: 1, base_currency: 'USD' });
     };
 
     var setMTCompanies = function setMTCompanies() {
@@ -33140,7 +33202,12 @@ var MetaTrader = function () {
                                             actions_info[action].onError(response, MetaTraderUI.$form());
                                         }
                                         if (/^MT5(Deposit|Withdrawal)Error$/.test(response.error.code)) {
-                                            getExchangeRates();
+                                            // update limits if outdated due to exchange rates changing for currency
+                                            BinarySocket.send({ website_status: 1 }).then(function (response_w) {
+                                                if (response_w.website_status) {
+                                                    setCurrencies(response_w.website_status);
+                                                }
+                                            });
                                         }
                                         MetaTraderUI.enableButton(action, response);
                                         _context3.next = 20;
