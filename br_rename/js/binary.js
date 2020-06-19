@@ -33790,7 +33790,7 @@ var MetaTraderUI = function () {
 
         var count = 0;
         Object.keys(accounts_info).filter(function (acc_type) {
-            return !/labuan_financial|svg_financial_stp|vanuatu_financial_stp|maltainvest_financial_stp/.test(acc_type);
+            return !/^[real|demo]_[labuan_financial|svg_financial_stp|vanuatu_financial_stp|maltainvest_financial_stp]$/.test(acc_type);
         }) // toEnableVanuatuFinancialSTP: remove vanuatu_financial_stp from regex
         .forEach(function (acc_type) {
             var $acc = accounts_info[acc_type].is_demo ? $acc_template_demo.clone() : $acc_template_real.clone();
