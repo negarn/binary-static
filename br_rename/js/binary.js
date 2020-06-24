@@ -33229,9 +33229,7 @@ var MetaTraderUI = function () {
         var $acc_name = $templates.find('> .acc-name');
         var acc_group_demo_set = false;
         var acc_group_real_set = false;
-        Object.keys(accounts_info).sort(function (a, b) {
-            return accounts_info[a].account_type > accounts_info[b].account_type ? 1 : -1;
-        }).forEach(function (acc_type) {
+        Object.keys(accounts_info).sort(sortMt5Accounts).forEach(function (acc_type) {
             if ($list.find('[value="' + acc_type + '"]').length === 0) {
                 if (/^demo/.test(acc_type)) {
                     if (!acc_group_demo_set) {
@@ -33649,6 +33647,23 @@ var MetaTraderUI = function () {
         }
     };
 
+    var sortMt5Accounts = function sortMt5Accounts(a, b) {
+        if (/demo/.test(a) && !/demo/.test(b)) {
+            return -1;
+        }
+        if (/demo/.test(b) && !/demo/.test(a)) {
+            return 1;
+        }
+        if (/svg$/.test(a)) {
+            return -1;
+        }
+        if (/vanuatu|svg_standard/.test(a)) {
+            return (/svg$/.test(b) ? 1 : -1
+            );
+        }
+        return 1;
+    };
+
     var updateAccountTypesUI = function updateAccountTypesUI(type) {
         Object.keys(accounts_info).filter(function (acc_type) {
             return acc_type.indexOf(type) === 0;
@@ -33673,7 +33688,7 @@ var MetaTraderUI = function () {
         .filter(function (acc_type) {
             return !/^(real|demo)_(labuan_(standard|financial)|svg_(advanced|financial_stp)|vanuatu_(advanced|financial_stp)|maltainvest_(advanced|financial_stp))$/.test(acc_type);
         }) // toEnableVanuatuFinancialSTP: remove vanuatu_financial_stp from regex
-        .forEach(function (acc_type) {
+        .sort(sortMt5Accounts).forEach(function (acc_type) {
             var $acc = accounts_info[acc_type].is_demo ? $acc_template_demo.clone() : $acc_template_real.clone();
             var type = acc_type.split('_').slice(1).join('_');
             var image = accounts_info[acc_type].mt5_account_type || 'synthetic'; // image name can be (financial_stp|financial|synthetic)
