@@ -528,7 +528,9 @@ var ClientBase = function () {
     // remove manager id or master distinction from group
     // remove EUR or GBP distinction from group
     var getMT5AccountType = function getMT5AccountType(group) {
-        return group ? group.replace('\\', '_').replace(/_(\d+|master|EUR|GBP)/, '') : '';
+        return group ? group.replace('\\', '_').replace(/_(\d+|master|EUR|GBP|Bbook|HighRisk)/i, '')
+        // TODO: [remove-standard-advanced] remove standard and advanced when API groups are updated
+        .replace(/_standard$/, '_financial').replace(/_advanced$/, '_financial_stp') : '';
     };
 
     var getBasicUpgradeInfo = function getBasicUpgradeInfo() {
@@ -2636,215 +2638,6 @@ var Crowdin = function () {
 }();
 
 module.exports = Crowdin;
-
-/***/ }),
-
-/***/ "./src/javascript/_common/geocoder.js":
-/*!********************************************!*\
-  !*** ./src/javascript/_common/geocoder.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/* global google */
-var scriptjs = __webpack_require__(/*! scriptjs */ "./node_modules/scriptjs/dist/script.js");
-var getElementById = __webpack_require__(/*! ./common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
-var applyToAllElements = __webpack_require__(/*! ./utility */ "./src/javascript/_common/utility.js").applyToAllElements;
-var Client = __webpack_require__(/*! ../app/base/client */ "./src/javascript/app/base/client.js");
-
-var Geocoder = function () {
-    var el_btn_validate = void 0,
-        el_error = void 0,
-        el_geocode_status = void 0,
-        el_loader = void 0,
-        el_postcode_row = void 0,
-        el_success = void 0,
-        is_states_el_select = void 0;
-    var validated = false;
-
-    var init = function init(form_id) {
-        // TODO: We should store the Google API key in an unstaged file so it doesn't get committed to the public repository
-        scriptjs('https://maps.googleapis.com/maps/api/js?key=AIzaSyAEha6-HeZuI95L9JWmX3m6o-AxQr_oFqU&libraries=places', 'gMaps');
-
-        var form = getElementById(form_id.split('#')[1]);
-        var addr_1 = '#address_line_1';
-        var addr_2 = '#address_line_2';
-        var city = '#address_city';
-        var state = '#address_state';
-        var postcode = '#address_postcode';
-        var residence = Client.get('residence').toUpperCase();
-
-        is_states_el_select = form.querySelector(state).tagName === 'SELECT';
-
-        var getAddress = function getAddress() {
-            return getValue(addr_1) + ', ' + getValue(addr_2) + ', ' + getValue(city) + ', ' + getValue(postcode) + ' ' + (is_states_el_select ? getStateText(state) : getValue(state)) + ', ' + residence + ' ';
-        };
-
-        el_btn_validate = form.querySelector('#geocode_validate');
-        el_geocode_status = form.querySelector('#geocode_status');
-        el_error = form.querySelector('#geocode_error');
-        el_postcode_row = form.querySelector('.postcode-form-row');
-        el_success = form.querySelector('#geocode_success');
-        el_loader = form.querySelector('.barspinner');
-
-        if (el_btn_validate) {
-            applyToAllElements(addr_1 + ', ' + addr_2 + ', ' + postcode + ', ' + (!is_states_el_select ? state : undefined) + ' ,' + city, function (element) {
-                // List of fields that will trigger event onChange but will allow empty values as they are non-required fields
-                var non_required_fields = ['addr_2', 'postcode', '' + (!is_states_el_select ? 'state' : undefined)];
-
-                element.addEventListener('keyup', function () {
-                    var value = element.value;
-                    // Check if address_line_1, address_state and address city have values
-                    var has_met_conditions = getValue(city).trim().length > 0 && getValue(addr_1).trim().length > 0;
-
-                    if (value.length > 0 && !non_required_fields.includes(element.id) && has_met_conditions) {
-                        el_btn_validate.classList.remove('geocode-btn-disabled');
-                    } else if (!non_required_fields.includes(element.id) && has_met_conditions) {
-                        el_btn_validate.classList.remove('geocode-btn-disabled');
-                    } else {
-                        el_btn_validate.classList.add('geocode-btn-disabled');
-                    }
-                });
-            }, '', form);
-
-            el_btn_validate.addEventListener('click', function (e) {
-                e.preventDefault();
-                if (el_btn_validate.classList.contains('geocode-btn-disabled')) {
-                    return;
-                }
-                validator(getAddress()).then(function () {
-                    validated = true;
-                });
-            });
-
-            // using jQuery here because for some reason vanilla javascript eventListener isn't working for select input onChange events
-            $(state).on('change', function () {
-                if (getValue(city).length > 0 && getValue(addr_1).length > 0) {
-                    el_btn_validate.classList.remove('geocode-btn-disabled');
-                } else {
-                    el_btn_validate.classList.add('geocode-btn-disabled');
-                }
-            });
-
-            el_btn_validate.setVisibility(1);
-
-            if (validated || !getValue(addr_1).length || !getValue(state)) {
-                el_btn_validate.classList.add('geocode-btn-disabled');
-            }
-        }
-
-        el_postcode_row.parentNode.appendChild(el_geocode_status);
-
-        if (el_error) {
-            el_error.setVisibility(0);
-        }
-
-        return {
-            address: getAddress()
-        };
-    };
-
-    var getValue = function getValue(selector) {
-        return getElementById(selector.split('#')[1]).value || '';
-    };
-    var getStateText = function getStateText(selector) {
-        var states_list_el = getElementById(selector.split('#')[1]);
-        return states_list_el.options[states_list_el.selectedIndex].text;
-    };
-
-    var validate = function validate(form_id) {
-        var address = init(form_id).address;
-        validator(address).then(function () {
-            validated = true;
-        });
-    };
-
-    var validator = function validator(address) {
-        return new Promise(function (resolve) {
-            scriptjs.ready('gMaps', function () {
-                var geocoder = new google.maps.Geocoder();
-                el_btn_validate.classList.add('geocode-btn-disabled');
-                el_success.setVisibility(0);
-                el_error.setVisibility(0);
-                el_loader.setVisibility(1);
-                geocoder.geocode({
-                    address: address,
-                    // Restrict Geolocation to client's country of residence and state
-                    componentRestrictions: {
-                        country: Client.get('residence').toUpperCase(),
-                        administrativeArea: is_states_el_select ? getStateText('#address_state') : getValue('#address_state')
-                    }
-                }, function (result, status) {
-                    // Geocoding status reference:
-                    // https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingStatusCodes
-                    var data = { result: result, status: status };
-                    handleResponse(data);
-                    resolve(data);
-                });
-            });
-        });
-    };
-
-    var isAddressFound = function isAddressFound(user_address, user_city, geoloc_address) {
-        var result = void 0;
-        var trimSpaces = function trimSpaces(string) {
-            return string.replace(/^\s+|\s+$/g, '');
-        };
-
-        if (geoloc_address.length && getValue('#address_city')) {
-            var item_idx = geoloc_address.length - 1;
-
-            var country_longname = getElementById('country').innerHTML;
-            var input_city = trimSpaces(user_city).toLowerCase();
-            var user_address_str = trimSpaces(user_address);
-            var arr_input_address = user_address_str.replace(/[\s]-[\s]|\/\w+/g, ' ').toLowerCase().split(', ');
-
-            var arr_address_components = geoloc_address[item_idx].address_components;
-            var arr_address_list = [];
-
-            // Create address dictionary string based on returned long and short named address components by Geolocation API
-            arr_address_components.filter(function (address) {
-                arr_address_list.push(address.long_name.replace(/ - /g, ' '));
-                arr_address_list.push(address.short_name.replace(/ - /g, ' '));
-            });
-
-            // Filter out duplicates in address components
-            var address_list_dictionary = arr_address_list.filter(function (elem, pos, arr) {
-                return arr.indexOf(elem) === pos;
-            }).join(' ').toLowerCase();
-
-            // Check if city exists, if true, check if first line of address exists
-            if (address_list_dictionary.indexOf(input_city) !== -1 && user_address.toLowerCase() !== country_longname.toLowerCase()) {
-                result = arr_input_address.some(function (address) {
-                    return address_list_dictionary.includes(address);
-                });
-            }
-        }
-        return result;
-    };
-
-    var handleResponse = function handleResponse(data) {
-        var is_address_found = isAddressFound(getValue('#address_line_1'), getValue('#address_city'), data.result);
-        if (/ZERO_RESULTS|INVALID_REQUEST|UNKNOWN_ERROR/.test(data.status) || !is_address_found) {
-            el_error.setVisibility(1);
-            el_success.setVisibility(0);
-        } else {
-            el_error.setVisibility(0);
-            el_success.setVisibility(1);
-        }
-        el_loader.setVisibility(0);
-    };
-
-    return {
-        init: init,
-        validate: validate
-    };
-}();
-
-module.exports = Geocoder;
 
 /***/ }),
 
@@ -12083,7 +11876,6 @@ var Client = __webpack_require__(/*! ../base/client */ "./src/javascript/app/bas
 var BinarySocket = __webpack_require__(/*! ../base/socket */ "./src/javascript/app/base/socket.js");
 var professionalClient = __webpack_require__(/*! ../pages/user/account/settings/professional_client */ "./src/javascript/app/pages/user/account/settings/professional_client.js");
 var CommonFunctions = __webpack_require__(/*! ../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
-var Geocoder = __webpack_require__(/*! ../../_common/geocoder */ "./src/javascript/_common/geocoder.js");
 var localize = __webpack_require__(/*! ../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var urlFor = __webpack_require__(/*! ../../_common/url */ "./src/javascript/_common/url.js").urlFor;
@@ -12268,7 +12060,6 @@ var AccountOpening = function () {
             if (form_id && typeof getValidations === 'function') {
                 FormManager.init(form_id, getValidations());
             }
-            Geocoder.init(form_id);
         });
     };
     var handleNewAccount = function handleNewAccount(response, message_type) {
@@ -12358,7 +12149,36 @@ module.exports = AccountOpening;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var isEmptyObject = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
+
+var submarket_order = {
+    forex: 0,
+    major_pairs: 1,
+    minor_pairs: 2,
+    smart_fx: 3,
+    indices: 4,
+    asia_oceania: 5,
+    europe_africa: 6,
+    americas: 7,
+    otc_index: 8,
+    stocks: 9,
+    au_otc_stock: 10,
+    ge_otc_stock: 11,
+    india_otc_stock: 12,
+    uk_otc_stock: 13,
+    us_otc_stock: 14,
+    commodities: 15,
+    metals: 16,
+    energy: 17,
+    synthetic_index: 18,
+    random_index: 19,
+    random_daily: 20,
+    random_nightly: 21
+};
 
 var ActiveSymbols = function () {
     var groupBy = function groupBy(xs, key) {
@@ -12473,6 +12293,35 @@ var ActiveSymbols = function () {
         return clone(symbols);
     };
 
+    var getSymbolsForMarket = function getSymbolsForMarket(active_symbols, market) {
+        var all_symbols = getSymbols(active_symbols);
+
+        var filtered_symbols = Object.keys(all_symbols)
+        // only keep the symbols of the currently selected market
+        .filter(function (symbol) {
+            return all_symbols[symbol].market === market;
+        })
+        // sort them by the submarket order defined
+        .sort(function (symbol_a, symbol_b) {
+            return sortSubmarket(all_symbols[symbol_a].submarket, all_symbols[symbol_b].submarket);
+        })
+        // make it into an object again with all needed data
+        .reduce(function (obj, symbol) {
+            return _extends({}, obj, _defineProperty({}, symbol, all_symbols[symbol]));
+        }, {});
+
+        return clone(filtered_symbols);
+    };
+
+    var sortSubmarket = function sortSubmarket(a, b) {
+        if (submarket_order[a] > submarket_order[b]) {
+            return 1;
+        } else if (submarket_order[a] < submarket_order[b]) {
+            return -1;
+        }
+        return 0;
+    };
+
     var getMarketsList = function getMarketsList(active_symbols) {
         var trade_markets_list = {};
         extend(trade_markets_list, getMarkets(active_symbols));
@@ -12512,7 +12361,9 @@ var ActiveSymbols = function () {
         getTradeUnderlyings: getTradeUnderlyings,
         getSymbolNames: getSymbolNames,
         clearData: clearData,
-        getSymbols: getSymbols
+        getSymbols: getSymbols,
+        getSymbolsForMarket: getSymbolsForMarket,
+        sortSubmarket: sortSubmarket
     };
 }();
 
@@ -15193,15 +15044,19 @@ module.exports = TimePicker;
 "use strict";
 
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 var BinaryPjax = __webpack_require__(/*! ../../base/binary_pjax */ "./src/javascript/app/base/binary_pjax.js");
 var Client = __webpack_require__(/*! ../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
+var Dialog = __webpack_require__(/*! ../../common/attach_dom/dialog */ "./src/javascript/app/common/attach_dom/dialog.js");
 var Currency = __webpack_require__(/*! ../../common/currency */ "./src/javascript/app/common/currency.js");
 var FormManager = __webpack_require__(/*! ../../common/form_manager */ "./src/javascript/app/common/form_manager.js");
 var elementTextContent = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementTextContent;
 var getElementById = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../_common/storage */ "./src/javascript/_common/storage.js").State;
+var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
 var getPropertyValue = __webpack_require__(/*! ../../../_common/utility */ "./src/javascript/_common/utility.js").getPropertyValue;
 
 var AccountTransfer = function () {
@@ -15360,19 +15215,68 @@ var AccountTransfer = function () {
         });
     };
 
-    var responseHandler = function responseHandler(response) {
-        if (response.error) {
-            var el_error = getElementById('form_error');
-            elementTextContent(el_error, response.error.message);
-            el_error.setVisibility(1);
-            // Auto hide error after 5 seconds.
-            setTimeout(function () {
-                return el_error.setVisibility(0);
-            }, 5000);
-        } else {
-            populateReceipt(response);
-        }
-    };
+    var responseHandler = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(response) {
+            var el_error;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            if (!response.error) {
+                                _context.next = 13;
+                                break;
+                            }
+
+                            if (!(response.error.code === 'Fiat2CryptoTransferOverLimit')) {
+                                _context.next = 7;
+                                break;
+                            }
+
+                            _context.next = 4;
+                            return BinarySocket.send({ get_account_status: 1 });
+
+                        case 4:
+                            Dialog.confirm({
+                                id: 'error_transfer',
+                                localized_title: localize('Verification required'),
+                                localized_message: response.error.message,
+                                ok_text: localize('Verify identity'),
+                                onConfirm: function onConfirm() {
+                                    BinaryPjax.load(urlFor('user/authenticate'));
+                                }
+                            });
+                            _context.next = 11;
+                            break;
+
+                        case 7:
+                            el_error = getElementById('form_error');
+
+                            elementTextContent(el_error, response.error.message);
+                            el_error.setVisibility(1);
+                            // Auto hide error after 5 seconds.
+                            setTimeout(function () {
+                                return el_error.setVisibility(0);
+                            }, 5000);
+
+                        case 11:
+                            _context.next = 14;
+                            break;
+
+                        case 13:
+                            populateReceipt(response);
+
+                        case 14:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        }));
+
+        return function responseHandler(_x) {
+            return _ref.apply(this, arguments);
+        };
+    }();
 
     var populateReceipt = function populateReceipt(response) {
         getElementById(form_id).setVisibility(0);
@@ -18385,10 +18289,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 var CreateDropdown = __webpack_require__(/*! @binary-com/binary-style */ "./node_modules/@binary-com/binary-style/binary.js").selectDropdown;
 var getHighstock = __webpack_require__(/*! ../common */ "./src/javascript/app/pages/trade/common.js").requireHighstock;
+var Defaults = __webpack_require__(/*! ../defaults */ "./src/javascript/app/pages/trade/defaults.js");
 var Symbols = __webpack_require__(/*! ../symbols */ "./src/javascript/app/pages/trade/symbols.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
+var getSymbolsForMarket = __webpack_require__(/*! ../../../common/active_symbols */ "./src/javascript/app/common/active_symbols.js").getSymbolsForMarket;
 var addComma = __webpack_require__(/*! ../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
 var localize = __webpack_require__(/*! ../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var State = __webpack_require__(/*! ../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var template = __webpack_require__(/*! ../../../../_common/utility */ "./src/javascript/_common/utility.js").template;
 
 var DigitInfo = function () {
@@ -18481,20 +18388,13 @@ var DigitInfo = function () {
 
     var addContent = function addContent(underlying) {
         var domain = document.domain.split('.').slice(-2).join('.');
-        var underlyings = [];
-        var symbols = Symbols.getAllSymbols();
-        Object.keys(symbols).forEach(function (key) {
-            if (/^(R_|RD)/.test(key)) {
-                underlyings.push(key);
-            }
-        });
-        underlyings = underlyings.sort();
-        underlyings.splice(2, 0, '1HZ10V'); // add Volatility 10 (1s)
-        underlyings.splice(4, 0, '1HZ100V'); // add Volatility 100 (1s)
+        var symbols = getSymbolsForMarket(State.getResponse('active_symbols'), Defaults.get('market'));
+
         var elem = '';
-        for (var i = 0; i < underlyings.length; i++) {
-            elem += '<option value="' + underlyings[i] + '">' + symbols[underlyings[i]] + '</option>';
-        }
+        Object.keys(symbols).forEach(function (symbol) {
+            elem += '<option value="' + symbol + '">' + symbols[symbol].display + '</option>';
+        });
+
         $('#digit_underlying').html($(elem)).val(underlying);
         $('#digit_domain').text(domain.charAt(0).toUpperCase() + domain.slice(1));
         $('#digit_info_underlying').text($('#digit_underlying option:selected').text());
@@ -18933,8 +18833,9 @@ var Highchart = function () {
                             HighchartUI.setChartOptions(chart_options);
 
                             return _context.abrupt('return', getHighstock(function (Highcharts) {
-                                Highcharts.setOptions(HighchartUI.getHighchartOptions());
                                 if (!el) chart = null;else {
+                                    Highcharts.setOptions(HighchartUI.getHighchartOptions());
+
                                     chart = Highcharts.StockChart(el, HighchartUI.getChartOptions());
                                     is_initialized = true;
 
@@ -23029,6 +22930,8 @@ var _defaults = __webpack_require__(/*! ./defaults */ "./src/javascript/app/page
 
 var _defaults2 = _interopRequireDefault(_defaults);
 
+var _active_symbols = __webpack_require__(/*! ../../common/active_symbols */ "./src/javascript/app/common/active_symbols.js");
+
 var _common_functions = __webpack_require__(/*! ../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
 
 var _localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js");
@@ -23082,7 +22985,7 @@ var List = function List(_ref) {
                 obj.name
             ),
             Object.entries(obj.submarkets).sort(function (a, b) {
-                return submarketSort(a[0], b[0]);
+                return (0, _active_symbols.sortSubmarket)(a[0], b[0]);
             }).map(function (_ref4, idx_2) {
                 var _ref5 = _slicedToArray(_ref4, 2),
                     key = _ref5[0],
@@ -23124,40 +23027,6 @@ var List = function List(_ref) {
     });
 };
 
-var submarket_order = {
-    forex: 0,
-    major_pairs: 1,
-    minor_pairs: 2,
-    smart_fx: 3,
-    indices: 4,
-    asia_oceania: 5,
-    europe_africa: 6,
-    americas: 7,
-    otc_index: 8,
-    stocks: 9,
-    au_otc_stock: 10,
-    ge_otc_stock: 11,
-    india_otc_stock: 12,
-    uk_otc_stock: 13,
-    us_otc_stock: 14,
-    commodities: 15,
-    metals: 16,
-    energy: 17,
-    synthetic_index: 18,
-    random_index: 19,
-    random_daily: 20,
-    random_nightly: 21
-};
-
-var submarketSort = function submarketSort(a, b) {
-    if (submarket_order[a] > submarket_order[b]) {
-        return 1;
-    } else if (submarket_order[a] < submarket_order[b]) {
-        return -1;
-    }
-    return 0;
-};
-
 var Markets = (_temp = _class = function (_React$Component) {
     _inherits(Markets, _React$Component);
 
@@ -23174,11 +23043,11 @@ var Markets = (_temp = _class = function (_React$Component) {
         _this.underlyings = _symbols2.default.getAllSymbols() || {};
         var underlying_symbol = _defaults2.default.get('underlying');
         if (!underlying_symbol || !_this.underlyings[underlying_symbol]) {
-            var submarket = Object.keys(_this.markets[market_symbol].submarkets).sort(submarketSort)[0];
+            var submarket = Object.keys(_this.markets[market_symbol].submarkets).sort(_active_symbols.sortSubmarket)[0];
             underlying_symbol = Object.keys(_this.markets[market_symbol].submarkets[submarket].symbols).sort()[0];
         }
         var markets_arr = Object.entries(_this.markets).sort(function (a, b) {
-            return submarketSort(a[0], b[0]);
+            return (0, _active_symbols.sortSubmarket)(a[0], b[0]);
         });
         _this.markets_all = markets_arr.slice();
         if (!(market_symbol in _this.markets)) {
@@ -23524,6 +23393,8 @@ var Markets = (_temp = _class = function (_React$Component) {
         var current_viewed_node = Object.values(market_nodes).find(function (node) {
             return node.dataset.offsetTop <= position && +node.dataset.offsetHeight + +node.dataset.offsetTop > position;
         });
+
+        if (!current_viewed_node) return;
 
         if (current_viewed_node !== _this2.references.last_viewed_node) {
             Object.values(market_nodes).forEach(function (node) {
@@ -26991,96 +26862,100 @@ var Authenticate = function () {
                             }
 
                             $('#personal_details_error').setVisibility(1);
-                            _context2.next = 41;
+                            _context2.next = 42;
                             break;
 
                         case 21:
                             if (identity.further_resubmissions_allowed) {
-                                _context2.next = 40;
+                                _context2.next = 41;
                                 break;
                             }
 
+                            // if POI is verified and POA is not verified, redirect to POA tab
+                            if (identity.status === 'verified' && document.status !== 'verified') {
+                                Url.updateParamsWithoutReload({ authentication_tab: 'poa' }, true);
+                            }
                             _context2.t0 = identity.status;
-                            _context2.next = _context2.t0 === 'none' ? 25 : _context2.t0 === 'pending' ? 27 : _context2.t0 === 'rejected' ? 29 : _context2.t0 === 'verified' ? 31 : _context2.t0 === 'expired' ? 33 : _context2.t0 === 'suspected' ? 35 : 37;
+                            _context2.next = _context2.t0 === 'none' ? 26 : _context2.t0 === 'pending' ? 28 : _context2.t0 === 'rejected' ? 30 : _context2.t0 === 'verified' ? 32 : _context2.t0 === 'expired' ? 34 : _context2.t0 === 'suspected' ? 36 : 38;
                             break;
 
-                        case 25:
+                        case 26:
                             if (onfido_unsupported) {
                                 $('#not_authenticated_uns').setVisibility(1);
                                 initUnsupported();
                             } else {
                                 initOnfido(service_token_response.token, documents_supported);
                             }
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
-                        case 27:
+                        case 28:
                             $('#upload_complete').setVisibility(1);
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
-                        case 29:
+                        case 30:
                             $('#unverified').setVisibility(1);
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
-                        case 31:
+                        case 32:
                             $('#verified').setVisibility(1);
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
-                        case 33:
+                        case 34:
                             $('#expired_poi').setVisibility(1);
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
-                        case 35:
+                        case 36:
                             $('#unverified').setVisibility(1);
-                            return _context2.abrupt('break', 38);
-
-                        case 37:
-                            return _context2.abrupt('break', 38);
+                            return _context2.abrupt('break', 39);
 
                         case 38:
-                            _context2.next = 41;
-                            break;
+                            return _context2.abrupt('break', 39);
 
-                        case 40:
-                            initOnfido(service_token_response.token, documents_supported);
+                        case 39:
+                            _context2.next = 42;
+                            break;
 
                         case 41:
+                            initOnfido(service_token_response.token, documents_supported);
+
+                        case 42:
                             _context2.t1 = document.status;
-                            _context2.next = _context2.t1 === 'none' ? 44 : _context2.t1 === 'pending' ? 47 : _context2.t1 === 'rejected' ? 49 : _context2.t1 === 'suspected' ? 51 : _context2.t1 === 'verified' ? 53 : _context2.t1 === 'expired' ? 55 : 57;
+                            _context2.next = _context2.t1 === 'none' ? 45 : _context2.t1 === 'pending' ? 48 : _context2.t1 === 'rejected' ? 50 : _context2.t1 === 'suspected' ? 52 : _context2.t1 === 'verified' ? 54 : _context2.t1 === 'expired' ? 56 : 58;
                             break;
 
-                        case 44:
+                        case 45:
                             init();
                             $('#not_authenticated').setVisibility(1);
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
-                        case 47:
+                        case 48:
                             $('#pending_poa').setVisibility(1);
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
-                        case 49:
+                        case 50:
                             $('#unverified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
-                        case 51:
+                        case 52:
                             $('#unverified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
-                        case 53:
+                        case 54:
                             $('#verified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
-                        case 55:
+                        case 56:
                             $('#expired_poa').setVisibility(1);
-                            return _context2.abrupt('break', 58);
-
-                        case 57:
-                            return _context2.abrupt('break', 58);
+                            return _context2.abrupt('break', 59);
 
                         case 58:
+                            return _context2.abrupt('break', 59);
+
+                        case 59:
                             $('#authentication_loading').setVisibility(0);
                             TabSelector.updateTabDisplay();
 
-                        case 60:
+                        case 61:
                         case 'end':
                             return _context2.stop();
                     }
@@ -29349,7 +29224,8 @@ var FinancialAssessment = function () {
         }
 
         // display Trading Experience only for financial & MT5 financial_stp accounts
-        var is_mt5_financial = /labuan_financial_stp/.test(getHashValue('mt5_redirect'));
+        // TODO: [remove-standard-advanced] remove labuan_advanced when API groups are updated
+        var is_mt5_financial = /labuan_financial_stp|labuan_advanced/.test(getHashValue('mt5_redirect'));
         $('#trading_experience_form').setVisibility(is_mt5_financial || Client.isAccountOfType('financial'));
 
         Object.keys(financial_assessment).forEach(function (key) {
@@ -29974,7 +29850,6 @@ var FormManager = __webpack_require__(/*! ../../../../common/form_manager */ "./
 var DatePicker = __webpack_require__(/*! ../../../../components/date_picker */ "./src/javascript/app/components/date_picker.js");
 var ClientBase = __webpack_require__(/*! ../../../../../_common/base/client_base */ "./src/javascript/_common/base/client_base.js");
 var CommonFunctions = __webpack_require__(/*! ../../../../../_common/common_functions */ "./src/javascript/_common/common_functions.js");
-var Geocoder = __webpack_require__(/*! ../../../../../_common/geocoder */ "./src/javascript/_common/geocoder.js");
 var localize = __webpack_require__(/*! ../../../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
 var State = __webpack_require__(/*! ../../../../../_common/storage */ "./src/javascript/_common/storage.js").State;
 var toISOFormat = __webpack_require__(/*! ../../../../../_common/string_util */ "./src/javascript/_common/string_util.js").toISOFormat;
@@ -30342,7 +30217,6 @@ var PersonalDetails = function () {
                         displayChangeableFields(get_settings);
                     }
                     showFormMessage(localize('Your settings have been updated successfully.'), true);
-                    if (!is_fully_authenticated) Geocoder.validate(form_id);
                 }
             });
         } else {
@@ -30469,9 +30343,6 @@ var PersonalDetails = function () {
                     BinarySocket.send({ states_list: residence }).then(function (response_state) {
                         populateStates(response_state).then(function () {
                             getDetailsResponse(get_settings_data, response.residence_list);
-                            if (!is_virtual && !is_fully_authenticated) {
-                                Geocoder.validate(form_id);
-                            }
                         });
                     });
                 } else {
@@ -32346,8 +32217,12 @@ var MetaTraderConfig = function () {
     }();
 
     // we need to check if the account type is financial or financial_stp account before returning landing_company shortcode
+    // TODO: [remove-standard-advanced] remove advanced when API groups are updated
     var getMTFinancialAccountType = function getMTFinancialAccountType(acc_type) {
-        return '' + (/_financial_stp$/.test(acc_type) ? 'financial_stp' : 'financial');
+        return '' + (/_(advanced|financial_stp)$/.test(acc_type) ? 'financial_stp' : 'financial');
+    };
+    var getOldMTFinancialAccountType = function getOldMTFinancialAccountType(acc_type) {
+        return '' + (/_(advanced|financial_stp)$/.test(acc_type) ? 'advanced' : 'standard');
     };
 
     var accounts_info = {};
@@ -32384,7 +32259,7 @@ var MetaTraderConfig = function () {
                     };
 
                     var has_financial_account = Client.hasAccountType('financial', 1);
-                    var is_maltainvest = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'maltainvest';
+                    var is_maltainvest = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'maltainvest' || State.getResponse('landing_company.mt_financial_company.' + getOldMTFinancialAccountType(acc_type) + '.shortcode') === 'maltainvest';
                     var is_demo_financial = accounts_info[acc_type].account_type === 'demo' && accounts_info[acc_type].mt5_account_type; // is not demo vol account
                     var is_financial = accounts_info[acc_type].account_type === 'financial';
 
@@ -32396,7 +32271,7 @@ var MetaTraderConfig = function () {
 
                     var response_get_settings = State.getResponse('get_settings');
                     if (is_financial) {
-                        var is_svg = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'svg';
+                        var is_svg = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'svg' || State.getResponse('landing_company.mt_financial_company.' + getOldMTFinancialAccountType(acc_type) + '.shortcode') === 'svg';
                         if (is_svg) resolve();
 
                         var is_ok = true;
@@ -32640,7 +32515,8 @@ var MetaTraderConfig = function () {
                         resolve(needsRealMessage());
                     } else if (accounts_info[acc_type].account_type === 'financial') {
                         BinarySocket.wait('get_account_status').then(function () {
-                            if (!/svg_financial/.test(acc_type) && isAuthenticationPromptNeeded()) {
+                            // TODO: [remove-standard-advanced] remove standard when API groups are updated
+                            if (!/svg_(standard|financial)/.test(acc_type) && isAuthenticationPromptNeeded()) {
                                 resolve($messages.find('#msg_authenticate').html());
                             }
 
@@ -32779,6 +32655,7 @@ var MetaTraderConfig = function () {
         accounts_info: accounts_info,
         actions_info: actions_info,
         getMTFinancialAccountType: getMTFinancialAccountType,
+        getOldMTFinancialAccountType: getOldMTFinancialAccountType,
         fields: fields,
         validations: validations,
         needsRealMessage: needsRealMessage,
@@ -32943,7 +32820,7 @@ var MetaTrader = function () {
         setMTCompanies();
         return Object.keys(mt_companies).find(function (company) {
             return !!Object.keys(mt_companies[company]).find(function (acc_type) {
-                return !!State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
+                return !!State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode') || !!State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getOldMTFinancialAccountType(acc_type) + '.shortcode');
             });
         });
     };
@@ -32980,7 +32857,7 @@ var MetaTrader = function () {
 
                 Object.keys(mt_companies).forEach(function (company) {
                     Object.keys(mt_companies[company]).forEach(function (acc_type) {
-                        mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
+                        mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode') || State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getOldMTFinancialAccountType(acc_type) + '.shortcode');
 
                         // If vanuatu exists, don't add svg anymore unless it's for synthetic.
                         var vanuatu_and_svg_exists = (vanuatu_financial_demo_account && /demo_financial/.test(acc_type) || vanuatu_financial_real_account && /real_financial/.test(acc_type)) && /svg/.test(mt_company[company]) && mt_companies[company][acc_type].mt5_account_type;
@@ -32988,8 +32865,8 @@ var MetaTrader = function () {
                         if (mt_company[company] && !vanuatu_and_svg_exists) addAccount(company, acc_type);
                     });
                 });
-                resolve();
                 getAllAccountsInfo(response);
+                resolve();
             });
         });
     };
@@ -33294,6 +33171,7 @@ module.exports = MetaTrader;
 
 var MetaTraderConfig = __webpack_require__(/*! ./metatrader.config */ "./src/javascript/app/pages/user/metatrader/metatrader.config.js");
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
+var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
 var Dialog = __webpack_require__(/*! ../../../common/attach_dom/dialog */ "./src/javascript/app/common/attach_dom/dialog.js");
 var Currency = __webpack_require__(/*! ../../../common/currency */ "./src/javascript/app/common/currency.js");
 var Validation = __webpack_require__(/*! ../../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
@@ -33753,7 +33631,8 @@ var MetaTraderUI = function () {
                 _$form.find('#view_1 #btn_cancel').removeClass('invisible');
             });
             // uncomment to show No Deposit Bonus note
-            // $form.find('#new_account_no_deposit_bonus_msg').setVisibility(/real_svg_financial/.test(new_acc_type));
+            // TODO: [remove-standard-advanced] remove standard when API groups are updated
+            // $form.find('#new_account_no_deposit_bonus_msg').setVisibility(/real_svg_(standard|financial)/.test(new_acc_type));
         }
     };
 
@@ -33789,8 +33668,10 @@ var MetaTraderUI = function () {
         if (!$acc_template_demo.length || !$acc_template_real.length || !$acc_template_mt.length) return;
 
         var count = 0;
-        Object.keys(accounts_info).filter(function (acc_type) {
-            return !/^[real|demo]_[labuan_financial|svg_financial_stp|vanuatu_financial_stp|maltainvest_financial_stp]$/.test(acc_type);
+        Object.keys(accounts_info)
+        // TODO: [remove-standard-advanced] remove standard and advanced when API groups are updated
+        .filter(function (acc_type) {
+            return !/^(real|demo)_(labuan_(standard|financial)|svg_(advanced|financial_stp)|vanuatu_(advanced|financial_stp)|maltainvest_(advanced|financial_stp))$/.test(acc_type);
         }) // toEnableVanuatuFinancialSTP: remove vanuatu_financial_stp from regex
         .forEach(function (acc_type) {
             var $acc = accounts_info[acc_type].is_demo ? $acc_template_demo.clone() : $acc_template_real.clone();
@@ -33904,27 +33785,31 @@ var MetaTraderUI = function () {
              The code below is to stop the tooltip from showing wrong
             information.
         */
-        if (/(demo|real)_vanuatu_financial/.test(acc_type)) {
+        // TODO: [remove-standard-advanced] remove standard when API groups are updated
+        if (/^(demo|real)_vanuatu_(standard|financial)$/.test(acc_type)) {
             $el.removeAttr('data-balloon data-balloon-length');
             return;
         }
 
-        var mt_financial_company = State.getResponse('landing_company.mt_financial_company');
-        var mt_gaming_company = State.getResponse('landing_company.mt_gaming_company');
-        var account = accounts_info[acc_type];
-        var company = void 0;
+        BinarySocket.wait('landing_company').then(function (response) {
+            var mt_financial_company = response.landing_company.mt_financial_company;
+            var mt_gaming_company = response.landing_company.mt_gaming_company;
+            var account = accounts_info[acc_type];
+            var company = void 0;
 
-        if (/financial/.test(account.mt5_account_type)) {
-            company = mt_financial_company.financial;
-        } else if (/financial_stp/.test(account.mt5_account_type)) {
-            company = mt_financial_company.financial_stp;
-        } else if (account.account_type === 'gaming' || account.mt5_account_type === '' && account.account_type === 'demo') {
-            company = mt_gaming_company.financial;
-        }
+            // TODO: [remove-standard-advanced] remove standard and advanced when API groups are updated
+            if (/advanced|financial_stp/.test(account.mt5_account_type)) {
+                company = mt_financial_company.financial_stp || mt_financial_company.advanced;
+            } else if (/standard|financial/.test(account.mt5_account_type)) {
+                company = mt_financial_company.financial || mt_financial_company.standard;
+            } else if (account.account_type === 'gaming' || account.mt5_account_type === '' && account.account_type === 'demo') {
+                company = mt_financial_company.financial || mt_gaming_company.standard;
+            }
 
-        $el.attr({
-            'data-balloon': localize('Counterparty') + ': ' + company.name + ', ' + localize('Jurisdiction') + ': ' + company.country,
-            'data-balloon-length': 'large'
+            $el.attr({
+                'data-balloon': localize('Counterparty') + ': ' + company.name + ', ' + localize('Jurisdiction') + ': ' + company.country,
+                'data-balloon-length': 'large'
+            });
         });
     };
 

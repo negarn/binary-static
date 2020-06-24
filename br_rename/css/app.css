@@ -2076,6 +2076,9 @@ tbody#instruments > tr > td {
   .lightbox#top_up_success > div #frm_confirm .button span {
     width: calc(50% - 55px); }
 
+.lightbox#error_transfer #dialog_content {
+  max-width: 26em; }
+
 @media screen and (max-width: 480px) {
   .api_token table td, .api_token table th, #applications-container table td, #applications-container table th {
     font-size: 0.7561436673rem; }
