@@ -526,9 +526,9 @@ var ClientBase = function () {
     };
 
     // remove manager id or master distinction from group
-    // remove EUR or GBP distinction from group
+    // remove EUR or GBP or Bbook or HighRisk distinction from group
     var getMT5AccountType = function getMT5AccountType(group) {
-        return group ? group.replace('\\', '_').replace(/_(\d+|master|EUR|GBP)/, '') : '';
+        return group ? group.replace('\\', '_').replace(/_(\d+|master|EUR|GBP|Bbook|HighRisk)/i, '') : '';
     };
 
     var getBasicUpgradeInfo = function getBasicUpgradeInfo() {
@@ -26540,11 +26540,11 @@ var Authenticate = function () {
 
     // Validate user input
     var validate = function validate(file) {
-        var required_docs = ['passport', 'proofid', 'driverslicense'];
+        var required_docs = ['passport', 'national_identity_card', 'driving_licence'];
         var doc_name = {
             passport: localize('Passport'),
-            proofid: localize('Identity card'),
-            driverslicense: localize('Driving licence')
+            national_identity_card: localize('Identity card'),
+            driving_licence: localize('Driving licence')
         };
 
         var accepted_formats_regex = /selfie/.test(file.passthrough.class) ? /^(PNG|JPG|JPEG|GIF)$/i : /^(PNG|JPG|JPEG|GIF|PDF)$/i;
@@ -26563,7 +26563,7 @@ var Authenticate = function () {
             onErrorResolved('id_number', file.passthrough.class);
             return localize('Only letters, numbers, space, underscore, and hyphen are allowed for ID number ([_1]).', doc_name[file.documentType]);
         }
-        if (!file.expirationDate && required_docs.indexOf(file.documentType.toLowerCase()) !== -1 && !(isIdentificationNoExpiry(Client.get('residence')) && file.documentType === 'proofid')) {
+        if (!file.expirationDate && required_docs.indexOf(file.documentType.toLowerCase()) !== -1 && !(isIdentificationNoExpiry(Client.get('residence')) && file.documentType === 'national_identity_card')) {
             onErrorResolved('exp_date', file.passthrough.class);
             return localize('Expiry date is required for [_1].', doc_name[file.documentType]);
         }
@@ -32293,28 +32293,32 @@ var MetaTraderConfig = function () {
                                                 showElementSetRedirect('.citizen');
                                                 is_ok = false;
                                             }
+                                            if (!response_get_settings.account_opening_reason) {
+                                                showElementSetRedirect('.acc_opening_reason');
+                                                is_ok = false;
+                                            }
 
                                             if (!(is_ok && !isAuthenticated() && accounts_info[acc_type].mt5_account_type === 'advanced')) {
-                                                _context.next = 13;
+                                                _context.next = 14;
                                                 break;
                                             }
 
                                             // disable button must occur before loading
                                             $('#view_1 #btn_next').addClass('button-disabled');
                                             $('#authenticate_loading').setVisibility(1);
-                                            _context.next = 10;
+                                            _context.next = 11;
                                             return setLabuanAdvancedIntention();
 
-                                        case 10:
+                                        case 11:
                                             $('#authenticate_loading').setVisibility(0);
                                             $message.find('.authenticate').setVisibility(1);
                                             is_ok = false;
 
-                                        case 13:
+                                        case 14:
 
                                             if (is_ok) resolve();else resolveWithMessage();
 
-                                        case 14:
+                                        case 15:
                                         case 'end':
                                             return _context.stop();
                                     }
