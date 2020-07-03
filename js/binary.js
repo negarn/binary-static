@@ -33168,7 +33168,6 @@ var MetaTraderConfig = __webpack_require__(/*! ./metatrader.config */ "./src/jav
 var Client = __webpack_require__(/*! ../../../base/client */ "./src/javascript/app/base/client.js");
 var BinarySocket = __webpack_require__(/*! ../../../base/socket */ "./src/javascript/app/base/socket.js");
 var Dialog = __webpack_require__(/*! ../../../common/attach_dom/dialog */ "./src/javascript/app/common/attach_dom/dialog.js");
-var isEuCountry = __webpack_require__(/*! ../../../common/country_base */ "./src/javascript/app/common/country_base.js").isEuCountry;
 var Currency = __webpack_require__(/*! ../../../common/currency */ "./src/javascript/app/common/currency.js");
 var Validation = __webpack_require__(/*! ../../../common/form_validation */ "./src/javascript/app/common/form_validation.js");
 var getTransferFee = __webpack_require__(/*! ../../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").getTransferFee;
@@ -33345,8 +33344,6 @@ var MetaTraderUI = function () {
 
         if (accounts_info[acc_type].info) {
             var is_demo = /demo/.test(accounts_info[acc_type].account_type);
-            var is_eu = isEuCountry();
-            var server_prefix = is_eu ? 'Binary.com' : 'Deriv'; // TODO: update eu to deriv as well once launched
             // Update account info
             $detail.find('.acc-info div[data]').map(function () {
                 var key = $(this).attr('data');
@@ -33356,7 +33353,7 @@ var MetaTraderUI = function () {
                         return isNaN(info) ? '' : Currency.formatMoney(MetaTraderConfig.getCurrency(acc_type), +info);
                     },
                     broker: function broker() {
-                        return is_eu ? 'Deriv Ltd.' : 'Deriv Limited';
+                        return 'Deriv Limited';
                     },
                     display_login: function display_login() {
                         return info + ' (' + (is_demo ? localize('Demo Account') : localize('Real-Money Account')) + ')';
@@ -33365,7 +33362,7 @@ var MetaTraderUI = function () {
                         return '1:' + info;
                     },
                     server: function server() {
-                        return server_prefix + '-' + (is_demo ? 'Demo' : 'Server');
+                        return 'Deriv-' + (is_demo ? 'Demo' : 'Server');
                     }
                 };
                 $(this).html(typeof mapping[key] === 'function' ? mapping[key]() : info);
