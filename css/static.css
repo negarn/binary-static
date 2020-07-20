@@ -244,10 +244,10 @@
     .affiliate-ib-content .faq-message {
       color: #fff; }
 
-#forex-specs table td, #volatility-specs table td, #cash-specs table td {
+#forex-specs table td, #synthetic-specs table td, #cash-specs table td {
   font-size: 1rem;
   text-align: center; }
-  #forex-specs table td:first-child, #volatility-specs table td:first-child, #cash-specs table td:first-child {
+  #forex-specs table td:first-child, #synthetic-specs table td:first-child, #cash-specs table td:first-child {
     white-space: nowrap;
     font-size: inherit;
     text-align: left; }
@@ -1252,6 +1252,8 @@ div.kineticjs-content {
       background: url("../images/pages/contact/ticket-icon.svg") no-repeat center; }
     #content.contact-content #elevio_menu_container #elevio_element_menu ._elevio_module_icon_10 {
       display: none; }
+    #content.contact-content #elevio_menu_container #elevio_element_menu ._elevio_module_icon_20 ._d9ggd {
+      background: url("../images/pages/contact/chat-icon.svg") no-repeat center; }
   #content.contact-content .phone-container img {
     width: 70px;
     height: 70px; }

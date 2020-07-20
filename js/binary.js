@@ -461,7 +461,6 @@ var ClientBase = function () {
         set('landing_company_shortcode', authorize.landing_company_name);
         set('user_id', authorize.user_id);
         set('local_currency_config', local_currency_config);
-
         updateAccountList(authorize.account_list);
     };
 
@@ -528,7 +527,9 @@ var ClientBase = function () {
     // remove manager id or master distinction from group
     // remove EUR or GBP or Bbook or HighRisk distinction from group
     var getMT5AccountType = function getMT5AccountType(group) {
-        return group ? group.replace('\\', '_').replace(/_(\d+|master|EUR|GBP|Bbook|HighRisk)/i, '') : '';
+        return group ? group.replace('\\', '_').replace(/_(\d+|master|EUR|GBP|Bbook|HighRisk)/i, '')
+        // TODO: [remove-standard-advanced] remove standard and advanced when API groups are updated
+        .replace(/_standard$/, '_financial').replace(/_advanced$/, '_financial_stp') : '';
     };
 
     var getBasicUpgradeInfo = function getBasicUpgradeInfo() {
@@ -815,8 +816,8 @@ var getMinWithdrawal = function getMinWithdrawal(currency) {
  * @param {string} max|undefined
  * @returns numeric|undefined
  */
-var getTransferLimits = function getTransferLimits(currency, which) {
-    var transfer_limits = getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', 'limits']) || getMinWithdrawal(currency);
+var getTransferLimits = function getTransferLimits(currency, which, type) {
+    var transfer_limits = getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', type === 'mt5' ? 'limits_mt5' : 'limits']) || getMinWithdrawal(currency);
     var decimals = getDecimalPlaces(currency);
     if (which === 'max') {
         return transfer_limits.max ? transfer_limits.max.toFixed(decimals) : undefined;
@@ -1259,6 +1260,70 @@ var GTM = function () {
 }();
 
 module.exports = GTM;
+
+/***/ }),
+
+/***/ "./src/javascript/_common/base/livechat.js":
+/*!*************************************************!*\
+  !*** ./src/javascript/_common/base/livechat.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var BinarySocket = __webpack_require__(/*! ./socket_base */ "./src/javascript/_common/base/socket_base.js");
+var ClientBase = __webpack_require__(/*! ./client_base */ "./src/javascript/_common/base/client_base.js");
+
+var LiveChat = function () {
+    var init = function init() {
+        if (window.LiveChatWidget) {
+            BinarySocket.wait('get_settings').then(function (response) {
+                var get_settings = response.get_settings || {};
+                var first_name = get_settings.first_name,
+                    last_name = get_settings.last_name;
+
+                var email = ClientBase.get('email');
+
+                if (email) window.LiveChatWidget.call('set_customer_email', email);
+                if (first_name && last_name) window.LiveChatWidget.call('set_customer_name', first_name + ' ' + last_name);
+            });
+
+            window.LiveChatWidget.on('visibility_changed', function (_ref) {
+                var visibility = _ref.visibility;
+
+                // only visible to CS
+                var session_variables = { loginid: '', landing_company_shortcode: '', currency: '', residence: '' };
+
+                if (visibility === 'maximized' && ClientBase.isLoggedIn()) {
+                    var loginid = ClientBase.get('loginid');
+                    var landing_company_shortcode = ClientBase.get('landing_company_shortcode');
+                    var currency = ClientBase.get('currency');
+                    var residence = ClientBase.get('residence');
+
+                    session_variables = _extends({}, loginid && { loginid: loginid }, landing_company_shortcode && { landing_company_shortcode: landing_company_shortcode }, currency && { currency: currency }, residence && { residence: residence });
+
+                    window.LiveChatWidget.call('set_session_variables', session_variables);
+                }
+
+                if (visibility === 'maximized' && !ClientBase.isLoggedIn()) {
+                    window.LiveChatWidget.call('set_customer_email', ' ');
+                    window.LiveChatWidget.call('set_customer_name', ' ');
+                    window.LiveChatWidget.call('set_session_variables', session_variables);
+                }
+            });
+        }
+    };
+
+    return {
+        init: init
+    };
+}();
+
+module.exports = LiveChat;
 
 /***/ }),
 
@@ -9562,6 +9627,7 @@ var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/bas
 var ContentVisibility = __webpack_require__(/*! ../common/content_visibility */ "./src/javascript/app/common/content_visibility.js");
 var GTM = __webpack_require__(/*! ../../_common/base/gtm */ "./src/javascript/_common/base/gtm.js");
 var Login = __webpack_require__(/*! ../../_common/base/login */ "./src/javascript/_common/base/login.js");
+var LiveChat = __webpack_require__(/*! ../../_common/base/livechat */ "./src/javascript/_common/base/livechat.js");
 var getElementById = __webpack_require__(/*! ../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var urlLang = __webpack_require__(/*! ../../_common/language */ "./src/javascript/_common/language.js").urlLang;
 var localizeForLang = __webpack_require__(/*! ../../_common/localize */ "./src/javascript/_common/localize.js").forLang;
@@ -9628,6 +9694,7 @@ var BinaryLoader = function () {
         ContentVisibility.init().then(function () {
             BinarySocket.wait('authorize', 'website_status', 'landing_company').then(function () {
                 GTM.pushDataLayer({ event: 'page_load' }); // we need website_status.clients_country
+                LiveChat.init();
 
                 // first time load.
                 var last_image = $('#content img').last();
@@ -10965,13 +11032,13 @@ var Header = function () {
                     return buildMessage(localizeKeepPlaceholders('Your [_1]proof of address[_2] has expired.'), 'user/authenticate', '?authentication_tab=poa');
                 },
                 rejected: function rejected() {
-                    return buildSpecificMessage(localizeKeepPlaceholders('Your [_1]proof of identity[_3] and [_2]proof of address[_3] have not been verified. Please check your email for details.'), ['<a href=\'' + Url.urlFor('user/authenticate') + '\'>', '<a href=\'' + Url.urlFor('user/authenticate') + '?authentication_tab=poa\'>', '</a>']);
+                    return buildSpecificMessage(localizeKeepPlaceholders('Your [_1]proof of identity[_3] and [_2]proof of address[_3] have not been verified.'), ['<a href=\'' + Url.urlFor('user/authenticate') + '\'>', '<a href=\'' + Url.urlFor('user/authenticate') + '?authentication_tab=poa\'>', '</a>']);
                 },
                 rejected_identity: function rejected_identity() {
                     return buildMessage(localizeKeepPlaceholders('Your [_1]proof of identity[_2] has not been verified.'), 'user/authenticate');
                 },
                 rejected_document: function rejected_document() {
-                    return buildMessage(localizeKeepPlaceholders('Your [_1]proof of address[_2] has not been verified. Please check your email for details.'), 'user/authenticate', '?authentication_tab=poa');
+                    return buildMessage(localizeKeepPlaceholders('Your [_1]proof of address[_2] has not been verified.'), 'user/authenticate', '?authentication_tab=poa');
                 },
                 identity: function identity() {
                     return buildMessage(localizeKeepPlaceholders('Please submit your [_1]proof of identity[_2].'), 'user/authenticate');
@@ -11485,6 +11552,9 @@ var Page = function () {
                 if (!ClientBase.get('is_virtual')) {
                     // TODO: uncomment below to enable interview popup dialog
                     // InterviewPopup.onLoad();
+                }
+                if (window.location.href.indexOf('?data-elevio-article=') > 0) {
+                    Elevio.injectElevio();
                 }
             }
             Header.onLoad();
@@ -13199,7 +13269,7 @@ var ContentVisibility = function () {
                 // Check if mt_financial_company is offered, if not found, switch to mt_gaming_company
                 var mt_landing_company = mt_financial_company || mt_gaming_company;
 
-                // Check mt_financial_company by account type, since we are offering different landing companies for standard and advanced
+                // Check mt_financial_company by account type, since we are offering different landing companies for financial and financial_stp
                 arr_mt5fin_shortcodes = mt_landing_company ? Object.keys(mt_landing_company).map(function (key) {
                     return mt_landing_company[key].shortcode;
                 }) : [];
@@ -26914,46 +26984,66 @@ var Authenticate = function () {
                             break;
 
                         case 41:
-                            initOnfido(service_token_response.token, documents_supported);
+                            // eslint-disable-next-line no-lonely-if
+                            if (onfido_unsupported) {
+                                $('#not_authenticated_uns').setVisibility(1);
+                                initUnsupported();
+                            } else {
+                                initOnfido(service_token_response.token, documents_supported);
+                            }
 
                         case 42:
+                            if (document.further_resubmissions_allowed) {
+                                _context2.next = 62;
+                                break;
+                            }
+
                             _context2.t1 = document.status;
-                            _context2.next = _context2.t1 === 'none' ? 45 : _context2.t1 === 'pending' ? 48 : _context2.t1 === 'rejected' ? 50 : _context2.t1 === 'suspected' ? 52 : _context2.t1 === 'verified' ? 54 : _context2.t1 === 'expired' ? 56 : 58;
+                            _context2.next = _context2.t1 === 'none' ? 46 : _context2.t1 === 'pending' ? 49 : _context2.t1 === 'rejected' ? 51 : _context2.t1 === 'suspected' ? 53 : _context2.t1 === 'verified' ? 55 : _context2.t1 === 'expired' ? 57 : 59;
                             break;
 
-                        case 45:
+                        case 46:
                             init();
                             $('#not_authenticated').setVisibility(1);
-                            return _context2.abrupt('break', 59);
+                            return _context2.abrupt('break', 60);
 
-                        case 48:
+                        case 49:
                             $('#pending_poa').setVisibility(1);
-                            return _context2.abrupt('break', 59);
+                            return _context2.abrupt('break', 60);
 
-                        case 50:
+                        case 51:
                             $('#unverified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 59);
+                            return _context2.abrupt('break', 60);
 
-                        case 52:
+                        case 53:
                             $('#unverified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 59);
+                            return _context2.abrupt('break', 60);
 
-                        case 54:
+                        case 55:
                             $('#verified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 59);
+                            return _context2.abrupt('break', 60);
 
-                        case 56:
+                        case 57:
                             $('#expired_poa').setVisibility(1);
-                            return _context2.abrupt('break', 59);
-
-                        case 58:
-                            return _context2.abrupt('break', 59);
+                            return _context2.abrupt('break', 60);
 
                         case 59:
+                            return _context2.abrupt('break', 60);
+
+                        case 60:
+                            _context2.next = 64;
+                            break;
+
+                        case 62:
+                            init();
+                            $('#not_authenticated').setVisibility(1);
+
+                        case 64:
+
                             $('#authentication_loading').setVisibility(0);
                             TabSelector.updateTabDisplay();
 
-                        case 61:
+                        case 66:
                         case 'end':
                             return _context2.stop();
                     }
@@ -29221,8 +29311,9 @@ var FinancialAssessment = function () {
             });
         }
 
-        // display Trading Experience only for financial & MT5 financial accounts
-        var is_mt5_financial = /labuan_advanced/.test(getHashValue('mt5_redirect'));
+        // display Trading Experience only for financial & MT5 financial_stp accounts
+        // TODO: [remove-standard-advanced] remove labuan_advanced when API groups are updated
+        var is_mt5_financial = /labuan_financial_stp|labuan_advanced/.test(getHashValue('mt5_redirect'));
         $('#trading_experience_form').setVisibility(is_mt5_financial || Client.isAccountOfType('financial'));
 
         Object.keys(financial_assessment).forEach(function (key) {
@@ -29877,7 +29968,7 @@ var PersonalDetails = function () {
         is_virtual = Client.get('is_virtual');
         residence = Client.get('residence');
         mt_acct_type = getHashValue('mt5_redirect');
-        // demo and volatility mt accounts do not require tax info
+        // demo and synthetic mt accounts do not require tax info
         is_mt_tax_required = /real/.test(mt_acct_type) && mt_acct_type.split('_').length > 2 && +State.getResponse('landing_company.config.tax_details_required') === 1;
     };
 
@@ -30197,7 +30288,7 @@ var PersonalDetails = function () {
                     return;
                 }
                 var get_settings = data.get_settings;
-                var has_required_mt = is_mt_tax_required ? get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen : get_settings.citizen; // only check Citizen if user selects mt volatility account
+                var has_required_mt = is_mt_tax_required ? get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen : get_settings.citizen; // only check Citizen if user selects mt synthetic account
                 if (mt_acct_type && has_required_mt) {
                     $.scrollTo($('h1#heading'), 500, { offset: -10 });
                     $(form_id).setVisibility(0);
@@ -32140,17 +32231,17 @@ var MetaTraderConfig = function () {
         var mt_companies = void 0;
 
         var initMtCompanies = function initMtCompanies() {
-            var standard_config = {
-                account_type: 'standard',
+            var financial_config = {
+                account_type: 'financial',
                 leverage: 1000,
                 short_title: localize('Financial')
             };
-            var advanced_config = {
-                account_type: 'advanced',
+            var financial_stp_config = {
+                account_type: 'financial_stp',
                 leverage: 100,
                 short_title: localize('Financial STP')
             };
-            var volatility_config = {
+            var synthetic_config = {
                 account_type: '',
                 leverage: 500,
                 short_title: localize('Synthetic')
@@ -32158,14 +32249,14 @@ var MetaTraderConfig = function () {
 
             return {
                 gaming: {
-                    demo_volatility: { mt5_account_type: volatility_config.account_type, max_leverage: volatility_config.leverage, title: localize('Demo Synthetic'), short_title: volatility_config.short_title },
-                    real_volatility: { mt5_account_type: volatility_config.account_type, max_leverage: volatility_config.leverage, title: localize('Real Synthetic'), short_title: volatility_config.short_title }
+                    demo_synthetic: { mt5_account_type: synthetic_config.account_type, max_leverage: synthetic_config.leverage, title: localize('Demo Synthetic'), short_title: synthetic_config.short_title },
+                    real_synthetic: { mt5_account_type: synthetic_config.account_type, max_leverage: synthetic_config.leverage, title: localize('Real Synthetic'), short_title: synthetic_config.short_title }
                 },
                 financial: {
-                    demo_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Demo Financial'), short_title: standard_config.short_title },
-                    real_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Real Financial'), short_title: standard_config.short_title },
-                    demo_advanced: { mt5_account_type: advanced_config.account_type, max_leverage: advanced_config.leverage, title: localize('Demo Financial STP'), short_title: advanced_config.short_title },
-                    real_advanced: { mt5_account_type: advanced_config.account_type, max_leverage: advanced_config.leverage, title: localize('Real Financial STP'), short_title: advanced_config.short_title }
+                    demo_financial: { mt5_account_type: financial_config.account_type, max_leverage: financial_config.leverage, title: localize('Demo Financial'), short_title: financial_config.short_title },
+                    real_financial: { mt5_account_type: financial_config.account_type, max_leverage: financial_config.leverage, title: localize('Real Financial'), short_title: financial_config.short_title },
+                    demo_financial_stp: { mt5_account_type: financial_stp_config.account_type, max_leverage: financial_stp_config.leverage, title: localize('Demo Financial STP'), short_title: financial_stp_config.short_title },
+                    real_financial_stp: { mt5_account_type: financial_stp_config.account_type, max_leverage: financial_stp_config.leverage, title: localize('Real Financial STP'), short_title: financial_stp_config.short_title }
                 }
             };
         };
@@ -32184,21 +32275,21 @@ var MetaTraderConfig = function () {
         var mt_financial_companies = void 0;
 
         var initMtFinCompanies = function initMtFinCompanies() {
-            var standard_config = {
-                account_type: 'standard',
+            var financial_config = {
+                account_type: 'financial',
                 leverage: 30,
                 short_title: localize('Financial')
             };
 
             return {
-                // for financial mt company with shortcode maltainvest, only offer standard account with different leverage
+                // for financial mt company with shortcode maltainvest, only offer financial account with different leverage
                 financial: {
-                    demo_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Demo Financial'), short_title: standard_config.short_title },
-                    real_standard: { mt5_account_type: standard_config.account_type, max_leverage: standard_config.leverage, title: localize('Real Financial'), short_title: standard_config.short_title }
+                    demo_financial: { mt5_account_type: financial_config.account_type, max_leverage: financial_config.leverage, title: localize('Demo Financial'), short_title: financial_config.short_title },
+                    real_financial: { mt5_account_type: financial_config.account_type, max_leverage: financial_config.leverage, title: localize('Real Financial'), short_title: financial_config.short_title }
                 },
                 gaming: {
-                    demo_volatility: configMtCompanies.get().gaming.demo_volatility,
-                    real_volatility: configMtCompanies.get().gaming.real_volatility
+                    demo_synthetic: configMtCompanies.get().gaming.demo_synthetic,
+                    real_synthetic: configMtCompanies.get().gaming.real_synthetic
                 }
             };
         };
@@ -32213,9 +32304,13 @@ var MetaTraderConfig = function () {
         };
     }();
 
-    // we need to check if the account type is standard or advanced account before returning landing_company shortcode
+    // we need to check if the account type is financial or financial_stp account before returning landing_company shortcode
+    // TODO: [remove-standard-advanced] remove advanced when API groups are updated
     var getMTFinancialAccountType = function getMTFinancialAccountType(acc_type) {
-        return '' + (/_advanced$/.test(acc_type) ? 'advanced' : 'standard');
+        return '' + (/_(advanced|financial_stp)$/.test(acc_type) ? 'financial_stp' : 'financial');
+    };
+    var getOldMTFinancialAccountType = function getOldMTFinancialAccountType(acc_type) {
+        return '' + (/_(advanced|financial_stp)$/.test(acc_type) ? 'advanced' : 'standard');
     };
 
     var accounts_info = {};
@@ -32252,7 +32347,7 @@ var MetaTraderConfig = function () {
                     };
 
                     var has_financial_account = Client.hasAccountType('financial', 1);
-                    var is_maltainvest = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'maltainvest';
+                    var is_maltainvest = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'maltainvest' || State.getResponse('landing_company.mt_financial_company.' + getOldMTFinancialAccountType(acc_type) + '.shortcode') === 'maltainvest';
                     var is_demo_financial = accounts_info[acc_type].account_type === 'demo' && accounts_info[acc_type].mt5_account_type; // is not demo vol account
                     var is_financial = accounts_info[acc_type].account_type === 'financial';
 
@@ -32264,7 +32359,7 @@ var MetaTraderConfig = function () {
 
                     var response_get_settings = State.getResponse('get_settings');
                     if (is_financial) {
-                        var is_svg = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'svg';
+                        var is_svg = State.getResponse('landing_company.mt_financial_company.' + getMTFinancialAccountType(acc_type) + '.shortcode') === 'svg' || State.getResponse('landing_company.mt_financial_company.' + getOldMTFinancialAccountType(acc_type) + '.shortcode') === 'svg';
                         if (is_svg) resolve();
 
                         var is_ok = true;
@@ -32298,7 +32393,7 @@ var MetaTraderConfig = function () {
                                                 is_ok = false;
                                             }
 
-                                            if (!(is_ok && !isAuthenticated() && accounts_info[acc_type].mt5_account_type === 'advanced')) {
+                                            if (!(is_ok && !isAuthenticated() && accounts_info[acc_type].mt5_account_type === 'financial_stp')) {
                                                 _context.next = 14;
                                                 break;
                                             }
@@ -32307,7 +32402,7 @@ var MetaTraderConfig = function () {
                                             $('#view_1 #btn_next').addClass('button-disabled');
                                             $('#authenticate_loading').setVisibility(1);
                                             _context.next = 11;
-                                            return setLabuanAdvancedIntention();
+                                            return setLabuanFinancialSTPIntention();
 
                                         case 11:
                                             $('#authenticate_loading').setVisibility(0);
@@ -32329,7 +32424,7 @@ var MetaTraderConfig = function () {
                         var _is_ok = true;
                         BinarySocket.wait('get_account_status', 'landing_company').then(function () {
                             var response_get_account_status = State.getResponse('get_account_status');
-                            if (/financial_assessment_not_complete/.test(response_get_account_status.status) && !accounts_info[acc_type].mt5_account_type // is_volatility
+                            if (/financial_assessment_not_complete/.test(response_get_account_status.status) && !accounts_info[acc_type].mt5_account_type // is_synthetic
                             && /high/.test(response_get_account_status.risk_classification)) {
                                 showElementSetRedirect('.assessment');
                                 _is_ok = false;
@@ -32347,7 +32442,7 @@ var MetaTraderConfig = function () {
         });
     };
 
-    var setLabuanAdvancedIntention = function setLabuanAdvancedIntention() {
+    var setLabuanFinancialSTPIntention = function setLabuanFinancialSTPIntention() {
         return new Promise(function (resolve) {
             var req = {
                 account_type: 'financial',
@@ -32355,9 +32450,9 @@ var MetaTraderConfig = function () {
                 email: Client.get('email'),
                 leverage: 100,
                 mainPassword: 'Test1234',
-                mt5_account_type: 'advanced',
+                mt5_account_type: 'financial_stp',
                 mt5_new_account: 1,
-                name: 'test real labuan advanced'
+                name: 'test real labuan financial stp'
             };
             BinarySocket.send(req).then(function (dry_run_response) {
 
@@ -32382,9 +32477,9 @@ var MetaTraderConfig = function () {
             },
             pre_submit: function pre_submit($form, acc_type) {
                 return new Promise(function (resolve) {
-                    var is_volatility = !accounts_info[acc_type].mt5_account_type;
+                    var is_synthetic = !accounts_info[acc_type].mt5_account_type;
 
-                    if (is_volatility && !accounts_info[acc_type].is_demo && State.getResponse('landing_company.gaming_company.shortcode') === 'malta') {
+                    if (is_synthetic && !accounts_info[acc_type].is_demo && State.getResponse('landing_company.gaming_company.shortcode') === 'malta') {
                         Dialog.confirm({
                             id: 'confirm_new_account',
                             localized_message: localize(['Trading contracts for difference (CFDs) on Synthetic Indices may not be suitable for everyone. Please ensure that you fully understand the risks involved, including the possibility of losing all the funds in your MT5 account. Gambling can be addictive – please play responsibly.', 'Do you wish to continue?'])
@@ -32490,7 +32585,7 @@ var MetaTraderConfig = function () {
                                 resolve(localize('Your cashier is locked.')); // Locked from BO
                             } else {
                                 var limit = State.getResponse('get_limits.remainder');
-                                if (typeof limit !== 'undefined' && +limit < Currency.getTransferLimits(Client.get('currency'), 'min')) {
+                                if (typeof limit !== 'undefined' && +limit < Currency.getTransferLimits(Client.get('currency'), 'min', 'mt5')) {
                                     resolve(localize('You have reached the limit.'));
                                 } else {
                                     resolve();
@@ -32512,7 +32607,8 @@ var MetaTraderConfig = function () {
                         resolve(needsRealMessage());
                     } else if (accounts_info[acc_type].account_type === 'financial') {
                         BinarySocket.wait('get_account_status').then(function () {
-                            if (!/svg_standard/.test(acc_type) && isAuthenticationPromptNeeded()) {
+                            // TODO: [remove-standard-advanced] remove standard when API groups are updated
+                            if (!/svg_(standard|financial)/.test(acc_type) && isAuthenticationPromptNeeded()) {
                                 resolve($messages.find('#msg_authenticate').html());
                             }
 
@@ -32602,16 +32698,16 @@ var MetaTraderConfig = function () {
             password_reset: [{ selector: fields.password_reset.ddl_password_type.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_reset.txt_new_password.id, validations: [['req', { hide_asterisk: true }], ['password', 'mt']], re_check_field: fields.password_reset.txt_re_new_password.id }, { selector: fields.password_reset.txt_re_new_password.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.password_reset.txt_new_password.id }]] }],
             verify_password_reset_token: [{ selector: fields.verify_password_reset_token.txt_verification_code.id, validations: [['req', { hide_asterisk: true }], 'token'], exclude_request: 1 }],
             deposit: [{ selector: fields.deposit.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
-                        return Currency.getTransferLimits(Client.get('currency'), 'min');
+                        return Currency.getTransferLimits(Client.get('currency'), 'min', 'mt5');
                     }, max: function max() {
-                        return Math.min(State.getResponse('get_limits.remainder') || Currency.getTransferLimits(Client.get('currency'), 'max'), Currency.getTransferLimits(Client.get('currency'), 'max')).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
+                        return Math.min(State.getResponse('get_limits.remainder') || Currency.getTransferLimits(Client.get('currency'), 'max', 'mt5'), Currency.getTransferLimits(Client.get('currency'), 'max', 'mt5')).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
                     }, decimals: Currency.getDecimalPlaces(Client.get('currency')) }], ['custom', { func: function func() {
                         return Client.get('balance') && +Client.get('balance') >= +$(fields.deposit.txt_amount.id).val();
                     }, message: localize('You have insufficient funds in your Binary account, please <a href="[_1]">add funds</a>.', urlFor('cashier')) }]] }],
             withdrawal: [{ selector: fields.withdrawal.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
-                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'min');
+                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'min', 'mt5');
                     }, max: function max() {
-                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'max');
+                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'max', 'mt5');
                     }, decimals: 2 }]] }]
         };
     };
@@ -32651,6 +32747,7 @@ var MetaTraderConfig = function () {
         accounts_info: accounts_info,
         actions_info: actions_info,
         getMTFinancialAccountType: getMTFinancialAccountType,
+        getOldMTFinancialAccountType: getOldMTFinancialAccountType,
         fields: fields,
         validations: validations,
         needsRealMessage: needsRealMessage,
@@ -32815,7 +32912,7 @@ var MetaTrader = function () {
         setMTCompanies();
         return Object.keys(mt_companies).find(function (company) {
             return !!Object.keys(mt_companies[company]).find(function (acc_type) {
-                return !!State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
+                return !!State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode') || !!State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getOldMTFinancialAccountType(acc_type) + '.shortcode');
             });
         });
     };
@@ -32828,40 +32925,40 @@ var MetaTrader = function () {
                     return;
                 }
 
-                var vanuatu_standard_demo_account = response.mt5_login_list.find(function (account) {
-                    return Client.getMT5AccountType(account.group) === 'demo_vanuatu_standard';
+                var vanuatu_financial_demo_account = response.mt5_login_list.find(function (account) {
+                    return Client.getMT5AccountType(account.group) === 'demo_vanuatu_financial';
                 });
 
-                var vanuatu_standard_real_account = response.mt5_login_list.find(function (account) {
-                    return Client.getMT5AccountType(account.group) === 'real_vanuatu_standard';
+                var vanuatu_financial_real_account = response.mt5_login_list.find(function (account) {
+                    return Client.getMT5AccountType(account.group) === 'real_vanuatu_financial';
                 });
 
-                // Explicitly add (demo|real)_vanuatu_standard if it exist in API.
-                if (vanuatu_standard_demo_account) {
-                    accounts_info.demo_vanuatu_standard = _extends({
+                // Explicitly add (demo|real)_vanuatu_financial if it exist in API.
+                if (vanuatu_financial_demo_account) {
+                    accounts_info.demo_vanuatu_financial = _extends({
                         is_demo: true,
                         account_type: 'demo'
-                    }, mt_companies.financial.demo_standard);
+                    }, mt_companies.financial.demo_financial);
                 }
-                if (vanuatu_standard_real_account) {
-                    accounts_info.real_vanuatu_standard = _extends({
+                if (vanuatu_financial_real_account) {
+                    accounts_info.real_vanuatu_financial = _extends({
                         is_demo: false,
                         account_type: 'financial'
-                    }, mt_companies.financial.real_standard);
+                    }, mt_companies.financial.real_financial);
                 }
 
                 Object.keys(mt_companies).forEach(function (company) {
                     Object.keys(mt_companies[company]).forEach(function (acc_type) {
-                        mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode');
+                        mt_company[company] = State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getMTFinancialAccountType(acc_type) + '.shortcode') || State.getResponse('landing_company.mt_' + company + '_company.' + MetaTraderConfig.getOldMTFinancialAccountType(acc_type) + '.shortcode');
 
-                        // If vanuatu exists, don't add svg anymore unless it's for volatility.
-                        var vanuatu_and_svg_exists = (vanuatu_standard_demo_account && /demo_standard/.test(acc_type) || vanuatu_standard_real_account && /real_standard/.test(acc_type)) && /svg/.test(mt_company[company]) && mt_companies[company][acc_type].mt5_account_type;
+                        // If vanuatu exists, don't add svg anymore unless it's for synthetic.
+                        var vanuatu_and_svg_exists = (vanuatu_financial_demo_account && /demo_financial/.test(acc_type) || vanuatu_financial_real_account && /real_financial/.test(acc_type)) && /svg/.test(mt_company[company]) && mt_companies[company][acc_type].mt5_account_type;
 
                         if (mt_company[company] && !vanuatu_and_svg_exists) addAccount(company, acc_type);
                     });
                 });
-                resolve();
                 getAllAccountsInfo(response);
+                resolve();
             });
         });
     };
@@ -33224,9 +33321,7 @@ var MetaTraderUI = function () {
         var $acc_name = $templates.find('> .acc-name');
         var acc_group_demo_set = false;
         var acc_group_real_set = false;
-        Object.keys(accounts_info).sort(function (a, b) {
-            return accounts_info[a].account_type > accounts_info[b].account_type ? 1 : -1;
-        }).forEach(function (acc_type) {
+        Object.keys(accounts_info).sort(sortMt5Accounts).forEach(function (acc_type) {
             if ($list.find('[value="' + acc_type + '"]').length === 0) {
                 if (/^demo/.test(acc_type)) {
                     if (!acc_group_demo_set) {
@@ -33633,7 +33728,8 @@ var MetaTraderUI = function () {
                 _$form.find('#view_1 #btn_cancel').removeClass('invisible');
             });
             // uncomment to show No Deposit Bonus note
-            // $form.find('#new_account_no_deposit_bonus_msg').setVisibility(/real_svg_standard/.test(new_acc_type));
+            // TODO: [remove-standard-advanced] remove standard when API groups are updated
+            // $form.find('#new_account_no_deposit_bonus_msg').setVisibility(/real_svg_(standard|financial)/.test(new_acc_type));
         }
     };
 
@@ -33648,6 +33744,23 @@ var MetaTraderUI = function () {
             demo_btn.addClass('invisible');
             real_btn.removeClass('invisible');
         }
+    };
+
+    var sortMt5Accounts = function sortMt5Accounts(a, b) {
+        if (/demo/.test(a) && !/demo/.test(b)) {
+            return -1;
+        }
+        if (/demo/.test(b) && !/demo/.test(a)) {
+            return 1;
+        }
+        if (/svg$/.test(a)) {
+            return -1;
+        }
+        if (/vanuatu|svg_standard/.test(a)) {
+            return (/svg$/.test(b) ? 1 : -1
+            );
+        }
+        return 1;
     };
 
     var updateAccountTypesUI = function updateAccountTypesUI(type) {
@@ -33669,13 +33782,15 @@ var MetaTraderUI = function () {
         if (!$acc_template_demo.length || !$acc_template_real.length || !$acc_template_mt.length) return;
 
         var count = 0;
-        Object.keys(accounts_info).filter(function (acc_type) {
-            return !/labuan_standard|svg_advanced|vanuatu_advanced|maltainvest_advanced/.test(acc_type);
-        }) // toEnableVanuatuAdvanced: remove vanuatu_advanced from regex
-        .forEach(function (acc_type) {
+        Object.keys(accounts_info)
+        // TODO: [remove-standard-advanced] remove standard and advanced when API groups are updated
+        .filter(function (acc_type) {
+            return !/^(real|demo)_(labuan_(standard|financial)|svg_(advanced|financial_stp)|vanuatu_(advanced|financial_stp)|maltainvest_(advanced|financial_stp))$/.test(acc_type);
+        }) // toEnableVanuatuFinancialSTP: remove vanuatu_financial_stp from regex
+        .sort(sortMt5Accounts).forEach(function (acc_type) {
             var $acc = accounts_info[acc_type].is_demo ? $acc_template_demo.clone() : $acc_template_real.clone();
             var type = acc_type.split('_').slice(1).join('_');
-            var image = accounts_info[acc_type].mt5_account_type || 'volatility_indices'; // image name can be (advanced|standard|volatility_indices)
+            var image = accounts_info[acc_type].mt5_account_type || 'synthetic'; // image name can be (financial_stp|financial|synthetic)
             $acc.find('.mt5_type_box').attr({ id: 'rbtn_' + type, 'data-acc-type': type }).find('img').attr('src', urlForStatic('/images/pages/metatrader/icons/acc_' + image + '.svg'));
             $acc.find('p').text(accounts_info[acc_type].short_title);
             $acc_template_mt.append($acc);
@@ -33784,7 +33899,8 @@ var MetaTraderUI = function () {
              The code below is to stop the tooltip from showing wrong
             information.
         */
-        if (/(demo|real)_vanuatu_standard/.test(acc_type)) {
+        // TODO: [remove-standard-advanced] remove standard when API groups are updated
+        if (/^(demo|real)_vanuatu_(standard|financial)$/.test(acc_type)) {
             $el.removeAttr('data-balloon data-balloon-length');
             return;
         }
@@ -33795,12 +33911,13 @@ var MetaTraderUI = function () {
             var account = accounts_info[acc_type];
             var company = void 0;
 
-            if (/standard/.test(account.mt5_account_type)) {
-                company = mt_financial_company.standard;
-            } else if (/advanced/.test(account.mt5_account_type)) {
-                company = mt_financial_company.advanced;
+            // TODO: [remove-standard-advanced] remove standard and advanced when API groups are updated
+            if (/advanced|financial_stp/.test(account.mt5_account_type)) {
+                company = mt_financial_company.financial_stp || mt_financial_company.advanced;
+            } else if (/standard|financial/.test(account.mt5_account_type)) {
+                company = mt_financial_company.financial || mt_financial_company.standard;
             } else if (account.account_type === 'gaming' || account.mt5_account_type === '' && account.account_type === 'demo') {
-                company = mt_gaming_company.standard;
+                company = mt_financial_company.financial || mt_gaming_company.standard;
             }
 
             $el.attr({
@@ -35650,7 +35767,7 @@ var ViewPopup = function () {
                                 }
                                 containerSetText('trade_details_message', contract.validation_error && !is_unsupported_contract ? contract.validation_error : '&nbsp;');
                                 if (is_unsupported_contract) {
-                                    redirect = '<a href="https://deriv.app" target="_blank" rel="noopener noreferrer">';
+                                    redirect = '<a href="https://app.deriv.com" target="_blank" rel="noopener noreferrer">';
                                     redirect_close = '</a>';
                                     message = Callputspread.isCallputspread(contract.contract_type) ? localize('This contract is only available on [_1]DTrader[_2].', [redirect, redirect_close]) : localize('This contract is only available on DTrader.[_1][_2]Go to Dtrader[_3] to close or cancel this contract.', ['<br/>', redirect, redirect_close]);
 
