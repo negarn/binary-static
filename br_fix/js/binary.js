@@ -32099,13 +32099,12 @@ var GetCurrency = function () {
         var available_crypto = currency_values.cryptocurrencies.filter(function (c) {
             return currency_values.other_currencies.concat(is_crypto ? client_currency : []).indexOf(c) < 0 && allowed_currencies.indexOf(c) > -1;
         });
-        var can_open_crypto = available_crypto.length || !currency_values.has_fiat;
-        var can_select_fiat = all_fiat && allowed_currencies.length;
+        var can_open_crypto = available_crypto.length;
 
         var currencies_to_show = [];
 
         // only allow client to open more sub accounts if the last currency is not to be reserved for master account
-        if (client_currency && can_open_crypto || !client_currency && (available_crypto.length > 1 || can_open_crypto || can_select_fiat)) {
+        if (client_currency && (can_open_crypto || !currency_values.has_fiat) || !client_currency && (available_crypto.length > 1 || can_open_crypto && !currency_values.has_fiat)) {
             // if have sub account with fiat currency, or master account is fiat currency, only show cryptocurrencies
             // else show all
             var is_virtual = Client.get('is_virtual');
@@ -34950,7 +34949,7 @@ var SetCurrency = function () {
 
     var onLoad = function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-            var el, _Client$getUpgradeInf, can_upgrade, type, landing_company, $currency_list, $error, currencies, action_map;
+            var el, _Client$getUpgradeInf, can_upgrade, type, landing_company, payout_currencies, $currency_list, $error, currencies, action_map;
 
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
@@ -34971,6 +34970,11 @@ var SetCurrency = function () {
 
                         case 8:
                             landing_company = _context.sent.landing_company;
+                            _context.next = 11;
+                            return BinarySocket.wait('payout_currencies');
+
+                        case 11:
+                            payout_currencies = _context.sent.payout_currencies;
                             $currency_list = $('.currency_list');
                             $error = $('#set_currency').find('.error-msg');
 
@@ -34978,7 +34982,7 @@ var SetCurrency = function () {
                             popup_action = localStorage.getItem('popup_action');
 
                             if (!(Client.get('currency') || popup_action)) {
-                                _context.next = 15;
+                                _context.next = 18;
                                 break;
                             }
 
@@ -34989,7 +34993,7 @@ var SetCurrency = function () {
                                     BinaryPjax.load(Url.urlFor('cashier/forwardws') + '?action=deposit');
                                 }).setVisibility(1);
                             } else if (popup_action) {
-                                currencies = /multi_account|set_currency/.test(popup_action) ? GetCurrency.getCurrencies(landing_company, popup_action === 'set_currency') : getCurrencyChangeOptions(landing_company);
+                                currencies = /multi_account|set_currency/.test(popup_action) ? getAvailableCurrencies(landing_company, payout_currencies) : getCurrencyChangeOptions(landing_company);
 
                                 $('#hide_new_account').setVisibility(0);
                                 $('.show_' + popup_action).setVisibility(1);
@@ -35016,21 +35020,13 @@ var SetCurrency = function () {
                             }
                             return _context.abrupt('return');
 
-                        case 15:
+                        case 18:
 
-                            BinarySocket.wait('payout_currencies', 'landing_company').then(function () {
-                                var currencies = State.getResponse('payout_currencies');
+                            populateCurrencies(getAvailableCurrencies(landing_company, payout_currencies));
 
-                                if (Client.get('landing_company_shortcode') === 'svg') {
-                                    currencies = GetCurrency.getCurrencies(landing_company);
-                                }
+                            onSelection($currency_list, $error, true);
 
-                                populateCurrencies(currencies);
-
-                                onSelection($currency_list, $error, true);
-                            });
-
-                        case 16:
+                        case 20:
                         case 'end':
                             return _context.stop();
                     }
@@ -35042,6 +35038,10 @@ var SetCurrency = function () {
             return _ref.apply(this, arguments);
         };
     }();
+
+    var getAvailableCurrencies = function getAvailableCurrencies(landing_company, payout_currencies) {
+        return Client.get('landing_company_shortcode') === 'svg' ? GetCurrency.getCurrencies(landing_company) : payout_currencies;
+    };
 
     var getCurrencyChangeOptions = function getCurrencyChangeOptions(landing_company) {
         var allowed_currencies = Client.getLandingCompanyValue(Client.get('loginid'), landing_company, 'legal_allowed_currencies');
