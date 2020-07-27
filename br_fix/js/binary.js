@@ -31886,6 +31886,13 @@ var Accounts = function () {
         $('#note > .hint').text('' + localize('Note: You are limited to one fiat currency account. The currency of your fiat account can be changed before you deposit into your fiat account for the first time or create an MT5 account. You may also open one account for each supported cryptocurrency.'));
     };
 
+    var onConfirmSetCurrency = function onConfirmSetCurrency() {
+        var can_change_currency = Client.canChangeCurrency(State.getResponse('statement'), State.getResponse('mt5_login_list'));
+        if (can_change_currency) {
+            addChangeCurrencyOption();
+        }
+    };
+
     var action_map = {
         create: 'multi_account',
         set: 'set_currency',
@@ -31899,7 +31906,7 @@ var Accounts = function () {
             form_id: 'frm_set_currency',
             additionalFunction: function additionalFunction() {
                 localStorage.setItem('popup_action', action_map[action]);
-                SetCurrency.onLoad();
+                SetCurrency.onLoad(onConfirmSetCurrency);
             }
         });
     };
@@ -34945,16 +34952,18 @@ var Url = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_com
 var SetCurrency = function () {
     var is_new_account = void 0,
         popup_action = void 0,
+        onConfirmAdditional = void 0,
         $submit = void 0;
 
     var onLoad = function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(fncOnConfirm) {
             var el, _Client$getUpgradeInf, can_upgrade, type, landing_company, payout_currencies, $currency_list, $error, currencies, action_map;
 
             return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
+                            onConfirmAdditional = fncOnConfirm;
                             is_new_account = localStorage.getItem('is_new_account');
                             localStorage.removeItem('is_new_account');
                             el = is_new_account ? 'show' : 'hide';
@@ -34965,15 +34974,15 @@ var SetCurrency = function () {
 
                             $('#upgrade_to_mf').setVisibility(can_upgrade && type === 'financial');
 
-                            _context.next = 8;
+                            _context.next = 9;
                             return BinarySocket.wait('landing_company');
 
-                        case 8:
+                        case 9:
                             landing_company = _context.sent.landing_company;
-                            _context.next = 11;
+                            _context.next = 12;
                             return BinarySocket.wait('payout_currencies');
 
-                        case 11:
+                        case 12:
                             payout_currencies = _context.sent.payout_currencies;
                             $currency_list = $('.currency_list');
                             $error = $('#set_currency').find('.error-msg');
@@ -34982,7 +34991,7 @@ var SetCurrency = function () {
                             popup_action = localStorage.getItem('popup_action');
 
                             if (!(Client.get('currency') || popup_action)) {
-                                _context.next = 18;
+                                _context.next = 19;
                                 break;
                             }
 
@@ -35020,13 +35029,13 @@ var SetCurrency = function () {
                             }
                             return _context.abrupt('return');
 
-                        case 18:
+                        case 19:
 
                             populateCurrencies(getAvailableCurrencies(landing_company, payout_currencies));
 
                             onSelection($currency_list, $error, true);
 
-                        case 20:
+                        case 21:
                         case 'end':
                             return _context.stop();
                     }
@@ -35034,7 +35043,7 @@ var SetCurrency = function () {
             }, _callee, undefined);
         }));
 
-        return function onLoad() {
+        return function onLoad(_x) {
             return _ref.apply(this, arguments);
         };
     }();
@@ -35167,6 +35176,10 @@ var SetCurrency = function () {
                     BinarySocket.send({ balance: 1 });
                     BinarySocket.send({ payout_currencies: 1 }, { forced: true });
                     Header.displayAccountStatus();
+
+                    if (typeof onConfirmAdditional === 'function') {
+                        onConfirmAdditional();
+                    }
 
                     var redirect_url = void 0;
                     if (is_new_account) {
