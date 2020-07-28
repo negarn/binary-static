@@ -31872,6 +31872,9 @@ var Accounts = function () {
     };
 
     var addChangeCurrencyOption = function addChangeCurrencyOption() {
+        if ($(form_id).find('#change_account_currency').length) {
+            return;
+        }
         var table_headers = TableHeaders.get();
         var loginid = Client.get('loginid');
 
