@@ -820,10 +820,10 @@ var getTransferLimits = function getTransferLimits(currency, which, type) {
     var transfer_limits = getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', type === 'mt5' ? 'limits_mt5' : 'limits']) || getMinWithdrawal(currency);
     var decimals = getDecimalPlaces(currency);
     if (which === 'max') {
-        return transfer_limits.max ? transfer_limits.max.toFixed(decimals) : undefined;
+        return transfer_limits.max ? (+transfer_limits.max).toFixed(decimals) : undefined;
     }
 
-    return transfer_limits.min ? transfer_limits.min.toFixed(decimals) : undefined;
+    return transfer_limits.min ? (+transfer_limits.min).toFixed(decimals) : undefined;
 };
 
 var getTransferFee = function getTransferFee(currency_from, currency_to) {
