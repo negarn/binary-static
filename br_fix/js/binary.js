@@ -37048,7 +37048,7 @@ var Home = function () {
     };
 
     var checkCountry = function checkCountry(req) {
-        if (clients_country !== 'my' || /@((binary|deriv|regentmarkets)\.com|4x\.my)$/.test(req.verify_email)) {
+        if (clients_country !== 'my' || /@((binary|deriv|regentmarkets)\.com|4x\.my|binary\.me)$/.test(req.verify_email)) {
             return true;
         }
         $('#frm_verify_email').find('div').html($('<p/>', { class: 'notice-msg center-text', html: localize('Sorry, account signup is not available in your country.') }));
