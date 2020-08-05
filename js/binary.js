@@ -816,14 +816,14 @@ var getMinWithdrawal = function getMinWithdrawal(currency) {
  * @param {string} max|undefined
  * @returns numeric|undefined
  */
-var getTransferLimits = function getTransferLimits(currency, which, type) {
-    var transfer_limits = getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', type === 'mt5' ? 'limits_mt5' : 'limits']) || getMinWithdrawal(currency);
+var getTransferLimits = function getTransferLimits(currency, which) {
+    var transfer_limits = getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', 'limits']) || getMinWithdrawal(currency);
     var decimals = getDecimalPlaces(currency);
     if (which === 'max') {
-        return transfer_limits.max ? (+transfer_limits.max).toFixed(decimals) : undefined;
+        return transfer_limits.max ? transfer_limits.max.toFixed(decimals) : undefined;
     }
 
-    return transfer_limits.min ? (+transfer_limits.min).toFixed(decimals) : undefined;
+    return transfer_limits.min ? transfer_limits.min.toFixed(decimals) : undefined;
 };
 
 var getTransferFee = function getTransferFee(currency_from, currency_to) {
@@ -32595,7 +32595,7 @@ var MetaTraderConfig = function () {
                                 resolve(localize('Your cashier is locked.')); // Locked from BO
                             } else {
                                 var limit = State.getResponse('get_limits.remainder');
-                                if (typeof limit !== 'undefined' && +limit < Currency.getTransferLimits(Client.get('currency'), 'min', 'mt5')) {
+                                if (typeof limit !== 'undefined' && +limit < Currency.getTransferLimits(Client.get('currency'), 'min')) {
                                     resolve(localize('You have reached the limit.'));
                                 } else {
                                     resolve();
@@ -32708,16 +32708,16 @@ var MetaTraderConfig = function () {
             password_reset: [{ selector: fields.password_reset.ddl_password_type.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_reset.txt_new_password.id, validations: [['req', { hide_asterisk: true }], ['password', 'mt']], re_check_field: fields.password_reset.txt_re_new_password.id }, { selector: fields.password_reset.txt_re_new_password.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.password_reset.txt_new_password.id }]] }],
             verify_password_reset_token: [{ selector: fields.verify_password_reset_token.txt_verification_code.id, validations: [['req', { hide_asterisk: true }], 'token'], exclude_request: 1 }],
             deposit: [{ selector: fields.deposit.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
-                        return Currency.getTransferLimits(Client.get('currency'), 'min', 'mt5');
+                        return Currency.getTransferLimits(Client.get('currency'), 'min');
                     }, max: function max() {
-                        return Math.min(State.getResponse('get_limits.remainder') || Currency.getTransferLimits(Client.get('currency'), 'max', 'mt5'), Currency.getTransferLimits(Client.get('currency'), 'max', 'mt5')).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
+                        return Math.min(State.getResponse('get_limits.remainder') || Currency.getTransferLimits(Client.get('currency'), 'max'), Currency.getTransferLimits(Client.get('currency'), 'max')).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
                     }, decimals: Currency.getDecimalPlaces(Client.get('currency')) }], ['custom', { func: function func() {
                         return Client.get('balance') && +Client.get('balance') >= +$(fields.deposit.txt_amount.id).val();
                     }, message: localize('You have insufficient funds in your Binary account, please <a href="[_1]">add funds</a>.', urlFor('cashier')) }]] }],
             withdrawal: [{ selector: fields.withdrawal.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
-                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'min', 'mt5');
+                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'min');
                     }, max: function max() {
-                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'max', 'mt5');
+                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'max');
                     }, decimals: 2 }]] }]
         };
     };
