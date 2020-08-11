@@ -533,17 +533,17 @@ var ClientBase = function () {
     };
 
     var getMT5AccountDisplay = function getMT5AccountDisplay(group) {
-        if (!group) return {};
-
-        var value = getMT5AccountType(group);
         var display_text = localize('MT5');
-        if (/svg$/.test(value) || /malta$/.test(value)) {
-            display_text = localize('Synthetic');
-        } else if (/vanuatu/.test(value) || /svg_(standard|financial)/.test(value) || /maltainvest_financial$/.test(value)) {
-            // TODO: [remove-standard-advanced] remove standard when API groups are updated
-            display_text = localize('Financial');
-        } else if (/labuan/.test(value)) {
-            display_text = localize('Financial STP');
+        if (group) {
+            var value = getMT5AccountType(group);
+            if (/svg$/.test(value) || /malta$/.test(value)) {
+                display_text = localize('Synthetic');
+            } else if (/vanuatu/.test(value) || /svg_(standard|financial)/.test(value) || /maltainvest_financial$/.test(value)) {
+                // TODO: [remove-standard-advanced] remove standard when API groups are updated
+                display_text = localize('Financial');
+            } else if (/labuan/.test(value)) {
+                display_text = localize('Financial STP');
+            }
         }
 
         return display_text;
