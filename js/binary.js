@@ -29041,28 +29041,32 @@ var AccountClosure = function () {
                                 return Client.getMT5AccountDisplay(mt5_group);
                             };
 
-                            Object.keys(response.error.details.open_positions).forEach(function (account) {
-                                var txt_positions = response.error.details.open_positions[account] + ' position(s)';
-                                if (/^MT/.test(account)) {
-                                    section_id = '#account_closure_open_mt';
-                                    display_name = getMTDisplay(account);
-                                } else {
-                                    section_id = '#account_closure_open';
-                                    display_name = Client.get('currency', account);
-                                }
-                                addSection(account, txt_positions);
-                            });
-                            Object.keys(response.error.details.balance).forEach(function (account) {
-                                var txt_balance = response.error.details.balance[account].balance + ' ' + response.error.details.balance[account].currency;
-                                if (/^MT/.test(account)) {
-                                    section_id = '#account_closure_balance_mt';
-                                    display_name = getMTDisplay(account);
-                                } else {
-                                    section_id = '#account_closure_balance';
-                                    display_name = Currency.getCurrencyName(response.error.details.balance[account].currency);
-                                }
-                                addSection(account, txt_balance);
-                            });
+                            if (response.error.details.open_positions) {
+                                Object.keys(response.error.details.open_positions).forEach(function (account) {
+                                    var txt_positions = response.error.details.open_positions[account] + ' position(s)';
+                                    if (/^MT/.test(account)) {
+                                        section_id = '#account_closure_open_mt';
+                                        display_name = getMTDisplay(account);
+                                    } else {
+                                        section_id = '#account_closure_open';
+                                        display_name = Client.get('currency', account);
+                                    }
+                                    addSection(account, txt_positions);
+                                });
+                            }
+                            if (response.error.details.balance) {
+                                Object.keys(response.error.details.balance).forEach(function (account) {
+                                    var txt_balance = response.error.details.balance[account].balance + ' ' + response.error.details.balance[account].currency;
+                                    if (/^MT/.test(account)) {
+                                        section_id = '#account_closure_balance_mt';
+                                        display_name = getMTDisplay(account);
+                                    } else {
+                                        section_id = '#account_closure_balance';
+                                        display_name = Currency.getCurrencyName(response.error.details.balance[account].currency);
+                                    }
+                                    addSection(account, txt_balance);
+                                });
+                            }
 
                         case 10:
                         case 'end':
