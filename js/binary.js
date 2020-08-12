@@ -29024,6 +29024,9 @@ var AccountClosure = function () {
 
                         case 2:
                             mt5_login_list = _context3.sent.mt5_login_list;
+
+                            // clear all previously added details first
+                            $account_closure_error.find('.account-closure-details').remove();
                             $parent = $('<div/>', { class: 'gr-padding-10 gr-child account-closure-details' });
                             section_id = '';
                             display_name = '';
@@ -29068,7 +29071,7 @@ var AccountClosure = function () {
                                 });
                             }
 
-                        case 10:
+                        case 11:
                         case 'end':
                             return _context3.stop();
                     }
