@@ -33053,7 +33053,8 @@ var MetaTraderConfig = function () {
                         var account_limit = State.getResponse('get_limits.remainder');
                         var mt5_limit = Currency.getTransferLimits(Client.get('currency'), 'max', 'mt5');
                         var balance = Client.get('balance');
-                        return Math.min(account_limit || mt5_limit, mt5_limit, balance).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
+                        // if balance is 0, pass this validation so we can show insufficient funds in the next custom validation
+                        return Math.min(account_limit || mt5_limit, mt5_limit, balance || mt5_limit).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
                     },
                     decimals: Currency.getDecimalPlaces(Client.get('currency'))
                 }], ['custom', {
