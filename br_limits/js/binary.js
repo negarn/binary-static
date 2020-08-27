@@ -15243,8 +15243,7 @@ var AccountTransfer = function () {
         parent: 'client_message',
         error: 'no_account',
         balance: 'not_enough_balance',
-        deposit: 'no_balance',
-        limit: 'limit_reached'
+        deposit: 'no_balance'
     };
 
     var el_transfer_from = void 0,
@@ -15257,7 +15256,6 @@ var AccountTransfer = function () {
         client_balance = void 0,
         client_currency = void 0,
         client_loginid = void 0,
-        withdrawal_limit = void 0,
         max_amount = void 0,
         transferable_amount = void 0,
         to_loginid = void 0,
@@ -15506,12 +15504,10 @@ var AccountTransfer = function () {
                 getElementById(messages.deposit).setVisibility(1);
             } else {
                 var req_transfer_between_accounts = BinarySocket.send({ transfer_between_accounts: 1 });
-                var req_get_limits = BinarySocket.send({ get_limits: 1 });
                 var get_account_status = BinarySocket.send({ get_account_status: 1 });
 
-                Promise.all([req_transfer_between_accounts, req_get_limits, get_account_status]).then(function () {
+                Promise.all([req_transfer_between_accounts, get_account_status]).then(function () {
                     var response_transfer = State.get(['response', 'transfer_between_accounts']);
-                    var response_limits = State.get(['response', 'get_limits']);
                     var is_authenticated = State.getResponse('get_account_status.status').some(function (state) {
                         return state === 'authenticated';
                     });
@@ -15524,31 +15520,19 @@ var AccountTransfer = function () {
                         showError();
                         return;
                     }
-                    if (hasError(response_limits)) {
-                        return;
-                    }
 
                     populateAccounts(accounts);
-                    setLimits(response_limits, min_amount, is_authenticated).then(function () {
+                    setLimits(min_amount, is_authenticated).then(function () {
                         showForm({ is_authenticated: is_authenticated });
                         populateHints();
-                    }).catch(function () {
-                        getElementById(messages.limit).setVisibility(1);
-                        getElementById(messages.parent).setVisibility(1);
-                        el_transfer_fee.setVisibility(0);
                     });
                 });
             }
         });
     };
 
-    var setLimits = function setLimits(response, min_amount, is_authenticated) {
-        return new Promise(function (resolve, reject) {
-            withdrawal_limit = +response.get_limits.remainder;
-            if (withdrawal_limit < +min_amount) {
-                reject(new Error('Withdrawal limit is less than Min amount.'));
-            }
-
+    var setLimits = function setLimits(min_amount, is_authenticated) {
+        return new Promise(function (resolve) {
             max_amount = Currency.getTransferLimits(Client.get('currency'), 'max');
 
             var from_currency = Client.get('currency');
@@ -15556,7 +15540,7 @@ var AccountTransfer = function () {
             if (!Currency.isCryptocurrency(from_currency) && !Currency.isCryptocurrency(to_currency) && is_authenticated) {
                 transferable_amount = client_balance;
             } else {
-                transferable_amount = max_amount ? Math.min(max_amount, withdrawal_limit, client_balance) : Math.min(withdrawal_limit, client_balance);
+                transferable_amount = max_amount ? Math.min(max_amount, client_balance) : Math.min(client_balance);
             }
 
             getElementById('range_hint_min').textContent = min_amount;
