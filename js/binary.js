@@ -13875,6 +13875,7 @@ var Validation = function () {
     var forms = {};
     var error_class = 'error-msg';
     var hidden_class = 'invisible';
+    var pass_length = { min: 8, max: 25 };
 
     var events_map = {
         input: 'input.validation change.validation',
@@ -13997,7 +13998,7 @@ var Validation = function () {
         );
     };
     var validPassword = function validPassword(value, options, field) {
-        if (/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+/.test(value)) {
+        if (/^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])[ -~]*$/.test(value)) {
             Password.checkPassword(field.selector);
             return true;
         }
@@ -14025,6 +14026,9 @@ var Validation = function () {
     };
     var validEmailToken = function validEmailToken(value) {
         return value.trim().length === 8;
+    };
+    var compareToEmail = function compareToEmail(value) {
+        return Client.get('email').toLowerCase() === value.toLowerCase();
     };
 
     var validCompare = function validCompare(value, options) {
@@ -14134,7 +14138,8 @@ var Validation = function () {
                 number: { func: validNumber, message: '' },
                 regular: { func: validRegular, message: '' },
                 tax_id: { func: validTaxID, message: localize('Should start with letter or number, and may contain hyphen and underscore.') },
-                token: { func: validEmailToken, message: localize('Invalid verification code.') }
+                token: { func: validEmailToken, message: localize('Invalid verification code.') },
+                compare_to_email: { func: compareToEmail, message: localize('Your password cannot be the same as your email address.') }
             };
         };
 
@@ -14147,10 +14152,6 @@ var Validation = function () {
             }
         };
     }();
-
-    var pass_length = function pass_length(type) {
-        return { min: /^mt$/.test(type) ? 8 : 6, max: 25 };
-    };
 
     // --------------------
     // ----- Validate -----
@@ -14177,10 +14178,10 @@ var Validation = function () {
                 options = valid[1];
             }
 
-            if (type === 'password' && !validLength(getFieldValue(field, options), pass_length(options))) {
+            if (type === 'password' && !validLength(getFieldValue(field, options), pass_length)) {
                 field.is_ok = false;
                 type = 'length';
-                options = pass_length(options);
+                options = pass_length;
             } else {
                 var validator = type === 'custom' ? options.func : ValidatorsMap.get(type).func;
 
@@ -27247,7 +27248,7 @@ var ChangePassword = function () {
     var form_id = '#frm_change_password';
 
     var init = function init() {
-        FormManager.init(form_id, [{ selector: '#old_password', validations: ['req', ['length', { min: 6, max: 25 }]], clear_form_error_on_input: true }, { selector: '#new_password', validations: ['req', 'password', ['not_equal', { to: '#old_password', name1: localize('Current password'), name2: localize('New password') }]], re_check_field: '#repeat_password' }, { selector: '#repeat_password', validations: ['req', ['compare', { to: '#new_password' }]], exclude_request: 1 }, { request_field: 'change_password', value: 1 }]);
+        FormManager.init(form_id, [{ selector: '#old_password', validations: ['req', ['length', { min: 6, max: 25 }]], clear_form_error_on_input: true }, { selector: '#new_password', validations: ['req', 'password', ['not_equal', { to: '#old_password', name1: localize('Current password'), name2: localize('New password') }], 'compare_to_email'], re_check_field: '#repeat_password' }, { selector: '#repeat_password', validations: ['req', ['compare', { to: '#new_password' }]], exclude_request: 1 }, { request_field: 'change_password', value: 1 }]);
         FormManager.handleSubmit({
             form_selector: form_id,
             fnc_response_handler: handler
@@ -33038,9 +33039,9 @@ var MetaTraderConfig = function () {
 
     var validations = function validations() {
         return {
-            new_account: [{ selector: fields.new_account.txt_name.id, validations: [['req', { hide_asterisk: true }], 'letter_symbol', ['length', { min: 2, max: 101 }]] }, { selector: fields.new_account.txt_main_pass.id, validations: [['req', { hide_asterisk: true }], ['password', 'mt']] }, { selector: fields.new_account.txt_re_main_pass.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.new_account.txt_main_pass.id }]] }],
-            password_change: [{ selector: fields.password_change.ddl_password_type.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_change.txt_old_password.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_change.txt_new_password.id, validations: [['req', { hide_asterisk: true }], ['password', 'mt'], ['not_equal', { to: fields.password_change.txt_old_password.id, name1: localize('Current password'), name2: localize('New password') }]], re_check_field: fields.password_change.txt_re_new_password.id }, { selector: fields.password_change.txt_re_new_password.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.password_change.txt_new_password.id }]] }],
-            password_reset: [{ selector: fields.password_reset.ddl_password_type.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_reset.txt_new_password.id, validations: [['req', { hide_asterisk: true }], ['password', 'mt']], re_check_field: fields.password_reset.txt_re_new_password.id }, { selector: fields.password_reset.txt_re_new_password.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.password_reset.txt_new_password.id }]] }],
+            new_account: [{ selector: fields.new_account.txt_name.id, validations: [['req', { hide_asterisk: true }], 'letter_symbol', ['length', { min: 2, max: 101 }]] }, { selector: fields.new_account.txt_main_pass.id, validations: [['req', { hide_asterisk: true }], 'password', 'compare_to_email'] }, { selector: fields.new_account.txt_re_main_pass.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.new_account.txt_main_pass.id }]] }],
+            password_change: [{ selector: fields.password_change.ddl_password_type.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_change.txt_old_password.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_change.txt_new_password.id, validations: [['req', { hide_asterisk: true }], 'password', ['not_equal', { to: fields.password_change.txt_old_password.id, name1: localize('Current password'), name2: localize('New password') }], 'compare_to_email'], re_check_field: fields.password_change.txt_re_new_password.id }, { selector: fields.password_change.txt_re_new_password.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.password_change.txt_new_password.id }]] }],
+            password_reset: [{ selector: fields.password_reset.ddl_password_type.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_reset.txt_new_password.id, validations: [['req', { hide_asterisk: true }], 'password', 'compare_to_email'], re_check_field: fields.password_reset.txt_re_new_password.id }, { selector: fields.password_reset.txt_re_new_password.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.password_reset.txt_new_password.id }]] }],
             verify_password_reset_token: [{ selector: fields.verify_password_reset_token.txt_verification_code.id, validations: [['req', { hide_asterisk: true }], 'token'], exclude_request: 1 }],
             deposit: [{ selector: fields.deposit.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
                         return Currency.getTransferLimits(Client.get('currency'), 'min');
@@ -35259,7 +35260,7 @@ var ResetPassword = function () {
     var onLoad = function onLoad() {
         var form_id = '#frm_reset_password';
 
-        FormManager.init(form_id, [{ selector: '#have_real_account', validations: ['req'], exclude_request: 1 }, { selector: '#new_password', validations: ['req', 'password'], re_check_field: '#repeat_password' }, { selector: '#repeat_password', validations: ['req', ['compare', { to: '#new_password' }]], exclude_request: 1 }, { request_field: 'reset_password', value: 1 }], true);
+        FormManager.init(form_id, [{ selector: '#have_real_account', validations: ['req'], exclude_request: 1 }, { selector: '#new_password', validations: ['req', 'password', 'compare_to_email'], re_check_field: '#repeat_password' }, { selector: '#repeat_password', validations: ['req', ['compare', { to: '#new_password' }]], exclude_request: 1 }, { request_field: 'reset_password', value: 1 }], true);
 
         FormManager.handleSubmit({
             form_selector: form_id,
