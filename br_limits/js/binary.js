@@ -15540,7 +15540,7 @@ var AccountTransfer = function () {
             if (!Currency.isCryptocurrency(from_currency) && !Currency.isCryptocurrency(to_currency) && is_authenticated) {
                 transferable_amount = client_balance;
             } else {
-                transferable_amount = max_amount ? Math.min(max_amount, client_balance) : Math.min(client_balance);
+                transferable_amount = max_amount ? Math.min(max_amount, client_balance) : client_balance;
             }
 
             getElementById('range_hint_min').textContent = min_amount;
@@ -33053,9 +33053,16 @@ var MetaTraderConfig = function () {
                     max: function max() {
                         var mt5_limit = Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'max', 'mt5');
                         var balance = accounts_info[Client.get('mt5_account')].info.balance;
-                        return Math.min(mt5_limit, balance);
+                        // if balance is 0, pass this validation so we can show insufficient funds in the next custom validation
+                        return Math.min(mt5_limit, balance || mt5_limit);
                     },
                     decimals: 2
+                }], ['custom', {
+                    func: function func() {
+                        var balance = accounts_info[Client.get('mt5_account')].info.balance;
+                        return balance && +balance >= +$(fields.withdrawal.txt_amount.id).val();
+                    },
+                    message: localize('You have insufficient funds in your MT5 account.')
                 }]]
             }]
         };
