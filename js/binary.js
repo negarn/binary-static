@@ -14028,7 +14028,8 @@ var Validation = function () {
         return value.trim().length === 8;
     };
     var compareToEmail = function compareToEmail(value) {
-        return Client.get('email').toLowerCase() !== value.toLowerCase();
+        var email = Client.get('email');
+        return !email || email.toLowerCase() !== value.toLowerCase();
     };
 
     var validCompare = function validCompare(value, options) {
