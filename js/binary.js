@@ -761,11 +761,11 @@ var formatMoney = function formatMoney(currency_value, amount, exclude_currency)
         money = addComma(money, decimal_places);
     }
 
-    return sign + (exclude_currency ? '' : formatCurrency(currency_value)) + money;
+    return sign + (exclude_currency ? money : money + formatCurrency(currency_value));
 };
 
 var formatCurrency = function formatCurrency(currency) {
-    return '<span class="symbols ' + (currency || '').toLowerCase() + '"></span>';
+    return '<span class="symbols">&nbsp;' + getCurrencyDisplayCode(currency) + '</span>';
 }; // defined in binary-style
 
 var addComma = function addComma(num, decimal_points, is_crypto) {
@@ -809,10 +809,20 @@ var CryptoConfig = function () {
     var initCryptoConfig = function initCryptoConfig() {
         return {
             BTC: { display_code: 'BTC', name: localize('Bitcoin'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
-            ETH: { display_code: 'ETH', name: localize('Ether'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
+            ETH: { display_code: 'ETH', name: localize('Ethereum'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
             ETC: { display_code: 'ETC', name: localize('Ether Classic'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
             LTC: { display_code: 'LTC', name: localize('Litecoin'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
-            UST: { display_code: 'USDT', name: localize('Tether'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
+            IDK: { display_code: 'IDK', name: localize('IDK'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
+            BUSD: { display_code: 'BUSD', name: localize('Binance USD'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
+            DAI: { display_code: 'DAI', name: localize('Multi-Collateral'), min_withdrawal: 0.002, pa_max_withdrawal: 5, pa_min_withdrawal: 0.002 },
+            EURS: { display_code: 'EURS', name: localize('STASIS Euro'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
+            PAX: { display_code: 'PAX', name: localize('Paxos Standard'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
+            TUSD: { display_code: 'TUSD', name: localize('True USD'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
+            USDC: { display_code: 'USDC', name: localize('USD Coin'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
+            USDK: { display_code: 'USDK', name: localize('USDK'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
+            UST: { display_code: 'USDT', name: localize('Tether Omni'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
+            USDT: { display_code: 'USDT', name: localize('Tether Omni'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
+            eUSDT: { display_code: 'eUSDT', name: localize('Tether ERC20'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 },
             USB: { display_code: 'USB', name: localize('Binary Coin'), min_withdrawal: 0.02, pa_max_withdrawal: 2000, pa_min_withdrawal: 10 }
         };
     };
@@ -837,14 +847,14 @@ var getMinWithdrawal = function getMinWithdrawal(currency) {
  * @param {string} max|undefined
  * @returns numeric|undefined
  */
-var getTransferLimits = function getTransferLimits(currency, which) {
-    var transfer_limits = getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', 'limits']) || getMinWithdrawal(currency);
+var getTransferLimits = function getTransferLimits(currency, which, type) {
+    var transfer_limits = getPropertyValue(currencies_config, [currency, 'transfer_between_accounts', type === 'mt5' ? 'limits_mt5' : 'limits']) || getMinWithdrawal(currency);
     var decimals = getDecimalPlaces(currency);
     if (which === 'max') {
-        return transfer_limits.max ? transfer_limits.max.toFixed(decimals) : undefined;
+        return transfer_limits.max ? (+transfer_limits.max).toFixed(decimals) : undefined;
     }
 
-    return transfer_limits.min ? transfer_limits.min.toFixed(decimals) : undefined;
+    return transfer_limits.min ? (+transfer_limits.min).toFixed(decimals) : undefined;
 };
 
 var getTransferFee = function getTransferFee(currency_from, currency_to) {
@@ -866,8 +876,13 @@ var getPaWithdrawalLimit = function getPaWithdrawalLimit(currency, limit) {
     return limit === 'max' ? 2000 : 10; // limits for fiat currency
 };
 
+var unifyUST = function unifyUST(currency) {
+    return (/UST/.test(currency) ? 'USDT' : currency
+    );
+}; // TODO Remove once API sends a unique currency
+
 var getCurrencyDisplayCode = function getCurrencyDisplayCode(currency) {
-    return getPropertyValue(CryptoConfig.get(), [currency, 'display_code']) || currency;
+    return unifyUST(getPropertyValue(CryptoConfig.get(), [currency, 'display_code']) || currency);
 };
 
 var getCurrencyName = function getCurrencyName(currency) {
@@ -1300,8 +1315,15 @@ var BinarySocket = __webpack_require__(/*! ./socket_base */ "./src/javascript/_c
 var ClientBase = __webpack_require__(/*! ./client_base */ "./src/javascript/_common/base/client_base.js");
 
 var LiveChat = function () {
+    var initial_session_variables = { loginid: '', landing_company_shortcode: '', currency: '', residence: '' };
     var init = function init() {
         if (window.LiveChatWidget) {
+            // We have to clear the session first on livechat init to prevent
+            // getting data from previous session.
+            window.LiveChatWidget.call('set_customer_email', ' ');
+            window.LiveChatWidget.call('set_customer_name', ' ');
+            window.LiveChatWidget.call('set_session_variables', initial_session_variables);
+
             BinarySocket.wait('get_settings').then(function (response) {
                 var get_settings = response.get_settings || {};
                 var first_name = get_settings.first_name,
@@ -1317,23 +1339,21 @@ var LiveChat = function () {
                 var visibility = _ref.visibility;
 
                 // only visible to CS
-                var session_variables = { loginid: '', landing_company_shortcode: '', currency: '', residence: '' };
-
                 if (visibility === 'maximized' && ClientBase.isLoggedIn()) {
                     var loginid = ClientBase.get('loginid');
                     var landing_company_shortcode = ClientBase.get('landing_company_shortcode');
                     var currency = ClientBase.get('currency');
                     var residence = ClientBase.get('residence');
 
-                    session_variables = _extends({}, loginid && { loginid: loginid }, landing_company_shortcode && { landing_company_shortcode: landing_company_shortcode }, currency && { currency: currency }, residence && { residence: residence });
+                    var client_session_variables = _extends({}, loginid && { loginid: loginid }, landing_company_shortcode && { landing_company_shortcode: landing_company_shortcode }, currency && { currency: currency }, residence && { residence: residence });
 
-                    window.LiveChatWidget.call('set_session_variables', session_variables);
+                    window.LiveChatWidget.call('set_session_variables', client_session_variables);
                 }
 
                 if (visibility === 'maximized' && !ClientBase.isLoggedIn()) {
                     window.LiveChatWidget.call('set_customer_email', ' ');
                     window.LiveChatWidget.call('set_customer_name', ' ');
-                    window.LiveChatWidget.call('set_session_variables', session_variables);
+                    window.LiveChatWidget.call('set_session_variables', initial_session_variables);
                 }
             });
         }
@@ -15245,8 +15265,7 @@ var AccountTransfer = function () {
         parent: 'client_message',
         error: 'no_account',
         balance: 'not_enough_balance',
-        deposit: 'no_balance',
-        limit: 'limit_reached'
+        deposit: 'no_balance'
     };
 
     var el_transfer_from = void 0,
@@ -15259,7 +15278,6 @@ var AccountTransfer = function () {
         client_balance = void 0,
         client_currency = void 0,
         client_loginid = void 0,
-        withdrawal_limit = void 0,
         max_amount = void 0,
         transferable_amount = void 0,
         to_loginid = void 0,
@@ -15508,12 +15526,10 @@ var AccountTransfer = function () {
                 getElementById(messages.deposit).setVisibility(1);
             } else {
                 var req_transfer_between_accounts = BinarySocket.send({ transfer_between_accounts: 1 });
-                var req_get_limits = BinarySocket.send({ get_limits: 1 });
                 var get_account_status = BinarySocket.send({ get_account_status: 1 });
 
-                Promise.all([req_transfer_between_accounts, req_get_limits, get_account_status]).then(function () {
+                Promise.all([req_transfer_between_accounts, get_account_status]).then(function () {
                     var response_transfer = State.get(['response', 'transfer_between_accounts']);
-                    var response_limits = State.get(['response', 'get_limits']);
                     var is_authenticated = State.getResponse('get_account_status.status').some(function (state) {
                         return state === 'authenticated';
                     });
@@ -15526,31 +15542,19 @@ var AccountTransfer = function () {
                         showError();
                         return;
                     }
-                    if (hasError(response_limits)) {
-                        return;
-                    }
 
                     populateAccounts(accounts);
-                    setLimits(response_limits, min_amount, is_authenticated).then(function () {
+                    setLimits(min_amount, is_authenticated).then(function () {
                         showForm({ is_authenticated: is_authenticated });
                         populateHints();
-                    }).catch(function () {
-                        getElementById(messages.limit).setVisibility(1);
-                        getElementById(messages.parent).setVisibility(1);
-                        el_transfer_fee.setVisibility(0);
                     });
                 });
             }
         });
     };
 
-    var setLimits = function setLimits(response, min_amount, is_authenticated) {
-        return new Promise(function (resolve, reject) {
-            withdrawal_limit = +response.get_limits.remainder;
-            if (withdrawal_limit < +min_amount) {
-                reject(new Error('Withdrawal limit is less than Min amount.'));
-            }
-
+    var setLimits = function setLimits(min_amount, is_authenticated) {
+        return new Promise(function (resolve) {
             max_amount = Currency.getTransferLimits(Client.get('currency'), 'max');
 
             var from_currency = Client.get('currency');
@@ -15558,7 +15562,7 @@ var AccountTransfer = function () {
             if (!Currency.isCryptocurrency(from_currency) && !Currency.isCryptocurrency(to_currency) && is_authenticated) {
                 transferable_amount = client_balance;
             } else {
-                transferable_amount = max_amount ? Math.min(max_amount, withdrawal_limit, client_balance) : Math.min(withdrawal_limit, client_balance);
+                transferable_amount = max_amount ? Math.min(max_amount, client_balance) : client_balance;
             }
 
             getElementById('range_hint_min').textContent = min_amount;
@@ -16749,8 +16753,8 @@ var PaymentAgentWithdraw = function () {
                     setActiveView(view_ids.confirm);
 
                     $('#lblAgentName').text(agent_name);
-                    $('#lblCurrency').text(Currency.getCurrencyDisplayCode(request.currency));
                     $('#lblAmount').text(Currency.getNumberFormat(request.amount, request.currency));
+                    $('#lblCurrency').text(Currency.getCurrencyDisplayCode(request.currency));
 
                     if (request.description) {
                         // This Regex operation gets everything after the prefix, and handles the prefix not existing
@@ -30890,7 +30894,6 @@ var SelfExclusion = function () {
     var timeout_time_id = '#timeout_until_time';
     var exclude_until_id = '#exclude_until';
     var max_30day_turnover_id = '#max_30day_turnover';
-    var max_deposit_end_date_id = '#max_deposit_end_date';
     var error_class = 'errorfield';
     var TURNOVER_LIMIT = 999999999999999; // 15 digits
 
@@ -30904,7 +30907,7 @@ var SelfExclusion = function () {
 
         currency = Client.get('currency');
 
-        $('.prepend_currency').parent().prepend(Currency.formatCurrency(currency));
+        $('.append_currency').after(Currency.formatCurrency(currency));
 
         // gamstop is only applicable for UK residence & for MX, MLT clients
         is_gamstop_client = /gb/.test(Client.get('residence')) && /iom|malta/.test(Client.get('landing_company_shortcode'));
@@ -30951,10 +30954,6 @@ var SelfExclusion = function () {
                         $form.find('label[for="timeout_until_date"]').text(localize('Timed out until'));
                         return;
                     }
-                    if (key === 'max_deposit_end_date') {
-                        setDateTimePicker(max_deposit_end_date_id, value);
-                        return;
-                    }
                     if (key === 'exclude_until') {
                         setDateTimePicker(exclude_until_id, value);
                         $form.find('label[for="exclude_until"]').text(localize('Excluded from the website until'));
@@ -30999,7 +30998,7 @@ var SelfExclusion = function () {
         $form.find('input[type="text"]').each(function () {
             var id = $(this).attr('id');
 
-            if (/timeout_until|exclude_until|max_deposit_end_date/.test(id)) return;
+            if (/timeout_until|exclude_until/.test(id)) return;
 
             var checks = [];
             var options = { min: 0 };
@@ -31059,12 +31058,6 @@ var SelfExclusion = function () {
                 }, message: localize('Exclude time cannot be less than 6 months.') }], ['custom', { func: function func(value) {
                     return !value.length || getMoment(exclude_until_id).isBefore(moment().add(5, 'years'));
                 }, message: localize('Exclude time cannot be for more than 5 years.') }]]
-        }, {
-            selector: max_deposit_end_date_id,
-            exclude_if_empty: 1,
-            value: function value() {
-                return getDate(max_deposit_end_date_id);
-            }
         });
 
         FormManager.init(form_id, validations);
@@ -31106,14 +31099,6 @@ var SelfExclusion = function () {
             minDate: 0,
             maxDate: 6 * 7 // 6 weeks
         });
-
-        if (Client.get('landing_company_shortcode') === 'iom') {
-            // max_deposit_until
-            DatePicker.init({
-                selector: max_deposit_end_date_id,
-                minDate: moment().add(1, 'day').toDate()
-            });
-        }
 
         // exclude_until
         DatePicker.init({
@@ -32931,12 +32916,7 @@ var MetaTraderConfig = function () {
                             if (!response_status.error && /cashier_locked/.test(response_status.get_account_status.status)) {
                                 resolve(localize('Your cashier is locked.')); // Locked from BO
                             } else {
-                                var limit = State.getResponse('get_limits.remainder');
-                                if (typeof limit !== 'undefined' && +limit < Currency.getTransferLimits(Client.get('currency'), 'min')) {
-                                    resolve(localize('You have reached the limit.'));
-                                } else {
-                                    resolve();
-                                }
+                                resolve();
                             }
                         });
                     }
@@ -33044,18 +33024,50 @@ var MetaTraderConfig = function () {
             password_change: [{ selector: fields.password_change.ddl_password_type.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_change.txt_old_password.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_change.txt_new_password.id, validations: [['req', { hide_asterisk: true }], 'password', ['not_equal', { to: fields.password_change.txt_old_password.id, name1: localize('Current password'), name2: localize('New password') }], 'compare_to_email'], re_check_field: fields.password_change.txt_re_new_password.id }, { selector: fields.password_change.txt_re_new_password.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.password_change.txt_new_password.id }]] }],
             password_reset: [{ selector: fields.password_reset.ddl_password_type.id, validations: [['req', { hide_asterisk: true }]] }, { selector: fields.password_reset.txt_new_password.id, validations: [['req', { hide_asterisk: true }], 'password', 'compare_to_email'], re_check_field: fields.password_reset.txt_re_new_password.id }, { selector: fields.password_reset.txt_re_new_password.id, validations: [['req', { hide_asterisk: true }], ['compare', { to: fields.password_reset.txt_new_password.id }]] }],
             verify_password_reset_token: [{ selector: fields.verify_password_reset_token.txt_verification_code.id, validations: [['req', { hide_asterisk: true }], 'token'], exclude_request: 1 }],
-            deposit: [{ selector: fields.deposit.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
-                        return Currency.getTransferLimits(Client.get('currency'), 'min');
-                    }, max: function max() {
-                        return Math.min(State.getResponse('get_limits.remainder') || Currency.getTransferLimits(Client.get('currency'), 'max'), Currency.getTransferLimits(Client.get('currency'), 'max')).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
-                    }, decimals: Currency.getDecimalPlaces(Client.get('currency')) }], ['custom', { func: function func() {
-                        return Client.get('balance') && +Client.get('balance') >= +$(fields.deposit.txt_amount.id).val();
-                    }, message: localize('You have insufficient funds in your Binary account, please <a href="[_1]">add funds</a>.', urlFor('cashier')) }]] }],
-            withdrawal: [{ selector: fields.withdrawal.txt_amount.id, validations: [['req', { hide_asterisk: true }], ['number', { type: 'float', min: function min() {
-                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'min');
-                    }, max: function max() {
-                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'max');
-                    }, decimals: 2 }]] }]
+            deposit: [{
+                selector: fields.deposit.txt_amount.id,
+                validations: [['req', { hide_asterisk: true }], ['number', {
+                    type: 'float',
+                    min: function min() {
+                        return Currency.getTransferLimits(Client.get('currency'), 'min', 'mt5');
+                    },
+                    max: function max() {
+                        var mt5_limit = Currency.getTransferLimits(Client.get('currency'), 'max', 'mt5');
+                        var balance = Client.get('balance');
+                        // if balance is 0, pass this validation so we can show insufficient funds in the next custom validation
+                        return Math.min(mt5_limit, balance || mt5_limit).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
+                    },
+                    decimals: Currency.getDecimalPlaces(Client.get('currency'))
+                }], ['custom', {
+                    func: function func() {
+                        var balance = Client.get('balance');
+                        return balance && +balance >= +$(fields.deposit.txt_amount.id).val();
+                    },
+                    message: localize('You have insufficient funds in your Binary account, please <a href="[_1]">add funds</a>.', urlFor('cashier'))
+                }]]
+            }],
+            withdrawal: [{
+                selector: fields.withdrawal.txt_amount.id,
+                validations: [['req', { hide_asterisk: true }], ['number', {
+                    type: 'float',
+                    min: function min() {
+                        return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'min', 'mt5');
+                    },
+                    max: function max() {
+                        var mt5_limit = Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'max', 'mt5');
+                        var balance = accounts_info[Client.get('mt5_account')].info.balance;
+                        // if balance is 0, pass this validation so we can show insufficient funds in the next custom validation
+                        return Math.min(mt5_limit, balance || mt5_limit);
+                    },
+                    decimals: 2
+                }], ['custom', {
+                    func: function func() {
+                        var balance = accounts_info[Client.get('mt5_account')].info.balance;
+                        return balance && +balance >= +$(fields.withdrawal.txt_amount.id).val();
+                    },
+                    message: localize('You have insufficient funds in your MT5 account.')
+                }]]
+            }]
         };
     };
 
@@ -35424,7 +35436,7 @@ var SetCurrency = function () {
         var $fiat_currencies = $('<div/>');
         var $cryptocurrencies = $('<div/>');
         currencies.forEach(function (c) {
-            var $wrapper = $('<div/>', { class: 'gr-2 gr-3-m currency_wrapper', id: c });
+            var $wrapper = $('<div/>', { class: 'gr-2 gr-4-m currency_wrapper', id: c });
             var $image = $('<div/>').append($('<img/>', { src: Url.urlForStatic('images/pages/set_currency/' + c.toLowerCase() + '.svg') }));
             var $name = $('<div/>', { class: 'currency-name' });
 
@@ -35432,7 +35444,10 @@ var SetCurrency = function () {
                 var $display_name = $('<span/>', _extends({
                     text: Currency.getCurrencyName(c) || c
                 }, /^UST$/.test(c) && {
-                    'data-balloon': localize('Binary.com currently supports Tether (USDT). You can only deposit USDT from your Omni Layer-enabled wallet into your Binary.com account.'),
+                    'data-balloon': localize('Tether Omni (USDT) is a version of Tether that\'s pegged to USD and is built on the Bitcoin blockchain.'),
+                    'data-balloon-length': 'large'
+                }, /^eUSDT/.test(c) && {
+                    'data-balloon': localize('Tether ERC20 (eUSDT) is a version of Tether that\'s pegged to USD and is hosted on the Ethereum platform.'),
                     'data-balloon-length': 'large'
                 }));
 
@@ -35467,7 +35482,7 @@ var SetCurrency = function () {
 
     var onSelection = function onSelection($currency_list, $error, should_show_confirmation) {
         $('.currency_wrapper').off('click dblclick').on('click dblclick', function () {
-            $error.setVisibility(0);
+            removeError($error, true);
             var $clicked_currency = $(this);
             $currency_list.find('> div').removeClass('selected');
             $clicked_currency.addClass('selected');
@@ -35504,7 +35519,7 @@ var SetCurrency = function () {
     };
 
     var _onConfirm = function _onConfirm($currency_list, $error, should_create_account) {
-        $error.setVisibility(0);
+        removeError($error);
         var $selected_currency = $currency_list.find('.selected');
         if ($selected_currency.length) {
             var selected_currency = $selected_currency.attr('id');
@@ -35592,10 +35607,24 @@ var SetCurrency = function () {
                 }
             });
         } else {
-            if ($submit) {
-                $submit.removeClass('button-disabled');
-            }
+            removeError(null, true);
             $error.text(localize('Please choose a currency')).setVisibility(1);
+        }
+    };
+
+    /**
+     * Remove error text if $error is defined
+     * Enable confirm button if is_btn_enabled is true
+     *
+     * @param {object} $error // error text jquery element
+     * @param {boolean} is_btn_enabled // Enable button
+     */
+    var removeError = function removeError($error, is_btn_enabled) {
+        if ($error) {
+            $error.setVisibility(0);
+        }
+        if ($submit && is_btn_enabled) {
+            $submit.removeClass('button-disabled');
         }
     };
 
@@ -36671,7 +36700,7 @@ var ViewPopup = function () {
         sellSetVisibility(false);
         if (is_sell_clicked) {
             var formatted_sell_price = formatMoney(contract.currency, response.sell.sold_for, true);
-            containerSetText('contract_sell_message', localize('You have sold this contract at [_1] [_2]', [getCurrencyDisplayCode(contract.currency), formatted_sell_price]) + '\n                <br />\n                ' + localize('Your transaction reference number is [_1]', response.sell.transaction_id));
+            containerSetText('contract_sell_message', localize('You have sold this contract at [_1] [_2]', [formatted_sell_price, getCurrencyDisplayCode(contract.currency)]) + '\n                <br />\n                ' + localize('Your transaction reference number is [_1]', response.sell.transaction_id));
         }
         getContract('no-subscribe');
     };
