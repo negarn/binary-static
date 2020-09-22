@@ -15967,6 +15967,7 @@ var DepositWithdraw = function () {
     var response_withdrawal = {};
 
     var cashier_type = void 0,
+        has_no_balance = void 0,
         token = void 0,
         $iframe = void 0,
         $loading = void 0;
@@ -16151,7 +16152,7 @@ var DepositWithdraw = function () {
             }
         } else {
             var client_currency = Client.get('currency');
-            if (cashier_type === 'deposit' && Client.canChangeCurrency(State.getResponse('statement'), State.getResponse('mt5_login_list'))) {
+            if (cashier_type === 'deposit' && has_no_balance && Client.canChangeCurrency(State.getResponse('statement'), State.getResponse('mt5_login_list'))) {
                 Dialog.confirm({
                     id: 'deposit_currency_change_popup_container',
                     ok_text: localize('Yes I\'m sure'),
@@ -16208,41 +16209,44 @@ var DepositWithdraw = function () {
                             return _context.abrupt('return');
 
                         case 5:
-                            if (!(cashier_type === 'withdraw' && +Client.get('balance') === 0)) {
-                                _context.next = 8;
+
+                            has_no_balance = +Client.get('balance') === 0;
+
+                            if (!(cashier_type === 'withdraw' && has_no_balance)) {
+                                _context.next = 9;
                                 break;
                             }
 
                             showError('no_balance_error');
                             return _context.abrupt('return');
 
-                        case 8:
-                            _context.next = 10;
+                        case 9:
+                            _context.next = 11;
                             return BinarySocket.send({ get_account_status: 1 });
 
-                        case 10:
+                        case 11:
 
                             // cannot use State.getResponse because we want to check error which is outside of response[msg_type]
                             response_get_account_status = State.get(['response', 'get_account_status']);
 
                             if (response_get_account_status.error) {
-                                _context.next = 19;
+                                _context.next = 20;
                                 break;
                             }
 
                             if (!/cashier_locked/.test(response_get_account_status.get_account_status.status)) {
-                                _context.next = 15;
+                                _context.next = 16;
                                 break;
                             }
 
                             showError('custom_error', localize('Your cashier is locked.')); // Locked from BO
                             return _context.abrupt('return');
 
-                        case 15:
+                        case 16:
                             account_currency_config = getPropertyValue(response_get_account_status.get_account_status, ['currency_config', Client.get('currency')]) || {};
 
                             if (!(cashier_type === 'deposit' && account_currency_config.is_deposit_suspended || cashier_type === 'withdraw' && account_currency_config.is_withdrawal_suspended)) {
-                                _context.next = 19;
+                                _context.next = 20;
                                 break;
                             }
 
@@ -16250,20 +16254,20 @@ var DepositWithdraw = function () {
                             showError('custom_error', localize('Please note that the selected currency is allowed for limited accounts only.'));
                             return _context.abrupt('return');
 
-                        case 19:
-                            _context.next = 21;
+                        case 20:
+                            _context.next = 22;
                             return BinarySocket.wait('website_status');
 
-                        case 21:
+                        case 22:
                             currency_config = getPropertyValue(getCurrencies(), [Client.get('currency')]) || {};
 
                             if (!(cashier_type === 'deposit')) {
-                                _context.next = 28;
+                                _context.next = 29;
                                 break;
                             }
 
                             if (!currency_config.is_deposit_suspended) {
-                                _context.next = 26;
+                                _context.next = 27;
                                 break;
                             }
 
@@ -16271,13 +16275,13 @@ var DepositWithdraw = function () {
                             showError('custom_error', localize('Sorry, deposits for this currency are currently disabled.'));
                             return _context.abrupt('return');
 
-                        case 26:
-                            _context.next = 31;
+                        case 27:
+                            _context.next = 32;
                             break;
 
-                        case 28:
+                        case 29:
                             if (!currency_config.is_withdrawal_suspended) {
-                                _context.next = 31;
+                                _context.next = 32;
                                 break;
                             }
 
@@ -16286,12 +16290,16 @@ var DepositWithdraw = function () {
                             showError('custom_error', localize('Sorry, withdrawals for this currency are currently disabled.'));
                             return _context.abrupt('return');
 
-                        case 31:
+                        case 32:
                             promises = [];
 
                             if (cashier_type === 'deposit') {
-                                promises.push(BinarySocket.send({ statement: 1, limit: 1 }));
-                                promises.push(BinarySocket.send({ mt5_login_list: 1 }));
+                                // to speed up page load
+                                // if client has balance then no need to check their transactions or mt5 accounts
+                                if (has_no_balance) {
+                                    promises.push(BinarySocket.send({ statement: 1, limit: 1 }));
+                                    promises.push(BinarySocket.send({ mt5_login_list: 1 }));
+                                }
                             } else {
                                 promises.push(BinarySocket.send({ get_limits: 1 }));
                             }
@@ -16309,7 +16317,7 @@ var DepositWithdraw = function () {
                                 });
                             });
 
-                        case 34:
+                        case 35:
                         case 'end':
                             return _context.stop();
                     }
@@ -30882,11 +30890,16 @@ var scrollToHashSection = __webpack_require__(/*! ../../../../../_common/scroll 
 
 var SelfExclusion = function () {
     var $form = void 0,
+        $warning_ukgc = void 0,
+        $timeout_date = void 0,
+        $exclude_until = void 0,
         fields = void 0,
         self_exclusion_data = void 0,
         set_30day_turnover = void 0,
         currency = void 0,
         is_gamstop_client = void 0,
+        is_mlt = void 0,
+        is_mx = void 0,
         has_exclude_until = void 0;
 
     var form_id = '#frm_self_exclusion';
@@ -30894,11 +30907,15 @@ var SelfExclusion = function () {
     var timeout_time_id = '#timeout_until_time';
     var exclude_until_id = '#exclude_until';
     var max_30day_turnover_id = '#max_30day_turnover';
+    var max_deposit_end_date_id = '#max_deposit_end_date';
     var error_class = 'errorfield';
     var TURNOVER_LIMIT = 999999999999999; // 15 digits
 
     var onLoad = function onLoad() {
         $form = $(form_id);
+        $warning_ukgc = $('#self_exclusion_warning');
+        $timeout_date = $(timeout_date_id);
+        $exclude_until = $(exclude_until_id);
 
         fields = {};
         $form.find('input').each(function () {
@@ -30910,7 +30927,9 @@ var SelfExclusion = function () {
         $('.append_currency').after(Currency.formatCurrency(currency));
 
         // gamstop is only applicable for UK residence & for MX, MLT clients
-        is_gamstop_client = /gb/.test(Client.get('residence')) && /iom|malta/.test(Client.get('landing_company_shortcode'));
+        is_mlt = Client.get('landing_company_shortcode') === 'malta';
+        is_mx = Client.get('landing_company_shortcode') === 'iom';
+        is_gamstop_client = Client.get('residence') === 'gb' && (is_mx || is_mlt);
 
         initDatePicker();
         getData(true);
@@ -30954,11 +30973,14 @@ var SelfExclusion = function () {
                         $form.find('label[for="timeout_until_date"]').text(localize('Timed out until'));
                         return;
                     }
+                    if (key === 'max_deposit_end_date') {
+                        setDateTimePicker(max_deposit_end_date_id, value);
+                        return;
+                    }
                     if (key === 'exclude_until') {
                         setDateTimePicker(exclude_until_id, value);
                         $form.find('label[for="exclude_until"]').text(localize('Excluded from the website until'));
-                        $('#ukgc_gamstop').setVisibility(is_gamstop_client);
-                        $('#ukgc_requirement_notice').setVisibility(1);
+                        showWarning();
                         return;
                     }
                     if (key === 'max_30day_turnover') {
@@ -30998,7 +31020,7 @@ var SelfExclusion = function () {
         $form.find('input[type="text"]').each(function () {
             var id = $(this).attr('id');
 
-            if (/timeout_until|exclude_until/.test(id)) return;
+            if (/timeout_until|exclude_until|max_deposit_end_date/.test(id)) return;
 
             var checks = [];
             var options = { min: 0 };
@@ -31058,6 +31080,12 @@ var SelfExclusion = function () {
                 }, message: localize('Exclude time cannot be less than 6 months.') }], ['custom', { func: function func(value) {
                     return !value.length || getMoment(exclude_until_id).isBefore(moment().add(5, 'years'));
                 }, message: localize('Exclude time cannot be for more than 5 years.') }]]
+        }, {
+            selector: max_deposit_end_date_id,
+            exclude_if_empty: 1,
+            value: function value() {
+                return getDate(max_deposit_end_date_id);
+            }
         });
 
         FormManager.init(form_id, validations);
@@ -31100,6 +31128,14 @@ var SelfExclusion = function () {
             maxDate: 6 * 7 // 6 weeks
         });
 
+        if (Client.get('landing_company_shortcode') === 'iom') {
+            // max_deposit_until
+            DatePicker.init({
+                selector: max_deposit_end_date_id,
+                minDate: moment().add(1, 'day').toDate()
+            });
+        }
+
         // exclude_until
         DatePicker.init({
             selector: exclude_until_id,
@@ -31110,6 +31146,8 @@ var SelfExclusion = function () {
         $(timeout_date_id + ', ' + exclude_until_id).change(function () {
             dateValueChanged(this, 'date');
             var date = this.getAttribute('data-value');
+            var timeout_val = $timeout_date.attr('data-value');
+            var exclude_until_val = $exclude_until.attr('data-value');
 
             if (timeout_date_id.indexOf(this.id) > 0) {
                 var disabled_time_options = {
@@ -31123,8 +31161,16 @@ var SelfExclusion = function () {
                 }));
             }
 
-            $('#gamstop_info_bottom').setVisibility(is_gamstop_client && date);
+            showWarning(timeout_val || exclude_until_val);
         });
+    };
+
+    var showWarning = function showWarning() {
+        var is_enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+        if (is_mx || is_mlt) {
+            $warning_ukgc.setVisibility(is_enabled);
+        }
     };
 
     var additionalCheck = function additionalCheck(data) {
@@ -31168,11 +31214,8 @@ var SelfExclusion = function () {
             return;
         }
         showFormMessage(localize('Your changes have been updated.'), true);
-        if ($('#exclude_until').attr('data-value')) {
-            $('#gamstop_info_bottom').setVisibility(0);
-            $('#ukgc_gamstop').setVisibility(is_gamstop_client);
-            $('#ukgc_requirement_notice').setVisibility(1);
-        }
+        var exclude_until_val = $exclude_until.attr('data-value');
+        showWarning(!!exclude_until_val);
         Client.set('session_start', moment().unix()); // used to handle session duration limit
         var _response$echo_req = response.echo_req,
             exclude_until = _response$echo_req.exclude_until,
