@@ -1722,7 +1722,7 @@ var BinarySocketBase = function () {
     var is_disconnect_called = false;
     var is_connected_before = false;
 
-    var socket_url = getSocketURL() + '?app_id=' + getAppId() + '&l=' + getLanguage();
+    var socket_url = getSocketURL() + '?app_id=' + getAppId() + '&l=' + getLanguage() + '&brand=binary';
     var timeouts = {};
     var promises = {};
 
@@ -10317,6 +10317,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/base/socket.js");
+var Defaults = __webpack_require__(/*! ../pages/trade/defaults */ "./src/javascript/app/pages/trade/defaults.js");
 var RealityCheckData = __webpack_require__(/*! ../pages/user/reality_check/reality_check.data */ "./src/javascript/app/pages/user/reality_check/reality_check.data.js");
 var ClientBase = __webpack_require__(/*! ../../_common/base/client_base */ "./src/javascript/_common/base/client_base.js");
 var GTM = __webpack_require__(/*! ../../_common/base/gtm */ "./src/javascript/_common/base/gtm.js");
@@ -10400,6 +10401,8 @@ var Client = function () {
         // clear elev.io session storage
         sessionStorage.removeItem('_elevaddon-6app');
         sessionStorage.removeItem('_elevaddon-6create');
+        // clear trading session
+        Defaults.remove('underlying', 'market');
         ClientBase.clearAllAccounts();
         ClientBase.set('loginid', '');
         SocketCache.clear();
@@ -14975,7 +14978,7 @@ var DatePicker = function () {
     var checkWidth = function checkWidth(selector) {
         var $selector = $(selector);
         var date_picker_conf = date_pickers[selector].config_data;
-        if ($(window).width() < 770) {
+        if (window.innerWidth < 770) {
             if (!date_picker_conf.native) {
                 hide(selector);
                 $selector.attr('type', 'number');
@@ -14990,7 +14993,7 @@ var DatePicker = function () {
                 return;
             }
         }
-        if ($(window).width() > 769 && $selector.attr('data-picker') !== 'jquery' || $(window).width() < 770 && !checkInput('date', 'not-a-date')) {
+        if (window.innerWidth > 769 && $selector.attr('data-picker') !== 'jquery' || window.innerWidth < 770 && !checkInput('date', 'not-a-date')) {
             var value = $selector.attr('data-value') || $selector.val();
             var format_value = value && date_picker_conf.type !== 'diff' ? toReadableFormat(moment(value)) : $selector.val();
             $selector.attr({ type: 'text', 'data-picker': 'jquery', 'data-value': value }).removeAttr('min max').val(format_value);
@@ -15202,7 +15205,7 @@ var TimePicker = function () {
     var updatePicker = function updatePicker(selector) {
         var $selector = $(selector);
         var time_picker_conf = time_pickers[selector].config_data;
-        if ($(window).width() < 770 && checkInput('time', 'not-a-time') && $selector.attr('data-picker') !== 'native') {
+        if (window.innerWidth < 770 && checkInput('time', 'not-a-time') && $selector.attr('data-picker') !== 'native') {
             removeJqueryPicker(selector);
             $selector.attr({ type: 'time', 'data-picker': 'native' }).val($selector.attr('data-value')).removeAttr('readonly').removeClass('clear');
 
@@ -15213,7 +15216,7 @@ var TimePicker = function () {
             if (maxTime) $selector.attr('max', toTime(maxTime));
             return;
         }
-        if ($(window).width() > 769 && $selector.attr('data-picker') !== 'jquery' || $(window).width() < 770 && !checkInput('time', 'not-a-time')) {
+        if (window.innerWidth > 769 && $selector.attr('data-picker') !== 'jquery' || window.innerWidth < 770 && !checkInput('time', 'not-a-time')) {
             $selector.attr({ type: 'text', 'data-picker': 'jquery', readonly: 'readonly' });
             $selector.removeAttr('min max');
             if ($selector.attr('data-value') && $selector.hasClass('clearable') && !$selector.attr('disabled')) {
@@ -15830,8 +15833,10 @@ var Cashier = function () {
                             return false;
                         });
                     }
-
-                    $crypto_min_withdrawal.text(minimum_withdrawal.toFixed(to_fixed));
+                    // if there is not more than 2 non-zero decimals
+                    // don't cut off the number
+                    var min_withdrawal = to_fixed === -1 ? minimum_withdrawal : minimum_withdrawal.toFixed(to_fixed);
+                    $crypto_min_withdrawal.text(min_withdrawal);
                 }
             });
         });
@@ -15967,6 +15972,7 @@ var DepositWithdraw = function () {
     var response_withdrawal = {};
 
     var cashier_type = void 0,
+        has_no_balance = void 0,
         token = void 0,
         $iframe = void 0,
         $loading = void 0;
@@ -16151,7 +16157,7 @@ var DepositWithdraw = function () {
             }
         } else {
             var client_currency = Client.get('currency');
-            if (cashier_type === 'deposit' && Client.canChangeCurrency(State.getResponse('statement'), State.getResponse('mt5_login_list'))) {
+            if (cashier_type === 'deposit' && has_no_balance && Client.canChangeCurrency(State.getResponse('statement'), State.getResponse('mt5_login_list'))) {
                 Dialog.confirm({
                     id: 'deposit_currency_change_popup_container',
                     ok_text: localize('Yes I\'m sure'),
@@ -16208,41 +16214,44 @@ var DepositWithdraw = function () {
                             return _context.abrupt('return');
 
                         case 5:
-                            if (!(cashier_type === 'withdraw' && +Client.get('balance') === 0)) {
-                                _context.next = 8;
+
+                            has_no_balance = +Client.get('balance') === 0;
+
+                            if (!(cashier_type === 'withdraw' && has_no_balance)) {
+                                _context.next = 9;
                                 break;
                             }
 
                             showError('no_balance_error');
                             return _context.abrupt('return');
 
-                        case 8:
-                            _context.next = 10;
+                        case 9:
+                            _context.next = 11;
                             return BinarySocket.send({ get_account_status: 1 });
 
-                        case 10:
+                        case 11:
 
                             // cannot use State.getResponse because we want to check error which is outside of response[msg_type]
                             response_get_account_status = State.get(['response', 'get_account_status']);
 
                             if (response_get_account_status.error) {
-                                _context.next = 19;
+                                _context.next = 20;
                                 break;
                             }
 
                             if (!/cashier_locked/.test(response_get_account_status.get_account_status.status)) {
-                                _context.next = 15;
+                                _context.next = 16;
                                 break;
                             }
 
                             showError('custom_error', localize('Your cashier is locked.')); // Locked from BO
                             return _context.abrupt('return');
 
-                        case 15:
+                        case 16:
                             account_currency_config = getPropertyValue(response_get_account_status.get_account_status, ['currency_config', Client.get('currency')]) || {};
 
                             if (!(cashier_type === 'deposit' && account_currency_config.is_deposit_suspended || cashier_type === 'withdraw' && account_currency_config.is_withdrawal_suspended)) {
-                                _context.next = 19;
+                                _context.next = 20;
                                 break;
                             }
 
@@ -16250,20 +16259,20 @@ var DepositWithdraw = function () {
                             showError('custom_error', localize('Please note that the selected currency is allowed for limited accounts only.'));
                             return _context.abrupt('return');
 
-                        case 19:
-                            _context.next = 21;
+                        case 20:
+                            _context.next = 22;
                             return BinarySocket.wait('website_status');
 
-                        case 21:
+                        case 22:
                             currency_config = getPropertyValue(getCurrencies(), [Client.get('currency')]) || {};
 
                             if (!(cashier_type === 'deposit')) {
-                                _context.next = 28;
+                                _context.next = 29;
                                 break;
                             }
 
                             if (!currency_config.is_deposit_suspended) {
-                                _context.next = 26;
+                                _context.next = 27;
                                 break;
                             }
 
@@ -16271,13 +16280,13 @@ var DepositWithdraw = function () {
                             showError('custom_error', localize('Sorry, deposits for this currency are currently disabled.'));
                             return _context.abrupt('return');
 
-                        case 26:
-                            _context.next = 31;
+                        case 27:
+                            _context.next = 32;
                             break;
 
-                        case 28:
+                        case 29:
                             if (!currency_config.is_withdrawal_suspended) {
-                                _context.next = 31;
+                                _context.next = 32;
                                 break;
                             }
 
@@ -16286,12 +16295,16 @@ var DepositWithdraw = function () {
                             showError('custom_error', localize('Sorry, withdrawals for this currency are currently disabled.'));
                             return _context.abrupt('return');
 
-                        case 31:
+                        case 32:
                             promises = [];
 
                             if (cashier_type === 'deposit') {
-                                promises.push(BinarySocket.send({ statement: 1, limit: 1 }));
-                                promises.push(BinarySocket.send({ mt5_login_list: 1 }));
+                                // to speed up page load
+                                // if client has balance then no need to check their transactions or mt5 accounts
+                                if (has_no_balance) {
+                                    promises.push(BinarySocket.send({ statement: 1, limit: 1 }));
+                                    promises.push(BinarySocket.send({ mt5_login_list: 1 }));
+                                }
                             } else {
                                 promises.push(BinarySocket.send({ get_limits: 1 }));
                             }
@@ -16309,7 +16322,7 @@ var DepositWithdraw = function () {
                                 });
                             });
 
-                        case 34:
+                        case 35:
                         case 'end':
                             return _context.stop();
                     }
@@ -17098,14 +17111,19 @@ var AssetIndex = function () {
                 var asset_cells = asset_item[idx.cells];
                 var values = {};
                 for (var j = 0; j < asset_cells.length; j++) {
-                    var col = asset_cells[j][idx.cell_props.cell_display_name];
+                    var cell = asset_cells[j];
+                    var cell_name = cell[idx.cell_props.cell_name];
 
-                    values[col] = [asset_cells[j][idx.cell_props.cell_from], asset_cells[j][idx.cell_props.cell_to]].join(' - ');
+                    // Multiplier should be hidden from binary static
+                    if (cell_name !== 'multiplier') {
+                        var col = cell[idx.cell_props.cell_display_name];
+                        values[col] = [cell[idx.cell_props.cell_from], cell[idx.cell_props.cell_to]].join(' - ');
 
-                    var market_cols = market_columns[market];
-                    if (market_cols.columns.indexOf(col) === -1) {
-                        market_cols.header.push(asset_cells[j][idx.cell_props.cell_display_name]);
-                        market_cols.columns.push(col);
+                        var market_cols = market_columns[market];
+                        if (market_cols.columns.indexOf(col) === -1) {
+                            market_cols.header.push(cell[idx.cell_props.cell_display_name]);
+                            market_cols.columns.push(col);
+                        }
                     }
                 }
                 asset_item.push(values);
@@ -18720,14 +18738,13 @@ var DigitInfo = function () {
         }
 
         var series = chart.series[0]; // Where we put the final data.
-
         if (typeof latest_spot !== 'undefined' && series.name === symbol) {
-            spots.unshift(latest_spot.slice(-1)); // Only last digit matters
-            spots.pop();
+            spots.push(latest_spot.slice(-1)); // Only last digit matters
+            spots.shift();
         }
 
         // Always recompute and draw, even if theres no new data.
-        // This is especially useful on first reuqest, but maybe in other ways.
+        // This is especially useful on first request, but maybe in other ways.
         var filtered_spots = [];
         var filterFunc = function filterFunc(el) {
             return +el === digit;
@@ -19799,6 +19816,7 @@ var WebtraderChart = function () {
                     WebtraderCharts.init({
                         server: Config.getSocketURL(),
                         appId: Config.getAppId(),
+                        brand: 'binary',
                         lang: getLanguage().toLowerCase()
                     });
                     is_initialized = true;
@@ -23981,7 +23999,7 @@ var Price = function () {
             CommonFunctions.elementInnerHtml(payout_amount, data.payout ? formatMoney(currency.value || currency.getAttribute('value'), data.payout) : '-');
             // Lookback multiplier
             CommonFunctions.elementTextContent(multiplier, localize('Multiplier') + ': ');
-            CommonFunctions.elementInnerHtml(contract_multiplier, data.multiplier ? formatMoney(currency.value || currency.getAttribute('value'), data.multiplier, false, 3, 2) : '-');
+            CommonFunctions.elementInnerHtml(contract_multiplier, data.multiplier ? formatMoney(currency.value || currency.getAttribute('value'), data.multiplier, false, 0, 2) : '-');
 
             if (data.longcode && window.innerWidth > 500) {
                 if (description) description.setAttribute('data-balloon', data.longcode);
@@ -24323,9 +24341,9 @@ var Process = function () {
             getElementById('contract_confirmation_container').style.display = 'block';
             getElementById('contracts_list').style.display = 'none';
             getElementById('confirmation_message').hide();
-
             var confirmation_error = getElementById('confirmation_error');
-            confirmation_error.show();
+            confirmation_error.setVisibility(1);
+            Defaults.remove('underlying', 'market');
             elementInnerHtml(confirmation_error, contracts.error.message + ' <a href="javascript:;" onclick="sessionStorage.removeItem(\'underlying\'); window.location.reload();">' + localize('Please reload the page') + '</a>');
             return;
         }
@@ -30882,11 +30900,17 @@ var scrollToHashSection = __webpack_require__(/*! ../../../../../_common/scroll 
 
 var SelfExclusion = function () {
     var $form = void 0,
+        $warning_ukgc = void 0,
+        $timeout_date = void 0,
+        $exclude_until = void 0,
         fields = void 0,
         self_exclusion_data = void 0,
         set_30day_turnover = void 0,
         currency = void 0,
         is_gamstop_client = void 0,
+        is_svg_client = void 0,
+        is_mlt = void 0,
+        is_mx = void 0,
         has_exclude_until = void 0;
 
     var form_id = '#frm_self_exclusion';
@@ -30894,11 +30918,15 @@ var SelfExclusion = function () {
     var timeout_time_id = '#timeout_until_time';
     var exclude_until_id = '#exclude_until';
     var max_30day_turnover_id = '#max_30day_turnover';
+    var max_deposit_end_date_id = '#max_deposit_end_date';
     var error_class = 'errorfield';
     var TURNOVER_LIMIT = 999999999999999; // 15 digits
 
     var onLoad = function onLoad() {
         $form = $(form_id);
+        $warning_ukgc = $('#self_exclusion_warning');
+        $timeout_date = $(timeout_date_id);
+        $exclude_until = $(exclude_until_id);
 
         fields = {};
         $form.find('input').each(function () {
@@ -30909,8 +30937,12 @@ var SelfExclusion = function () {
 
         $('.append_currency').after(Currency.formatCurrency(currency));
 
-        // gamstop is only applicable for UK residence & for MX, MLT clients
-        is_gamstop_client = /gb/.test(Client.get('residence')) && /iom|malta/.test(Client.get('landing_company_shortcode'));
+        // svg is only applicable for CR clients
+        is_svg_client = Client.get('landing_company_shortcode') === 'svg';
+
+        is_mlt = Client.get('landing_company_shortcode') === 'malta';
+        is_mx = Client.get('landing_company_shortcode') === 'iom';
+        is_gamstop_client = Client.get('residence') === 'gb' && (is_mx || is_mlt);
 
         initDatePicker();
         getData(true);
@@ -30939,6 +30971,7 @@ var SelfExclusion = function () {
                 $('#frm_self_exclusion').find('fieldset > div.form-row:not(.max_30day_turnover)').setVisibility(!has_to_set_30day_turnover);
                 $('#description_max_30day_turnover').setVisibility(has_to_set_30day_turnover);
                 $('#description').setVisibility(!has_to_set_30day_turnover);
+                $('#gamstop_info_top').setVisibility(is_gamstop_client);
                 $('#loading').setVisibility(0);
                 $form.setVisibility(1);
                 self_exclusion_data = response.get_self_exclusion;
@@ -30953,11 +30986,14 @@ var SelfExclusion = function () {
                         $form.find('label[for="timeout_until_date"]').text(localize('Timed out until'));
                         return;
                     }
+                    if (key === 'max_deposit_end_date') {
+                        setDateTimePicker(max_deposit_end_date_id, value);
+                        return;
+                    }
                     if (key === 'exclude_until') {
                         setDateTimePicker(exclude_until_id, value);
                         $form.find('label[for="exclude_until"]').text(localize('Excluded from the website until'));
-                        $('#ukgc_gamstop').setVisibility(is_gamstop_client);
-                        $('#ukgc_requirement_notice').setVisibility(1);
+                        showWarning();
                         return;
                     }
                     if (key === 'max_30day_turnover') {
@@ -30967,7 +31003,6 @@ var SelfExclusion = function () {
                     }
                     $form.find('#' + key).attr('disabled', has_exclude_until).val(value);
                 });
-                $form.find('#btn_submit').setVisibility(!has_exclude_until);
 
                 $('#chk_no_limit').on('change', function () {
                     setMax30DayTurnoverLimit($(this).is(':checked'));
@@ -30982,7 +31017,8 @@ var SelfExclusion = function () {
     var setDateTimePicker = function setDateTimePicker(id, data_value) {
         var is_timepicker = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-        $form.find(id).attr('disabled', has_exclude_until).attr('data-value', data_value).val(is_timepicker ? data_value : moment(data_value).format('DD MMM, YYYY')); // display format
+        var is_mobile = window.innerWidth < 770;
+        $form.find(id).attr('disabled', has_exclude_until).attr('data-value', data_value).val(is_timepicker || is_mobile ? data_value : moment(data_value).format('DD MMM, YYYY')); // display format
     };
 
     var setMax30DayTurnoverLimit = function setMax30DayTurnoverLimit(is_checked) {
@@ -30997,19 +31033,27 @@ var SelfExclusion = function () {
         $form.find('input[type="text"]').each(function () {
             var id = $(this).attr('id');
 
-            if (/timeout_until|exclude_until/.test(id)) return;
+            if (/timeout_until|exclude_until|max_deposit_end_date/.test(id)) return;
 
             var checks = [];
             var options = { min: 0 };
             if (id in self_exclusion_data) {
                 checks.push('req');
-                options.max = self_exclusion_data[id];
+                if (!is_svg_client) {
+                    options.max = self_exclusion_data[id];
+                }
             } else {
                 options.allow_empty = true;
             }
             if (!/session_duration_limit|max_open_bets/.test(id)) {
                 options.type = 'float';
                 options.decimals = decimal_places;
+            }
+            if (/max_open_bets/.test(id)) {
+                options.min = 1;
+            }
+            if (/max_balance/.test(id)) {
+                options.min = 0.01;
             }
             checks.push(['number', options]);
 
@@ -31057,6 +31101,12 @@ var SelfExclusion = function () {
                 }, message: localize('Exclude time cannot be less than 6 months.') }], ['custom', { func: function func(value) {
                     return !value.length || getMoment(exclude_until_id).isBefore(moment().add(5, 'years'));
                 }, message: localize('Exclude time cannot be for more than 5 years.') }]]
+        }, {
+            selector: max_deposit_end_date_id,
+            exclude_if_empty: 1,
+            value: function value() {
+                return getDate(max_deposit_end_date_id);
+            }
         });
 
         FormManager.init(form_id, validations);
@@ -31099,6 +31149,14 @@ var SelfExclusion = function () {
             maxDate: 6 * 7 // 6 weeks
         });
 
+        if (Client.get('landing_company_shortcode') === 'iom') {
+            // max_deposit_until
+            DatePicker.init({
+                selector: max_deposit_end_date_id,
+                minDate: moment().add(1, 'day').toDate()
+            });
+        }
+
         // exclude_until
         DatePicker.init({
             selector: exclude_until_id,
@@ -31109,6 +31167,8 @@ var SelfExclusion = function () {
         $(timeout_date_id + ', ' + exclude_until_id).change(function () {
             dateValueChanged(this, 'date');
             var date = this.getAttribute('data-value');
+            var timeout_val = $timeout_date.attr('data-value');
+            var exclude_until_val = $exclude_until.attr('data-value');
 
             if (timeout_date_id.indexOf(this.id) > 0) {
                 var disabled_time_options = {
@@ -31122,8 +31182,16 @@ var SelfExclusion = function () {
                 }));
             }
 
-            $('#gamstop_info_bottom').setVisibility(is_gamstop_client && date);
+            showWarning(timeout_val || exclude_until_val);
         });
+    };
+
+    var showWarning = function showWarning() {
+        var is_enabled = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+        if (is_mx || is_mlt) {
+            $warning_ukgc.setVisibility(is_enabled);
+        }
     };
 
     var additionalCheck = function additionalCheck(data) {
@@ -31134,20 +31202,34 @@ var SelfExclusion = function () {
 
                 );
             });
+
             if (!is_changed) {
                 showFormMessage(localize('You did not change anything.'), false);
                 resolve(false);
             }
 
-            if ('timeout_until' in data || 'exclude_until' in data) {
+            if (is_svg_client && is_changed) {
                 Dialog.confirm({
-                    id: 'timeout_until_dialog',
-                    localized_message: localize('When you click "OK" you will be excluded from trading on the site until the selected date.')
+                    id: 'self_exclusion_dialog',
+                    localized_title: localize('Confirm changes'),
+                    localized_message: localize('We’ll update your limits. Click [_1]Agree and accept[_2] to acknowledge that you are fully responsible for your actions, and we are not liable for any addiction or loss.', ['<strong>', '</strong>']),
+                    ok_text: localize('Agree and accept'),
+                    cancel_text: localize('Go back')
                 }).then(function (response) {
                     return resolve(response);
                 });
             } else {
-                resolve(true);
+                var has_timeout = 'timeout_until' in data || 'exclude_until' in data;
+                if (has_timeout) {
+                    Dialog.confirm({
+                        id: 'timeout_until_dialog',
+                        localized_message: localize('When you click "OK" you will be excluded from trading on the site until the selected date.')
+                    }).then(function (response) {
+                        return resolve(response);
+                    });
+                } else {
+                    resolve(true);
+                }
             }
         });
     };
@@ -31167,11 +31249,8 @@ var SelfExclusion = function () {
             return;
         }
         showFormMessage(localize('Your changes have been updated.'), true);
-        if ($('#exclude_until').attr('data-value')) {
-            $('#gamstop_info_bottom').setVisibility(0);
-            $('#ukgc_gamstop').setVisibility(is_gamstop_client);
-            $('#ukgc_requirement_notice').setVisibility(1);
-        }
+        var exclude_until_val = $exclude_until.attr('data-value');
+        showWarning(!!exclude_until_val);
         Client.set('session_start', moment().unix()); // used to handle session duration limit
         var _response$echo_req = response.echo_req,
             exclude_until = _response$echo_req.exclude_until,
@@ -33560,7 +33639,7 @@ var MetaTrader = function () {
                 MetaTraderUI.displayPageError(response.error.message);
                 MetaTraderUI.setTopupLoading(false);
             } else {
-                MetaTraderUI.displayMainMessage(localize('[_1] has been credited into your MT5 Demo Account: [_2].', [MetaTraderConfig.getCurrency(acc_type) + ' 10,000.00', accounts_info[acc_type].info.display_login]));
+                MetaTraderUI.displayMainMessage(localize('[_1] has been credited into your MT5 Demo Account: [_2].', ['10,000.00 ' + MetaTraderConfig.getCurrency(acc_type), accounts_info[acc_type].info.display_login]));
                 BinarySocket.send({ mt5_login_list: 1 }).then(function (res) {
                     allAccountsResponseHandler(res);
                     MetaTraderUI.setTopupLoading(false);
