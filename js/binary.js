@@ -9960,6 +9960,7 @@ var StaticPages = __webpack_require__(/*! ../../static/pages/static_pages */ "./
 var TermsAndConditions = __webpack_require__(/*! ../../static/pages/tnc */ "./src/javascript/static/pages/tnc.js");
 var WhyUs = __webpack_require__(/*! ../../static/pages/why_us */ "./src/javascript/static/pages/why_us.js");
 var AffiliatesIBLanding = __webpack_require__(/*! ../../static/pages/affiliate_ib_landing */ "./src/javascript/static/pages/affiliate_ib_landing.js");
+var ResponsibleTrading = __webpack_require__(/*! ../../static/pages/responsible_trading */ "./src/javascript/static/pages/responsible_trading.js");
 
 /* eslint-disable max-len */
 var pages_config = {
@@ -10039,6 +10040,7 @@ var pages_config = {
     'open-positions': { module: StaticPages.OpenPositions },
     'open-source-projects': { module: StaticPages.OpenSourceProjects },
     'payment-agent': { module: StaticPages.PaymentAgent },
+    'responsible-trading': { module: ResponsibleTrading },
     'set-currency': { module: SetCurrency, is_authenticated: true, only_real: true, needs_currency: true },
     'telegram-bot': { module: TelegramBot, is_authenticated: true },
     'terms-and-conditions': { module: TermsAndConditions },
@@ -12965,6 +12967,11 @@ var popup_queue = [];
 // use this function if you need to show a form with some validations in popup
 // if you need a simple popup with just a confirm or also a cancel button use Dialog instead
 var showPopup = function showPopup(options) {
+    var el_popup = document.getElementById(options.popup_id);
+
+    if (el_popup) {
+        return;
+    }
     if (cache[options.url]) {
         callback(options);
     } else {
@@ -13115,7 +13122,7 @@ var Table = function () {
         var $tr = $('<tr></tr>');
         for (var i = 0; i < data.length; i++) {
             var class_name = metadata[i].toLowerCase().replace(/\s/g, '-');
-            var row_element = is_data ? $('<td></td>', { class: class_name, html: data[i] }) : $('<th></th>', { class: class_name, html: data[i] });
+            var row_element = is_data ? $('<td></td>', { class: class_name, html: data[i] }) : $('<th></th>', { class: class_name, style: '--number_of_columns: ' + data.length, html: data[i] });
             row_element.appendTo($tr);
         }
 
@@ -31040,20 +31047,26 @@ var SelfExclusion = function () {
             if (id in self_exclusion_data) {
                 checks.push('req');
                 if (!is_svg_client) {
+                    if (/session_duration_limit/.test(id)) {
+                        options.min = 1;
+                    } else {
+                        options.min = 0.01;
+                    }
                     options.max = self_exclusion_data[id];
                 }
             } else {
                 options.allow_empty = true;
             }
-            if (!/session_duration_limit|max_open_bets/.test(id)) {
-                options.type = 'float';
-                options.decimals = decimal_places;
-            }
-            if (/max_open_bets/.test(id)) {
-                options.min = 1;
-            }
-            if (/max_balance/.test(id)) {
-                options.min = 0.01;
+            if (!is_svg_client) {
+                if (/max_open_bets/.test(id)) {
+                    options.min = 1;
+                } else if (!/session_duration_limit/.test(id)) {
+                    options.type = 'float';
+                    options.decimals = decimal_places;
+                }
+                if (/max_balance/.test(id)) {
+                    options.min = 0.01;
+                }
             }
             checks.push(['number', options]);
 
@@ -37806,6 +37819,44 @@ var Regulation = function () {
 }();
 
 module.exports = Regulation;
+
+/***/ }),
+
+/***/ "./src/javascript/static/pages/responsible_trading.js":
+/*!************************************************************!*\
+  !*** ./src/javascript/static/pages/responsible_trading.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getElementById = __webpack_require__(/*! ../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
+var State = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").State;
+var Client = __webpack_require__(/*! ../../app/base/client */ "./src/javascript/app/base/client.js");
+var BinarySocket = __webpack_require__(/*! ../../app/base/socket */ "./src/javascript/app/base/socket.js");
+
+var ResponsibleTrading = function () {
+
+    var onLoad = function onLoad() {
+        BinarySocket.wait('authorize', 'website_status', 'landing_company').then(function () {
+            var landing_company_shortcode = Client.get('landing_company_shortcode') || State.getResponse('landing_company.gaming_company.shortcode');
+            var client_country = Client.get('residence') || State.getResponse('website_status.clients_country');
+            var is_uk_client = client_country === 'gb';
+
+            if (!is_uk_client && landing_company_shortcode === 'iom' || is_uk_client && landing_company_shortcode === 'malta') {
+                getElementById('iom_except_uk_without_mlt').setVisibility(1);
+            }
+        });
+    };
+
+    return {
+        onLoad: onLoad
+    };
+}();
+
+module.exports = ResponsibleTrading;
 
 /***/ }),
 
