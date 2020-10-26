@@ -1315,13 +1315,9 @@ var BinarySocket = __webpack_require__(/*! ./socket_base */ "./src/javascript/_c
 var ClientBase = __webpack_require__(/*! ./client_base */ "./src/javascript/_common/base/client_base.js");
 
 var LiveChat = function () {
-    var initial_session_variables = { loginid: '', landing_company_shortcode: '', currency: '', residence: '' };
+    var initial_session_variables = { loginid: '', landing_company_shortcode: '', currency: '', residence: '', email: '' };
     var init = function init() {
         if (window.LiveChatWidget) {
-            // We have to clear the session first on livechat init to prevent
-            // getting data from previous session.
-            window.LiveChatWidget.call('set_customer_email', ' ');
-            window.LiveChatWidget.call('set_customer_name', ' ');
             window.LiveChatWidget.call('set_session_variables', initial_session_variables);
 
             BinarySocket.wait('get_settings').then(function (response) {
@@ -1344,15 +1340,14 @@ var LiveChat = function () {
                     var landing_company_shortcode = ClientBase.get('landing_company_shortcode');
                     var currency = ClientBase.get('currency');
                     var residence = ClientBase.get('residence');
+                    var email = ClientBase.get('email');
 
-                    var client_session_variables = _extends({}, loginid && { loginid: loginid }, landing_company_shortcode && { landing_company_shortcode: landing_company_shortcode }, currency && { currency: currency }, residence && { residence: residence });
+                    var client_session_variables = _extends({}, loginid && { loginid: loginid }, landing_company_shortcode && { landing_company_shortcode: landing_company_shortcode }, currency && { currency: currency }, residence && { residence: residence }, email && { email: email });
 
                     window.LiveChatWidget.call('set_session_variables', client_session_variables);
                 }
 
                 if (visibility === 'maximized' && !ClientBase.isLoggedIn()) {
-                    window.LiveChatWidget.call('set_customer_email', ' ');
-                    window.LiveChatWidget.call('set_customer_name', ' ');
                     window.LiveChatWidget.call('set_session_variables', initial_session_variables);
                 }
             });
@@ -9703,6 +9698,7 @@ var BinaryLoader = function () {
 
         container = getElementById('content-holder');
         container.addEventListener('binarypjax:before', beforeContentChange);
+        window.addEventListener('beforeunload', beforeContentChange);
         container.addEventListener('binarypjax:after', afterContentChange);
         BinaryPjax.init(container, '#content');
 
@@ -11147,7 +11143,7 @@ var Header = function () {
                     return buildMessage(localizeKeepPlaceholders('Please [_1]complete your account profile[_2] to lift your withdrawal and trading limits.'), 'user/settings/detailsws');
                 },
                 unwelcome: function unwelcome() {
-                    return buildMessage(localizeKeepPlaceholders('Trading and deposits have been disabled on your account. Kindly [_1]contact customer support[_2] for assistance.'), 'contact');
+                    return buildMessage('Trading and deposits have been disabled on your account. Kindly allow us some time to review the account.');
                 },
                 withdrawal_locked_review: function withdrawal_locked_review() {
                     return localize('Withdrawals have been disabled on your account. Please wait until your uploaded documents are verified.');
@@ -27660,7 +27656,8 @@ var PaymentAgentTransfer = function () {
         PaymentAgentTransferUI.initValues();
         BinarySocket.wait('get_settings', 'balance').then(function () {
             var currency = Client.get('currency');
-            if (!currency || +Client.get('balance') === 0) {
+            var balance = Client.get('balance');
+            if (!currency || +balance === 0) {
                 $('#pa_transfer_loading').remove();
                 $('#no_balance_error').setVisibility(1);
                 return;
@@ -27674,7 +27671,7 @@ var PaymentAgentTransfer = function () {
                     var pa_values = response.paymentagent_list.list.filter(function (a) {
                         return a.paymentagent_loginid === Client.get('loginid');
                     })[0];
-                    init(pa_values, currency);
+                    init(pa_values, currency, balance);
                 });
             } else {
                 setFormVisibility(false);
@@ -27689,7 +27686,7 @@ var PaymentAgentTransfer = function () {
         });
     };
 
-    var init = function init(pa, currency) {
+    var init = function init(pa, currency, balance) {
         var form_id = '#frm_paymentagent_transfer';
         $form_error = $('#form_error');
 
@@ -27699,7 +27696,7 @@ var PaymentAgentTransfer = function () {
 
         common_request_fields = [{ request_field: 'paymentagent_transfer', value: 1 }, { request_field: 'currency', value: currency }];
 
-        FormManager.init(form_id, [{ selector: '#client_id', validations: ['req', ['regular', { regex: /^\w+\d+$/, message: localize('Please enter a valid Login ID.') }]], request_field: 'transfer_to' }, { selector: '#amount', validations: ['req', ['number', { type: 'float', decimals: getDecimalPlaces(currency), min: pa ? pa.min_withdrawal : 10, max: pa ? pa.max_withdrawal : 2000 }], ['custom', { func: function func() {
+        FormManager.init(form_id, [{ selector: '#client_id', validations: ['req', ['regular', { regex: /^\w+\d+$/, message: localize('Please enter a valid Login ID.') }]], request_field: 'transfer_to' }, { selector: '#amount', validations: ['req', ['number', { type: 'float', decimals: getDecimalPlaces(currency), min: pa ? pa.min_withdrawal : 10, max: max_withdrawal(balance, pa, 2000) }], ['custom', { func: function func() {
                     return +Client.get('balance') >= +$('#amount').val();
                 }, message: localize('Insufficient balance.') }]] }, { selector: '#description', validations: ['general'] }, { request_field: 'dry_run', value: 1 }].concat(common_request_fields));
 
@@ -27708,6 +27705,12 @@ var PaymentAgentTransfer = function () {
             fnc_response_handler: responseHandler,
             enable_button: 1
         });
+    };
+
+    var max_withdrawal = function max_withdrawal(balance, pa, fixed_max_withdrawal) {
+        var pa_max_withdrawal = pa ? pa.max_withdrawal : fixed_max_withdrawal;
+
+        return balance < pa_max_withdrawal ? balance : pa_max_withdrawal;
     };
 
     var setFormVisibility = function setFormVisibility(is_visible) {
@@ -32099,7 +32102,7 @@ var Accounts = function () {
             // ask client to set residence first since cannot wait landing_company otherwise
             BinaryPjax.load(urlFor('user/settings/detailsws'));
         }
-        SetCurrency.cleanupPopup();
+        clearPopup();
         BinarySocket.send({ statement: 1, limit: 1 });
         BinarySocket.wait('landing_company', 'get_settings', 'statement', 'mt5_login_list').then(function () {
             landing_company = State.getResponse('landing_company');
@@ -32128,6 +32131,10 @@ var Accounts = function () {
                 }
             }
         });
+    };
+
+    var clearPopup = function clearPopup() {
+        SetCurrency.cleanupPopup();
     };
 
     var doneLoading = function doneLoading(element_to_show) {
@@ -32314,8 +32321,13 @@ var Accounts = function () {
         doneLoading('#new_accounts_wrapper');
     };
 
+    var onUnload = function onUnload() {
+        clearPopup();
+    };
+
     return {
-        onLoad: onLoad
+        onLoad: onLoad,
+        onUnload: onUnload
     };
 }();
 
