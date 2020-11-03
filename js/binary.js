@@ -30216,6 +30216,7 @@ var getPropertyValue = __webpack_require__(/*! ../../../../../_common/utility */
 var PersonalDetails = function () {
     var form_id = '#frmPersonalDetails';
     var real_acc_elements = '.RealAcc';
+    var real_acc_auth_elements = '.RealAccAuth';
     var name_fields = ['salutation', 'first_name', 'last_name'];
 
     var is_for_new_account = false;
@@ -30373,7 +30374,9 @@ var PersonalDetails = function () {
             $(real_acc_elements).setVisibility(1);
             showHideTaxMessage();
             CommonFunctions.getElementById('tax_information_form').setVisibility(shouldShowTax(get_settings));
-            if (!is_fully_authenticated) {
+            if (is_fully_authenticated) {
+                $(real_acc_auth_elements).setVisibility(1);
+            } else {
                 displayChangeableFields(data);
             }
         }
