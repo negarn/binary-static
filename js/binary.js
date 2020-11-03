@@ -11018,6 +11018,8 @@ var Header = function () {
                 }) < 0 ? Boolean(false) : Boolean(true);
             };
             var hasVerification = function hasVerification(string) {
+                var _get_account_status = get_account_status,
+                    prompt_client_to_authenticate = _get_account_status.prompt_client_to_authenticate;
                 var _authentication = authentication,
                     identity = _authentication.identity,
                     document = _authentication.document,
@@ -11052,7 +11054,7 @@ var Header = function () {
                         }
                     case 'rejected':
                         {
-                            result = verification_length === 2 && (identity.status !== 'none' || document.status !== 'none');
+                            result = verification_length === 2 && (identity.status !== 'none' || document.status !== 'none') && prompt_client_to_authenticate;
                             break;
                         }
                     case 'rejected_identity':
@@ -26997,7 +26999,7 @@ var Authenticate = function () {
 
     var initAuthentication = function () {
         var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-            var has_personal_details_error, authentication_status, service_token_response, personal_fields_errors, missing_personal_fields, error_msgs, identity, document, is_fully_authenticated, documents_supported;
+            var has_personal_details_error, authentication_status, service_token_response, personal_fields_errors, missing_personal_fields, error_msgs, identity, needs_verification, document, is_fully_authenticated, documents_supported;
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
                 while (1) {
                     switch (_context2.prev = _context2.next) {
@@ -27047,7 +27049,7 @@ var Authenticate = function () {
                                 $('#missing_personal_fields').html(error_msgs);
                             }
 
-                            identity = authentication_status.identity, document = authentication_status.document;
+                            identity = authentication_status.identity, needs_verification = authentication_status.needs_verification, document = authentication_status.document;
                             is_fully_authenticated = identity.status === 'verified' && document.status === 'verified';
 
                             onfido_unsupported = !identity.services.onfido.is_country_supported;
@@ -27069,7 +27071,7 @@ var Authenticate = function () {
                             break;
 
                         case 21:
-                            if (identity.further_resubmissions_allowed) {
+                            if (needs_verification.includes('identity')) {
                                 _context2.next = 41;
                                 break;
                             }
@@ -27128,7 +27130,7 @@ var Authenticate = function () {
                             }
 
                         case 42:
-                            if (document.further_resubmissions_allowed) {
+                            if (needs_verification.includes('document')) {
                                 _context2.next = 62;
                                 break;
                             }
@@ -30892,6 +30894,8 @@ module.exports = professionalClient;
 "use strict";
 
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
@@ -30970,6 +30974,7 @@ var SelfExclusion = function () {
                 }
                 return;
             }
+            self_exclusion_data = response.get_self_exclusion;
             BinarySocket.send({ get_account_status: 1 }).then(function (data) {
                 var has_to_set_30day_turnover = !has_exclude_until && /max_turnover_limit_not_set/.test(data.get_account_status.status);
                 if (typeof set_30day_turnover === 'undefined') {
@@ -30980,7 +30985,6 @@ var SelfExclusion = function () {
                 $('#description').setVisibility(!has_to_set_30day_turnover);
                 $('#loading').setVisibility(0);
                 $form.setVisibility(1);
-                self_exclusion_data = response.get_self_exclusion;
                 $.each(self_exclusion_data, function (key, value) {
                     fields[key] = value.toString();
                     if (key === 'timeout_until') {
@@ -31039,16 +31043,14 @@ var SelfExclusion = function () {
 
             var checks = [];
             var options = { min: 0 };
-            if (id in self_exclusion_data) {
+            if (id in self_exclusion_data && !is_svg_client) {
                 checks.push('req');
-                if (!is_svg_client) {
-                    if (/session_duration_limit/.test(id)) {
-                        options.min = 1;
-                    } else {
-                        options.min = 0.01;
-                    }
-                    options.max = self_exclusion_data[id];
+                if (/session_duration_limit/.test(id)) {
+                    options.min = 1;
+                } else {
+                    options.min = 0.01;
                 }
+                options.max = self_exclusion_data[id];
             } else {
                 options.allow_empty = true;
             }
@@ -31073,7 +31075,7 @@ var SelfExclusion = function () {
             validations.push({
                 selector: '#' + id,
                 validations: checks,
-                exclude_if_empty: 1
+                exclude_if_empty: is_svg_client ? 0 : 1
             });
         });
 
@@ -31193,7 +31195,7 @@ var SelfExclusion = function () {
         return new Promise(function (resolve) {
             var is_changed = Object.keys(data).some(function (key) {
                 return (// using != in next line since response types is inconsistent
-                    key !== 'set_self_exclusion' && (!(key in self_exclusion_data) || self_exclusion_data[key] != data[key]) // eslint-disable-line eqeqeq
+                    key !== 'set_self_exclusion' && self_exclusion_data[key] != data[key] && data[key] !== '' || typeof self_exclusion_data[key] !== 'undefined' && data[key] === '' // eslint-disable-line eqeqeq
 
                 );
             });
@@ -31201,6 +31203,14 @@ var SelfExclusion = function () {
             if (!is_changed) {
                 showFormMessage(localize('You did not change anything.'), false);
                 resolve(false);
+            }
+
+            // using for in loop instead of Object.entries
+            // to avoid unnecessary conversion of the object into an array,
+            // that later needs to be stored, processed and converted back into an object
+            for (var key in data) {
+                // eslint-disable-line no-restricted-syntax, guard-for-in
+                data[key] = data[key] === '' ? 0 : data[key];
             }
 
             if (is_svg_client && is_changed) {
@@ -31230,6 +31240,7 @@ var SelfExclusion = function () {
     };
 
     var setExclusionResponse = function setExclusionResponse(response) {
+        var response_arr = Object.entries(response.echo_req);
         if (response.error) {
             var error_msg = response.error.message;
             var error_fld = response.error.field;
@@ -31243,6 +31254,40 @@ var SelfExclusion = function () {
             }
             return;
         }
+        self_exclusion_data = {};
+        // using for of loop to format and assign new self_exclusion_data from the previous request
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+            for (var _iterator = response_arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var _ref = _step.value;
+
+                var _ref2 = _slicedToArray(_ref, 2);
+
+                var key = _ref2[0];
+                var value = _ref2[1];
+                // eslint-disable-line no-restricted-syntax
+                if (value > 0 && !/req_id|set_self_exclusion/.test(key)) {
+                    self_exclusion_data[key] = parseInt(value);
+                }
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+
         showFormMessage(localize('Your changes have been updated.'), true);
         var exclude_until_val = $exclude_until.attr('data-value');
         showWarning(!!exclude_until_val);
