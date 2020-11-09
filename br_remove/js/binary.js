@@ -29654,9 +29654,9 @@ var FinancialAssessment = function () {
     };
 
     var displayHighRiskClassification = function displayHighRiskClassification() {
+        // API only sends financial_assessment_not_complete if client is high risk
         var is_missing_fa = /financial_assessment_not_complete/.test(State.getResponse('get_account_status.status'));
-        var is_high_risk = /high/.test(State.getResponse('get_account_status.risk_classification'));
-        $('#high_risk_classification').setVisibility(is_high_risk && is_missing_fa);
+        $('#high_risk_classification').setVisibility(is_missing_fa);
     };
 
     var handleForm = function handleForm() {
