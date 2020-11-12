@@ -30318,6 +30318,7 @@ var PersonalDetails = function () {
         get_settings_data = void 0,
         mt_acct_type = void 0,
         is_mt_tax_required = void 0,
+        validations = void 0,
         $tax_residence = void 0;
 
     var init = function init() {
@@ -30326,6 +30327,7 @@ var PersonalDetails = function () {
         is_virtual = Client.get('is_virtual');
         residence = Client.get('residence');
         mt_acct_type = getHashValue('mt5_redirect');
+        validations = [];
         // demo and synthetic mt accounts do not require tax info
         is_mt_tax_required = /real/.test(mt_acct_type) && mt_acct_type.split('_').length > 2 && +State.getResponse('landing_company.config.tax_details_required') === 1;
     };
@@ -30359,7 +30361,6 @@ var PersonalDetails = function () {
     };
 
     var showHideMissingDetails = function showHideMissingDetails() {
-        var validations = getValidations();
         var has_missing_field = validations.find(function (validation) {
             return (/req/.test(validation.validations) && $(validation.selector).val() === ''
             );
@@ -30460,7 +30461,8 @@ var PersonalDetails = function () {
 
         $(form_id).setVisibility(1);
         $('#loading').remove();
-        FormManager.init(form_id, getValidations());
+        setValidations();
+        FormManager.init(form_id, validations);
         FormManager.handleSubmit({
             form_selector: form_id,
             obj_request: { set_settings: 1 },
@@ -30556,8 +30558,7 @@ var PersonalDetails = function () {
         return Client.isAccountOfType('financial') && Client.shouldCompleteTax() || is_mt_tax_required;
     };
 
-    var getValidations = function getValidations() {
-        var validations = void 0;
+    var setValidations = function setValidations() {
         if (is_virtual) {
             validations = [{ selector: '#email_consent' }, { selector: '#residence', validations: ['req'] }];
         } else {
@@ -30565,7 +30566,7 @@ var PersonalDetails = function () {
             var is_gaming = Client.isAccountOfType('gaming');
             var is_tax_req = isTaxReq();
 
-            validations = [{ selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [residence === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
+            validations = [{ selector: '#salutation', validations: ['req'] }, { selector: '#first_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 50 }]] }, { selector: '#last_name', validations: ['req', 'letter_symbol', ['length', { min: 2, max: 50 }]] }, { selector: '#address_line_1', validations: ['req', 'address'] }, { selector: '#address_line_2', validations: ['address'] }, { selector: '#address_city', validations: ['req', 'letter_symbol'] }, { selector: '#address_state', validations: $('#address_state').prop('nodeName') === 'SELECT' ? '' : ['letter_symbol'] }, { selector: '#address_postcode', validations: [residence === 'gb' || Client.get('landing_company_shortcode') === 'iom' ? 'req' : '', 'postcode', ['length', { min: 0, max: 20 }]] }, { selector: '#email_consent' }, { selector: '#phone', validations: ['req', 'phone', ['length', { min: 8, max: 35, value: function value() {
                         return $('#phone').val().replace(/\D/g, '');
                     } }]] }, { selector: '#place_of_birth', validations: ['req'] }, { selector: '#account_opening_reason', validations: ['req'] }, { selector: '#date_of_birth', validations: ['req'] },
 
@@ -30580,27 +30581,14 @@ var PersonalDetails = function () {
             // all mt account opening requires citizen
             { selector: '#citizen', validations: is_financial || is_gaming || mt_acct_type ? ['req'] : '' }, { selector: '#chk_tax_id', validations: is_financial ? [['req', { hide_asterisk: true, message: localize('Please confirm that all the information above is true and complete.') }]] : '', exclude_request: 1 }];
 
-            if (!get_settings_data.immutable_fields.includes('first_name')) {
-                validations.push({
-                    selector: '#first_name',
-                    validations: ['req', 'letter_symbol', ['length', { min: 2, max: 50 }]]
-                });
-            }
-            if (!get_settings_data.immutable_fields.includes('last_name')) {
-                validations.push({
-                    selector: '#last_name',
-                    validations: ['req', 'letter_symbol', ['length', { min: 2, max: 50 }]]
-                });
-            }
-            // Required Without special treatment
-            if (!get_settings_data.immutable_fields.includes('salutation')) {
-                validations.push({
-                    selector: '#salutation',
-                    validations: ['req']
-                });
+            // loop backwards since we are removing array items
+            for (var i = validations.length - 1; i >= 0; i--) {
+                // if field is immutable, no need to validate or send it to API
+                if (!validations[i].exclude_request && get_settings_data.immutable_fields.includes(validations[i].selector.slice(1))) {
+                    validations.splice(i, 1);
+                }
             }
         }
-        return validations;
     };
 
     var setDetailsResponse = function setDetailsResponse(response) {
