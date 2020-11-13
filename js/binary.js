@@ -30433,13 +30433,13 @@ var PersonalDetails = function () {
             get_settings.name = (get_settings.salutation || '') + ' ' + (get_settings.first_name || '') + ' ' + (get_settings.last_name || '');
         }
 
-        if (get_settings.place_of_birth && get_settings_data.immutable_fields.includes('place_of_birth') && residence_list) {
+        if (get_settings.place_of_birth && get_settings.immutable_fields.includes('place_of_birth') && residence_list) {
             get_settings.place_of_birth = (residence_list.find(function (obj) {
                 return obj.value === get_settings.place_of_birth;
             }) || {}).text || get_settings.place_of_birth;
         }
 
-        if (get_settings.citizen && get_settings_data.immutable_fields.includes('citizen') && residence_list) {
+        if (get_settings.citizen && get_settings.immutable_fields.includes('citizen') && residence_list) {
             get_settings.citizen = (residence_list.find(function (obj) {
                 return obj.value === get_settings.citizen;
             }) || {}).text || get_settings.citizen;
@@ -30476,7 +30476,7 @@ var PersonalDetails = function () {
     var displayGetSettingsData = function displayGetSettingsData(get_settings) {
         Object.keys(get_settings).forEach(function (key) {
             // If field is immutable and value was set by client, show label instead of input
-            var has_label = get_settings_data.immutable_fields.includes(key);
+            var has_label = get_settings.immutable_fields.includes(key);
             var should_show_label = has_label && get_settings[key];
 
             var element_id = '' + (should_show_label ? 'lbl_' : '') + key;
@@ -30615,6 +30615,7 @@ var PersonalDetails = function () {
                     return;
                 }
                 var get_settings = data.get_settings;
+                get_settings_data = get_settings;
                 var has_required_mt = is_mt_tax_required ? get_settings.tax_residence && get_settings.tax_identification_number && get_settings.citizen : get_settings.citizen; // only check Citizen if user selects mt synthetic account
                 if (mt_acct_type && has_required_mt) {
                     $.scrollTo($('h1#heading'), 500, { offset: -10 });
