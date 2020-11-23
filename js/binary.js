@@ -520,8 +520,13 @@ var ClientBase = function () {
     };
 
     var isAuthenticationAllowed = function isAuthenticationAllowed() {
-        return (/allow_document_upload/.test(State.getResponse('get_account_status.status'))
-        );
+        var _State$getResponse = State.getResponse('get_account_status'),
+            status = _State$getResponse.status,
+            authentication = _State$getResponse.authentication;
+
+        var has_allow_document_upload = /allow_document_upload/.test(status);
+        var has_verification_flags = authentication.needs_verification.length;
+        return has_allow_document_upload || has_verification_flags;
     };
 
     // remove manager id or master distinction from group
@@ -618,9 +623,8 @@ var ClientBase = function () {
 
     var getRiskAssessment = function getRiskAssessment() {
         var status = State.getResponse('get_account_status.status');
-        var is_high_risk = /high/.test(State.getResponse('get_account_status.risk_classification'));
 
-        return isAccountOfType('financial') ? /(financial_assessment|trading_experience)_not_complete/.test(status) : is_high_risk && /financial_assessment_not_complete/.test(status);
+        return isAccountOfType('financial') ? /(financial_assessment|trading_experience)_not_complete/.test(status) : /financial_assessment_not_complete/.test(status);
     };
 
     // API_V3: send a list of accounts the client can transfer to
@@ -1719,13 +1723,18 @@ var BinarySocketBase = function () {
     var buffered_sends = [];
     var req_id = 0;
     var wrong_app_id = 0;
-    var is_available = true;
     var is_disconnect_called = false;
     var is_connected_before = false;
 
     var socket_url = getSocketURL() + '?app_id=' + getAppId() + '&l=' + getLanguage() + '&brand=binary';
     var timeouts = {};
     var promises = {};
+
+    var availability = {
+        is_up: true,
+        is_updating: false,
+        is_down: false
+    };
 
     var no_duplicate_requests = ['authorize', 'get_settings', 'residence_list', 'landing_company', 'payout_currencies', 'asset_index'];
 
@@ -1798,7 +1807,7 @@ var BinarySocketBase = function () {
     };
 
     var sendBufferedRequests = function sendBufferedRequests() {
-        while (buffered_sends.length > 0 && is_available) {
+        while (buffered_sends.length > 0 && availability.is_up) {
             var req_obj = buffered_sends.shift();
             send(req_obj.request, req_obj.options);
         }
@@ -1851,7 +1860,7 @@ var BinarySocketBase = function () {
             var response = SocketCache.get(data, msg_type);
             if (response) {
                 State.set(['response', msg_type], cloneObject(response));
-                if (isReady() && is_available && !options.skip_cache_update) {
+                if (isReady() && availability.is_up && !options.skip_cache_update) {
                     // make the request to keep the cache updated
                     binary_socket.send(JSON.stringify(data));
                 }
@@ -1888,7 +1897,7 @@ var BinarySocketBase = function () {
             subscribe: !!data.subscribe
         };
 
-        if (isReady() && is_available && config.isOnline()) {
+        if (isReady() && availability.is_up && config.isOnline()) {
             is_disconnect_called = false;
             if (!getPropertyValue(data, 'passthrough') && !getPropertyValue(data, 'verify_email')) {
                 data.passthrough = {};
@@ -1999,11 +2008,34 @@ var BinarySocketBase = function () {
         }
     };
 
-    var availability = function availability(status) {
-        if (typeof status !== 'undefined') {
-            is_available = !!status;
+    var isSiteUp = function isSiteUp(status) {
+        return (/^up/i.test(status)
+        );
+    };
+
+    var isSiteUpdating = function isSiteUpdating(status) {
+        return (/^updating$/i.test(status)
+        );
+    };
+
+    var isSiteDown = function isSiteDown(status) {
+        return (/^down$/i.test(status)
+        );
+    };
+
+    var setAvailability = function setAvailability(status) {
+        // eslint-disable-next-line default-case
+        switch (status) {
+            case isSiteUp(status):
+                availability.is_up = true;
+                break;
+            case isSiteUpdating(status):
+                availability.is_updating = true;
+                break;
+            case isSiteDown(status):
+                availability.is_down = true;
+                break;
         }
-        return is_available;
     };
 
     return {
@@ -2012,11 +2044,17 @@ var BinarySocketBase = function () {
         send: send,
         clear: clear,
         clearTimeouts: clearTimeouts,
-        availability: availability,
         hasReadyState: hasReadyState,
+        isSiteUp: isSiteUp,
+        isSiteUpdating: isSiteUpdating,
+        isSiteDown: isSiteDown,
+        setAvailability: setAvailability,
         sendBuffered: sendBufferedRequests,
         get: function get() {
             return binary_socket;
+        },
+        getAvailability: function getAvailability() {
+            return availability;
         },
         setOnDisconnect: function setOnDisconnect(onDisconnect) {
             config.onDisconnect = onDisconnect;
@@ -9493,6 +9531,13 @@ var isEqualObject = function isEqualObject(obj1, obj2) {
     });
 };
 
+var removeObjProperties = function removeObjProperties(property_arr, obj) {
+    property_arr.forEach(function (property) {
+        return delete obj[property];
+    });
+    return obj;
+};
+
 // Filters out duplicates in an array of objects by key
 var unique = function unique(array, key) {
     return array.filter(function (e, idx) {
@@ -9642,7 +9687,8 @@ module.exports = {
     applyToAllElements: applyToAllElements,
     findParent: findParent,
     getStaticHash: getStaticHash,
-    PromiseClass: PromiseClass
+    PromiseClass: PromiseClass,
+    removeObjProperties: removeObjProperties
 };
 
 /***/ }),
@@ -11861,14 +11907,23 @@ var BinarySocketGeneral = function () {
     var onMessage = function onMessage(response) {
         handleError(response);
         Header.hideNotification('CONNECTION_ERROR');
-        var is_available = false;
         switch (response.msg_type) {
             case 'website_status':
                 if (response.website_status) {
-                    is_available = /^up$/i.test(response.website_status.site_status);
-                    if (is_available && !BinarySocket.availability()) {
+                    var is_available = !BinarySocket.isSiteDown(response.website_status.site_status);
+                    if (is_available && BinarySocket.getAvailability().is_down) {
                         window.location.reload();
                         return;
+                    }
+                    var is_updating = BinarySocket.isSiteUpdating(response.website_status.site_status);
+                    if (is_updating && !BinarySocket.getAvailability().is_updating) {
+                        // the existing connection is alive for one minute while status is updating
+                        // switch to the new connection somewhere between 1-30 seconds from now
+                        // to avoid everyone switching to the new connection at the same time
+                        var rand_timeout = Math.floor(Math.random() * 30) + 1;
+                        window.setTimeout(function () {
+                            window.location.reload();
+                        }, rand_timeout * 1000);
                     }
                     if (!Crowdin.isInContext()) {
                         createLanguageDropDown(response.website_status);
@@ -11878,7 +11933,7 @@ var BinarySocketGeneral = function () {
                     } else {
                         Footer.clearNotification();
                     }
-                    BinarySocket.availability(is_available);
+                    BinarySocket.setAvailability(response.website_status.site_status);
                     setCurrencies(response.website_status);
                     // for logged out clients send landing company with IP address as residence
                     if (!Client.isLoggedIn() && !State.getResponse('landing_company')) {
@@ -12354,6 +12409,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var isEmptyObject = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js").isEmptyObject;
+var removeObjProperties = __webpack_require__(/*! ../../_common/utility */ "./src/javascript/_common/utility.js").removeObjProperties;
 
 var submarket_order = {
     forex: 0,
@@ -12529,6 +12585,27 @@ var ActiveSymbols = function () {
         return trade_markets_list;
     };
 
+    // The unavailable underlyings are only offered on deriv.com.
+    var unavailable_underlyings = ['BOOM500', 'BOOM1000', 'CRASH500', 'CRASH1000', 'stpRNG'];
+
+    var getAvailableUnderlyings = function getAvailableUnderlyings(markets_list) {
+        var markets_list_clone = clone(markets_list);
+
+        Object.keys(markets_list_clone).forEach(function (market_key) {
+            Object.keys(markets_list_clone[market_key].submarkets).forEach(function (submarket_key) {
+                removeObjProperties(unavailable_underlyings, markets_list_clone[market_key].submarkets[submarket_key].symbols);
+                if (Object.keys(markets_list_clone[market_key].submarkets[submarket_key].symbols).length === 0) {
+                    delete markets_list_clone[market_key].submarkets[submarket_key];
+                }
+            });
+            if (Object.keys(markets_list_clone[market_key].submarkets).length === 0) {
+                delete markets_list_clone[market_key];
+            }
+        });
+        if (Object.keys(markets_list_clone).length === 0) return [];
+        return markets_list_clone;
+    };
+
     var getTradeUnderlyings = function getTradeUnderlyings(active_symbols) {
         var trade_underlyings = {};
         var all_symbols = getSymbols(active_symbols);
@@ -12563,7 +12640,8 @@ var ActiveSymbols = function () {
         clearData: clearData,
         getSymbols: getSymbols,
         getSymbolsForMarket: getSymbolsForMarket,
-        sortSubmarket: sortSubmarket
+        sortSubmarket: sortSubmarket,
+        getAvailableUnderlyings: getAvailableUnderlyings
     };
 }();
 
@@ -23330,7 +23408,9 @@ var Markets = (_temp = _class = function (_React$Component) {
         _initialiseProps.call(_this);
 
         var market_symbol = _defaults2.default.get('market');
-        _this.markets = _symbols2.default.markets();
+
+        var market_list = _symbols2.default.markets();
+        _this.markets = (0, _active_symbols.getAvailableUnderlyings)(market_list);
 
         _this.underlyings = _symbols2.default.getAllSymbols() || {};
         var underlying_symbol = _defaults2.default.get('underlying');
@@ -27090,7 +27170,7 @@ var Authenticate = function () {
 
     var initAuthentication = function () {
         var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-            var has_personal_details_error, authentication_status, service_token_response, personal_fields_errors, missing_personal_fields, error_msgs, identity, needs_verification, document, is_fully_authenticated, documents_supported;
+            var has_personal_details_error, authentication_status, service_token_response, personal_fields_errors, missing_personal_fields, error_msgs, identity, needs_verification, document, is_fully_authenticated, should_allow_resubmission, documents_supported;
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
                 while (1) {
                     switch (_context2.prev = _context2.next) {
@@ -27142,28 +27222,29 @@ var Authenticate = function () {
 
                             identity = authentication_status.identity, needs_verification = authentication_status.needs_verification, document = authentication_status.document;
                             is_fully_authenticated = identity.status === 'verified' && document.status === 'verified';
+                            should_allow_resubmission = needs_verification.includes('identity') || needs_verification.includes('document');
 
                             onfido_unsupported = !identity.services.onfido.is_country_supported;
                             documents_supported = identity.services.onfido.documents_supported;
 
 
-                            if (is_fully_authenticated) {
+                            if (is_fully_authenticated && !should_allow_resubmission) {
                                 $('#authentication_tab').setVisibility(0);
                                 $('#authentication_verified').setVisibility(1);
                             }
 
                             if (!has_personal_details_error) {
-                                _context2.next = 21;
+                                _context2.next = 22;
                                 break;
                             }
 
                             $('#personal_details_error').setVisibility(1);
-                            _context2.next = 42;
+                            _context2.next = 43;
                             break;
 
-                        case 21:
+                        case 22:
                             if (needs_verification.includes('identity')) {
-                                _context2.next = 41;
+                                _context2.next = 42;
                                 break;
                             }
 
@@ -27172,46 +27253,46 @@ var Authenticate = function () {
                                 Url.updateParamsWithoutReload({ authentication_tab: 'poa' }, true);
                             }
                             _context2.t0 = identity.status;
-                            _context2.next = _context2.t0 === 'none' ? 26 : _context2.t0 === 'pending' ? 28 : _context2.t0 === 'rejected' ? 30 : _context2.t0 === 'verified' ? 32 : _context2.t0 === 'expired' ? 34 : _context2.t0 === 'suspected' ? 36 : 38;
+                            _context2.next = _context2.t0 === 'none' ? 27 : _context2.t0 === 'pending' ? 29 : _context2.t0 === 'rejected' ? 31 : _context2.t0 === 'verified' ? 33 : _context2.t0 === 'expired' ? 35 : _context2.t0 === 'suspected' ? 37 : 39;
                             break;
 
-                        case 26:
+                        case 27:
                             if (onfido_unsupported) {
                                 $('#not_authenticated_uns').setVisibility(1);
                                 initUnsupported();
                             } else {
                                 initOnfido(service_token_response.token, documents_supported);
                             }
-                            return _context2.abrupt('break', 39);
+                            return _context2.abrupt('break', 40);
 
-                        case 28:
+                        case 29:
                             $('#upload_complete').setVisibility(1);
-                            return _context2.abrupt('break', 39);
+                            return _context2.abrupt('break', 40);
 
-                        case 30:
+                        case 31:
                             $('#unverified').setVisibility(1);
-                            return _context2.abrupt('break', 39);
+                            return _context2.abrupt('break', 40);
 
-                        case 32:
+                        case 33:
                             $('#verified').setVisibility(1);
-                            return _context2.abrupt('break', 39);
+                            return _context2.abrupt('break', 40);
 
-                        case 34:
+                        case 35:
                             $('#expired_poi').setVisibility(1);
-                            return _context2.abrupt('break', 39);
+                            return _context2.abrupt('break', 40);
 
-                        case 36:
+                        case 37:
                             $('#unverified').setVisibility(1);
-                            return _context2.abrupt('break', 39);
-
-                        case 38:
-                            return _context2.abrupt('break', 39);
+                            return _context2.abrupt('break', 40);
 
                         case 39:
-                            _context2.next = 42;
+                            return _context2.abrupt('break', 40);
+
+                        case 40:
+                            _context2.next = 43;
                             break;
 
-                        case 41:
+                        case 42:
                             // eslint-disable-next-line no-lonely-if
                             if (onfido_unsupported) {
                                 $('#not_authenticated_uns').setVisibility(1);
@@ -27220,58 +27301,58 @@ var Authenticate = function () {
                                 initOnfido(service_token_response.token, documents_supported);
                             }
 
-                        case 42:
+                        case 43:
                             if (needs_verification.includes('document')) {
-                                _context2.next = 62;
+                                _context2.next = 63;
                                 break;
                             }
 
                             _context2.t1 = document.status;
-                            _context2.next = _context2.t1 === 'none' ? 46 : _context2.t1 === 'pending' ? 49 : _context2.t1 === 'rejected' ? 51 : _context2.t1 === 'suspected' ? 53 : _context2.t1 === 'verified' ? 55 : _context2.t1 === 'expired' ? 57 : 59;
+                            _context2.next = _context2.t1 === 'none' ? 47 : _context2.t1 === 'pending' ? 50 : _context2.t1 === 'rejected' ? 52 : _context2.t1 === 'suspected' ? 54 : _context2.t1 === 'verified' ? 56 : _context2.t1 === 'expired' ? 58 : 60;
                             break;
 
-                        case 46:
+                        case 47:
                             init();
                             $('#not_authenticated').setVisibility(1);
-                            return _context2.abrupt('break', 60);
+                            return _context2.abrupt('break', 61);
 
-                        case 49:
+                        case 50:
                             $('#pending_poa').setVisibility(1);
-                            return _context2.abrupt('break', 60);
+                            return _context2.abrupt('break', 61);
 
-                        case 51:
+                        case 52:
                             $('#unverified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 60);
+                            return _context2.abrupt('break', 61);
 
-                        case 53:
+                        case 54:
                             $('#unverified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 60);
+                            return _context2.abrupt('break', 61);
 
-                        case 55:
+                        case 56:
                             $('#verified_poa').setVisibility(1);
-                            return _context2.abrupt('break', 60);
+                            return _context2.abrupt('break', 61);
 
-                        case 57:
+                        case 58:
                             $('#expired_poa').setVisibility(1);
-                            return _context2.abrupt('break', 60);
-
-                        case 59:
-                            return _context2.abrupt('break', 60);
+                            return _context2.abrupt('break', 61);
 
                         case 60:
-                            _context2.next = 64;
+                            return _context2.abrupt('break', 61);
+
+                        case 61:
+                            _context2.next = 65;
                             break;
 
-                        case 62:
+                        case 63:
                             init();
                             $('#not_authenticated').setVisibility(1);
 
-                        case 64:
+                        case 65:
 
                             $('#authentication_loading').setVisibility(0);
                             TabSelector.updateTabDisplay();
 
-                        case 66:
+                        case 67:
                         case 'end':
                             return _context2.stop();
                     }
@@ -32866,10 +32947,10 @@ var MetaTraderConfig = function () {
                                             response_get_account_status = State.getResponse('get_account_status');
 
                                             if (/financial_assessment_not_complete/.test(response_get_account_status.status) && !accounts_info[acc_type].mt5_account_type // is_synthetic
-                                            && /high/.test(response_get_account_status.risk_classification)) {
-                                                showElementSetRedirect('.assessment');
-                                                _is_ok = false;
-                                            }
+                                            ) {
+                                                    showElementSetRedirect('.assessment');
+                                                    _is_ok = false;
+                                                }
                                             if (!response_get_settings.citizen && !(is_maltainvest && !has_financial_account) && accounts_info[acc_type].mt5_account_type) {
                                                 showElementSetRedirect('.citizen');
                                                 _is_ok = false;
@@ -33281,9 +33362,9 @@ var MetaTraderConfig = function () {
             needs_verification = authentication.needs_verification;
 
         var is_need_verification = needs_verification.length;
-        var is_rejected_or_expired = /^(rejected|expired)$/.test(identity.status);
+        var has_been_authenticated = /^(rejected|expired|verified)$/.test(identity.status);
 
-        if (is_rejected_or_expired) return false;
+        if (has_been_authenticated) return false;
 
         return is_need_verification;
     };
