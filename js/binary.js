@@ -1523,9 +1523,9 @@ var NetworkMonitorBase = function () {
         return navigator.onLine;
     };
 
-    var wsReconnect = function wsReconnect() {
-        if (isOnline() && BinarySocket.hasReadyState(2, 3)) {
-            // CLOSING or CLOSED
+    var wsReconnect = function wsReconnect(is_force_reconnect) {
+        if (isOnline() && (BinarySocket.hasReadyState(2, 3) || is_force_reconnect)) {
+            // CLOSING or CLOSED or forced
             BinarySocket.init(ws_config);
         } else {
             BinarySocket.send({ ping: 1 }); // trigger a request to get stable status sooner
@@ -1559,6 +1559,9 @@ var NetworkMonitorBase = function () {
         },
         message: function message() {
             return clearPendings();
+        },
+        reconnect: function reconnect() {
+            return wsReconnect(true);
         },
         close: function close() {
             return setPending(pending_keys.ws_init);
@@ -1927,7 +1930,7 @@ var BinarySocketBase = function () {
         clearTimeouts();
         config.wsEvent('init');
 
-        if (isClose()) {
+        if (isClose() || availability.is_updating) {
             binary_socket = new WebSocket(socket_url);
             State.set('response', {});
         }
@@ -2009,7 +2012,7 @@ var BinarySocketBase = function () {
     };
 
     var isSiteUp = function isSiteUp(status) {
-        return (/^up/i.test(status)
+        return (/^up$/i.test(status)
         );
     };
 
@@ -2024,18 +2027,9 @@ var BinarySocketBase = function () {
     };
 
     var setAvailability = function setAvailability(status) {
-        // eslint-disable-next-line default-case
-        switch (status) {
-            case isSiteUp(status):
-                availability.is_up = true;
-                break;
-            case isSiteUpdating(status):
-                availability.is_updating = true;
-                break;
-            case isSiteDown(status):
-                availability.is_down = true;
-                break;
-        }
+        availability.is_up = isSiteUp(status);
+        availability.is_updating = isSiteUpdating(status);
+        availability.is_down = isSiteDown(status);
     };
 
     return {
@@ -2045,7 +2039,6 @@ var BinarySocketBase = function () {
         clear: clear,
         clearTimeouts: clearTimeouts,
         hasReadyState: hasReadyState,
-        isSiteUp: isSiteUp,
         isSiteUpdating: isSiteUpdating,
         isSiteDown: isSiteDown,
         setAvailability: setAvailability,
@@ -11881,6 +11874,7 @@ var setCurrencies = __webpack_require__(/*! ../common/currency */ "./src/javascr
 var SessionDurationLimit = __webpack_require__(/*! ../common/session_duration_limit */ "./src/javascript/app/common/session_duration_limit.js");
 var updateBalance = __webpack_require__(/*! ../pages/user/update_balance */ "./src/javascript/app/pages/user/update_balance.js");
 var GTM = __webpack_require__(/*! ../../_common/base/gtm */ "./src/javascript/_common/base/gtm.js");
+var NetworkMonitorBase = __webpack_require__(/*! ../../_common/base/network_monitor_base */ "./src/javascript/_common/base/network_monitor_base.js");
 var SubscriptionManager = __webpack_require__(/*! ../../_common/base/subscription_manager */ "./src/javascript/_common/base/subscription_manager.js").default;
 var Crowdin = __webpack_require__(/*! ../../_common/crowdin */ "./src/javascript/_common/crowdin.js");
 var localize = __webpack_require__(/*! ../../_common/localize */ "./src/javascript/_common/localize.js").localize;
@@ -11922,7 +11916,7 @@ var BinarySocketGeneral = function () {
                         // to avoid everyone switching to the new connection at the same time
                         var rand_timeout = Math.floor(Math.random() * 30) + 1;
                         window.setTimeout(function () {
-                            window.location.reload();
+                            NetworkMonitorBase.wsEvent('reconnect');
                         }, rand_timeout * 1000);
                     }
                     if (!Crowdin.isInContext()) {
