@@ -33350,7 +33350,9 @@ var MetaTrader = function () {
     // * we should map them to landing_company:
     // mt_financial_company: { financial: {}, financial_stp: {}, swap_free: {} }
     // mt_gaming_company: { financial: {}, swap_free: {} }
-    var addAccount = function addAccount(market_type, company) {
+    var addAccount = function addAccount(market_type) {
+        var company = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
         Object.keys(company).filter(function (sub_account_type) {
             return sub_account_type !== 'swap_free';
         }) // TODO: remove this when releasing swap_free
@@ -33563,7 +33565,7 @@ var MetaTrader = function () {
                         }, _callee2, undefined);
                     }));
 
-                    return function (_x) {
+                    return function (_x2) {
                         return _ref2.apply(this, arguments);
                     };
                 }());
