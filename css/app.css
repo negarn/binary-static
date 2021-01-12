@@ -460,6 +460,10 @@ a.previous-wrapper {
       margin-bottom: 0; }
     #mt_account_management .fst-container #fst_action #frm_new_account #btn_submit_new_account {
       margin-left: 8px; }
+    #mt_account_management .fst-container #fst_action #frm_new_account input[type='radio'][disabled] + label:before {
+      border: 1px solid #dedede; }
+    #mt_account_management .fst-container #fst_action #frm_new_account input[type='radio'][disabled] + label span {
+      color: #dedede; }
   #mt_account_management .txt-left {
     text-align: left; }
   #mt_account_management .separator {
