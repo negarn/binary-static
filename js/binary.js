@@ -34540,7 +34540,7 @@ var MetaTraderUI = function () {
             }
 
             // Add more trade servers button.
-            $container.find('#btn_add_more_servers').setVisibility(State.getResponse('trading_servers').length > 0);
+            $container.find('#btn_add_more_servers').setVisibility(getAvailableServers().length > 0);
             $container.find('#btn_add_more_servers').click(function () {
                 var $back_button = _$form.find('#view_2 .btn-back');
                 var $cancel_button = _$form.find('#view_2 .btn-cancel');
@@ -35013,7 +35013,7 @@ var MetaTraderUI = function () {
     };
 
     var newAccountGetType = function newAccountGetType() {
-        var selected_type = _$form.find('.step-2 .selected').attr('data-acc-type');
+        var selected_type = _$form && _$form.find('.step-2 .selected').attr('data-acc-type');
         // if user selected account type using the form, send that
         if (selected_type) {
             return (_$form.find('.step-1 .selected').attr('data-acc-type') || 'real') + '_' + _$form.find('.step-2 .selected').attr('data-acc-type');
