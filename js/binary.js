@@ -34028,6 +34028,18 @@ var MetaTrader = function () {
             addAccount('gaming', mt_gaming_company);
             addAccount('financial', mt_financial_company);
 
+            var trading_servers = State.getResponse('trading_servers');
+            response.mt5_login_list.forEach(function (mt5_login) {
+                var is_server_offered = trading_servers.find(function (trading_server) {
+                    return trading_server.id === mt5_login.server;
+                });
+
+                if (!is_server_offered) {
+                    addAccount('gaming', mt_gaming_company, mt5_login.server);
+                    addAccount('financial', mt_financial_company, mt5_login.server);
+                }
+            });
+
             getAllAccountsInfo(response);
         });
     };
@@ -34045,6 +34057,7 @@ var MetaTrader = function () {
     // mt_gaming_company: { financial: {}, swap_free: {} }
     var addAccount = function addAccount(market_type) {
         var company = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var server = arguments[2];
 
         Object.keys(company).filter(function (sub_account_type) {
             return sub_account_type !== 'swap_free';
@@ -34056,7 +34069,6 @@ var MetaTrader = function () {
                 var is_demo = account_type === 'demo';
                 var display_name = Client.getMT5AccountDisplays(market_type, sub_account_type, is_demo);
                 var leverage = getLeverage(market_type, sub_account_type, landing_company_short);
-                var available_servers = getAvailableServers(market_type, sub_account_type);
 
                 var addAccountsInfo = function addAccountsInfo(trading_server) {
                     // e.g. real_gaming_financial
@@ -34078,13 +34090,19 @@ var MetaTrader = function () {
                     };
                 };
 
-                // demo only has one server, no need to create for each trade server
-                if (available_servers.length > 1 && !is_demo) {
-                    available_servers.forEach(function (trading_server) {
-                        return addAccountsInfo(trading_server);
-                    });
+                if (server && !is_demo) {
+                    addAccountsInfo({ id: server });
                 } else {
-                    addAccountsInfo();
+                    var available_servers = getAvailableServers(market_type, sub_account_type);
+
+                    // demo only has one server, no need to create for each trade server
+                    if (available_servers.length > 1 && !is_demo) {
+                        available_servers.forEach(function (trading_server) {
+                            return addAccountsInfo(trading_server);
+                        });
+                    } else {
+                        addAccountsInfo();
+                    }
                 }
             });
         });
