@@ -34043,8 +34043,9 @@ var MetaTrader = function () {
                 });
 
                 if (!is_server_offered && !/demo/.test(mt5_login.server)) {
-                    addAccount('gaming', mt_gaming_company, mt5_login.server);
-                    addAccount('financial', mt_financial_company, mt5_login.server);
+                    var landing_company = mt5_login.market_type === 'gaming' ? mt_gaming_company : mt_financial_company;
+
+                    addAccount(mt5_login.market_type, landing_company, mt5_login.server);
                 }
             });
 
@@ -34337,8 +34338,9 @@ var MetaTrader = function () {
         // Update account info
         response.mt5_login_list.forEach(function (account) {
             var acc_type = account.account_type + '_' + account.market_type + '_' + account.sub_account_type;
-            if (!(acc_type in accounts_info)) {
-                acc_type += '_' + account.server;
+            var acc_type_server = acc_type + '_' + account.server;
+            if (!(acc_type in accounts_info) || acc_type_server in accounts_info) {
+                acc_type = acc_type_server;
             }
 
             // in case trading_server API response is corrupted, acc_type will not exist in accounts_info due to missing supported_accounts prop
