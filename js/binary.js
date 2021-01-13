@@ -34995,7 +34995,7 @@ var MetaTraderUI = function () {
                         region = _trading_server$geolo.region,
                         sequence = _trading_server$geolo.sequence;
 
-                    var label_text = region + ' ' + sequence;
+                    var label_text = sequence > 1 ? region + ' ' + sequence : region;
 
                     if (is_used_server) {
                         label_text += localize(' (account created)');
