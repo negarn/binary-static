@@ -34263,8 +34263,15 @@ var MetaTrader = function () {
                                         BinarySocket.send({ mt5_login_list: 1 }).then(function (response_login_list) {
                                             MetaTraderUI.refreshAction();
                                             allAccountsResponseHandler(response_login_list);
-                                            MetaTraderUI.setAccountType(acc_type, true);
-                                            MetaTraderUI.loadAction(null, acc_type);
+
+                                            var account_type = acc_type;
+                                            if (action === 'new_account' && !/\d$/.test(account_type) && !accounts_info[account_type]) {
+                                                var server = $('#frm_new_account').find('#ddl_trade_server input[checked]').val();
+                                                account_type += '_' + server;
+                                            }
+
+                                            MetaTraderUI.setAccountType(account_type, true);
+                                            MetaTraderUI.loadAction(null, account_type);
                                         });
 
                                     case 20:
