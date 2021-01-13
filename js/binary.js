@@ -33375,11 +33375,7 @@ var MetaTraderConfig = function () {
 
                     var has_financial_account = Client.hasAccountType('financial', 1);
 
-                    var clean_key = /\d$/.test(acc_type) ? acc_type.substr(0, acc_type.lastIndexOf('_')) : acc_type;
-                    var regex = new RegExp(clean_key);
-                    var sample_account = accounts_info[Object.keys(accounts_info).find(function (account) {
-                        return regex.test(account);
-                    })];
+                    var sample_account = getSampleAccount();
 
                     var is_maltainvest = sample_account.landing_company_short === 'maltainvest';
 
@@ -33899,6 +33895,24 @@ var MetaTraderConfig = function () {
         return is_need_verification;
     };
 
+    // remove server from acc_type for cases where we don't have it
+    // e.g. during new account creation no server is set yet
+    var getCleanAccType = function getCleanAccType(acc_type) {
+        return (/\d$/.test(acc_type) ? acc_type.substr(0, acc_type.lastIndexOf('_')) : acc_type
+        );
+    };
+
+    // if no server exists yet, e.g. during new account creation
+    // we want to get information like landing company etc which is shared
+    // between all the servers, so we can disregard the server and return the first
+    // accounts_info item that has the same market type and sub account type
+    var getSampleAccount = function getSampleAccount() {
+        var regex = new RegExp(getCleanAccType());
+        return accounts_info[Object.keys(accounts_info).find(function (account) {
+            return regex.test(account);
+        })];
+    };
+
     return {
         accounts_info: accounts_info,
         actions_info: actions_info,
@@ -33906,8 +33920,10 @@ var MetaTraderConfig = function () {
         validations: validations,
         needsRealMessage: needsRealMessage,
         hasAccount: hasAccount,
+        getCleanAccType: getCleanAccType,
         getCurrency: getCurrency,
         getDisplayLogin: getDisplayLogin,
+        getSampleAccount: getSampleAccount,
         isAuthenticated: isAuthenticated,
         isAuthenticationPromptNeeded: isAuthenticationPromptNeeded,
         setMessages: function setMessages($msg) {
@@ -34565,11 +34581,7 @@ var MetaTraderUI = function () {
         if (acc_type) {
             $account_type_desc = $account_desc.find('.' + acc_type);
 
-            var clean_key = /\d$/.test(acc_type) ? acc_type.substr(0, acc_type.lastIndexOf('_')) : acc_type;
-            var regex = new RegExp(clean_key);
-            var landing_company_short = accounts_info[Object.keys(accounts_info).find(function (account) {
-                return regex.test(account);
-            })].landing_company_short;
+            var landing_company_short = MetaTraderConfig.getSampleAccount().landing_company_short;
 
             if ($account_type_desc.length === 2) {
                 var $specific_description = $account_desc.find('.' + acc_type + '.' + landing_company_short);
@@ -34966,11 +34978,7 @@ var MetaTraderUI = function () {
             if (Validation.validate('#frm_new_account')) {
                 var new_account_type = newAccountGetType();
 
-                var clean_key = /\d$/.test(new_account_type) ? new_account_type.substr(0, new_account_type.lastIndexOf('_')) : new_account_type;
-                var regex = new RegExp(clean_key);
-                var sample_account = accounts_info[Object.keys(accounts_info).find(function (account) {
-                    return regex.test(account);
-                })];
+                var sample_account = MetaTraderConfig.getSampleAccount();
 
                 _$form.find('#view_3 button[type="submit"]').attr('acc_type', new_account_type);
                 _$form.find('#view_3 #mt5_account_type').text(sample_account.title);
@@ -35020,8 +35028,7 @@ var MetaTraderUI = function () {
         }
         // otherwise they are adding more server to their current account type
         var saved_mt5_account = Client.get('mt5_account');
-        var clean_key = /\d$/.test(saved_mt5_account) ? saved_mt5_account.substr(0, saved_mt5_account.lastIndexOf('_')) : saved_mt5_account;
-        return clean_key;
+        return MetaTraderConfig.getCleanAccType(saved_mt5_account);
     };
 
     var selectAccountTypeUI = function selectAccountTypeUI(e) {
@@ -35091,8 +35098,8 @@ var MetaTraderUI = function () {
             if (accounts_info[acc_type].info && getAvailableServers().length === 0) {
                 class_name = 'existed';
             }
-            var clean_key = /\d$/.test(acc_type) ? acc_type.substr(0, acc_type.lastIndexOf('_')) : acc_type;
-            _$form.find('.step-2 #' + clean_key.replace(type, 'rbtn')).removeClass('existed disabled selected').addClass(class_name);
+            var clean_acc_type = MetaTraderConfig.getCleanAccType(acc_type);
+            _$form.find('.step-2 #' + clean_acc_type.replace(type, 'rbtn')).removeClass('existed disabled selected').addClass(class_name);
         });
     };
 
@@ -35106,8 +35113,8 @@ var MetaTraderUI = function () {
         var filtered_accounts = {};
         Object.keys(accounts_info).sort(sortMt5Accounts).forEach(function (acc_type) {
             // remove server from name
-            var clean_key = /\d$/.test(acc_type) ? acc_type.substr(0, acc_type.lastIndexOf('_')) : acc_type;
-            filtered_accounts[clean_key] = accounts_info[acc_type];
+            var clean_acc_type = MetaTraderConfig.getCleanAccType(acc_type);
+            filtered_accounts[clean_acc_type] = accounts_info[acc_type];
         });
 
         Object.keys(filtered_accounts).forEach(function (acc_type) {
