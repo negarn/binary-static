@@ -33373,12 +33373,10 @@ var MetaTraderConfig = function () {
                         resolve($message.html());
                     };
 
+                    var sample_account = getSampleAccount(acc_type);
+
                     var has_financial_account = Client.hasAccountType('financial', 1);
-
-                    var sample_account = getSampleAccount();
-
                     var is_maltainvest = sample_account.landing_company_short === 'maltainvest';
-
                     var is_financial = sample_account.market_type === 'financial';
                     var is_demo_financial = is_demo && is_financial;
 
@@ -33602,9 +33600,11 @@ var MetaTraderConfig = function () {
             },
             pre_submit: function pre_submit($form, acc_type) {
                 return new Promise(function (resolve) {
-                    var is_synthetic = accounts_info[acc_type].market_type === 'gaming';
+                    var sample_account = getSampleAccount(acc_type);
+                    var is_synthetic = sample_account.market_type === 'gaming';
+                    var is_demo = /^demo_/.test(acc_type);
 
-                    if (is_synthetic && !accounts_info[acc_type].is_demo && State.getResponse('landing_company.gaming_company.shortcode') === 'malta') {
+                    if (is_synthetic && !is_demo && State.getResponse('landing_company.gaming_company.shortcode') === 'malta') {
                         Dialog.confirm({
                             id: 'confirm_new_account',
                             localized_message: localize(['Trading contracts for difference (CFDs) on Synthetic Indices may not be suitable for everyone. Please ensure that you fully understand the risks involved, including the possibility of losing all the funds in your MT5 account. Gambling can be addictive – please play responsibly.', 'Do you wish to continue?'])
@@ -33614,7 +33614,7 @@ var MetaTraderConfig = function () {
                             }
                             resolve(is_ok);
                         });
-                    } else if (!accounts_info[acc_type].is_demo && Client.get('residence') === 'es') {
+                    } else if (!is_demo && Client.get('residence') === 'es') {
                         BinarySocket.send({ get_financial_assessment: 1 }).then(function (response) {
                             var _response$get_financi = response.get_financial_assessment,
                                 cfd_score = _response$get_financi.cfd_score,
@@ -33749,12 +33749,13 @@ var MetaTraderConfig = function () {
             ddl_trade_server: { id: '#ddl_trade_server', request_field: 'server', is_radio: true },
             chk_tnc: { id: '#chk_tnc' },
             additional_fields: function additional_fields(acc_type) {
+                var sample_account = getSampleAccount(acc_type);
                 return _extends({
-                    account_type: accounts_info[acc_type].is_demo ? 'demo' : accounts_info[acc_type].market_type,
+                    account_type: /^demo_/.test(acc_type) ? 'demo' : sample_account.market_type,
                     email: Client.get('email'),
-                    leverage: accounts_info[acc_type].leverage
-                }, accounts_info[acc_type].market_type === 'financial' && {
-                    mt5_account_type: accounts_info[acc_type].sub_account_type
+                    leverage: sample_account.leverage
+                }, sample_account.market_type === 'financial' && {
+                    mt5_account_type: sample_account.sub_account_type
                 });
             }
         },
@@ -33906,8 +33907,8 @@ var MetaTraderConfig = function () {
     // we want to get information like landing company etc which is shared
     // between all the servers, so we can disregard the server and return the first
     // accounts_info item that has the same market type and sub account type
-    var getSampleAccount = function getSampleAccount() {
-        var regex = new RegExp(getCleanAccType());
+    var getSampleAccount = function getSampleAccount(acc_type) {
+        var regex = new RegExp(getCleanAccType(acc_type));
         return accounts_info[Object.keys(accounts_info).find(function (account) {
             return regex.test(account);
         })];
@@ -34073,7 +34074,8 @@ var MetaTrader = function () {
                     };
                 };
 
-                if (available_servers.length) {
+                // demo only has one server, no need to create for each trade server
+                if (available_servers.length && !is_demo) {
                     available_servers.forEach(function (trading_server) {
                         return addAccountsInfo(trading_server);
                     });
@@ -34224,7 +34226,7 @@ var MetaTrader = function () {
                                         return BinarySocket.send({ get_account_status: 1 });
 
                                     case 9:
-                                        if (!accounts_info[acc_type].info) {
+                                        if (!(accounts_info[acc_type] && accounts_info[acc_type].info)) {
                                             _context2.next = 17;
                                             break;
                                         }
@@ -34291,20 +34293,25 @@ var MetaTrader = function () {
 
         // Update account info
         response.mt5_login_list.forEach(function (account) {
-            var acc_type = account.account_type + '_' + account.market_type + '_' + account.sub_account_type + '_' + account.server;
+            var acc_type = account.account_type + '_' + account.market_type + '_' + account.sub_account_type;
+            if (!(acc_type in accounts_info)) {
+                acc_type += '_' + account.server;
+            }
 
             // in case trading_server API response is corrupted, acc_type will not exist in accounts_info due to missing supported_accounts prop
             if (acc_type in accounts_info) {
                 accounts_info[acc_type].info = account;
 
-                var geolocation = trading_servers.find(function (server) {
-                    return server.id === account.server;
-                }).geolocation;
-
                 accounts_info[acc_type].info.display_login = MetaTraderConfig.getDisplayLogin(account.login);
                 accounts_info[acc_type].info.login = account.login;
                 accounts_info[acc_type].info.server = account.server;
-                accounts_info[acc_type].info.display_server = geolocation.region + ' ' + geolocation.sequence;
+
+                var geolocation = (trading_servers.find(function (server) {
+                    return server.id === account.server;
+                }) || {}).geolocation;
+                if (geolocation) {
+                    accounts_info[acc_type].info.display_server = geolocation.sequence > 1 ? geolocation.region + ' ' + geolocation.sequence : geolocation.region;
+                }
 
                 MetaTraderUI.updateAccount(acc_type);
             }
@@ -34536,7 +34543,11 @@ var MetaTraderUI = function () {
         if (accounts_info[acc_type].info) {
             setMTAccountText();
             $acc_item.find('.mt-login').text('(' + accounts_info[acc_type].info.display_login + ')');
-            $acc_item.find('.mt-server').text('' + accounts_info[acc_type].info.display_server);
+            if (accounts_info[acc_type].info.display_server) {
+                $acc_item.find('.mt-server').text('' + accounts_info[acc_type].info.display_server);
+            } else {
+                $acc_item.find('.mt-server').remove();
+            }
             $acc_item.setVisibility(1);
             if (accounts_info[acc_type].is_demo) {
                 $list.find('#acc_group_demo').setVisibility(1);
@@ -34556,14 +34567,14 @@ var MetaTraderUI = function () {
             }
 
             // Add more trade servers button.
-            $container.find('#btn_add_more_servers').setVisibility(getAvailableServers().length > 0);
+            $container.find('#btn_add_more_servers').setVisibility(getAvailableServers().length > 0 && !accounts_info[acc_type].is_demo);
             $container.find('#btn_add_more_servers').click(function () {
                 var $back_button = _$form.find('#view_2 .btn-back');
                 var $cancel_button = _$form.find('#view_2 .btn-cancel');
                 var account_type = Client.get('mt5_account');
 
                 loadAction('new_account', account_type);
-                _$form.find('#view_3 button[type="submit"]').attr('acc_type', account_type);
+                _$form.find('button[type="submit"]').attr('acc_type', account_type);
                 $cancel_button.setVisibility(1);
                 $back_button.setVisibility(0);
                 displayStep(2);
@@ -34581,7 +34592,7 @@ var MetaTraderUI = function () {
         if (acc_type) {
             $account_type_desc = $account_desc.find('.' + acc_type);
 
-            var landing_company_short = MetaTraderConfig.getSampleAccount().landing_company_short;
+            var landing_company_short = MetaTraderConfig.getSampleAccount(acc_type).landing_company_short;
 
             if ($account_type_desc.length === 2) {
                 var $specific_description = $account_desc.find('.' + acc_type + '.' + landing_company_short);
@@ -34604,11 +34615,13 @@ var MetaTraderUI = function () {
 
         if (accounts_info[acc_type].info) {
             var is_demo = accounts_info[acc_type].is_demo;
+            $detail.find('.real-only').setVisibility(!is_demo);
+            $container.find('#btn_add_more_servers').setVisibility(getAvailableServers().length > 0 && !is_demo);
             // Update account info
             $detail.find('.acc-info div[data]').map(function () {
                 var key = $(this).attr('data');
                 var info = accounts_info[acc_type].info[key];
-                var mapping = {
+                var mapping = _extends({
                     balance: function balance() {
                         return isNaN(info) ? '' : Currency.formatMoney(MetaTraderConfig.getCurrency(acc_type), +info);
                     },
@@ -34623,11 +34636,12 @@ var MetaTraderUI = function () {
                     },
                     server: function server() {
                         return 'Deriv-' + (is_demo ? 'Demo' : 'Server');
-                    },
+                    }
+                }, accounts_info[acc_type].info.display_server && {
                     trade_server: function trade_server() {
                         return accounts_info[acc_type].info.display_server;
                     }
-                };
+                });
                 $(this).html(typeof mapping[key] === 'function' ? mapping[key]() : info);
             });
 
@@ -34803,7 +34817,8 @@ var MetaTraderUI = function () {
     var getAvailableServers = function getAvailableServers() {
         return State.getResponse('trading_servers').filter(function (trading_server) {
             var account_type = newAccountGetType();
-            if (!/\d$/.test(account_type)) {
+            // if server is not added to account type, and in accounts_info we are storing it without server
+            if (!/\d$/.test(account_type) && !accounts_info[account_type]) {
                 account_type += '_' + trading_server.id;
             }
             var new_account_info = accounts_info[account_type];
@@ -34919,6 +34934,7 @@ var MetaTraderUI = function () {
         _$form.find('#view_1 .btn-next').click(function () {
             if (!$(this).hasClass('button-disabled')) {
                 displayStep(2);
+                _$form.find('button[type="submit"]').attr('acc_type', newAccountGetType());
                 $.scrollTo($container.find('.acc-actions'), 300, { offset: -10 });
             }
         });
@@ -34928,7 +34944,8 @@ var MetaTraderUI = function () {
 
             State.getResponse('trading_servers').forEach(function (trading_server) {
                 var account_type = newAccountGetType();
-                if (!/\d$/.test(account_type)) {
+                // if server is not added to account type, and in accounts_info we are not storing it with server
+                if (!/\d$/.test(account_type) && !accounts_info[account_type]) {
                     account_type += '_' + trading_server.id;
                 }
                 var new_account_info = accounts_info[account_type];
@@ -34978,9 +34995,9 @@ var MetaTraderUI = function () {
             if (Validation.validate('#frm_new_account')) {
                 var new_account_type = newAccountGetType();
 
-                var sample_account = MetaTraderConfig.getSampleAccount();
+                var sample_account = MetaTraderConfig.getSampleAccount(new_account_type);
 
-                _$form.find('#view_3 button[type="submit"]').attr('acc_type', new_account_type);
+                _$form.find('button[type="submit"]').attr('acc_type', new_account_type);
                 _$form.find('#view_3 #mt5_account_type').text(sample_account.title);
                 displayStep(3);
                 $.scrollTo($container.find('.acc-actions'), 300, { offset: -10 });
@@ -34998,14 +35015,6 @@ var MetaTraderUI = function () {
             }
             if (e.target.nodeName === 'INPUT') {
                 $(e.target).not(':input[disabled]').attr('checked', 'checked');
-            }
-        });
-
-        _$form.find('#view_2 .btn-next').click(function () {
-            if (Validation.validate('#frm_new_account')) {
-                _$form.find('#view_3 button[type="submit"]').attr('acc_type', newAccountGetType());
-                displayStep(3);
-                $.scrollTo($container.find('.acc-actions'), 300, { offset: -10 });
             }
         });
 
