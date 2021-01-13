@@ -34650,6 +34650,8 @@ var MetaTraderUI = function () {
                         return accounts_info[acc_type].info.display_server;
                     }
                 });
+
+                $container.find('#mt-trade-server-container').setVisibility(!!mapping.trade_server);
                 $(this).html(typeof mapping[key] === 'function' ? mapping[key]() : info);
             });
 
@@ -35014,10 +35016,7 @@ var MetaTraderUI = function () {
 
             if (Validation.validate('#frm_new_account')) {
                 var new_account_type = newAccountGetType();
-                var sample_account = MetaTraderConfig.getSampleAccount(new_account_type);
-
                 _$form.find('button[type="submit"]').attr('acc_type', new_account_type);
-                _$form.find('#view_3 #mt5_account_type').text(sample_account.title);
                 displayStep(3);
                 $.scrollTo($container.find('.acc-actions'), 300, { offset: -10 });
             }
@@ -35123,7 +35122,7 @@ var MetaTraderUI = function () {
             return acc_type.indexOf(type) === 0;
         }).forEach(function (acc_type) {
             var class_name = type === 'real' && Client.get('is_virtual') ? 'disabled' : '';
-            if (accounts_info[acc_type].info && getAvailableServers().length === 0) {
+            if (accounts_info[acc_type].info && (getAvailableServers().length === 0 || type === 'demo')) {
                 class_name = 'existed';
             }
             var clean_acc_type = MetaTraderConfig.getCleanAccType(acc_type);
