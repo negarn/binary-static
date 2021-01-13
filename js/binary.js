@@ -34543,7 +34543,7 @@ var MetaTraderUI = function () {
     var setMTAccountText = function setMTAccountText() {
         var acc_type = $mt5_account.attr('value');
         if (acc_type) {
-            var sample_account = MetaTraderConfig.getSampleAccount(acc_type) || {};
+            var sample_account = acc_type in accounts_info ? accounts_info[acc_type] : MetaTraderConfig.getSampleAccount(acc_type);
             var display_login = getPropertyValue(sample_account, ['info', 'display_login']);
             var title = '' + sample_account.title + (display_login ? ' (' + display_login + ')' : '');
             if (!new RegExp(title).test($mt5_account.text())) {
