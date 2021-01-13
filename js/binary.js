@@ -33981,8 +33981,9 @@ var MetaTrader = function () {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
+                            BinarySocket.send({ trading_servers: 1, platform: 'mt5' });
+
                             if (isEligible()) {
-                                BinarySocket.send({ trading_servers: 1, platform: 'mt5' });
                                 if (Client.get('is_virtual')) {
                                     addAllAccounts();
                                 } else {
@@ -33992,7 +33993,7 @@ var MetaTrader = function () {
                                 MetaTraderUI.displayPageError(localize('Sorry, this feature is not available in your jurisdiction.'));
                             }
 
-                        case 1:
+                        case 2:
                         case 'end':
                             return _context.stop();
                     }
@@ -34075,7 +34076,7 @@ var MetaTrader = function () {
                 };
 
                 // demo only has one server, no need to create for each trade server
-                if (available_servers.length && !is_demo) {
+                if (available_servers.length > 1 && !is_demo) {
                     available_servers.forEach(function (trading_server) {
                         return addAccountsInfo(trading_server);
                     });
@@ -34267,7 +34268,13 @@ var MetaTrader = function () {
                                             var account_type = acc_type;
                                             if (action === 'new_account' && !/\d$/.test(account_type) && !accounts_info[account_type]) {
                                                 var server = $('#frm_new_account').find('#ddl_trade_server input[checked]').val();
-                                                account_type += '_' + server;
+                                                if (server) {
+                                                    account_type += '_' + server;
+
+                                                    if (!accounts_info[account_type]) {
+                                                        account_type = acc_type;
+                                                    }
+                                                }
                                             }
 
                                             MetaTraderUI.setAccountType(account_type, true);
@@ -34825,6 +34832,7 @@ var MetaTraderUI = function () {
     };
 
     var getAvailableServers = function getAvailableServers() {
+        var should_ignore_used = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
         return State.getResponse('trading_servers').filter(function (trading_server) {
             var account_type = newAccountGetType();
             // if server is not added to account type, and in accounts_info we are storing it without server
@@ -34848,6 +34856,10 @@ var MetaTraderUI = function () {
             var is_financial_stp = market_type === 'financial' && sub_account_type === 'financial_stp';
 
             var is_server_supported = is_synthetic && supported_accounts.includes('gaming') || is_financial && supported_accounts.includes('financial') || is_financial_stp && supported_accounts.includes('financial_stp');
+
+            if (should_ignore_used) {
+                return is_server_supported;
+            }
 
             var is_used_server = new_account_info.info && new_account_info.info.server && is_server_supported && trading_server.id === accounts_info[account_type].info.server;
 
@@ -34877,7 +34889,12 @@ var MetaTraderUI = function () {
             var trading_servers = State.getResponse('trading_servers');
             var $view_2_button_container = _$form.find('#view_2-buttons');
 
-            if (trading_servers.length === 0 || /demo/.test(new_account_type) || getAvailableServers().length <= 1) {
+            // Check whether this is the last server the user is creating.
+            var supported_servers = getAvailableServers(true);
+            var available_servers = getAvailableServers(false);
+            var should_show_remaining_server = supported_servers.length - available_servers.length > 0;
+
+            if (trading_servers.length === 0 || /demo/.test(new_account_type) || !should_show_remaining_server) {
                 var $submit_button = _$form.find('#btn_submit_new_account');
 
                 $('<p />', { id: 'msg_form', class: 'center-text gr-padding-10 error-msg no-margin invisible' }).prependTo($view_2_button_container);
@@ -35011,7 +35028,7 @@ var MetaTraderUI = function () {
 
             // Check whether any of the servers is checked, if not, check one.
             if ($ddl_trade_server.find('input[checked]').length === 0) {
-                $ddl_trade_server.find('input:not(:disabled)')[0].checked = 'checked';
+                $ddl_trade_server.find('input:not(:disabled):first').attr('checked', 'checked');
             }
 
             if (Validation.validate('#frm_new_account')) {
