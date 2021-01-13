@@ -33375,7 +33375,7 @@ var MetaTraderConfig = function () {
 
                     var has_financial_account = Client.hasAccountType('financial', 1);
 
-                    var clean_key = acc_type.substr(0, acc_type.lastIndexOf('_'));
+                    var clean_key = /\d$/.test(acc_type) ? acc_type.substr(0, acc_type.lastIndexOf('_')) : acc_type;
                     var regex = new RegExp(clean_key);
                     var sample_account = accounts_info[Object.keys(accounts_info).find(function (account) {
                         return regex.test(account);
@@ -34035,10 +34035,18 @@ var MetaTrader = function () {
                 var is_demo = account_type === 'demo';
                 var display_name = Client.getMT5AccountDisplays(market_type, sub_account_type, is_demo);
                 var leverage = getLeverage(market_type, sub_account_type, landing_company_short);
+                var available_servers = getAvailableServers(market_type, sub_account_type);
 
-                getAvailableServers(market_type, sub_account_type).forEach(function (trading_server) {
-                    // e.g. real_gaming_financial_africa
-                    accounts_info[account_type + '_' + market_type + '_' + sub_account_type + '_' + trading_server.id] = {
+                var addAccountsInfo = function addAccountsInfo(trading_server) {
+                    // e.g. real_gaming_financial
+                    var key = account_type + '_' + market_type + '_' + sub_account_type;
+
+                    // e.g. real_gaming_financial_real01
+                    if (trading_server) {
+                        key += '_' + trading_server.id;
+                    }
+
+                    accounts_info[key] = {
                         is_demo: is_demo,
                         landing_company_short: landing_company_short,
                         leverage: leverage,
@@ -34047,7 +34055,15 @@ var MetaTrader = function () {
                         short_title: display_name.short,
                         title: display_name.full
                     };
-                });
+                };
+
+                if (available_servers.length) {
+                    available_servers.forEach(function (trading_server) {
+                        return addAccountsInfo(trading_server);
+                    });
+                } else {
+                    addAccountsInfo();
+                }
             });
         });
     };
@@ -34058,7 +34074,8 @@ var MetaTrader = function () {
         var is_financial_stp = market_type === 'financial' && sub_account_type === 'financial_stp';
 
         return State.getResponse('trading_servers').filter(function (trading_server) {
-            var supported_accounts = trading_server.supported_accounts;
+            var _trading_server$suppo = trading_server.supported_accounts,
+                supported_accounts = _trading_server$suppo === undefined ? [] : _trading_server$suppo;
 
             var is_server_supported = is_synthetic && supported_accounts.includes('gaming') || is_financial && supported_accounts.includes('financial') || is_financial_stp && supported_accounts.includes('financial_stp');
 
@@ -34260,18 +34277,21 @@ var MetaTrader = function () {
         response.mt5_login_list.forEach(function (account) {
             var acc_type = account.account_type + '_' + account.market_type + '_' + account.sub_account_type + '_' + account.server;
 
-            accounts_info[acc_type].info = account;
+            // in case trading_server API response is corrupted, acc_type will not exist in accounts_info due to missing supported_accounts prop
+            if (acc_type in accounts_info) {
+                accounts_info[acc_type].info = account;
 
-            var geolocation = trading_servers.find(function (server) {
-                return server.id === account.server;
-            }).geolocation;
+                var geolocation = trading_servers.find(function (server) {
+                    return server.id === account.server;
+                }).geolocation;
 
-            accounts_info[acc_type].info.display_login = MetaTraderConfig.getDisplayLogin(account.login);
-            accounts_info[acc_type].info.login = account.login;
-            accounts_info[acc_type].info.server = account.server;
-            accounts_info[acc_type].info.display_server = geolocation.region + ' ' + geolocation.sequence;
+                accounts_info[acc_type].info.display_login = MetaTraderConfig.getDisplayLogin(account.login);
+                accounts_info[acc_type].info.login = account.login;
+                accounts_info[acc_type].info.server = account.server;
+                accounts_info[acc_type].info.display_server = geolocation.region + ' ' + geolocation.sequence;
 
-            MetaTraderUI.updateAccount(acc_type);
+                MetaTraderUI.updateAccount(acc_type);
+            }
         });
 
         var current_acc_type = getDefaultAccount();
@@ -34545,7 +34565,7 @@ var MetaTraderUI = function () {
         if (acc_type) {
             $account_type_desc = $account_desc.find('.' + acc_type);
 
-            var clean_key = acc_type.substr(0, acc_type.lastIndexOf('_'));
+            var clean_key = /\d$/.test(acc_type) ? acc_type.substr(0, acc_type.lastIndexOf('_')) : acc_type;
             var regex = new RegExp(clean_key);
             var landing_company_short = accounts_info[Object.keys(accounts_info).find(function (account) {
                 return regex.test(account);
@@ -34775,8 +34795,10 @@ var MetaTraderUI = function () {
                 account_type += '_' + trading_server.id;
             }
             var new_account_info = accounts_info[account_type];
+            var supported_accounts = trading_server.supported_accounts;
 
-            if (!new_account_info) {
+
+            if (!new_account_info || !supported_accounts) {
                 return false;
             }
 
@@ -34787,8 +34809,6 @@ var MetaTraderUI = function () {
             var is_synthetic = market_type === 'gaming' && sub_account_type === 'financial';
             var is_financial = market_type === 'financial' && sub_account_type === 'financial';
             var is_financial_stp = market_type === 'financial' && sub_account_type === 'financial_stp';
-
-            var supported_accounts = trading_server.supported_accounts;
 
             var is_server_supported = is_synthetic && supported_accounts.includes('gaming') || is_financial && supported_accounts.includes('financial') || is_financial_stp && supported_accounts.includes('financial_stp');
 
@@ -34909,14 +34929,17 @@ var MetaTraderUI = function () {
                 var is_financial_stp = market_type === 'financial' && sub_account_type === 'financial_stp';
 
                 var server_id = trading_server.id,
-                    supported_accounts = trading_server.supported_accounts;
+                    _trading_server$suppo = trading_server.supported_accounts,
+                    supported_accounts = _trading_server$suppo === undefined ? [] : _trading_server$suppo;
+
 
                 var is_server_supported = is_synthetic && supported_accounts.includes('gaming') || is_financial && supported_accounts.includes('financial') || is_financial_stp && supported_accounts.includes('financial_stp');
 
-                var is_used_server = new_account_info.info && new_account_info.info.server && is_server_supported && server_id === accounts_info[account_type].info.server;
-                var is_disabled = trading_server.disabled === 1;
-
                 if (is_server_supported) {
+                    var is_used_server = new_account_info.info && new_account_info.info.server && is_server_supported && server_id === accounts_info[account_type].info.server;
+
+                    var is_disabled = trading_server.disabled === 1;
+
                     var input_attributes = _extends({
                         disabled: is_used_server || is_disabled,
                         type: 'radio',
@@ -34943,7 +34966,7 @@ var MetaTraderUI = function () {
             if (Validation.validate('#frm_new_account')) {
                 var new_account_type = newAccountGetType();
 
-                var clean_key = new_account_type.substr(0, new_account_type.lastIndexOf('_'));
+                var clean_key = /\d$/.test(new_account_type) ? new_account_type.substr(0, new_account_type.lastIndexOf('_')) : new_account_type;
                 var regex = new RegExp(clean_key);
                 var sample_account = accounts_info[Object.keys(accounts_info).find(function (account) {
                     return regex.test(account);
@@ -34997,7 +35020,8 @@ var MetaTraderUI = function () {
         }
         // otherwise they are adding more server to their current account type
         var saved_mt5_account = Client.get('mt5_account');
-        return saved_mt5_account.substr(0, saved_mt5_account.lastIndexOf('_'));
+        var clean_key = /\d$/.test(saved_mt5_account) ? saved_mt5_account.substr(0, saved_mt5_account.lastIndexOf('_')) : saved_mt5_account;
+        return clean_key;
     };
 
     var selectAccountTypeUI = function selectAccountTypeUI(e) {
@@ -35064,10 +35088,11 @@ var MetaTraderUI = function () {
             return acc_type.indexOf(type) === 0;
         }).forEach(function (acc_type) {
             var class_name = type === 'real' && Client.get('is_virtual') ? 'disabled' : '';
-            if (accounts_info[acc_type].info && getAvailableServers() === 0) {
+            if (accounts_info[acc_type].info && getAvailableServers().length === 0) {
                 class_name = 'existed';
             }
-            _$form.find('.step-2 #' + acc_type.replace(type, 'rbtn')).removeClass('existed disabled selected').addClass(class_name);
+            var clean_key = /\d$/.test(acc_type) ? acc_type.substr(0, acc_type.lastIndexOf('_')) : acc_type;
+            _$form.find('.step-2 #' + clean_key.replace(type, 'rbtn')).removeClass('existed disabled selected').addClass(class_name);
         });
     };
 
@@ -35081,7 +35106,7 @@ var MetaTraderUI = function () {
         var filtered_accounts = {};
         Object.keys(accounts_info).sort(sortMt5Accounts).forEach(function (acc_type) {
             // remove server from name
-            var clean_key = acc_type.substr(0, acc_type.lastIndexOf('_'));
+            var clean_key = /\d$/.test(acc_type) ? acc_type.substr(0, acc_type.lastIndexOf('_')) : acc_type;
             filtered_accounts[clean_key] = accounts_info[acc_type];
         });
 
