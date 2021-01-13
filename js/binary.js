@@ -34891,16 +34891,15 @@ var MetaTraderUI = function () {
 
             // Check whether this is the last server the user is creating.
             var supported_servers = getAvailableServers(true);
-            var available_servers = getAvailableServers(false);
-            var should_show_remaining_server = supported_servers.length - available_servers.length > 0;
 
-            if (trading_servers.length === 0 || /demo/.test(new_account_type) || !should_show_remaining_server) {
+            if (trading_servers.length === 0 || /demo/.test(new_account_type) || supported_servers.length <= 1) {
                 var $submit_button = _$form.find('#btn_submit_new_account');
 
                 $('<p />', { id: 'msg_form', class: 'center-text gr-padding-10 error-msg no-margin invisible' }).prependTo($view_2_button_container);
 
                 // If we have no trading servers, skip the step after this
                 // by showing the "Create account" button right away.
+                _$form.find('#view_2 .btn-next').setVisibility(0);
                 $view_2_button_container.append($submit_button);
                 $submit_button.setVisibility(1);
             } else {
