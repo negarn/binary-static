@@ -34029,6 +34029,8 @@ var MetaTrader = function () {
             addAccount('financial', mt_financial_company);
 
             var trading_servers = State.getResponse('trading_servers');
+            // for legacy clients on the real01 server, real01 server is not going to be offered in trading servers
+            // but we need to build their object in accounts_info or they can't view their legacy account
             response.mt5_login_list.forEach(function (mt5_login) {
                 var is_server_offered = trading_servers.find(function (trading_server) {
                     return trading_server.id === mt5_login.server;
@@ -34594,6 +34596,7 @@ var MetaTraderUI = function () {
                 var mt_balance = Currency.formatMoney(MetaTraderConfig.getCurrency(acc_type), +accounts_info[acc_type].info.balance);
                 $acc_item.find('.mt-balance').html(mt_balance);
                 $action.find('.mt5-balance').html(mt_balance);
+                $container.find('#btn_add_more_servers').setVisibility(getAvailableServers().length > 0 && !accounts_info[acc_type].is_demo);
             }
             // disable MT5 account opening if created all available accounts
             if (Object.keys(accounts_info).every(function (type) {
@@ -34603,7 +34606,6 @@ var MetaTraderUI = function () {
             }
 
             // Add more trade servers button.
-            $container.find('#btn_add_more_servers').setVisibility(getAvailableServers().length > 0 && !accounts_info[acc_type].is_demo);
             $container.find('#btn_add_more_servers').click(function () {
                 var $back_button = _$form.find('#view_2 .btn-back');
                 var $cancel_button = _$form.find('#view_2 .btn-cancel');
