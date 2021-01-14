@@ -33823,7 +33823,34 @@ var MetaTraderConfig = function () {
             verify_password_reset_token: [{ selector: fields.verify_password_reset_token.txt_verification_code.id, validations: [['req', { hide_asterisk: true }], 'token'], exclude_request: 1 }],
             deposit: [{
                 selector: fields.deposit.txt_amount.id,
-                validations: [['req', { hide_asterisk: true }], ['number', {
+                validations: [['req', { hide_asterisk: true }],
+                // check if entered amount is less than the available balance
+                // e.g. transfer amount is 10 but client balance is 5
+                ['custom', {
+                    func: function func() {
+                        var balance = Client.get('balance');
+
+                        var is_balance_more_than_entered = +balance >= +$(fields.deposit.txt_amount.id).val();
+
+                        return balance && is_balance_more_than_entered;
+                    },
+                    message: localize('You have insufficient funds in your Binary account, please <a href="[_1]">add funds</a>.', urlFor('cashier'))
+                }],
+                // check if balance is less than the minimum limit for transfer
+                // e.g. client balance could be 0.45 but min limit could be 1
+                ['custom', {
+                    func: function func() {
+                        var balance = Client.get('balance');
+                        var min_req_balance = Currency.getTransferLimits(Client.get('currency'), 'min', 'mt5');
+
+                        var is_balance_more_than_min_req = +balance >= +min_req_balance;
+
+                        return balance && is_balance_more_than_min_req;
+                    },
+                    message: localize('Should be more than [_1]', Currency.getTransferLimits(Client.get('currency'), 'min', 'mt5'))
+                }],
+                // check if amount is between min and max
+                ['number', {
                     type: 'float',
                     min: function min() {
                         return Currency.getTransferLimits(Client.get('currency'), 'min', 'mt5');
@@ -33831,21 +33858,43 @@ var MetaTraderConfig = function () {
                     max: function max() {
                         var mt5_limit = Currency.getTransferLimits(Client.get('currency'), 'max', 'mt5');
                         var balance = Client.get('balance');
+
                         // if balance is 0, pass this validation so we can show insufficient funds in the next custom validation
                         return Math.min(mt5_limit, balance || mt5_limit).toFixed(Currency.getDecimalPlaces(Client.get('currency')));
                     },
                     decimals: Currency.getDecimalPlaces(Client.get('currency'))
-                }], ['custom', {
-                    func: function func() {
-                        var balance = Client.get('balance');
-                        return balance && +balance >= +$(fields.deposit.txt_amount.id).val();
-                    },
-                    message: localize('You have insufficient funds in your Binary account, please <a href="[_1]">add funds</a>.', urlFor('cashier'))
                 }]]
             }],
             withdrawal: [{
                 selector: fields.withdrawal.txt_amount.id,
-                validations: [['req', { hide_asterisk: true }], ['number', {
+                validations: [['req', { hide_asterisk: true }],
+                // check if entered amount is less than the available balance
+                // e.g. transfer amount is 10 but client balance is 5
+                ['custom', {
+                    func: function func() {
+                        var balance = accounts_info[Client.get('mt5_account')].info.balance;
+
+                        var is_balance_more_than_entered = +balance >= +$(fields.deposit.txt_amount.id).val();
+
+                        return balance && is_balance_more_than_entered;
+                    },
+                    message: localize('You have insufficient funds in your MT5 account.')
+                }],
+                // check if balance is less than the minimum limit for transfer
+                // e.g. client balance could be 0.45 but min limit could be 1
+                ['custom', {
+                    func: function func() {
+                        var balance = Client.get('balance');
+                        var min_req_balance = Currency.getTransferLimits(Client.get('mt5_account'), 'min', 'mt5');
+
+                        var is_balance_more_than_min_req = +balance >= +min_req_balance;
+
+                        return balance && is_balance_more_than_min_req;
+                    },
+                    message: localize('Should be more than [_1]', Currency.getTransferLimits(Client.get('mt5_account'), 'min', 'mt5'))
+                }],
+                // check if amount is between min and max
+                ['number', {
                     type: 'float',
                     min: function min() {
                         return Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'min', 'mt5');
@@ -33853,16 +33902,11 @@ var MetaTraderConfig = function () {
                     max: function max() {
                         var mt5_limit = Currency.getTransferLimits(getCurrency(Client.get('mt5_account')), 'max', 'mt5');
                         var balance = accounts_info[Client.get('mt5_account')].info.balance;
+
                         // if balance is 0, pass this validation so we can show insufficient funds in the next custom validation
                         return Math.min(mt5_limit, balance || mt5_limit);
                     },
                     decimals: 2
-                }], ['custom', {
-                    func: function func() {
-                        var balance = accounts_info[Client.get('mt5_account')].info.balance;
-                        return balance && +balance >= +$(fields.withdrawal.txt_amount.id).val();
-                    },
-                    message: localize('You have insufficient funds in your MT5 account.')
                 }]]
             }]
         };
@@ -34604,7 +34648,7 @@ var MetaTraderUI = function () {
                 var mt_balance = Currency.formatMoney(MetaTraderConfig.getCurrency(acc_type), +accounts_info[acc_type].info.balance);
                 $acc_item.find('.mt-balance').html(mt_balance);
                 $action.find('.mt5-balance').html(mt_balance);
-                $container.find('#btn_add_more_servers').setVisibility(getAvailableServers().length > 0 && !accounts_info[acc_type].is_demo);
+                $container.find('#btn_add_more_servers').setVisibility(getAvailableServers(false, acc_type).length > 0 && !accounts_info[acc_type].is_demo);
             }
             // disable MT5 account opening if created all available accounts
             if (Object.keys(accounts_info).every(function (type) {
@@ -34662,7 +34706,7 @@ var MetaTraderUI = function () {
         if (accounts_info[acc_type].info) {
             var is_demo = accounts_info[acc_type].is_demo;
             $detail.find('.real-only').setVisibility(!is_demo);
-            $container.find('#btn_add_more_servers').setVisibility(getAvailableServers().length > 0 && !is_demo);
+            $container.find('#btn_add_more_servers').setVisibility(getAvailableServers(false, acc_type).length > 0 && !is_demo);
             // Update account info
             $detail.find('.acc-info div[data]').map(function () {
                 var key = $(this).attr('data');
@@ -35123,7 +35167,7 @@ var MetaTraderUI = function () {
             displayAccountDescription();
             updateAccountTypesUI(selected_acc_type);
             switchAccountTypesUI(selected_acc_type, _$form);
-            _$form.find('#view_1 #btn_next').addClass('button-disabled');
+            _$form.find('#view_1 .btn-next').addClass('button-disabled');
             _$form.find('#view_1 .step-2').setVisibility(1);
             displayMessage('#new_account_msg', selected_acc_type === 'real' && Client.get('is_virtual') ? MetaTraderConfig.needsRealMessage() : '', true);
         } else {
