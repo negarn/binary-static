@@ -35083,25 +35083,29 @@ var MetaTraderUI = function () {
                 sub_account_type = new_account_info.sub_account_type;
 
 
-            var is_synthetic = market_type === 'gaming' && sub_account_type === 'financial';
-            var is_financial = market_type === 'financial' && sub_account_type === 'financial';
-            var is_financial_stp = market_type === 'financial' && sub_account_type === 'financial_stp';
-
-            var is_server_supported = is_synthetic && supported_accounts.includes('gaming') || is_financial && supported_accounts.includes('financial') || is_financial_stp && supported_accounts.includes('financial_stp');
+            var is_server_supported = isSupportedServer(market_type, sub_account_type, supported_accounts);
 
             if (should_ignore_used) {
                 return is_server_supported;
             }
 
-            var is_used_server = isUsedServer(new_account_info, is_server_supported, trading_server.id);
+            var is_used_server = isUsedServer(is_server_supported, trading_server);
 
             return is_server_supported && !is_used_server;
         });
     };
 
-    var isUsedServer = function isUsedServer(acc, is_server_supported, trading_server_id) {
-        return acc.info && acc.info.server && is_server_supported && Object.keys(accounts_info).find(function (account) {
-            return accounts_info[account].info && trading_server_id === accounts_info[account].info.server;
+    var isSupportedServer = function isSupportedServer(market_type, sub_account_type, supported_accounts) {
+        var is_synthetic = market_type === 'gaming' && sub_account_type === 'financial';
+        var is_financial = market_type === 'financial' && sub_account_type === 'financial';
+        var is_financial_stp = market_type === 'financial' && sub_account_type === 'financial_stp';
+
+        return is_synthetic && supported_accounts.includes('gaming') || is_financial && supported_accounts.includes('financial') || is_financial_stp && supported_accounts.includes('financial_stp');
+    };
+
+    var isUsedServer = function isUsedServer(is_server_supported, trading_server) {
+        return is_server_supported && Object.keys(accounts_info).find(function (account) {
+            return accounts_info[account].info && isSupportedServer(accounts_info[account].info.market_type, accounts_info[account].info.sub_account_type, trading_server.supported_accounts) && trading_server.id === accounts_info[account].info.server;
         });
     };
 
@@ -35178,22 +35182,15 @@ var MetaTraderUI = function () {
                 var new_account_info = accounts_info[account_type];
                 var market_type = new_account_info.market_type,
                     sub_account_type = new_account_info.sub_account_type;
-
-
-                var is_synthetic = market_type === 'gaming' && sub_account_type === 'financial';
-                var is_financial = market_type === 'financial' && sub_account_type === 'financial';
-                var is_financial_stp = market_type === 'financial' && sub_account_type === 'financial_stp';
-
-                var server_id = trading_server.id,
-                    _trading_server$suppo = trading_server.supported_accounts,
+                var _trading_server$suppo = trading_server.supported_accounts,
                     supported_accounts = _trading_server$suppo === undefined ? [] : _trading_server$suppo;
 
 
-                var is_server_supported = is_synthetic && supported_accounts.includes('gaming') || is_financial && supported_accounts.includes('financial') || is_financial_stp && supported_accounts.includes('financial_stp');
+                var is_server_supported = isSupportedServer(market_type, sub_account_type, supported_accounts);
 
                 if (is_server_supported) {
                     num_servers.supported += 1;
-                    var is_used_server = isUsedServer(new_account_info, is_server_supported, server_id);
+                    var is_used_server = isUsedServer(is_server_supported, trading_server);
 
                     var is_disabled = trading_server.disabled === 1;
 
