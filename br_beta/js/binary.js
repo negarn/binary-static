@@ -14384,7 +14384,7 @@ var Validation = function () {
         return value === '' || /^[A-Za-z0-9][A-Za-z0-9\s-]*$/.test(value);
     };
     var validPhone = function validPhone(value) {
-        return (/^\+?((-|\s)*[0-35])*$/.test(value)
+        return (/^\+?((-|\s)*[0-9])*$/.test(value)
         );
     };
     var validRegular = function validRegular(value, options) {
