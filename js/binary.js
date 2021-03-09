@@ -1353,7 +1353,6 @@ var BinarySocket = __webpack_require__(/*! ./socket_base */ "./src/javascript/_c
 var ClientBase = __webpack_require__(/*! ./client_base */ "./src/javascript/_common/base/client_base.js");
 
 var LiveChat = function () {
-
     var licenseID = 12049137;
     var clientID = '66aa088aad5a414484c1fd1fa8a5ace7';
     var session_variables = { loginid: '', landing_company_shortcode: '', currency: '', residence: '', email: '' };
@@ -2931,6 +2930,61 @@ var Crowdin = function () {
 }();
 
 module.exports = Crowdin;
+
+/***/ }),
+
+/***/ "./src/javascript/_common/gtm.js":
+/*!***************************************!*\
+  !*** ./src/javascript/_common/gtm.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cookies = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/src/js.cookie.js");
+var createElement = __webpack_require__(/*! ./utility */ "./src/javascript/_common/utility.js").createElement;
+var BinarySocket = __webpack_require__(/*! ../app/base/socket */ "./src/javascript/app/base/socket.js");
+var isEuCountry = __webpack_require__(/*! ../app/common/country_base */ "./src/javascript/app/common/country_base.js").isEuCountry;
+
+var GTM = function () {
+
+    var loadGTMElements = function loadGTMElements() {
+        if (document.body) {
+            var noscript = createElement('noscript');
+            noscript.innerHTML = '<iframe src="//www.googletagmanager.com/ns.html?id=GTM-MZWFF7" height="0" width="0" style={{display: "none", visibility: "hidden"}}></iframe>';
+
+            document.body.appendChild(noscript);
+            document.body.appendChild(createElement('script', {
+                'data-cfasync': 'false',
+                html: '(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="//www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-MZWFF7");'
+            }));
+        }
+    };
+
+    /**
+     * initialize GTM appending script to body
+     */
+    var init = function init() {
+        BinarySocket.wait('website_status', 'landing_company').then(function () {
+            if (isEuCountry()) {
+                if (Cookies.get('CookieConsent')) {
+                    loadGTMElements();
+                }
+            } else {
+                loadGTMElements();
+            }
+        });
+    };
+
+    return {
+        init: init,
+        loadGTMElements: loadGTMElements
+    };
+}();
+
+module.exports = GTM;
 
 /***/ }),
 
@@ -10110,6 +10164,7 @@ var DepositWithdraw = __webpack_require__(/*! ../pages/cashier/deposit_withdraw 
 var DP2P = __webpack_require__(/*! ../pages/cashier/dp2p */ "./src/javascript/app/pages/cashier/dp2p.js");
 var PaymentAgentList = __webpack_require__(/*! ../pages/cashier/payment_agent_list */ "./src/javascript/app/pages/cashier/payment_agent_list.js");
 var PaymentAgentWithdraw = __webpack_require__(/*! ../pages/cashier/payment_agent_withdraw */ "./src/javascript/app/pages/cashier/payment_agent_withdraw.js");
+var PaymentMethods = __webpack_require__(/*! ../pages/cashier/payment_methods */ "./src/javascript/app/pages/cashier/payment_methods.js");
 var Endpoint = __webpack_require__(/*! ../pages/endpoint */ "./src/javascript/app/pages/endpoint.js");
 var EconomicCalendar = __webpack_require__(/*! ../pages/resources/economic_calendar/economic_calendar */ "./src/javascript/app/pages/resources/economic_calendar/economic_calendar.js");
 var AssetIndexUI = __webpack_require__(/*! ../pages/resources/asset_index/asset_index.ui */ "./src/javascript/app/pages/resources/asset_index/asset_index.ui.js");
@@ -10210,7 +10265,7 @@ var pages_config = {
     metatrader: { module: MetaTrader, is_authenticated: true, needs_currency: true },
     overview: { module: Dashboard },
     payment_agent_listws: { module: PaymentAgentList, is_authenticated: true },
-    payment_methods: { module: Cashier.PaymentMethods },
+    payment_methods: { module: PaymentMethods },
     platforms: { module: Platforms },
     portfoliows: { module: Portfolio, is_authenticated: true, needs_currency: true },
     professional: { module: professionalClient, is_authenticated: true, only_real: true },
@@ -10789,6 +10844,8 @@ var BinarySocket = __webpack_require__(/*! ./socket */ "./src/javascript/app/bas
 var Client = __webpack_require__(/*! ../base/client */ "./src/javascript/app/base/client.js");
 var isEuCountry = __webpack_require__(/*! ../common/country_base */ "./src/javascript/app/common/country_base.js").isEuCountry;
 var getElementById = __webpack_require__(/*! ../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
+var GTM = __webpack_require__(/*! ../../_common/gtm */ "./src/javascript/_common/gtm.js");
+var GTMStore = __webpack_require__(/*! ../../_common/base/gtm */ "./src/javascript/_common/base/gtm.js");
 var LocalStore = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").LocalStore;
 var State = __webpack_require__(/*! ../../_common/storage */ "./src/javascript/_common/storage.js").State;
 
@@ -10864,6 +10921,8 @@ var Footer = function () {
                     el_footer.style.paddingBottom = '0px';
                     $status_notification.css('bottom', gap_to_notification + 'px');
                     Cookies.set('CookieConsent', 1, { sameSite: 'strict', secure: true });
+                    GTM.loadGTMElements();
+                    GTMStore.pushDataLayer({ event: 'page_load' });
                 });
                 window.addEventListener('resize', function () {
                     adjustElevioAndScrollup($dialog_notification.height() + gap_dialog_to_elevio, $dialog_notification.height() + gap_dialog_to_elevio + gap_elevio_to_scrollup);
@@ -11773,6 +11832,7 @@ var ClientBase = __webpack_require__(/*! ../../_common/base/client_base */ "./sr
 var elementInnerHtml = __webpack_require__(/*! ../../_common/common_functions */ "./src/javascript/_common/common_functions.js").elementInnerHtml;
 var getElementById = __webpack_require__(/*! ../../_common/common_functions */ "./src/javascript/_common/common_functions.js").getElementById;
 var Crowdin = __webpack_require__(/*! ../../_common/crowdin */ "./src/javascript/_common/crowdin.js");
+var GTM = __webpack_require__(/*! ../../_common/gtm */ "./src/javascript/_common/gtm.js");
 var Language = __webpack_require__(/*! ../../_common/language */ "./src/javascript/_common/language.js");
 var PushNotification = __webpack_require__(/*! ../../_common/lib/push_notification */ "./src/javascript/_common/lib/push_notification.js");
 var localize = __webpack_require__(/*! ../../_common/localize */ "./src/javascript/_common/localize.js").localize;
@@ -11794,6 +11854,7 @@ var Page = function () {
         Url.init();
         Elevio.init();
         PushNotification.init();
+        GTM.init();
         onDocumentReady();
         Crowdin.init();
     };
@@ -16271,13 +16332,9 @@ var Cashier = function () {
 
     return {
         onLoad: onLoad,
-        PaymentMethods: {
-            onLoad: function onLoad() {
-                showContent();
-                checkLockStatusPA();
-                setCryptoMinimumWithdrawal();
-            }
-        }
+        showContent: showContent,
+        checkLockStatusPA: checkLockStatusPA,
+        setCryptoMinimumWithdrawal: setCryptoMinimumWithdrawal
     };
 }();
 
@@ -17298,6 +17355,201 @@ var PaymentAgentWithdraw = function () {
 }();
 
 module.exports = PaymentAgentWithdraw;
+
+/***/ }),
+
+/***/ "./src/javascript/app/pages/cashier/payment_methods.js":
+/*!*************************************************************!*\
+  !*** ./src/javascript/app/pages/cashier/payment_methods.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+var Cashier = __webpack_require__(/*! ./cashier */ "./src/javascript/app/pages/cashier/cashier.js");
+// const Client       = require('../../base/client');
+var BinarySocket = __webpack_require__(/*! ../../base/socket */ "./src/javascript/app/base/socket.js");
+var addComma = __webpack_require__(/*! ../../../_common/base/currency_base */ "./src/javascript/_common/base/currency_base.js").addComma;
+var localize = __webpack_require__(/*! ../../../_common/localize */ "./src/javascript/_common/localize.js").localize;
+var urlFor = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlFor;
+var urlForStatic = __webpack_require__(/*! ../../../_common/url */ "./src/javascript/_common/url.js").urlForStatic;
+
+var PaymentMethods = function () {
+    // TODO: remove this when API sends full descriptions
+    var info = {
+        AirTM: {
+            type: 'ewallet',
+            description: function description() {
+                return localize('Airtm is a global e-wallet service for money transfers and online payments. For more information, please visit [_1].', '' + createLink('https://www.airtm.io'));
+            }
+        },
+        BankWire: {
+            type: 'bankwire',
+            description: function description() {
+                return localize('Deposit and withdraw your funds via international bank wire transfer.');
+            }
+        },
+        BTC: {
+            type: 'cryptocurrency',
+            description: function description() {
+                return localize('Bitcoin is the world\'s first decentralised cryptocurrency, created in 2009. For more information, please visit [_1].', '' + createLink('https://bitcoin.org'));
+            }
+        },
+        DragonPhBT: {
+            type: 'bankwire',
+            description: function description() {
+                return localize('DragonPhoenix is a payment facility that allows online bank transfers for clients across Southeast Asia.');
+            }
+        },
+        FasaPay: {
+            type: 'ewallet',
+            description: function description() {
+                return localize('FasaPay enables electronic money transfers for individuals and payment gateways for merchants. For more information, please visit [_1].', '' + createLink('https://www.fasapay.com'));
+            }
+        },
+        help2pay: {
+            type: 'bankwire',
+            description: function description() {
+                return localize('Help2Pay is a payment facility that allows online bank transfers for clients across Southeast Asia.');
+            }
+        },
+        JetonWL: {
+            type: 'ewallet',
+            description: function description() {
+                return localize('Jeton is an international e-wallet for money transfers and online payments. For more information, please visit [_1].', '' + createLink('https://www.jeton.com'));
+            }
+        },
+        NETeller: {
+            type: 'ewallet',
+            description: function description() {
+                return localize('NETELLER provides businesses and individuals with a fast, simple, and secure way to transfer money online. For more information, please visit [_1].', '' + createLink('https://www.neteller.com'));
+            }
+        },
+        paysafe: {
+            type: 'ewallet',
+            description: function description() {
+                return localize('paysafecard offers a voucher-based online payment method that does not require a bank account, credit card, or other personal information. For more information, please visit [_1].', '' + createLink('https://www.paysafecard.com'));
+            }
+        },
+        PayTrust: {
+            type: 'bankwire',
+            description: function description() {
+                return localize('Paytrust88 is a payment facility that allows online bank transfers for clients across Southeast Asia. For more information, please visit [_1].', '' + createLink('https://paytrust88.com'));
+            }
+        },
+        PerfectM: {
+            type: 'ewallet',
+            description: function description() {
+                return localize('Perfect Money allows individuals to make instant payments and money transfers securely on the Internet. For more information, please visit [_1].', '' + createLink('https://perfectmoney.is'));
+            }
+        },
+        Skrill: {
+            type: 'ewallet',
+            description: function description() {
+                return localize('Skrill offers global payment solutions for individuals who wish to deposit funds, shop online, and transfer money to family and friends. For more information, please visit [_1].', '' + createLink('https://www.skrill.com'));
+            }
+        },
+        SticPay: {
+            type: 'ewallet',
+            description: function description() {
+                return localize('Sticpay is a global e-wallet service for money transfers and online payments. For more information, please visit [_1].', '' + createLink('https://www.sticpay.com'));
+            }
+        },
+        WebMoney: {
+            type: 'ewallet',
+            description: function description() {
+                return localize('WebMoney is an online payment settlement system that\'s been operating since 1998. For more information, please visit [_1].', '' + createLink('https://www.wmtransfer.com'));
+            }
+        }
+    };
+
+    var createLink = function createLink(href) {
+        return '<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + href + '</a>';
+    };
+
+    var onLoad = function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var payment_methods, missing_methods;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            Cashier.checkLockStatusPA();
+                            // TODO: get this from payment_method API
+                            Cashier.setCryptoMinimumWithdrawal();
+
+                            // const payment_methods = (await BinarySocket.send({ payment_methods: 1, country: Client.get('residence') })).payment_methods;
+                            _context.next = 4;
+                            return BinarySocket.send({ payment_methods: 1 });
+
+                        case 4:
+                            payment_methods = _context.sent.payment_methods;
+
+
+                            $('.payment_methods_loading').remove();
+                            $('#payment_methods').setVisibility(1);
+
+                            missing_methods = [];
+
+
+                            payment_methods.forEach(function (method) {
+                                if (method.id in info) {
+                                    var type = info[method.id].type;
+
+                                    $('#' + type).find('tbody').append($('<tr />', { 'data-anchor': method.id, id: method.id }).append($('<td />').append($('<img />', { src: urlForStatic('/images/pages/home/payment/' + method.id + '.svg') }))).append($('<td />', { class: 'toggler', colSpan: 5 }).append($('<div />', { class: 'td-description' }).append($('<span />', { class: 'td', html: info[method.id].description() }))).append($('<div />', { class: 'td-list active' }).append($('<p />', { class: 'td', text: method.supported_currencies.join(' ') })).append($('<p />', { class: 'td deposit-limits' })).append($('<p />', { class: 'td withdraw-limits' })).append($('<p />', { class: 'td' }).append($('<p />', { text: 'Deposit: ' + method.deposit_time })).append($('<p />', { text: 'Withdrawal: ' + method.withdrawal_time }))).append($('<p />', { class: 'td', text: '—' })))).append($('<a />', { class: 'data-anchor-link', href: urlFor('cashier/payment_methods') + '?anchor=' + method.id })));
+
+                                    var $method = $('#' + method.id);
+
+                                    var $deposit_limits = $method.find('.deposit-limits');
+                                    var deposit_currencies = Object.keys(method.deposit_limits);
+                                    if (deposit_currencies.length > 1) {
+                                        deposit_currencies.forEach(function (currency) {
+                                            $deposit_limits.append($('<p />', { text: addComma(method.deposit_limits[currency].min) + ' - ' + addComma(method.deposit_limits[currency].max) + ' (' + currency + ')' }));
+                                        });
+                                    } else if (deposit_currencies.length === 1) {
+                                        $deposit_limits.append($('<p />', { text: addComma(method.deposit_limits[deposit_currencies[0]].min) + ' - ' + addComma(method.deposit_limits[deposit_currencies[0]].max) }));
+                                    }
+
+                                    var $withdrawal_limits = $method.find('.withdraw-limits');
+                                    var withdrawal_currencies = Object.keys(method.withdraw_limits);
+                                    if (withdrawal_currencies.length > 1) {
+                                        withdrawal_currencies.forEach(function (currency) {
+                                            $withdrawal_limits.append($('<p />', { text: addComma(method.withdraw_limits[currency].min) + ' - ' + addComma(method.withdraw_limits[currency].max) + ' (' + currency + ')' }));
+                                        });
+                                    } else if (withdrawal_currencies.length === 1) {
+                                        $withdrawal_limits.append($('<p />', { text: addComma(method.withdraw_limits[withdrawal_currencies[0]].min) + ' - ' + addComma(method.withdraw_limits[withdrawal_currencies[0]].max) }));
+                                    }
+                                } else {
+                                    missing_methods.push(method.id);
+                                }
+                            });
+
+                            $('#extra_payment_method').append(missing_methods.join(', '));
+                            Cashier.showContent();
+
+                        case 11:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, undefined);
+        }));
+
+        return function onLoad() {
+            return _ref.apply(this, arguments);
+        };
+    }();
+
+    return {
+        onLoad: onLoad
+    };
+}();
+
+module.exports = PaymentMethods;
 
 /***/ }),
 
